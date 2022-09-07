@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{0D947EB4-26FD-4ACA-8EF6-2026A52783DA}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>easiplan.domain</AssemblyName>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>easiplan.domain</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'staging|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\staging\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PREVIEW|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\PREVIEW\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MOJAFF|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\MOJAFF\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\..\easiplan.app\packages\FluentValidation.8.6.3\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySqlConnector.2.1.9\lib\net471\MySqlConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\easiplan.app\packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>C:\WINDOWS\Microsoft.NET\assembly\GAC_MSIL\System.ComponentModel.DataAnnotations\v4.0_4.0.0.0__31bf3856ad364e35\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>C:\WINDOWS\Microsoft.NET\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <HintPath>C:\WINDOWS\Microsoft.NET\assembly\GAC_MSIL\System.Runtime.Serialization\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms.DataVisualization">
+      <HintPath>C:\WINDOWS\Microsoft.NET\assembly\GAC_MSIL\System.Windows.Forms.DataVisualization\v4.0_4.0.0.0__31bf3856ad364e35\System.Windows.Forms.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>C:\WINDOWS\Microsoft.NET\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="TridentGoalSeek, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TridentGoalSeek.1.0.5\lib\netstandard1.0\TridentGoalSeek.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="easiplan.domain.Entities\ClientFnaRisk.cs" />
+    <Compile Include="easiplan.domain.Entities\MeetingStatus.cs" />
+    <Compile Include="easiplan.domain.Entities\RiskCoverNeed.cs" />
+    <Compile Include="easiplan.domain.Model\FinDataPoint.cs" />
+    <Compile Include="easiplan.domain.Entities\AdditionalInfo.cs" />
+    <Compile Include="easiplan.domain.Entities\AddressDetail.cs" />
+    <Compile Include="easiplan.domain.Entities\Asset.cs" />
+    <Compile Include="easiplan.domain.Entities\BankDetail.cs" />
+    <Compile Include="easiplan.domain.Entities\Benefit.cs" />
+    <Compile Include="easiplan.domain.Entities\Client.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientAdditionalInfo.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientAddress.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientAssets.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientBank.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientChecklist.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientContacts.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientDependent.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientDependents.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientDetails.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientExpenses.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientFee.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientFees.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientFna.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientFnaEducation.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientFnaInvestment.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientIncomes.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientInstructions.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientLiabilities.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientLockStatus.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientMeetings.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientNotes.cs" />
+    <Compile Include="easiplan.domain.Entities\ClientPortfolio.cs" />
+    <Compile Include="easiplan.domain.Entities\Company.cs" />
+    <Compile Include="easiplan.domain.Entities\ContactDetail.cs" />
+    <Compile Include="easiplan.domain.Entities\DbVersion.cs" />
+    <Compile Include="easiplan.domain.Entities\DocumentTemplate.cs" />
+    <Compile Include="easiplan.domain.Entities\Education.cs" />
+    <Compile Include="easiplan.domain.Entities\EducationNeed.cs" />
+    <Compile Include="easiplan.domain.Entities\SmsTemplate.cs" />
+    <Compile Include="easiplan.domain.Entities\EmailTemplate.cs" />
+    <Compile Include="easiplan.domain.Entities\Estate.cs" />
+    <Compile Include="easiplan.domain.Entities\Expense.cs" />
+    <Compile Include="easiplan.domain.Entities\Fund.cs" />
+    <Compile Include="easiplan.domain.Entities\Have.cs" />
+    <Compile Include="easiplan.domain.Entities\Income.cs" />
+    <Compile Include="easiplan.domain.Entities\IncomeAsset.cs" />
+    <Compile Include="easiplan.domain.Entities\Instruction.cs" />
+    <Compile Include="easiplan.domain.Entities\InstructionStatus.cs" />
+    <Compile Include="easiplan.domain.Entities\InstructionType.cs" />
+    <Compile Include="easiplan.domain.Entities\Investment.cs" />
+    <Compile Include="easiplan.domain.Entities\InvestmentNeed.cs" />
+    <Compile Include="easiplan.domain.Entities\Liability.cs" />
+    <Compile Include="easiplan.domain.Entities\Life.cs" />
+    <Compile Include="easiplan.domain.Entities\LifeInsurer.cs" />
+    <Compile Include="easiplan.domain.Entities\LifeProduct.cs" />
+    <Compile Include="easiplan.domain.Entities\LifeProviders.cs" />
+    <Compile Include="easiplan.domain.Entities\Lisp.cs" />
+    <Compile Include="easiplan.domain.Entities\LispFund.cs" />
+    <Compile Include="easiplan.domain.Entities\LispProviders.cs" />
+    <Compile Include="easiplan.domain.Entities\ManualsTemplate.cs" />
+    <Compile Include="easiplan.domain.Entities\Medical.cs" />
+    <Compile Include="easiplan.domain.Entities\MedicalAid.cs" />
+    <Compile Include="easiplan.domain.Entities\MedicalPlan.cs" />
+    <Compile Include="easiplan.domain.Entities\MedicalProviders.cs" />
+    <Compile Include="easiplan.domain.Entities\Need.cs" />
+    <Compile Include="easiplan.domain.Entities\Note.cs" />
+    <Compile Include="easiplan.domain.Entities\Provider.cs" />
+    <Compile Include="easiplan.domain.Entities\Retirement.cs" />
+    <Compile Include="easiplan.domain.Entities\SysConfig.cs" />
+    <Compile Include="easiplan.domain.Entities\User.cs" />
+    <Compile Include="easiplan.domain.Entities\Want.cs" />
+    <Compile Include="easiplan.domain.Services\baseValidator.cs" />
+    <Compile Include="easiplan.domain.Services\ClientDetailsInsertValidator.cs" />
+    <Compile Include="easiplan.domain.Services\ClientRetirementPortfolioService.cs" />
+    <Compile Include="easiplan.domain.Services\ClientDetailsService.cs" />
+    <Compile Include="easiplan.domain.Services\ClientDetailsUpdateValidator.cs" />
+    <Compile Include="easiplan.domain.Services\ClientInsertValidator.cs" />
+    <Compile Include="easiplan.domain.Services\ClientService.cs" />
+    <Compile Include="easiplan.domain.Services\ClientUpdateValidator.cs" />
+    <Compile Include="easiplan.domain.Services\DocumentTemplateService.cs" />
+    <Compile Include="easiplan.domain.Services\SmsTemplateService.cs" />
+    <Compile Include="easiplan.domain.Services\EmailTemplateService.cs" />
+    <Compile Include="easiplan.domain.Services\ManualsTemplateService.cs" />
+    <Compile Include="easiplan.domain.Services\UserService.cs" />
+    <Compile Include="easiplan.domain.Views\ClientRetirementPortfolio_View.cs" />
+    <Compile Include="easiplan.domain.Views\ClientDetailsView.cs" />
+    <Compile Include="easiplan.domain\baseCalcEntity.cs" />
+    <Compile Include="easiplan.domain\baseEntity.cs" />
+    <Compile Include="easiplan.domain\ConnectionInfo.cs" />
+    <Compile Include="easiplan.domain\DomainServices.cs" />
+    <Compile Include="easiplan.domain\NeedTypes.cs" />
+    <Compile Include="easiplan.domain\ObservableCollectionExt.cs" />
+    <Compile Include="easiplan.domain\TrulyObservableCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\my.domain.lib.core\my.domain.lib.core\my.domain.lib.core.csproj">
+      <Project>{4497a4a6-4f11-4f86-a383-d59a5a386324}</Project>
+      <Name>my.domain.lib.core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

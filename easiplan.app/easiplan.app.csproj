@@ -1,0 +1,1178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FA30A407-6E11-4DF4-B976-7BB87F661F05}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>easiplan.app</RootNamespace>
+    <AssemblyName>easiworx-preview.app</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>Publish\Preview\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://easiworx.co.za/downloads/easiworx-preview/</InstallUrl>
+    <ProductName>Easiworx</ProductName>
+    <PublisherName>Easiworx Pty Ltd</PublisherName>
+    <SuiteName>Financial Planning Software</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <TrustUrlParameters>true</TrustUrlParameters>
+    <ApplicationRevision>116</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>true</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>PRODUCTION</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>572E0D06FD7453D4A789BE19041B25719EE2900F</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Finx.app_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\finX.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'staging|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\staging\</OutputPath>
+    <DefineConstants>STAGING</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PREVIEW|AnyCPU'">
+    <OutputPath>bin\PREVIEW\</OutputPath>
+    <DefineConstants>PREVIEW</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MOJAFF|AnyCPU'">
+    <OutputPath>bin\MOJAFF\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MOJAFF</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.16.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>packages\AngleSharp.0.16.0\lib\net472\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Core, Version=1.20.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>packages\Azure.Core.1.20.0\lib\net461\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Identity, Version=1.5.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>packages\Azure.Identity.1.5.0\lib\netstandard2.0\Azure.Identity.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Blobs, Version=12.6.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>packages\Azure.Storage.Blobs.12.6.0\lib\netstandard2.0\Azure.Storage.Blobs.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Common, Version=12.5.2.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>packages\Azure.Storage.Common.12.5.2\lib\netstandard2.0\Azure.Storage.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="CheckBoxComboBox">
+      <HintPath>packages\CheckBoxComboBox.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.95.3.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>packages\ClosedXML.Signed.0.95.3\lib\net46\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper, Version=27.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>packages\CsvHelper.27.2.1\lib\net47\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.11.3.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>packages\DocumentFormat.OpenXml.2.11.3\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelHelper, Version=1.2.0.0, Culture=neutral, PublicKeyToken=afeca21201f0d842, processorArchitecture=MSIL">
+      <HintPath>packages\AMain.ExcelHelper.1.2.1\lib\net461\ExcelHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.3.3.1\lib\net461\FluentMigrator.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Abstractions.3.3.1\lib\net461\FluentMigrator.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Extensions.Oracle, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Extensions.Oracle.3.3.1\lib\net461\FluentMigrator.Extensions.Oracle.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Extensions.Postgres, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Extensions.Postgres.3.3.1\lib\net461\FluentMigrator.Extensions.Postgres.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Extensions.SqlAnywhere, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Extensions.SqlAnywhere.3.3.1\lib\net461\FluentMigrator.Extensions.SqlAnywhere.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Extensions.SqlServer, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Extensions.SqlServer.3.3.1\lib\net461\FluentMigrator.Extensions.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.3.3.1\lib\net461\FluentMigrator.Runner.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Core.3.3.1\lib\net461\FluentMigrator.Runner.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Db2, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Db2.3.3.1\lib\net461\FluentMigrator.Runner.Db2.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Firebird, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Firebird.3.3.1\lib\net461\FluentMigrator.Runner.Firebird.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Hana, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Hana.3.3.1\lib\net461\FluentMigrator.Runner.Hana.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Jet, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Jet.3.3.1\lib\net461\FluentMigrator.Runner.Jet.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.MySql, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.MySql.3.3.1\lib\net461\FluentMigrator.Runner.MySql.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Oracle, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Oracle.3.3.1\lib\net461\FluentMigrator.Runner.Oracle.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Postgres, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Postgres.3.3.1\lib\net461\FluentMigrator.Runner.Postgres.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.Redshift, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.Redshift.3.3.1\lib\net461\FluentMigrator.Runner.Redshift.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.SqlAnywhere, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.SqlAnywhere.3.3.1\lib\net461\FluentMigrator.Runner.SqlAnywhere.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.SQLite, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.SQLite.3.3.1\lib\net461\FluentMigrator.Runner.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.SqlServer, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.SqlServer.3.3.1\lib\net461\FluentMigrator.Runner.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner.SqlServerCe, Version=3.3.1.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
+      <HintPath>packages\FluentMigrator.Runner.SqlServerCe.3.3.1\lib\net461\FluentMigrator.Runner.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>packages\FluentValidation.8.6.3\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.13.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>packages\Google.Protobuf.3.13.0\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=6.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <HintPath>packages\NHibernateProfiler.6.0.6033\lib\net461\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\HtmlRenderer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer.WinForms, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\HtmlRenderer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.HashCode.1.0.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.SqlClient, Version=2.0.20168.4, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Data.SqlClient.2.1.2\lib\net46\Microsoft.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Configuration.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Options.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Primitives.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Graph, Version=4.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Graph.4.6.0\lib\net462\Microsoft.Graph.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Graph.Core, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Graph.Core.2.0.5\lib\net462\Microsoft.Graph.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client, Version=4.35.1.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Identity.Client.4.35.1\lib\net461\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client.Extensions.Msal, Version=2.18.4.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Identity.Client.Extensions.Msal.2.18.4\lib\net45\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.6.12.2\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Logging.6.12.2\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Protocols.6.12.2\lib\net472\Microsoft.IdentityModel.Protocols.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.6.12.2\lib\net472\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Tokens.6.12.2\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="my.openxml.lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\my.openxml.lib.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
+      <HintPath>packages\MySqlConnector.2.1.9\lib\net471\MySqlConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="QSS.Components">
+      <HintPath>packages\QSS.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="QSS.Components.Windows.Forms">
+      <HintPath>packages\QSS.Components.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="SourceGrid">
+      <HintPath>packages\SourceGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.5.0.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.IdentityModel.Tokens.Jwt.6.12.2\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.Packaging.4.7.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.ProtectedData.4.5.0\lib\net461\System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.5.0.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.5.0.2\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Design, Version=4.4.1.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>packages\KryptonWinFormControls.4.4.1.0\lib\net40\ComponentFactory.Krypton.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Docking, Version=4.4.1.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>packages\KryptonWinFormControls.4.4.1.0\lib\net40\ComponentFactory.Krypton.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Navigator, Version=4.4.1.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>packages\KryptonWinFormControls.4.4.1.0\lib\net40\ComponentFactory.Krypton.Navigator.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Ribbon, Version=4.4.1.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>packages\KryptonWinFormControls.4.4.1.0\lib\net40\ComponentFactory.Krypton.Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Toolkit, Version=4.4.1.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>packages\KryptonWinFormControls.4.4.1.0\lib\net40\ComponentFactory.Krypton.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="ComponentFactory.Krypton.Workspace, Version=4.4.1.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>packages\KryptonWinFormControls.4.4.1.0\lib\net40\ComponentFactory.Krypton.Workspace.dll</HintPath>
+    </Reference>
+    <Reference Include="Transitions, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\dot-net-transitions.1.2.1.0\lib\net40-full\Transitions.dll</HintPath>
+    </Reference>
+    <Reference Include="TridentGoalSeek">
+      <HintPath>packages\TridentGoalSeek.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsCalendar">
+      <HintPath>packages\WindowsFormsCalendar.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="za.co.easiworx.office365.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\za.co.easiworx.office365.net.1.0.0\lib\net472\za.co.easiworx.office365.net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\Global.cs" />
+    <Compile Include="ContextMenus\DataGridContextMenu.cs" />
+    <Compile Include="DBMigrations\DBMigrations.cs" />
+    <Compile Include="Email\EmailMessage.cs" />
+    <Compile Include="Email\SMTPService.cs" />
+    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Extensions\ControlExt.cs" />
+    <Compile Include="Extensions\ListExt.cs" />
+    <Compile Include="Extensions\ToolstripExt.cs" />
+    <Compile Include="Extensions\DateTimeExt.cs" />
+    <Compile Include="Extensions\HttpClientExt.cs" />
+    <Compile Include="Extensions\TreeViewExt.cs" />
+    <Compile Include="Extensions\ButtonExt.cs" />
+    <Compile Include="Extensions\ChartsExt.cs" />
+    <Compile Include="Extensions\ColorExt.cs" />
+    <Compile Include="Extensions\MessageBoxExt.cs" />
+    <Compile Include="Extensions\MetroControlExt.cs" />
+    <Compile Include="Extensions\SourceGridExt.cs" />
+    <Compile Include="Extensions\xDataGridComboBoxColumn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Extensions\XmlDocumentExt.cs" />
+    <Compile Include="Forms\baseSlidingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\baseSlidingForm.Designer.cs">
+      <DependentUpon>baseSlidingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmClientManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmClientManagement.Designer.cs">
+      <DependentUpon>frmClientManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmClientCommunication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmClientCommunication.Designer.cs">
+      <DependentUpon>frmClientCommunication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageManualsTemplates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmManageManualsTemplates.Designer.cs">
+      <DependentUpon>frmManageManualsTemplates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageManualTemplatesAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmManageManualTemplatesAdd.Designer.cs">
+      <DependentUpon>frmManageManualTemplatesAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientImportInvestments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientImportInvestments.Designer.cs">
+      <DependentUpon>frmMetroClientImportInvestments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroPolicyNotes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroPolicyNotes.Designer.cs">
+      <DependentUpon>frmMetroPolicyNotes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroAdminTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroAdminTasks.Designer.cs">
+      <DependentUpon>frmMetroAdminTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroClient1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroClient1.Designer.cs">
+      <DependentUpon>frmMetroClient1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientSearch.Designer.cs">
+      <DependentUpon>frmMetroClientSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientSegmentation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientSegmentation.Designer.cs">
+      <DependentUpon>frmMetroClientSegmentation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroUpdateDatabase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroUpdateDatabase.Designer.cs">
+      <DependentUpon>frmMetroUpdateDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroLogin.Designer.cs">
+      <DependentUpon>frmMetroLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmClientDocuments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmClientDocuments.Designer.cs">
+      <DependentUpon>frmClientDocuments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmConfigure.Designer.cs">
+      <DependentUpon>frmConfigure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageTemplates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmManageTemplates.Designer.cs">
+      <DependentUpon>frmManageTemplates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageTemplatesAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmManageTemplatesAdd.Designer.cs">
+      <DependentUpon>frmManageTemplatesAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageUsers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmManageUsers.Designer.cs">
+      <DependentUpon>frmManageUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmManageUsersAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmManageUsersAdd.Designer.cs">
+      <DependentUpon>frmManageUsersAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroPolicyFunds.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroPolicyFunds.Designer.cs">
+      <DependentUpon>frmMetroPolicyFunds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroProgressWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroProgressWindow.Designer.cs">
+      <DependentUpon>frmMetroProgressWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmNeedFunds.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmNeedFunds.Designer.cs">
+      <DependentUpon>frmNeedFunds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmProgressWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmServiceProviders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmServiceProviders.Designer.cs">
+      <DependentUpon>frmServiceProviders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSettings.Designer.cs">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\metroMdiMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\metroMdiMain.Designer.cs">
+      <DependentUpon>metroMdiMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroAdminTaskAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroAdminTaskAdd.Designer.cs">
+      <DependentUpon>frmMetroAdminTaskAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Html\HtmlUtils.cs" />
+    <Compile Include="MetroUserControls\MetroPanelExt.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MetroUserControls\MetroPanelExt.Designer.cs">
+      <DependentUpon>MetroPanelExt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetroUserControls\MetroPanelSearchClient.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetroUserControls\MetroPanelSearchClient.Designer.cs">
+      <DependentUpon>MetroPanelSearchClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetroUserControls\MetroPanelSlider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetroUserControls\MetroPanelSlider.Designer.cs">
+      <DependentUpon>MetroPanelSlider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AlanGrayRecord.cs" />
+    <Compile Include="Models\AppSettings.cs" />
+    <Compile Include="Models\CamissaRecord.cs" />
+    <Compile Include="Helpers\CsvFileHelper.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Database.cs" />
+    <Compile Include="Models\DbDetails.cs" />
+    <Compile Include="Models\FeatureModel.cs" />
+    <Compile Include="Models\FieldErrorModel.cs" />
+    <Compile Include="Models\FileProperties.cs" />
+    <Compile Include="Models\HttpResponseError.cs" />
+    <Compile Include="Models\ICsvRecord.cs" />
+    <Compile Include="Models\LicenseActivation.cs" />
+    <Compile Include="Models\LicenseActiveModel.cs" />
+    <Compile Include="Models\LicenseKeyModel.cs" />
+    <Compile Include="Models\LicenseModel.cs" />
+    <Compile Include="Models\MomentumRecord.cs" />
+    <Compile Include="Models\NedgroupRecord.cs" />
+    <Compile Include="Models\PortfolioSummary.cs" />
+    <Compile Include="Models\ProductFeature.cs" />
+    <Compile Include="Models\RegistryModel.cs" />
+    <Compile Include="Models\SABullionRecord.cs" />
+    <Compile Include="Models\SmsModel.cs" />
+    <Compile Include="Models\SystemInfo.cs" />
+    <Compile Include="Models\UserAuthenticateModel.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Repository\EasiworxRepository.cs" />
+    <Compile Include="Repository\ListDataRepository.cs" />
+    <Compile Include="Services\ApplicationProperties.cs" />
+    <Compile Include="Services\DatabaseConfiguration.cs" />
+    <Compile Include="Services\UserAuthentication.cs" />
+    <Compile Include="Services\LicenseIntegration.cs" />
+    <Compile Include="Services\XmlToObject.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Sms\SMSPortal.cs" />
+    <Compile Include="UserControls\Bridge.cs" />
+    <Compile Include="UserControls\ExComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\IProgressCallback.cs" />
+    <Compile Include="UserControls\LinkLable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xAccordion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xAccordion.Designer.cs">
+      <DependentUpon>xAccordion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xCalendar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xCalendar.Designer.cs">
+      <DependentUpon>xCalendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxList.Designer.cs">
+      <DependentUpon>xCheckBoxList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xFileView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xFileView.Designer.cs">
+      <DependentUpon>xFileView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xHtmlEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xHtmlEditor.Designer.cs">
+      <DependentUpon>xHtmlEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xHtmlRenderer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xHtmlRenderer.Designer.cs">
+      <DependentUpon>xHtmlRenderer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xInput.Designer.cs">
+      <DependentUpon>xInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xListView.Designer.cs">
+      <DependentUpon>xListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\xRichTextBox.Designer.cs">
+      <DependentUpon>xRichTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xSearchList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xSearchList.Designer.cs">
+      <DependentUpon>xSearchList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xToolBarMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xToolBarMenu.Designer.cs">
+      <DependentUpon>xToolBarMenu.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\baseSlidingForm.resx">
+      <DependentUpon>baseSlidingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmClientManagement.resx">
+      <DependentUpon>frmClientManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmClientCommunication.resx">
+      <DependentUpon>frmClientCommunication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmManageManualsTemplates.resx">
+      <DependentUpon>frmManageManualsTemplates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmManageManualTemplatesAdd.resx">
+      <DependentUpon>frmManageManualTemplatesAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroClientImportInvestments.resx">
+      <DependentUpon>frmMetroClientImportInvestments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroPolicyNotes.resx">
+      <DependentUpon>frmMetroPolicyNotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroAdminTasks.resx">
+      <DependentUpon>frmMetroAdminTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroClient1.resx">
+      <DependentUpon>frmMetroClient1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroClientSearch.resx">
+      <DependentUpon>frmMetroClientSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroClientSegmentation.resx">
+      <DependentUpon>frmMetroClientSegmentation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroUpdateDatabase.resx">
+      <DependentUpon>frmMetroUpdateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroLogin.resx">
+      <DependentUpon>frmMetroLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmClientDocuments.resx">
+      <DependentUpon>frmClientDocuments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmConfigure.resx">
+      <DependentUpon>frmConfigure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmManageTemplates.resx">
+      <DependentUpon>frmManageTemplates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmManageTemplatesAdd.resx">
+      <DependentUpon>frmManageTemplatesAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmManageUsers.resx">
+      <DependentUpon>frmManageUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmManageUsersAdd.resx">
+      <DependentUpon>frmManageUsersAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroPolicyFunds.resx">
+      <DependentUpon>frmMetroPolicyFunds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroProgressWindow.resx">
+      <DependentUpon>frmMetroProgressWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmNeedFunds.resx">
+      <DependentUpon>frmNeedFunds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmProgressWindow.resx">
+      <DependentUpon>frmProgressWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmServiceProviders.resx">
+      <DependentUpon>frmServiceProviders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSettings.resx">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\metroMdiMain.resx">
+      <DependentUpon>metroMdiMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroAdminTaskAdd.resx">
+      <DependentUpon>frmMetroAdminTaskAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetroUserControls\MetroPanelExt.resx">
+      <DependentUpon>MetroPanelExt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetroUserControls\MetroPanelSearchClient.resx">
+      <DependentUpon>MetroPanelSearchClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetroUserControls\MetroPanelSlider.resx">
+      <DependentUpon>MetroPanelSlider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UserControls\xAccordion.resx">
+      <DependentUpon>xAccordion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xCalendar.resx">
+      <DependentUpon>xCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xCheckBoxList.resx">
+      <DependentUpon>xCheckBoxList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xFileView.resx">
+      <DependentUpon>xFileView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xHtmlEditor.resx">
+      <DependentUpon>xHtmlEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xHtmlRenderer.resx">
+      <DependentUpon>xHtmlRenderer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xInput.resx">
+      <DependentUpon>xInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xListView.resx">
+      <DependentUpon>xListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xSearchList.resx">
+      <DependentUpon>xSearchList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xToolBarMenu.resx">
+      <DependentUpon>xToolBarMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\TermsOfUse.html" />
+    <EmbeddedResource Include="Html\Caption.html" />
+    <EmbeddedResource Include="Html\Configuration.html" />
+    <EmbeddedResource Include="Html\Help_AssetsLiabilities.html" />
+    <EmbeddedResource Include="Html\Help_IncomeExpenses.html" />
+    <EmbeddedResource Include="Html\Registration.html" />
+    <EmbeddedResource Include="Html\Welcome.html" />
+    <None Include="README.md" />
+    <None Include="Resources\save3.ico" />
+    <None Include="Resources\finworks1.ico" />
+    <None Include="Resources\Typicons_e069%280%29_32.png" />
+    <None Include="Resources\undo.ico" />
+    <None Include="Resources\underlne.ico" />
+    <None Include="Resources\toupper.ico" />
+    <None Include="Resources\save2.ico" />
+    <None Include="Resources\right.ico" />
+    <None Include="Resources\redo.ico" />
+    <None Include="Resources\paste.ico" />
+    <None Include="Resources\open.ico" />
+    <None Include="Resources\left.ico" />
+    <None Include="Resources\justify.ico" />
+    <None Include="Resources\italic.ico" />
+    <None Include="Resources\icon_error.png" />
+    <None Include="Resources\font.ico" />
+    <None Include="Resources\find_16.png" />
+    <None Include="Resources\delete.ico" />
+    <None Include="Resources\cut.ico" />
+    <None Include="Resources\copy.ico" />
+    <None Include="Resources\centre.ico" />
+    <None Include="Resources\bold.ico" />
+    <None Include="Resources\binoc.ico" />
+    <None Include="Resources\youtube_b_42.png" />
+    <None Include="Resources\twitter_b_42.png" />
+    <None Include="Resources\progress-icon.png" />
+    <None Include="Resources\octicons_f037%280%29_32.png" />
+    <None Include="Resources\Entypo_2709%280%29_42.png" />
+    <None Include="Resources\google_b_42.png" />
+    <None Include="Resources\facebook_b_42.png" />
+    <None Include="Resources\dropbox_b_42.png" />
+    <None Include="Resources\calculator_b_42.png" />
+    <None Include="Resources\astute_b_42.png" />
+    <None Include="Resources\upload_file1.png" />
+    <None Include="Resources\Typicons_e062%282%29_32.png" />
+    <None Include="Resources\Typicons_e087%280%29_32.png" />
+    <None Include="Resources\finX.ico" />
+    <None Include="Resources\exit_member-icon.png" />
+    <None Include="Resources\documents_b_42.png" />
+    <None Include="Resources\config_321.png" />
+    <None Include="Resources\Typicons_e0ef%281%29_32.png" />
+    <None Include="Resources\Typicons_e056%280%29_32.png" />
+    <None Include="Resources\button_arrow_right.png" />
+    <None Include="Resources\xml_b_42.png" />
+    <None Include="Resources\notes_b_42.png" />
+    <None Include="Resources\Entypo_e740%280%29_42.png" />
+    <None Include="Resources\database_b_42.png" />
+    <None Include="Resources\document_b_42.png" />
+    <None Include="Resources\refresh_b_42.png" />
+    <None Include="Resources\save1.ico" />
+    <None Include="Resources\delete_button1.png" />
+    <None Include="Resources\form_b_42.png" />
+    <None Include="Resources\FontAwesome_f007%280%29_421.png" />
+    <None Include="Resources\Entypo_d83d%280%29_321.png" />
+    <None Include="Resources\Entypo_d83d%280%29_322.png" />
+    <None Include="Resources\icon_time.png" />
+    <None Include="Resources\octicons_f02f%281%29_32.png" />
+    <None Include="Resources\outlook_b_42.png" />
+    <None Include="Resources\save.ico" />
+    <None Include="Resources\delete_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Untitled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Presentation2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toggle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\DBOutOfDate.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\UpdatingDatabase.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-r-32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-r-64.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-d-128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-l-128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-r-128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-u-128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pen-128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dots-3-128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dots-3-128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\person_add_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\person_add_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu_481.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu_482.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete_42.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Entypo_e700%280%29_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\DBNotConfigured.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\LicenseKeyRequired.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\App Splash Image 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\App Splash Image 1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\header-graphic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\easiworx-bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\ForgotPassword.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DBMigrations\ClientDetailsView1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\SmsPortal.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user-plus-solid.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add-friend.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rdrr-min.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DBMigrations\ClientDetailsView.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\easiplan.domain.lib\easiplan.domain.estate-planning\easiplan.domain.estate.csproj">
+      <Project>{351fe5a4-1c02-4aca-9f24-18d1f107e7b6}</Project>
+      <Name>easiplan.domain.estate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\easiplan.domain.lib\easiplan.domain\easiplan.domain.csproj">
+      <Project>{0d947eb4-26fd-4aca-8ef6-2026a52783da}</Project>
+      <Name>easiplan.domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\my.domain.lib.core\my.domain.lib.core\my.domain.lib.core.csproj">
+      <Project>{4497a4a6-4f11-4f86-a383-d59a5a386324}</Project>
+      <Name>my.domain.lib.core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Microsoft.Data.SqlClient.SNI.2.1.1\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('packages\Microsoft.Data.SqlClient.SNI.2.1.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.Data.SqlClient.SNI.2.1.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Data.SqlClient.SNI.2.1.1\build\net46\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('packages\FluentMigrator.Runner.SqlServerCe.3.3.1\build\netstandard2.0\FluentMigrator.Runner.SqlServerCe.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\FluentMigrator.Runner.SqlServerCe.3.3.1\build\netstandard2.0\FluentMigrator.Runner.SqlServerCe.targets'))" />
+  </Target>
+  <Import Project="packages\FluentMigrator.Runner.SqlServerCe.3.3.1\build\netstandard2.0\FluentMigrator.Runner.SqlServerCe.targets" Condition="Exists('packages\FluentMigrator.Runner.SqlServerCe.3.3.1\build\netstandard2.0\FluentMigrator.Runner.SqlServerCe.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

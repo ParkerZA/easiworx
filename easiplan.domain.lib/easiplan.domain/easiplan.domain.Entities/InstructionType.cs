@@ -1,0 +1,19 @@
+namespace easiplan.domain.Entities
+{
+	public enum InstructionType
+	{
+		UNKNOWN,
+		POLICY_CREATE,
+		POLICY_UPDATE,
+		POLICY_REVIEW,
+		POLICY_CANCEL,
+		RETIRE_POLICY_NOTE,
+		INVEST_POLICY_NOTE,
+		MEDICAL_POLICY_NOTE,
+		LIFE_POLICY_NOTE,
+		ASSET_POLICY_NOTE,
+		EDU_POLICY_NOTE,
+		OTHER,
+		CUSTOMTASK
+	}
+}
