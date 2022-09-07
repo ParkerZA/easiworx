@@ -10,8 +10,8 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solutionPath: 'easiplan.app/'
-  solution: 'easiplan.app/easiplan.app.csproj'
+  packagePath: 'easiplan.app/'
+  solution: 'easiplan.app.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'staging'
 
@@ -21,7 +21,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-    restoreSolution: '$(solutionPath)'
+    restoreSolution: '$(packagePath)'
     feedsToUse: 'select'
     vstsFeed: 'f5fe995b-16f5-4546-9628-78f2086cc0c3'
 
