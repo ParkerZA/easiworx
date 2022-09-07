@@ -21,14 +21,14 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-    restoreSolution: '$(solutionPath)'
+    restoreSolution: '$(solutionPath)\packages.config'
     feedsToUse: 'select'
     vstsFeed: 'f5fe995b-16f5-4546-9628-78f2086cc0c3'
 
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/target:publish /p:ApplicationVersion=${ApplicationVersion} /p:UpdateEnabled=true /p:PublishDir="${build.ArtifactStagingDirectory}\Publish\\"}"}'
+    msbuildArgs: '/target:publish /p:ApplicationVersion=${ApplicationVersion} /p:UpdateEnabled=true /p:PublishDir="$(build.ArtifactStagingDirectory)\Publish\\"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
