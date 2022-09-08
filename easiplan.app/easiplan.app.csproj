@@ -136,8 +136,8 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="CheckBoxComboBox">
-      <HintPath>..\packages\CheckBoxComboBox.dll</HintPath>
+    <Reference Include="CheckBoxComboBox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=15f767497dca7ed7, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\CheckBoxComboBox.dll</HintPath>
     </Reference>
     <Reference Include="ClosedXML, Version=0.95.3.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.Signed.0.95.3\lib\net46\ClosedXML.dll</HintPath>
@@ -145,8 +145,15 @@
     <Reference Include="CsvHelper, Version=27.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.27.2.1\lib\net47\CsvHelper.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.11.3.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\DocumentFormat.OpenXml.2.11.3\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="easiplan.deps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\easiplan.deps.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\EnvDTE.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
@@ -229,13 +236,11 @@
     <Reference Include="HibernatingRhinos.Profiler.Appender, Version=6.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernateProfiler.6.0.6033\lib\net461\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlRenderer, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\HtmlRenderer.dll</HintPath>
+    <Reference Include="HtmlRenderer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=15f767497dca7ed7, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\HtmlRenderer.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlRenderer.WinForms, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\HtmlRenderer.WinForms.dll</HintPath>
+    <Reference Include="HtmlRenderer.WinForms, Version=1.5.0.0, Culture=neutral, PublicKeyToken=15f767497dca7ed7, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\HtmlRenderer.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
@@ -313,8 +318,7 @@
       <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="my.openxml.lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\my.openxml.lib.dll</HintPath>
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\my.openxml.lib.dll</HintPath>
     </Reference>
     <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
       <HintPath>..\packages\MySqlConnector.2.1.9\lib\net471\MySqlConnector.dll</HintPath>
@@ -329,14 +333,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
-    <Reference Include="QSS.Components">
-      <HintPath>..\packages\QSS.Components.dll</HintPath>
+    <Reference Include="QSS.Components, Version=1.0.1.26518, Culture=neutral, PublicKeyToken=0007ca67f3bbfe82, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\QSS.Components.dll</HintPath>
     </Reference>
-    <Reference Include="QSS.Components.Windows.Forms">
-      <HintPath>..\packages\QSS.Components.Windows.Forms.dll</HintPath>
+    <Reference Include="QSS.Components.Windows.Forms, Version=2.0.5.874, Culture=neutral, PublicKeyToken=ff4b97c5154224ef, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\QSS.Components.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="SourceGrid">
-      <HintPath>..\packages\SourceGrid.dll</HintPath>
+      <HintPath>..\packages\SourceGrid.4.4.0\lib\net35\SourceGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\stdole.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -459,11 +467,11 @@
       <HintPath>..\packages\TridentGoalSeek.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsCalendar">
-      <HintPath>..\packages\WindowsFormsCalendar.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="WindowsFormsCalendar, Version=1.1.6049.27201, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\easiplan.deps.1.1.1\lib\net472\WindowsFormsCalendar.dll</HintPath>
     </Reference>
     <Reference Include="za.co.easiworx.office365.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\za.co.easiworx.office365.net.1.0.0\lib\net472\za.co.easiworx.office365.net.dll</HintPath>

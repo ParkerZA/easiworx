@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/easiplan.app/packages_bak
+/easiplan.domain.lib/packages_bak
