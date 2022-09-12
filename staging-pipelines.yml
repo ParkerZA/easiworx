@@ -42,3 +42,6 @@ steps:
       PathtoPublish: '$(build.ArtifactStagingDirectory)'
       ArtifactName: "Staging"
       publishLocation: Container
+  enabled: true
+
+
