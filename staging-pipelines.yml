@@ -10,7 +10,6 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  packagePath: 'easiplan.app/'
   solution: 'easiplan.app.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'staging'
