@@ -88,6 +88,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'staging|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\staging\</OutputPath>
+    <AssemblyName>easiworx-staging.app</AssemblyName>
     <DefineConstants>STAGING</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
