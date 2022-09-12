@@ -108,7 +108,7 @@ namespace Finx.App.Forms
         }
 
         #endregion
-
+        
         #region FormEvents
 
         private void kbtnOpenFile_Click(object sender, EventArgs e)
