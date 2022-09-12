@@ -43,5 +43,17 @@ steps:
       ArtifactName: "Staging"
       publishLocation: Container
   enabled: true
-
+- task: FtpUpload@2
+  inputs:
+    credentialsOption: 'inputs'
+    serverUrl: 'ftp://waws-prod-jnb21-005.ftp.azurewebsites.windows.net/site/wwwroot'
+    username: 'staging-easiworx\yusufj'
+    password: 'E@s1w0rX#787'
+    rootDirectory: '$(build.ArtifactStagingDirectory)/publish'
+    filePatterns: '**'
+    remoteDirectory: '/downloads/easiworx/'
+    clean: false
+    cleanContents: false
+    preservePaths: false
+    trustSSL: false
 
