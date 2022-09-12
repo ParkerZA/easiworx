@@ -89,6 +89,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\staging\</OutputPath>
     <AssemblyName>easiworx-staging.app</AssemblyName>
+    <InstallUrl>https://staging.easiworx.co.za/downloads/easiworx-preview/</InstallUrl>
     <DefineConstants>STAGING</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
