@@ -46,7 +46,7 @@ steps:
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
-    serverUrl: 'ftp://waws-prod-jnb21-005.ftp.azurewebsites.windows.net/site/wwwroot'
+    serverUrl: 'ftps://waws-prod-jnb21-005.ftp.azurewebsites.windows.net/site/wwwroot'
     username: 'staging-easiworx\yusufj'
     password: 'E@s1w0rX#787'
     rootDirectory: '$(build.ArtifactStagingDirectory)/publish'
@@ -55,5 +55,5 @@ steps:
     clean: false
     cleanContents: false
     preservePaths: false
-    trustSSL: false
+    trustSSL: true
 
