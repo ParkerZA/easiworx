@@ -1,0 +1,153 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+2,6403250177086,,Momentum,PP020155495,Momentum Money Market Fund (C1) - Saving,4381,,True,Invalid Fund Value Date!
+3,6403250177086,,Momentum,PP020155495,Momentum Money Market Fund (A) - Saving,5496091,,True,Invalid Fund Value Date!
+14,4212165092088,,Momentum,PP021252190,Momentum Money Market Fund (C1) - Saving,46006,,True,Invalid Fund Value Date!
+17,4212165092088,,Momentum,PP021252190,Momentum Money Market Fund (A) - Saving,5052695,,True,Invalid Fund Value Date!
+73,6707105491082,,Momentum,PP021833827,Satrix MSCI World Equity Index Feeder Fund (B2),21077,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+74,6707105491082,,Momentum,PP021833827,Catalyst SCI Flexible Property Fund (C),48318,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+75,6707105491082,,Momentum,PP021833827,Momentum Core Equity Fund (C),594761,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+76,6707105491082,,Momentum,PP021833827,Rezco Equity Fund (C),267675,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+77,6707105491082,,Momentum,PP021833827,Momentum SA Flexible Fixed Interest Fund (D),235547,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+78,6707105491082,,Momentum,PP021833827,Visio BCI Unconstrained Fixed Interest Fund (C),234171,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+79,6707105491082,,Momentum,PP021833827,BlueAlpha BCI Equity Fund (B),225122,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+80,6707105491082,,Momentum,PP021833827,Catalyst SCI Global Real Estate Feeder Fund (B),5893,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+81,6707105491082,,Momentum,PP021833827,CoreShares Total World Stock Tracker Feeder Fund (W),637103,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+82,6707105491082,,Momentum,PP021833827,Coronation Global Emerging Markets Flexible (ZAR) Fund (P),203481,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+83,6707105491082,,Momentum,PP021833827,Aylett Equity Prescient Fund (A1),152549,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+84,6707105491082,,Momentum,PP021833827,Fairtree Equity Prescient Fund (A2),256642,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+102,7104165118087,,Momentum,PP021908666,Momentum Money Market Fund (C1) - Saving,94794,,True,Invalid Fund Value Date!
+111,7311145080085,,Momentum,PP021910605,Momentum Money Market Fund (A) - Fee,122,,True,Invalid Fund Value Date!
+150,5512265203082,,Momentum,PP022326392,Momentum Money Market Fund (A) - Fee,121,,True,Invalid Fund Value Date!
+152,5512265203082,,Momentum,PP022326392,Momentum Money Market Fund (C1) - Saving,035,,True,Invalid Fund Value Date!
+154,N1008781,,Momentum,PP022371731,Momentum SA Flexible Fixed Interest Fund (D),3448467,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+155,N1008781,,Momentum,PP022371731,Momentum Core Equity Fund (C),8705299,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+156,N1008781,,Momentum,PP022371731,Rezco Equity Fund (C),3917932,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+157,N1008781,,Momentum,PP022371731,CoreShares Total World Stock Tracker Feeder Fund (W),9328399,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+158,N1008781,,Momentum,PP022371731,Catalyst SCI Global Real Estate Feeder Fund (B),86346,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+159,N1008781,,Momentum,PP022371731,Visio BCI Unconstrained Fixed Interest Fund (C),3428344,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+160,N1008781,,Momentum,PP022371731,Satrix MSCI World Equity Index Feeder Fund (B2),308956,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+161,N1008781,,Momentum,PP022371731,Aylett Equity Prescient Fund (A1),2235159,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+162,N1008781,,Momentum,PP022371731,Catalyst SCI Flexible Property Fund (C),7079894,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+163,N1008781,,Momentum,PP022371731,BlueAlpha BCI Equity Fund (B),3298637,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+164,N1008781,,Momentum,PP022371731,Fairtree Equity Prescient Fund (A2),3755236,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+165,N1008781,,Momentum,PP022371731,Coronation Global Emerging Markets Flexible (ZAR) Fund (P),2980008,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+205,7612220038082,,Momentum,PP022565168,Momentum Money Market Fund (A) - Fee,8165657,,True,Invalid Fund Value Date!
+207,7612220038082,,Momentum,PP022565168,Momentum Money Market Fund (C1) - Saving,66363,,True,Invalid Fund Value Date!
+224,7603050150089,,Momentum,PP022678398,Momentum Money Market Fund (C1) - Saving,194779,,True,Invalid Fund Value Date!
+232,7603050150089,,Momentum,PP022678398,Momentum Money Market Fund (A) - Saving,1691464,,True,Invalid Fund Value Date!
+234,7706105039080,,Momentum,PP022678406,BlueAlpha BCI Equity Fund (B),1773301,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+235,7706105039080,,Momentum,PP022678406,Aylett Equity Prescient Fund (A1),1203262,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+236,7706105039080,,Momentum,PP022678406,Catalyst SCI Global Real Estate Feeder Fund (B),46966,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+237,7706105039080,,Momentum,PP022678406,CoreShares Total World Stock Tracker Feeder Fund (W),5017325,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+238,7706105039080,,Momentum,PP022678406,Momentum SA Flexible Fixed Interest Fund (D),1856169,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+239,7706105039080,,Momentum,PP022678406,Coronation Global Emerging Markets Flexible (ZAR) Fund (P),1604137,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+240,7706105039080,,Momentum,PP022678406,Catalyst SCI Flexible Property Fund (C),3809657,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+241,7706105039080,,Momentum,PP022678406,Satrix MSCI World Equity Index Feeder Fund (B2),166172,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+242,7706105039080,,Momentum,PP022678406,Rezco Equity Fund (C),2108446,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+243,7706105039080,,Momentum,PP022678406,Visio BCI Unconstrained Fixed Interest Fund (C),1844958,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+244,7706105039080,,Momentum,PP022678406,Momentum Money Market Fund (A) - Fee,369957,,True,Invalid ID No. Regex validation failure! Invalid Fund Value Date!
+245,7706105039080,,Momentum,PP022678406,Fairtree Equity Prescient Fund (A2),2019143,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+246,7706105039080,,Momentum,PP022678406,Momentum Core Equity Fund (C),4677023,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+247,801015544084,,Momentum,PP022678429,STANLIB Multi Manager Shariah Balanced Fund of Funds (B1),6969,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+248,801015544084,,Momentum,PP022678429,Element Islamic Equity SCI Fund (C),1559013,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+249,801015544084,,Momentum,PP022678429,Coronation Property Equity Fund (P),974239,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+250,801015544084,,Momentum,PP022678429,Coronation Resources Fund (P),4228958,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+251,801015544084,,Momentum,PP022678429,Camissa Islamic Equity Fund (B),2479834,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+257,5707200222086,,Momentum,PP022744505,Element Islamic Balanced SCI Fund (C),1762909,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+258,5707200222086,,Momentum,PP022744505,Element Islamic Equity SCI Fund (C),1251093,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+266,7201100072088,,Momentum,PP023116515,Momentum Money Market Fund (C1) - Saving,142906,,True,Invalid ID No. Regex validation failure! Invalid Fund Value Date!
+267,7201100072088,,Momentum,PP023116515,Camissa Islamic Equity Fund (B),2372177,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+268,7201100072088,,Momentum,PP023116515,Element Islamic Equity SCI Fund (C),299763,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+270,4911120090083,,Momentum,PP023116780,Cash in transit,-25826,,True,Invalid Fund Value Date!
+279,4404025135088,,Momentum,PP023117006,Cash in transit,-42777,,True,Invalid Fund Value Date!
+287,903305535085,,Momentum,PP023118939,Camissa Islamic Global Equity Feeder Fund (B),5398378,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+288,903305535085,,Momentum,PP023118939,Sentio SCI Hikma Shariah General Equity Fund (B1),2290723,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+289,903305535085,,Momentum,PP023118939,Camissa Islamic High Yield Fund (A),7930177,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+290,903305535085,,Momentum,PP023118939,Camissa Islamic Equity Fund (B),13827628,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+291,903305535085,,Momentum,PP023118939,Old Mutual Albaraka Equity Fund (B1),6787122,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+315,5912225201087,,Momentum,PP023119360,Momentum Money Market Fund (C1) - Saving,1814,,True,Invalid Fund Value Date!
+318,5912225201087,,Momentum,PP023119360,Momentum Money Market Fund (A) - Fee,104432,,True,Invalid Fund Value Date!
+319,3904295105084,,Momentum,PP023710253,Cash in transit,-492912,,True,Invalid Fund Value Date!
+358,4612100181088,,Momentum,PP023710603,Element Islamic Balanced SCI Fund (C),508609,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+359,4612100181088,,Momentum,PP023710603,Camissa Islamic Equity Fund (B),832155,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+360,4612100181088,,Momentum,PP023710603,Old Mutual Albaraka Balanced Fund (B1),659824,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+361,4612100181088,,Momentum,PP023710603,Marriott Core Income Fund (C),587399,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+362,4612100181088,,Momentum,PP023710603,Camissa Islamic Balanced Fund (B),7970101,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+412,13864246,,Momentum,PP023715635,Element Global Equity SCI Fund (B),7898255,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+413,13864246,,Momentum,PP023715635,Element Islamic Equity SCI Fund (C),4653985,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+414,13864246,,Momentum,PP023715635,Camissa Equity Alpha Fund (B1),196475,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+415,13864246,,Momentum,PP023715635,Element Balanced SCI Fund (C),36158,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+416,13864246,,Momentum,PP023715635,Camissa Islamic Equity Fund (B),5563967,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+434,5809075239086,,Momentum,PP024117994,Momentum Money Market Fund (A) - Saving,286085,,True,Invalid Fund Value Date!
+435,5809075239086,,Momentum,PP024117994,Momentum Money Market Fund (C1) - Saving,1123544,,True,Invalid Fund Value Date!
+466,6611255229088,,Momentum,PP024118611,Momentum Money Market Fund (A) - Fee,7811545,,True,Invalid Fund Value Date!
+496,6135166087,,Momentum,PP024856668,Marriott Property Equity Fund (C),309938,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+497,6135166087,,Momentum,PP024856668,Element Balanced SCI Fund (C),3733125,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+498,6135166087,,Momentum,PP024856668,Coronation Global Managed (ZAR) Feeder Fund (P),5830135,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+499,6135166087,,Momentum,PP024856668,Allan Gray Orbis Global Equity Feeder (A),7100005,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+500,6135166087,,Momentum,PP024856668,Camissa Islamic Balanced Fund (B),4906111,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+501,6135166087,,Momentum,PP024856668,Coronation Balanced Plus Fund (P),4866286,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+502,6135166087,,Momentum,PP024856668,Old Mutual Albaraka Equity Fund (B1),436626,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+503,6135166087,,Momentum,PP024856668,M&G Equity Fund (B),5599631,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+507,5509300106080,,Momentum,PP024856674,Momentum Money Market Fund (A) - Fee,173009,,True,Invalid Fund Value Date!
+510,5509300106080,,Momentum,PP024856674,Momentum Money Market Fund (C1) - Saving,5969,,True,Invalid Fund Value Date!
+525,5009010162085,,Momentum,PP024955755,Momentum Money Market Fund (C1) - Saving,3652,,True,Invalid Fund Value Date!
+528,5009010162085,,Momentum,PP024955755,Momentum Money Market Fund (A) - Fee,328592,,True,Invalid Fund Value Date!
+570,8408015239087,,Momentum,PP025174971,Momentum Money Market Fund (C1) - Saving,75911,,True,Invalid Fund Value Date!
+595,6804160154083,,Momentum,PP025220576,Camissa Islamic Equity Fund (B),0,19 Apr 2022,True,Invalid Fund Value!
+596,6804160154083,,Momentum,PP025220576,Camissa Islamic Balanced Fund (B),0,19 Apr 2022,True,Invalid Fund Value!
+599,6804160154083,,Momentum,PP025220576,Element Islamic Equity SCI Fund (C),0,19 Apr 2022,True,Invalid Fund Value!
+646,7703110221084,,Momentum,PP025672798,Element Islamic Balanced SCI Fund (C),0,19 Apr 2022,True,Invalid Fund Value!
+674,4911105139087,,Momentum,PP025769569,Old Mutual Albaraka Balanced Fund (B1),1183542,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+675,4911105139087,,Momentum,PP025769569,Camissa Islamic Balanced Fund (B),14109921,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+676,4911105139087,,Momentum,PP025769569,Element Islamic Balanced SCI Fund (C),12760061,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+736,8307100053082,,Momentum,PP027260060,Nedgroup Investments Property Fund (A1),6561228,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+737,6611205573080,,Momentum,PP027261131,Sentio SCI Hikma Shariah General Equity Fund (B1),4618694,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+738,6611205573080,,Momentum,PP027261131,Camissa Islamic High Yield Fund (A),24377942,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+739,6611205573080,,Momentum,PP027261131,Camissa Islamic Equity Fund (B),27972767,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+740,6611205573080,,Momentum,PP027261131,Camissa Islamic Global Equity Feeder Fund (B),365623,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+741,6611205573080,,Momentum,PP027261131,Old Mutual Albaraka Equity Fund (B1),1366271,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+832,8303200227080,,Momentum,PP027930460,Old Mutual Albaraka Equity Fund (B1),6121904,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+833,8303200227080,,Momentum,PP027930460,Camissa Islamic Equity Fund (B),12471542,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+834,8303200227080,,Momentum,PP027930460,Sentio SCI Hikma Shariah General Equity Fund (B1),2067282,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+835,8303200227080,,Momentum,PP027930460,Camissa Islamic Global Equity Feeder Fund (B),4871005,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+836,8303200227080,,Momentum,PP027930460,Camissa Islamic Global Equity Feeder Fund (B),1899242,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+837,8303200227080,,Momentum,PP027930460,Camissa Islamic High Yield Fund (A),715317,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+981,6908150242087,,Momentum,PP028318488,Momentum Money Market Fund (C1) - Fee,241497,,True,Invalid Fund Value Date!
+1026,9502275711089,,Momentum,PP028431405,Camissa Islamic Global Equity Feeder Fund (B),0,19 Apr 2022,True,Invalid Fund Value!
+1052,7704100099084,,Momentum,PP028536133,Sentio SCI Hikma Shariah General Equity Fund (B1),1343039,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1053,7704100099084,,Momentum,PP028536133,Camissa Islamic High Yield Fund (A),19987256,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1054,7704100099084,,Momentum,PP028536133,Camissa Islamic Equity Fund (B),8135772,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1055,7704100099084,,Momentum,PP028536133,Camissa Islamic Global Equity Feeder Fund (B),3670802,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1056,7704100099084,,Momentum,PP028536133,Old Mutual Albaraka Equity Fund (B1),3976531,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1062,7706105039080,,Momentum,PP028582191,CoreShares Total World Stock Tracker Feeder Fund (W),3146103,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1063,7706105039080,,Momentum,PP028582191,Momentum Core Equity Fund (C),4922099,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1064,7706105039080,,Momentum,PP028582191,Aylett Equity Prescient Fund (A1),1267547,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1065,7706105039080,,Momentum,PP028582191,BlueAlpha BCI Equity Fund (B),1861291,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1066,7706105039080,,Momentum,PP028582191,Visio BCI Unconstrained Fixed Interest Fund (C),2055123,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1067,7706105039080,,Momentum,PP028582191,Catalyst SCI Flexible Property Fund (C),3224712,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1068,7706105039080,,Momentum,PP028582191,Rezco Equity Fund (C),2213791,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1069,7706105039080,,Momentum,PP028582191,Satrix MSCI World Equity Index Feeder Fund (B2),1613275,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1070,7706105039080,,Momentum,PP028582191,Coronation Global Emerging Markets Flexible (ZAR) Fund (P),1454761,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1071,7706105039080,,Momentum,PP028582191,Fairtree Equity Prescient Fund (A2),2132925,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1072,7706105039080,,Momentum,PP028582191,Momentum SA Flexible Fixed Interest Fund (D),2066617,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1078,805126679085,,Momentum,PP028648850,Momentum Securities - Sygnia Itrix Eurostoxx50,1358208,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1079,805126679085,,Momentum,PP028648850,Nedgroup Investments Property Fund (A1),1736308,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1080,805126679085,,Momentum,PP028648850,Momentum Money Market Fund (C1) - Fee,30304,,True,Invalid ID No. Regex validation failure! Invalid Fund Value Date!
+1081,805126679085,,Momentum,PP028648850,Allan Gray Orbis Global Optimal Fund of Funds (A),1104733,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1082,805126679085,,Momentum,PP028648850,Momentum Securities - Sygnia Itrix 4th Industrial Revolution Global Equity,7756,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1084,1102266377087,,Momentum,PP028648889,Momentum Money Market Fund (C1) - Fee,30304,,True,Invalid Fund Value Date!
+1088,6004205141084,,Momentum,PP028683029,Camissa Islamic Balanced Fund (B),305174,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1089,6004205141084,,Momentum,PP028683029,Old Mutual Albaraka Balanced Fund (B1),28404227,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1090,6004205141084,,Momentum,PP028683029,Element Islamic Global Equity SCI Fund (A),1346217,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1091,6004205141084,,Momentum,PP028683029,Old Mutual Albaraka Income Fund (B1),40532355,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1092,6004205141084,,Momentum,PP028683029,Camissa Islamic High Yield Fund (A),109470784,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1093,6004205141084,,Momentum,PP028683029,Camissa Islamic Global Equity Feeder Fund (B),12037043,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1094,6004205141084,,Momentum,PP028683029,Nedgroup Investments Property Fund (A1),51762175,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1098,4404200125086,,Momentum,PP028786640,Camissa Islamic Global Equity Feeder Fund (B),3856194,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1099,4404200125086,,Momentum,PP028786640,Camissa Islamic Equity Fund (B),8544822,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1100,4404200125086,,Momentum,PP028786640,Camissa Islamic High Yield Fund (A),20981616,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1101,4404200125086,,Momentum,PP028786640,Sentio SCI Hikma Shariah General Equity Fund (B1),1411984,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+1102,4404200125086,,Momentum,PP028786640,Old Mutual Albaraka Equity Fund (B1),4176942,19 Apr 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 150

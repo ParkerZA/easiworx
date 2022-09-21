@@ -18,5 +18,7 @@ namespace Finx.App.Interfaces
         string FundValueDate { get; set; }
         bool HasErrors { get; set; }
         string ValidationErrors { get; set; }
+
+        void ValidateHeadings(CsvHelper.HeaderValidatedArgs args);
     }
 }

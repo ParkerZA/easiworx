@@ -1,0 +1,9 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+108,8601200081088,,Alan Gray,AGRA832270,Camissa Islamic Balanced Fund (Class B),18056.62,09 May 2022,True,Invalid ID No. Regex validation failure!
+109,8601200081088,,Alan Gray,AGRA832270,Old Mutual Albaraka Balanced Fund (Class B1),16882.19,09 May 2022,True,Invalid ID No. Regex validation failure!
+726,6505100195082,,Alan Gray,AGLP743284,Catalyst Sanlam Collective Investments SA Property Equity Fund (Class E),1877.91,09 May 2022,True,Invalid ID No. Regex validation failure!
+727,6505100195082,,Alan Gray,AGLP743284,Camissa Islamic Equity Fund (Class B),5096.36,09 May 2022,True,Invalid ID No. Regex validation failure!
+728,6505100195082,,Alan Gray,AGLP743284,Camissa Islamic High Yield Fund (Class A),1444.66,09 May 2022,True,Invalid ID No. Regex validation failure!
+729,6505100195082,,Alan Gray,AGLP743284,Nedgroup Investments Property Fund (Class A1),2895.39,09 May 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 6

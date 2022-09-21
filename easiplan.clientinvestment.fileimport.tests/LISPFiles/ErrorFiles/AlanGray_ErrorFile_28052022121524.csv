@@ -1,0 +1,11 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+1,407145154081,,Alan Gray,AGEN350223,Camissa Islamic Equity Fund (Class B),85051.35,09 May 2022,True,Invalid ID No. Regex validation failure!
+2,407145154081,,Alan Gray,AGEN350223,Old Mutual Albaraka Equity Fund (Class B1),21295.02,09 May 2022,True,Invalid ID No. Regex validation failure!
+3,407145154081,,Alan Gray,AGEN350223,27four Shari'ah Balanced Fund of Funds (Class A4),22288.47,06 May 2022,True,Invalid ID No. Regex validation failure!
+20,6611205573080,,Alan Gray,AGRA551396,Camissa Islamic Equity Fund (Class B),19317.53,09 May 2022,True,Invalid ID No. Regex validation failure!
+21,6611205573080,,Alan Gray,AGRA551396,Camissa Islamic Global Equity Feeder Fund (Class B),2793.48,09 May 2022,True,Invalid ID No. Regex validation failure!
+22,6611205573080,,Alan Gray,AGRA551396,Camissa Islamic High Yield Fund (Class A),17583.95,09 May 2022,True,Invalid ID No. Regex validation failure!
+23,6611205573080,,Alan Gray,AGRA551396,Old Mutual Albaraka Equity Fund (Class B1),9389.88,09 May 2022,True,Invalid ID No. Regex validation failure!
+24,6611205573080,,Alan Gray,AGRA551396,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),3126.48,09 May 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 8

@@ -4,11 +4,12 @@ using CsvHelper.Configuration.Attributes;
 using Finx.App.Interfaces;
 using System;
 using System.Globalization;
+using CsvHelper;
 
 namespace Finx.App.Models
 {
 
-    public class NedgroupRecord : ICsvRecord
+    public sealed class NedgroupRecord : ICsvRecord
     {
         [Ignore]
         public int RowNo { get; set; }
@@ -75,9 +76,14 @@ namespace Finx.App.Models
 
         [Optional]
         public string ValidationErrors { get; set; }
+
+        public void ValidateHeadings(HeaderValidatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public class NedgroupRecordMap : ClassMap<NedgroupRecord>
+    public sealed class NedgroupRecordMap : ClassMap<NedgroupRecord>
     {
         public NedgroupRecordMap()
         {

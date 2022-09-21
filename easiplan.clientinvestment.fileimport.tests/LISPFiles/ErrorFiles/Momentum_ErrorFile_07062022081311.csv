@@ -1,0 +1,7 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+2,6403250177086,,Momentum,PP020155495,Momentum Money Market Fund (C1) - Saving,4381,,True,Invalid Fund Value Date!
+3,6403250177086,,Momentum,PP020155495,Momentum Money Market Fund (A) - Saving,5496091,,True,Invalid Fund Value Date!
+14,4212165092088,,Momentum,PP021252190,Momentum Money Market Fund (C1) - Saving,46006,,True,Invalid Fund Value Date!
+17,4212165092088,,Momentum,PP021252190,Momentum Money Market Fund (A) - Saving,5052695,,True,Invalid Fund Value Date!
+
+#Record Count: 4

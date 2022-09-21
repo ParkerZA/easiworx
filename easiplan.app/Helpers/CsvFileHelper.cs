@@ -198,21 +198,21 @@ namespace Finx.App.Helpers
                 using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     using (var streamReader = new StreamReader(filestream, Encoding.UTF8))
-                    using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
                     {
-                        ///TODO: Cleanup files unwanted header text for Nedgroup file 
-
-                        fileRecords = csvReader.GetRecords<T>();
-
-                        var RowNo = 0;
-                        if (fileRecords != null)
-                            fileRecordList = new List<ICsvRecord>();
-
-                        foreach (ICsvRecord fileRecord in fileRecords)
+                        using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
                         {
-                            RowNo++;
-                            fileRecord.RowNo = RowNo;
-                            fileRecordList.Add(fileRecord);
+                            fileRecords = csvReader.GetRecords<T>();
+
+                            var RowNo = 0;
+                            if (fileRecords != null)
+                                fileRecordList = new List<ICsvRecord>();
+
+                            foreach (ICsvRecord fileRecord in fileRecords)
+                            {
+                                RowNo++;
+                                fileRecord.RowNo = RowNo;
+                                fileRecordList.Add(fileRecord);
+                            }
                         }
                     }
                 }
@@ -232,6 +232,22 @@ namespace Finx.App.Helpers
             }
 
             return fileRecordList;
+        }
+        public static string DetectDelimiter(StreamReader reader,string[] possibleDelimiters)
+        {
+            var headerLine = reader.ReadLine();
+
+            // reset the reader to initial position for outside reuse
+            // Eg. Csv helper won't find header line, because it has been read in the Reader
+            reader.BaseStream.Position = 0;
+            reader.DiscardBufferedData();
+
+            foreach (var possibleDelimiter in possibleDelimiters)
+            {
+                if (headerLine.Contains(possibleDelimiter))
+                    return possibleDelimiter;
+            }
+            return possibleDelimiters[0];
         }
 
         public static string CamelCase(string s)

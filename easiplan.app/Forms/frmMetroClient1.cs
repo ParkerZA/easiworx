@@ -275,7 +275,8 @@ namespace Finx.App.Forms
             }
             catch (Exception x)
             {
-                throw new Exception("There was an error loading this form.Please contact your vendor. \r\n\r\n " + x.Message);
+                //throw new Exception("There was an error loading this form.Please contact your vendor. \r\n\r\n " + x.Message);
+                MessageBox.Show("There was an error loading this form.Please contact your vendor. \r\n\r\n " + x.Message);
             }
             finally
             {

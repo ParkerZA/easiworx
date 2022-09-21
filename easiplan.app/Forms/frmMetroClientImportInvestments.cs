@@ -49,22 +49,27 @@ namespace Finx.App.Forms
         private int _importBatchSize = 10;
         private IEnumerable<ClientRetirementPortfolio_View> _clientRetirementPortfolio_View = null;
         private static object _lockObject = new object();
-        private ParallelLoopResult _parallelLoopResult;
+        private ParallelLoopResult _batchedClientInvestmentLoopResult;
+        private ParallelLoopResult _batchedClientInvestmentsLoopResult;
         private static int i = 0;
-        private static bool _importCompleted = false;
-
+        private static bool? _importCompleted = null;
+        private CancellationTokenSource _cancellationTokenSourceOuter;
+        private CancellationTokenSource _cancellationTokenSourceInner;
+        private CancellationToken _cancellationTokenOuter;
+        private CancellationToken _cancellationTokenInner;
+        
         #endregion
 
         #region PrivateClasses
 
-        private class FilePolicyFund
+        private sealed class FilePolicyFund
         {
             public string Lisp { get; set; }
             public string PolicyNo { get; set; }
             public FileFundDetails FileFundDetails { get; set; }
         }
 
-        private class FileFundDetails
+        private sealed class FileFundDetails
         {
             public string FundCode { get; set; }
             public string FundName { get; set; }
@@ -72,28 +77,10 @@ namespace Finx.App.Forms
             public DateTime FundValueDate { get; set; }
         }
 
-        private class FileSettings
+        private sealed class FileSettings
         {
             public CsvConfiguration CsvConfiguration { get; set; }
             public string FilePath { get; set; }
-        }
-
-        private sealed class StringEqualityComparer : IEqualityComparer<string>
-        {
-          
-            public bool Equals(string x, string y)
-            {
-                if (ReferenceEquals(x, y)) return true;
-                if (ReferenceEquals(x, null)) return false;
-                if (ReferenceEquals(y, null)) return false;
-                if (x.GetType() != y.GetType()) return false;
-                return x == y;
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return (obj != null ? obj.GetHashCode() : 0);
-            }
         }
 
         #endregion
@@ -125,15 +112,25 @@ namespace Finx.App.Forms
 
             using (new AppWaitCursor(sender))
             {
-            
-                var csvHelperConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture) 
-                { Encoding = Encoding.UTF8, Delimiter = ",", HeaderValidated = null, TrimOptions = TrimOptions.Trim};
+                var csvHelperConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+                { Encoding = Encoding.UTF8,
+                    DetectDelimiterValues = new string[] { ",", ";", "|", "\t" },
+                    //DetectDelimiter = true,
+                    HeaderValidated = new HeaderValidated(ValidateCsvFileHeadings),
+                    TrimOptions = TrimOptions.Trim,
+                    AllowComments = false,
+                    //DetectColumnCountChanges = true,
+                    HasHeaderRecord =true,
+                    ShouldSkipRecord = new ShouldSkipRecord(shouldSkipRecord),
+                    IgnoreBlankLines=true
+                };
 
                 try
                 {
                     openFileDialog1.Multiselect = false;
                     openFileDialog1.Title = "Please select a file.";
-                    openFileDialog1.InitialDirectory = System.Configuration.ConfigurationManager.AppSettings["CsvFileImportInitialDir"] + _selectedLisp; 
+                    openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) + 
+                                                        "\\Easiworx\\" + _selectedLisp; //System.Configuration.ConfigurationManager.AppSettings["CsvFileImportInitialDir"] + _selectedLisp; 
                     openFileDialog1.Filter = "CSV Files (*.csv)|*.csv";
                     DialogResult dialogResult;
                     try
@@ -172,11 +169,33 @@ namespace Finx.App.Forms
                         //panelFileInfo.Visible = true;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    throw;
+                    MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private bool shouldSkipRecord(ShouldSkipRecordArgs args)
+        {
+            var record = args.Record;
+            switch (_selectedLisp.ToLower())
+            {
+                case "camissa":
+                    if (record.Any(r => r.ToUpper().StartsWith("CAMISSA COLLECTIVE INVESTMENTS LTD")) ||
+                        (string.IsNullOrEmpty(record[0]) && string.IsNullOrEmpty(record[1]) && string.IsNullOrEmpty(record[2])))
+                            return true;
+                    break;
+            }
+            
+            return false;
+        }
+
+        private void ValidateCsvFileHeadings(HeaderValidatedArgs args)
+        {
+            var invalidHeaders = args.InvalidHeaders;
+            if(invalidHeaders.Length > 0)
+                MessageBox.Show("Invalid file headers detected. Please correct the file before trying to import again." + " " + invalidHeaders.ToDelimitedString("|"));
         }
 
         private async void btnImportFile_Click(object sender, EventArgs e)
@@ -203,42 +222,64 @@ namespace Finx.App.Forms
             {
                 try
                 {
+                    cancelImport.Enabled = true;
                     kbtnOpenFile.Enabled = false;
                     var clientKeys = _fileClientInvestments.Keys.ToList();
 
-                    ParallelOptions parallelOptions = null;
+                    ParallelOptions parallelOptionsOuter = null;
+                    ParallelOptions parallelOptionsInner = null;
                     ThreadPool.GetAvailableThreads(out int workerThreads, out int completionPortThreads);
 
                     if (workerThreads >= 38)
                     {
                         ThreadPool.SetMinThreads(38, 38);
-                        parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = 38 };
+                        parallelOptionsOuter = new ParallelOptions() { MaxDegreeOfParallelism = 38, CancellationToken = _cancellationTokenOuter };
+                        parallelOptionsInner = new ParallelOptions() { MaxDegreeOfParallelism = 38, CancellationToken = _cancellationTokenInner };
                     }
                     else
                     {
                         ThreadPool.SetMinThreads(10, 10);
-                        parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = 10 };
+                        parallelOptionsOuter = new ParallelOptions() { MaxDegreeOfParallelism = 10, CancellationToken = _cancellationTokenOuter };
+                        parallelOptionsInner = new ParallelOptions() { MaxDegreeOfParallelism = 10, CancellationToken = _cancellationTokenInner };
                     }
 
+                        //var progressWindow = new MetroProgressWindow();
+                        //progressWindow.SetCaption("Importing Client Investments");
+                        //progressWindow.SetText("Please wait...");
+                        //System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(Program.ConfigureDatabase), progress2);
+                        //progressWindow.ShowDialog(this);
+                   
+
+                    
                     if (clientKeys.Count() >= _importBatchSize)
                     {
-                        var batchedClientInvestments = MoreEnumerable.Batch(clientKeys, _importBatchSize);
+                        var batchedClientInvestments = await Task.Run(() => MoreEnumerable.Batch(clientKeys, _importBatchSize));
                         var importTasks = new List<Task>(1);
-                        foreach (var clientBatch in batchedClientInvestments)
+
+                        _batchedClientInvestmentsLoopResult = Parallel.ForEach(batchedClientInvestments, parallelOptionsOuter, async (batchedClientInvestment, loopState) =>
                         {
-                            _parallelLoopResult = Parallel.ForEach(clientBatch, parallelOptions, async clientIdNo =>
+                            if (parallelOptionsOuter.CancellationToken.IsCancellationRequested)
+                                loopState.Break();
+
+                            _batchedClientInvestmentLoopResult = Parallel.ForEach(batchedClientInvestment, parallelOptionsInner, async clientIdentificationNo =>
                             {
-                                    await ImportClientInvestments(clientIdNo, _fileClientInvestments[clientIdNo]);
-                                    //_recCnt++;
-                                    //percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
-                                    //await UpdateProgressBar(_pbImportFile, percCompleted, handle);
+                                if (parallelOptionsInner.CancellationToken.IsCancellationRequested)
+                                    loopState.Break();
+
+                                await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
                             });
-                            if (_parallelLoopResult.IsCompleted)
+                            if (_batchedClientInvestmentLoopResult.IsCompleted)
                             {
-                                _batchCntCompleted += clientBatch.Count();
-                                percCompleted = (int)Math.Round((double)(100 * _batchCntCompleted) / totClients);
-                                UpdateProgressBar(_pbImportFile, percCompleted, handle).Wait();
+                                _batchCntCompleted += batchedClientInvestment.Count();
+                                //percCompleted = (int)Math.Round((double)(100 * _batchCntCompleted) / batchedClientInvestment.Count());
+                                //UpdateProgressBar(_pbImportFile, percCompleted, handle).Wait();
                             }
+                        });
+
+                        if (_batchedClientInvestmentsLoopResult.IsCompleted)
+                        {
+                            percCompleted = (int)Math.Round((double)(100 * _batchCntCompleted) / totClients);
+                            UpdateProgressBar(_pbImportFile, percCompleted, handle).Wait();
                         }
 
                         if (percCompleted == 100)
@@ -248,6 +289,7 @@ namespace Finx.App.Forms
                             {
                                 var win32Parent = new NativeWindow();
                                 win32Parent.AssignHandle(handle);
+                                //progressWindow.Close();
                                 MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
                             });
                             kbtnOpenFile.BeginInvoke((Action)delegate
@@ -256,26 +298,16 @@ namespace Finx.App.Forms
                                     kbtnOpenFile.Enabled = true;
                             });
                         }
-                      
+
                     }
-                    else 
+                    else
                     {
-                        var batchedClientInvestments = MoreEnumerable.Batch(clientKeys, clientKeys.Count());
-                        foreach (var clientBatch in batchedClientInvestments)
+                        foreach (var key in clientKeys)
                         {
-                            _parallelLoopResult = Parallel.ForEach(clientBatch, parallelOptions, async clientIdNo =>
-                            {
-                                await ImportClientInvestments(clientIdNo, _fileClientInvestments[clientIdNo]);
-                                _recCnt++;
-                                percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
-                                await UpdateProgressBar(_pbImportFile, percCompleted, handle);
-                            });
-                            if (_parallelLoopResult.IsCompleted)
-                            {
-                                _batchCntCompleted += clientBatch.Count();
-                                //percCompleted = (int)Math.Round((double)(100 * _batchCntCompleted) / totClients);
-                                //UpdateProgressBar(_pbImportFile, percCompleted, handle).Wait();
-                            }
+                            await ImportClientInvestments(key, _fileClientInvestments[key]);
+                            _recCnt++;
+                            percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
+                            await UpdateProgressBar(_pbImportFile, percCompleted, handle);
                         }
 
                         if (percCompleted == 100)
@@ -286,6 +318,7 @@ namespace Finx.App.Forms
                                 var win32Parent = new NativeWindow();
                                 win32Parent.AssignHandle(handle);
                                 MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
+                                ValidateDataGridRecords().Wait();
                             });
                             await Task.Run(() =>
                             {
@@ -299,8 +332,30 @@ namespace Finx.App.Forms
                         }
 
                     }
-                    //if (_importCompleted)
-                     //   await ValidateDataGridRecords();
+
+
+                }
+                catch (OperationCanceledException)
+                {
+                    MessageBox.Show("Import operation has been cancelled!");
+                }
+                catch (OperationAbortedException)
+                {
+                    MessageBox.Show("Import operation has been aborted!");
+                }
+                catch (AggregateException ex)
+                {
+                    foreach (var error in ex.Flatten().InnerExceptions)
+                    {
+                        Program.Logger.Error(error.Message);
+                    }
+
+                    await Task.Run(() =>
+                    {
+                        var win32Parent = new NativeWindow();
+                        win32Parent.AssignHandle(handle);
+                        MessageBox.Show(win32Parent, ex.Message, "Easiworx Error", MessageBoxButtons.OK);
+                    });
                 }
                 catch (Exception ex)
                 {
@@ -309,8 +364,13 @@ namespace Finx.App.Forms
                     {
                         var win32Parent = new NativeWindow();
                         win32Parent.AssignHandle(handle);
-                        MessageBox.Show(win32Parent, ex.Message,"Easiworx Error", MessageBoxButtons.OK);
+                        MessageBox.Show(win32Parent, ex.Message, "Easiworx Error", MessageBoxButtons.OK);
                     });
+                }
+                finally
+                {
+                    if (cancelImport.Enabled)
+                        cancelImport.Enabled = false;
                 }
             }
         }
@@ -433,7 +493,7 @@ namespace Finx.App.Forms
 
         private void FrmMetroClientImportInvestments_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!_importCompleted)
+            if (_importCompleted != null && !_importCompleted.Value)
             {
                 DialogResult dialogResult = MessageBox.Show("File Import still in progress! Are you sure you want to close this form?", "Import Client Investments", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No)
@@ -499,7 +559,8 @@ namespace Finx.App.Forms
 
         private void GetExistingClientWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            _existingClientDetails = Program.ClientDetailsService.List(null);
+            if(Program.ClientDetailsService != null)
+                _existingClientDetails = Program.ClientDetailsService.List(null);
         }
 
         private void GetExistingClientWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -573,7 +634,9 @@ namespace Finx.App.Forms
             _pbImportFile.Value = 0;
                 
            await LoadClientInvestmentsFromFile();
-           await Task.Run(() => _clientRetirementPortfolio_View = Program.ClientRetirementPortfolioService.ListView(lv => lv.ClientId > 0));
+
+            if(Program.ClientRetirementPortfolioService != null)
+                await Task.Run(() => _clientRetirementPortfolio_View = Program.ClientRetirementPortfolioService.ListView(lv => lv.ClientId > 0));
           
         }
         #endregion
@@ -607,7 +670,9 @@ namespace Finx.App.Forms
             //dgvFileContents.RowPrePaint -= dgvFileContents_RowPrePaint;
             dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
             this.FormClosing += FrmMetroClientImportInvestments_FormClosing;
-            this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;    
+            this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;
+            _cancellationTokenSourceOuter = new CancellationTokenSource();
+            _cancellationTokenSourceInner = new CancellationTokenSource();
 
 #if STAGING
             Program.Logger.Info(stopwatch.ElapsedMilliseconds.ToString());
@@ -667,16 +732,14 @@ namespace Finx.App.Forms
 #endif
             try
             {
-                //if (ClientUniqueId == "0906155271081")
-                  //  Debugger.Break();
-
+              
                 //get client, if client portfolio exists on easiworx, return it otherwise create new client & return it
                 var clientPortfolio = await GetClientPortfolio(ClientUniqueId);
                 Client client = null;
 
                 if (clientPortfolio == null) //create new client & return it
                 {
-                    client = CreateNewClient(Investments.FirstOrDefault());
+                    client = await Task.Run(()=> CreateNewClient(Investments.FirstOrDefault()));
                     if (client == null) return;
                 }
                 
@@ -696,22 +759,18 @@ namespace Finx.App.Forms
                         retirement = clientPortfolio.Retirements.Where(r => r.Description.Trim().ToLower() == policy.LISP.Trim().ToLower() &&
                                                                                      r.ReferenceNo.Trim().ToLower() == policy.AccountNo.Trim().ToLower())
                                                                                         .FirstOrDefault();
-
                     if (retirement == null)
                         retirement = await Task.Run(() => CreateRetirement(policy));
-
-
-                    //if (policy.IDNumber == "8405245184083")
-                    //    Debugger.Break();
 
                     //get all funds per policy
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()));
 
                     //add or update policy funds
-                    var updatedretirement = await AddRetirementFunds(retirement, policyFunds);
+                    var updatedretirement = await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
 
                     //get existing client retirements
                     List<Retirement> existingRetirements = null;
+
                     if (clientPortfolio != null)
                         existingRetirements = clientPortfolio.Retirements.ToList();
                     else
@@ -737,7 +796,7 @@ namespace Finx.App.Forms
                             Program.ClientService.Update(client);
                         }
                     }
-
+                    retirement = null;
 #if STAGING
                     Program.Logger.Info("Policy " + policy.AccountNo + "Completed " + stopwatch2.ElapsedMilliseconds.ToString());
 #endif
@@ -835,7 +894,7 @@ namespace Finx.App.Forms
             return clientPortfolio;
         }
 
-        private Client CreateNewClient(ICsvRecord csvRecord, string UpdateBy = "System")
+        private async Task<Client> CreateNewClient(ICsvRecord csvRecord, string UpdateBy = "System")
         {
             if (csvRecord == null) return null;
 
@@ -875,8 +934,6 @@ namespace Finx.App.Forms
 
             try
             {
-                if (csvRecord.IDNumber == "0906155271081")
-                    Debugger.Break();
 
                 //dob is a required field
                 if (!string.IsNullOrEmpty(csvRecord.IDNumber) && csvRecord.IDNumber.Length >= 9 && csvRecord.IDNumber.Length <= 13)
@@ -886,6 +943,7 @@ namespace Finx.App.Forms
                     var month = int.Parse(datePart.Substring(2, 2));
                     var day = int.Parse(datePart.Substring(4, 2));
                     var strdt = year + "-" + month + "-" + day;
+
                     if (!DateTime.TryParseExact(strdt, "yy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime _) &&
                         !DateTime.TryParseExact(strdt, "yy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime _) &&
                         !DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime _))
@@ -947,8 +1005,8 @@ namespace Finx.App.Forms
                     case "alangray":
                     case "alan gray":
                         var alanGrayRecord = csvRecord as AlanGrayRecord;
-                        firstname = alanGrayRecord.Firstname;
-                        lastname = alanGrayRecord.Firstname;
+                        firstname = alanGrayRecord.Firstname.Trim();
+                        lastname = alanGrayRecord.Lastname.Trim();
                       
                         break;
                     //case "oasis":
@@ -1042,7 +1100,6 @@ namespace Finx.App.Forms
                     try
                     {
                         Program.ClientService.Add(client);
-                        //await Task.Run(() => Program.ClientService.Add(client));
                     }
                     catch (Exception)
                     {
@@ -1057,9 +1114,7 @@ namespace Finx.App.Forms
                         {
                             client.ClientContacts.ClientId = client.Id;
                             client.ClientContacts.ClientDetailsId = client.ClientDetails.Id;
-
                             Program.ClientService.Update(client);
-                            //await Task.Run(() => Program.ClientService.Update(client));
                         }
                     }
                     else
@@ -1086,6 +1141,8 @@ namespace Finx.App.Forms
 
                 var filepath = fileSettings.FilePath;
                 var csvHelperConfiguration = fileSettings.CsvConfiguration;
+                var detectedFileDelimiter = CsvFileHelper.DetectDelimiter(File.OpenText(filepath), csvHelperConfiguration.DetectDelimiterValues);
+                csvHelperConfiguration.Delimiter = detectedFileDelimiter;
 
                 if (_selectedLisp.ToLower().Contains("camissa"))
                 {
@@ -1105,7 +1162,18 @@ namespace Finx.App.Forms
                 }
                 if (_selectedLisp.ToLower().Contains("momentum"))
                 {
-                    _csvRecordList = CsvFileHelper.GetRecords<MomentumRecord>(filepath, csvHelperConfiguration);
+                    switch(detectedFileDelimiter)
+                    { 
+                        case ",":
+                            _csvRecordList = CsvFileHelper.GetRecords<MomentumRecord>(filepath, csvHelperConfiguration);
+                            break;
+                        case "\t":
+                            csvHelperConfiguration.Quote = '\"';
+                            _csvRecordList = CsvFileHelper.GetRecords<MomentumRecord_TabDelimited>(filepath, csvHelperConfiguration);
+                            break;
+                        default:
+                            throw new ApplicationException("Invalid file delimiter detected!");
+                    }
                 }
 
                 dgvFileContents.AutoGenerateColumns = false;
@@ -1148,7 +1216,7 @@ namespace Finx.App.Forms
 
         }
         
-        private async Task<Retirement> AddRetirementFunds(Retirement retirement, IEnumerable<ICsvRecord> funds)
+        private Retirement AddRetirementFunds(Retirement retirement, IEnumerable<ICsvRecord> funds)
         {
 #if STAGING
             var stopwatch = Stopwatch.StartNew();
@@ -1160,37 +1228,8 @@ namespace Finx.App.Forms
                 if(retirement.Funds == null)
                     retirement.Funds = new List<Fund>();
 
-                if (funds.Count() > 3)
-                {
-                    var retirementFundsCopy = retirement.Funds;
-                    Parallel.ForEach(funds, fund =>
-                    {
-                        if (retirementFundsCopy.Count() > 0)
-                        {
-                            var existingFund = retirementFundsCopy.Where(f => f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
-                            if (existingFund == null)
-                            {
-                                //could not match to existing fund
-                                Program.Logger.Error("Could not match file fund: " + fund.FundName + " to Easiworx funds: ");
-                                Parallel.ForEach(retirementFundsCopy, eFund =>
-                                {
-                                    Program.Logger.Error(eFund.Description);
-                                });
-                            }
-                            else
-                                UpdateFund(existingFund, fund);
-                            
-                        }
-                        else
-                        {
-                            var newfund = CreateFund(fund);
-                            retirementFundsCopy.Add(newfund);
-                            retirement.Funds = retirementFundsCopy;
-                        }
-                    });
-                }
-                else
-                {
+               
+                    Fund newfund = null;
                     foreach(var fund in funds)
                     {
                         if (retirement.Funds.Count() > 0)
@@ -1198,26 +1237,26 @@ namespace Finx.App.Forms
                             var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
                             if (existingFund == null)
                             {
-                                //could not match to existing fund
-                                Program.Logger.Error("Could not match file fund: " + fund.FundName + " to Easiworx funds: ");
-                                foreach (var eFund in retirement.Funds)
-                                {
-                                    Program.Logger.Error(eFund.Description);
-                                }
-                            }
+                                newfund = CreateFund(fund);
+                                var retirementFunds = retirement.Funds;
+                                retirementFunds.Add(newfund);
+                                retirement.Funds = retirementFunds;
+                        }
                             else
                                 UpdateFund(existingFund, fund);
                         }
                         else
                         {
-                            var newfund = CreateFund(fund);
+                            newfund = CreateFund(fund);
                             var retirementFunds = retirement.Funds;
                             retirementFunds.Add(newfund);
                             retirement.Funds = retirementFunds;
                         }
+                        newfund = null;
                     }
-                }
-                await Task.Run(()=>retirement.Calculate());
+               
+                //await Task.Run(()=>retirement.Calculate());
+                retirement.Calculate();
 
 #if STAGING
                 Program.Logger.Info("AddRetirementFunds Ended! " + stopwatch.ElapsedMilliseconds.ToString());
@@ -1336,7 +1375,8 @@ namespace Finx.App.Forms
 
             try
             {
-                var filePath = ConfigurationManager.AppSettings["CsvFileImportInitialDir"].ToString() + "ErrorFiles";
+                var filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) +
+                                                        "\\Easiworx\\ErrorFiles";
                 fileName = filePath;
 
                 if (_selectedLisp.ToLower().Contains("alan"))
@@ -1455,7 +1495,19 @@ namespace Finx.App.Forms
                          dataRow.DefaultCellStyle.BackColor = Color.LightPink;
                          csvRecord.HasErrors = true;
                      }
-                     if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(?<Year>[0-9][0-9])(?<Month>([0][1-9])|([1][0-2]))(?<Day>([0-2][1-9])|([3][0-1]))(?<Gender>[0-9])(?<Series>[0-9]{3})(?<Citizenship>[0-9])(?<Uniform>[0-9])(?<Control>[0-9])"))
+                     /*
+                      YYMMDDGSSSCAZ
+
+                        YYMMDD : Date of birth (DOB)
+                        G : Gender. 0-4 Female; 5-9 Male
+                        SSS : Sequence No. for DOB/G combination
+                        C : Citizenship. 0 SA; 1 Other
+                        A : Usually 8, or 9 but can be other values
+                        Z : Calculated control (check) digit
+
+                      * */
+                     
+                     if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
                      {
                          idNoCell.ErrorText = "Invalid ID No. Regex validation failure!";
                          idNoCell.ToolTipText = "Invalid ID No. Regex validation failure!";
@@ -1546,62 +1598,16 @@ namespace Finx.App.Forms
                  });
         }
 
+
         #endregion
 
-        #region ObsoleteCode
-        [Obsolete]
-        private async Task<Client> GetClient(string ClientUniqueId, IEnumerable<ICsvRecord> Investments, bool InitialiseClient = false)
+        private void cancelImport_Click(object sender, EventArgs e)
         {
-#if STAGING
-            Program.Logger.Info("GetClient Method Started!");
-            var stopwatch = Stopwatch.StartNew();
-#endif
-            Client client = null;
-            ClientDetails matchedClientDetails = null;
-
-            try
-            {
-                int clientId = -1;
-                //get easiworx client id, 1st try rsa id no else passport no
-                matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.IdentificationNo.Trim() == ClientUniqueId).FirstOrDefault());
-
-                if (matchedClientDetails == null) //try passport no
-                    matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
-
-                if (matchedClientDetails != null)
-                    clientId = matchedClientDetails.ClientId;
-
-                if (clientId == 0) return null;
-
-                if (clientId == -1) //this is a new client
-                    client = CreateNewClient(Investments.FirstOrDefault());
-                //client = await CreateNewClient(Investments.FirstOrDefault());
-                else //existing easiworx client
-                {
-                    client = await Task.Run(() => Program.ClientService.Get(clientId));
-
-                    if (InitialiseClient) //do we need to setup client events? default to false
-                        await Task.Run(() => client.Initialise());
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-#if STAGING
-            Program.Logger.Info("GetClient Method Ended! " + stopwatch.ElapsedMilliseconds.ToString());
-
-#endif
-            return client;
+            _cancellationTokenOuter = _cancellationTokenSourceOuter.Token;
+            _cancellationTokenInner = _cancellationTokenSourceInner.Token;
+            _cancellationTokenSourceInner.Cancel();
+            _cancellationTokenSourceOuter.Cancel();
         }
-
-
-
-
-        #endregion
-
-       
     }
 }
 

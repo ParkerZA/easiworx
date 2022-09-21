@@ -1,17 +1,16 @@
-﻿using Finx.App.Models;
+﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using Finx.App.Interfaces;
 using System;
 using System.Globalization;
-using Finx.App.Helpers;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Finx.App.Models
 {
-    
-    public class CamissaRecord : ICsvRecord
+
+    public sealed class CamissaRecord : ICsvRecord
     {
         private string _idNo;
         private string _fundValue;
@@ -260,9 +259,14 @@ namespace Finx.App.Models
                     this.HasErrors = true;
             }
         }
+
+        public void ValidateHeadings(HeaderValidatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public class CamissaRecordMap : ClassMap<CamissaRecord>
+    public sealed class CamissaRecordMap : ClassMap<CamissaRecord>
     {
         public CamissaRecordMap()
         {

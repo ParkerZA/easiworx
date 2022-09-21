@@ -4,11 +4,11 @@ using CsvHelper.Configuration.Attributes;
 using Finx.App.Interfaces;
 using System;
 using System.Globalization;
+using CsvHelper;
 
 namespace Finx.App.Models
 {
-
-    public class SABullionRecord : ICsvRecord
+    public sealed class SABullionRecord : ICsvRecord
     {
         [Ignore]
         public int RowNo { get; set; }
@@ -68,9 +68,14 @@ namespace Finx.App.Models
 
         [Optional]
         public string ValidationErrors { get; set; }
+
+        public void ValidateHeadings(HeaderValidatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public class SABullionRecordMap : ClassMap<SABullionRecord>
+    public sealed class SABullionRecordMap : ClassMap<SABullionRecord>
     {
         public SABullionRecordMap()
         {

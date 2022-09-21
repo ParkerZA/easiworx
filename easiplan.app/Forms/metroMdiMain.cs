@@ -170,11 +170,15 @@ namespace Finx.App.Forms
                 {
                     try
                     {
-                        frmMetroClient1 childForm = new frmMetroClient1(clientId);
+                        var childForm = new frmMetroClient1(clientId);
 
                         childForm.MdiParent = this;
 
                         childForm.Show();
+                    }
+                    catch (NullReferenceException ex)
+                    { 
+                    
                     }
                     catch (Exception x)
                     {

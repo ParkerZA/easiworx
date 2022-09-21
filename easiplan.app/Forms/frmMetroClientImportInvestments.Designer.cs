@@ -89,6 +89,7 @@ namespace Finx.App.Forms
             this.kbtnOpenFile = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.cmbSelectLisp = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.cancelImport = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails.Panel)).BeginInit();
             this.kgbFileDetails.Panel.SuspendLayout();
@@ -377,6 +378,7 @@ namespace Finx.App.Forms
             this.panelFileInfo.AutoSize = true;
             this.panelFileInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelFileInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelFileInfo.Controls.Add(this.cancelImport);
             this.panelFileInfo.Controls.Add(this.lblTotValErrors);
             this.panelFileInfo.Controls.Add(this.label2);
             this.panelFileInfo.Controls.Add(this.lblNewClientCnt);
@@ -713,7 +715,7 @@ namespace Finx.App.Forms
             this.btnImportFile.Enabled = false;
             this.btnImportFile.Location = new System.Drawing.Point(12, 15);
             this.btnImportFile.Name = "btnImportFile";
-            this.btnImportFile.Size = new System.Drawing.Size(177, 29);
+            this.btnImportFile.Size = new System.Drawing.Size(127, 29);
             this.btnImportFile.TabIndex = 5;
             this.btnImportFile.Values.Text = "&Import File";
             this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
@@ -768,6 +770,16 @@ namespace Finx.App.Forms
             this.metroLabel1.Size = new System.Drawing.Size(109, 19);
             this.metroLabel1.TabIndex = 17;
             this.metroLabel1.Text = "Service Provider:";
+            // 
+            // cancelImport
+            // 
+            this.cancelImport.Enabled = false;
+            this.cancelImport.Location = new System.Drawing.Point(145, 15);
+            this.cancelImport.Name = "cancelImport";
+            this.cancelImport.Size = new System.Drawing.Size(124, 29);
+            this.cancelImport.TabIndex = 41;
+            this.cancelImport.Values.Text = "&Cancel Import";
+            this.cancelImport.Click += new System.EventHandler(this.cancelImport_Click);
             // 
             // frmMetroClientImportInvestments
             // 
@@ -866,5 +878,6 @@ namespace Finx.App.Forms
         private Label lblSelectedFile;
         private Label lblSelectedFile1;
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnImportFile;
+        private ComponentFactory.Krypton.Toolkit.KryptonButton cancelImport;
     }
 }

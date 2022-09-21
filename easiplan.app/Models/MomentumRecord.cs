@@ -6,10 +6,11 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using CsvHelper;
 
 namespace Finx.App.Models
 {
-    public class MomentumRecord : ICsvRecord
+    public sealed class MomentumRecord : ICsvRecord
     {
         [Ignore]
         public int RowNo { get; set; }
@@ -80,12 +81,15 @@ namespace Finx.App.Models
         }
         [Optional]
         public string LISP { get { return _lisp; } set { _lisp = "Momentum"; } }
+
         
         [Index(41)]
         public string ProductType
         {
             get;set;
         }
+
+        
         [Index(42)]
         public string StartDate
         {
@@ -113,9 +117,13 @@ namespace Finx.App.Models
             }
         }
 
+        public void ValidateHeadings(HeaderValidatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public class MomentumRecordMap : ClassMap<MomentumRecord>
+    public sealed class MomentumRecordMap : ClassMap<MomentumRecord>
     {
         public MomentumRecordMap()
         {

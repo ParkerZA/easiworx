@@ -1,0 +1,7 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+189,6210105203086,,Alan Gray,AGTF692625,Nedgroup Investments Property Fund (Class A1),19700.39,09 May 2022,True,Invalid ID No. Regex validation failure!
+292,802205305088,,Alan Gray,AGEN350143,Camissa Islamic Equity Fund (Class B),85051.35,09 May 2022,True,Invalid ID No. Regex validation failure!
+293,802205305088,,Alan Gray,AGEN350143,Old Mutual Albaraka Equity Fund (Class B1),21295.02,09 May 2022,True,Invalid ID No. Regex validation failure!
+294,802205305088,,Alan Gray,AGEN350143,27four Shari'ah Balanced Fund of Funds (Class A4),22288.47,06 May 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 4

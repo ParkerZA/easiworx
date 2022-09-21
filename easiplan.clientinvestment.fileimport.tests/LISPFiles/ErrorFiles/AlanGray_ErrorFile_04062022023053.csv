@@ -1,0 +1,17 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+172,4404200125086,,Alan Gray,AGEN889616,Camissa Islamic Equity Fund (Class B),96338.62,09 May 2022,True,Invalid ID No. Regex validation failure!
+173,4404200125086,,Alan Gray,AGEN889616,Camissa Islamic Global Equity Feeder Fund (Class B),47975.93,09 May 2022,True,Invalid ID No. Regex validation failure!
+174,4404200125086,,Alan Gray,AGEN889616,Camissa Islamic High Yield Fund (Class A),247053.81,09 May 2022,True,Invalid ID No. Regex validation failure!
+175,4404200125086,,Alan Gray,AGEN889616,Old Mutual Albaraka Equity Fund (Class B1),46828.22,09 May 2022,True,Invalid ID No. Regex validation failure!
+176,4404200125086,,Alan Gray,AGEN889616,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),15591.85,09 May 2022,True,Invalid ID No. Regex validation failure!
+189,6210105203086,,Alan Gray,AGTF692625,Nedgroup Investments Property Fund (Class A1),19700.39,09 May 2022,True,Invalid ID No. Regex validation failure!
+225,7107200195085,,Alan Gray,AGRA455882,Camissa Islamic Equity Fund (Class B),37094.5,09 May 2022,True,Invalid ID No. Regex validation failure!
+226,7107200195085,,Alan Gray,AGRA455882,Camissa Islamic Global Equity Feeder Fund (Class B),5361.12,09 May 2022,True,Invalid ID No. Regex validation failure!
+227,7107200195085,,Alan Gray,AGRA455882,Camissa Islamic High Yield Fund (Class A),33762.54,09 May 2022,True,Invalid ID No. Regex validation failure!
+1031,6212200118086,,Alan Gray,AGRA519552,Camissa Islamic Balanced Fund (Class B),80127.57,09 May 2022,True,Invalid ID No. Regex validation failure!
+1032,6212200118086,,Alan Gray,AGRA519552,27four Shari'ah Balanced Fund of Funds (Class A4),71695.12,06 May 2022,True,Invalid ID No. Regex validation failure!
+1033,6212200118086,,Alan Gray,AGRA76867,Allan Gray Equity Fund,37501.03,09 May 2022,True,Invalid ID No. Regex validation failure!
+1034,6212200118086,,Alan Gray,AGRA76867,Coronation Property Equity Fund (Class A),26033.39,09 May 2022,True,Invalid ID No. Regex validation failure!
+1035,6212200118086,,Alan Gray,AGRA76867,Old Mutual Albaraka Equity Fund (Class B1),41493.63,09 May 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 14
