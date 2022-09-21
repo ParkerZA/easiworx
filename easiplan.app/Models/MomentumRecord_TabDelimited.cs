@@ -24,8 +24,10 @@ namespace Finx.App.Models
 
         [Optional]
         public string Title { get; set; }
+
         [Index(3)]
         public string Initials { get; set; }
+        
         [Index(4)]
         public string Firstname { get; set; }
 
@@ -128,7 +130,7 @@ namespace Finx.App.Models
         }
     }
 
-    public sealed class MomentumRecord_TabDelimited_Map : ClassMap<MomentumRecord>
+    public sealed class MomentumRecord_TabDelimited_Map : ClassMap<MomentumRecord_TabDelimited>
     {
         public MomentumRecord_TabDelimited_Map()
         {
