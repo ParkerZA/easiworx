@@ -1,17 +1,16 @@
-﻿using Finx.App.Models;
+﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using Finx.App.Interfaces;
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Finx.App.Models
 {
-
-    public class AlanGrayRecord : ICsvRecord
+    public sealed class AlanGrayRecord : ICsvRecord
     {
         private string _idNo = "";
         private string _fundValue = "";
@@ -37,8 +36,8 @@ namespace Finx.App.Models
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[0];
-                        this.Lastname = fullnames[1];
+                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim();
+                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim();
                     }
                     else
                         _firstname = value;
@@ -156,9 +155,13 @@ namespace Finx.App.Models
             get;set;
         }
 
+        public void ValidateHeadings(HeaderValidatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public class AlanGrayRecordMap : ClassMap<AlanGrayRecord>
+    public sealed class AlanGrayRecordMap : ClassMap<AlanGrayRecord>
     {
         public AlanGrayRecordMap()
         {
@@ -188,8 +191,8 @@ namespace Finx.App.Models
 
                         if (string.IsNullOrEmpty(idNumber))
                             errors.Append("ID Number is null!");
-
-                        if (!Regex.IsMatch(idNumber, @"(?<Year>[0-9][0-9])(?<Month>([0][1-9])|([1][0-2]))(?<Day>([0-2][1-9])|([3][0-1]))(?<Gender>[0-9])(?<Series>[0-9]{3})(?<Citizenship>[0-9])(?<Uniform>[0-9])(?<Control>[0-9])"))
+                    
+                        if (!Regex.IsMatch(idNumber, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
                             errors.Append("Invalid RSA ID Number!");
 
                         if (string.IsNullOrEmpty(policyNo))

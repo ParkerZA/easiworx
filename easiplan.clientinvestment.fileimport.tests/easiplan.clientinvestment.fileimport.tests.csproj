@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>easiplan.clientinvestment.fileimport.tests</RootNamespace>
+    <AssemblyName>easiplan.clientinvestment.fileimport.tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.0.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.2.1.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.2.1.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.0\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="camissa.csvfile.import.tests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="LISPFiles\AlanGray\10May_DisplayingIDNos_Correctly_Now.xlsx" />
+    <None Include="LISPFiles\AlanGray\AG_Take2.csv" />
+    <None Include="LISPFiles\AlanGray\Data file specifications.xlsx" />
+    <None Include="LISPFiles\AlanGray\Detailed Client Account Listing Nov2021.csv" />
+    <None Include="LISPFiles\AlanGray\Detailed Client Account Listing Nov2021_TT.csv" />
+    <None Include="LISPFiles\AlanGray\Detailed client account listing_10 May 22 - Copy.csv" />
+    <None Include="LISPFiles\AlanGray\Detailed client account listing_10 May 22.csv" />
+    <None Include="LISPFiles\AlanGray\Detailed client account listing_9 June 22 - Copy.csv" />
+    <None Include="LISPFiles\AlanGray\Detailed client account listing_9 June 22.csv" />
+    <None Include="LISPFiles\AtWork\atworkexport %2812%29 -SWI.xlsx" />
+    <None Include="LISPFiles\Camissa\Camissa Investor Demographic by Fund 31Aug22.csv" />
+    <None Include="LISPFiles\Camissa\Direct Client Demographic.csv" />
+    <None Include="LISPFiles\Camissa\Mohamed Jaffer Direct Client Demographic.xlsx" />
+    <None Include="LISPFiles\Camissa\MOJAFF CAMISSA client data June 22.csv" />
+    <None Include="LISPFiles\DiscoveryHealth\Copy of Broker File.xlsx" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_02062022090158.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_02062022090244.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_04062022013416.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_04062022023053.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_05062022023535.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_07062022063010.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_07062022082254.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_07062022083524.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_07062022091136.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022073250.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022083310.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022092820.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022093307.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022093449.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022093541.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022094619.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022095417.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022101138.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022102131.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022102716.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022110349.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_08062022111453.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_09062022084510.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_09062022085547.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_09062022090112.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_09062022101717.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_09062022102508.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_10062022090917.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_22052022091643.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_28052022111625.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_28052022121524.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_28052022123513.csv" />
+    <None Include="LISPFiles\ErrorFiles\AlanGray_ErrorFile_29052022025850.csv" />
+    <None Include="LISPFiles\ErrorFiles\Camissa_ErrorFile_02062022084718.csv" />
+    <None Include="LISPFiles\ErrorFiles\Camissa_ErrorFile_02062022090021.csv" />
+    <None Include="LISPFiles\ErrorFiles\Camissa_ErrorFile_04062022022831.csv" />
+    <None Include="LISPFiles\ErrorFiles\Camissa_ErrorFile_07062022091250.csv" />
+    <None Include="LISPFiles\ErrorFiles\Camissa_ErrorFile_09062022050142.csv" />
+    <None Include="LISPFiles\ErrorFiles\Camissa_ErrorFile_25052022051143.csv" />
+    <None Include="LISPFiles\ErrorFiles\Camissa_ErrorFile_28052022010445.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_02062022090338.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_02062022091201.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_04062022023309.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_04062022023351.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_04062022023406.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_04062022023443.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_04062022023452.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022075451.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022081311.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082541.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082807.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082822.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082828.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082835.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082844.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082856.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022082922.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_07062022085009.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_08062022082907.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_08062022085137.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_08062022093355.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_08062022110802.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_08062022115328.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_09062022050358.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_09062022083629.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_21052022053824.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_21052022062852.csv" />
+    <None Include="LISPFiles\ErrorFiles\Momentum_ErrorFile_23052022062744.csv" />
+    <None Include="LISPFiles\FranklynTempleton\Copy of FT01289936 CSV Files.xlsx" />
+    <None Include="LISPFiles\Liberty\Mo Jaffer Book Converted CSV.csv" />
+    <None Include="LISPFiles\Marriot\Copy of MJaffer_Client list Oct2021 Password.xlsx" />
+    <None Include="LISPFiles\Momentum\MAS Client Fund Exposure - 21 April 2022 - Copy %282%29.csv" />
+    <None Include="LISPFiles\Momentum\MAS Client Fund Exposure - 21 April 2022 - Copy.csv" />
+    <None Include="LISPFiles\Momentum\MAS Client Fund Exposure - 21 April 2022 - Copy.xlsx" />
+    <None Include="LISPFiles\Momentum\MAS Client Fund Exposure - 21 April 2022.csv" />
+    <None Include="LISPFiles\Momentum\MAS_ClientTransactionalDataV1_033022_611026_20220610.csv" />
+    <None Include="LISPFiles\Momentum\Mojaff Client Data.xlsx" />
+    <None Include="LISPFiles\Momentum\MWI Client Fund Exposure - 21 April 2022.csv" />
+    <None Include="LISPFiles\Momentum\MWI_ClientTransactionalDataV1_MDSMFS_MDS242_20220610.csv" />
+    <None Include="LISPFiles\Nedgroup\Investor Listing Report - Copy.csv" />
+    <None Include="LISPFiles\Nedgroup\Investor Listing Report.csv" />
+    <None Include="LISPFiles\Oasis\Easiworx sample data - Oasis.csv" />
+    <None Include="LISPFiles\Oasis\Easiworx sample data - Oasis.xls" />
+    <None Include="LISPFiles\SABullion\Mojaff Debit Orders.csv" />
+    <None Include="LISPFiles\SABullion\Mojaff Financial Services POrtfolio Summary Statement - Copy.csv" />
+    <None Include="LISPFiles\SABullion\Mojaff Financial Services POrtfolio Summary Statement.csv" />
+    <None Include="LISPFiles\SanlamGlacier\Copy of BookReport_352918_AllClients_2021-09-30.xls" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets'))" />
+  </Target>
+  <Import Project="..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets')" />
+</Project>

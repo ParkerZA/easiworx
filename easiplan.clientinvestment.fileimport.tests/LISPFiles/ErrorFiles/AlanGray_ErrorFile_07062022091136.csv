@@ -1,0 +1,4 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+151,8010200111087,,Alan Gray,AGRA460478,Camissa Islamic Balanced Fund (Class B),33390.35,09 May 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 1

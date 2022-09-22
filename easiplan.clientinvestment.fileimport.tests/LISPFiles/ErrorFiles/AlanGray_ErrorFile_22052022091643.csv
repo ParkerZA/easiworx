@@ -1,0 +1,43 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+1,8.11E+12,,,AGRA118625,Old Mutual Albaraka Equity Fund (Class B1),59616.82,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+2,8.11E+12,,,AGRA452238,Kagiso Islamic Balanced Fund (Class B),58486.17,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+3,9.10E+12,,,AGRA541416,Rezco Value Trend Fund (Class C1),26053.15,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+4,6.51E+12,,,AGRA133695,Allan Gray Equity Fund,1920.58,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+5,9.31E+12,,,AGRA832266,Kagiso Islamic Equity Fund (Class B),4299.2,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+6,9.31E+12,,,AGRA832266,Kagiso Islamic Global Equity Feeder Fund (Class B),573.38,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+7,9.31E+12,,,AGRA832266,Kagiso Islamic High Yield Fund (Class A),3566.43,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+8,9.31E+12,,,AGRA832266,Old Mutual Albaraka Equity Fund (Class B1),2131.91,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+9,9.31E+12,,,AGRA832266,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),692.85,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+10,9.31E+12,,,AGRA857461,Kagiso Islamic Equity Fund (Class B),7559.77,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+11,9.31E+12,,,AGRA857461,Kagiso Islamic Global Equity Feeder Fund (Class B),1006.6,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+12,9.31E+12,,,AGRA857461,Kagiso Islamic High Yield Fund (Class A),6262.24,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+13,9.31E+12,,,AGRA857461,Old Mutual Albaraka Equity Fund (Class B1),3744.5,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+14,9.31E+12,,,AGRA857461,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),1216.27,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+15,7.30E+12,,,AGLP743160,Kagiso Islamic Balanced Fund (Class B),2852.59,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+16,7.30E+12,,,AGLP743160,Nedgroup Investments Property Fund (Class A1),700.68,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+17,9.90E+12,,,AGRA832242,Kagiso Islamic Equity Fund (Class B),120.2,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+18,9.90E+12,,,AGRA832242,Kagiso Islamic Equity Fund (Class B),3781.67,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+19,9.90E+12,,,AGRA832242,Kagiso Islamic Global Equity Feeder Fund (Class B),504.38,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+20,9.90E+12,,,AGRA832242,Kagiso Islamic High Yield Fund (Class A),3137.28,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+21,9.90E+12,,,AGRA832242,Old Mutual Albaraka Equity Fund (Class B1),1875.35,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+22,9.90E+12,,,AGRA832242,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),609.48,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+23,9.80E+12,,,AGRA875680,Kagiso Islamic Equity Fund (Class B),1621.67,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+24,9.80E+12,,,AGRA875680,Kagiso Islamic Global Equity Feeder Fund (Class B),216,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+25,9.80E+12,,,AGRA875680,Kagiso Islamic High Yield Fund (Class A),1346.94,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+26,9.80E+12,,,AGRA875680,Old Mutual Albaraka Equity Fund (Class B1),805.41,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+27,9.80E+12,,,AGRA875680,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),261.9,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+28,7.91E+12,,,AGRA74906,Old Mutual Albaraka Equity Fund (Class B1),1740.09,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+29,7.00E+12,,,AGRA877322,Kagiso Islamic Equity Fund (Class B),15191.87,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+30,7.00E+12,,,AGRA877322,Kagiso Islamic Global Equity Feeder Fund (Class B),2023.3,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+31,7.00E+12,,,AGRA877322,Kagiso Islamic High Yield Fund (Class A),12595.6,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+32,7.00E+12,,,AGRA877322,Old Mutual Albaraka Equity Fund (Class B1),7533.92,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+33,7.00E+12,,,AGRA877322,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),2447.16,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+34,6.41E+12,,,AGRA832164,Kagiso Islamic Equity Fund (Class B),4494.41,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+35,6.41E+12,,,AGRA832164,Kagiso Islamic Global Equity Feeder Fund (Class B),599.42,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+36,6.41E+12,,,AGRA832164,Kagiso Islamic High Yield Fund (Class A),3728.34,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+37,6.41E+12,,,AGRA832164,Old Mutual Albaraka Equity Fund (Class B1),2228.7,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+38,6.41E+12,,,AGRA832164,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),724.33,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+39,6.41E+12,,,AGRA857456,Kagiso Islamic Equity Fund (Class B),20807.46,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+40,6.41E+12,,,AGRA857456,Kagiso Islamic Global Equity Feeder Fund (Class B),2770.42,02 Nov 2021,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 40

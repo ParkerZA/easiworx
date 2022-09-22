@@ -41,187 +41,34 @@ namespace Finx.App.Helpers
             }
             return fileProperties;
         }
-
-        //public async static Task<List<CamissaRecord>> GetRecords(string filePath, CancellationToken cancellationToken, string delimiter = "|")
-        //{
-        //    List<CamissaRecord> fileRecordList = null;
-        //    try
-        //    {
-        //        //Thread.Sleep(10000);
-        //        var csvHelperConfiguration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture) { Encoding = Encoding.UTF8, Delimiter = delimiter };
-        //        using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-        //        {
-        //            using (var streamReader = new StreamReader(filestream, Encoding.UTF8))
-        //            using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
-        //            {
-        //                var fileRecords = csvReader.GetRecordsAsync<CamissaRecord>(cancellationToken);
-        //                var RowNo = 0;
-        //                if (fileRecords != null)
-        //                    fileRecordList = new List<CamissaRecord>();
-
-        //                await foreach (CamissaRecord fileRecord in fileRecords)
-        //                {
-        //                    RowNo++;
-        //                    fileRecord.RowNo = RowNo;
-        //                    //var fundValueProperty = fileRecord.GetType().GetProperty("FundValue", System.Reflection.BindingFlags.Public);
-        //                    //var displayAttributes = (DisplayAttribute[])fundValueProperty.GetCustomAttributes(typeof(DisplayAttribute), true);
-                            
-        //                    fileRecordList.Add(fileRecord);
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    catch (OperationCanceledException)
-        //    {
-        //        //log that operation was cancelled
-        //        throw;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-
-        //    return fileRecordList;
-        //}
-
-        //public async static Task<List<ICsvRecord>> GetRecords(Type RecordType, string filePath, CancellationToken cancellationToken, string delimiter = "|")
-        //{
-        //    IAsyncEnumerable<ICsvRecord> fileRecords = null;
-        //    List<ICsvRecord> fileRecordList = null;
-        //    try
-        //    {
-        //        //Thread.Sleep(10000);
-        //        var csvHelperConfiguration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
-        //        { Encoding = Encoding.UTF8, Delimiter = delimiter, IgnoreBlankLines = true, AllowComments = false, IgnoreReferences = true);
-        //        using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-        //        {
-        //            using (var streamReader = new StreamReader(filestream, Encoding.UTF8))
-        //            using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
-        //            {
-                        
-        //                if(RecordType.GetType() == typeof(CamissaRecord))
-        //                    fileRecords = csvReader.GetRecordsAsync<CamissaRecord>(cancellationToken);
-
-        //                if (RecordType.GetType() == typeof(AlanGrayRecord))
-        //                    fileRecords = csvReader.GetRecordsAsync<AlanGrayRecord>(cancellationToken);
-
-        //                if (RecordType.GetType() == typeof(NedgroupRecord))
-        //                    throw new NotImplementedException(); //fileRecords = csvReader.GetRecordsAsync<NedgroupRecord>(cancellationToken);
-
-        //                if (RecordType.GetType() == typeof(MomentumRecord))
-        //                    fileRecords = csvReader.GetRecordsAsync<MomentumRecord>(cancellationToken);
-
-        //                var RowNo = 0;
-        //                if (fileRecords != null)
-        //                    fileRecordList = new List<ICsvRecord>();
-
-        //                await foreach (ICsvRecord fileRecord in fileRecords)
-        //                {
-        //                    RowNo++;
-        //                    fileRecord.RowNo = RowNo;
-        //                    //var fundValueProperty = fileRecord.GetType().GetProperty("FundValue", System.Reflection.BindingFlags.Public);
-        //                    //var displayAttributes = (DisplayAttribute[])fundValueProperty.GetCustomAttributes(typeof(DisplayAttribute), true);
-
-        //                    fileRecordList.Add(fileRecord);
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    catch (OperationCanceledException)
-        //    {
-        //        //log that operation was cancelled
-        //        throw;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-
-        //    return fileRecordList;
-        //}
-
-        //public static Task<List<ICsvRecord>> GetRecords<T>(string filePath, CsvConfiguration csvHelperConfiguration, CancellationToken cancellationToken) where T:ICsvRecord
-        //{
-        //    IAsyncEnumerable<T> fileRecords = null;
-        //    List<ICsvRecord> fileRecordList = null;
-        //    try
-        //    {
-        //        //Thread.Sleep(10000);
-        //        using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-        //        {
-        //            using (var streamReader = new StreamReader(filestream, Encoding.UTF8))
-        //            using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
-        //            {
-        //                ///TODO: Cleanup files unwanted header text for Nedgroup file 
-
-        //                fileRecords = csvReader.GetRecordsAsync<T>(cancellationToken);
-
-        //                var RowNo = 0;
-        //                if (fileRecords != null)
-        //                    fileRecordList = new List<ICsvRecord>();
-
-        //                await foreach (ICsvRecord fileRecord in fileRecords)
-        //                {
-        //                    RowNo++;
-        //                    fileRecord.RowNo = RowNo;
-        //                    //var fundValueProperty = fileRecord.GetType().GetProperty("FundValue", System.Reflection.BindingFlags.Public);
-        //                    //var displayAttributes = (DisplayAttribute[])fundValueProperty.GetCustomAttributes(typeof(DisplayAttribute), true);
-
-        //                    fileRecordList.Add(fileRecord);
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    catch (OperationCanceledException)
-        //    {
-        //        //log that operation was cancelled
-        //        throw;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-
-        //    return fileRecordList;
-        //}
-
         public static List<ICsvRecord> GetRecords<T>(string filePath, CsvConfiguration csvHelperConfiguration) where T : ICsvRecord
         {
             IEnumerable<T> fileRecords = null;
             List<ICsvRecord> fileRecordList = null;
             try
             {
-                //Thread.Sleep(10000);
                 using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     using (var streamReader = new StreamReader(filestream, Encoding.UTF8))
-                    using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
                     {
-                        ///TODO: Cleanup files unwanted header text for Nedgroup file 
-
-                        fileRecords = csvReader.GetRecords<T>();
-
-                        var RowNo = 0;
-                        if (fileRecords != null)
-                            fileRecordList = new List<ICsvRecord>();
-
-                        foreach (ICsvRecord fileRecord in fileRecords)
+                        using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
                         {
-                            RowNo++;
-                            fileRecord.RowNo = RowNo;
-                            fileRecordList.Add(fileRecord);
+                            fileRecords = csvReader.GetRecords<T>();
+
+                            var RowNo = 0;
+                            if (fileRecords != null)
+                                fileRecordList = new List<ICsvRecord>();
+
+                            foreach (ICsvRecord fileRecord in fileRecords)
+                            {
+                                RowNo++;
+                                fileRecord.RowNo = RowNo;
+                                fileRecordList.Add(fileRecord);
+                            }
                         }
                     }
                 }
 
-            }
-            catch (OperationCanceledException)
-            {
-                //log that operation was cancelled
-                throw;
             }
             catch (Exception ex)
             {
@@ -233,7 +80,22 @@ namespace Finx.App.Helpers
 
             return fileRecordList;
         }
+        public static string DetectDelimiter(StreamReader reader,string[] possibleDelimiters)
+        {
+            var headerLine = reader.ReadLine();
 
+            // reset the reader to initial position for outside reuse
+            // Eg. Csv helper won't find header line, because it has been read in the Reader
+            reader.BaseStream.Position = 0;
+            reader.DiscardBufferedData();
+
+            foreach (var possibleDelimiter in possibleDelimiters)
+            {
+                if (headerLine.Contains(possibleDelimiter))
+                    return possibleDelimiter;
+            }
+            return possibleDelimiters[0];
+        }
         public static string CamelCase(string s)
         {
             var x = s.Replace("_", "");
@@ -242,7 +104,6 @@ namespace Finx.App.Helpers
                 m => m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
             return char.ToLower(x[0]) + x.Substring(1);
         }
-
         public async static Task<byte[]> MD5Hash(string filePath)
         {
             byte[] md5Hash;

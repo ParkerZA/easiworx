@@ -1,0 +1,8 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+1031,6212200118086,,Alan Gray,AGRA519552,Camissa Islamic Balanced Fund (Class B),80127.57,09 May 2022,True,Invalid ID No. Regex validation failure!
+1032,6212200118086,,Alan Gray,AGRA519552,27four Shari'ah Balanced Fund of Funds (Class A4),71695.12,06 May 2022,True,Invalid ID No. Regex validation failure!
+1033,6212200118086,,Alan Gray,AGRA76867,Allan Gray Equity Fund,37501.03,09 May 2022,True,Invalid ID No. Regex validation failure!
+1034,6212200118086,,Alan Gray,AGRA76867,Coronation Property Equity Fund (Class A),26033.39,09 May 2022,True,Invalid ID No. Regex validation failure!
+1035,6212200118086,,Alan Gray,AGRA76867,Old Mutual Albaraka Equity Fund (Class B1),41493.63,09 May 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 5

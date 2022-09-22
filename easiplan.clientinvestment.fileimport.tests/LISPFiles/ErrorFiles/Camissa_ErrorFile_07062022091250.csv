@@ -1,0 +1,4 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+23,6103105116087,,Camissa,113340,Camissa Islamic High Yield Fund,37342.39,09 Aug 2021,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 1

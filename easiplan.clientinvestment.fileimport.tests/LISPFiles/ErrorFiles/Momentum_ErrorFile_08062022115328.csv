@@ -1,0 +1,11 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+2,6411245200087,,Momentum,IN020562295,USD Fee Deposit,66875,,True,Invalid Fund Value Date!
+3,6707105491082,,Momentum,IN020562303,USD Fee Deposit,39485,,True,Invalid ID No. Regex validation failure! Invalid Fund Value Date!
+4,6707105491082,,Momentum,IN020562303,Coronation Global Opportunities Fund Global Strategic USD Income Fund Class P Accumulating,2797448,31 Mar 2022,True,Invalid ID No. Regex validation failure!
+6,7905045212084,,Momentum,IN020562310,USD Fee Deposit,18957,,True,Invalid Fund Value Date!
+10,6611255229088,,Momentum,IN020562326,USD Fee Deposit,22915,,True,Invalid Fund Value Date!
+12,8203155223086,,Momentum,IN020562332,Momentum Securities IPSP (IPSP)  1075043,1833269,,True,Invalid Fund Value Date!
+13,8203155223086,,Momentum,IN020562332,USD Fee Deposit,33175,,True,Invalid Fund Value Date!
+14,,,Momentum,,,,,True,Invalid Fund Value! Invalid Fund Value Date!
+
+#Record Count: 8

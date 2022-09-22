@@ -682,6 +682,7 @@
     </Compile>
     <Compile Include="Models\AlanGrayRecord.cs" />
     <Compile Include="Models\AppSettings.cs" />
+    <Compile Include="Models\CamissaCsvConfiguration.cs" />
     <Compile Include="Models\CamissaRecord.cs" />
     <Compile Include="Helpers\CsvFileHelper.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -691,11 +692,13 @@
     <Compile Include="Models\FieldErrorModel.cs" />
     <Compile Include="Models\FileProperties.cs" />
     <Compile Include="Models\HttpResponseError.cs" />
+    <Compile Include="Models\ICsvConfiguration.cs" />
     <Compile Include="Models\ICsvRecord.cs" />
     <Compile Include="Models\LicenseActivation.cs" />
     <Compile Include="Models\LicenseActiveModel.cs" />
     <Compile Include="Models\LicenseKeyModel.cs" />
     <Compile Include="Models\LicenseModel.cs" />
+    <Compile Include="Models\MomentumRecord_TabDelimited.cs" />
     <Compile Include="Models\MomentumRecord.cs" />
     <Compile Include="Models\NedgroupRecord.cs" />
     <Compile Include="Models\PortfolioSummary.cs" />

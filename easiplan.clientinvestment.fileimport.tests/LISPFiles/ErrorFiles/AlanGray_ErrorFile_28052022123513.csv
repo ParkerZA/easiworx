@@ -1,0 +1,24 @@
+﻿RowNo,IDNumber,PassportNo,LISP,AccountNo,FundName,FundValue,FundValueDate,HasErrors,ValidationErrors
+1,407145154081,,Alan Gray,AGEN350223,Camissa Islamic Equity Fund (Class B),85051.35,09 May 2022,True,Invalid ID No. Regex validation failure!
+2,407145154081,,Alan Gray,AGEN350223,Old Mutual Albaraka Equity Fund (Class B1),21295.02,09 May 2022,True,Invalid ID No. Regex validation failure!
+3,407145154081,,Alan Gray,AGEN350223,27four Shari'ah Balanced Fund of Funds (Class A4),22288.47,06 May 2022,True,Invalid ID No. Regex validation failure!
+20,6611205573080,,Alan Gray,AGRA551396,Camissa Islamic Equity Fund (Class B),19317.53,09 May 2022,True,Invalid ID No. Regex validation failure!
+21,6611205573080,,Alan Gray,AGRA551396,Camissa Islamic Global Equity Feeder Fund (Class B),2793.48,09 May 2022,True,Invalid ID No. Regex validation failure!
+22,6611205573080,,Alan Gray,AGRA551396,Camissa Islamic High Yield Fund (Class A),17583.95,09 May 2022,True,Invalid ID No. Regex validation failure!
+23,6611205573080,,Alan Gray,AGRA551396,Old Mutual Albaraka Equity Fund (Class B1),9389.88,09 May 2022,True,Invalid ID No. Regex validation failure!
+24,6611205573080,,Alan Gray,AGRA551396,Sentio SCI Hikma Shari'ah General Equity Fund (Class B1),3126.48,09 May 2022,True,Invalid ID No. Regex validation failure!
+72,7604200179085,,Alan Gray,AGRA135322,Old Mutual Albaraka Equity Fund (Class B1),4409.05,09 May 2022,True,Invalid ID No. Regex validation failure!
+101,8802105047089,,Alan Gray,AGRA389511,Camissa Islamic Balanced Fund (Class B),22511.52,09 May 2022,True,Invalid ID No. Regex validation failure!
+107,7706105039080,,Alan Gray,AGRA130346,Aylett Equity Prescient Fund (Class A1),11054.96,09 May 2022,True,Invalid ID No. Regex validation failure!
+108,7706105039080,,Alan Gray,AGRA130346,Blue Alpha BCI Equity Fund (Class C),16254.74,06 May 2022,True,Invalid ID No. Regex validation failure!
+109,7706105039080,,Alan Gray,AGRA130346,Catalyst Sanlam Collective Investments Flexible Property Fund (Class A),28137.93,09 May 2022,True,Invalid ID No. Regex validation failure!
+110,7706105039080,,Alan Gray,AGRA130346,Coronation Global Emerging Markets Flexible [ZAR] Fund (Class P),12923.87,09 May 2022,True,Invalid ID No. Regex validation failure!
+111,7706105039080,,Alan Gray,AGRA130346,CoreShares Total World Stock Tracker Feeder Fund (Class A),28302.31,06 May 2022,True,Invalid ID No. Regex validation failure!
+112,7706105039080,,Alan Gray,AGRA130346,Fairtree Equity Prescient Fund (Class A2),18237.53,06 May 2022,True,Invalid ID No. Regex validation failure!
+113,7706105039080,,Alan Gray,AGRA130346,Momentum Core Equity Fund (Class C),41806.6,06 May 2022,True,Invalid ID No. Regex validation failure!
+114,7706105039080,,Alan Gray,AGRA130346,Momentum SA Flexible Fixed Interest Fund (Class C),18639.05,06 May 2022,True,Invalid ID No. Regex validation failure!
+115,7706105039080,,Alan Gray,AGRA130346,Rezco Equity Fund (Class C1),19144.62,09 May 2022,True,Invalid ID No. Regex validation failure!
+116,7706105039080,,Alan Gray,AGRA130346,Visio BCI Unconstrained Fixed Interest Fund (Class B),19106.23,06 May 2022,True,Invalid ID No. Regex validation failure!
+117,7706105039080,,Alan Gray,AGRA130346,Satrix MSCI World Equity Index Feeder Fund (Class B2),15346.8,06 May 2022,True,Invalid ID No. Regex validation failure!
+
+#Record Count: 21

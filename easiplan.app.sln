@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easiplan.app", "easiplan.app/easiplan.app.csproj", "{FA30A407-6E11-4DF4-B976-7BB87F661F05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easiplan.app", "easiplan.app\easiplan.app.csproj", "{FA30A407-6E11-4DF4-B976-7BB87F661F05}"
 	ProjectSection(ProjectDependencies) = postProject
 		{351FE5A4-1C02-4ACA-9F24-18D1F107E7B6} = {351FE5A4-1C02-4ACA-9F24-18D1F107E7B6}
 		{4497A4A6-4F11-4F86-A383-D59A5A386324} = {4497A4A6-4F11-4F86-A383-D59A5A386324}
@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easiplan.domain.estate", "e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my.domain.lib.core", "my.domain.lib.core\my.domain.lib.core\my.domain.lib.core.csproj", "{4497A4A6-4F11-4F86-A383-D59A5A386324}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "easiplan.clientinvestment.fileimport.tests", "easiplan.clientinvestment.fileimport.tests\easiplan.clientinvestment.fileimport.tests.csproj", "{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.DEV|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.DEV|Any CPU.Build.0 = Debug|Any CPU
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.MOJAFF|Any CPU.ActiveCfg = MOJAFF|Any CPU
@@ -76,6 +79,18 @@ Global
 		{4497A4A6-4F11-4F86-A383-D59A5A386324}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4497A4A6-4F11-4F86-A383-D59A5A386324}.staging|Any CPU.ActiveCfg = Debug|Any CPU
 		{4497A4A6-4F11-4F86-A383-D59A5A386324}.staging|Any CPU.Build.0 = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.DEV|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.DEV|Any CPU.Build.0 = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.MOJAFF|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.MOJAFF|Any CPU.Build.0 = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.PREVIEW|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.PREVIEW|Any CPU.Build.0 = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.staging|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE37F5E-7DA1-4964-B63B-F4B003106AEF}.staging|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
