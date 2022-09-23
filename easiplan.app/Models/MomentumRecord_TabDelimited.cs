@@ -21,56 +21,84 @@ namespace Finx.App.Models
         //private string _investmentStartDate;
         private string _fundName;
         private string _validationErrors;
+        private string _passportNo;
+        private string _product;
+        private string _accountNo;
+        private string _firstname;
+        private string _initials;
+        private string _title;
+        private string _fundCode;
+        private string _productType;
 
         [Optional]
-        public string Title { get; set; }
+        public string Title 
+        {
+            get { return _title; }
+            set { _title = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
 
         [Index(3)]
-        public string Initials { get; set; }
+        public string Initials 
+        {
+            get { return _initials; }
+            set { _initials = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
         
         [Index(4)]
-        public string Firstname { get; set; }
+        public string Firstname
+        {
+            get { return _firstname; }
+            set { _firstname = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
 
         [Index(5)]
-        public string AccountNo { get; set; }
+        public string AccountNo 
+        {
+            get { return _accountNo; }
+            set { _accountNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
 
         [Index(7)]
         public string Product
         {
-            get; set;
-        }
+            get { return _product; } 
+            set { _product = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            }
 
         [Index(9)]
         public string IDNumber
         {
             get { return _idNo; }
-            set
-            {
-                _idNo = value.Replace("'", string.Empty);
-            }
+            set { _idNo = value.Replace("'", string.Empty.Replace("\"",string.Empty));}
         }
         
         [Optional]
         public string PassportNo
         {
-            get; set;
+            get { return _passportNo; }
+            set { _passportNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));}
         }
       
 
         [Index(13)]
-        public string FundCode { get; set; }
+        public string FundCode 
+        {
+            get { return _fundCode; }
+            set { _fundCode = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
         
         [Index(14)]
-        public string FundName { get { return _fundName; } set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty); } }
+        public string FundName 
+        { 
+            get { return _fundName; } 
+            set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty); } 
+        }
        
         [Index(17)]
         
         public string FundValue {
             get { return _fundValue; } 
-            set 
-            {
-                _fundValue = value.Replace(",", string.Empty);
-            } 
+            set { _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); } 
         } 
         [Index(11)]
         
@@ -79,7 +107,8 @@ namespace Finx.App.Models
             get { return _fundValueDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                var strfundValueDate = value.Replace("\"", string.Empty).Trim();
+                if (DateTime.TryParseExact(strfundValueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
                     _fundValueDate = value;
@@ -92,7 +121,8 @@ namespace Finx.App.Models
         [Index(29)]
         public string ProductType
         {
-            get;set;
+            get { return _productType; }
+            set { _productType = value.Replace(",", string.Empty).Replace("\"", string.Empty); }
         }
 
         

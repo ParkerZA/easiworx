@@ -27,15 +27,21 @@ namespace Finx.App.Models
         [Index(5)]
         public string Initials { get; set; }
         [Index(6)]
-        
         public string Firstname { get; set; }
+
+        [Optional]
+        public string Lastname { get; set; }
+
         [Index(7)]
         public string IDNumber
         {
             get { return _idNo; }
             set
             {
-                _idNo = value.Replace("'", string.Empty);
+                if (!string.IsNullOrEmpty(value) && value.Trim().Length >= 6 && value.Trim().Length <= 9) //this is most likely a passport no
+                    this.PassportNo = value.Trim();
+                else
+                    _idNo = value.Replace("'", string.Empty);
             }
         }
         
