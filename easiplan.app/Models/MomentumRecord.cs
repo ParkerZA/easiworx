@@ -21,6 +21,7 @@ namespace Finx.App.Models
         private string _investmentStartDate;
         private string _fundName;
         private string _validationErrors;
+        private string _fundPerc;
 
         [Index(4)]
         public string Title { get; set; }
@@ -71,9 +72,17 @@ namespace Finx.App.Models
             {
                 _fundValue = value.Replace(",", string.Empty);
             } 
-        } 
+        }
+
+        [Index(22)]
+
+        public string FundPerc
+        {
+            get { return _fundPerc; } 
+            set { _fundPerc = value.Replace(',', '.'); }
+        }
+
         [Index(25)]
-        
         public string FundValueDate
         {
             get { return _fundValueDate; }
@@ -141,6 +150,7 @@ namespace Finx.App.Models
             Map(c => c.FundCode);
             Map(c => c.FundName);
             Map(c => c.FundValue);
+            Map(c => c.FundPerc);
             Map(c => c.FundValueDate);
             Map(c => c.Title);
             Map(c => c.Firstname);

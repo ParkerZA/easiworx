@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-using MetroFramework.Controls.Ext;
-using Finx.App.Models;
-using easiplan.domain;
+﻿using easiplan.domain;
 using easiplan.domain.Entities;
-using Finx.App.Extensions;
 using easiplan.domain.Services;
-using QSS.Components.Windows.Forms;
-using my.domain.lib.core.Registry;
+using Finx.App.Extensions;
+using Finx.App.Models;
+using MetroFramework.Controls.Ext;
 using my.domain.lib.core.Extensions;
-using my.domain.lib.core.Domain;
+using my.domain.lib.core.Registry;
+using System;
 using System.ComponentModel;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Finx.App.Forms
 {

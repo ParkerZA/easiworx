@@ -361,5 +361,12 @@ namespace Finx.App.Enums
         Basic
     }
 
-
+    public enum ClientInvestmentRecordImportStatus
+    {   
+        Pending,
+        Imported,
+        ImportedWithError,
+        Error,
+        Cancelled
+    }
 }

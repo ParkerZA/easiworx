@@ -45,6 +45,7 @@ namespace Finx.App.Forms
             this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IDNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PassportNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BirthDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LISP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PolicyNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Product = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,6 +59,7 @@ namespace Finx.App.Forms
             this.copyCellContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelGrid = new System.Windows.Forms.Panel();
             this.panelFileInfo = new MetroFramework.Controls.MetroPanel();
+            this.cancelImport = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.lblTotValErrors = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblNewClientCnt = new System.Windows.Forms.Label();
@@ -89,7 +91,6 @@ namespace Finx.App.Forms
             this.kbtnOpenFile = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.cmbSelectLisp = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.cancelImport = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails.Panel)).BeginInit();
             this.kgbFileDetails.Panel.SuspendLayout();
@@ -172,6 +173,7 @@ namespace Finx.App.Forms
             this.Lastname,
             this.IDNumber,
             this.PassportNo,
+            this.BirthDate,
             this.LISP,
             this.PolicyNo,
             this.Product,
@@ -265,6 +267,14 @@ namespace Finx.App.Forms
             this.PassportNo.Name = "PassportNo";
             this.PassportNo.ReadOnly = true;
             this.PassportNo.Width = 92;
+            // 
+            // BirthDate
+            // 
+            this.BirthDate.DataPropertyName = "DateOfBirth";
+            this.BirthDate.HeaderText = "BirthDate";
+            this.BirthDate.Name = "BirthDate";
+            this.BirthDate.ReadOnly = true;
+            this.BirthDate.Width = 78;
             // 
             // LISP
             // 
@@ -378,6 +388,7 @@ namespace Finx.App.Forms
             this.panelFileInfo.AutoSize = true;
             this.panelFileInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelFileInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelFileInfo.Controls.Add(this.metroPanel4);
             this.panelFileInfo.Controls.Add(this.cancelImport);
             this.panelFileInfo.Controls.Add(this.lblTotValErrors);
             this.panelFileInfo.Controls.Add(this.label2);
@@ -393,7 +404,6 @@ namespace Finx.App.Forms
             this.panelFileInfo.Controls.Add(this.lblFileDate1);
             this.panelFileInfo.Controls.Add(this.lblRecCnt);
             this.panelFileInfo.Controls.Add(this.lblRecCnt1);
-            this.panelFileInfo.Controls.Add(this.metroPanel4);
             this.panelFileInfo.Controls.Add(this.lblSelectedFile);
             this.panelFileInfo.Controls.Add(this.lblSelectedFile1);
             this.panelFileInfo.Controls.Add(this.btnImportFile);
@@ -410,6 +420,16 @@ namespace Finx.App.Forms
             this.panelFileInfo.VerticalScrollbarBarColor = true;
             this.panelFileInfo.VerticalScrollbarHighlightOnWheel = false;
             this.panelFileInfo.VerticalScrollbarSize = 10;
+            // 
+            // cancelImport
+            // 
+            this.cancelImport.Location = new System.Drawing.Point(145, 15);
+            this.cancelImport.Name = "cancelImport";
+            this.cancelImport.Size = new System.Drawing.Size(124, 29);
+            this.cancelImport.TabIndex = 41;
+            this.cancelImport.Values.Text = "&Cancel Import";
+            this.cancelImport.Visible = false;
+            this.cancelImport.Click += new System.EventHandler(this.cancelImport_Click);
             // 
             // lblTotValErrors
             // 
@@ -546,8 +566,8 @@ namespace Finx.App.Forms
             // 
             // metroPanel4
             // 
-            this.metroPanel4.Controls.Add(this.metroPanel7);
             this.metroPanel4.Controls.Add(this.metroPanel6);
+            this.metroPanel4.Controls.Add(this.metroPanel7);
             this.metroPanel4.Controls.Add(this.metroPanel5);
             this.metroPanel4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.metroPanel4.HorizontalScrollbarBarColor = true;
@@ -560,18 +580,17 @@ namespace Finx.App.Forms
             this.metroPanel4.VerticalScrollbarBarColor = true;
             this.metroPanel4.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel4.VerticalScrollbarSize = 10;
-            this.metroPanel4.Visible = false;
             // 
             // metroPanel7
             // 
             this.metroPanel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel7.Controls.Add(this.label5);
             this.metroPanel7.Controls.Add(this.metroPanel10);
+            this.metroPanel7.Controls.Add(this.label5);
             this.metroPanel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroPanel7.HorizontalScrollbarBarColor = true;
             this.metroPanel7.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel7.HorizontalScrollbarSize = 10;
-            this.metroPanel7.Location = new System.Drawing.Point(0, 60);
+            this.metroPanel7.Location = new System.Drawing.Point(0, 30);
             this.metroPanel7.Name = "metroPanel7";
             this.metroPanel7.Size = new System.Drawing.Size(282, 30);
             this.metroPanel7.TabIndex = 4;
@@ -608,13 +627,13 @@ namespace Finx.App.Forms
             // metroPanel6
             // 
             this.metroPanel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel6.Controls.Add(this.label4);
             this.metroPanel6.Controls.Add(this.metroPanel9);
+            this.metroPanel6.Controls.Add(this.label4);
             this.metroPanel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroPanel6.HorizontalScrollbarBarColor = true;
             this.metroPanel6.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel6.HorizontalScrollbarSize = 10;
-            this.metroPanel6.Location = new System.Drawing.Point(0, 30);
+            this.metroPanel6.Location = new System.Drawing.Point(0, 60);
             this.metroPanel6.Name = "metroPanel6";
             this.metroPanel6.Size = new System.Drawing.Size(282, 30);
             this.metroPanel6.TabIndex = 3;
@@ -651,8 +670,8 @@ namespace Finx.App.Forms
             // metroPanel5
             // 
             this.metroPanel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel5.Controls.Add(this.label3);
             this.metroPanel5.Controls.Add(this.metroPanel8);
+            this.metroPanel5.Controls.Add(this.label3);
             this.metroPanel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroPanel5.HorizontalScrollbarBarColor = true;
             this.metroPanel5.HorizontalScrollbarHighlightOnWheel = false;
@@ -771,16 +790,6 @@ namespace Finx.App.Forms
             this.metroLabel1.TabIndex = 17;
             this.metroLabel1.Text = "Service Provider:";
             // 
-            // cancelImport
-            // 
-            this.cancelImport.Enabled = false;
-            this.cancelImport.Location = new System.Drawing.Point(145, 15);
-            this.cancelImport.Name = "cancelImport";
-            this.cancelImport.Size = new System.Drawing.Size(124, 29);
-            this.cancelImport.TabIndex = 41;
-            this.cancelImport.Values.Text = "&Cancel Import";
-            this.cancelImport.Click += new System.EventHandler(this.cancelImport_Click);
-            // 
             // frmMetroClientImportInvestments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -836,19 +845,6 @@ namespace Finx.App.Forms
         private System.Windows.Forms.ToolStripMenuItem copyCellContentToolStripMenuItem;
         private SplitContainer splitContainer1;
         private MetroFramework.Controls.MetroGrid dgvFileContents;
-        private DataGridViewTextBoxColumn RowNo;
-        private DataGridViewTextBoxColumn Title;
-        private DataGridViewTextBoxColumn Firstname;
-        private DataGridViewTextBoxColumn Lastname;
-        private DataGridViewTextBoxColumn IDNumber;
-        private DataGridViewTextBoxColumn PassportNo;
-        private DataGridViewTextBoxColumn LISP;
-        private DataGridViewTextBoxColumn PolicyNo;
-        private DataGridViewTextBoxColumn Product;
-        private DataGridViewTextBoxColumn ProductType;
-        private DataGridViewTextBoxColumn FundName;
-        private DataGridViewTextBoxColumn FundValue;
-        private DataGridViewTextBoxColumn FundValueDate;
         private Panel panelGrid;
         private MetroFramework.Controls.MetroPanel panelFileInfo;
         private Label lblTotValErrors;
@@ -879,5 +875,19 @@ namespace Finx.App.Forms
         private Label lblSelectedFile1;
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnImportFile;
         private ComponentFactory.Krypton.Toolkit.KryptonButton cancelImport;
+        private DataGridViewTextBoxColumn RowNo;
+        private DataGridViewTextBoxColumn Title;
+        private DataGridViewTextBoxColumn Firstname;
+        private DataGridViewTextBoxColumn Lastname;
+        private DataGridViewTextBoxColumn IDNumber;
+        private DataGridViewTextBoxColumn PassportNo;
+        private DataGridViewTextBoxColumn BirthDate;
+        private DataGridViewTextBoxColumn LISP;
+        private DataGridViewTextBoxColumn PolicyNo;
+        private DataGridViewTextBoxColumn Product;
+        private DataGridViewTextBoxColumn ProductType;
+        private DataGridViewTextBoxColumn FundName;
+        private DataGridViewTextBoxColumn FundValue;
+        private DataGridViewTextBoxColumn FundValueDate;
     }
 }

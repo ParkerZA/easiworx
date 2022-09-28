@@ -1,19 +1,10 @@
-﻿using Finx.App.MetroControls;
-using easiplan.domain.Entities;
+﻿using easiplan.domain.Views;
 using MetroFramework.Controls;
-using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Transitions;
-using easiplan.domain.Views;
 
 namespace Finx.App.Forms
 {
@@ -217,6 +208,6 @@ namespace Finx.App.Forms
 
         public bool CloseOnSelect { get { return this.metroCheckBox_CloseOnSelect.Checked; } }
 
-
+      
     }
 }

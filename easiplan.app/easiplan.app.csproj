@@ -508,6 +508,7 @@
     <Compile Include="Forms\baseSlidingForm.Designer.cs">
       <DependentUpon>baseSlidingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientInvestmentRecordAudit.cs" />
     <Compile Include="Forms\frmClientManagement.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -92,5 +92,26 @@ namespace easiplan.clientinvestment.fileimport.tests
             }
         }
 
+        [TestMethod]
+        public void SpanInsteadOfSubstringTest()
+        {
+            var idNo = "8005155127088";
+            var idNoAsSpan = idNo.AsSpan();
+            
+            var year = idNoAsSpan.Slice(0, 2);
+            var month = idNoAsSpan.Slice(2, 2);
+            var day = idNoAsSpan.Slice(4, 2);
+
+            Assert.IsNotNull(year.ToString());
+        }
+
+        [TestMethod]
+        public void FundPercToDouble_Test()
+        {
+            var fundPercStr = "12,9";
+            Double.TryParse(fundPercStr,out double fundPerc);
+            Assert.IsNotNull(fundPerc);
+        }
+
     }
 }
