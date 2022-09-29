@@ -35,6 +35,8 @@ namespace Finx.App.Forms
 {
     public partial class frmMetroClient1 : MetroForm
     {
+        public int clientId = 0;
+
         #region Local variables
         bool _readOnly = true;
         bool _hasChanges = false;
@@ -43,12 +45,13 @@ namespace Finx.App.Forms
         bool _readOnlyForAdminAdvisorClerk = true;
         bool _readOnlyForAdmin = true;
         bool _readOnlyForAdminClerk = true;
-        bool _isInitialising = false;
-        public int clientId = 0;
+        bool _isInitialising = false;        
 
         Client client;
 
         ClientLockStatus ClientLockStatus = new ClientLockStatus();
+
+        Lisp Lisp = new Lisp();
 
         //Collections for DropdownComboBoxes
         List<ListDataItem> Lisps = new List<ListDataItem>();
@@ -62,8 +65,6 @@ namespace Finx.App.Forms
 
         //Keep track of which tab is currently selected
         private TabControlEventArgs _currentTabControlEventArgs = new TabControlEventArgs(null, 0, TabControlAction.Selected);
-
-        Lisp Lisp = new Lisp();
 
         IList<Instruction> instructions = new List<Instruction>();
         IList<ClientMeetings> clientMeetings = new List<ClientMeetings>();
@@ -553,8 +554,9 @@ namespace Finx.App.Forms
 
                         break;
                     case 1:
-                        #region Assets and Liabilities
                         client.ClientAssets.Initialise();
+                        #region Assets and Liabilities
+
                         this.dataGrid_ClientAssets.Initialise1<Asset>(client.ClientAssets.AssetsBindingList, column =>
                         {
                             column.For(x => x.Type, "Asset Type", new ComboListEditor(ListDataItemType.AssetTypes));
@@ -618,12 +620,13 @@ namespace Finx.App.Forms
                         RefreshIncomeExpensesSummary();
                         break;
                     case 3:
-                        #region CurrentPortfolio
 
                         client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
 
                         client.ClientPortfolio.Initialise();
                         client.ClientPortfolio.Calculate();
+
+                        #region CurrentPortfolio
 
                         this.dataGrid_RetirementPortfolio.Initialise1<Retirement>(client.ClientPortfolio.RetirementsBindingList, column =>
                         {
@@ -756,12 +759,17 @@ namespace Finx.App.Forms
                         RefreshPortfolioSummary();
                         break;
                     case 4:
-                        #region Retirement FNA
                         client.ClientFna.ServiceProvider = Program.ServiceProviders;
 
                         client.ClientFna.Initialise();
 
+                        client.ClientPortfolio.Initialise();
+                        client.ClientPortfolio.Calculate();
+
                         client.UpdateRetirementFNA();
+
+                        #region Retirement FNA
+
 
                         this.metroPanel_RetireFnaSettings.Initialise<ClientFna>(client.ClientFna, cntr =>
                         {
@@ -880,13 +888,15 @@ namespace Finx.App.Forms
                         RefreshClientFnaSummary();
                         break;
                     case 5:
-                        #region Non-Retirement FNA
 
                         //Investment Needs
                         client.ClientFnaInvestment.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
 
                         client.ClientFnaInvestment.Initialise();
                         client.ClientFnaInvestment.Calculate();
+
+                        #region Non-Retirement FNA
+
 
                         this.dataGrid_InvestmentFna.Initialise1<InvestmentNeed>(client.ClientFnaInvestment.InvestmentNeedsBindingList, column =>
                         {
@@ -1932,8 +1942,7 @@ namespace Finx.App.Forms
         }
         private void ClientPortfolio_PolicyChanged_EventHandler(object sender, EventArgs e)
         {
-            return;
-
+           
             if (!_isInitialising)
             {
                 Retirement retirement = sender as Retirement;

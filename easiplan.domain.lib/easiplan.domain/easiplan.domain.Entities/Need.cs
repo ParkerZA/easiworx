@@ -282,7 +282,7 @@ namespace easiplan.domain.Entities
 				//if(InitialAmount==0)
 				//	InitialAmount = Funds.Sum((Fund x) => x.InitialAmount)- Funds.Sum((Fund x) => x.WithdrawalAmount);
 
-				//NewPolicyValue = CurrentAmount + InitialAmount;
+				NewPolicyValue = Funds.Sum((Fund x) => x.NewFundValue);
 			}
 		}
 		protected virtual void SetCompletedStatus()
