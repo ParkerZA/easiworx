@@ -132,8 +132,7 @@ namespace Finx.App.Forms
             }
             splitContainer1.Panel1.Visible = false;
             splitContainer1.Panel2.Visible = false;
-            //panelFileInfo.Visible = false;
-
+            
             using (new AppWaitCursor(sender))
             {
                 var csvHelperConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -174,22 +173,22 @@ namespace Finx.App.Forms
                     {
                         _selectedFilename = openFileDialog1.SafeFileName;
                         _filepath = openFileDialog1.FileName;
-                        var importedCsvFiles = metroMdiMain.ImportedCsvFiles;
+                        //var importedCsvFiles = metroMdiMain.ImportedCsvFiles;
 
                         //check if file already has been imported
 
                         //get hash of key:filename
-                        importedCsvFiles.TryGetValue(_selectedFilename, out byte[] importedFileHash);
+                        //importedCsvFiles.TryGetValue(_selectedFilename, out byte[] importedFileHash);
 
                         //create hash of newly selected file
-                        CreateFileHash();
+                        //CreateFileHash();
 
-                        if (importedFileHash != null && importedFileHash.Length > 0 && _selectedFileHash.SequenceEqual(importedFileHash))
-                        {
-                            MessageBox.Show("This file has already been imported! ", "Import Client Investments File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            cmbSelectLisp.Focus();
-                            return;
-                        }
+                        //if (importedFileHash != null && importedFileHash.Length > 0 && _selectedFileHash.SequenceEqual(importedFileHash))
+                        //{
+                        //    MessageBox.Show("This file has already been imported! ", "Import Client Investments File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        //    cmbSelectLisp.Focus();
+                        //    return;
+                        //}
 
                         dgvFileContents.DataSource = null;
                         var fileProps = CsvFileHelper.GetFileProperties(_filepath);
@@ -208,7 +207,6 @@ namespace Finx.App.Forms
                     {
                         splitContainer1.Panel1.Visible = true;
                         splitContainer1.Panel2.Visible = true;
-                        //panelFileInfo.Visible = true;
                     }
                 }
                 catch (Exception ex)
@@ -310,7 +308,7 @@ namespace Finx.App.Forms
                             {
                                 _importCompleted = true;
 
-                                RecordCsvFileImport();
+                                //RecordCsvFileImport();
 
                                 await Task.Run(() =>
                                 {
@@ -381,14 +379,14 @@ namespace Finx.App.Forms
             }
         }
 
-        private void RecordCsvFileImport()
-        {
-            //newly imported file name is same as an existing imported file but file contents are diff, go and change the file name so that we can add it to dict
-            if (metroMdiMain.ImportedCsvFiles.ContainsKey(_selectedFilename))
-                metroMdiMain.ImportedCsvFiles.Add(_selectedFilename + "_" + DateTime.Now.ToString("ddMMyyyy:hhmmss"), _selectedFileHash);
-            else
-                metroMdiMain.ImportedCsvFiles.Add(_selectedFilename, _selectedFileHash);
-        }
+        //private void RecordCsvFileImport()
+        //{
+        //    //newly imported file name is same as an existing imported file but file contents are diff, go and change the file name so that we can add it to dict
+        //    if (metroMdiMain.ImportedCsvFiles.ContainsKey(_selectedFilename))
+        //        metroMdiMain.ImportedCsvFiles.Add(_selectedFilename + "_" + DateTime.Now.ToString("ddMMyyyy:hhmmss"), _selectedFileHash);
+        //    else
+        //        metroMdiMain.ImportedCsvFiles.Add(_selectedFilename, _selectedFileHash);
+        //}
 
         private async void RecordImportProgress_ProgressChanged(object sender, ClientInvestmentRecordImportAudit e)
         {
@@ -399,7 +397,7 @@ namespace Finx.App.Forms
             if (percCompleted == 100)
             {
 
-                RecordCsvFileImport();
+                //RecordCsvFileImport();
 
                 percCompleted = 0;
                 _importCompleted = true;
@@ -696,12 +694,9 @@ namespace Finx.App.Forms
         #region FormMethods
         private void Initialize()
         {
-#if STAGING
-            var stopwatch = Stopwatch.StartNew();
-#endif
+
             splitContainer1.Panel1.Visible = false;
             splitContainer1.Panel2.Visible = false;
-            //panelFileInfo.Visible = false;
             cmClientRecords.Enabled = false;
             cmbSelectLisp.SelectedIndex = 0;
 
@@ -720,7 +715,6 @@ namespace Finx.App.Forms
             panelFileInfo.PerformLayout();
             _pbImportFile.Visible = true;
 
-            //dgvFileContents.RowPrePaint -= dgvFileContents_RowPrePaint;
             dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
             this.FormClosing += FrmMetroClientImportInvestments_FormClosing;
             this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;
@@ -728,10 +722,6 @@ namespace Finx.App.Forms
             if (_lockObject == null)
                 _lockObject = new object();
 
-#if STAGING
-            Program.Logger.Info(stopwatch.ElapsedMilliseconds.ToString());
-
-#endif
         }
 
         private async Task<List<ParallelLoopResult>> ImportClientInvestmentsInParallel(ParallelOptions parallelOptions, IEnumerable<string> batchedClientInvestment, IProgress<ClientInvestmentRecordImportAudit> Progress, CancellationToken cancellationToken)
@@ -806,10 +796,7 @@ namespace Finx.App.Forms
 
         private async Task LoadClientInvestmentsFromFile()
         {
-#if STAGING
-            Program.Logger.Info("LoadClientInvestmentsFromFile Method Started!");
-            var stopwatch = Stopwatch.StartNew();
-#endif
+
             try
             {
                 _distinctFileClients = await Task.Run(() => _csvRecordList.Where(r => !string.IsNullOrEmpty(r.IDNumber)).GroupBy(x => x.IDNumber).Select(x => x.FirstOrDefault())
@@ -842,23 +829,13 @@ namespace Finx.App.Forms
 
                 throw;
             }
-#if STAGING
-            Program.Logger.Info("LoadClientInvestmentsFromFile Method Ended! " + stopwatch.ElapsedMilliseconds.ToString());
-
-#endif
         }
 
         private async Task ImportClientInvestments(string ClientUniqueId, IEnumerable<ICsvRecord> Investments)
         {
-#if STAGING
-            Program.Logger.Info("ImportClientInvestments Started!");
-            var stopwatch = Stopwatch.StartNew();
-#endif
+
             try
             {
-                //if (ClientUniqueId == "1804061177089")
-                //    Debugger.Break();
-
                 //get client, if client portfolio exists on easiworx, return it otherwise create new client & return it
                 var clientPortfolio = await GetClientPortfolio(ClientUniqueId);
                 Client client = null;
@@ -919,15 +896,9 @@ namespace Finx.App.Forms
 
                 Retirement retirement = null;
 
-                //if (ClientUniqueId == "6402165127087")
-                //    Debugger.Break();
-
                 foreach (var policy in distinctRetirementPolicies)
                 {
-#if STAGING
-                    Program.Logger.Info("Policy " + policy.AccountNo + " Import Started");
-                    var stopwatch2 = Stopwatch.StartNew();
-#endif
+
                     //check if retirement policy exists for this client
                     if (clientPortfolio != null && clientPortfolio.Retirements != null && clientPortfolio.Retirements.Count() > 0)
                         retirement = clientPortfolio.Retirements.Where(r => r.Description.Trim().ToLower() == policy.LISP.Trim().ToLower() &&
@@ -968,12 +939,6 @@ namespace Finx.App.Forms
                         existingRetirements = clientPortfolio.Retirements.ToList();
                     else
                     {
-                        //lock (_lockObject)
-                        //{
-                        //    Program.ClientService.Update(client);
-                        //}
-                        //client = await Task.Run(() => Program.ClientService.Get(client.Id));
-                        //if (client.ClientPortfolio == null) return;
                         existingRetirements = client.ClientPortfolio.Retirements.ToList(); //new client retirement collection
                     }
 
@@ -998,28 +963,18 @@ namespace Finx.App.Forms
                         }
                     }
                     retirement = null;
-#if STAGING
-                    Program.Logger.Info("Policy " + policy.AccountNo + "Completed " + stopwatch2.ElapsedMilliseconds.ToString());
-#endif
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
-#if STAGING
-            Program.Logger.Info("ImportClientInvestments Ended " + stopwatch.ElapsedMilliseconds.ToString());
 
-#endif
         }
 
         private async Task<ClientPortfolio> GetClientPortfolio(string ClientUniqueId)
         {
-#if STAGING
-            Program.Logger.Info("GetClientPortfolio Method Started!");
-            var stopwatch = Stopwatch.StartNew();
-#endif      
+    
             if (_existingClientDetails == null) return null;
 
             ClientPortfolio clientPortfolio = null;
@@ -1094,10 +1049,7 @@ namespace Finx.App.Forms
 
                 throw;
             }
-#if STAGING
-            Program.Logger.Info("GetClientPortfolio Method Ended! " + stopwatch.ElapsedMilliseconds.ToString());
 
-#endif
             return clientPortfolio;
         }
 
@@ -1106,10 +1058,6 @@ namespace Finx.App.Forms
 
             if (csvRecord == null) return null;
 
-#if STAGING
-            Program.Logger.Info("CreateNewClient Method Started!");
-            var stopwatch = Stopwatch.StartNew();
-#endif
             Client client = null;
 
             lock (_lockObject)
@@ -1346,17 +1294,13 @@ namespace Finx.App.Forms
                     throw;
                 }
             }
-#if STAGING
-            Program.Logger.Info("CreateNewClient Method Ended! " + stopwatch.ElapsedMilliseconds.ToString());
-#endif
+
             return client;
         }
 
         private void LoadFile(FileSettings fileSettings)
         {
-#if STAGING
-            var stopwatch = Stopwatch.StartNew();
-#endif
+
             try
             {
 
@@ -1406,10 +1350,7 @@ namespace Finx.App.Forms
             {
                 throw;
             }
-#if STAGING
-            Program.Logger.Info(stopwatch.ElapsedMilliseconds.ToString());
 
-#endif
         }
 
         private async Task UpdateProgressBar(ProgressBar progressBar, int value, IntPtr handle)
@@ -1439,11 +1380,7 @@ namespace Finx.App.Forms
 
         private Retirement AddRetirementFunds(Retirement retirement, IEnumerable<ICsvRecord> funds)
         {
-#if STAGING
-            var stopwatch = Stopwatch.StartNew();
-            Program.Logger.Info("AddRetirementFunds Started");
-            Program.Logger.Info("Client funds: " + funds.Count().ToString());
-#endif
+
             double fundAllocPerc = 0;
             try
             {
@@ -1506,11 +1443,6 @@ namespace Finx.App.Forms
                     newfund = null;
                 }
                 retirement.Calculate();
-
-#if STAGING
-                Program.Logger.Info("AddRetirementFunds Ended! " + stopwatch.ElapsedMilliseconds.ToString());
-
-#endif
 
                 return retirement;
             }
@@ -1592,10 +1524,7 @@ namespace Finx.App.Forms
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-#if STAGING
-            Program.Logger.Info("CreateFund Method Started!");
-            var stopwatch = Stopwatch.StartNew();
-#endif
+
             Double.TryParse(csvRecord.FundValue, out double dblFundValue);
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
@@ -1610,11 +1539,6 @@ namespace Finx.App.Forms
 
             if (fundValDate != new DateTime(0001, 1, 1))
                 fund.UpdateDate = fundValDate;
-
-#if STAGING
-            Program.Logger.Info("CreateFund Method Ended! " + stopwatch.ElapsedMilliseconds.ToString());
-            
-#endif
 
             return fund;
         }
