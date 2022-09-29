@@ -25,6 +25,7 @@ namespace Finx.App.Forms
         frmMetroClientSearch frmclientSearch;
         frmMetroAdminTasks frmAdminTasks;       
         frmClientManagement frmMetroClientManagement;
+        //public static Dictionary<string, byte[]> ImportedCsvFiles = null;
 
         #region Constructor
         public metroMdiMain()
@@ -354,6 +355,27 @@ namespace Finx.App.Forms
         {
             ShowClientManagementForm(sender, e);
         }
+
+        private void importClientInvestmentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var mdiForm = Application.OpenForms["metroMdiMain"];
+            var cForm = mdiForm.MdiChildren.Where(x => x.Name == "frmMetroClientImportInvestments").FirstOrDefault();
+
+            if (cForm == null)
+            {
+                var childForm = new frmMetroClientImportInvestments();
+                mdiForm.WindowState = FormWindowState.Maximized;
+                childForm.MdiParent = mdiForm;
+                childForm.StartPosition = FormStartPosition.CenterParent;
+                childForm.WindowState = FormWindowState.Maximized;
+                //if(ImportedCsvFiles == null)
+                //    ImportedCsvFiles = new Dictionary<string, byte[]>(1);
+                childForm.Show();
+            }
+            else
+                cForm.BringToFront();
+        }
+
         #endregion
 
         #region Private Methods
@@ -534,22 +556,6 @@ namespace Finx.App.Forms
 
         #endregion
 
-        private void importClientInvestmentsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var mdiForm = Application.OpenForms["metroMdiMain"];
-            var cForm = mdiForm.MdiChildren.Where(x => x.Name == "frmMetroClientImportInvestments").FirstOrDefault();
-
-            if (cForm == null)
-            {
-                var childForm = new frmMetroClientImportInvestments();
-                mdiForm.WindowState = FormWindowState.Maximized;
-                childForm.MdiParent = mdiForm;
-                childForm.StartPosition = FormStartPosition.CenterParent;
-                childForm.WindowState = FormWindowState.Maximized; 
-                childForm.Show();
-            }
-            else
-                cForm.BringToFront();
-        }
+        
     }
 }

@@ -21,21 +21,28 @@ namespace Finx.App.Models
         private string _investmentStartDate;
         private string _fundName;
         private string _validationErrors;
+        private string _fundPerc;
 
         [Index(4)]
         public string Title { get; set; }
         [Index(5)]
         public string Initials { get; set; }
         [Index(6)]
-        
         public string Firstname { get; set; }
+
+        [Optional]
+        public string Lastname { get; set; }
+
         [Index(7)]
         public string IDNumber
         {
             get { return _idNo; }
             set
             {
-                _idNo = value.Replace("'", string.Empty);
+                if (!string.IsNullOrEmpty(value) && value.Trim().Length >= 6 && value.Trim().Length <= 9) //this is most likely a passport no
+                    this.PassportNo = value.Trim();
+                else
+                    _idNo = value.Replace("'", string.Empty);
             }
         }
         
@@ -65,9 +72,17 @@ namespace Finx.App.Models
             {
                 _fundValue = value.Replace(",", string.Empty);
             } 
-        } 
+        }
+
+        [Index(22)]
+
+        public string FundPerc
+        {
+            get { return _fundPerc; } 
+            set { _fundPerc = value.Replace(',', '.'); }
+        }
+
         [Index(25)]
-        
         public string FundValueDate
         {
             get { return _fundValueDate; }
@@ -135,6 +150,7 @@ namespace Finx.App.Models
             Map(c => c.FundCode);
             Map(c => c.FundName);
             Map(c => c.FundValue);
+            Map(c => c.FundPerc);
             Map(c => c.FundValueDate);
             Map(c => c.Title);
             Map(c => c.Firstname);
