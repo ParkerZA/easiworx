@@ -29,6 +29,7 @@ namespace Finx.App.Forms
 {
     public partial class frmMetroClientImportInvestments : MetroForm
     {
+        
         #region PrivateVars
 
         private List<ICsvRecord> _csvRecordList = null;
