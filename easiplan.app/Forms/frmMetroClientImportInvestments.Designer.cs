@@ -59,6 +59,13 @@ namespace Finx.App.Forms
             this.copyCellContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelGrid = new System.Windows.Forms.Panel();
             this.panelFileInfo = new MetroFramework.Controls.MetroPanel();
+            this.lblLastImportUser = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblLastImportDate = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblImportStatus = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.metroPanel4 = new MetroFramework.Controls.MetroPanel();
             this.cancelImport = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.lblTotValErrors = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -74,16 +81,6 @@ namespace Finx.App.Forms
             this.lblFileDate1 = new System.Windows.Forms.Label();
             this.lblRecCnt = new System.Windows.Forms.Label();
             this.lblRecCnt1 = new System.Windows.Forms.Label();
-            this.metroPanel4 = new MetroFramework.Controls.MetroPanel();
-            this.metroPanel7 = new MetroFramework.Controls.MetroPanel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.metroPanel10 = new MetroFramework.Controls.MetroPanel();
-            this.metroPanel6 = new MetroFramework.Controls.MetroPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.metroPanel9 = new MetroFramework.Controls.MetroPanel();
-            this.metroPanel5 = new MetroFramework.Controls.MetroPanel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.metroPanel8 = new MetroFramework.Controls.MetroPanel();
             this.lblSelectedFile = new System.Windows.Forms.Label();
             this.lblSelectedFile1 = new System.Windows.Forms.Label();
             this.btnImportFile = new ComponentFactory.Krypton.Toolkit.KryptonButton();
@@ -103,10 +100,6 @@ namespace Finx.App.Forms
             this.cmClientRecords.SuspendLayout();
             this.panelGrid.SuspendLayout();
             this.panelFileInfo.SuspendLayout();
-            this.metroPanel4.SuspendLayout();
-            this.metroPanel7.SuspendLayout();
-            this.metroPanel6.SuspendLayout();
-            this.metroPanel5.SuspendLayout();
             this.metroPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -388,6 +381,12 @@ namespace Finx.App.Forms
             this.panelFileInfo.AutoSize = true;
             this.panelFileInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelFileInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelFileInfo.Controls.Add(this.lblLastImportUser);
+            this.panelFileInfo.Controls.Add(this.label8);
+            this.panelFileInfo.Controls.Add(this.lblLastImportDate);
+            this.panelFileInfo.Controls.Add(this.label7);
+            this.panelFileInfo.Controls.Add(this.lblImportStatus);
+            this.panelFileInfo.Controls.Add(this.label6);
             this.panelFileInfo.Controls.Add(this.metroPanel4);
             this.panelFileInfo.Controls.Add(this.cancelImport);
             this.panelFileInfo.Controls.Add(this.lblTotValErrors);
@@ -421,6 +420,75 @@ namespace Finx.App.Forms
             this.panelFileInfo.VerticalScrollbarHighlightOnWheel = false;
             this.panelFileInfo.VerticalScrollbarSize = 10;
             // 
+            // lblLastImportUser
+            // 
+            this.lblLastImportUser.AutoSize = true;
+            this.lblLastImportUser.Location = new System.Drawing.Point(94, 215);
+            this.lblLastImportUser.Name = "lblLastImportUser";
+            this.lblLastImportUser.Size = new System.Drawing.Size(0, 13);
+            this.lblLastImportUser.TabIndex = 47;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(10, 215);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(87, 13);
+            this.label8.TabIndex = 46;
+            this.label8.Text = "Last Import User:";
+            // 
+            // lblLastImportDate
+            // 
+            this.lblLastImportDate.AutoSize = true;
+            this.lblLastImportDate.Location = new System.Drawing.Point(94, 189);
+            this.lblLastImportDate.Name = "lblLastImportDate";
+            this.lblLastImportDate.Size = new System.Drawing.Size(0, 13);
+            this.lblLastImportDate.TabIndex = 45;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(10, 189);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(88, 13);
+            this.label7.TabIndex = 44;
+            this.label7.Text = "Last Import Date:";
+            // 
+            // lblImportStatus
+            // 
+            this.lblImportStatus.AutoSize = true;
+            this.lblImportStatus.Location = new System.Drawing.Point(79, 162);
+            this.lblImportStatus.Name = "lblImportStatus";
+            this.lblImportStatus.Size = new System.Drawing.Size(46, 13);
+            this.lblImportStatus.TabIndex = 43;
+            this.lblImportStatus.Text = "Pending";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(10, 162);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 13);
+            this.label6.TabIndex = 42;
+            this.label6.Text = "Import Status:";
+            // 
+            // metroPanel4
+            // 
+            this.metroPanel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.metroPanel4.HorizontalScrollbarBarColor = true;
+            this.metroPanel4.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel4.HorizontalScrollbarSize = 10;
+            this.metroPanel4.Location = new System.Drawing.Point(0, 652);
+            this.metroPanel4.Name = "metroPanel4";
+            this.metroPanel4.Size = new System.Drawing.Size(282, 50);
+            this.metroPanel4.TabIndex = 26;
+            this.metroPanel4.VerticalScrollbarBarColor = true;
+            this.metroPanel4.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel4.VerticalScrollbarSize = 10;
+            // 
             // cancelImport
             // 
             this.cancelImport.Location = new System.Drawing.Point(145, 15);
@@ -434,7 +502,7 @@ namespace Finx.App.Forms
             // lblTotValErrors
             // 
             this.lblTotValErrors.AutoSize = true;
-            this.lblTotValErrors.Location = new System.Drawing.Point(116, 122);
+            this.lblTotValErrors.Location = new System.Drawing.Point(117, 326);
             this.lblTotValErrors.Name = "lblTotValErrors";
             this.lblTotValErrors.Size = new System.Drawing.Size(13, 13);
             this.lblTotValErrors.TabIndex = 40;
@@ -444,7 +512,7 @@ namespace Finx.App.Forms
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(10, 122);
+            this.label2.Location = new System.Drawing.Point(9, 327);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 39;
@@ -453,7 +521,7 @@ namespace Finx.App.Forms
             // lblNewClientCnt
             // 
             this.lblNewClientCnt.AutoSize = true;
-            this.lblNewClientCnt.Location = new System.Drawing.Point(115, 101);
+            this.lblNewClientCnt.Location = new System.Drawing.Point(116, 300);
             this.lblNewClientCnt.Name = "lblNewClientCnt";
             this.lblNewClientCnt.Size = new System.Drawing.Size(13, 13);
             this.lblNewClientCnt.TabIndex = 38;
@@ -462,7 +530,7 @@ namespace Finx.App.Forms
             // lblExistingClientCnt
             // 
             this.lblExistingClientCnt.AutoSize = true;
-            this.lblExistingClientCnt.Location = new System.Drawing.Point(126, 79);
+            this.lblExistingClientCnt.Location = new System.Drawing.Point(152, 275);
             this.lblExistingClientCnt.Name = "lblExistingClientCnt";
             this.lblExistingClientCnt.Size = new System.Drawing.Size(13, 13);
             this.lblExistingClientCnt.TabIndex = 37;
@@ -472,7 +540,7 @@ namespace Finx.App.Forms
             // 
             this.lblNewClientCnt1.AutoSize = true;
             this.lblNewClientCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNewClientCnt1.Location = new System.Drawing.Point(9, 101);
+            this.lblNewClientCnt1.Location = new System.Drawing.Point(10, 300);
             this.lblNewClientCnt1.Name = "lblNewClientCnt1";
             this.lblNewClientCnt1.Size = new System.Drawing.Size(104, 13);
             this.lblNewClientCnt1.TabIndex = 36;
@@ -482,16 +550,16 @@ namespace Finx.App.Forms
             // 
             this.lblExistingClientCnt1.AutoSize = true;
             this.lblExistingClientCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblExistingClientCnt1.Location = new System.Drawing.Point(9, 79);
+            this.lblExistingClientCnt1.Location = new System.Drawing.Point(10, 275);
             this.lblExistingClientCnt1.Name = "lblExistingClientCnt1";
-            this.lblExistingClientCnt1.Size = new System.Drawing.Size(115, 13);
+            this.lblExistingClientCnt1.Size = new System.Drawing.Size(144, 13);
             this.lblExistingClientCnt1.TabIndex = 35;
-            this.lblExistingClientCnt1.Text = "Exist Client Rec Count:";
+            this.lblExistingClientCnt1.Text = "Existing Client Record Count:";
             // 
             // lblFileFormat
             // 
             this.lblFileFormat.AutoSize = true;
-            this.lblFileFormat.Location = new System.Drawing.Point(67, 217);
+            this.lblFileFormat.Location = new System.Drawing.Point(67, 137);
             this.lblFileFormat.Name = "lblFileFormat";
             this.lblFileFormat.Size = new System.Drawing.Size(25, 13);
             this.lblFileFormat.TabIndex = 34;
@@ -501,7 +569,7 @@ namespace Finx.App.Forms
             // 
             this.lblFileFormat1.AutoSize = true;
             this.lblFileFormat1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileFormat1.Location = new System.Drawing.Point(9, 217);
+            this.lblFileFormat1.Location = new System.Drawing.Point(9, 137);
             this.lblFileFormat1.Name = "lblFileFormat1";
             this.lblFileFormat1.Size = new System.Drawing.Size(61, 13);
             this.lblFileFormat1.TabIndex = 33;
@@ -510,7 +578,7 @@ namespace Finx.App.Forms
             // lblFileSize
             // 
             this.lblFileSize.AutoSize = true;
-            this.lblFileSize.Location = new System.Drawing.Point(67, 193);
+            this.lblFileSize.Location = new System.Drawing.Point(67, 113);
             this.lblFileSize.Name = "lblFileSize";
             this.lblFileSize.Size = new System.Drawing.Size(29, 13);
             this.lblFileSize.TabIndex = 32;
@@ -520,7 +588,7 @@ namespace Finx.App.Forms
             // 
             this.lblFileSize1.AutoSize = true;
             this.lblFileSize1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileSize1.Location = new System.Drawing.Point(9, 193);
+            this.lblFileSize1.Location = new System.Drawing.Point(9, 113);
             this.lblFileSize1.Name = "lblFileSize1";
             this.lblFileSize1.Size = new System.Drawing.Size(49, 13);
             this.lblFileSize1.TabIndex = 31;
@@ -529,7 +597,7 @@ namespace Finx.App.Forms
             // lblFileDate
             // 
             this.lblFileDate.AutoSize = true;
-            this.lblFileDate.Location = new System.Drawing.Point(68, 168);
+            this.lblFileDate.Location = new System.Drawing.Point(68, 88);
             this.lblFileDate.Name = "lblFileDate";
             this.lblFileDate.Size = new System.Drawing.Size(99, 13);
             this.lblFileDate.TabIndex = 30;
@@ -539,7 +607,7 @@ namespace Finx.App.Forms
             // 
             this.lblFileDate1.AutoSize = true;
             this.lblFileDate1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileDate1.Location = new System.Drawing.Point(10, 168);
+            this.lblFileDate1.Location = new System.Drawing.Point(10, 88);
             this.lblFileDate1.Name = "lblFileDate1";
             this.lblFileDate1.Size = new System.Drawing.Size(52, 13);
             this.lblFileDate1.TabIndex = 29;
@@ -548,7 +616,7 @@ namespace Finx.App.Forms
             // lblRecCnt
             // 
             this.lblRecCnt.AutoSize = true;
-            this.lblRecCnt.Location = new System.Drawing.Point(85, 57);
+            this.lblRecCnt.Location = new System.Drawing.Point(86, 250);
             this.lblRecCnt.Name = "lblRecCnt";
             this.lblRecCnt.Size = new System.Drawing.Size(13, 13);
             this.lblRecCnt.TabIndex = 28;
@@ -558,162 +626,16 @@ namespace Finx.App.Forms
             // 
             this.lblRecCnt1.AutoSize = true;
             this.lblRecCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRecCnt1.Location = new System.Drawing.Point(9, 57);
+            this.lblRecCnt1.Location = new System.Drawing.Point(10, 250);
             this.lblRecCnt1.Name = "lblRecCnt1";
             this.lblRecCnt1.Size = new System.Drawing.Size(76, 13);
             this.lblRecCnt1.TabIndex = 27;
             this.lblRecCnt1.Text = "Record Count:";
             // 
-            // metroPanel4
-            // 
-            this.metroPanel4.Controls.Add(this.metroPanel6);
-            this.metroPanel4.Controls.Add(this.metroPanel7);
-            this.metroPanel4.Controls.Add(this.metroPanel5);
-            this.metroPanel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.metroPanel4.HorizontalScrollbarBarColor = true;
-            this.metroPanel4.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel4.HorizontalScrollbarSize = 10;
-            this.metroPanel4.Location = new System.Drawing.Point(0, 595);
-            this.metroPanel4.Name = "metroPanel4";
-            this.metroPanel4.Size = new System.Drawing.Size(282, 107);
-            this.metroPanel4.TabIndex = 26;
-            this.metroPanel4.VerticalScrollbarBarColor = true;
-            this.metroPanel4.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel4.VerticalScrollbarSize = 10;
-            // 
-            // metroPanel7
-            // 
-            this.metroPanel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel7.Controls.Add(this.metroPanel10);
-            this.metroPanel7.Controls.Add(this.label5);
-            this.metroPanel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metroPanel7.HorizontalScrollbarBarColor = true;
-            this.metroPanel7.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel7.HorizontalScrollbarSize = 10;
-            this.metroPanel7.Location = new System.Drawing.Point(0, 30);
-            this.metroPanel7.Name = "metroPanel7";
-            this.metroPanel7.Size = new System.Drawing.Size(282, 30);
-            this.metroPanel7.TabIndex = 4;
-            this.metroPanel7.VerticalScrollbarBarColor = true;
-            this.metroPanel7.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel7.VerticalScrollbarSize = 10;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(58, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 13);
-            this.label5.TabIndex = 26;
-            this.label5.Text = "Validation Error";
-            // 
-            // metroPanel10
-            // 
-            this.metroPanel10.BackColor = System.Drawing.Color.LightPink;
-            this.metroPanel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel10.Dock = System.Windows.Forms.DockStyle.Left;
-            this.metroPanel10.ForeColor = System.Drawing.SystemColors.Control;
-            this.metroPanel10.HorizontalScrollbarBarColor = true;
-            this.metroPanel10.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel10.HorizontalScrollbarSize = 10;
-            this.metroPanel10.Location = new System.Drawing.Point(0, 0);
-            this.metroPanel10.Name = "metroPanel10";
-            this.metroPanel10.Size = new System.Drawing.Size(37, 28);
-            this.metroPanel10.TabIndex = 3;
-            this.metroPanel10.VerticalScrollbarBarColor = true;
-            this.metroPanel10.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel10.VerticalScrollbarSize = 10;
-            // 
-            // metroPanel6
-            // 
-            this.metroPanel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel6.Controls.Add(this.metroPanel9);
-            this.metroPanel6.Controls.Add(this.label4);
-            this.metroPanel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metroPanel6.HorizontalScrollbarBarColor = true;
-            this.metroPanel6.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel6.HorizontalScrollbarSize = 10;
-            this.metroPanel6.Location = new System.Drawing.Point(0, 60);
-            this.metroPanel6.Name = "metroPanel6";
-            this.metroPanel6.Size = new System.Drawing.Size(282, 30);
-            this.metroPanel6.TabIndex = 3;
-            this.metroPanel6.VerticalScrollbarBarColor = true;
-            this.metroPanel6.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel6.VerticalScrollbarSize = 10;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(58, 8);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(110, 13);
-            this.label4.TabIndex = 25;
-            this.label4.Text = "Existing Client Record";
-            // 
-            // metroPanel9
-            // 
-            this.metroPanel9.BackColor = System.Drawing.Color.LightBlue;
-            this.metroPanel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel9.Dock = System.Windows.Forms.DockStyle.Left;
-            this.metroPanel9.ForeColor = System.Drawing.SystemColors.Control;
-            this.metroPanel9.HorizontalScrollbarBarColor = true;
-            this.metroPanel9.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel9.HorizontalScrollbarSize = 10;
-            this.metroPanel9.Location = new System.Drawing.Point(0, 0);
-            this.metroPanel9.Name = "metroPanel9";
-            this.metroPanel9.Size = new System.Drawing.Size(37, 28);
-            this.metroPanel9.TabIndex = 3;
-            this.metroPanel9.VerticalScrollbarBarColor = true;
-            this.metroPanel9.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel9.VerticalScrollbarSize = 10;
-            // 
-            // metroPanel5
-            // 
-            this.metroPanel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel5.Controls.Add(this.metroPanel8);
-            this.metroPanel5.Controls.Add(this.label3);
-            this.metroPanel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metroPanel5.HorizontalScrollbarBarColor = true;
-            this.metroPanel5.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel5.HorizontalScrollbarSize = 10;
-            this.metroPanel5.Location = new System.Drawing.Point(0, 0);
-            this.metroPanel5.Name = "metroPanel5";
-            this.metroPanel5.Size = new System.Drawing.Size(282, 30);
-            this.metroPanel5.TabIndex = 2;
-            this.metroPanel5.VerticalScrollbarBarColor = true;
-            this.metroPanel5.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel5.VerticalScrollbarSize = 10;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(58, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 13);
-            this.label3.TabIndex = 24;
-            this.label3.Text = "New Client Record";
-            // 
-            // metroPanel8
-            // 
-            this.metroPanel8.BackColor = System.Drawing.Color.LightGreen;
-            this.metroPanel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel8.Dock = System.Windows.Forms.DockStyle.Left;
-            this.metroPanel8.ForeColor = System.Drawing.SystemColors.Control;
-            this.metroPanel8.HorizontalScrollbarBarColor = true;
-            this.metroPanel8.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel8.HorizontalScrollbarSize = 10;
-            this.metroPanel8.Location = new System.Drawing.Point(0, 0);
-            this.metroPanel8.Name = "metroPanel8";
-            this.metroPanel8.Size = new System.Drawing.Size(37, 28);
-            this.metroPanel8.TabIndex = 2;
-            this.metroPanel8.VerticalScrollbarBarColor = true;
-            this.metroPanel8.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel8.VerticalScrollbarSize = 10;
-            // 
             // lblSelectedFile
             // 
             this.lblSelectedFile.AutoSize = true;
-            this.lblSelectedFile.Location = new System.Drawing.Point(67, 143);
+            this.lblSelectedFile.Location = new System.Drawing.Point(67, 63);
             this.lblSelectedFile.Name = "lblSelectedFile";
             this.lblSelectedFile.Size = new System.Drawing.Size(49, 13);
             this.lblSelectedFile.TabIndex = 23;
@@ -723,7 +645,7 @@ namespace Finx.App.Forms
             // 
             this.lblSelectedFile1.AutoSize = true;
             this.lblSelectedFile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectedFile1.Location = new System.Drawing.Point(9, 143);
+            this.lblSelectedFile1.Location = new System.Drawing.Point(9, 63);
             this.lblSelectedFile1.Name = "lblSelectedFile1";
             this.lblSelectedFile1.Size = new System.Drawing.Size(57, 13);
             this.lblSelectedFile1.TabIndex = 20;
@@ -815,13 +737,6 @@ namespace Finx.App.Forms
             this.panelGrid.PerformLayout();
             this.panelFileInfo.ResumeLayout(false);
             this.panelFileInfo.PerformLayout();
-            this.metroPanel4.ResumeLayout(false);
-            this.metroPanel7.ResumeLayout(false);
-            this.metroPanel7.PerformLayout();
-            this.metroPanel6.ResumeLayout(false);
-            this.metroPanel6.PerformLayout();
-            this.metroPanel5.ResumeLayout(false);
-            this.metroPanel5.PerformLayout();
             this.metroPanel1.ResumeLayout(false);
             this.metroPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -862,15 +777,6 @@ namespace Finx.App.Forms
         private Label lblRecCnt;
         private Label lblRecCnt1;
         private MetroFramework.Controls.MetroPanel metroPanel4;
-        private MetroFramework.Controls.MetroPanel metroPanel7;
-        private Label label5;
-        private MetroFramework.Controls.MetroPanel metroPanel10;
-        private MetroFramework.Controls.MetroPanel metroPanel6;
-        private Label label4;
-        private MetroFramework.Controls.MetroPanel metroPanel9;
-        private MetroFramework.Controls.MetroPanel metroPanel5;
-        private Label label3;
-        private MetroFramework.Controls.MetroPanel metroPanel8;
         private Label lblSelectedFile;
         private Label lblSelectedFile1;
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnImportFile;
@@ -889,5 +795,11 @@ namespace Finx.App.Forms
         private DataGridViewTextBoxColumn FundName;
         private DataGridViewTextBoxColumn FundValue;
         private DataGridViewTextBoxColumn FundValueDate;
+        private Label lblLastImportUser;
+        private Label label8;
+        private Label lblLastImportDate;
+        private Label label7;
+        private Label lblImportStatus;
+        private Label label6;
     }
 }

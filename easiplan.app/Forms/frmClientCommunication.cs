@@ -805,8 +805,8 @@ namespace Finx.App.Forms
         }
         private void SendEmailAsync(object status)
         {
-            IProgressCallback callback = status as IProgressCallback;
-
+            //IProgressCallback callback = status as IProgressCallback;
+            IProgressDataObjectCallback callback = status as IProgressDataObjectCallback;
             IList<EmailMessage> messages = callback.DataObject as List<EmailMessage>;
 
             callback.Begin(0, messages.Count);
