@@ -6,6 +6,7 @@ using Finx.App.Extensions;
 using Finx.App.Helpers;
 using Finx.App.Interfaces;
 using Finx.App.Models;
+using Finx.App.UserControls;
 using MetroFramework.Forms;
 using MoreLinq;
 using System;
@@ -45,18 +46,19 @@ namespace Finx.App.Forms
         private BackgroundWorker _getExistingClientWorker = null;
         private IEnumerable<ICsvRecord> _distinctFileClients = null;
         private ConcurrentDictionary<string, IEnumerable<ICsvRecord>> _fileClientInvestments = null;
-        private static int percCompleted = 0;
+        private static int _percCompleted = 0;
         private static int _recCnt = 0;
         private int _importBatchSize = 10;
         private IEnumerable<ClientRetirementPortfolio_View> _clientRetirementPortfolio_View = null;
         private static object _lockObject = new object();
-        private static int dgvFileContentsRowCnt = 0;
+        private static int _dgvFileContentsRowCnt = 0;
         private static bool? _importCompleted = null;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken _cancellationToken;
         private string _detectedFileDelimiter;
         private string _selectedFilename;
         private byte[] _selectedFileHash;
+        private IntPtr _handle;
 
         #endregion
 
@@ -251,131 +253,183 @@ namespace Finx.App.Forms
 
         private async void btnImportFile_Click(object sender, EventArgs e)
         {
-            var handle = this.Handle;
+            _handle = this.Handle;
             var dialogResult = new DialogResult();
 
             await Task.Run(() =>
             {
                 var win32Parent = new NativeWindow();
-                win32Parent.AssignHandle(handle);
+                win32Parent.AssignHandle(_handle);
                 dialogResult = MessageBox.Show(win32Parent, "Are you sure you want to Import this File into Easiworx ? Nb! Validation error records will be ignored.", "Import Client Investments File", MessageBoxButtons.YesNo);
             });
 
-            if (dialogResult == DialogResult.No) return;
+            if (dialogResult == DialogResult.No) 
+                return;
 
             _recCnt = 0;
-            percCompleted = 0;
+            _percCompleted = 0;
             _importCompleted = false;
+            lblImportStatus.Text = "Importing...";
+
+            //todo:get last imported info from db
+            lblLastImportDate.Text = "";
+            lblLastImportUser.Text = "";
 
             var totClients = _fileClientInvestments.Count();
             cancelImport.Enabled = true;
+            kbtnOpenFile.Enabled = false;
+            this.ControlBox = false;
+            
+            var frmCsvImportProgressWindow = new frmCsvImportProgressWindow();
+            frmCsvImportProgressWindow.SetCaption("Importing Client Investments");
+            frmCsvImportProgressWindow.SetText("Please wait...");
+            
+            var backgroundWorker_ImportClientInvestmentsFromFile = new BackgroundWorker() { WorkerReportsProgress=true,WorkerSupportsCancellation=true };
+            backgroundWorker_ImportClientInvestmentsFromFile.DoWork += BackgroundWorker_ImportClientInvestmentsFromFile_DoWork;
+            backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerCompleted += BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted;
+            backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerAsync(frmCsvImportProgressWindow);
+            
+            frmCsvImportProgressWindow.ShowDialog(this);
+            frmCsvImportProgressWindow.Close();
+            this.ControlBox = true;
+        }
 
-            using (new AppWaitCursor(sender))
+        private void BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //what to do here?
+        }
+
+        private void BackgroundWorker_ImportClientInvestmentsFromFile_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var frmCsvImportProgressWindow = (frmCsvImportProgressWindow)e.Argument;
+            ImportClientInvestmentsFromFile(frmCsvImportProgressWindow).Wait();
+        }
+
+        private async Task ImportClientInvestmentsFromFile(frmCsvImportProgressWindow frmCsvImportProgressWindow)
+        {
+            try
             {
-                try
+                var totClients = _fileClientInvestments.Count();
+                var clientKeys = _fileClientInvestments.Keys.ToList();
+
+                ThreadPool.SetMinThreads(38, 38);
+                _cancellationToken = _cancellationTokenSource.Token;
+
+                var parallelOptions = new ParallelOptions()
                 {
-                    kbtnOpenFile.Enabled = false;
-                    var clientKeys = _fileClientInvestments.Keys.ToList();
+                    MaxDegreeOfParallelism = -1,
+                    CancellationToken = _cancellationToken
+                };
 
-                    ThreadPool.SetMinThreads(38, 38);
-                    _cancellationToken = _cancellationTokenSource.Token;
+                var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
+                recordImportProgress.ProgressChanged += RecordImportProgress_ProgressChanged;
 
-                    var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1, 
-                                                                  CancellationToken = _cancellationToken };
-
-                    if (clientKeys.Count() >= _importBatchSize)
+                if (clientKeys.Count() >= _importBatchSize)
+                {
+                    var batchedClientInvestments = await Task.Run(() => MoreEnumerable.Batch(clientKeys, _importBatchSize));
+                  
+                    foreach (var batchedClientInvestment in batchedClientInvestments)
                     {
-                        var batchedClientInvestments = await Task.Run(() => MoreEnumerable.Batch(clientKeys, _importBatchSize));
-                        var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
-                        recordImportProgress.ProgressChanged += RecordImportProgress_ProgressChanged;
-
-                        foreach (var batchedClientInvestment in batchedClientInvestments)
-                        {
-                            var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, _cancellationToken);
-                        }
+                        var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow, _cancellationToken);
                     }
-                    else
-                    {
-                        _recCnt = 0;
-                        foreach (var key in clientKeys)
-                        {
-                            await ImportClientInvestments(key, _fileClientInvestments[key]);
-                            _recCnt++;
-                            percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
-                            await UpdateProgressBar(_pbImportFile, percCompleted, handle);
+                }
+                else
+                {
+                    _recCnt = 0;
+                    var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
+                    var progressCallback = frmCsvImportProgressWindow;
+                    clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
 
-                            if (percCompleted == 100)
+                    foreach (var clientIdentificationNo in clientKeys)
+                    {
+                        _recCnt++;
+
+                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
+                        
+                        await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
+                        
+                        _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
+                        
+                        clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
+                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
+                        clientInvestmentRecordImportAudit.SetMessage(message);
+                        
+                        ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
+
+                        //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
+
+                        if (_percCompleted == 100)
+                        {
+                            _importCompleted = true;
+                            clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
+                            progressCallback.End();
+
+                            //RecordCsvFileImport();
+
+                            await Task.Run(() =>
                             {
-                                _importCompleted = true;
-
-                                //RecordCsvFileImport();
-
-                                await Task.Run(() =>
+                                //var win32Parent = new NativeWindow();
+                                //win32Parent.AssignHandle(_handle);
+                                //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
+                                ValidateDataGridRecords().Wait();
+                            });
+                            await Task.Run(() =>
+                            {
+                                kbtnOpenFile.BeginInvoke((Action)delegate
                                 {
-                                    var win32Parent = new NativeWindow();
-                                    win32Parent.AssignHandle(handle);
-                                    MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
-                                    ValidateDataGridRecords().Wait();
+                                    if (!kbtnOpenFile.Enabled)
+                                        kbtnOpenFile.Enabled = true;
                                 });
-                                await Task.Run(() =>
-                                {
-                                    kbtnOpenFile.BeginInvoke((Action)delegate
-                                    {
-                                        if (!kbtnOpenFile.Enabled)
-                                            kbtnOpenFile.Enabled = true;
-                                    });
-                                });
+                            });
 
-                            }
                         }
-
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    await Task.Run(() =>
-                    {
-                        var win32Parent = new NativeWindow();
-                        win32Parent.AssignHandle(handle);
-                        MessageBox.Show(win32Parent,"Import operation has been cancelled!", "Easiworx Error", MessageBoxButtons.OK);
-                    });
-                    
-                }
-                catch (OperationAbortedException)
-                {
-                    await Task.Run(() =>
-                    {
-                        var win32Parent = new NativeWindow();
-                        win32Parent.AssignHandle(handle);
-                        MessageBox.Show(win32Parent, "Import operation has been aborted!", "Easiworx Error", MessageBoxButtons.OK);
-                    });
-                    
-                }
-                catch (AggregateException ex)
-                {
-                    foreach (var error in ex.Flatten().InnerExceptions)
-                    {
-                        Program.Logger.Error(error.Message);
                     }
 
-                    await Task.Run(() =>
-                    {
-                        var win32Parent = new NativeWindow();
-                        win32Parent.AssignHandle(handle);
-                        MessageBox.Show(win32Parent, ex.Message, "Easiworx Error", MessageBoxButtons.OK);
-                    });
                 }
-                catch (Exception ex)
+            }
+            catch (OperationCanceledException)
+            {
+                await Task.Run(() =>
                 {
-                    Program.Logger.Error(ex);
-                    await Task.Run(() =>
-                    {
-                        var win32Parent = new NativeWindow();
-                        win32Parent.AssignHandle(handle);
-                        MessageBox.Show(win32Parent, ex.Message, "Easiworx Error", MessageBoxButtons.OK);
-                    });
+                    var win32Parent = new NativeWindow();
+                    win32Parent.AssignHandle(_handle);
+                    MessageBox.Show(win32Parent, "Import operation has been cancelled!", "Easiworx Error", MessageBoxButtons.OK);
+                });
+
+            }
+            catch (OperationAbortedException)
+            {
+                await Task.Run(() =>
+                {
+                    var win32Parent = new NativeWindow();
+                    win32Parent.AssignHandle(_handle);
+                    MessageBox.Show(win32Parent, "Import operation has been aborted!", "Easiworx Error", MessageBoxButtons.OK);
+                });
+
+            }
+            catch (AggregateException ex)
+            {
+                foreach (var error in ex.Flatten().InnerExceptions)
+                {
+                    Program.Logger.Error(error.Message);
                 }
 
+                await Task.Run(() =>
+                {
+                    var win32Parent = new NativeWindow();
+                    win32Parent.AssignHandle(_handle);
+                    MessageBox.Show(win32Parent, ex.Message, "Easiworx Error", MessageBoxButtons.OK);
+                });
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Error(ex);
+                await Task.Run(() =>
+                {
+                    var win32Parent = new NativeWindow();
+                    win32Parent.AssignHandle(_handle);
+                    MessageBox.Show(win32Parent, ex.Message, "Easiworx Error", MessageBoxButtons.OK);
+                });
             }
         }
 
@@ -390,25 +444,51 @@ namespace Finx.App.Forms
 
         private async void RecordImportProgress_ProgressChanged(object sender, ClientInvestmentRecordImportAudit e)
         {
-            var handle = this.Handle;
+            //var handle = this.Handle;
             var percCompleted = e.PercentageCompleted.Value;
-            await UpdateProgressBar(_pbImportFile, percCompleted, handle);
+            //await UpdateProgressBar(_pbImportFile, percCompleted, _handle);
+            var frmCsvImportProgressWindow = e.ProgressCallback;
+            frmCsvImportProgressWindow.SetText(e.Message);
 
             if (percCompleted == 100)
             {
-
                 //RecordCsvFileImport();
 
                 percCompleted = 0;
                 _importCompleted = true;
+                frmCsvImportProgressWindow.SetText("Client Investment Portfolios successfully imported!");
+                frmCsvImportProgressWindow.End();
 
+                lblImportStatus.BeginInvoke((Action)delegate 
+                { 
+                    lblImportStatus.Text = "Imported"; 
+                });
+                    
+                lblLastImportDate.BeginInvoke((Action)delegate
+                {
+                    lblLastImportDate.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss");
+                });
+
+                lblLastImportUser.BeginInvoke((Action)delegate
+                {
+                    lblLastImportUser.Text = Program.User.Firstname;
+                });
+                
                 await Task.Run(() =>
                 {
-                var win32Parent = new NativeWindow();
-                win32Parent.AssignHandle(handle);
-                MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
-                ValidateDataGridRecords().Wait();
+                    ValidateDataGridRecords().Wait();
                 });
+                
+                
+               
+
+                //await Task.Run(() =>
+                //{
+                //var win32Parent = new NativeWindow();
+                //win32Parent.AssignHandle(_handle);
+                //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
+                //ValidateDataGridRecords().Wait();
+                //});
 
                 kbtnOpenFile.BeginInvoke((Action)delegate
                 {
@@ -629,8 +709,8 @@ namespace Finx.App.Forms
 
         private async void LoadFileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(!metroPanel4.Visible)
-                metroPanel4.Visible = true;
+            //if(!metroPanel4.Visible)
+              //  metroPanel4.Visible = true;
 
             try
             {
@@ -706,9 +786,9 @@ namespace Finx.App.Forms
             _getExistingClientWorker.RunWorkerCompleted += GetExistingClientWorker_RunWorkerCompleted;
             _getExistingClientWorker.RunWorkerAsync();
 
-            metroPanel8.Controls.Add(new Label() { Dock = DockStyle.Fill });
-            metroPanel9.Controls.Add(new Label() { Dock = DockStyle.Fill });
-            metroPanel10.Controls.Add(new Label() { Dock = DockStyle.Fill });
+            //metroPanel8.Controls.Add(new Label() { Dock = DockStyle.Fill });
+            //metroPanel9.Controls.Add(new Label() { Dock = DockStyle.Fill });
+            //metroPanel10.Controls.Add(new Label() { Dock = DockStyle.Fill });
 
             _pbImportFile = new ProgressBar() { Dock = DockStyle.Bottom, Style = ProgressBarStyle.Blocks };
             panelFileInfo.Controls.Add(_pbImportFile);
@@ -724,7 +804,7 @@ namespace Finx.App.Forms
 
         }
 
-        private async Task<List<ParallelLoopResult>> ImportClientInvestmentsInParallel(ParallelOptions parallelOptions, IEnumerable<string> batchedClientInvestment, IProgress<ClientInvestmentRecordImportAudit> Progress, CancellationToken cancellationToken)
+        private async Task<List<ParallelLoopResult>> ImportClientInvestmentsInParallel(ParallelOptions parallelOptions, IEnumerable<string> batchedClientInvestment, IProgress<ClientInvestmentRecordImportAudit> Progress, frmCsvImportProgressWindow frmCsvImportProgressWindow, CancellationToken cancellationToken)
         {
             var loopResults = new List<ParallelLoopResult>(1);
             await Task.Run(() =>
@@ -737,7 +817,8 @@ namespace Finx.App.Forms
                         //loopState.Break(); 
                     }
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
-
+                    var progressCallback = frmCsvImportProgressWindow;
+                    clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
                     try
                     {
 
@@ -745,11 +826,11 @@ namespace Finx.App.Forms
 
                         await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
                         _recCnt++;
-                        percCompleted = (int)Math.Round((double)(100 * _recCnt) / _fileClientInvestments.Keys.Count);
+                        _percCompleted = (int)Math.Round((double)(100 * _recCnt) / _fileClientInvestments.Keys.Count);
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
                         var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
                         clientInvestmentRecordImportAudit.SetMessage(message);
-                        clientInvestmentRecordImportAudit.SetPercentageCompleted(percCompleted);
+                        clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
                         Progress.Report(clientInvestmentRecordImportAudit);
                     }
                     catch (OperationCanceledException ex)
@@ -1516,6 +1597,7 @@ namespace Finx.App.Forms
                     GrowthPercentage = 0,
                     InflationPercentage = 0,
                     InitialAmount = 0,
+                    Status = "Implemented",
                     UpdateBy = updateBy
                 };
             }
@@ -1664,7 +1746,7 @@ namespace Finx.App.Forms
             var totRowCnt = dgvFileContents.RowCount;
             var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1 };
 
-            Parallel.For(dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions, t =>
+            Parallel.For(_dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions, t =>
              {
                  var dataRow = dgvFileContents.Rows[t];
                  var dgvRowIndex = t + 1;
@@ -1714,14 +1796,25 @@ namespace Finx.App.Forms
                      dataRow.DefaultCellStyle.BackColor = Color.LightPink;
                      csvRecord.HasErrors = true;
                  }
-                 _ = decimal.TryParse(fundValue, out decimal outFundValue);
-                 if (outFundValue == 0)
+                 else
                  {
-                     fundValueCell.ErrorText = "Invalid Fund Value!";
-                     fundValueCell.ToolTipText = "Invalid Fund Value!";
-                     dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                     csvRecord.HasErrors = true;
+                     _ = double.TryParse(fundValue, out double outFundValue);
+                     if (outFundValue <= 0)
+                     {
+                         fundValueCell.ErrorText = "Invalid Fund Value!";
+                         fundValueCell.ToolTipText = "Invalid Fund Value!";
+                         dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                         csvRecord.HasErrors = true;
+                     }
+                     else
+                     {
+                         fundValueCell.ErrorText = "";
+                         fundValueCell.ToolTipText = "";
+                         //dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
+                         csvRecord.HasErrors = false;
+                     }
                  }
+                 
                  DataGridViewCell fundValueDateCell;
                  var fundValueDate = "";
 
@@ -1801,9 +1894,11 @@ namespace Finx.App.Forms
             }
             return existingClientDetails;
         }
+
+
         #endregion
 
-        
+      
     }
 }
 

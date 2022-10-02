@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 
-namespace easiplan.app.Models
+namespace easiplan.app.Interfaces
 {
     public interface ICsvConfiguration
     {

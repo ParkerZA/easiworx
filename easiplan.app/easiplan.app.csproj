@@ -508,6 +508,12 @@
     <Compile Include="Forms\baseSlidingForm.Designer.cs">
       <DependentUpon>baseSlidingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmCsvImportProgressWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCsvImportProgressWindow.Designer.cs">
+      <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ClientInvestmentRecordAudit.cs" />
     <Compile Include="Forms\frmClientManagement.cs">
       <SubType>Form</SubType>
@@ -693,8 +699,8 @@
     <Compile Include="Models\FieldErrorModel.cs" />
     <Compile Include="Models\FileProperties.cs" />
     <Compile Include="Models\HttpResponseError.cs" />
-    <Compile Include="Models\ICsvConfiguration.cs" />
-    <Compile Include="Models\ICsvRecord.cs" />
+    <Compile Include="Interfaces\ICsvConfiguration.cs" />
+    <Compile Include="Interfaces\ICsvRecord.cs" />
     <Compile Include="Models\LicenseActivation.cs" />
     <Compile Include="Models\LicenseActiveModel.cs" />
     <Compile Include="Models\LicenseKeyModel.cs" />
@@ -826,6 +832,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroClientSegmentation.resx">
       <DependentUpon>frmMetroClientSegmentation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCsvImportProgressWindow.resx">
+      <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroUpdateDatabase.resx">
       <DependentUpon>frmMetroUpdateDatabase.cs</DependentUpon>
