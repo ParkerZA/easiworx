@@ -65,7 +65,6 @@ namespace Finx.App.Forms
             this.label7 = new System.Windows.Forms.Label();
             this.lblImportStatus = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.metroPanel4 = new MetroFramework.Controls.MetroPanel();
             this.cancelImport = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.lblTotValErrors = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -387,7 +386,6 @@ namespace Finx.App.Forms
             this.panelFileInfo.Controls.Add(this.label7);
             this.panelFileInfo.Controls.Add(this.lblImportStatus);
             this.panelFileInfo.Controls.Add(this.label6);
-            this.panelFileInfo.Controls.Add(this.metroPanel4);
             this.panelFileInfo.Controls.Add(this.cancelImport);
             this.panelFileInfo.Controls.Add(this.lblTotValErrors);
             this.panelFileInfo.Controls.Add(this.label2);
@@ -474,20 +472,6 @@ namespace Finx.App.Forms
             this.label6.Size = new System.Drawing.Size(72, 13);
             this.label6.TabIndex = 42;
             this.label6.Text = "Import Status:";
-            // 
-            // metroPanel4
-            // 
-            this.metroPanel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.metroPanel4.HorizontalScrollbarBarColor = true;
-            this.metroPanel4.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel4.HorizontalScrollbarSize = 10;
-            this.metroPanel4.Location = new System.Drawing.Point(0, 652);
-            this.metroPanel4.Name = "metroPanel4";
-            this.metroPanel4.Size = new System.Drawing.Size(282, 50);
-            this.metroPanel4.TabIndex = 26;
-            this.metroPanel4.VerticalScrollbarBarColor = true;
-            this.metroPanel4.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel4.VerticalScrollbarSize = 10;
             // 
             // cancelImport
             // 
@@ -776,7 +760,6 @@ namespace Finx.App.Forms
         private Label lblFileDate1;
         private Label lblRecCnt;
         private Label lblRecCnt1;
-        private MetroFramework.Controls.MetroPanel metroPanel4;
         private Label lblSelectedFile;
         private Label lblSelectedFile1;
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnImportFile;

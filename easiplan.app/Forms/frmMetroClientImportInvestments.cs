@@ -708,8 +708,8 @@ namespace Finx.App.Forms
 
         private async void LoadFileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(!metroPanel4.Visible)
-                metroPanel4.Visible = true;
+            //if(!metroPanel4.Visible)
+              //  metroPanel4.Visible = true;
 
             try
             {
@@ -1596,6 +1596,7 @@ namespace Finx.App.Forms
                     GrowthPercentage = 0,
                     InflationPercentage = 0,
                     InitialAmount = 0,
+                    Status = "Implemented",
                     UpdateBy = updateBy
                 };
             }
@@ -1794,14 +1795,25 @@ namespace Finx.App.Forms
                      dataRow.DefaultCellStyle.BackColor = Color.LightPink;
                      csvRecord.HasErrors = true;
                  }
-                 _ = decimal.TryParse(fundValue, out decimal outFundValue);
-                 if (outFundValue == 0)
+                 else
                  {
-                     fundValueCell.ErrorText = "Invalid Fund Value!";
-                     fundValueCell.ToolTipText = "Invalid Fund Value!";
-                     dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                     csvRecord.HasErrors = true;
+                     _ = double.TryParse(fundValue, out double outFundValue);
+                     if (outFundValue <= 0)
+                     {
+                         fundValueCell.ErrorText = "Invalid Fund Value!";
+                         fundValueCell.ToolTipText = "Invalid Fund Value!";
+                         dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                         csvRecord.HasErrors = true;
+                     }
+                     else
+                     {
+                         fundValueCell.ErrorText = "";
+                         fundValueCell.ToolTipText = "";
+                         //dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
+                         csvRecord.HasErrors = false;
+                     }
                  }
+                 
                  DataGridViewCell fundValueDateCell;
                  var fundValueDate = "";
 
