@@ -133,7 +133,7 @@ namespace Finx.App.Forms
             }
             splitContainer1.Panel1.Visible = false;
             splitContainer1.Panel2.Visible = false;
-            
+
             using (new AppWaitCursor(sender))
             {
                 var csvHelperConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -190,7 +190,7 @@ namespace Finx.App.Forms
                         //    cmbSelectLisp.Focus();
                         //    return;
                         //}
-
+                        dgvFileContents.DataBindingComplete -= dgvFileContents_DataBindingComplete;
                         dgvFileContents.DataSource = null;
                         var fileProps = CsvFileHelper.GetFileProperties(_filepath);
                         lblSelectedFile.Text = _selectedFilename;
@@ -262,7 +262,7 @@ namespace Finx.App.Forms
                 dialogResult = MessageBox.Show(win32Parent, "Are you sure you want to Import this File into Easiworx ? Nb! Validation error records will be ignored.", "Import Client Investments File", MessageBoxButtons.YesNo);
             });
 
-            if (dialogResult == DialogResult.No) 
+            if (dialogResult == DialogResult.No)
                 return;
 
             _recCnt = 0;
@@ -278,16 +278,16 @@ namespace Finx.App.Forms
             cancelImport.Enabled = true;
             kbtnOpenFile.Enabled = false;
             this.ControlBox = false;
-            
+
             var frmCsvImportProgressWindow = new frmCsvImportProgressWindow();
             frmCsvImportProgressWindow.SetCaption("Importing Client Investments");
             frmCsvImportProgressWindow.SetText("Please wait...");
-            
-            var backgroundWorker_ImportClientInvestmentsFromFile = new BackgroundWorker() { WorkerReportsProgress=true,WorkerSupportsCancellation=true };
+
+            var backgroundWorker_ImportClientInvestmentsFromFile = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
             backgroundWorker_ImportClientInvestmentsFromFile.DoWork += BackgroundWorker_ImportClientInvestmentsFromFile_DoWork;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerCompleted += BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerAsync(frmCsvImportProgressWindow);
-            
+
             frmCsvImportProgressWindow.ShowDialog(this);
             frmCsvImportProgressWindow.Close();
             this.ControlBox = true;
@@ -326,7 +326,7 @@ namespace Finx.App.Forms
                 if (clientKeys.Count() >= _importBatchSize)
                 {
                     var batchedClientInvestments = await Task.Run(() => MoreEnumerable.Batch(clientKeys, _importBatchSize));
-                  
+
                     foreach (var batchedClientInvestment in batchedClientInvestments)
                     {
                         var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow, _cancellationToken);
@@ -344,15 +344,15 @@ namespace Finx.App.Forms
                         _recCnt++;
 
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
-                        
+
                         await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
-                        
+
                         _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
-                        
+
                         clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
                         var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
                         clientInvestmentRecordImportAudit.SetMessage(message);
-                        
+
                         ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
 
                         //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
@@ -370,7 +370,7 @@ namespace Finx.App.Forms
                                 //var win32Parent = new NativeWindow();
                                 //win32Parent.AssignHandle(_handle);
                                 //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
-                                ValidateDataGridRecords().Wait();
+                                ValidateDataGridRecords();
                             });
                             await Task.Run(() =>
                             {
@@ -458,11 +458,11 @@ namespace Finx.App.Forms
                 frmCsvImportProgressWindow.SetText("Client Investment Portfolios successfully imported!");
                 frmCsvImportProgressWindow.End();
 
-                lblImportStatus.BeginInvoke((Action)delegate 
-                { 
-                    lblImportStatus.Text = "Imported"; 
+                lblImportStatus.BeginInvoke((Action)delegate
+                {
+                    lblImportStatus.Text = "Imported";
                 });
-                    
+
                 lblLastImportDate.BeginInvoke((Action)delegate
                 {
                     lblLastImportDate.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss");
@@ -472,14 +472,14 @@ namespace Finx.App.Forms
                 {
                     lblLastImportUser.Text = Program.User.Firstname;
                 });
-                
+
                 await Task.Run(() =>
                 {
-                    ValidateDataGridRecords().Wait();
+                    ValidateDataGridRecords();
                 });
-                
-                
-               
+
+
+
 
                 //await Task.Run(() =>
                 //{
@@ -496,7 +496,7 @@ namespace Finx.App.Forms
                 });
             }
         }
-        
+
         private void openClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -643,7 +643,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private async void dgvFileContents_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dgvFileContents_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             using (new AppWaitCursor(sender))
             {
@@ -652,7 +652,7 @@ namespace Finx.App.Forms
 
                 if (_existingClientDetails != null && _existingClientDetails.Count() > 0)
                 {
-                    await ValidateDataGridRecords();
+                    ValidateDataGridRecords();
                     _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => !string.IsNullOrEmpty(ec.IdentificationNo) && ec.IdentificationNo == csvList.IDNumber && string.IsNullOrEmpty(ec.PassportNo)))
                                                             .Concat(_csvRecordList.Where(csvList2 => _existingClientDetails.Any(ec2 => !string.IsNullOrEmpty(ec2.PassportNo) && ec2.PassportNo == csvList2.PassportNo && string.IsNullOrEmpty(ec2.IdentificationNo))));
                     _noOfExistingClients = _matchedClientsFromCsv.Count();
@@ -688,7 +688,7 @@ namespace Finx.App.Forms
             _existingClientDetails = await GetExistingClientDetails();
         }
 
-       
+
         private void GetExistingClientWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             btnImportFile.Enabled = true;
@@ -708,11 +708,10 @@ namespace Finx.App.Forms
 
         private async void LoadFileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //if(!metroPanel4.Visible)
-              //  metroPanel4.Visible = true;
-
             try
             {
+                dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
+
                 switch (_selectedLisp.ToLower())
                 {
                     case "alangray":
@@ -762,7 +761,7 @@ namespace Finx.App.Forms
             }
 
             dgvFileContents.CausesValidation = false;
-            
+
             await LoadClientInvestmentsFromFile();
 
             await RefreshClientRetirementPortfolioView();
@@ -789,15 +788,17 @@ namespace Finx.App.Forms
             //metroPanel9.Controls.Add(new Label() { Dock = DockStyle.Fill });
             //metroPanel10.Controls.Add(new Label() { Dock = DockStyle.Fill });
 
-            _pbImportFile = new ProgressBar() { Dock = DockStyle.Bottom, Style = ProgressBarStyle.Blocks };
-            panelFileInfo.Controls.Add(_pbImportFile);
-            panelFileInfo.PerformLayout();
-            _pbImportFile.Visible = true;
+            //_pbImportFile = new ProgressBar() { Dock = DockStyle.Bottom, Style = ProgressBarStyle.Blocks };
+            //panelFileInfo.Controls.Add(_pbImportFile);
+            //panelFileInfo.PerformLayout();
+            //_pbImportFile.Visible = true;
 
             dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
             this.FormClosing += FrmMetroClientImportInvestments_FormClosing;
             this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;
+
             _cancellationTokenSource = new CancellationTokenSource();
+
             if (_lockObject == null)
                 _lockObject = new object();
 
@@ -1054,7 +1055,7 @@ namespace Finx.App.Forms
 
         private async Task<ClientPortfolio> GetClientPortfolio(string ClientUniqueId)
         {
-    
+
             if (_existingClientDetails == null) return null;
 
             ClientPortfolio clientPortfolio = null;
@@ -1380,10 +1381,8 @@ namespace Finx.App.Forms
 
         private void LoadFile(FileSettings fileSettings)
         {
-
             try
             {
-
                 var filepath = fileSettings.FilePath;
                 var csvHelperConfiguration = fileSettings.CsvConfiguration;
                 _detectedFileDelimiter = CsvFileHelper.DetectDelimiter(File.OpenText(filepath), csvHelperConfiguration.DetectDelimiterValues);
@@ -1698,6 +1697,10 @@ namespace Finx.App.Forms
                 await Task.Run(() =>
                 {
                     var csvRecordsOut = _csvRecordList.Where(r => r.HasErrors);
+
+                    if (csvRecordsOut == null || csvRecordsOut.Count() == 0)
+                        return;
+
                     var errorRows = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => csvRecordsOut.Any(o => o.RowNo.ToString() == r.Cells[0].Value.ToString()));
 
                     foreach (var errorRow in errorRows)
@@ -1720,7 +1723,6 @@ namespace Finx.App.Forms
 
                     var csvHelperConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture) { Encoding = Encoding.UTF8, Delimiter = ",", HeaderValidated = null, TrimOptions = TrimOptions.Trim };
 
-
                     using (var textWriter = new StreamWriter(fileName, true, Encoding.UTF8) { AutoFlush = true })
                     {
                         using (CsvHelper.CsvWriter csvWriter = new CsvWriter(textWriter, csvHelperConfiguration))
@@ -1734,147 +1736,178 @@ namespace Finx.App.Forms
             }
             catch (Exception)
             {
-
                 throw;
             }
             return fileName;
         }
 
-        private async Task ValidateDataGridRecords()
+        private void ValidateDataGridRecords()
         {
             var totRowCnt = dgvFileContents.RowCount;
             var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1 };
+            var semaphore = new SemaphoreSlim(1);
 
-            Parallel.For(_dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions, t =>
-             {
-                 var dataRow = dgvFileContents.Rows[t];
-                 var dgvRowIndex = t + 1;
-                 var csvRecord = _csvRecordList.Where(r => r.RowNo == dgvRowIndex).FirstOrDefault();
+            try
+            {
+                    Parallel.For(_dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions, t =>
+                    {
+                        semaphore.Wait();
 
-                 //validate idno cell
-                 var idNoCell = dataRow.Cells["IDNumber"];
-                 var idno = idNoCell.Value.ToString();
+                        var dataRow = dgvFileContents.Rows[t];
+                        var dgvRowIndex = t + 1;
+                        var csvRecord = _csvRecordList.Where(r => r.RowNo == dgvRowIndex).FirstOrDefault();
 
-                 if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
-                 {
-                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";
-                     idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
+                        ValidateSAIDNo(dataRow, csvRecord, out DataGridViewCell idNoCell, out string idno);
 
-                     dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                     csvRecord.HasErrors = true;
-                 }
-                 /*
-                  YYMMDDGSSSCAZ
+                        ValidateFundValue(dataRow, csvRecord);
 
-                    YYMMDD : Date of birth (DOB)
-                    G : Gender. 0-4 Female; 5-9 Male
-                    SSS : Sequence No. for DOB/G combination
-                    C : Citizenship. 0 SA; 1 Other
-                    A : Usually 8, or 9 but can be other values
-                    Z : Calculated control (check) digit
+                        ValidateFundValueDate(dataRow, csvRecord);
 
-                  * */
+                        ColourRows(dataRow, idno);
 
-                 if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
-                 {
-                     idNoCell.ErrorText = "Invalid ID No. Regex validation failure!";
-                     idNoCell.ToolTipText = "Invalid ID No. Regex validation failure!";
+                        if (csvRecord.HasErrors)
+                            _errRecsCnt++;
 
-                     dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                     csvRecord.HasErrors = true;
-                 }
+                        semaphore.Release();
+                    });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally 
+            {
+                semaphore.Release();
+            }
+        }
+        private void ColourRows(DataGridViewRow dataRow, string idno)
+        {
+            if (_matchedClientsFromCsv != null && _matchedClientsFromCsv.Count() > 0)
+            {
+                if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
+                {
+                    if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                        dataRow.DefaultCellStyle.BackColor = Color.LightBlue;
+                }
+                else
+                {
+                    if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                        dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
+                }
+            }
+            else
+            {
+                if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                    dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
+            }
+        }
 
-                 //validate fundValue cell
-                 var fundValueCell = dataRow.Cells["FundValue"];
-                 var fundValue = fundValueCell.Value.ToString();
+        private void ValidateFundValueDate(DataGridViewRow dataRow, ICsvRecord csvRecord)
+        {
+            DataGridViewCell fundValueDateCell;
+            var fundValueDate = "";
+            
+            if (!_selectedLisp.Contains("nedgroup"))
+            {
+                fundValueDateCell = dataRow.Cells["FundValueDate"];
+                fundValueDate = fundValueDateCell.Value.ToString();
 
-                 if (string.IsNullOrEmpty(fundValue))
-                 {
-                     fundValueCell.ErrorText = "Invalid Fund Value!";
-                     fundValueCell.ToolTipText = "Invalid Fund Value!";
-                     dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                     csvRecord.HasErrors = true;
-                 }
-                 else
-                 {
-                     _ = double.TryParse(fundValue, out double outFundValue);
-                     if (outFundValue <= 0)
-                     {
-                         fundValueCell.ErrorText = "Invalid Fund Value!";
-                         fundValueCell.ToolTipText = "Invalid Fund Value!";
-                         dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                         csvRecord.HasErrors = true;
-                     }
-                     else
-                     {
-                         fundValueCell.ErrorText = "";
-                         fundValueCell.ToolTipText = "";
-                         //dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
-                         csvRecord.HasErrors = false;
-                     }
-                 }
-                 
-                 DataGridViewCell fundValueDateCell;
-                 var fundValueDate = "";
+                if (string.IsNullOrEmpty(fundValueDate))
+                {
+                    fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                    fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
+                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                    csvRecord.HasErrors = true;
+                }
 
-                 //validate fundValueDate cell
-                 DateTime dtFundValueDate;
-                 if (!_selectedLisp.Contains("nedgroup"))
-                 {
-                     fundValueDateCell = dataRow.Cells["FundValueDate"];
-                     fundValueDate = fundValueDateCell.Value.ToString();
+                if (!DateTime.TryParseExact(fundValueDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+                {
+                    fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                    fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
+                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                    csvRecord.HasErrors = true;
+                }
+                else
+                {
+                    DateTime.TryParse(fundValueDate, out DateTime dtFundValueDate);
+                    if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                    {
+                        fundValueDateCell.ErrorText = string.Empty;
+                        fundValueDateCell.ToolTipText = string.Empty;
+                        dataRow.DefaultCellStyle.BackColor = Color.White;
+                    }
+                }
+            }
+        }
 
-                     if (string.IsNullOrEmpty(fundValueDate))
-                     {
-                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
-                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                         dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                         csvRecord.HasErrors = true;
-                     }
+        private static void ValidateFundValue(DataGridViewRow dataRow, ICsvRecord csvRecord)
+        {
+            var fundValueCell = dataRow.Cells["FundValue"];
+            var fundValue = fundValueCell.Value.ToString();
 
-                     if (!DateTime.TryParseExact(fundValueDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
-                     {
-                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
-                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                         dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                         csvRecord.HasErrors = true;
-                     }
-                     else
-                     {
-                         DateTime.TryParse(fundValueDate, out dtFundValueDate);
-                         if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                         {
-                             fundValueDateCell.ErrorText = string.Empty;
-                             fundValueDateCell.ToolTipText = string.Empty;
-                             dataRow.DefaultCellStyle.BackColor = Color.White;
-                         }
-                     }
-                 }
+            if (string.IsNullOrEmpty(fundValue))
+            {
+                fundValueCell.ErrorText = "Invalid Fund Value!";
+                fundValueCell.ToolTipText = "Invalid Fund Value!";
+                dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                csvRecord.HasErrors = true;
+            }
+            else
+            {
+                _ = double.TryParse(fundValue, out double outFundValue);
+                if (outFundValue <= 0)
+                {
+                    fundValueCell.ErrorText = "Invalid Fund Value!";
+                    fundValueCell.ToolTipText = "Invalid Fund Value!";
+                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                    csvRecord.HasErrors = true;
+                }
+                else
+                {
+                    fundValueCell.ErrorText = "";
+                    fundValueCell.ToolTipText = "";
+                    csvRecord.HasErrors = false;
+                }
+            }
+        }
 
-                 var rowNoCell = dataRow.Cells["RowNo"];
+        private static void ValidateSAIDNo(DataGridViewRow dataRow, ICsvRecord csvRecord, out DataGridViewCell idNoCell, out string idno)
+        {
+            #region SAIDNoComposition
+            /*
+                YYMMDDGSSSCAZ
 
-                 if (_matchedClientsFromCsv != null && _matchedClientsFromCsv.Count() > 0)
-                 {
-                     if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
-                     {
-                         if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                             dataRow.DefaultCellStyle.BackColor = Color.LightBlue;
-                     }
-                     else
-                     {
-                         if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                             dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
-                     }
-                 }
-                 else
-                 {
-                     if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                         dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
-                 }
+                YYMMDD : Date of birth (DOB)
+                G : Gender. 0-4 Female; 5-9 Male
+                SSS : Sequence No. for DOB/G combination
+                C : Citizenship. 0 SA; 1 Other
+                A : Usually 8, or 9 but can be other values
+                Z : Calculated control (check) digit
 
-                 if (csvRecord.HasErrors)
-                     _errRecsCnt++;
-             });
+                * */
+            #endregion
+
+            idNoCell = dataRow.Cells["IDNumber"];
+            idno = idNoCell.Value.ToString();
+            
+            if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+            {
+                idNoCell.ErrorText = "Invalid ID No. Length < 13!";
+                idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
+
+                dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                csvRecord.HasErrors = true;
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
+            {
+                idNoCell.ErrorText = "Invalid ID No. Regex validation failure!";
+                idNoCell.ToolTipText = "Invalid ID No. Regex validation failure!";
+
+                dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                csvRecord.HasErrors = true;
+            }
         }
 
         private async Task<IEnumerable<ClientDetails>> GetExistingClientDetails()
@@ -1897,7 +1930,7 @@ namespace Finx.App.Forms
 
         #endregion
 
-      
+
     }
 }
 

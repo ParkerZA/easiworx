@@ -134,7 +134,7 @@ namespace Finx.App.Models
 
         public void ValidateHeadings(HeaderValidatedArgs args)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 
