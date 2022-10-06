@@ -129,7 +129,7 @@ namespace Finx.App.Models
             get { return _fundValue; }
             set
             {
-                _fundValue = value.Replace(",", string.Empty);
+                _fundValue = value;//.Replace(",", string.Empty);
             }
         }
 
@@ -157,7 +157,7 @@ namespace Finx.App.Models
 
         public void ValidateHeadings(HeaderValidatedArgs args)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 
