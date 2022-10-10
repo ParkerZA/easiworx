@@ -1,4 +1,5 @@
-﻿using CsvHelper;
+﻿using CsvFileImporter.CsvFile.Entities;
+using CsvHelper;
 using CsvHelper.Configuration;
 using easiplan.domain.Entities;
 using easiplan.domain.Views;
@@ -6,7 +7,6 @@ using Finx.App.Extensions;
 using Finx.App.Helpers;
 using Finx.App.Interfaces;
 using Finx.App.Models;
-using Finx.App.UserControls;
 using MetroFramework.Forms;
 using MoreLinq;
 using System;
@@ -33,18 +33,23 @@ namespace Finx.App.Forms
         #region PrivateVars
 
         private List<ICsvRecord> _csvRecordList = null;
-        private IEnumerable<ClientDetails> _existingClientDetails = null;
-        private IEnumerable<ICsvRecord> _matchedClientsFromCsv = null;
-        private IEnumerable<ICsvRecord> _csvErrorRecords = null;
+        //private IEnumerable<ClientDetails> _existingClientDetails = null;
+        private List<ClientDetails> _existingClientDetails = null;
+        //private IEnumerable<ICsvRecord> _matchedClientsFromCsv = null;
+        private List<ICsvRecord> _matchedClientsFromCsv = null;
+        //private IEnumerable<ICsvRecord> _csvErrorRecords = null;
+        private List<ICsvRecord> _csvErrorRecords = null;
         private string _filepath;
-        private static int _errRecsCnt = 0;
-        private string _selectedLisp;
+        //private static int _errRecsCnt = 0;
+        private static string _selectedLisp;
         private int _noOfExistingClients = 0;
         private int _noOfNewClients = 0;
-        private ProgressBar _pbImportFile = null;
+        //private ProgressBar _pbImportFile = null;
         private BackgroundWorker _getExistingClientWorker = null;
-        private IEnumerable<ICsvRecord> _distinctFileClients = null;
-        private ConcurrentDictionary<string, IEnumerable<ICsvRecord>> _fileClientInvestments = null;
+        //private IEnumerable<ICsvRecord> _distinctFileClients = null;
+        private List<ICsvRecord> _distinctFileClients = null;
+        //private ConcurrentDictionary<string, IEnumerable<ICsvRecord>> _fileClientInvestments = null;
+        private ConcurrentDictionary<string, List<ICsvRecord>> _fileClientInvestments = null;
         private static int _percCompleted = 0;
         private static int _recCnt = 0;
         private int _importBatchSize = 10;
@@ -58,6 +63,7 @@ namespace Finx.App.Forms
         private string _selectedFilename;
         private byte[] _selectedFileHash;
         private IntPtr _handle;
+        private FileProperties _fileProperties;
 
         #endregion
 
@@ -109,7 +115,7 @@ namespace Finx.App.Forms
             _existingClientDetails = null;
             _matchedClientsFromCsv = null;
             _csvErrorRecords = null;
-            _pbImportFile = null;
+            //_pbImportFile = null;
             _getExistingClientWorker = null;
             _distinctFileClients = null;
             _fileClientInvestments = null;
@@ -121,7 +127,7 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #region FormEvents
+        #region FormEventHandlers
 
         private void kbtnOpenFile_Click(object sender, EventArgs e)
         {
@@ -154,8 +160,13 @@ namespace Finx.App.Forms
                 {
                     openFileDialog1.Multiselect = false;
                     openFileDialog1.Title = "Please select a file.";
-                    openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) +
+                    var dirPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) +
                                                         "\\Easiworx\\" + _selectedLisp; //System.Configuration.ConfigurationManager.AppSettings["CsvFileImportInitialDir"] + _selectedLisp; 
+
+                    if (!Directory.Exists(dirPath))
+                        Directory.CreateDirectory(dirPath);
+
+                    openFileDialog1.InitialDirectory = dirPath;
                     openFileDialog1.Filter = "CSV Files (*.csv)|*.csv";
                     DialogResult dialogResult;
 
@@ -172,8 +183,10 @@ namespace Finx.App.Forms
 
                     if (dialogResult == DialogResult.OK)
                     {
+                        //_errRecsCnt = 0;
                         _selectedFilename = openFileDialog1.SafeFileName;
                         _filepath = openFileDialog1.FileName;
+
                         //var importedCsvFiles = metroMdiMain.ImportedCsvFiles;
 
                         //check if file already has been imported
@@ -192,11 +205,12 @@ namespace Finx.App.Forms
                         //}
                         dgvFileContents.DataBindingComplete -= dgvFileContents_DataBindingComplete;
                         dgvFileContents.DataSource = null;
-                        var fileProps = CsvFileHelper.GetFileProperties(_filepath);
+                        _fileProperties = CsvFileHelper.GetFileProperties(_filepath);
+
                         lblSelectedFile.Text = _selectedFilename;
                         lblSelectedFile1.Visible = true;
-                        lblFileDate.Text = fileProps.FileDate.ToString("dd MMM yyyy hh:mm");
-                        lblFileSize.Text = string.Format("{0} KB", (fileProps.FileSize / 1024).ToString());
+                        lblFileDate.Text = _fileProperties.FileDate.ToString("dd MMM yyyy hh:mm");
+                        lblFileSize.Text = string.Format("{0} KB", (_fileProperties.FileSize / 1024).ToString());
 
                         var _loadFileWorker = new BackgroundWorker() { WorkerReportsProgress = false };
                         _loadFileWorker.DoWork += LoadFileWorker_DoWork;
@@ -274,7 +288,7 @@ namespace Finx.App.Forms
             lblLastImportDate.Text = "";
             lblLastImportUser.Text = "";
 
-            var totClients = _fileClientInvestments.Count();
+            var totClients = _fileClientInvestments.Count;
             cancelImport.Enabled = true;
             kbtnOpenFile.Enabled = false;
             this.ControlBox = false;
@@ -308,7 +322,7 @@ namespace Finx.App.Forms
         {
             try
             {
-                var totClients = _fileClientInvestments.Count();
+                var totClients = _fileClientInvestments.Count;
                 var clientKeys = _fileClientInvestments.Keys.ToList();
 
                 ThreadPool.SetMinThreads(38, 38);
@@ -323,7 +337,7 @@ namespace Finx.App.Forms
                 var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
                 recordImportProgress.ProgressChanged += RecordImportProgress_ProgressChanged;
 
-                if (clientKeys.Count() >= _importBatchSize)
+                if (clientKeys.Count >= _importBatchSize)
                 {
                     var batchedClientInvestments = await Task.Run(() => MoreEnumerable.Batch(clientKeys, _importBatchSize));
 
@@ -365,7 +379,7 @@ namespace Finx.App.Forms
 
                             //RecordCsvFileImport();
 
-                            await Task.Run(() =>
+                            await Task.Run(async () =>
                             {
                                 //var win32Parent = new NativeWindow();
                                 //win32Parent.AssignHandle(_handle);
@@ -473,7 +487,7 @@ namespace Finx.App.Forms
                     lblLastImportUser.Text = Program.User.Firstname;
                 });
 
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     ValidateDataGridRecords();
                 });
@@ -507,7 +521,7 @@ namespace Finx.App.Forms
             var passportNo = selectedRow.Cells["PassportNo"].Value.ToString();
             int? clientId = null;
 
-            if (_existingClientDetails != null && _existingClientDetails.Count() > 0)
+            if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 clientId = _existingClientDetails.Where(ec => ec.IdentificationNo == idno).FirstOrDefault().ClientId;
 
             if (clientId == 0) //try find client on passport no
@@ -647,24 +661,27 @@ namespace Finx.App.Forms
         {
             using (new AppWaitCursor(sender))
             {
-                var totRecs = _csvRecordList.Count();
+                var totRecs = _csvRecordList.Count;
                 lblRecCnt.Text = totRecs.ToString();
 
-                if (_existingClientDetails != null && _existingClientDetails.Count() > 0)
+                if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
                     ValidateDataGridRecords();
-                    _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => !string.IsNullOrEmpty(ec.IdentificationNo) && ec.IdentificationNo == csvList.IDNumber && string.IsNullOrEmpty(ec.PassportNo)))
-                                                            .Concat(_csvRecordList.Where(csvList2 => _existingClientDetails.Any(ec2 => !string.IsNullOrEmpty(ec2.PassportNo) && ec2.PassportNo == csvList2.PassportNo && string.IsNullOrEmpty(ec2.IdentificationNo))));
-                    _noOfExistingClients = _matchedClientsFromCsv.Count();
+                    _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => !string.IsNullOrEmpty(ec.IdentificationNo) &&
+                                                                  ec.IdentificationNo == csvList.IDNumber &&
+                                                                  string.IsNullOrEmpty(ec.PassportNo))).Concat(_csvRecordList.Where(csvList2 => _existingClientDetails.Any(ec2 => !string.IsNullOrEmpty(ec2.PassportNo) &&
+                                                                                                               ec2.PassportNo == csvList2.PassportNo &&
+                                                                                                               string.IsNullOrEmpty(ec2.IdentificationNo)))).ToList();
+                    _noOfExistingClients = _matchedClientsFromCsv.Count;
+                    _csvErrorRecords = _csvRecordList.Where(r => r.HasErrors).ToList();
 
-                    _csvErrorRecords = _csvRecordList.Where(r => r.HasErrors);
-                    var errCnt = _csvErrorRecords.Count();
+                    var errCnt = _csvErrorRecords.Count;
                     lblTotValErrors.Text = errCnt.ToString();
 
                     _noOfNewClients = totRecs - _noOfExistingClients;
 
                     lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                    lblNewClientCnt.Text = (totRecs - _noOfExistingClients).ToString();
+                    lblNewClientCnt.Text = (_noOfNewClients - errCnt).ToString();
 
                     lblExistingClientCnt.Visible = true;
                     lblNewClientCnt.Visible = true;
@@ -714,9 +731,10 @@ namespace Finx.App.Forms
 
                 switch (_selectedLisp.ToLower())
                 {
-                    case "alangray":
+                    case "allangray":
+                    case "allan gray":
                     case "alan gray":
-                        dgvFileContents.DataSource = _csvRecordList.Cast<AlanGrayRecord>().ToList();
+                        dgvFileContents.DataSource = _csvRecordList.Cast<AllanGrayRecord>().ToList();
                         dgvFileContents.Columns["Product"].Visible = true;
                         dgvFileContents.Columns["ProductType"].Visible = true;
                         dgvFileContents.Columns["Title"].Visible = false;
@@ -882,23 +900,25 @@ namespace Finx.App.Forms
             {
                 _distinctFileClients = await Task.Run(() => _csvRecordList.Where(r => !string.IsNullOrEmpty(r.IDNumber)).GroupBy(x => x.IDNumber).Select(x => x.FirstOrDefault())
                                                             .Concat(_csvRecordList.Where(r2 => string.IsNullOrEmpty(r2.IDNumber) && !string.IsNullOrEmpty(r2.PassportNo))
-                                                                                            .GroupBy(x2 => x2.PassportNo).Select(x2 => x2.FirstOrDefault())));
+                                                                                            .GroupBy(x2 => x2.PassportNo).Select(x2 => x2.FirstOrDefault())).ToList());
 
-                if (_distinctFileClients != null && _distinctFileClients.Count() > 0)
+                if (_distinctFileClients != null && _distinctFileClients.Count > 0)
                 {
-                    _fileClientInvestments = new ConcurrentDictionary<string, IEnumerable<ICsvRecord>>();
-                    IEnumerable<ICsvRecord> clientInvestments = null;
+                    //_fileClientInvestments = new ConcurrentDictionary<string, IEnumerable<ICsvRecord>>();
+                    _fileClientInvestments = new ConcurrentDictionary<string, List<ICsvRecord>>();
+                    //IEnumerable<ICsvRecord> clientInvestments = null;
+                    List<ICsvRecord> clientInvestments = null;
                     foreach (var record in _distinctFileClients)
                     {
                         clientInvestments = _csvRecordList.Where(r => !string.IsNullOrEmpty(r.IDNumber) &&
                                                                      string.IsNullOrEmpty(r.PassportNo) &&
                                                                      r.IDNumber.Trim() == record.IDNumber.Trim()
-                                                                     && !r.HasErrors);
-                        if (clientInvestments.Count() == 0)
+                                                                     && !r.HasErrors).ToList();
+                        if (clientInvestments.Count == 0)
                             clientInvestments = _csvRecordList.Where(r2 => !string.IsNullOrEmpty(r2.PassportNo) &&
                                                         string.IsNullOrEmpty(r2.IDNumber) && record.PassportNo != null &&
                                                         r2.PassportNo.Trim() == record.PassportNo.Trim()
-                                                        && !r2.HasErrors);
+                                                        && !r2.HasErrors).ToList();
 
                         var key = !string.IsNullOrEmpty(record.IDNumber) ? record.IDNumber.Trim() : record.PassportNo.Trim();
                         _fileClientInvestments.TryAdd(key, clientInvestments);
@@ -912,7 +932,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private async Task ImportClientInvestments(string ClientUniqueId, IEnumerable<ICsvRecord> Investments)
+        private async Task ImportClientInvestments(string ClientUniqueId, List<ICsvRecord> Investments)
         {
 
             try
@@ -973,7 +993,7 @@ namespace Finx.App.Forms
                 }
 
                 //get all distinct policies for this client
-                var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()));
+                var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
                 Retirement retirement = null;
 
@@ -981,7 +1001,7 @@ namespace Finx.App.Forms
                 {
 
                     //check if retirement policy exists for this client
-                    if (clientPortfolio != null && clientPortfolio.Retirements != null && clientPortfolio.Retirements.Count() > 0)
+                    if (clientPortfolio != null && clientPortfolio.Retirements != null && clientPortfolio.Retirements.Count > 0)
                         retirement = clientPortfolio.Retirements.Where(r => r.Description.Trim().ToLower() == policy.LISP.Trim().ToLower() &&
                                                                                      r.ReferenceNo.Trim().ToLower() == policy.AccountNo.Trim().ToLower())
                                                                                         .FirstOrDefault();
@@ -1008,7 +1028,7 @@ namespace Finx.App.Forms
                         });
 
                     //get all funds per policy
-                    var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()));
+                    var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
 
                     //add or update policy funds
                     var updatedretirement = AddRetirementFunds(retirement, policyFunds);//await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
@@ -1079,18 +1099,19 @@ namespace Finx.App.Forms
 
                 if (clientId == 0 || clientId == -1)
                     return null;
-                IEnumerable<ClientRetirementPortfolio_View> clientRetirementPortfolioList = null;
+                //IEnumerable<ClientRetirementPortfolio_View> clientRetirementPortfolioList = null;
+                List<ClientRetirementPortfolio_View> clientRetirementPortfolioList = null;
 
                 //1st try on id no
-                clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.IdentificationNo == ClientUniqueId));
+                clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.IdentificationNo == ClientUniqueId).ToList());
                 //clientRetirementPortfolioList = await Task.Run(() => Program.ClientRetirementPortfolioService.ListView(lv => lv.IdentificationNo == ClientUniqueId));
 
                 //else try on passport no
-                if (clientRetirementPortfolioList == null || clientRetirementPortfolioList.Count() == 0)
-                    clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.PassportNo == ClientUniqueId));
+                if (clientRetirementPortfolioList == null || clientRetirementPortfolioList.Count == 0)
+                    clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.PassportNo == ClientUniqueId).ToList());
                 //clientRetirementPortfolioList =  await Task.Run(() => Program.ClientRetirementPortfolioService.ListView(lv => lv.PassportNo == ClientUniqueId));
 
-                if (clientRetirementPortfolioList != null && clientRetirementPortfolioList.Count() > 0)
+                if (clientRetirementPortfolioList != null && clientRetirementPortfolioList.Count > 0)
                     clientPortfolioId = clientRetirementPortfolioList.FirstOrDefault().ClientPortfolioId; //assuming a client can ever only have 1 portfolio? 
 
                 //existing easiworx client portfolio
@@ -1253,10 +1274,10 @@ namespace Finx.App.Forms
                             if (string.IsNullOrEmpty(dob))
                                 return null;
 
-                            var alanGrayRecord = csvRecord as AlanGrayRecord;
+                            var allanGrayRecord = csvRecord as AllanGrayRecord;
 
-                            firstname = alanGrayRecord.Firstname.Trim();
-                            lastname = alanGrayRecord.Lastname.Trim();
+                            firstname = allanGrayRecord.Firstname.Trim();
+                            lastname = allanGrayRecord.Lastname.Trim();
 
                             break;
                         //case "oasis":
@@ -1392,9 +1413,9 @@ namespace Finx.App.Forms
                 {
                     _csvRecordList = CsvFileHelper.GetRecords<CamissaRecord>(filepath, csvHelperConfiguration);
                 }
-                if (_selectedLisp.ToLower().Contains("alan"))
+                if (_selectedLisp.ToLower().Contains("allan"))
                 {
-                    _csvRecordList = CsvFileHelper.GetRecords<AlanGrayRecord>(filepath, csvHelperConfiguration);
+                    _csvRecordList = CsvFileHelper.GetRecords<AllanGrayRecord>(filepath, csvHelperConfiguration);
                 }
                 if (_selectedLisp.ToLower().Contains("nedgroup"))
                 {
@@ -1422,8 +1443,8 @@ namespace Finx.App.Forms
 
                 dgvFileContents.AutoGenerateColumns = false;
 
-                if (_existingClientDetails != null && _existingClientDetails.Count() > 0)
-                    _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => ec.IdentificationNo == csvList.IDNumber && csvList.HasErrors == false && ec.ClientId != 0));// && ec.PassportNo == csvList.PassportNo));
+                if (_existingClientDetails != null && _existingClientDetails.Count > 0)
+                    _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => ec.IdentificationNo == csvList.IDNumber && csvList.HasErrors == false && ec.ClientId != 0)).ToList();// && ec.PassportNo == csvList.PassportNo));
             }
             catch (Exception)
             {
@@ -1457,7 +1478,7 @@ namespace Finx.App.Forms
 
         }
 
-        private Retirement AddRetirementFunds(Retirement retirement, IEnumerable<ICsvRecord> funds)
+        private Retirement AddRetirementFunds(Retirement retirement, List<ICsvRecord> funds)
         {
 
             double fundAllocPerc = 0;
@@ -1476,16 +1497,16 @@ namespace Finx.App.Forms
 
                     switch (fund.LISP.ToLower())
                     {
-                        case "alan gray":
-                        case "alangray":
-                            Double.TryParse(((AlanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
+                        case "allan gray":
+                        case "allangray":
+                            Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
                             break;
                         case "momentum":
                             Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
                             break;
                     }
 
-                    if (retirement.Funds.Count() > 0)
+                    if (retirement.Funds.Count > 0)
                     {
                         var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
                         if (existingFund == null)
@@ -1570,10 +1591,9 @@ namespace Finx.App.Forms
                 case "momentum":
                     insured = soughtClient is null ? ((MomentumRecord)csvRecord).Firstname : soughtClient.FirstName;
                     break;
-                case "alan gray":
-                case "alangray":
-                    insured = soughtClient is null ? ((AlanGrayRecord)csvRecord).Firstname : soughtClient.FirstName;
-                    //Double.TryParse(((AlanGrayRecord)csvRecord).FundAllocationPercentage, out fundAllocPerc);
+                case "allan gray":
+                case "allangray":
+                    insured = soughtClient is null ? ((AllanGrayRecord)csvRecord).Firstname : soughtClient.FirstName;
                     break;
                 //case "oasis":
                 //    break;
@@ -1658,8 +1678,8 @@ namespace Finx.App.Forms
                                                         "\\Easiworx\\ErrorFiles";
                 fileName = filePath;
 
-                if (_selectedLisp.ToLower().Contains("alan"))
-                    fileName += "AlanGray_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
+                if (_selectedLisp.ToLower().Contains("allan"))
+                    fileName += "AllanGray_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
                 if (_selectedLisp.ToLower().Contains("atwork"))
                     fileName += "AtWork_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
@@ -1696,9 +1716,9 @@ namespace Finx.App.Forms
 
                 await Task.Run(() =>
                 {
-                    var csvRecordsOut = _csvRecordList.Where(r => r.HasErrors);
+                    var csvRecordsOut = _csvRecordList.Where(r => r.HasErrors).ToList();
 
-                    if (csvRecordsOut == null || csvRecordsOut.Count() == 0)
+                    if (csvRecordsOut == null || csvRecordsOut.Count == 0)
                         return;
 
                     var errorRows = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => csvRecordsOut.Any(o => o.RowNo.ToString() == r.Cells[0].Value.ToString()));
@@ -1713,7 +1733,7 @@ namespace Finx.App.Forms
                             {
                                 validationErrors += errorCell.ErrorText + " ";
                             }
-                            if (csvRecordsOut != null && csvRecordsOut.Count() > 0)
+                            if (csvRecordsOut != null && csvRecordsOut.Count > 0)
                             {
                                 var csvRecOut = csvRecordsOut.Where(r => r.RowNo == int.Parse(errorRow.Cells["RowNo"].Value.ToString())).FirstOrDefault();
                                 csvRecOut.ValidationErrors = validationErrors;
@@ -1729,7 +1749,7 @@ namespace Finx.App.Forms
                         {
                             csvWriter.WriteRecords(csvRecordsOut);
                             csvWriter.NextRecord();
-                            csvWriter.WriteComment("Record Count: " + csvRecordsOut.Count().ToString());
+                            csvWriter.WriteComment("Record Count: " + csvRecordsOut.Count.ToString());
                         }
                     }
                 });
@@ -1741,138 +1761,119 @@ namespace Finx.App.Forms
             return fileName;
         }
 
+        //private async Task ValidateDataGridRecords(DataGridViewRow dataGridViewRow, int rowIndex)
+        //{
+        //    try
+        //    {
+        //        rowIndex = rowIndex + 1;
+        //        var csvRecord = _csvRecordList.Where(r => r.RowNo == rowIndex).FirstOrDefault();
+                
+        //        if (csvRecord == null) return;
+
+        //        await ValidateSAIDNo(dataGridViewRow, csvRecord);
+        //        await ValidateFundValue(dataGridViewRow, csvRecord);
+        //        await ValidateFundValueDate(dataGridViewRow, csvRecord);
+        //        await ColourRows(dataGridViewRow);
+
+        //        if (csvRecord.HasErrors)
+        //            _errRecsCnt++;
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+            
+        //}
+
         private void ValidateDataGridRecords()
         {
-            var totRowCnt = dgvFileContents.RowCount;
-            var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1 };
-            var semaphore = new SemaphoreSlim(1);
+            SemaphoreSlim semaphore = null;
 
             try
             {
-                    Parallel.For(_dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions, t =>
+                var totRowCnt = dgvFileContents.RowCount + 1;
+                var tokenSource = new CancellationTokenSource();
+                var cancellationToken = tokenSource.Token;
+                var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1,CancellationToken = cancellationToken };
+                semaphore = new SemaphoreSlim(1);
+
+                Parallel.For(_dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions,async i =>
+                {
+                    try
                     {
-                        semaphore.Wait();
+                        await semaphore.WaitAsync();
+                        var rowIndex = i + 1;
 
-                        var dataRow = dgvFileContents.Rows[t];
-                        var dgvRowIndex = t + 1;
-                        var csvRecord = _csvRecordList.Where(r => r.RowNo == dgvRowIndex).FirstOrDefault();
+                        if (rowIndex == totRowCnt)
+                        {
+                            tokenSource.Cancel();
+                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                        }
 
-                        ValidateSAIDNo(dataRow, csvRecord, out DataGridViewCell idNoCell, out string idno);
+                        var dataRow = dgvFileContents.Rows[i];
+                        var csvRecord = _csvRecordList.Where(r => r.RowNo == rowIndex).FirstOrDefault();
 
-                        ValidateFundValue(dataRow, csvRecord);
+                        ValidateSAIDNo(dataRow,ref csvRecord);
 
-                        ValidateFundValueDate(dataRow, csvRecord);
+                        ValidateFundValue(dataRow,ref csvRecord);
 
-                        ColourRows(dataRow, idno);
+                        ValidateFundValueDate(dataRow,ref csvRecord);
 
-                        if (csvRecord.HasErrors)
-                            _errRecsCnt++;
+                        //if (csvRecord.HasErrors)
+                        //    _errRecsCnt++;
+
+                        ColourRows(dataRow);
 
                         semaphore.Release();
-                    });
+                    }
+                    catch (OperationCanceledException)
+                    {
+                    }
+                   
+                });
+                
             }
             catch (Exception)
             {
-                throw;
             }
-            finally 
+            finally
             {
                 semaphore.Release();
             }
         }
-        private void ColourRows(DataGridViewRow dataRow, string idno)
+
+        private void ColourRows(DataGridViewRow dataRow)
         {
-            if (_matchedClientsFromCsv != null && _matchedClientsFromCsv.Count() > 0)
-            {
-                if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
+            //await Task.Run(() =>
+            //{
+                var idNoCell = dataRow.Cells["IDNumber"];
+                var idno = idNoCell.Value.ToString();
+
+                if (_matchedClientsFromCsv != null && _matchedClientsFromCsv.Count > 0)
                 {
-                    if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                        dataRow.DefaultCellStyle.BackColor = Color.LightBlue;
+                    if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
+                    {
+                        if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                            dataRow.DefaultCellStyle.BackColor = Color.LightBlue;
+                    }
+                    else
+                    {
+                        if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                            dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
+                    }
                 }
                 else
                 {
                     if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
                         dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
                 }
-            }
-            else
-            {
-                if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                    dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
-            }
+            //});
         }
-
-        private void ValidateFundValueDate(DataGridViewRow dataRow, ICsvRecord csvRecord)
+       
+        private void ValidateSAIDNo(DataGridViewRow dataRow,ref ICsvRecord csvRecord)
         {
-            DataGridViewCell fundValueDateCell;
-            var fundValueDate = "";
-            
-            if (!_selectedLisp.Contains("nedgroup"))
-            {
-                fundValueDateCell = dataRow.Cells["FundValueDate"];
-                fundValueDate = fundValueDateCell.Value.ToString();
 
-                if (string.IsNullOrEmpty(fundValueDate))
-                {
-                    fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
-                    fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                    csvRecord.HasErrors = true;
-                }
-
-                if (!DateTime.TryParseExact(fundValueDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
-                {
-                    fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
-                    fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                    csvRecord.HasErrors = true;
-                }
-                else
-                {
-                    DateTime.TryParse(fundValueDate, out DateTime dtFundValueDate);
-                    if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                    {
-                        fundValueDateCell.ErrorText = string.Empty;
-                        fundValueDateCell.ToolTipText = string.Empty;
-                        dataRow.DefaultCellStyle.BackColor = Color.White;
-                    }
-                }
-            }
-        }
-
-        private static void ValidateFundValue(DataGridViewRow dataRow, ICsvRecord csvRecord)
-        {
-            var fundValueCell = dataRow.Cells["FundValue"];
-            var fundValue = fundValueCell.Value.ToString();
-
-            if (string.IsNullOrEmpty(fundValue))
-            {
-                fundValueCell.ErrorText = "Invalid Fund Value!";
-                fundValueCell.ToolTipText = "Invalid Fund Value!";
-                dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                csvRecord.HasErrors = true;
-            }
-            else
-            {
-                _ = double.TryParse(fundValue, out double outFundValue);
-                if (outFundValue <= 0)
-                {
-                    fundValueCell.ErrorText = "Invalid Fund Value!";
-                    fundValueCell.ToolTipText = "Invalid Fund Value!";
-                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                    csvRecord.HasErrors = true;
-                }
-                else
-                {
-                    fundValueCell.ErrorText = "";
-                    fundValueCell.ToolTipText = "";
-                    csvRecord.HasErrors = false;
-                }
-            }
-        }
-
-        private static void ValidateSAIDNo(DataGridViewRow dataRow, ICsvRecord csvRecord, out DataGridViewCell idNoCell, out string idno)
-        {
             #region SAIDNoComposition
             /*
                 YYMMDDGSSSCAZ
@@ -1887,38 +1888,134 @@ namespace Finx.App.Forms
                 * */
             #endregion
 
-            idNoCell = dataRow.Cells["IDNumber"];
-            idno = idNoCell.Value.ToString();
-            
-            if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
-            {
-                idNoCell.ErrorText = "Invalid ID No. Length < 13!";
-                idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
+            //await Task.Run(() =>
+            //{
 
-                dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                csvRecord.HasErrors = true;
-                return;
-            }
+                var idNoCell = dataRow.Cells["IDNumber"];
+                var idno = idNoCell.Value.ToString();
 
-            if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
-            {
-                idNoCell.ErrorText = "Invalid ID No. Regex validation failure!";
-                idNoCell.ToolTipText = "Invalid ID No. Regex validation failure!";
+                if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+                {
+                    idNoCell.ErrorText = "Invalid ID No. Length < 13!";
+                    idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                csvRecord.HasErrors = true;
-            }
+                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                    csvRecord.HasErrors = true;
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
+                {
+                    idNoCell.ErrorText = "Invalid SA ID No!";
+                    idNoCell.ToolTipText = "Invalid SA ID No!";
+
+                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                    csvRecord.HasErrors = true;
+                }
+            //});
         }
 
-        private async Task<IEnumerable<ClientDetails>> GetExistingClientDetails()
+        private void ValidateFundValue(DataGridViewRow dataRow,ref ICsvRecord csvRecord)
         {
-            IEnumerable<ClientDetails> existingClientDetails = null;
+            //await Task.Run(() =>
+            //{
+                var fundValueCell = dataRow.Cells["FundValue"];
+                var fundValue = fundValueCell.Value.ToString();
+
+                if (string.IsNullOrEmpty(fundValue))
+                {
+                    fundValueCell.ErrorText = "Invalid Fund Value!";
+                    fundValueCell.ToolTipText = "Invalid Fund Value!";
+                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                    csvRecord.HasErrors = true;
+                }
+                else
+                {
+                    _ = double.TryParse(fundValue, out double outFundValue);
+                    if (outFundValue <= 0)
+                    {
+                        fundValueCell.ErrorText = "Invalid Fund Value!";
+                        fundValueCell.ToolTipText = "Invalid Fund Value!";
+                        dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                        csvRecord.HasErrors = true;
+                    }
+                    else
+                    {
+                        fundValueCell.ErrorText = "";
+                        fundValueCell.ToolTipText = "";
+                        //csvRecord.HasErrors = false;
+                    }
+                }
+           // });
+        }
+
+        private void ValidateFundValueDate(DataGridViewRow dataRow,ref ICsvRecord csvRecord)
+        {
+            DataGridViewCell fundValueDateCell;
+            var fundValueDate = "";
+
+            //await Task.Run(() =>
+            //{
+
+                if (!_selectedLisp.Contains("nedgroup"))
+                {
+                    fundValueDateCell = dataRow.Cells["FundValueDate"];
+                    fundValueDate = fundValueDateCell.Value.ToString();
+
+                    if (string.IsNullOrEmpty(fundValueDate))
+                    {
+                        fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                        fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
+                        dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                        csvRecord.HasErrors = true;
+                    }
+
+                    if (!DateTime.TryParseExact(fundValueDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+                    {
+                        fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                        fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
+                        dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                        csvRecord.HasErrors = true;
+                    }
+                    else
+                    {
+                        //DateTime.TryParse(fundValueDate, out DateTime dtFundValueDate);
+                        if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                        {
+                            fundValueDateCell.ErrorText = string.Empty;
+                            fundValueDateCell.ToolTipText = string.Empty;
+                            dataRow.DefaultCellStyle.BackColor = Color.White;
+                        }
+                    }
+                }
+            //});
+        }
+
+        //private async Task<IEnumerable<ClientDetails>> GetExistingClientDetails()
+        //{
+        //    IEnumerable<ClientDetails> existingClientDetails = null;
+        //    try
+        //    {
+        //        if (Program.ClientDetailsService == null)
+        //            throw new ApplicationException("ClientDetails service is null!");
+
+        //        existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null));
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //    return existingClientDetails;
+        //}
+        private async Task<List<ClientDetails>> GetExistingClientDetails()
+        {
+            List<ClientDetails> existingClientDetails = null;
             try
             {
                 if (Program.ClientDetailsService == null)
                     throw new ApplicationException("ClientDetails service is null!");
 
-                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null));
+                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null).ToList());
             }
             catch (Exception)
             {
@@ -1926,7 +2023,6 @@ namespace Finx.App.Forms
             }
             return existingClientDetails;
         }
-
 
         #endregion
 

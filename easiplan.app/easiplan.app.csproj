@@ -687,7 +687,7 @@
     <Compile Include="MetroUserControls\MetroPanelSlider.Designer.cs">
       <DependentUpon>MetroPanelSlider.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\AlanGrayRecord.cs" />
+    <Compile Include="Models\AllanGrayRecord.cs" />
     <Compile Include="Models\AppSettings.cs" />
     <Compile Include="Models\CamissaCsvConfiguration.cs" />
     <Compile Include="Models\CamissaRecord.cs" />

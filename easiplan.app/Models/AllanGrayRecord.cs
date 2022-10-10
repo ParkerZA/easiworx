@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Finx.App.Models
 {
-    public sealed class AlanGrayRecord : ICsvRecord
+    public sealed class AllanGrayRecord : ICsvRecord
     {
         private string _idNo = "";
         private string _fundValue = "";
@@ -161,7 +161,7 @@ namespace Finx.App.Models
         }
     }
 
-    public sealed class AlanGrayRecordMap : ClassMap<AlanGrayRecord>
+    public sealed class AlanGrayRecordMap : ClassMap<AllanGrayRecord>
     {
         public AlanGrayRecordMap()
         {
@@ -181,7 +181,6 @@ namespace Finx.App.Models
                 Map(c => c.ValidationErrors)
                     .Convert(r =>
                     {
-
                         var errors = new StringBuilder();
 
                         var idNumber = r.Row.GetField<string>("IDNumber");
@@ -193,16 +192,17 @@ namespace Finx.App.Models
                             errors.Append("ID Number is null!");
                     
                         if (!Regex.IsMatch(idNumber, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
-                            errors.Append("Invalid RSA ID Number!");
+                            errors.Append("Invalid SA ID No!");
 
                         if (string.IsNullOrEmpty(policyNo))
-                            errors.Append("Account or Policy Number is null!");
+                            errors.Append("Policy Number is null!");
 
                         if (string.IsNullOrEmpty(fundName))
                             errors.Append("Fund Name is null!");
 
                         if (string.IsNullOrEmpty(fundValueDate))
                             errors.Append("Fund Value Date is null!");
+
                         return errors.ToString();
 
                     });

@@ -1,6 +1,7 @@
 ﻿using CsvFileImporter.CsvFile.Entities;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Finx.App.Enums;
 using Finx.App.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace Finx.App.Helpers
 {
     public class CsvFileHelper
     {
-        public static FileProperties GetFileProperties(string fileName, string fileSource = "SelfReported", string fileFormat = ".csv")
+        public static FileProperties GetFileProperties(string fileName, FileFormat fileFormat = FileFormat.Csv)
         {
-            FileProperties fileProperties = null;
+            FileProperties fileProperties;
             try
             {
 
@@ -28,10 +29,14 @@ namespace Finx.App.Helpers
 
                 var fileInfo = new FileInfo(fileName);
 
-                if (fileInfo.Extension.ToLower() != fileFormat.ToLower())
+                if (fileInfo.Extension.ToLower().Replace(".",string.Empty) != fileFormat.ToString().ToLower())
                     throw new ApplicationException("Invalid file format!");
 
-                fileProperties = new FileProperties() { FileDate = fileInfo.CreationTime, Filename = fileInfo.Name, FileSize = fileInfo.Length, Filesource = fileSource, Format = fileInfo.Extension };
+                fileProperties = new FileProperties() { 
+                    FileDate = fileInfo.CreationTime, 
+                    FileName = fileInfo.Name, 
+                    FileSize = fileInfo.Length, 
+                    FileFormat = FileProperties.GetFileFormat(fileInfo.Extension) };
 
             }
             catch (Exception)
