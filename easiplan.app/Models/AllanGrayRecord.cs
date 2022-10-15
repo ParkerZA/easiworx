@@ -15,7 +15,7 @@ namespace Finx.App.Models
         private string _idNo = "";
         private string _fundValue = "";
         private string _fundValueDate = "";
-        private string _lisp = "Alan Gray";
+        private string _lisp = "Allan Gray";
         private string _fundAllocationPercentage;
         private string _startDate;
         private string _firstname;
@@ -135,7 +135,7 @@ namespace Finx.App.Models
 
 
         [Optional]
-        public string LISP { get { return _lisp; } set { _lisp = "Alan Gray"; } }
+        public string LISP { get { return _lisp; } set { _lisp = "Allan Gray"; } }
 
         [Optional]
         public string ValidationErrors 
@@ -161,9 +161,9 @@ namespace Finx.App.Models
         }
     }
 
-    public sealed class AlanGrayRecordMap : ClassMap<AllanGrayRecord>
+    public sealed class AllanGrayRecordMap : ClassMap<AllanGrayRecord>
     {
-        public AlanGrayRecordMap()
+        public AllanGrayRecordMap()
         {
             Map(c => c.Firstname);
             Map(c => c.IDNumber);

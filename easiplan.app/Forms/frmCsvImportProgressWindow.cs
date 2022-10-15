@@ -25,13 +25,22 @@ namespace Finx.App.Forms
         private ManualResetEvent manualResetEventInit = new ManualResetEvent(false);
         private ManualResetEvent manualResetEventAbort = new ManualResetEvent(false);
         private bool requiresClose = true;
-        
+        public delegate void cancelImportDelegate();
+        public event cancelImportDelegate CancelImport = new cancelImportDelegate(cancelImportEventHandler);
+
+        private static void cancelImportEventHandler()
+        {
+            throw new NotImplementedException();
+        }
+
         public frmCsvImportProgressWindow()
         {
             InitializeComponent();
             InitialiseFormProperties();
         }
 
+        public CancellationTokenSource CancellationTokenSource
+        { get; set; }
         private void InitialiseFormProperties()
         {
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
@@ -244,6 +253,7 @@ namespace Finx.App.Forms
         private void AbortWork()
         {
             manualResetEventAbort.Set();
+            this.CancellationTokenSource.Cancel();
         }
         #endregion
 

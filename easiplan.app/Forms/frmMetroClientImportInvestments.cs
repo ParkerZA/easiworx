@@ -64,6 +64,8 @@ namespace Finx.App.Forms
         private byte[] _selectedFileHash;
         private IntPtr _handle;
         private FileProperties _fileProperties;
+        //private static bool _dataBindingCompleteHasRun = false;
+        private frmCsvImportProgressWindow _frmCsvImportProgressWindow = null;
 
         #endregion
 
@@ -131,6 +133,7 @@ namespace Finx.App.Forms
 
         private void kbtnOpenFile_Click(object sender, EventArgs e)
         {
+            Console.WriteLine($"kbtnOpenFile_Click {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
 
             if (cmbSelectLisp.SelectedIndex == 0 || cmbSelectLisp.SelectedItem.ToString().ToLower() == "please select")
             {
@@ -184,6 +187,7 @@ namespace Finx.App.Forms
                     if (dialogResult == DialogResult.OK)
                     {
                         //_errRecsCnt = 0;
+                        //_dataBindingCompleteHasRun = false;
                         _selectedFilename = openFileDialog1.SafeFileName;
                         _filepath = openFileDialog1.FileName;
 
@@ -203,7 +207,7 @@ namespace Finx.App.Forms
                         //    cmbSelectLisp.Focus();
                         //    return;
                         //}
-                        dgvFileContents.DataBindingComplete -= dgvFileContents_DataBindingComplete;
+                        //dgvFileContents.DataBindingComplete -= dgvFileContents_DataBindingComplete;
                         dgvFileContents.DataSource = null;
                         _fileProperties = CsvFileHelper.GetFileProperties(_filepath);
 
@@ -293,17 +297,17 @@ namespace Finx.App.Forms
             kbtnOpenFile.Enabled = false;
             this.ControlBox = false;
 
-            var frmCsvImportProgressWindow = new frmCsvImportProgressWindow();
-            frmCsvImportProgressWindow.SetCaption("Importing Client Investments");
-            frmCsvImportProgressWindow.SetText("Please wait...");
+            _frmCsvImportProgressWindow = new frmCsvImportProgressWindow();
+            _frmCsvImportProgressWindow.SetCaption("Importing Client Investments");
+            _frmCsvImportProgressWindow.SetText("Please wait...");
 
             var backgroundWorker_ImportClientInvestmentsFromFile = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
             backgroundWorker_ImportClientInvestmentsFromFile.DoWork += BackgroundWorker_ImportClientInvestmentsFromFile_DoWork;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerCompleted += BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted;
-            backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerAsync(frmCsvImportProgressWindow);
+            backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerAsync(_frmCsvImportProgressWindow);
 
-            frmCsvImportProgressWindow.ShowDialog(this);
-            frmCsvImportProgressWindow.Close();
+            _frmCsvImportProgressWindow.ShowDialog(this);
+            //_frmCsvImportProgressWindow.Close();
             this.ControlBox = true;
         }
 
@@ -315,6 +319,7 @@ namespace Finx.App.Forms
         private void BackgroundWorker_ImportClientInvestmentsFromFile_DoWork(object sender, DoWorkEventArgs e)
         {
             var frmCsvImportProgressWindow = (frmCsvImportProgressWindow)e.Argument;
+            frmCsvImportProgressWindow.CancellationTokenSource = _cancellationTokenSource;
             ImportClientInvestmentsFromFile(frmCsvImportProgressWindow).Wait();
         }
 
@@ -326,7 +331,6 @@ namespace Finx.App.Forms
                 var clientKeys = _fileClientInvestments.Keys.ToList();
 
                 ThreadPool.SetMinThreads(38, 38);
-                _cancellationToken = _cancellationTokenSource.Token;
 
                 var parallelOptions = new ParallelOptions()
                 {
@@ -343,7 +347,7 @@ namespace Finx.App.Forms
 
                     foreach (var batchedClientInvestment in batchedClientInvestments)
                     {
-                        var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow, _cancellationToken);
+                        var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow);
                     }
                 }
                 else
@@ -384,7 +388,7 @@ namespace Finx.App.Forms
                                 //var win32Parent = new NativeWindow();
                                 //win32Parent.AssignHandle(_handle);
                                 //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
-                                ValidateDataGridRecords();
+                                await ValidateDataGridRecords();
                             });
                             await Task.Run(() =>
                             {
@@ -489,7 +493,7 @@ namespace Finx.App.Forms
 
                 await Task.Run(async () =>
                 {
-                    ValidateDataGridRecords();
+                    await ValidateDataGridRecords();
                 });
 
 
@@ -657,43 +661,61 @@ namespace Finx.App.Forms
             }
         }
 
-        private void dgvFileContents_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dgvFileContents_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            //Console.WriteLine(sender.ToString() + " " + e.ListChangedType.ToString());
+            //if (_dataBindingCompleteHasRun == true) return;
+
             using (new AppWaitCursor(sender))
             {
-                var totRecs = _csvRecordList.Count;
-                lblRecCnt.Text = totRecs.ToString();
-
                 if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
-                    ValidateDataGridRecords();
-                    _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => !string.IsNullOrEmpty(ec.IdentificationNo) &&
-                                                                  ec.IdentificationNo == csvList.IDNumber &&
-                                                                  string.IsNullOrEmpty(ec.PassportNo))).Concat(_csvRecordList.Where(csvList2 => _existingClientDetails.Any(ec2 => !string.IsNullOrEmpty(ec2.PassportNo) &&
-                                                                                                               ec2.PassportNo == csvList2.PassportNo &&
-                                                                                                               string.IsNullOrEmpty(ec2.IdentificationNo)))).ToList();
-                    _noOfExistingClients = _matchedClientsFromCsv.Count;
-                    _csvErrorRecords = _csvRecordList.Where(r => r.HasErrors).ToList();
-
-                    var errCnt = _csvErrorRecords.Count;
-                    lblTotValErrors.Text = errCnt.ToString();
-
-                    _noOfNewClients = totRecs - _noOfExistingClients;
-
-                    lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                    lblNewClientCnt.Text = (_noOfNewClients - errCnt).ToString();
-
-                    lblExistingClientCnt.Visible = true;
-                    lblNewClientCnt.Visible = true;
-                    cmClientRecords.Enabled = true;
-                    splitContainer1.Panel1.Visible = true;
-                    splitContainer1.Panel2.Visible = true;
+                    await ValidateDataGridRecords();
+                    GetMatchedEasiworxClientsFromCsv();
+                    GetErrorRecords();
+                    SetFileImportDetails();
+                    //_dataBindingCompleteHasRun = true;
                 }
             }
         }
 
+        private void SetFileImportDetails()
+        {
+            var totRecs = _csvRecordList.Count;
+            var errCnt = _csvErrorRecords.Count;
+
+            _noOfExistingClients = _matchedClientsFromCsv.Count;
+            _noOfNewClients = totRecs - _noOfExistingClients;
+
+            lblRecCnt.Text = totRecs.ToString();
+            lblTotValErrors.Text = errCnt.ToString();
+            lblExistingClientCnt.Text = _noOfExistingClients.ToString();
+            lblNewClientCnt.Text = (_noOfNewClients - errCnt).ToString();
+
+            lblExistingClientCnt.Visible = true;
+            lblNewClientCnt.Visible = true;
+            cmClientRecords.Enabled = true;
+            splitContainer1.Panel1.Visible = true;
+            splitContainer1.Panel2.Visible = true;
+        }
+
+        private void GetErrorRecords()
+        {
+            _csvErrorRecords = _csvRecordList.Where(r => r.HasErrors).ToList();
+        }
+
+        private void GetMatchedEasiworxClientsFromCsv()
+        {
+            _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => !string.IsNullOrEmpty(ec.IdentificationNo) &&
+                                                          ec.IdentificationNo == csvList.IDNumber &&
+                                                          string.IsNullOrEmpty(ec.PassportNo))).Concat(_csvRecordList.Where(csvList2 => _existingClientDetails.Any(ec2 => !string.IsNullOrEmpty(ec2.PassportNo) &&
+                                                                                                       ec2.PassportNo == csvList2.PassportNo &&
+                                                                                                       string.IsNullOrEmpty(ec2.IdentificationNo)))).ToList();
+        }
+
         private void cancelImport_Click(object sender, EventArgs e)
         {
+            _cancellationToken = _cancellationTokenSource.Token;
             _cancellationTokenSource.Cancel();
         }
         #endregion
@@ -723,7 +745,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private async void LoadFileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void LoadFileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -780,9 +802,13 @@ namespace Finx.App.Forms
 
             dgvFileContents.CausesValidation = false;
 
-            await LoadClientInvestmentsFromFile();
+            Task.Run(async () =>
+            {
+                await LoadClientInvestmentsFromFile();
+                await RefreshClientRetirementPortfolioView();
+            });
 
-            await RefreshClientRetirementPortfolioView();
+
 
         }
         #endregion
@@ -811,7 +837,7 @@ namespace Finx.App.Forms
             //panelFileInfo.PerformLayout();
             //_pbImportFile.Visible = true;
 
-            dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
+            //dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
             this.FormClosing += FrmMetroClientImportInvestments_FormClosing;
             this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;
 
@@ -822,7 +848,7 @@ namespace Finx.App.Forms
 
         }
 
-        private async Task<List<ParallelLoopResult>> ImportClientInvestmentsInParallel(ParallelOptions parallelOptions, IEnumerable<string> batchedClientInvestment, IProgress<ClientInvestmentRecordImportAudit> Progress, frmCsvImportProgressWindow frmCsvImportProgressWindow, CancellationToken cancellationToken)
+        private async Task<List<ParallelLoopResult>> ImportClientInvestmentsInParallel(ParallelOptions parallelOptions, IEnumerable<string> batchedClientInvestment, IProgress<ClientInvestmentRecordImportAudit> Progress, frmCsvImportProgressWindow frmCsvImportProgressWindow)
         {
             var loopResults = new List<ParallelLoopResult>(1);
             await Task.Run(() =>
@@ -831,8 +857,8 @@ namespace Finx.App.Forms
                 {
                     if (parallelOptions.CancellationToken.IsCancellationRequested)
                     {
-                        parallelOptions.CancellationToken.ThrowIfCancellationRequested();
-                        //loopState.Break(); 
+                        //parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                        loopState.Break();
                     }
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
                     var progressCallback = frmCsvImportProgressWindow;
@@ -1270,6 +1296,8 @@ namespace Finx.App.Forms
                             break;
                         case "alangray":
                         case "alan gray":
+                        case "allangray":
+                        case "allan gray":
                             //Nb! no dob field provided in csv file, therefor clients with passport nos wont get added to easiworx as dob is a required field
                             if (string.IsNullOrEmpty(dob))
                                 return null;
@@ -1767,7 +1795,7 @@ namespace Finx.App.Forms
         //    {
         //        rowIndex = rowIndex + 1;
         //        var csvRecord = _csvRecordList.Where(r => r.RowNo == rowIndex).FirstOrDefault();
-                
+
         //        if (csvRecord == null) return;
 
         //        await ValidateSAIDNo(dataGridViewRow, csvRecord);
@@ -1783,10 +1811,10 @@ namespace Finx.App.Forms
         //    {
         //        throw;
         //    }
-            
+
         //}
 
-        private void ValidateDataGridRecords()
+        private async Task ValidateDataGridRecords()
         {
             SemaphoreSlim semaphore = null;
 
@@ -1795,85 +1823,107 @@ namespace Finx.App.Forms
                 var totRowCnt = dgvFileContents.RowCount + 1;
                 var tokenSource = new CancellationTokenSource();
                 var cancellationToken = tokenSource.Token;
-                var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1,CancellationToken = cancellationToken };
+                var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1, CancellationToken = cancellationToken };
                 semaphore = new SemaphoreSlim(1);
 
-                Parallel.For(_dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions,async i =>
-                {
-                    try
+                Console.WriteLine($"Before ParrallelFor {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+                //await Task.Run(() =>
+                //{
+                    Parallel.For(_dgvFileContentsRowCnt = 0, totRowCnt, parallelOptions, async i =>
                     {
-                        await semaphore.WaitAsync();
-                        var rowIndex = i + 1;
-
-                        if (rowIndex == totRowCnt)
+                        DataGridViewRow datagridViewRow = null;
+                        try
                         {
-                            tokenSource.Cancel();
-                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                            Console.WriteLine($"Before WaitAsync {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+
+                            await semaphore.WaitAsync();
+                            var rowIndex = i + 1;
+
+                            Console.WriteLine($"After WaitAsync {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+
+                            if (rowIndex == totRowCnt)
+                            {
+                                tokenSource.Cancel();
+                                parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                            }
+
+                            //dgvFileContents.BeginInvoke((Action)delegate
+                            //{
+                                datagridViewRow = dgvFileContents.Rows[i];
+                            //});
+                            
+                            ICsvRecord csvRecord = GetCsvRecordByRowIndex(rowIndex);
+
+                            await ValidateSAIDNo(datagridViewRow, csvRecord);
+                            await ValidateFundValue(datagridViewRow, csvRecord);
+                            await ValidateFundValueDate(datagridViewRow, csvRecord);
+                            await ColourRow(datagridViewRow);
+
+                            if (csvRecord.HasErrors)
+                                Console.WriteLine($"Thread Id: {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}. Record with index {rowIndex} has validation errors!");
+
+                        }
+                        catch (OperationCanceledException)
+                        {
+                        }
+                        finally
+                        {
+                            semaphore.Release();
                         }
 
-                        var dataRow = dgvFileContents.Rows[i];
-                        var csvRecord = _csvRecordList.Where(r => r.RowNo == rowIndex).FirstOrDefault();
-
-                        ValidateSAIDNo(dataRow,ref csvRecord);
-
-                        ValidateFundValue(dataRow,ref csvRecord);
-
-                        ValidateFundValueDate(dataRow,ref csvRecord);
-
-                        //if (csvRecord.HasErrors)
-                        //    _errRecsCnt++;
-
-                        ColourRows(dataRow);
-
-                        semaphore.Release();
-                    }
-                    catch (OperationCanceledException)
-                    {
-                    }
-                   
-                });
-                
+                    });
+                //});
             }
             catch (Exception)
             {
             }
             finally
             {
-                semaphore.Release();
+                Console.WriteLine("ErrorRecCount: " + _csvRecordList.Where(l => l.HasErrors == true).Count());
             }
         }
 
-        private void ColourRows(DataGridViewRow dataRow)
+        private ICsvRecord GetCsvRecordByRowIndex(int rowIndex)
         {
-            //await Task.Run(() =>
-            //{
-                var idNoCell = dataRow.Cells["IDNumber"];
-                var idno = idNoCell.Value.ToString();
+            return _csvRecordList.Where(r => r.RowNo == rowIndex).FirstOrDefault();
+        }
+        private async Task ColourRow(DataGridViewRow dataRow)
+        {
+            DataGridViewCell idNoCell = null;
 
-                if (_matchedClientsFromCsv != null && _matchedClientsFromCsv.Count > 0)
-                {
-                    if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
+            await Task.Run(() =>
+            {
+                Console.WriteLine($"ColourRow {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+
+                dgvFileContents.BeginInvoke((Action)delegate {
+                    idNoCell = dataRow.Cells["IDNumber"];
+                    var idno = idNoCell.Value.ToString();
+
+                    if (_matchedClientsFromCsv != null && _matchedClientsFromCsv.Count > 0)
                     {
-                        if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                            dataRow.DefaultCellStyle.BackColor = Color.LightBlue;
+                        if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
+                        {
+                            if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                                dataRow.DefaultCellStyle.BackColor = Color.LightBlue;
+                        }
+                        else
+                        {
+                            if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                                dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
+                        }
                     }
                     else
                     {
                         if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
                             dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
                     }
-                }
-                else
-                {
-                    if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
-                        dataRow.DefaultCellStyle.BackColor = Color.LightGreen;
-                }
-            //});
+                });
+          
+            });
         }
-       
-        private void ValidateSAIDNo(DataGridViewRow dataRow,ref ICsvRecord csvRecord)
+        private async Task ValidateSAIDNo(DataGridViewRow dataRow, ICsvRecord csvRecord)
         {
-
+            Console.WriteLine($"ValidateSAIDNo {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
             #region SAIDNoComposition
             /*
                 YYMMDDGSSSCAZ
@@ -1888,51 +1938,52 @@ namespace Finx.App.Forms
                 * */
             #endregion
 
-            //await Task.Run(() =>
-            //{
+            await Task.Run(() =>
+            {
+                var idno = "";
+                DataGridViewCell idNoCell = null;
 
-                var idNoCell = dataRow.Cells["IDNumber"];
-                var idno = idNoCell.Value.ToString();
-
-                if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+                dgvFileContents.BeginInvoke((Action)delegate
                 {
-                    idNoCell.ErrorText = "Invalid ID No. Length < 13!";
-                    idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
+                    idNoCell = dataRow.Cells["IDNumber"];
+                    idno = idNoCell.Value.ToString();
+                    if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+                    {
+                        idNoCell.ErrorText = "Invalid ID No. Length < 13!";
+                        idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                    csvRecord.HasErrors = true;
-                    return;
-                }
+                        dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                        csvRecord.HasErrors = true;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
+                        {
+                            idNoCell.ErrorText = "Invalid SA ID No!";
+                            idNoCell.ToolTipText = "Invalid SA ID No!";
 
-                if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
-                {
-                    idNoCell.ErrorText = "Invalid SA ID No!";
-                    idNoCell.ToolTipText = "Invalid SA ID No!";
+                            dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                            csvRecord.HasErrors = true;
+                        }
+                    }
+                });
 
-                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                    csvRecord.HasErrors = true;
-                }
-            //});
+
+            });
         }
-
-        private void ValidateFundValue(DataGridViewRow dataRow,ref ICsvRecord csvRecord)
+        private async Task ValidateFundValue(DataGridViewRow dataRow, ICsvRecord csvRecord)
         {
-            //await Task.Run(() =>
-            //{
-                var fundValueCell = dataRow.Cells["FundValue"];
-                var fundValue = fundValueCell.Value.ToString();
+            Console.WriteLine($"ValidateFundValue {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+            DataGridViewCell fundValueCell = null;
 
-                if (string.IsNullOrEmpty(fundValue))
+            await Task.Run(() =>
+            {
+                dgvFileContents.BeginInvoke((Action)delegate
                 {
-                    fundValueCell.ErrorText = "Invalid Fund Value!";
-                    fundValueCell.ToolTipText = "Invalid Fund Value!";
-                    dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                    csvRecord.HasErrors = true;
-                }
-                else
-                {
-                    _ = double.TryParse(fundValue, out double outFundValue);
-                    if (outFundValue <= 0)
+                    fundValueCell = dataRow.Cells["FundValue"];
+                    var fundValue = fundValueCell.Value.ToString();
+
+                    if (string.IsNullOrEmpty(fundValue))
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";
                         fundValueCell.ToolTipText = "Invalid Fund Value!";
@@ -1941,54 +1992,66 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        fundValueCell.ErrorText = "";
-                        fundValueCell.ToolTipText = "";
-                        //csvRecord.HasErrors = false;
-                    }
-                }
-           // });
-        }
-
-        private void ValidateFundValueDate(DataGridViewRow dataRow,ref ICsvRecord csvRecord)
-        {
-            DataGridViewCell fundValueDateCell;
-            var fundValueDate = "";
-
-            //await Task.Run(() =>
-            //{
-
-                if (!_selectedLisp.Contains("nedgroup"))
-                {
-                    fundValueDateCell = dataRow.Cells["FundValueDate"];
-                    fundValueDate = fundValueDateCell.Value.ToString();
-
-                    if (string.IsNullOrEmpty(fundValueDate))
-                    {
-                        fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
-                        fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                        csvRecord.HasErrors = true;
-                    }
-
-                    if (!DateTime.TryParseExact(fundValueDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
-                    {
-                        fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
-                        fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dataRow.DefaultCellStyle.BackColor = Color.LightPink;
-                        csvRecord.HasErrors = true;
-                    }
-                    else
-                    {
-                        //DateTime.TryParse(fundValueDate, out DateTime dtFundValueDate);
-                        if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                        _ = double.TryParse(fundValue, out double outFundValue);
+                        if (outFundValue <= 0)
                         {
-                            fundValueDateCell.ErrorText = string.Empty;
-                            fundValueDateCell.ToolTipText = string.Empty;
-                            dataRow.DefaultCellStyle.BackColor = Color.White;
+                            fundValueCell.ErrorText = "Invalid Fund Value!";
+                            fundValueCell.ToolTipText = "Invalid Fund Value!";
+                            dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                            csvRecord.HasErrors = true;
+                        }
+                        else
+                        {
+                            fundValueCell.ErrorText = "";
+                            fundValueCell.ToolTipText = "";
                         }
                     }
+                });
+
+            });
+        }
+        private async Task ValidateFundValueDate(DataGridViewRow dataRow, ICsvRecord csvRecord)
+        {
+            Console.WriteLine($"ValidateFundValueDate {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+
+            DataGridViewCell fundValueDateCell = null;
+            var fundValueDate = "";
+
+            await Task.Run(() =>
+            {
+                if (!_selectedLisp.Contains("nedgroup"))
+                {
+                    dgvFileContents.BeginInvoke((Action)delegate
+                    {
+                        fundValueDateCell = dataRow.Cells["FundValueDate"];
+                        fundValueDate = fundValueDateCell.Value.ToString();
+
+                        if (string.IsNullOrEmpty(fundValueDate))
+                        {
+                            fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                            fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
+                            dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                            csvRecord.HasErrors = true;
+                        }
+                        else if (!DateTime.TryParseExact(fundValueDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+                        {
+                            fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                            fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
+                            dataRow.DefaultCellStyle.BackColor = Color.LightPink;
+                            csvRecord.HasErrors = true;
+                        }
+                        else
+                        {
+                            if (dataRow.DefaultCellStyle.BackColor != Color.LightPink)
+                            {
+                                fundValueDateCell.ErrorText = string.Empty;
+                                fundValueDateCell.ToolTipText = string.Empty;
+                                dataRow.DefaultCellStyle.BackColor = Color.White;
+                            }
+                        }
+                    });
                 }
-            //});
+            });
         }
 
         //private async Task<IEnumerable<ClientDetails>> GetExistingClientDetails()
