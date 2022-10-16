@@ -96,7 +96,18 @@ namespace Finx.App.Forms
         /// <param name="text">The progress text to display</param>
         public void SetText(String text)
         {
-            Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
+            try
+            {
+                if (InvokeRequired)
+                    Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
+                else
+                    DoSetText(text);
+            }
+            catch (ObjectDisposedException)
+            {
+                                
+            }
+            
         }
 
         public void SetCaption(string text)
@@ -223,7 +234,10 @@ namespace Finx.App.Forms
             manualResetEventInit.Set();
         }
 
-    
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+        }
 
         /// <summary>
         /// Handler for 'Close' clicking

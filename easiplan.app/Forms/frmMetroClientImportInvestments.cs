@@ -3,6 +3,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using easiplan.domain.Entities;
 using easiplan.domain.Views;
+//using EnvDTE;
 using Finx.App.Extensions;
 using Finx.App.Helpers;
 using Finx.App.Interfaces;
@@ -318,7 +319,10 @@ namespace Finx.App.Forms
 
         private void BackgroundWorker_ImportClientInvestmentsFromFile_DoWork(object sender, DoWorkEventArgs e)
         {
-            var frmCsvImportProgressWindow = (frmCsvImportProgressWindow)e.Argument;
+            var frmCsvImportProgressWindow = e.Argument as frmCsvImportProgressWindow;
+            if (frmCsvImportProgressWindow == null)
+                frmCsvImportProgressWindow = _frmCsvImportProgressWindow;
+
             frmCsvImportProgressWindow.CancellationTokenSource = _cancellationTokenSource;
             ImportClientInvestmentsFromFile(frmCsvImportProgressWindow).Wait();
         }
@@ -465,16 +469,24 @@ namespace Finx.App.Forms
             var percCompleted = e.PercentageCompleted.Value;
             //await UpdateProgressBar(_pbImportFile, percCompleted, _handle);
             var frmCsvImportProgressWindow = e.ProgressCallback;
-            frmCsvImportProgressWindow.SetText(e.Message);
+            
+            //if (percCompleted == 100)
+              //  System.Diagnostics.Debugger.Break();
+
+                frmCsvImportProgressWindow.SetText(e.Message);
 
             if (percCompleted == 100)
             {
                 //RecordCsvFileImport();
+                if (this.IsHandleCreated)
+                { 
+                    frmCsvImportProgressWindow.SetText("Client Investment Portfolios successfully imported!");
+                    frmCsvImportProgressWindow.End();
+                }
 
+                
                 percCompleted = 0;
                 _importCompleted = true;
-                frmCsvImportProgressWindow.SetText("Client Investment Portfolios successfully imported!");
-                frmCsvImportProgressWindow.End();
 
                 lblImportStatus.BeginInvoke((Action)delegate
                 {
@@ -522,7 +534,10 @@ namespace Finx.App.Forms
             var cForm = mdiForm.MdiChildren.Where(x => x.Name == "frmMetroClient1").FirstOrDefault();
             var selectedRow = dgvFileContents.SelectedRows[0];
             var idno = selectedRow.Cells["IDNumber"].Value.ToString();
-            var passportNo = selectedRow.Cells["PassportNo"].Value.ToString();
+            var passportNo = "";
+            if (selectedRow.Cells["PassportNo"] != null && selectedRow.Cells["PassportNo"].Value != null)
+                passportNo = selectedRow.Cells["PassportNo"].Value.ToString();
+            
             int? clientId = null;
 
             if (_existingClientDetails != null && _existingClientDetails.Count > 0)
@@ -1109,9 +1124,6 @@ namespace Finx.App.Forms
 
             try
             {
-
-                //if (ClientUniqueId == "6110265160086")
-                //    Debugger.Break();
 
                 int clientId = -1;
                 //get easiworx client id, 1st try rsa id no else passport no
