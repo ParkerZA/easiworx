@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using CsvHelper;
+using Finx.App.Helpers;
 
 namespace Finx.App.Models
 {
@@ -39,10 +40,10 @@ namespace Finx.App.Models
             get { return _idNo; }
             set
             {
-                if (!string.IsNullOrEmpty(value) && value.Trim().Length >= 6 && value.Trim().Length <= 9) //this is most likely a passport no
-                    this.PassportNo = value.Trim();
+                if (CsvFileHelper.IsPassportNo(value))
+                    this.PassportNo = value;
                 else
-                    _idNo = value.Replace("'", string.Empty);
+                    _idNo = CsvFileHelper.FixSAIDNo(value);
             }
         }
         
@@ -88,7 +89,8 @@ namespace Finx.App.Models
             get { return _fundValueDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                //if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (DateTime.TryParse(value, out DateTime fundValDt))
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
                     _fundValueDate = value;
@@ -111,7 +113,8 @@ namespace Finx.App.Models
             get { return _investmentStartDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                //if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (DateTime.TryParse(value, out DateTime fundValDt))
                     _investmentStartDate = fundValDt.ToString("dd MMM yyyy");
                 else
                     _investmentStartDate = value;

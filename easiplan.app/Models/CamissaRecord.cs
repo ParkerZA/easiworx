@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+using Finx.App.Helpers;
 using Finx.App.Interfaces;
 using System;
 using System.Globalization;
@@ -65,7 +66,7 @@ namespace Finx.App.Models
             get { return _fundValueDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (DateTime.TryParse(value, out DateTime fundValDt))
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
                     _fundValueDate = value;
@@ -77,7 +78,8 @@ namespace Finx.App.Models
             get { return _investmentStartDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                //if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (DateTime.TryParse(value, out DateTime fundValDt))
                     _investmentStartDate = fundValDt.ToString("dd MMM yyyy");
                 else
                     _investmentStartDate = value;
@@ -100,7 +102,10 @@ namespace Finx.App.Models
             get { return _idNo; }
             set
             {
-                _idNo = value.Replace("'", string.Empty);
+                if (CsvFileHelper.IsPassportNo(value))
+                    this.PassportNo = value;
+                else
+                    _idNo = CsvFileHelper.FixSAIDNo(value);
             }
         }
         [Index(14)]
@@ -124,7 +129,7 @@ namespace Finx.App.Models
             get { return _dob; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (DateTime.TryParse(value, out DateTime fundValDt))
                     _dob = fundValDt.ToString("dd MMM yyyy");
                 else
                     _dob = value;

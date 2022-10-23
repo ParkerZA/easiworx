@@ -85,6 +85,46 @@ namespace Finx.App.Helpers
 
             return fileRecordList;
         }
+        public static List<ICsvRecord> GetRecords<T>(string filePath, CsvConfiguration csvHelperConfiguration,string Lisp) where T : ICsvRecord
+        {
+            IEnumerable<T> fileRecords = null;
+            List<ICsvRecord> fileRecordList = null;
+            try
+            {
+                using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (var streamReader = new StreamReader(filestream, Encoding.UTF8))
+                    {
+                        using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
+                        {
+                            fileRecords = csvReader.GetRecords<T>();
+
+                            var RowNo = 0;
+                            if (fileRecords != null)
+                                fileRecordList = new List<ICsvRecord>();
+
+                            foreach (ICsvRecord fileRecord in fileRecords)
+                            {
+                                RowNo++;
+                                fileRecord.RowNo = RowNo;
+                                fileRecord.LISP = Lisp;
+                                fileRecordList.Add(fileRecord);
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.ToString();
+                if (ex.InnerException != null)
+                    msg = ex.InnerException.ToString();
+                throw;
+            }
+
+            return fileRecordList;
+        }
         public static string DetectDelimiter(StreamReader reader,string[] possibleDelimiters)
         {
             var headerLine = reader.ReadLine();
@@ -120,6 +160,27 @@ namespace Finx.App.Helpers
                 md5Hash = md5.ComputeHash(fileBytes);
             }
             return md5Hash;
+        }
+
+        public static bool IsPassportNo(string value)
+        {
+            var result = false;
+            var cleanValue = value.Replace("'", string.Empty).Trim();
+            if (!string.IsNullOrEmpty(cleanValue) && cleanValue.Length >= 6 && cleanValue.Length <= 9) //this is most likely a passport no
+                result = true;
+            return result;
+        }
+        public static string FixSAIDNo(string value)
+        {
+            var result = "";
+            var cleanIdNo = value.Replace("'", string.Empty).Trim();
+
+            if (cleanIdNo.Length == 12)
+                result = "0" + cleanIdNo; //prepend a 0 to id nos that are only 12 chars long
+            else
+                result = cleanIdNo;
+
+            return result;
         }
     }
 }

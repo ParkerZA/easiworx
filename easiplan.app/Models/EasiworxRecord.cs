@@ -3,7 +3,6 @@ using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using Finx.App.Helpers;
 using Finx.App.Interfaces;
-using FluentValidation.Resources;
 using System;
 using System.Globalization;
 using System.Text;
@@ -12,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace Finx.App.Models
 {
-    public sealed class AllanGrayRecord : ICsvRecord
+    public sealed class EasiworxRecord : ICsvRecord
     {
         private string _idNo = "";
         private string _fundValue = "";
         private string _fundValueDate = "";
-        private string _lisp = "Allan Gray";
         private string _fundAllocationPercentage;
         private string _startDate;
         private string _firstname;
         private string _validationErrors;
+        private string _dob = "";
 
         [Ignore]
         public int RowNo { get; set; }
 
-        [Index(1)]//fullname - Client name e.g. Taurique, Toffie
+        [Index(0)]
         public string Firstname 
         { 
             get { return _firstname; } 
@@ -49,95 +48,205 @@ namespace Finx.App.Models
             } 
         }
 
-        [Optional]
+        [Index(1)]
         public string Lastname
         {
             get;set;
         }
 
-        [Index(2)] //ID number/Registration number. This column holds both rsa id no or passport no
+        [Index(2)]
+        public string Dob
+        {
+            get { return _dob; }
+            set 
+            {
+                if (DateTime.TryParse(value, out DateTime dobDt))
+                    _dob = dobDt.ToString("dd MMM yyyy");
+                else
+                    _dob = value;
+            }
+        }
+
+        [Index(3)] 
         public string IDNumber
         {
             get { return _idNo; }
-            set {
+            set
+            {
                 if (CsvFileHelper.IsPassportNo(value))
                     this.PassportNo = value;
                 else
                     _idNo = CsvFileHelper.FixSAIDNo(value);
             }
         }
-      
 
-        [Index(4)] //Product
-        public string Product
+        [Index(4)] 
+        public string RegistrationNo
+        {
+            get;set;
+        }
+
+        [Index(5)]
+        public string PassportNo
+        {
+            get; set;
+        }
+
+        [Index(6)]
+        public string ClientNo
         {
             get; set;
         }
 
         [Optional]
-        public string PassportNo
+        public string PostalAddressStreetNo
         {
             get; set;
         }
-        [Index(10)] //Fund name
-        public string FundName { get; set; }
 
-        [Index(11)] //Fund code
+        [Optional]
+        public string PostalAddress
+        {
+            get; set;
+        }
+        [Optional]
+        public string Suburb
+        {
+            get; set;
+        }
+        [Optional]
+        public string PostalCode
+        {
+            get; set;
+        }
+
+        [Optional]
+        public string PhysicalAddressStreetNo
+        {
+            get; set;
+        }
+
+        [Optional]
+        public string PhysicalAddress
+        {
+            get; set;
+        }
+        [Optional]
+        public string PhysicalAddressSuburb
+        {
+            get; set;
+        }
+        [Optional]
+        public string PhysicalAddressPostalCode
+        {
+            get; set;
+        }
+
+        [Optional] 
+        public string CellNo
+        {
+            get; set;
+        }
+        [Optional]
+        public string OfficeTel
+        {
+            get; set;
+        }
+        [Optional]
+        public string HomeTel
+        {
+            get; set;
+        }
+        
+        [Optional]
+        public string EmailAddress
+        {
+            get; set;
+        }
+
+
+        [Index(19) ]
+        public string ProductName
+        {
+            get; set;
+        }
+
+        [Index(20)]
+        public string ModelPortfolio
+        {
+            get; set;
+        }
+
+        [Index(21)]
+        public string AccountName { get; set; }
+
+        [Index(22)] //Policy No
+        public string AccountNo { get; set; }
+
+        [Optional] 
         public string FundCode { get; set; }
 
 
-        [Index(7)] //Account number
-        public string AccountNo { get; set; }
+        [Index(24)] 
+        public string FundName { get; set; }
 
-        [Index(8)] //Inception date
-        public string StartDate
+        [Index(25)] //Market value in rands
+        public string FundValue
         {
-            get { return _startDate; }
+            get { return _fundValue; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
-                    _startDate = dtStartDt.ToString("dd MMM yyyy");
-                else
-                    _startDate = value;
+                _fundValue = value;
             }
         }
 
-        [Index(19)] //Account fund allocation
-        public string FundAllocationPercentage
-        {
-            get { return _fundAllocationPercentage; }
-            set
-            {
-                _fundAllocationPercentage = value.Replace("%",string.Empty);
-            }
-        }
-
-        [Index(22)] //Price date
+        [Index(26)] 
         public string FundValueDate
         {
             get { return _fundValueDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (DateTime.TryParse(value, out DateTime fundValDt))
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
                     _fundValueDate = value;
             }
         }
 
-        [Index(26)] //Market value in rands
-        public string FundValue
+        [Optional]
+        public string AccountFundAllocation
         {
-            get { return _fundValue; }
+            get { return _fundAllocationPercentage; }
             set
             {
-                _fundValue = value;//.Replace(",", string.Empty);
+                _fundAllocationPercentage = value.Replace("%", string.Empty);
             }
+        }
+
+        [Index(28)] 
+        public string InceptionDate
+        {
+            get { return _startDate; }
+            set
+            {
+                //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
+                if (DateTime.TryParse(value, out DateTime dtStartDt))
+                    _startDate = dtStartDt.ToString("dd MMM yyyy");
+                else
+                    _startDate = value;
+            }
+        }
+
+        [Optional] //Monthly Debit Order Premium
+        public string MonthlyPremium
+        {
+            get;set;
         }
 
 
         [Optional]
-        public string LISP { get { return _lisp; } set { _lisp = "Allan Gray"; } }
+        public string LISP { get; set; }
 
         [Optional]
         public string ValidationErrors 
@@ -163,20 +272,38 @@ namespace Finx.App.Models
         }
     }
 
-    public sealed class AllanGrayRecordMap : ClassMap<AllanGrayRecord>
+    public sealed class EasiworxRecordMap : ClassMap<EasiworxRecord>
     {
-        public AllanGrayRecordMap()
+        public EasiworxRecordMap()
         {
             Map(c => c.Firstname);
+            Map(c => c.Lastname);
+            Map(c => c.Dob);
             Map(c => c.IDNumber);
-            Map(c => c.Product);
+            Map(c => c.RegistrationNo);
+            Map(c => c.PassportNo);
+            Map(c => c.ClientNo);
+
+            Map(c => c.PostalAddressStreetNo);
+            Map(c => c.PostalAddress);
+            Map(c => c.Suburb);
+            Map(c => c.PostalCode);
+
+            Map(c => c.PhysicalAddressStreetNo);
+            Map(c => c.PhysicalAddress);
+            Map(c => c.PhysicalAddressSuburb);
+            Map(c => c.PhysicalAddressPostalCode);
+
+            Map(c => c.ProductName);
             Map(c => c.AccountNo);
             Map(c => c.FundName);
             Map(c => c.FundCode);
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);
-            Map(c => c.StartDate);
-            Map(c => c.FundAllocationPercentage);
+            Map(c => c.AccountFundAllocation);
+            Map(c => c.InceptionDate);
+            Map(c => c.MonthlyPremium);
+
 
             Task.Run(() =>
             {
