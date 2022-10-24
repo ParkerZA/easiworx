@@ -726,8 +726,14 @@ namespace Finx.App.Forms
 
             var primaryMonitorSizeWidth = SystemInformation.PrimaryMonitorSize.Width;
             var splitterDistance = 0.60 * primaryMonitorSizeWidth;
-            splitContainer1.SplitterDistance = int.Parse(splitterDistance.ToString());
-            
+
+            Program.Logger.Info("PrimaryMonitorSizeWidth: " + primaryMonitorSizeWidth.ToString());
+            Program.Logger.Info("SplitterDistance: " + splitterDistance.ToString());
+
+            int.TryParse(splitterDistance.ToString(), out int intSplitterDistance);
+            if(intSplitterDistance > 50)
+                splitContainer1.SplitterDistance = intSplitterDistance;
+
             _getExistingClientWorker = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
             _getExistingClientWorker.DoWork += GetExistingClientWorker_DoWork;
             _getExistingClientWorker.WorkerReportsProgress = true;
