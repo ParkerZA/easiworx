@@ -369,4 +369,12 @@ namespace Finx.App.Enums
         Error,
         Cancelled
     }
+
+    public enum FileFormat
+    { 
+    Csv,
+    Xls,
+    Xlsx,
+    Txt
+    }
 }

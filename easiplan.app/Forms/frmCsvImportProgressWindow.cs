@@ -25,13 +25,22 @@ namespace Finx.App.Forms
         private ManualResetEvent manualResetEventInit = new ManualResetEvent(false);
         private ManualResetEvent manualResetEventAbort = new ManualResetEvent(false);
         private bool requiresClose = true;
-        
+        public delegate void cancelImportDelegate();
+        public event cancelImportDelegate CancelImport = new cancelImportDelegate(cancelImportEventHandler);
+
+        private static void cancelImportEventHandler()
+        {
+            throw new NotImplementedException();
+        }
+
         public frmCsvImportProgressWindow()
         {
             InitializeComponent();
             InitialiseFormProperties();
         }
 
+        public CancellationTokenSource CancellationTokenSource
+        { get; set; }
         private void InitialiseFormProperties()
         {
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
@@ -87,7 +96,18 @@ namespace Finx.App.Forms
         /// <param name="text">The progress text to display</param>
         public void SetText(String text)
         {
-            Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
+            try
+            {
+                if (InvokeRequired)
+                    Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
+                else
+                    DoSetText(text);
+            }
+            catch (ObjectDisposedException)
+            {
+                                
+            }
+            
         }
 
         public void SetCaption(string text)
@@ -214,7 +234,10 @@ namespace Finx.App.Forms
             manualResetEventInit.Set();
         }
 
-    
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+        }
 
         /// <summary>
         /// Handler for 'Close' clicking
@@ -244,6 +267,7 @@ namespace Finx.App.Forms
         private void AbortWork()
         {
             manualResetEventAbort.Set();
+            this.CancellationTokenSource.Cancel();
         }
         #endregion
 
