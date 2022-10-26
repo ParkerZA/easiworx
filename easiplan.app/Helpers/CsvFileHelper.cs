@@ -91,6 +91,9 @@ namespace Finx.App.Helpers
             List<ICsvRecord> fileRecordList = null;
             try
             {
+                if (Lisp.ToLower() == "easiworxtemplate")
+                    Lisp = "Easiworx";
+
                 using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     using (var streamReader = new StreamReader(filestream, Encoding.UTF8))

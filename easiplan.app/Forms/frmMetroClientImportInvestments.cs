@@ -16,6 +16,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -139,7 +140,7 @@ namespace Finx.App.Forms
 
         private void kbtnOpenFile_Click(object sender, EventArgs e)
         {
-            Console.WriteLine($"kbtnOpenFile_Click {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+            //Console.WriteLine($"kbtnOpenFile_Click {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
 
             if (cmbSelectLisp.SelectedIndex == 0 || cmbSelectLisp.SelectedItem.ToString().ToLower() == "please select")
             {
@@ -323,7 +324,7 @@ namespace Finx.App.Forms
                     lblLastImportUser.Text = Program.User.Firstname;
                 });
 
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
                     ValidateDataGridRecords();
                 });
@@ -374,7 +375,9 @@ namespace Finx.App.Forms
 
             if (cForm == null)
             {
-                var childForm = new frmMetroClient1(clientId.Value);
+                frmMetroClient1 childForm = new frmMetroClient1(clientId.Value);
+                string FormText = string.Format("Client {0}", clientId.Value);
+                childForm.Text = FormText;
                 childForm.MdiParent = mdiForm;
                 childForm.StartPosition = FormStartPosition.CenterParent;
                 childForm.Size = childForm.MaximumSize;
@@ -637,14 +640,13 @@ namespace Finx.App.Forms
             Task.Run(async () =>
             {
                 await LoadClientInvestmentsFromFile();
-                await RefreshClientRetirementPortfolioView();
+                RefreshClientRetirementPortfolioView().Wait();
                 await ExportErrorRecordsToCsvFile();
             });
 
 
 
         }
-
         private void SetDgvFileContentsDataSource(List<ICsvRecord> csvRecords)
         {
             switch (_selectedLisp.ToLower())
@@ -683,6 +685,7 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["Title"].Visible = true;
                     break;
                 case "easiworx":
+                case "easiworxtemplate":
                     dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
                     dgvFileContents.Columns["Product"].Visible = true;
                     dgvFileContents.Columns["ProductType"].Visible = false;
@@ -698,7 +701,6 @@ namespace Finx.App.Forms
                     break;
             }
         }
-
         private void BackgroundWorker_ImportClientInvestmentsFromFile_DoWork(object sender, DoWorkEventArgs e)
         {
             var frmCsvImportProgressWindow = e.Argument as frmCsvImportProgressWindow;
@@ -938,7 +940,7 @@ namespace Finx.App.Forms
                                                                                      r.ReferenceNo.Trim().ToLower() == policy.AccountNo.Trim().ToLower())
                                                                                         .FirstOrDefault();
                     if (retirement == null)
-                        await Task.Run(() =>
+                        Task.Run(() =>
                         {
                             try
                             {
@@ -957,13 +959,13 @@ namespace Finx.App.Forms
                                     Program.Logger.Error(ex);
                             }
 
-                        });
+                        }).Wait();
 
                     //get all funds per policy
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
 
                     //add or update policy funds
-                    var updatedretirement = AddRetirementFunds(retirement, policyFunds);//await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
+                    var updatedretirement = await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
 
                     //get existing client retirements
                     List<Retirement> existingRetirements = null;
@@ -1032,12 +1034,16 @@ namespace Finx.App.Forms
                 List<ClientRetirementPortfolio_View> clientRetirementPortfolioList = null;
 
                 //1st try on id no
-                clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.IdentificationNo == ClientUniqueId).ToList());
+                if(_clientRetirementPortfolio_View != null)
+                    clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.IdentificationNo == ClientUniqueId).ToList());
                 //clientRetirementPortfolioList = await Task.Run(() => Program.ClientRetirementPortfolioService.ListView(lv => lv.IdentificationNo == ClientUniqueId));
 
                 //else try on passport no
                 if (clientRetirementPortfolioList == null || clientRetirementPortfolioList.Count == 0)
-                    clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.PassportNo == ClientUniqueId).ToList());
+                {
+                    if(_clientRetirementPortfolio_View != null)
+                        clientRetirementPortfolioList = await Task.Run(() => _clientRetirementPortfolio_View.Where(lv => lv.PassportNo == ClientUniqueId).ToList());
+                }
                 //clientRetirementPortfolioList =  await Task.Run(() => Program.ClientRetirementPortfolioService.ListView(lv => lv.PassportNo == ClientUniqueId));
 
                 if (clientRetirementPortfolioList != null && clientRetirementPortfolioList.Count > 0)
@@ -1135,14 +1141,18 @@ namespace Finx.App.Forms
                         var day = int.Parse(datePart.Substring(4, 2));
 
                         var strdt = year + "-" + month + "-" + day;
-
-                        if (DateTime.TryParseExact(strdt, "yy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime _) ||
-                            DateTime.TryParseExact(strdt, "yy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime _) ||
-                            DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime _))
-                            dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
+                        DateTime dtDob;
+                        if (DateTime.TryParseExact(strdt, "yy-mm-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                            DateTime.TryParseExact(strdt, "yy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                            DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
+                        {
+                            dob = dtDob.ToString("dd MMM yyyy");
+                            //dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
+                        }
                     }
 
-                    switch (csvRecord.LISP.ToLower())
+                    //switch (csvRecord.LISP.ToLower())
+                    switch (_selectedLisp.ToLower())
                     {
                         case "camissa":
                             var camissaRecord = csvRecord as CamissaRecord;
@@ -1212,6 +1222,7 @@ namespace Finx.App.Forms
 
                             break;
                         case "easiworx":
+                        case "easiworxtemplate":
                             var easiworxRecord = csvRecord as EasiworxRecord;
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
@@ -1320,8 +1331,9 @@ namespace Finx.App.Forms
                         {
                             client.ClientContacts.ClientId = client.Id;
                             client.ClientContacts.ClientDetailsId = client.ClientDetails.Id;
-                            Program.ClientService.Update(client);
                         }
+
+                        Program.ClientService.Update(client);
                     }
                     else
                         client = null;
@@ -1379,7 +1391,17 @@ namespace Finx.App.Forms
                 
                 if (_selectedLisp.ToLower().Contains("easiworx"))
                 {
-                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration,_selectedLisp);
+                    var fileName = fileSettings.FilePath;
+                    var lisp = "";
+                    
+                    if (fileName.ToLower().Contains("allan"))
+                        lisp = "Allan Gray";
+                    if (fileName.ToLower().Contains("camissa"))
+                        lisp = "Camissa";
+                    if (fileName.ToLower().Contains("momentum"))
+                        lisp = "Momentum";
+
+                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration,lisp);
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
@@ -1462,13 +1484,14 @@ namespace Finx.App.Forms
 
                             //RecordCsvFileImport();
 
-                            await Task.Run(async () =>
+                            await Task.Run(() =>
                             {
                                 //var win32Parent = new NativeWindow();
                                 //win32Parent.AssignHandle(_handle);
                                 //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
                                 ValidateDataGridRecords();
                             });
+
                             await Task.Run(() =>
                             {
                                 kbtnOpenFile.BeginInvoke((Action)delegate
@@ -1570,13 +1593,15 @@ namespace Finx.App.Forms
                     //if (fund.IDNumber == "9903145082083")
                     //    Debugger.Break();
 
-                    switch (fund.LISP.ToLower())
+                    //switch (fund.LISP.ToLower())
+                    switch (_selectedLisp.ToLower())
                     {
                         case "allan gray":
                         case "allangray":
                             Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
                             break;
                         case "easiworx":
+                        case "easiworxtemplate":
                             Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
                             break;
                         case "momentum":
@@ -1634,7 +1659,6 @@ namespace Finx.App.Forms
         private Retirement CreateRetirement(ICsvRecord csvRecord, string updateBy = "System", string RetirementType = "Unit Trusts")
         {
             var insured = "";
-            double fundAllocPerc = 0;
             string identificationNo;
             ClientDetails soughtClient = null;
 
@@ -1661,7 +1685,8 @@ namespace Finx.App.Forms
                 }
             }
 
-            switch (csvRecord.LISP.ToLower())
+            //switch (csvRecord.LISP.ToLower())
+            switch (_selectedLisp.ToLower())
             {
                 case "camissa":
                     insured = soughtClient is null ? ((CamissaRecord)csvRecord).Firstname + " " + ((CamissaRecord)csvRecord).Lastname : soughtClient.FirstName + " " + soughtClient.LastName;
@@ -1669,11 +1694,12 @@ namespace Finx.App.Forms
                 case "momentum":
                     insured = soughtClient is null ? ((MomentumRecord)csvRecord).Firstname : soughtClient.FirstName;
                     break;
-                case "c gray":
                 case "allangray":
+                case "allan gray":
                     insured = soughtClient is null ? ((AllanGrayRecord)csvRecord).Firstname : soughtClient.FirstName;
                     break;
                 case "easiworx":
+                case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
                     break;
                 default:
@@ -1710,14 +1736,15 @@ namespace Finx.App.Forms
             var fund = new Fund()
             {
                 Description = csvRecord.FundName,
-                CreateDate = fundValDate,
+                CreateDate = DateTime.Now,
                 CurrentAmount = dblFundValue,
                 SplitPerc = splitPercentage,
-                UpdateBy = updateBy
-            };
+                UpdateBy = updateBy,
+                UpdateDate = fundValDate
+        };
 
-            if (fundValDate != new DateTime(0001, 1, 1))
-                fund.UpdateDate = fundValDate;
+            //if (fundValDate != new DateTime(0001, 1, 1))
+                //fund.UpdateDate = fundValDate;
 
             return fund;
         }
@@ -1727,8 +1754,8 @@ namespace Finx.App.Forms
         {
             try
             {
-                //if (csvRecord.IDNumber == "6103105116087")
-                //    Debugger.Break();
+                //if (csvRecord.IDNumber == "1102120396083")
+                  //  Debugger.Break();
 
                 Double.TryParse(csvRecord.FundValue, out double dblFundValue);
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
@@ -1858,7 +1885,7 @@ namespace Finx.App.Forms
                 //var cancellationToken = tokenSource.Token;
                 //var parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = -1, CancellationToken = cancellationToken };
                 
-                Console.WriteLine($"Before ParrallelFor {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+                //Console.WriteLine($"Before ParrallelFor {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
                 //await Task.Run(() =>
                 //{
 
@@ -1901,8 +1928,8 @@ namespace Finx.App.Forms
                         await ValidateFundValueDate(datagridViewRow, csvRecord);
                         await ColourRow(datagridViewRow);*/
 
-                        if (csvRecord.HasErrors)
-                            Console.WriteLine($"Thread Id: {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}. Record with index {dgvFileContents_RowNo} has validation errors!");
+                        //if (csvRecord.HasErrors)
+                          //  Console.WriteLine($"Thread Id: {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}. Record with index {dgvFileContents_RowNo} has validation errors!");
 
                     }
                     catch (OperationCanceledException)
@@ -1920,11 +1947,11 @@ namespace Finx.App.Forms
             catch (Exception)
             {
             }
-            finally
-            {
-                //_semaphore.Release();
-                Console.WriteLine("ErrorRecCount: " + _csvRecordList.Where(l => l.HasErrors == true).Count());
-            }
+            //finally
+            //{
+            //    //_semaphore.Release();
+            //    //Console.WriteLine("ErrorRecCount: " + _csvRecordList.Where(l => l.HasErrors == true).Count());
+            //}
         }
         private ICsvRecord GetCsvRecordByRowIndex(int rowIndex)
         {
@@ -1990,7 +2017,7 @@ namespace Finx.App.Forms
         }
         private void ValidateSAIDNo(int RowIndex, ICsvRecord csvRecord)
         {
-            Console.WriteLine($"ValidateSAIDNo {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+            //Console.WriteLine($"ValidateSAIDNo {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
             #region SAIDNoComposition
             /*
                 YYMMDDGSSSCAZ
@@ -2065,7 +2092,7 @@ namespace Finx.App.Forms
         }
         private void ValidateFundValue(int RowIndex, ICsvRecord csvRecord)
         {
-            Console.WriteLine($"ValidateFundValue {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+            //Console.WriteLine($"ValidateFundValue {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
             DataGridViewCell fundValueCell = null;
 
             //await Task.Run(() =>
@@ -2134,7 +2161,7 @@ namespace Finx.App.Forms
         }
         private void ValidateFundValueDate(int RowIndex, ICsvRecord csvRecord)
         {
-            Console.WriteLine($"ValidateFundValueDate {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+            //Console.WriteLine($"ValidateFundValueDate {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
 
             DataGridViewCell fundValueDateCell = null;
             var fundValueDate = "";
