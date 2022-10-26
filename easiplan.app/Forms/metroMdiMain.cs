@@ -174,7 +174,7 @@ namespace Finx.App.Forms
                         var childForm = new frmMetroClient1(clientId);
 
                         childForm.MdiParent = this;
-
+                        childForm.Text = FormText;
                         childForm.Show();
                     }
                     catch (NullReferenceException ex)
