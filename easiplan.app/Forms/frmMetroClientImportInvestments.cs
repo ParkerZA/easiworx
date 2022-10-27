@@ -762,18 +762,21 @@ namespace Finx.App.Forms
             {
                 loopResults.Add(Parallel.ForEach(batchedClientInvestment, parallelOptions, async (clientIdentificationNo, loopState) =>
                 {
-                    if (parallelOptions.CancellationToken.IsCancellationRequested)
-                    {
-                        //parallelOptions.CancellationToken.ThrowIfCancellationRequested();
-                        loopState.Break();
-                    }
+                  
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
+                    //frmCsvImportProgressWindow.CancellationTokenSource = parallelOptions.CancellationToken
                     var progressCallback = frmCsvImportProgressWindow;
                     clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
                     try
                     {
 
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
+
+                        if (parallelOptions.CancellationToken.IsCancellationRequested)
+                        {
+                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                            //loopState.Break();
+                        }
 
                         await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
                         _recCnt++;
@@ -1735,7 +1738,7 @@ namespace Finx.App.Forms
             var fund = new Fund()
             {
                 Description = csvRecord.FundName,
-                CreateDate = DateTime.Now,
+                CreateDate = fundValDate,
                 CurrentAmount = dblFundValue,
                 SplitPerc = splitPercentage,
                 UpdateBy = updateBy,
@@ -1754,7 +1757,7 @@ namespace Finx.App.Forms
             try
             {
                 //if (csvRecord.IDNumber == "1102120396083")
-                  //  Debugger.Break();
+                  //Debugger.Break();
 
                 Double.TryParse(csvRecord.FundValue, out double dblFundValue);
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
