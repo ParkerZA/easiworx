@@ -32,9 +32,9 @@ namespace Finx.App.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.kgbFileDetails = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -117,6 +117,7 @@ namespace Finx.App.Forms
             this.kgbFileDetails.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.NormalPanel;
             this.kgbFileDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kgbFileDetails.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbFileDetails.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbFileDetails.Location = new System.Drawing.Point(20, 60);
             this.kgbFileDetails.Name = "kgbFileDetails";
             // 
@@ -124,7 +125,7 @@ namespace Finx.App.Forms
             // 
             this.kgbFileDetails.Panel.Controls.Add(this.splitContainer1);
             this.kgbFileDetails.Panel.Controls.Add(this.metroPanel1);
-            this.kgbFileDetails.Size = new System.Drawing.Size(1187, 586);
+            this.kgbFileDetails.Size = new System.Drawing.Size(1351, 646);
             this.kgbFileDetails.TabIndex = 11;
             this.kgbFileDetails.Values.Heading = "";
             // 
@@ -142,8 +143,8 @@ namespace Finx.App.Forms
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panelFileInfo);
-            this.splitContainer1.Size = new System.Drawing.Size(1183, 531);
-            this.splitContainer1.SplitterDistance = 950;
+            this.splitContainer1.Size = new System.Drawing.Size(1347, 591);
+            this.splitContainer1.SplitterDistance = 1081;
             this.splitContainer1.TabIndex = 10;
             // 
             // panelGrid
@@ -151,9 +152,9 @@ namespace Finx.App.Forms
             this.panelGrid.Controls.Add(this.dgvFileContents);
             this.panelGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGrid.Location = new System.Drawing.Point(0, 0);
-            this.panelGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelGrid.Margin = new System.Windows.Forms.Padding(2);
             this.panelGrid.Name = "panelGrid";
-            this.panelGrid.Size = new System.Drawing.Size(950, 531);
+            this.panelGrid.Size = new System.Drawing.Size(1081, 591);
             this.panelGrid.TabIndex = 12;
             // 
             // dgvFileContents
@@ -168,14 +169,14 @@ namespace Finx.App.Forms
             this.dgvFileContents.CausesValidation = false;
             this.dgvFileContents.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgvFileContents.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvFileContents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFileContents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvFileContents.ColumnHeadersHeight = 29;
             this.dgvFileContents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.RowNo,
@@ -196,14 +197,14 @@ namespace Finx.App.Forms
             this.FundValueDate,
             this.Premium});
             this.dgvFileContents.ContextMenuStrip = this.cmClientRecords;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFileContents.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFileContents.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvFileContents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFileContents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvFileContents.EnableHeadersVisualStyles = false;
@@ -214,18 +215,18 @@ namespace Finx.App.Forms
             this.dgvFileContents.Name = "dgvFileContents";
             this.dgvFileContents.ReadOnly = true;
             this.dgvFileContents.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvFileContents.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFileContents.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvFileContents.RowHeadersWidth = 51;
             this.dgvFileContents.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvFileContents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFileContents.Size = new System.Drawing.Size(950, 531);
+            this.dgvFileContents.Size = new System.Drawing.Size(1081, 591);
             this.dgvFileContents.StandardTab = true;
             this.dgvFileContents.TabIndex = 6;
             // 
@@ -464,7 +465,7 @@ namespace Finx.App.Forms
             this.panelFileInfo.HorizontalScrollbarSize = 10;
             this.panelFileInfo.Location = new System.Drawing.Point(0, 0);
             this.panelFileInfo.Name = "panelFileInfo";
-            this.panelFileInfo.Size = new System.Drawing.Size(277, 531);
+            this.panelFileInfo.Size = new System.Drawing.Size(277, 591);
             this.panelFileInfo.TabIndex = 15;
             this.panelFileInfo.VerticalScrollbar = true;
             this.panelFileInfo.VerticalScrollbarBarColor = true;
@@ -474,7 +475,7 @@ namespace Finx.App.Forms
             // lblLastImportDate
             // 
             this.lblLastImportDate.AutoSize = true;
-            this.lblLastImportDate.Location = new System.Drawing.Point(117, 152);
+            this.lblLastImportDate.Location = new System.Drawing.Point(152, 167);
             this.lblLastImportDate.Name = "lblLastImportDate";
             this.lblLastImportDate.Size = new System.Drawing.Size(0, 13);
             this.lblLastImportDate.TabIndex = 45;
@@ -482,7 +483,7 @@ namespace Finx.App.Forms
             // lblLastImportUser
             // 
             this.lblLastImportUser.AutoSize = true;
-            this.lblLastImportUser.Location = new System.Drawing.Point(111, 173);
+            this.lblLastImportUser.Location = new System.Drawing.Point(152, 188);
             this.lblLastImportUser.Name = "lblLastImportUser";
             this.lblLastImportUser.Size = new System.Drawing.Size(0, 13);
             this.lblLastImportUser.TabIndex = 47;
@@ -491,7 +492,7 @@ namespace Finx.App.Forms
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(7, 172);
+            this.label8.Location = new System.Drawing.Point(7, 188);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(87, 13);
             this.label8.TabIndex = 46;
@@ -501,7 +502,7 @@ namespace Finx.App.Forms
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(7, 151);
+            this.label7.Location = new System.Drawing.Point(7, 167);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(88, 13);
             this.label7.TabIndex = 44;
@@ -510,7 +511,7 @@ namespace Finx.App.Forms
             // lblImportStatus
             // 
             this.lblImportStatus.AutoSize = true;
-            this.lblImportStatus.Location = new System.Drawing.Point(83, 130);
+            this.lblImportStatus.Location = new System.Drawing.Point(152, 146);
             this.lblImportStatus.Name = "lblImportStatus";
             this.lblImportStatus.Size = new System.Drawing.Size(46, 13);
             this.lblImportStatus.TabIndex = 43;
@@ -520,7 +521,7 @@ namespace Finx.App.Forms
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(7, 130);
+            this.label6.Location = new System.Drawing.Point(7, 146);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 13);
             this.label6.TabIndex = 42;
@@ -538,7 +539,7 @@ namespace Finx.App.Forms
             // lblTotValErrors
             // 
             this.lblTotValErrors.AutoSize = true;
-            this.lblTotValErrors.Location = new System.Drawing.Point(124, 262);
+            this.lblTotValErrors.Location = new System.Drawing.Point(152, 278);
             this.lblTotValErrors.Name = "lblTotValErrors";
             this.lblTotValErrors.Size = new System.Drawing.Size(13, 13);
             this.lblTotValErrors.TabIndex = 40;
@@ -549,7 +550,7 @@ namespace Finx.App.Forms
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.LightPink;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(7, 262);
+            this.label2.Location = new System.Drawing.Point(7, 278);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 39;
@@ -558,7 +559,7 @@ namespace Finx.App.Forms
             // lblNewClientCnt
             // 
             this.lblNewClientCnt.AutoSize = true;
-            this.lblNewClientCnt.Location = new System.Drawing.Point(124, 240);
+            this.lblNewClientCnt.Location = new System.Drawing.Point(152, 256);
             this.lblNewClientCnt.Name = "lblNewClientCnt";
             this.lblNewClientCnt.Size = new System.Drawing.Size(13, 13);
             this.lblNewClientCnt.TabIndex = 38;
@@ -567,7 +568,7 @@ namespace Finx.App.Forms
             // lblExistingClientCnt
             // 
             this.lblExistingClientCnt.AutoSize = true;
-            this.lblExistingClientCnt.Location = new System.Drawing.Point(168, 220);
+            this.lblExistingClientCnt.Location = new System.Drawing.Point(152, 236);
             this.lblExistingClientCnt.Name = "lblExistingClientCnt";
             this.lblExistingClientCnt.Size = new System.Drawing.Size(13, 13);
             this.lblExistingClientCnt.TabIndex = 37;
@@ -578,7 +579,7 @@ namespace Finx.App.Forms
             this.lblNewClientCnt1.AutoSize = true;
             this.lblNewClientCnt1.BackColor = System.Drawing.Color.LightGreen;
             this.lblNewClientCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNewClientCnt1.Location = new System.Drawing.Point(7, 240);
+            this.lblNewClientCnt1.Location = new System.Drawing.Point(7, 256);
             this.lblNewClientCnt1.Name = "lblNewClientCnt1";
             this.lblNewClientCnt1.Size = new System.Drawing.Size(104, 13);
             this.lblNewClientCnt1.TabIndex = 36;
@@ -589,7 +590,7 @@ namespace Finx.App.Forms
             this.lblExistingClientCnt1.AutoSize = true;
             this.lblExistingClientCnt1.BackColor = System.Drawing.Color.LightBlue;
             this.lblExistingClientCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblExistingClientCnt1.Location = new System.Drawing.Point(7, 220);
+            this.lblExistingClientCnt1.Location = new System.Drawing.Point(7, 236);
             this.lblExistingClientCnt1.Name = "lblExistingClientCnt1";
             this.lblExistingClientCnt1.Size = new System.Drawing.Size(144, 13);
             this.lblExistingClientCnt1.TabIndex = 35;
@@ -598,7 +599,7 @@ namespace Finx.App.Forms
             // lblFileFormat
             // 
             this.lblFileFormat.AutoSize = true;
-            this.lblFileFormat.Location = new System.Drawing.Point(75, 110);
+            this.lblFileFormat.Location = new System.Drawing.Point(152, 126);
             this.lblFileFormat.Name = "lblFileFormat";
             this.lblFileFormat.Size = new System.Drawing.Size(25, 13);
             this.lblFileFormat.TabIndex = 34;
@@ -608,7 +609,7 @@ namespace Finx.App.Forms
             // 
             this.lblFileFormat1.AutoSize = true;
             this.lblFileFormat1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileFormat1.Location = new System.Drawing.Point(7, 110);
+            this.lblFileFormat1.Location = new System.Drawing.Point(7, 126);
             this.lblFileFormat1.Name = "lblFileFormat1";
             this.lblFileFormat1.Size = new System.Drawing.Size(61, 13);
             this.lblFileFormat1.TabIndex = 33;
@@ -617,7 +618,7 @@ namespace Finx.App.Forms
             // lblFileSize
             // 
             this.lblFileSize.AutoSize = true;
-            this.lblFileSize.Location = new System.Drawing.Point(60, 90);
+            this.lblFileSize.Location = new System.Drawing.Point(152, 106);
             this.lblFileSize.Name = "lblFileSize";
             this.lblFileSize.Size = new System.Drawing.Size(29, 13);
             this.lblFileSize.TabIndex = 32;
@@ -627,7 +628,7 @@ namespace Finx.App.Forms
             // 
             this.lblFileSize1.AutoSize = true;
             this.lblFileSize1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileSize1.Location = new System.Drawing.Point(7, 90);
+            this.lblFileSize1.Location = new System.Drawing.Point(7, 106);
             this.lblFileSize1.Name = "lblFileSize1";
             this.lblFileSize1.Size = new System.Drawing.Size(49, 13);
             this.lblFileSize1.TabIndex = 31;
@@ -636,7 +637,7 @@ namespace Finx.App.Forms
             // lblFileDate
             // 
             this.lblFileDate.AutoSize = true;
-            this.lblFileDate.Location = new System.Drawing.Point(59, 70);
+            this.lblFileDate.Location = new System.Drawing.Point(152, 86);
             this.lblFileDate.Name = "lblFileDate";
             this.lblFileDate.Size = new System.Drawing.Size(99, 13);
             this.lblFileDate.TabIndex = 30;
@@ -646,7 +647,7 @@ namespace Finx.App.Forms
             // 
             this.lblFileDate1.AutoSize = true;
             this.lblFileDate1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileDate1.Location = new System.Drawing.Point(7, 70);
+            this.lblFileDate1.Location = new System.Drawing.Point(7, 86);
             this.lblFileDate1.Name = "lblFileDate1";
             this.lblFileDate1.Size = new System.Drawing.Size(52, 13);
             this.lblFileDate1.TabIndex = 29;
@@ -655,7 +656,7 @@ namespace Finx.App.Forms
             // lblRecCnt
             // 
             this.lblRecCnt.AutoSize = true;
-            this.lblRecCnt.Location = new System.Drawing.Point(87, 200);
+            this.lblRecCnt.Location = new System.Drawing.Point(152, 216);
             this.lblRecCnt.Name = "lblRecCnt";
             this.lblRecCnt.Size = new System.Drawing.Size(13, 13);
             this.lblRecCnt.TabIndex = 28;
@@ -665,7 +666,7 @@ namespace Finx.App.Forms
             // 
             this.lblRecCnt1.AutoSize = true;
             this.lblRecCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRecCnt1.Location = new System.Drawing.Point(7, 200);
+            this.lblRecCnt1.Location = new System.Drawing.Point(7, 216);
             this.lblRecCnt1.Name = "lblRecCnt1";
             this.lblRecCnt1.Size = new System.Drawing.Size(76, 13);
             this.lblRecCnt1.TabIndex = 27;
@@ -674,7 +675,7 @@ namespace Finx.App.Forms
             // lblSelectedFile
             // 
             this.lblSelectedFile.AutoSize = true;
-            this.lblSelectedFile.Location = new System.Drawing.Point(66, 50);
+            this.lblSelectedFile.Location = new System.Drawing.Point(152, 66);
             this.lblSelectedFile.Name = "lblSelectedFile";
             this.lblSelectedFile.Size = new System.Drawing.Size(49, 13);
             this.lblSelectedFile.TabIndex = 23;
@@ -684,7 +685,7 @@ namespace Finx.App.Forms
             // 
             this.lblSelectedFile1.AutoSize = true;
             this.lblSelectedFile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectedFile1.Location = new System.Drawing.Point(7, 50);
+            this.lblSelectedFile1.Location = new System.Drawing.Point(7, 66);
             this.lblSelectedFile1.Name = "lblSelectedFile1";
             this.lblSelectedFile1.Size = new System.Drawing.Size(57, 13);
             this.lblSelectedFile1.TabIndex = 20;
@@ -714,7 +715,7 @@ namespace Finx.App.Forms
             this.metroPanel1.HorizontalScrollbarSize = 10;
             this.metroPanel1.Location = new System.Drawing.Point(0, 0);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(1183, 51);
+            this.metroPanel1.Size = new System.Drawing.Size(1347, 51);
             this.metroPanel1.TabIndex = 4;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
@@ -726,7 +727,7 @@ namespace Finx.App.Forms
             this.chkViewErrorRecords.Enabled = false;
             this.chkViewErrorRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkViewErrorRecords.Location = new System.Drawing.Point(618, 19);
-            this.chkViewErrorRecords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkViewErrorRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewErrorRecords.Name = "chkViewErrorRecords";
             this.chkViewErrorRecords.Size = new System.Drawing.Size(117, 17);
             this.chkViewErrorRecords.TabIndex = 21;
@@ -740,7 +741,7 @@ namespace Finx.App.Forms
             this.chkViewExistingRecords.Enabled = false;
             this.chkViewExistingRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkViewExistingRecords.Location = new System.Drawing.Point(471, 19);
-            this.chkViewExistingRecords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkViewExistingRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewExistingRecords.Name = "chkViewExistingRecords";
             this.chkViewExistingRecords.Size = new System.Drawing.Size(131, 17);
             this.chkViewExistingRecords.TabIndex = 20;
@@ -754,7 +755,7 @@ namespace Finx.App.Forms
             this.chkViewNewRecords.Enabled = false;
             this.chkViewNewRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkViewNewRecords.Location = new System.Drawing.Point(332, 19);
-            this.chkViewNewRecords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkViewNewRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewNewRecords.Name = "chkViewNewRecords";
             this.chkViewNewRecords.Size = new System.Drawing.Size(117, 17);
             this.chkViewNewRecords.TabIndex = 19;
@@ -803,7 +804,7 @@ namespace Finx.App.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1227, 666);
+            this.ClientSize = new System.Drawing.Size(1391, 726);
             this.Controls.Add(this.kgbFileDetails);
             this.Name = "frmMetroClientImportInvestments";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
