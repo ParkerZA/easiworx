@@ -1735,9 +1735,26 @@ namespace Finx.App.Forms
 
             Double.TryParse(csvRecord.FundValue, out double dblFundValue);
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
-            
+            DateTime fundStartDate = new DateTime(0001,1,1);
             //todo: check csvRecord Type & cast to appropriate type
-            DateTime.TryParse(((AllanGrayRecord)csvRecord).StartDate, out DateTime fundStartDate);
+            switch (_selectedLisp.ToUpper())
+            {
+                case "ALLANGRAY":
+                    DateTime.TryParse(((AllanGrayRecord)csvRecord).StartDate, out fundStartDate);
+                    break;
+                case "MOMENTUM":
+                    DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
+                    break;
+                case "CAMISSA":
+                    DateTime.TryParse(((CamissaRecord)csvRecord).InvestmentStartDate, out fundStartDate);
+                    break;
+                case "EASIWORXTEMPLATE":
+                case "EASIWORX":
+                    DateTime.TryParse(((EasiworxRecord)csvRecord).InceptionDate, out fundStartDate);
+                    break;
+
+            }
+            
 
             //Program.Logger.Info("TT checking the funds details on Catherines machine Start");
             //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
