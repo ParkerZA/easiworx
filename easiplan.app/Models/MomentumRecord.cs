@@ -71,7 +71,7 @@ namespace Finx.App.Models
             get { return _fundValue; } 
             set 
             {
-                _fundValue = value.Replace(",", string.Empty);
+                _fundValue = value.Replace(",", string.Empty).Replace(".", ","); ;
             } 
         }
 
@@ -100,11 +100,11 @@ namespace Finx.App.Models
         public string LISP { get { return _lisp; } set { _lisp = "Momentum"; } }
 
         
-        [Index(41)]
-        public string ProductType
-        {
-            get;set;
-        }
+        //[Index(41)]
+        //public string ProductType
+        //{
+        //    get;set;
+        //}
 
         
         [Index(42)]
@@ -148,7 +148,7 @@ namespace Finx.App.Models
             
             Map(c => c.AccountNo);
             Map(c => c.Product);
-            Map(c => c.ProductType);
+            //Map(c => c.ProductType);
             Map(c => c.LISP).Default("Momentum");
             Map(c => c.FundCode);
             Map(c => c.FundName);
