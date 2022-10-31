@@ -38,14 +38,20 @@ namespace my.domain.lib.core.Domain
         {
             if (this.Exists(entity.Id))
                 throw new ArgumentException(string.Format("{0} with id {1} already exists", (object)typeof(TEntity), (object)entity.Id));
+
             ValidationContext validationContext = new ValidationContext((object)entity, (IServiceProvider)null, (IDictionary<object, object>)null);
             List<ValidationResult> validationResultList = new List<ValidationResult>();
+            
             if (!Validator.TryValidateObject((object)entity, validationContext, (ICollection<ValidationResult>)validationResultList))
                 throw new MyValidationException(string.Format(validationResultList[0].ErrorMessage));
+            
             CancelEventArgs<TEntity> e = new CancelEventArgs<TEntity>(entity);
+            
             this.OnAdding(e);
+            
             if (e.Cancel)
                 return;
+            
             this.Repository.Add<TEntity, TId>(entity);
             this.OnAdded(entity);
         }

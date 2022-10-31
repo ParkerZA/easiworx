@@ -22,6 +22,7 @@ namespace Finx.App.Models
         private string _startDate;
         private string _firstname;
         private string _validationErrors;
+        private string _premium;
 
         [Ignore]
         public int RowNo { get; set; }
@@ -102,6 +103,16 @@ namespace Finx.App.Models
             }
         }
 
+        [Index(15)] //Monthly debit Order
+        public string MonthlyPremium
+        {
+            get { return _premium; }
+            set 
+            { 
+                _premium = value.Replace("R", String.Empty).Trim(); 
+            } 
+        }
+
         [Index(19)] //Account fund allocation
         public string FundAllocationPercentage
         {
@@ -177,6 +188,7 @@ namespace Finx.App.Models
             Map(c => c.FundValueDate);
             Map(c => c.StartDate);
             Map(c => c.FundAllocationPercentage);
+            Map(c => c.MonthlyPremium);
 
             Task.Run(() =>
             {

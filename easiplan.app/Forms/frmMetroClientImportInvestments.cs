@@ -22,6 +22,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -1734,6 +1735,14 @@ namespace Finx.App.Forms
 
             Double.TryParse(csvRecord.FundValue, out double dblFundValue);
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
+            
+            //todo: check csvRecord Type & cast to appropriate type
+            DateTime.TryParse(((AllanGrayRecord)csvRecord).StartDate, out DateTime fundStartDate);
+
+            Program.Logger.Info("TT checking the funds details on Catherines machine Start");
+            Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
+            Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
+            Program.Logger.Info("TT checking the funds details on Catherines machine End");
 
             var fund = new Fund()
             {
@@ -1743,11 +1752,14 @@ namespace Finx.App.Forms
                 SplitPerc = splitPercentage,
                 UpdateBy = updateBy,
                 UpdateDate = fundValDate
-        };
+            };
 
             //if (fundValDate != new DateTime(0001, 1, 1))
-                //fund.UpdateDate = fundValDate;
+            //fund.UpdateDate = fundValDate;
 
+            if (fundStartDate != new DateTime(0001, 1, 1))
+                fund.StartDate = fundStartDate;
+            
             return fund;
         }
 
