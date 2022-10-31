@@ -109,7 +109,7 @@ namespace Finx.App.Models
             get { return _premium; }
             set 
             { 
-                _premium = value.Replace("R", String.Empty).Trim(); 
+                _premium = value.Replace("R", String.Empty).Trim().Replace(".", ","); 
             } 
         }
 
@@ -119,7 +119,7 @@ namespace Finx.App.Models
             get { return _fundAllocationPercentage; }
             set
             {
-                _fundAllocationPercentage = value.Replace("%",string.Empty);
+                _fundAllocationPercentage = value.Replace("%",string.Empty).Replace(".",",");
             }
         }
 
@@ -142,7 +142,7 @@ namespace Finx.App.Models
             get { return _fundValue; }
             set
             {
-                _fundValue = value;//.Replace(",", string.Empty);
+                _fundValue = value.Replace(".", ",");
             }
         }
 

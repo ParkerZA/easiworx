@@ -1740,10 +1740,10 @@ namespace Finx.App.Forms
             //todo: check csvRecord Type & cast to appropriate type
             DateTime.TryParse(((AllanGrayRecord)csvRecord).StartDate, out DateTime fundStartDate);
 
-            Program.Logger.Info("TT checking the funds details on Catherines machine Start");
-            Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
-            Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
-            Program.Logger.Info("TT checking the funds details on Catherines machine End");
+            //Program.Logger.Info("TT checking the funds details on Catherines machine Start");
+            //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
+            //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
+            //Program.Logger.Info("TT checking the funds details on Catherines machine End");
 
             var fund = new Fund()
             {
