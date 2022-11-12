@@ -1732,8 +1732,8 @@ namespace Finx.App.Forms
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-
-            Double.TryParse(csvRecord.FundValue, out double dblFundValue);
+            var fundValue = csvRecord.FundValue.Replace(".", ",");
+            Double.TryParse(fundValue, out double dblFundValue);
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
             //todo: check csvRecord Type & cast to appropriate type
@@ -1786,9 +1786,9 @@ namespace Finx.App.Forms
             try
             {
                 //if (csvRecord.IDNumber == "1102120396083")
-                  //Debugger.Break();
-
-                Double.TryParse(csvRecord.FundValue, out double dblFundValue);
+                //Debugger.Break();
+                var fundValue = csvRecord.FundValue.Replace(".", ",");
+                Double.TryParse(fundValue, out double dblFundValue);
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
                 if (csvRecord.FundValueDate != null && fundValDate > fund.UpdateDate)
