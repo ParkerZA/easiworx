@@ -1,7 +1,9 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+using Finx.App.Helpers;
 using Finx.App.Interfaces;
+using FluentValidation.Resources;
 using System;
 using System.Globalization;
 using System.Text;
@@ -10,16 +12,17 @@ using System.Threading.Tasks;
 
 namespace Finx.App.Models
 {
-    public sealed class AlanGrayRecord : ICsvRecord
+    public sealed class AllanGrayRecord : ICsvRecord
     {
         private string _idNo = "";
         private string _fundValue = "";
         private string _fundValueDate = "";
-        private string _lisp = "Alan Gray";
+        private string _lisp = "Allan Gray";
         private string _fundAllocationPercentage;
         private string _startDate;
         private string _firstname;
         private string _validationErrors;
+        private string _premium;
 
         [Ignore]
         public int RowNo { get; set; }
@@ -57,14 +60,14 @@ namespace Finx.App.Models
         public string IDNumber
         {
             get { return _idNo; }
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && value.Trim().Length >= 6 && value.Trim().Length <= 9) //this is most likely a passport no
-                    this.PassportNo = value.Trim();
+            set {
+                if (CsvFileHelper.IsPassportNo(value))
+                    this.PassportNo = value;
                 else
-                    _idNo = value.Replace("'", string.Empty);
+                    _idNo = CsvFileHelper.FixSAIDNo(value);
             }
         }
+      
 
         [Index(4)] //Product
         public string Product
@@ -100,13 +103,23 @@ namespace Finx.App.Models
             }
         }
 
+        [Index(15)] //Monthly debit Order
+        public string MonthlyPremium
+        {
+            get { return _premium; }
+            set 
+            { 
+                _premium = value.Replace("R", String.Empty).Trim().Replace(".", ","); 
+            } 
+        }
+
         [Index(19)] //Account fund allocation
         public string FundAllocationPercentage
         {
             get { return _fundAllocationPercentage; }
             set
             {
-                _fundAllocationPercentage = value.Replace("%",string.Empty);
+                _fundAllocationPercentage = value.Replace("%",string.Empty).Replace(".",",");
             }
         }
 
@@ -129,13 +142,13 @@ namespace Finx.App.Models
             get { return _fundValue; }
             set
             {
-                _fundValue = value.Replace(",", string.Empty);
+                _fundValue = value;
             }
         }
 
 
         [Optional]
-        public string LISP { get { return _lisp; } set { _lisp = "Alan Gray"; } }
+        public string LISP { get { return _lisp; } set { _lisp = "Allan Gray"; } }
 
         [Optional]
         public string ValidationErrors 
@@ -157,13 +170,13 @@ namespace Finx.App.Models
 
         public void ValidateHeadings(HeaderValidatedArgs args)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 
-    public sealed class AlanGrayRecordMap : ClassMap<AlanGrayRecord>
+    public sealed class AllanGrayRecordMap : ClassMap<AllanGrayRecord>
     {
-        public AlanGrayRecordMap()
+        public AllanGrayRecordMap()
         {
             Map(c => c.Firstname);
             Map(c => c.IDNumber);
@@ -175,13 +188,13 @@ namespace Finx.App.Models
             Map(c => c.FundValueDate);
             Map(c => c.StartDate);
             Map(c => c.FundAllocationPercentage);
+            Map(c => c.MonthlyPremium);
 
             Task.Run(() =>
             {
                 Map(c => c.ValidationErrors)
                     .Convert(r =>
                     {
-
                         var errors = new StringBuilder();
 
                         var idNumber = r.Row.GetField<string>("IDNumber");
@@ -193,16 +206,17 @@ namespace Finx.App.Models
                             errors.Append("ID Number is null!");
                     
                         if (!Regex.IsMatch(idNumber, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
-                            errors.Append("Invalid RSA ID Number!");
+                            errors.Append("Invalid SA ID No!");
 
                         if (string.IsNullOrEmpty(policyNo))
-                            errors.Append("Account or Policy Number is null!");
+                            errors.Append("Policy Number is null!");
 
                         if (string.IsNullOrEmpty(fundName))
                             errors.Append("Fund Name is null!");
 
                         if (string.IsNullOrEmpty(fundValueDate))
                             errors.Append("Fund Value Date is null!");
+
                         return errors.ToString();
 
                     });

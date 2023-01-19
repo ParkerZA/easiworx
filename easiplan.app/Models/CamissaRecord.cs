@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+using Finx.App.Helpers;
 using Finx.App.Interfaces;
 using System;
 using System.Globalization;
@@ -65,7 +66,8 @@ namespace Finx.App.Models
             get { return _fundValueDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                //if (DateTime.TryParse(value, out DateTime fundValDt))
+                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
                     _fundValueDate = value;
@@ -77,8 +79,9 @@ namespace Finx.App.Models
             get { return _investmentStartDate; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
-                    _investmentStartDate = fundValDt.ToString("dd MMM yyyy");
+                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime investmentStartDt))
+                    //if (DateTime.TryParse(value, out DateTime investmentStartDt))
+                    _investmentStartDate = investmentStartDt.ToString("dd MMM yyyy");
                 else
                     _investmentStartDate = value;
             }
@@ -86,9 +89,18 @@ namespace Finx.App.Models
         [Index(8)]
         public string Title { get { return _title; } set { _title = value; } }
         [Index(9)]
-        public string Firstname { get { return _firstname; } set { _firstname = value; } }
+        public string Firstname 
+        { 
+            get { return _firstname; } 
+            set { _firstname = value.Replace("(TFI)","").Trim(); } 
+        }
         [Index(11)]
-        public string Lastname { get { return _lastname; } set { _lastname = value; } }
+        public string Lastname 
+        { 
+            get { return _lastname; } 
+            set { _lastname = value.Replace("(TFI)", "").Trim(); } 
+        }
+
         [Index(12)]
         public string InvestorType
         {
@@ -100,7 +112,10 @@ namespace Finx.App.Models
             get { return _idNo; }
             set
             {
-                _idNo = value.Replace("'", string.Empty);
+                if (CsvFileHelper.IsPassportNo(value))
+                    this.PassportNo = value;
+                else
+                    _idNo = CsvFileHelper.FixSAIDNo(value);
             }
         }
         [Index(14)]
@@ -124,8 +139,9 @@ namespace Finx.App.Models
             get { return _dob; }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
-                    _dob = fundValDt.ToString("dd MMM yyyy");
+                //yyyy/mm/dd
+                if (DateTime.TryParseExact(value,"dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                    _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
                 else
                     _dob = value;
             }
@@ -262,7 +278,7 @@ namespace Finx.App.Models
 
         public void ValidateHeadings(HeaderValidatedArgs args)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 

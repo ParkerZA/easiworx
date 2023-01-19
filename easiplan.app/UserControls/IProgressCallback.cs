@@ -72,6 +72,14 @@ namespace Finx.App.UserControls
         /// <remarks>You must have called one of the Begin() methods prior to this call.</remarks>
         void End();
 
+        //object DataObject { get; set; }
+    }
+
+    public interface IProgressDataObjectCallback : IProgressCallback, IDataObject
+    {}
+
+    public interface IDataObject
+    {
         object DataObject { get; set; }
     }
 }

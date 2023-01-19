@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -19,8 +18,8 @@ using System.Runtime.InteropServices;
 #elif STAGING
     [assembly: AssemblyTitle("EasiWorx Staging")]  
     [assembly: AssemblyProduct("EasiWorx Staging")]
-    [assembly: AssemblyVersion("1.0.75")] 
-    [assembly: AssemblyFileVersion("1.0.75")] 
+    [assembly: AssemblyVersion("1.0.76")] 
+    [assembly: AssemblyFileVersion("1.0.76")] 
 #elif MOJAFF
     [assembly: AssemblyTitle("EasiWorx Mojaff Preview")]
     [assembly: AssemblyProduct("EasiWorx Mojaff")]
@@ -57,11 +56,11 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
- //automaticall set the assembly version - will break compatability with uncompiled dependencies
-                                       //[assembly: AssemblyVersion("1.0.0.0")]
+//automaticall set the assembly version - will break compatability with uncompiled dependencies
+//[assembly: AssemblyVersion("1.0.0.0")]
 
 //TO DO : Update the assembly file version to force a database schema update.
- // commenting this out this will set the fileversion same as assembly version
+// commenting this out this will set the fileversion same as assembly version
 
 //logging
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]

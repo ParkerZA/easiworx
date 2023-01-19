@@ -38,14 +38,20 @@ namespace my.domain.lib.core.Domain
         {
             if (this.Exists(entity.Id))
                 throw new ArgumentException(string.Format("{0} with id {1} already exists", (object)typeof(TEntity), (object)entity.Id));
+
             ValidationContext validationContext = new ValidationContext((object)entity, (IServiceProvider)null, (IDictionary<object, object>)null);
             List<ValidationResult> validationResultList = new List<ValidationResult>();
+            
             if (!Validator.TryValidateObject((object)entity, validationContext, (ICollection<ValidationResult>)validationResultList))
                 throw new MyValidationException(string.Format(validationResultList[0].ErrorMessage));
+            
             CancelEventArgs<TEntity> e = new CancelEventArgs<TEntity>(entity);
+            
             this.OnAdding(e);
+            
             if (e.Cancel)
                 return;
+            
             this.Repository.Add<TEntity, TId>(entity);
             this.OnAdded(entity);
         }
@@ -65,15 +71,20 @@ namespace my.domain.lib.core.Domain
         public virtual void Update(TEntity entity)
         {
             if (!this.Exists(entity.Id))
-                throw new KeyNotFoundException(string.Format("{0} with id {1} was not found", (object)typeof(TEntity), (object)entity.Id));
-            ValidationContext validationContext = new ValidationContext((object)entity, (IServiceProvider)null, (IDictionary<object, object>)null);
-            List<ValidationResult> validationResultList = new List<ValidationResult>();
-            if (!Validator.TryValidateObject((object)entity, validationContext, (ICollection<ValidationResult>)validationResultList))
+                throw new KeyNotFoundException(string.Format("{0} with id {1} was not found", typeof(TEntity) as object, entity.Id as object));
+
+            var validationContext = new ValidationContext(entity as object, (IServiceProvider)null, (IDictionary<object, object>)null);
+            var validationResultList = new List<ValidationResult>(1);
+            
+            if (!Validator.TryValidateObject(entity as object, validationContext, (ICollection<ValidationResult>)validationResultList))
                 throw new MyValidationException(string.Format(validationResultList[0].ErrorMessage));
-            CancelEventArgs<TEntity> e = new CancelEventArgs<TEntity>(entity);
-            this.OnUpdating(e);
-            if (e.Cancel)
+            
+            var cancelEventArgs = new CancelEventArgs<TEntity>(entity);
+            this.OnUpdating(cancelEventArgs);
+            
+            if (cancelEventArgs.Cancel)
                 return;
+            
             this.Repository.Update<TEntity, TId>(entity);
             this.OnUpdated(entity);
         }

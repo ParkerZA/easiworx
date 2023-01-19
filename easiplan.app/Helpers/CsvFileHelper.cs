@@ -1,6 +1,7 @@
 ﻿using CsvFileImporter.CsvFile.Entities;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Finx.App.Enums;
 using Finx.App.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace Finx.App.Helpers
 {
     public class CsvFileHelper
     {
-        public static FileProperties GetFileProperties(string fileName, string fileSource = "SelfReported", string fileFormat = ".csv")
+        public static FileProperties GetFileProperties(string fileName, FileFormat fileFormat = FileFormat.Csv)
         {
-            FileProperties fileProperties = null;
+            FileProperties fileProperties;
             try
             {
 
@@ -28,10 +29,14 @@ namespace Finx.App.Helpers
 
                 var fileInfo = new FileInfo(fileName);
 
-                if (fileInfo.Extension.ToLower() != fileFormat.ToLower())
+                if (fileInfo.Extension.ToLower().Replace(".",string.Empty) != fileFormat.ToString().ToLower())
                     throw new ApplicationException("Invalid file format!");
 
-                fileProperties = new FileProperties() { FileDate = fileInfo.CreationTime, Filename = fileInfo.Name, FileSize = fileInfo.Length, Filesource = fileSource, Format = fileInfo.Extension };
+                fileProperties = new FileProperties() { 
+                    FileDate = fileInfo.CreationTime, 
+                    FileName = fileInfo.Name, 
+                    FileSize = fileInfo.Length, 
+                    FileFormat = FileProperties.GetFileFormat(fileInfo.Extension) };
 
             }
             catch (Exception)
@@ -63,6 +68,49 @@ namespace Finx.App.Helpers
                             {
                                 RowNo++;
                                 fileRecord.RowNo = RowNo;
+                                fileRecordList.Add(fileRecord);
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.ToString();
+                if (ex.InnerException != null)
+                    msg = ex.InnerException.ToString();
+                throw;
+            }
+
+            return fileRecordList;
+        }
+        public static List<ICsvRecord> GetRecords<T>(string filePath, CsvConfiguration csvHelperConfiguration,string Lisp) where T : ICsvRecord
+        {
+            IEnumerable<T> fileRecords = null;
+            List<ICsvRecord> fileRecordList = null;
+            try
+            {
+                if (Lisp.ToLower() == "easiworxtemplate")
+                    Lisp = "Easiworx";
+
+                using (var filestream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (var streamReader = new StreamReader(filestream, Encoding.UTF8))
+                    {
+                        using (var csvReader = new CsvReader(streamReader, csvHelperConfiguration))
+                        {
+                            fileRecords = csvReader.GetRecords<T>();
+
+                            var RowNo = 0;
+                            if (fileRecords != null)
+                                fileRecordList = new List<ICsvRecord>();
+
+                            foreach (ICsvRecord fileRecord in fileRecords)
+                            {
+                                RowNo++;
+                                fileRecord.RowNo = RowNo;
+                                fileRecord.LISP = Lisp;
                                 fileRecordList.Add(fileRecord);
                             }
                         }
@@ -115,6 +163,27 @@ namespace Finx.App.Helpers
                 md5Hash = md5.ComputeHash(fileBytes);
             }
             return md5Hash;
+        }
+
+        public static bool IsPassportNo(string value)
+        {
+            var result = false;
+            var cleanValue = value.Replace("'", string.Empty).Trim();
+            if (!string.IsNullOrEmpty(cleanValue) && cleanValue.Length >= 6 && cleanValue.Length <= 9) //this is most likely a passport no
+                result = true;
+            return result;
+        }
+        public static string FixSAIDNo(string value)
+        {
+            var result = "";
+            var cleanIdNo = value.Replace("'", string.Empty).Trim();
+
+            if (cleanIdNo.Length == 12)
+                result = "0" + cleanIdNo; //prepend a 0 to id nos that are only 12 chars long
+            else
+                result = cleanIdNo;
+
+            return result;
         }
     }
 }
