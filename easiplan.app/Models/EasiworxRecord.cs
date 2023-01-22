@@ -20,7 +20,6 @@ namespace Finx.App.Models
         private string _startDate;
         private string _firstname;
         private string _validationErrors;
-        private string _premium;
         private string _dob = "";
         private string _monthlyPremium;
 
