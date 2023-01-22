@@ -32,9 +32,9 @@ namespace Finx.App.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.kgbFileDetails = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -117,22 +117,23 @@ namespace Finx.App.Forms
             this.kgbFileDetails.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.NormalPanel;
             this.kgbFileDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kgbFileDetails.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
-            this.kgbFileDetails.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
-            this.kgbFileDetails.Location = new System.Drawing.Point(20, 60);
+            this.kgbFileDetails.Location = new System.Drawing.Point(25, 75);
+            this.kgbFileDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kgbFileDetails.Name = "kgbFileDetails";
             // 
             // kgbFileDetails.Panel
             // 
             this.kgbFileDetails.Panel.Controls.Add(this.splitContainer1);
             this.kgbFileDetails.Panel.Controls.Add(this.metroPanel1);
-            this.kgbFileDetails.Size = new System.Drawing.Size(1351, 646);
+            this.kgbFileDetails.Size = new System.Drawing.Size(1689, 808);
             this.kgbFileDetails.TabIndex = 11;
             this.kgbFileDetails.Values.Heading = "";
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 51);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 64);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -143,8 +144,9 @@ namespace Finx.App.Forms
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panelFileInfo);
-            this.splitContainer1.Size = new System.Drawing.Size(1347, 591);
-            this.splitContainer1.SplitterDistance = 1081;
+            this.splitContainer1.Size = new System.Drawing.Size(1685, 740);
+            this.splitContainer1.SplitterDistance = 1352;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 10;
             // 
             // panelGrid
@@ -154,7 +156,7 @@ namespace Finx.App.Forms
             this.panelGrid.Location = new System.Drawing.Point(0, 0);
             this.panelGrid.Margin = new System.Windows.Forms.Padding(2);
             this.panelGrid.Name = "panelGrid";
-            this.panelGrid.Size = new System.Drawing.Size(1081, 591);
+            this.panelGrid.Size = new System.Drawing.Size(1352, 740);
             this.panelGrid.TabIndex = 12;
             // 
             // dgvFileContents
@@ -169,14 +171,14 @@ namespace Finx.App.Forms
             this.dgvFileContents.CausesValidation = false;
             this.dgvFileContents.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgvFileContents.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvFileContents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFileContents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFileContents.ColumnHeadersHeight = 29;
             this.dgvFileContents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.RowNo,
@@ -197,38 +199,40 @@ namespace Finx.App.Forms
             this.FundValueDate,
             this.Premium});
             this.dgvFileContents.ContextMenuStrip = this.cmClientRecords;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvFileContents.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvFileContents.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvFileContents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFileContents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvFileContents.EnableHeadersVisualStyles = false;
             this.dgvFileContents.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dgvFileContents.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.dgvFileContents.Location = new System.Drawing.Point(0, 0);
+            this.dgvFileContents.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvFileContents.MultiSelect = false;
             this.dgvFileContents.Name = "dgvFileContents";
             this.dgvFileContents.ReadOnly = true;
             this.dgvFileContents.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvFileContents.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFileContents.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvFileContents.RowHeadersWidth = 51;
             this.dgvFileContents.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvFileContents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFileContents.Size = new System.Drawing.Size(1081, 591);
+            this.dgvFileContents.Size = new System.Drawing.Size(1352, 740);
             this.dgvFileContents.StandardTab = true;
             this.dgvFileContents.TabIndex = 6;
+            this.dgvFileContents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFileContents_CellContentClick);
             // 
             // RowNo
             // 
@@ -238,7 +242,7 @@ namespace Finx.App.Forms
             this.RowNo.MinimumWidth = 6;
             this.RowNo.Name = "RowNo";
             this.RowNo.ReadOnly = true;
-            this.RowNo.Width = 72;
+            this.RowNo.Width = 77;
             // 
             // Title
             // 
@@ -248,7 +252,7 @@ namespace Finx.App.Forms
             this.Title.MinimumWidth = 6;
             this.Title.Name = "Title";
             this.Title.ReadOnly = true;
-            this.Title.Width = 53;
+            this.Title.Width = 57;
             // 
             // Firstname
             // 
@@ -258,7 +262,7 @@ namespace Finx.App.Forms
             this.Firstname.MinimumWidth = 6;
             this.Firstname.Name = "Firstname";
             this.Firstname.ReadOnly = true;
-            this.Firstname.Width = 81;
+            this.Firstname.Width = 87;
             // 
             // Lastname
             // 
@@ -268,7 +272,7 @@ namespace Finx.App.Forms
             this.Lastname.MinimumWidth = 6;
             this.Lastname.Name = "Lastname";
             this.Lastname.ReadOnly = true;
-            this.Lastname.Width = 79;
+            this.Lastname.Width = 86;
             // 
             // IDNumber
             // 
@@ -278,7 +282,7 @@ namespace Finx.App.Forms
             this.IDNumber.MinimumWidth = 6;
             this.IDNumber.Name = "IDNumber";
             this.IDNumber.ReadOnly = true;
-            this.IDNumber.Width = 60;
+            this.IDNumber.Width = 65;
             // 
             // RegistrationNo
             // 
@@ -287,7 +291,7 @@ namespace Finx.App.Forms
             this.RegistrationNo.MinimumWidth = 6;
             this.RegistrationNo.Name = "RegistrationNo";
             this.RegistrationNo.ReadOnly = true;
-            this.RegistrationNo.Width = 109;
+            this.RegistrationNo.Width = 114;
             // 
             // PassportNo
             // 
@@ -297,7 +301,7 @@ namespace Finx.App.Forms
             this.PassportNo.MinimumWidth = 6;
             this.PassportNo.Name = "PassportNo";
             this.PassportNo.ReadOnly = true;
-            this.PassportNo.Width = 93;
+            this.PassportNo.Width = 99;
             // 
             // ClientNo
             // 
@@ -306,7 +310,7 @@ namespace Finx.App.Forms
             this.ClientNo.MinimumWidth = 6;
             this.ClientNo.Name = "ClientNo";
             this.ClientNo.ReadOnly = true;
-            this.ClientNo.Width = 76;
+            this.ClientNo.Width = 82;
             // 
             // BirthDate
             // 
@@ -315,7 +319,7 @@ namespace Finx.App.Forms
             this.BirthDate.MinimumWidth = 6;
             this.BirthDate.Name = "BirthDate";
             this.BirthDate.ReadOnly = true;
-            this.BirthDate.Width = 79;
+            this.BirthDate.Width = 84;
             // 
             // LISP
             // 
@@ -325,7 +329,7 @@ namespace Finx.App.Forms
             this.LISP.MinimumWidth = 6;
             this.LISP.Name = "LISP";
             this.LISP.ReadOnly = true;
-            this.LISP.Width = 51;
+            this.LISP.Width = 57;
             // 
             // PolicyNo
             // 
@@ -335,7 +339,7 @@ namespace Finx.App.Forms
             this.PolicyNo.MinimumWidth = 6;
             this.PolicyNo.Name = "PolicyNo";
             this.PolicyNo.ReadOnly = true;
-            this.PolicyNo.Width = 78;
+            this.PolicyNo.Width = 86;
             // 
             // Product
             // 
@@ -344,7 +348,7 @@ namespace Finx.App.Forms
             this.Product.MinimumWidth = 6;
             this.Product.Name = "Product";
             this.Product.ReadOnly = true;
-            this.Product.Width = 71;
+            this.Product.Width = 77;
             // 
             // ProductType
             // 
@@ -353,7 +357,7 @@ namespace Finx.App.Forms
             this.ProductType.MinimumWidth = 6;
             this.ProductType.Name = "ProductType";
             this.ProductType.ReadOnly = true;
-            this.ProductType.Width = 94;
+            this.ProductType.Width = 101;
             // 
             // FundName
             // 
@@ -363,7 +367,7 @@ namespace Finx.App.Forms
             this.FundName.MinimumWidth = 6;
             this.FundName.Name = "FundName";
             this.FundName.ReadOnly = true;
-            this.FundName.Width = 90;
+            this.FundName.Width = 97;
             // 
             // FundValue
             // 
@@ -373,7 +377,7 @@ namespace Finx.App.Forms
             this.FundValue.MinimumWidth = 6;
             this.FundValue.Name = "FundValue";
             this.FundValue.ReadOnly = true;
-            this.FundValue.Width = 118;
+            this.FundValue.Width = 126;
             // 
             // FundValueDate
             // 
@@ -383,7 +387,7 @@ namespace Finx.App.Forms
             this.FundValueDate.MinimumWidth = 6;
             this.FundValueDate.Name = "FundValueDate";
             this.FundValueDate.ReadOnly = true;
-            this.FundValueDate.Width = 116;
+            this.FundValueDate.Width = 120;
             // 
             // Premium
             // 
@@ -392,7 +396,7 @@ namespace Finx.App.Forms
             this.Premium.MinimumWidth = 6;
             this.Premium.Name = "Premium";
             this.Premium.ReadOnly = true;
-            this.Premium.Width = 104;
+            this.Premium.Width = 117;
             // 
             // cmClientRecords
             // 
@@ -403,7 +407,7 @@ namespace Finx.App.Forms
             this.exportErrorRecordsToolStripMenuItem,
             this.copyCellContentToolStripMenuItem});
             this.cmClientRecords.Name = "cmClientRecords";
-            this.cmClientRecords.Size = new System.Drawing.Size(168, 70);
+            this.cmClientRecords.Size = new System.Drawing.Size(194, 76);
             this.cmClientRecords.Style = MetroFramework.MetroColorStyle.Blue;
             this.cmClientRecords.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.cmClientRecords.Opening += new System.ComponentModel.CancelEventHandler(this.cmClientRecords_Opening);
@@ -412,20 +416,20 @@ namespace Finx.App.Forms
             // 
             this.openClientToolStripMenuItem.Enabled = false;
             this.openClientToolStripMenuItem.Name = "openClientToolStripMenuItem";
-            this.openClientToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.openClientToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
             this.openClientToolStripMenuItem.Text = "Open Client";
             this.openClientToolStripMenuItem.Click += new System.EventHandler(this.openClientToolStripMenuItem_Click);
             // 
             // exportErrorRecordsToolStripMenuItem
             // 
             this.exportErrorRecordsToolStripMenuItem.Name = "exportErrorRecordsToolStripMenuItem";
-            this.exportErrorRecordsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exportErrorRecordsToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
             this.exportErrorRecordsToolStripMenuItem.Visible = false;
             // 
             // copyCellContentToolStripMenuItem
             // 
             this.copyCellContentToolStripMenuItem.Name = "copyCellContentToolStripMenuItem";
-            this.copyCellContentToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.copyCellContentToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
             this.copyCellContentToolStripMenuItem.Text = "Copy cell content";
             // 
             // panelFileInfo
@@ -462,39 +466,43 @@ namespace Finx.App.Forms
             this.panelFileInfo.HorizontalScrollbar = true;
             this.panelFileInfo.HorizontalScrollbarBarColor = true;
             this.panelFileInfo.HorizontalScrollbarHighlightOnWheel = false;
-            this.panelFileInfo.HorizontalScrollbarSize = 10;
+            this.panelFileInfo.HorizontalScrollbarSize = 12;
             this.panelFileInfo.Location = new System.Drawing.Point(0, 0);
+            this.panelFileInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelFileInfo.Name = "panelFileInfo";
-            this.panelFileInfo.Size = new System.Drawing.Size(277, 591);
+            this.panelFileInfo.Size = new System.Drawing.Size(346, 740);
             this.panelFileInfo.TabIndex = 15;
             this.panelFileInfo.VerticalScrollbar = true;
             this.panelFileInfo.VerticalScrollbarBarColor = true;
             this.panelFileInfo.VerticalScrollbarHighlightOnWheel = false;
-            this.panelFileInfo.VerticalScrollbarSize = 10;
+            this.panelFileInfo.VerticalScrollbarSize = 12;
             // 
             // lblLastImportDate
             // 
             this.lblLastImportDate.AutoSize = true;
-            this.lblLastImportDate.Location = new System.Drawing.Point(152, 167);
+            this.lblLastImportDate.Location = new System.Drawing.Point(190, 209);
+            this.lblLastImportDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastImportDate.Name = "lblLastImportDate";
-            this.lblLastImportDate.Size = new System.Drawing.Size(0, 13);
+            this.lblLastImportDate.Size = new System.Drawing.Size(0, 16);
             this.lblLastImportDate.TabIndex = 45;
             // 
             // lblLastImportUser
             // 
             this.lblLastImportUser.AutoSize = true;
-            this.lblLastImportUser.Location = new System.Drawing.Point(152, 188);
+            this.lblLastImportUser.Location = new System.Drawing.Point(190, 235);
+            this.lblLastImportUser.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastImportUser.Name = "lblLastImportUser";
-            this.lblLastImportUser.Size = new System.Drawing.Size(0, 13);
+            this.lblLastImportUser.Size = new System.Drawing.Size(0, 16);
             this.lblLastImportUser.TabIndex = 47;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(7, 188);
+            this.label8.Location = new System.Drawing.Point(9, 235);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(87, 13);
+            this.label8.Size = new System.Drawing.Size(116, 17);
             this.label8.TabIndex = 46;
             this.label8.Text = "Last Import User:";
             // 
@@ -502,18 +510,20 @@ namespace Finx.App.Forms
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(7, 167);
+            this.label7.Location = new System.Drawing.Point(9, 209);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(88, 13);
+            this.label7.Size = new System.Drawing.Size(116, 17);
             this.label7.TabIndex = 44;
             this.label7.Text = "Last Import Date:";
             // 
             // lblImportStatus
             // 
             this.lblImportStatus.AutoSize = true;
-            this.lblImportStatus.Location = new System.Drawing.Point(152, 146);
+            this.lblImportStatus.Location = new System.Drawing.Point(190, 182);
+            this.lblImportStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblImportStatus.Name = "lblImportStatus";
-            this.lblImportStatus.Size = new System.Drawing.Size(46, 13);
+            this.lblImportStatus.Size = new System.Drawing.Size(57, 16);
             this.lblImportStatus.TabIndex = 43;
             this.lblImportStatus.Text = "Pending";
             // 
@@ -521,27 +531,30 @@ namespace Finx.App.Forms
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(7, 146);
+            this.label6.Location = new System.Drawing.Point(9, 182);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(72, 13);
+            this.label6.Size = new System.Drawing.Size(95, 17);
             this.label6.TabIndex = 42;
             this.label6.Text = "Import Status:";
             // 
             // cancelImport
             // 
             this.cancelImport.Enabled = false;
-            this.cancelImport.Location = new System.Drawing.Point(145, 15);
+            this.cancelImport.Location = new System.Drawing.Point(181, 19);
+            this.cancelImport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cancelImport.Name = "cancelImport";
-            this.cancelImport.Size = new System.Drawing.Size(127, 29);
+            this.cancelImport.Size = new System.Drawing.Size(159, 36);
             this.cancelImport.TabIndex = 4;
             this.cancelImport.Values.Text = "&Cancel Import";
             // 
             // lblTotValErrors
             // 
             this.lblTotValErrors.AutoSize = true;
-            this.lblTotValErrors.Location = new System.Drawing.Point(152, 278);
+            this.lblTotValErrors.Location = new System.Drawing.Point(190, 348);
+            this.lblTotValErrors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotValErrors.Name = "lblTotValErrors";
-            this.lblTotValErrors.Size = new System.Drawing.Size(13, 13);
+            this.lblTotValErrors.Size = new System.Drawing.Size(14, 16);
             this.lblTotValErrors.TabIndex = 40;
             this.lblTotValErrors.Text = "0";
             // 
@@ -550,27 +563,30 @@ namespace Finx.App.Forms
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.LightPink;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(7, 278);
+            this.label2.Location = new System.Drawing.Point(9, 348);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 13);
+            this.label2.Size = new System.Drawing.Size(142, 17);
             this.label2.TabIndex = 39;
             this.label2.Text = "Tot Validation Errors:";
             // 
             // lblNewClientCnt
             // 
             this.lblNewClientCnt.AutoSize = true;
-            this.lblNewClientCnt.Location = new System.Drawing.Point(152, 256);
+            this.lblNewClientCnt.Location = new System.Drawing.Point(190, 320);
+            this.lblNewClientCnt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNewClientCnt.Name = "lblNewClientCnt";
-            this.lblNewClientCnt.Size = new System.Drawing.Size(13, 13);
+            this.lblNewClientCnt.Size = new System.Drawing.Size(14, 16);
             this.lblNewClientCnt.TabIndex = 38;
             this.lblNewClientCnt.Text = "0";
             // 
             // lblExistingClientCnt
             // 
             this.lblExistingClientCnt.AutoSize = true;
-            this.lblExistingClientCnt.Location = new System.Drawing.Point(152, 236);
+            this.lblExistingClientCnt.Location = new System.Drawing.Point(190, 295);
+            this.lblExistingClientCnt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblExistingClientCnt.Name = "lblExistingClientCnt";
-            this.lblExistingClientCnt.Size = new System.Drawing.Size(13, 13);
+            this.lblExistingClientCnt.Size = new System.Drawing.Size(14, 16);
             this.lblExistingClientCnt.TabIndex = 37;
             this.lblExistingClientCnt.Text = "0";
             // 
@@ -579,9 +595,10 @@ namespace Finx.App.Forms
             this.lblNewClientCnt1.AutoSize = true;
             this.lblNewClientCnt1.BackColor = System.Drawing.Color.LightGreen;
             this.lblNewClientCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNewClientCnt1.Location = new System.Drawing.Point(7, 256);
+            this.lblNewClientCnt1.Location = new System.Drawing.Point(9, 320);
+            this.lblNewClientCnt1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNewClientCnt1.Name = "lblNewClientCnt1";
-            this.lblNewClientCnt1.Size = new System.Drawing.Size(104, 13);
+            this.lblNewClientCnt1.Size = new System.Drawing.Size(135, 17);
             this.lblNewClientCnt1.TabIndex = 36;
             this.lblNewClientCnt1.Text = "New Client Records:";
             // 
@@ -590,18 +607,20 @@ namespace Finx.App.Forms
             this.lblExistingClientCnt1.AutoSize = true;
             this.lblExistingClientCnt1.BackColor = System.Drawing.Color.LightBlue;
             this.lblExistingClientCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblExistingClientCnt1.Location = new System.Drawing.Point(7, 236);
+            this.lblExistingClientCnt1.Location = new System.Drawing.Point(9, 295);
+            this.lblExistingClientCnt1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblExistingClientCnt1.Name = "lblExistingClientCnt1";
-            this.lblExistingClientCnt1.Size = new System.Drawing.Size(144, 13);
+            this.lblExistingClientCnt1.Size = new System.Drawing.Size(190, 17);
             this.lblExistingClientCnt1.TabIndex = 35;
             this.lblExistingClientCnt1.Text = "Existing Client Record Count:";
             // 
             // lblFileFormat
             // 
             this.lblFileFormat.AutoSize = true;
-            this.lblFileFormat.Location = new System.Drawing.Point(152, 126);
+            this.lblFileFormat.Location = new System.Drawing.Point(190, 158);
+            this.lblFileFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileFormat.Name = "lblFileFormat";
-            this.lblFileFormat.Size = new System.Drawing.Size(25, 13);
+            this.lblFileFormat.Size = new System.Drawing.Size(30, 16);
             this.lblFileFormat.TabIndex = 34;
             this.lblFileFormat.Text = "Csv";
             // 
@@ -609,18 +628,20 @@ namespace Finx.App.Forms
             // 
             this.lblFileFormat1.AutoSize = true;
             this.lblFileFormat1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileFormat1.Location = new System.Drawing.Point(7, 126);
+            this.lblFileFormat1.Location = new System.Drawing.Point(9, 158);
+            this.lblFileFormat1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileFormat1.Name = "lblFileFormat1";
-            this.lblFileFormat1.Size = new System.Drawing.Size(61, 13);
+            this.lblFileFormat1.Size = new System.Drawing.Size(82, 17);
             this.lblFileFormat1.TabIndex = 33;
             this.lblFileFormat1.Text = "File Format:";
             // 
             // lblFileSize
             // 
             this.lblFileSize.AutoSize = true;
-            this.lblFileSize.Location = new System.Drawing.Point(152, 106);
+            this.lblFileSize.Location = new System.Drawing.Point(190, 132);
+            this.lblFileSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileSize.Name = "lblFileSize";
-            this.lblFileSize.Size = new System.Drawing.Size(29, 13);
+            this.lblFileSize.Size = new System.Drawing.Size(34, 16);
             this.lblFileSize.TabIndex = 32;
             this.lblFileSize.Text = "2MB";
             // 
@@ -628,18 +649,20 @@ namespace Finx.App.Forms
             // 
             this.lblFileSize1.AutoSize = true;
             this.lblFileSize1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileSize1.Location = new System.Drawing.Point(7, 106);
+            this.lblFileSize1.Location = new System.Drawing.Point(9, 132);
+            this.lblFileSize1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileSize1.Name = "lblFileSize1";
-            this.lblFileSize1.Size = new System.Drawing.Size(49, 13);
+            this.lblFileSize1.Size = new System.Drawing.Size(65, 17);
             this.lblFileSize1.TabIndex = 31;
             this.lblFileSize1.Text = "File Size:";
             // 
             // lblFileDate
             // 
             this.lblFileDate.AutoSize = true;
-            this.lblFileDate.Location = new System.Drawing.Point(152, 86);
+            this.lblFileDate.Location = new System.Drawing.Point(190, 108);
+            this.lblFileDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileDate.Name = "lblFileDate";
-            this.lblFileDate.Size = new System.Drawing.Size(99, 13);
+            this.lblFileDate.Size = new System.Drawing.Size(115, 16);
             this.lblFileDate.TabIndex = 30;
             this.lblFileDate.Text = "15 May 2022 06:00";
             // 
@@ -647,18 +670,20 @@ namespace Finx.App.Forms
             // 
             this.lblFileDate1.AutoSize = true;
             this.lblFileDate1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFileDate1.Location = new System.Drawing.Point(7, 86);
+            this.lblFileDate1.Location = new System.Drawing.Point(9, 108);
+            this.lblFileDate1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileDate1.Name = "lblFileDate1";
-            this.lblFileDate1.Size = new System.Drawing.Size(52, 13);
+            this.lblFileDate1.Size = new System.Drawing.Size(68, 17);
             this.lblFileDate1.TabIndex = 29;
             this.lblFileDate1.Text = "File Date:";
             // 
             // lblRecCnt
             // 
             this.lblRecCnt.AutoSize = true;
-            this.lblRecCnt.Location = new System.Drawing.Point(152, 216);
+            this.lblRecCnt.Location = new System.Drawing.Point(190, 270);
+            this.lblRecCnt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRecCnt.Name = "lblRecCnt";
-            this.lblRecCnt.Size = new System.Drawing.Size(13, 13);
+            this.lblRecCnt.Size = new System.Drawing.Size(14, 16);
             this.lblRecCnt.TabIndex = 28;
             this.lblRecCnt.Text = "0";
             // 
@@ -666,18 +691,20 @@ namespace Finx.App.Forms
             // 
             this.lblRecCnt1.AutoSize = true;
             this.lblRecCnt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRecCnt1.Location = new System.Drawing.Point(7, 216);
+            this.lblRecCnt1.Location = new System.Drawing.Point(9, 270);
+            this.lblRecCnt1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRecCnt1.Name = "lblRecCnt1";
-            this.lblRecCnt1.Size = new System.Drawing.Size(76, 13);
+            this.lblRecCnt1.Size = new System.Drawing.Size(99, 17);
             this.lblRecCnt1.TabIndex = 27;
             this.lblRecCnt1.Text = "Record Count:";
             // 
             // lblSelectedFile
             // 
             this.lblSelectedFile.AutoSize = true;
-            this.lblSelectedFile.Location = new System.Drawing.Point(152, 66);
+            this.lblSelectedFile.Location = new System.Drawing.Point(190, 82);
+            this.lblSelectedFile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSelectedFile.Name = "lblSelectedFile";
-            this.lblSelectedFile.Size = new System.Drawing.Size(49, 13);
+            this.lblSelectedFile.Size = new System.Drawing.Size(63, 16);
             this.lblSelectedFile.TabIndex = 23;
             this.lblSelectedFile.Text = "Filename";
             // 
@@ -685,18 +712,20 @@ namespace Finx.App.Forms
             // 
             this.lblSelectedFile1.AutoSize = true;
             this.lblSelectedFile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectedFile1.Location = new System.Drawing.Point(7, 66);
+            this.lblSelectedFile1.Location = new System.Drawing.Point(9, 82);
+            this.lblSelectedFile1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSelectedFile1.Name = "lblSelectedFile1";
-            this.lblSelectedFile1.Size = new System.Drawing.Size(57, 13);
+            this.lblSelectedFile1.Size = new System.Drawing.Size(75, 17);
             this.lblSelectedFile1.TabIndex = 20;
             this.lblSelectedFile1.Text = "File Name:";
             // 
             // btnImportFile
             // 
             this.btnImportFile.Enabled = false;
-            this.btnImportFile.Location = new System.Drawing.Point(10, 15);
+            this.btnImportFile.Location = new System.Drawing.Point(12, 19);
+            this.btnImportFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnImportFile.Name = "btnImportFile";
-            this.btnImportFile.Size = new System.Drawing.Size(127, 29);
+            this.btnImportFile.Size = new System.Drawing.Size(159, 36);
             this.btnImportFile.TabIndex = 3;
             this.btnImportFile.Values.Text = "&Import File";
             this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
@@ -712,24 +741,25 @@ namespace Finx.App.Forms
             this.metroPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
+            this.metroPanel1.HorizontalScrollbarSize = 12;
             this.metroPanel1.Location = new System.Drawing.Point(0, 0);
+            this.metroPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(1347, 51);
+            this.metroPanel1.Size = new System.Drawing.Size(1685, 64);
             this.metroPanel1.TabIndex = 4;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
+            this.metroPanel1.VerticalScrollbarSize = 12;
             // 
             // chkViewErrorRecords
             // 
             this.chkViewErrorRecords.AutoSize = true;
             this.chkViewErrorRecords.Enabled = false;
             this.chkViewErrorRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkViewErrorRecords.Location = new System.Drawing.Point(618, 19);
+            this.chkViewErrorRecords.Location = new System.Drawing.Point(772, 24);
             this.chkViewErrorRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewErrorRecords.Name = "chkViewErrorRecords";
-            this.chkViewErrorRecords.Size = new System.Drawing.Size(117, 17);
+            this.chkViewErrorRecords.Size = new System.Drawing.Size(145, 20);
             this.chkViewErrorRecords.TabIndex = 21;
             this.chkViewErrorRecords.Text = "View Error Records";
             this.chkViewErrorRecords.UseVisualStyleBackColor = true;
@@ -740,10 +770,10 @@ namespace Finx.App.Forms
             this.chkViewExistingRecords.AutoSize = true;
             this.chkViewExistingRecords.Enabled = false;
             this.chkViewExistingRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkViewExistingRecords.Location = new System.Drawing.Point(471, 19);
+            this.chkViewExistingRecords.Location = new System.Drawing.Point(589, 24);
             this.chkViewExistingRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewExistingRecords.Name = "chkViewExistingRecords";
-            this.chkViewExistingRecords.Size = new System.Drawing.Size(131, 17);
+            this.chkViewExistingRecords.Size = new System.Drawing.Size(162, 20);
             this.chkViewExistingRecords.TabIndex = 20;
             this.chkViewExistingRecords.Text = "View Existing Records";
             this.chkViewExistingRecords.UseVisualStyleBackColor = true;
@@ -754,10 +784,10 @@ namespace Finx.App.Forms
             this.chkViewNewRecords.AutoSize = true;
             this.chkViewNewRecords.Enabled = false;
             this.chkViewNewRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkViewNewRecords.Location = new System.Drawing.Point(332, 19);
+            this.chkViewNewRecords.Location = new System.Drawing.Point(415, 24);
             this.chkViewNewRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewNewRecords.Name = "chkViewNewRecords";
-            this.chkViewNewRecords.Size = new System.Drawing.Size(117, 17);
+            this.chkViewNewRecords.Size = new System.Drawing.Size(143, 20);
             this.chkViewNewRecords.TabIndex = 19;
             this.chkViewNewRecords.Text = "View New Records";
             this.chkViewNewRecords.UseVisualStyleBackColor = true;
@@ -765,9 +795,10 @@ namespace Finx.App.Forms
             // 
             // kbtnOpenFile
             // 
-            this.kbtnOpenFile.Location = new System.Drawing.Point(180, 10);
+            this.kbtnOpenFile.Location = new System.Drawing.Point(225, 12);
+            this.kbtnOpenFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnOpenFile.Name = "kbtnOpenFile";
-            this.kbtnOpenFile.Size = new System.Drawing.Size(125, 31);
+            this.kbtnOpenFile.Size = new System.Drawing.Size(156, 39);
             this.kbtnOpenFile.TabIndex = 2;
             this.kbtnOpenFile.Values.Text = "Select &File";
             this.kbtnOpenFile.Click += new System.EventHandler(this.kbtnOpenFile_Click);
@@ -775,16 +806,17 @@ namespace Finx.App.Forms
             // cmbSelectLisp
             // 
             this.cmbSelectLisp.FormattingEnabled = true;
-            this.cmbSelectLisp.ItemHeight = 23;
+            this.cmbSelectLisp.ItemHeight = 24;
             this.cmbSelectLisp.Items.AddRange(new object[] {
             "Please select",
             "AllanGray",
             "Camissa",
             "EasiworxTemplate",
             "Momentum"});
-            this.cmbSelectLisp.Location = new System.Drawing.Point(35, 11);
+            this.cmbSelectLisp.Location = new System.Drawing.Point(44, 14);
+            this.cmbSelectLisp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbSelectLisp.Name = "cmbSelectLisp";
-            this.cmbSelectLisp.Size = new System.Drawing.Size(139, 29);
+            this.cmbSelectLisp.Size = new System.Drawing.Size(173, 30);
             this.cmbSelectLisp.TabIndex = 1;
             this.cmbSelectLisp.UseSelectable = true;
             this.cmbSelectLisp.SelectedIndexChanged += new System.EventHandler(this.cmbSelectLisp_SelectedIndexChanged);
@@ -792,21 +824,24 @@ namespace Finx.App.Forms
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(0, 12);
+            this.metroLabel1.Location = new System.Drawing.Point(0, 15);
+            this.metroLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(34, 19);
+            this.metroLabel1.Size = new System.Drawing.Size(36, 20);
             this.metroLabel1.TabIndex = 17;
             this.metroLabel1.Text = "Lisp:";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmMetroClientImportInvestments
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1391, 726);
+            this.ClientSize = new System.Drawing.Size(1739, 908);
             this.Controls.Add(this.kgbFileDetails);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmMetroClientImportInvestments";
+            this.Padding = new System.Windows.Forms.Padding(25, 75, 25, 25);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Style = MetroFramework.MetroColorStyle.Silver;
             this.Text = "Import Client Investments";

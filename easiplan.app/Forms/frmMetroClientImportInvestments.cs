@@ -2470,6 +2470,7 @@ namespace Finx.App.Forms
         }
 
 
+
         //private void RecordCsvFileImport()
         //{
         //    //newly imported file name is same as an existing imported file but file contents are diff, go and change the file name so that we can add it to dict
@@ -2480,7 +2481,10 @@ namespace Finx.App.Forms
         //}
         #endregion
 
-       
+        private void dgvFileContents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
 
