@@ -40,23 +40,6 @@ namespace Finx.App.Forms
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panelGrid = new System.Windows.Forms.Panel();
             this.dgvFileContents = new MetroFramework.Controls.MetroGrid();
-            this.RowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IDNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RegistrationNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PassportNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ClientNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BirthDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LISP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PolicyNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Product = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FundName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FundValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FundValueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Premium = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmClientRecords = new MetroFramework.Controls.MetroContextMenu(this.components);
             this.openClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportErrorRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,6 +76,23 @@ namespace Finx.App.Forms
             this.kbtnOpenFile = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.cmbSelectLisp = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.RowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IDNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegistrationNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PassportNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ClientNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BirthDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LISP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PolicyNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Product = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FundName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FundValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FundValueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Premium = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails.Panel)).BeginInit();
             this.kgbFileDetails.Panel.SuspendLayout();
@@ -233,170 +233,6 @@ namespace Finx.App.Forms
             this.dgvFileContents.StandardTab = true;
             this.dgvFileContents.TabIndex = 6;
             this.dgvFileContents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFileContents_CellContentClick);
-            // 
-            // RowNo
-            // 
-            this.RowNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.RowNo.DataPropertyName = "RowNo";
-            this.RowNo.HeaderText = "Row No";
-            this.RowNo.MinimumWidth = 6;
-            this.RowNo.Name = "RowNo";
-            this.RowNo.ReadOnly = true;
-            this.RowNo.Width = 77;
-            // 
-            // Title
-            // 
-            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Title.DataPropertyName = "Title";
-            this.Title.HeaderText = "Title";
-            this.Title.MinimumWidth = 6;
-            this.Title.Name = "Title";
-            this.Title.ReadOnly = true;
-            this.Title.Width = 57;
-            // 
-            // Firstname
-            // 
-            this.Firstname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Firstname.DataPropertyName = "Firstname";
-            this.Firstname.HeaderText = "Firstname";
-            this.Firstname.MinimumWidth = 6;
-            this.Firstname.Name = "Firstname";
-            this.Firstname.ReadOnly = true;
-            this.Firstname.Width = 87;
-            // 
-            // Lastname
-            // 
-            this.Lastname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Lastname.DataPropertyName = "Lastname";
-            this.Lastname.HeaderText = "Lastname";
-            this.Lastname.MinimumWidth = 6;
-            this.Lastname.Name = "Lastname";
-            this.Lastname.ReadOnly = true;
-            this.Lastname.Width = 86;
-            // 
-            // IDNumber
-            // 
-            this.IDNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.IDNumber.DataPropertyName = "IDNumber";
-            this.IDNumber.HeaderText = "ID No";
-            this.IDNumber.MinimumWidth = 6;
-            this.IDNumber.Name = "IDNumber";
-            this.IDNumber.ReadOnly = true;
-            this.IDNumber.Width = 65;
-            // 
-            // RegistrationNo
-            // 
-            this.RegistrationNo.DataPropertyName = "RegistrationNo";
-            this.RegistrationNo.HeaderText = "RegistrationNo";
-            this.RegistrationNo.MinimumWidth = 6;
-            this.RegistrationNo.Name = "RegistrationNo";
-            this.RegistrationNo.ReadOnly = true;
-            this.RegistrationNo.Width = 114;
-            // 
-            // PassportNo
-            // 
-            this.PassportNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PassportNo.DataPropertyName = "PassportNo";
-            this.PassportNo.HeaderText = "Passport No";
-            this.PassportNo.MinimumWidth = 6;
-            this.PassportNo.Name = "PassportNo";
-            this.PassportNo.ReadOnly = true;
-            this.PassportNo.Width = 99;
-            // 
-            // ClientNo
-            // 
-            this.ClientNo.DataPropertyName = "ClientNo";
-            this.ClientNo.HeaderText = "ClientNo";
-            this.ClientNo.MinimumWidth = 6;
-            this.ClientNo.Name = "ClientNo";
-            this.ClientNo.ReadOnly = true;
-            this.ClientNo.Width = 82;
-            // 
-            // BirthDate
-            // 
-            this.BirthDate.DataPropertyName = "DateOfBirth";
-            this.BirthDate.HeaderText = "BirthDate";
-            this.BirthDate.MinimumWidth = 6;
-            this.BirthDate.Name = "BirthDate";
-            this.BirthDate.ReadOnly = true;
-            this.BirthDate.Width = 84;
-            // 
-            // LISP
-            // 
-            this.LISP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.LISP.DataPropertyName = "LISP";
-            this.LISP.HeaderText = "LISP";
-            this.LISP.MinimumWidth = 6;
-            this.LISP.Name = "LISP";
-            this.LISP.ReadOnly = true;
-            this.LISP.Width = 57;
-            // 
-            // PolicyNo
-            // 
-            this.PolicyNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PolicyNo.DataPropertyName = "AccountNo";
-            this.PolicyNo.HeaderText = "Policy No";
-            this.PolicyNo.MinimumWidth = 6;
-            this.PolicyNo.Name = "PolicyNo";
-            this.PolicyNo.ReadOnly = true;
-            this.PolicyNo.Width = 86;
-            // 
-            // Product
-            // 
-            this.Product.DataPropertyName = "Product";
-            this.Product.HeaderText = "Product";
-            this.Product.MinimumWidth = 6;
-            this.Product.Name = "Product";
-            this.Product.ReadOnly = true;
-            this.Product.Width = 77;
-            // 
-            // ProductType
-            // 
-            this.ProductType.DataPropertyName = "ProductType";
-            this.ProductType.HeaderText = "ProductType";
-            this.ProductType.MinimumWidth = 6;
-            this.ProductType.Name = "ProductType";
-            this.ProductType.ReadOnly = true;
-            this.ProductType.Width = 101;
-            // 
-            // FundName
-            // 
-            this.FundName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.FundName.DataPropertyName = "FundName";
-            this.FundName.HeaderText = "Fund Name";
-            this.FundName.MinimumWidth = 6;
-            this.FundName.Name = "FundName";
-            this.FundName.ReadOnly = true;
-            this.FundName.Width = 97;
-            // 
-            // FundValue
-            // 
-            this.FundValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.FundValue.DataPropertyName = "FundValue";
-            this.FundValue.HeaderText = "Fund Value (ZAR)";
-            this.FundValue.MinimumWidth = 6;
-            this.FundValue.Name = "FundValue";
-            this.FundValue.ReadOnly = true;
-            this.FundValue.Width = 126;
-            // 
-            // FundValueDate
-            // 
-            this.FundValueDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.FundValueDate.DataPropertyName = "FundValueDate";
-            this.FundValueDate.HeaderText = "Fund Value Date";
-            this.FundValueDate.MinimumWidth = 6;
-            this.FundValueDate.Name = "FundValueDate";
-            this.FundValueDate.ReadOnly = true;
-            this.FundValueDate.Width = 120;
-            // 
-            // Premium
-            // 
-            this.Premium.DataPropertyName = "MonthlyPremium";
-            this.Premium.HeaderText = "Premium (ZAR)";
-            this.Premium.MinimumWidth = 6;
-            this.Premium.Name = "Premium";
-            this.Premium.ReadOnly = true;
-            this.Premium.Width = 117;
             // 
             // cmClientRecords
             // 
@@ -832,6 +668,170 @@ namespace Finx.App.Forms
             this.metroLabel1.Text = "Lisp:";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // RowNo
+            // 
+            this.RowNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.RowNo.DataPropertyName = "RowNo";
+            this.RowNo.HeaderText = "Row No";
+            this.RowNo.MinimumWidth = 6;
+            this.RowNo.Name = "RowNo";
+            this.RowNo.ReadOnly = true;
+            this.RowNo.Width = 77;
+            // 
+            // Title
+            // 
+            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Title.DataPropertyName = "Title";
+            this.Title.HeaderText = "Title";
+            this.Title.MinimumWidth = 6;
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
+            this.Title.Width = 57;
+            // 
+            // Firstname
+            // 
+            this.Firstname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Firstname.DataPropertyName = "Firstname";
+            this.Firstname.HeaderText = "Firstname";
+            this.Firstname.MinimumWidth = 6;
+            this.Firstname.Name = "Firstname";
+            this.Firstname.ReadOnly = true;
+            this.Firstname.Width = 87;
+            // 
+            // Lastname
+            // 
+            this.Lastname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Lastname.DataPropertyName = "Lastname";
+            this.Lastname.HeaderText = "Lastname";
+            this.Lastname.MinimumWidth = 6;
+            this.Lastname.Name = "Lastname";
+            this.Lastname.ReadOnly = true;
+            this.Lastname.Width = 86;
+            // 
+            // IDNumber
+            // 
+            this.IDNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.IDNumber.DataPropertyName = "IDNumber";
+            this.IDNumber.HeaderText = "ID No";
+            this.IDNumber.MinimumWidth = 6;
+            this.IDNumber.Name = "IDNumber";
+            this.IDNumber.ReadOnly = true;
+            this.IDNumber.Width = 65;
+            // 
+            // RegistrationNo
+            // 
+            this.RegistrationNo.DataPropertyName = "RegistrationNo";
+            this.RegistrationNo.HeaderText = "RegistrationNo";
+            this.RegistrationNo.MinimumWidth = 6;
+            this.RegistrationNo.Name = "RegistrationNo";
+            this.RegistrationNo.ReadOnly = true;
+            this.RegistrationNo.Width = 114;
+            // 
+            // PassportNo
+            // 
+            this.PassportNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PassportNo.DataPropertyName = "PassportNo";
+            this.PassportNo.HeaderText = "Passport No";
+            this.PassportNo.MinimumWidth = 6;
+            this.PassportNo.Name = "PassportNo";
+            this.PassportNo.ReadOnly = true;
+            this.PassportNo.Width = 99;
+            // 
+            // ClientNo
+            // 
+            this.ClientNo.DataPropertyName = "ClientNo";
+            this.ClientNo.HeaderText = "ClientNo";
+            this.ClientNo.MinimumWidth = 6;
+            this.ClientNo.Name = "ClientNo";
+            this.ClientNo.ReadOnly = true;
+            this.ClientNo.Width = 82;
+            // 
+            // BirthDate
+            // 
+            this.BirthDate.DataPropertyName = "DateOfBirth";
+            this.BirthDate.HeaderText = "BirthDate";
+            this.BirthDate.MinimumWidth = 6;
+            this.BirthDate.Name = "BirthDate";
+            this.BirthDate.ReadOnly = true;
+            this.BirthDate.Width = 84;
+            // 
+            // LISP
+            // 
+            this.LISP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.LISP.DataPropertyName = "LISP";
+            this.LISP.HeaderText = "LISP";
+            this.LISP.MinimumWidth = 6;
+            this.LISP.Name = "LISP";
+            this.LISP.ReadOnly = true;
+            this.LISP.Width = 57;
+            // 
+            // PolicyNo
+            // 
+            this.PolicyNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PolicyNo.DataPropertyName = "AccountNo";
+            this.PolicyNo.HeaderText = "Policy No";
+            this.PolicyNo.MinimumWidth = 6;
+            this.PolicyNo.Name = "PolicyNo";
+            this.PolicyNo.ReadOnly = true;
+            this.PolicyNo.Width = 86;
+            // 
+            // Product
+            // 
+            this.Product.DataPropertyName = "ProductName";
+            this.Product.HeaderText = "Product";
+            this.Product.MinimumWidth = 6;
+            this.Product.Name = "Product";
+            this.Product.ReadOnly = true;
+            this.Product.Width = 77;
+            // 
+            // ProductType
+            // 
+            this.ProductType.DataPropertyName = "ProductType";
+            this.ProductType.HeaderText = "ProductType";
+            this.ProductType.MinimumWidth = 6;
+            this.ProductType.Name = "ProductType";
+            this.ProductType.ReadOnly = true;
+            this.ProductType.Width = 101;
+            // 
+            // FundName
+            // 
+            this.FundName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.FundName.DataPropertyName = "FundName";
+            this.FundName.HeaderText = "Fund Name";
+            this.FundName.MinimumWidth = 6;
+            this.FundName.Name = "FundName";
+            this.FundName.ReadOnly = true;
+            this.FundName.Width = 97;
+            // 
+            // FundValue
+            // 
+            this.FundValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.FundValue.DataPropertyName = "FundValue";
+            this.FundValue.HeaderText = "Fund Value (ZAR)";
+            this.FundValue.MinimumWidth = 6;
+            this.FundValue.Name = "FundValue";
+            this.FundValue.ReadOnly = true;
+            this.FundValue.Width = 126;
+            // 
+            // FundValueDate
+            // 
+            this.FundValueDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.FundValueDate.DataPropertyName = "FundValueDate";
+            this.FundValueDate.HeaderText = "Fund Value Date";
+            this.FundValueDate.MinimumWidth = 6;
+            this.FundValueDate.Name = "FundValueDate";
+            this.FundValueDate.ReadOnly = true;
+            this.FundValueDate.Width = 120;
+            // 
+            // Premium
+            // 
+            this.Premium.DataPropertyName = "MonthlyPremium";
+            this.Premium.HeaderText = "Premium (ZAR)";
+            this.Premium.MinimumWidth = 6;
+            this.Premium.Name = "Premium";
+            this.Premium.ReadOnly = true;
+            this.Premium.Width = 117;
+            // 
             // frmMetroClientImportInvestments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -883,23 +883,6 @@ namespace Finx.App.Forms
         private SplitContainer splitContainer1;
         private Panel panelGrid;
         private MetroFramework.Controls.MetroGrid dgvFileContents;
-        private DataGridViewTextBoxColumn RowNo;
-        private DataGridViewTextBoxColumn Title;
-        private DataGridViewTextBoxColumn Firstname;
-        private DataGridViewTextBoxColumn Lastname;
-        private DataGridViewTextBoxColumn IDNumber;
-        private DataGridViewTextBoxColumn RegistrationNo;
-        private DataGridViewTextBoxColumn PassportNo;
-        private DataGridViewTextBoxColumn ClientNo;
-        private DataGridViewTextBoxColumn BirthDate;
-        private DataGridViewTextBoxColumn LISP;
-        private DataGridViewTextBoxColumn PolicyNo;
-        private DataGridViewTextBoxColumn Product;
-        private DataGridViewTextBoxColumn ProductType;
-        private DataGridViewTextBoxColumn FundName;
-        private DataGridViewTextBoxColumn FundValue;
-        private DataGridViewTextBoxColumn FundValueDate;
-        private DataGridViewTextBoxColumn Premium;
         private MetroFramework.Controls.MetroPanel panelFileInfo;
         private Label lblLastImportUser;
         private Label label8;
@@ -928,5 +911,22 @@ namespace Finx.App.Forms
         private CheckBox chkViewErrorRecords;
         private CheckBox chkViewExistingRecords;
         private CheckBox chkViewNewRecords;
+        private DataGridViewTextBoxColumn RowNo;
+        private DataGridViewTextBoxColumn Title;
+        private DataGridViewTextBoxColumn Firstname;
+        private DataGridViewTextBoxColumn Lastname;
+        private DataGridViewTextBoxColumn IDNumber;
+        private DataGridViewTextBoxColumn RegistrationNo;
+        private DataGridViewTextBoxColumn PassportNo;
+        private DataGridViewTextBoxColumn ClientNo;
+        private DataGridViewTextBoxColumn BirthDate;
+        private DataGridViewTextBoxColumn LISP;
+        private DataGridViewTextBoxColumn PolicyNo;
+        private DataGridViewTextBoxColumn Product;
+        private DataGridViewTextBoxColumn ProductType;
+        private DataGridViewTextBoxColumn FundName;
+        private DataGridViewTextBoxColumn FundValue;
+        private DataGridViewTextBoxColumn FundValueDate;
+        private DataGridViewTextBoxColumn Premium;
     }
 }

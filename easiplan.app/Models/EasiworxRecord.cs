@@ -22,6 +22,7 @@ namespace Finx.App.Models
         private string _validationErrors;
         private string _premium;
         private string _dob = "";
+        private string _monthlyPremium;
 
         [Ignore]
         public int RowNo { get; set; }
@@ -239,11 +240,12 @@ namespace Finx.App.Models
             }
         }
 
-        [Index(29)]
         [Optional] //Monthly Debit Order Premium
+        [Index(29)]
         public string MonthlyPremium
         {
-            get; set;
+            get { return _monthlyPremium; }
+            set { _monthlyPremium = value; }
         }
 
         [Optional]
@@ -296,6 +298,7 @@ namespace Finx.App.Models
             Map(c => c.PhysicalAddressPostalCode);
 
             Map(c => c.ProductName);
+            Map(c => c.ModelPortfolio);
             Map(c => c.AccountNo);
             Map(c => c.FundName);
             Map(c => c.FundCode);

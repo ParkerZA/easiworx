@@ -85,6 +85,19 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\finX.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEV|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\dev\</OutputPath>
+    <ProductName>Easiworx Dev</ProductName>
+    <AssemblyName>easiworx-dev.app</AssemblyName>
+    <InstallUrl>https://staging.easiworx.co.za/downloads/easiworx-preview/</InstallUrl>
+    <DefineConstants>DEV</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'staging|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\staging\</OutputPath>
