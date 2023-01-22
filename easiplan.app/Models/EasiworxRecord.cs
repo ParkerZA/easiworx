@@ -297,6 +297,12 @@ namespace Finx.App.Models
             Map(c => c.PhysicalAddressSuburb);
             Map(c => c.PhysicalAddressPostalCode);
 
+            Map(c => c.CellNo); 
+            Map(c => c.OfficeTel); 
+            Map(c => c.HomeTel);
+            Map(c => c.EmailAddress);
+            
+
             Map(c => c.ProductName);
             Map(c => c.ModelPortfolio);
             Map(c => c.AccountNo);
