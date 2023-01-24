@@ -687,6 +687,7 @@ namespace Finx.App.Forms
                 case "easiworx":
                 case "easiworxtemplate":
                     dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
+                    //Console.WriteLine(csvRecords.Cast<EasiworxRecord>().ToList());
                     dgvFileContents.Columns["Product"].Visible = true;
                     dgvFileContents.Columns["ProductType"].Visible = false;
                     dgvFileContents.Columns["Title"].Visible = false;
@@ -695,6 +696,7 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["RegistrationNo"].Visible = true;
                     dgvFileContents.Columns["ClientNo"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
+                    
                     break;
                 default:
                     MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
@@ -1227,9 +1229,11 @@ namespace Finx.App.Forms
                         case "easiworx":
                         case "easiworxtemplate":
                             var easiworxRecord = csvRecord as EasiworxRecord;
+                            Console.WriteLine("Hello there");
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
                             // date format: dd/MM/yyyy
+                            Console.WriteLine("This is the proper thing " + easiworxRecord.Dob);
                             if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
                             break;
@@ -1433,7 +1437,7 @@ namespace Finx.App.Forms
             {
                 var totClients = _fileClientInvestments.Count;
                 var clientKeys = _fileClientInvestments.Keys.ToList();
-
+                //Console.WriteLine("THe big new thing is: " + _fileClientInvestments.ToString());
                 ThreadPool.SetMinThreads(38, 38);
 
                 var parallelOptions = new ParallelOptions()
@@ -1662,6 +1666,7 @@ namespace Finx.App.Forms
         private Retirement CreateRetirement(ICsvRecord csvRecord, string updateBy = "System", string RetirementType = "Unit Trusts")
         {
             var insured = "";
+            Double premium = 0;
             string identificationNo;
             ClientDetails soughtClient = null;
 
@@ -1704,6 +1709,7 @@ namespace Finx.App.Forms
                 case "easiworx":
                 case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
+                    premium = Convert.ToDouble(((EasiworxRecord)csvRecord).MonthlyPremium); //Sets premium as specified by the easiworx template
                     break;
                 default:
                     throw new ApplicationException("Invalid Lisp!");
@@ -1711,14 +1717,17 @@ namespace Finx.App.Forms
 
             lock (_lockObject)
             {
+                
                 return new Retirement()
                 {
                     Type = RetirementType,
-                    Description = csvRecord.LISP,
+                    //Description = csvRecord.LISP,
+                    Description = _selectedLisp,
                     ReferenceNo = csvRecord.AccountNo,
                     CreateDate = DateTime.Now,
                     Insured = insured,
                     CurrentAmount = 0,
+                    MonthlyContribution = premium, //Sets monthly premium 
                     FundsSplitPerc = 0,
                     GrowthPercentage = 0,
                     InflationPercentage = 0,

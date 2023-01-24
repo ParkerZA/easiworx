@@ -22,6 +22,7 @@ namespace Finx.App.Models
         private string _validationErrors;
         private string _dob = "";
         private string _monthlyPremium;
+        
 
         [Ignore]
         public int RowNo { get; set; }
@@ -58,6 +59,7 @@ namespace Finx.App.Models
         [Index(2)]
         public string Dob
         {
+
             get { return _dob; }
             set 
             {
@@ -66,6 +68,7 @@ namespace Finx.App.Models
                 else
                     _dob = value;
             }
+            
         }
 
         [Index(3)] 
@@ -247,6 +250,8 @@ namespace Finx.App.Models
             set { _monthlyPremium = value; }
         }
 
+       
+
         [Optional]
         public string LISP { get; set; }
 
@@ -274,10 +279,13 @@ namespace Finx.App.Models
         }
     }
 
+
+    
     public sealed class EasiworxRecordMap : ClassMap<EasiworxRecord>
     {
         public EasiworxRecordMap()
         {
+            //Console.WriteLine("What does this even rite: " +Map(c=>c.Dob));
             Map(c => c.Firstname);
             Map(c => c.Lastname);
             Map(c => c.Dob);

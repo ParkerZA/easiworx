@@ -112,6 +112,7 @@ namespace Finx.App.Helpers
                                 fileRecord.RowNo = RowNo;
                                 fileRecord.LISP = Lisp;
                                 fileRecordList.Add(fileRecord);
+                                
                             }
                         }
                     }

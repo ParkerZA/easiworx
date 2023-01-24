@@ -632,7 +632,8 @@ namespace Finx.App.Forms
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             //column.For(c => c.InitialAmount, "Lump Sum", new MetroCurrencyEditor());
-                            column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
+                            //column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
+                            column.For(x => x.MonthlyContribution, "Premium p/m", new CurrencyEditor());
                             column.For(c => c.EscalationPercentage, "Escalation", new DecimalEditor());
                             column.For(c => c.GrowthPercentage, "Growth", new DecimalEditor());
                             column.For(c => c.CurrentAmount, "Current Value", new CurrencyEditor(true));
@@ -653,6 +654,7 @@ namespace Finx.App.Forms
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             //column.For(c => c.InitialAmount, "Lump Sum", new CurrencyEditor());
+                            
                             column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
                             column.For(c => c.EscalationPercentage, "Escalation", new DecimalEditor());
                             column.For(c => c.GrowthPercentage, "Growth", new DecimalEditor());
