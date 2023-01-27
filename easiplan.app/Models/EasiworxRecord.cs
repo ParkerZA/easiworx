@@ -247,7 +247,9 @@ namespace Finx.App.Models
         public string MonthlyPremium
         {
             get { return _monthlyPremium; }
-            set { _monthlyPremium = value; }
+            set {
+                //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
+                _monthlyPremium =_monthlyPremium+ value;  }
         }
 
        

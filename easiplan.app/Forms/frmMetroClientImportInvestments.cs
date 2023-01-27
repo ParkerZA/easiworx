@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -968,7 +969,10 @@ namespace Finx.App.Forms
 
                     //get all funds per policy
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
-
+                    foreach (ICsvRecord thing in policyFunds)
+                    {
+                        Console.WriteLine("over here mate "+thing.FundValue);
+                    }
                     //add or update policy funds
                     var updatedretirement = await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
 
@@ -1409,6 +1413,7 @@ namespace Finx.App.Forms
                         lisp = "Momentum";
 
                     _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration,lisp);
+                    
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
@@ -1586,6 +1591,11 @@ namespace Finx.App.Forms
         private Retirement AddRetirementFunds(Retirement retirement, List<ICsvRecord> funds)
         {
 
+            foreach (ICsvRecord thing in funds)
+            {
+                Console.WriteLine("over here mate " + thing.FundValue);
+            }
+
             double fundAllocPerc = 0;
             try
             {
@@ -1709,7 +1719,19 @@ namespace Finx.App.Forms
                 case "easiworx":
                 case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
-                    premium = Convert.ToDouble(((EasiworxRecord)csvRecord).MonthlyPremium); //Sets premium as specified by the easiworx template
+                     //Sets premium as specified by the easiworx template
+                    
+                    foreach (EasiworxRecord csv in _csvRecordList) //Cycles through list to fetch all entries for the same policy
+                    {
+                        if (csv.AccountNo == csvRecord.AccountNo)
+                        { 
+                               
+                            premium += Convert.ToDouble(csv.MonthlyPremium); //Adds total premium amount
+                            current += Convert.ToDouble(csv.FundValue); //Adds total current value
+                        }
+                        //Console.WriteLine(current);
+                    }
+                    Console.WriteLine(csvRecord.FundValue);
                     break;
                 default:
                     throw new ApplicationException("Invalid Lisp!");
@@ -1722,11 +1744,11 @@ namespace Finx.App.Forms
                 {
                     Type = RetirementType,
                     //Description = csvRecord.LISP,
-                    Description = _selectedLisp,
+                    Description = csvRecord.LISP,
                     ReferenceNo = csvRecord.AccountNo,
                     CreateDate = DateTime.Now,
                     Insured = insured,
-                    CurrentAmount = 0,
+                    CurrentAmount = current,
                     MonthlyContribution = premium, //Sets monthly premium 
                     FundsSplitPerc = 0,
                     GrowthPercentage = 0,
@@ -1741,8 +1763,15 @@ namespace Finx.App.Forms
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-            var fundValue = csvRecord.FundValue.Replace(".", ",");
-            Double.TryParse(fundValue, out double dblFundValue);
+            
+           
+            
+            var fundValue = csvRecord.FundValue.Replace(",", ""); //Removes comma if it exists, this is a potential area of contention
+
+            Double.TryParse(csvRecord.FundValue, out double dblFundValue);
+
+            
+
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
             //todo: check csvRecord Type & cast to appropriate type

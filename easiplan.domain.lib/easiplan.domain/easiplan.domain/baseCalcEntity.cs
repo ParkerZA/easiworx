@@ -177,12 +177,11 @@ namespace easiplan.domain
 		{
 			get
 			{
-				return _MonthlyContribution;
+                return _MonthlyContribution;
 			}
 			set
 			{
 
-				Console.WriteLine("The value of num is: "+value);
                 if (_MonthlyContribution == value) return;
 
                 _MonthlyContribution = value;
