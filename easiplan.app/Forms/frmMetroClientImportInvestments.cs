@@ -688,7 +688,7 @@ namespace Finx.App.Forms
                 case "easiworx":
                 case "easiworxtemplate":
                     dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
-                    //Console.WriteLine(csvRecords.Cast<EasiworxRecord>().ToList());
+                    
                     dgvFileContents.Columns["Product"].Visible = true;
                     dgvFileContents.Columns["ProductType"].Visible = false;
                     dgvFileContents.Columns["Title"].Visible = false;
@@ -697,6 +697,8 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["RegistrationNo"].Visible = true;
                     dgvFileContents.Columns["ClientNo"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
+
+                    
                     
                     break;
                 default:
@@ -969,10 +971,10 @@ namespace Finx.App.Forms
 
                     //get all funds per policy
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
-                    foreach (ICsvRecord thing in policyFunds)
+                    /*foreach (ICsvRecord thing in policyFunds)
                     {
-                        Console.WriteLine("over here mate "+thing.FundValue);
-                    }
+                        Console.WriteLine("over here mate "+thing.Da);
+                    }*/
                     //add or update policy funds
                     var updatedretirement = await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
 
@@ -1237,9 +1239,10 @@ namespace Finx.App.Forms
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
                             // date format: dd/MM/yyyy
-                            Console.WriteLine("This is the proper thing " + easiworxRecord.Dob);
+                            
                             if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
+                            //Console.WriteLine("This is the proper thing " + dob);
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1324,6 +1327,8 @@ namespace Finx.App.Forms
                     {
                         DateTime.TryParse(dob, out DateTime dtDob);
                         client.ClientDetails.DateOfBirth = dtDob;
+                        //client.ClientDetails.DateOfBirth = dob;
+                        //Console.WriteLine("This is the actual new proper thing " + client.ClientDetails.DateOfBirth);
                     }
                     try
                     {
@@ -1591,10 +1596,6 @@ namespace Finx.App.Forms
         private Retirement AddRetirementFunds(Retirement retirement, List<ICsvRecord> funds)
         {
 
-            foreach (ICsvRecord thing in funds)
-            {
-                Console.WriteLine("over here mate " + thing.FundValue);
-            }
 
             double fundAllocPerc = 0;
             try
@@ -1727,11 +1728,9 @@ namespace Finx.App.Forms
                         { 
                                
                             premium += Convert.ToDouble(csv.MonthlyPremium); //Adds total premium amount
-                            current += Convert.ToDouble(csv.FundValue); //Adds total current value
                         }
                         //Console.WriteLine(current);
                     }
-                    Console.WriteLine(csvRecord.FundValue);
                     break;
                 default:
                     throw new ApplicationException("Invalid Lisp!");
@@ -1748,7 +1747,7 @@ namespace Finx.App.Forms
                     ReferenceNo = csvRecord.AccountNo,
                     CreateDate = DateTime.Now,
                     Insured = insured,
-                    CurrentAmount = current,
+                    CurrentAmount = 0,
                     MonthlyContribution = premium, //Sets monthly premium 
                     FundsSplitPerc = 0,
                     GrowthPercentage = 0,
@@ -1986,6 +1985,7 @@ namespace Finx.App.Forms
                         //else
                         var datagridViewRow = dgvFileContents.Rows[rowIndex];
                         var csvRecord = GetCsvRecordByRowIndex(dgvFileContents_RowNo);
+                        
 
                         ValidateSAIDNo(rowIndex, csvRecord);
                         ValidateFundValue(rowIndex, csvRecord);

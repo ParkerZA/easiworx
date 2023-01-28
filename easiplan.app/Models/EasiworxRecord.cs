@@ -249,12 +249,13 @@ namespace Finx.App.Models
             get { return _monthlyPremium; }
             set {
                 //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
-                _monthlyPremium =_monthlyPremium+ value;  }
+                _monthlyPremium = value;  }
         }
 
        
 
         [Optional]
+        [Index(30)]
         public string LISP { get; set; }
 
         [Optional]
@@ -322,6 +323,7 @@ namespace Finx.App.Models
             Map(c => c.AccountFundAllocation);
             Map(c => c.InceptionDate);
             Map(c => c.MonthlyPremium);
+            Map(c => c.LISP);
 
 
             Task.Run(() =>

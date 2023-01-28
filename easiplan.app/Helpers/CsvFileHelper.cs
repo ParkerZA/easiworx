@@ -110,7 +110,7 @@ namespace Finx.App.Helpers
                             {
                                 RowNo++;
                                 fileRecord.RowNo = RowNo;
-                                fileRecord.LISP = Lisp;
+                                //fileRecord.LISP = Lisp;
                                 fileRecordList.Add(fileRecord);
                                 
                             }
