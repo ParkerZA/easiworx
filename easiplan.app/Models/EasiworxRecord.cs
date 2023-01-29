@@ -103,66 +103,84 @@ namespace Finx.App.Models
         }
 
         [Optional]
+        [Index(7)]
         public string PostalAddressStreetNo
         {
             get; set;
         }
 
         [Optional]
+        [Index(8)]
         public string PostalAddress
         {
             get; set;
         }
+
         [Optional]
-        public string Suburb
+        [Index(9)]
+        public string PostalSuburb
         {
             get; set;
         }
+
         [Optional]
+        [Index(10)]
         public string PostalCode
         {
             get; set;
         }
 
+        [Index(11)]
         [Optional]
         public string PhysicalAddressStreetNo
         {
             get; set;
         }
 
+        [Index(12)]
         [Optional]
         public string PhysicalAddress
         {
             get; set;
         }
+
+        [Index(13)]
         [Optional]
         public string PhysicalAddressSuburb
         {
             get; set;
         }
+
+        [Index(14)]
         [Optional]
         public string PhysicalAddressPostalCode
         {
             get; set;
         }
 
-        [Optional] 
+        [Optional]
+        [Index(15)]
         public string CellNo
         {
             get; set;
         }
+        
         [Optional]
+        [Index(16)]
         public string OfficeTel
         {
             get; set;
         }
+
         [Optional]
+        [Index(17)]
         public string HomeTel
         {
             get; set;
         }
         
         [Optional]
+        [Index(18)]
         public string EmailAddress
         {
             get; set;
@@ -299,7 +317,7 @@ namespace Finx.App.Models
 
             Map(c => c.PostalAddressStreetNo);
             Map(c => c.PostalAddress);
-            Map(c => c.Suburb);
+            Map(c => c.PostalSuburb);
             Map(c => c.PostalCode);
 
             Map(c => c.PhysicalAddressStreetNo);

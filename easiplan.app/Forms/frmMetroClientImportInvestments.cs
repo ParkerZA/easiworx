@@ -1238,11 +1238,39 @@ namespace Finx.App.Forms
                             Console.WriteLine("Hello there");
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
-                            // date format: dd/MM/yyyy
                             
-                            if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ewx_dtDob))
+                            // date format: dd/MM/yyyy
+                            DateTime ewx_dtDob;
+                            if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
-                            //Console.WriteLine("This is the proper thing " + dob);
+                            
+
+
+                            //Easiworx Physical Address
+
+                            physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
+                            physicalAddress2 = easiworxRecord.PhysicalAddress;
+                            physicalAddress3 = easiworxRecord.PhysicalAddressSuburb;
+                            //physicalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the physical address city
+                            int.TryParse(easiworxRecord.PhysicalAddressPostalCode, out physicalAddressCode); //Sets the physical address postal code
+
+                            //Easiworx Postal Address
+
+                            postalAddress1 = easiworxRecord.PostalAddressStreetNo;
+                            postalAddress2 = easiworxRecord.PostalAddress;
+                            postalAddress3 = easiworxRecord.PostalSuburb;
+                            //postalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the postal city
+                            int.TryParse(easiworxRecord.PostalCode, out postalCode); //Sets the postal address postal code
+
+                            //Easiworx Contact Details
+
+                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
+                            hometel = easiworxRecord.HomeTel; //Note that this one and the next one contain quotation marks when displayed on run... ask about this
+                            worktel = easiworxRecord.OfficeTel;
+                            cellno = easiworxRecord.CellNo;
+                            //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
+                            email = easiworxRecord.EmailAddress;
+
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1307,6 +1335,8 @@ namespace Finx.App.Forms
                                        physicalAddress6,
                             Code = physicalAddressCode
                         };
+
+                        Console.WriteLine(client.PhysicalAddress.Line2);
                     }
 
                     if (!string.IsNullOrEmpty(postalAddress1))
