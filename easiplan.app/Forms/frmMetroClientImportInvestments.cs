@@ -108,6 +108,8 @@ namespace Finx.App.Forms
             InitializeComponent();
             Initialize();
 
+            this.kbtnOpenFile.Enabled = false;
+            this.btnImportFile.Enabled = false;
         }
 
         #endregion
@@ -150,6 +152,7 @@ namespace Finx.App.Forms
             splitContainer1.Panel1.Visible = false;
             splitContainer1.Panel2.Visible = false;
 
+            
             using (new AppWaitCursor(sender))
             {
                 var csvHelperConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -168,13 +171,15 @@ namespace Finx.App.Forms
                 {
                     openFileDialog1.Multiselect = false;
                     openFileDialog1.Title = "Please select a file.";
-                    var dirPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) +
-                                                        "\\Easiworx\\" + _selectedLisp; 
+                    //var dirPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) +
+                    //                                    "\\Easiworx\\" + _selectedLisp; 
 
-                    if (!Directory.Exists(dirPath))
-                        Directory.CreateDirectory(dirPath);
+                    //if (!Directory.Exists(dirPath))
+                    //    Directory.CreateDirectory(dirPath);
 
-                    openFileDialog1.InitialDirectory = dirPath;
+                    //openFileDialog1.InitialDirectory = dirPath;
+
+                    //TODO: STore path in registry so user always access the same dir
                     openFileDialog1.Filter = "CSV Files (*.csv)|*.csv";
                     DialogResult dialogResult;
 
@@ -218,7 +223,7 @@ namespace Finx.App.Forms
                         _fileProperties = CsvFileHelper.GetFileProperties(_filepath);
 
                         lblSelectedFile.Text = _selectedFilename;
-                        lblSelectedFile1.Visible = true;
+                        //lblSelectedFile1.Visible = true;
                         lblFileDate.Text = _fileProperties.FileDate.ToString("dd MMM yyyy hh:mm");
                         lblFileSize.Text = string.Format("{0} KB", (_fileProperties.FileSize / 1024).ToString());
 
@@ -262,8 +267,8 @@ namespace Finx.App.Forms
             lblImportStatus.Text = "Importing...";
 
             //todo:get last imported info from db
-            lblLastImportDate.Text = "";
-            lblLastImportUser.Text = "";
+            //lblLastImportDate.Text = "";
+            //lblLastImportUser.Text = "";
 
             var totClients = _fileClientInvestments.Count;
             cancelImport.Enabled = true;
@@ -314,15 +319,15 @@ namespace Finx.App.Forms
                     lblImportStatus.Text = "Imported";
                 });
 
-                lblLastImportDate.BeginInvoke((Action)delegate
-                {
-                    lblLastImportDate.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss");
-                });
+                //lblLastImportDate.BeginInvoke((Action)delegate
+                //{
+                //    lblLastImportDate.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss");
+                //});
 
-                lblLastImportUser.BeginInvoke((Action)delegate
-                {
-                    lblLastImportUser.Text = Program.User.Firstname;
-                });
+                //lblLastImportUser.BeginInvoke((Action)delegate
+                //{
+                //    lblLastImportUser.Text = Program.User.Firstname;
+                //});
 
                 await Task.Run(() =>
                 {
@@ -452,6 +457,9 @@ namespace Finx.App.Forms
         private void cmbSelectLisp_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLisp = cmbSelectLisp.SelectedItem.ToString().ToLower();
+
+            this.kbtnOpenFile.Enabled = _selectedLisp!="please select";
+            this.btnImportFile.Enabled = false;
         }
 
         private void FrmMetroClientImportInvestments_FormClosing(object sender, FormClosingEventArgs e)
@@ -496,6 +504,7 @@ namespace Finx.App.Forms
                     Task.Run(async () => {await SetFileImportDetails();});
 
                     //_dataBindingCompleteHasRun = true;
+
                 }
             }
         }
@@ -602,7 +611,7 @@ namespace Finx.App.Forms
         }
         private void GetExistingClientWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            btnImportFile.Enabled = true;
+           // btnImportFile.Enabled = true;
         }
         private void LoadFileWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -646,59 +655,68 @@ namespace Finx.App.Forms
 
 
 
+            this.btnImportFile.Enabled = true;
+
         }
         private void SetDgvFileContentsDataSource(List<ICsvRecord> csvRecords)
         {
-            switch (_selectedLisp.ToLower())
+            try
             {
-                case "allangray":
-                case "allan gray":
-                case "alan gray":
-                    dgvFileContents.DataSource = csvRecords.Cast<AllanGrayRecord>().ToList();
-                    dgvFileContents.Columns["Product"].Visible = true;
-                    dgvFileContents.Columns["ProductType"].Visible = true;
-                    dgvFileContents.Columns["Title"].Visible = false;
-                    dgvFileContents.Columns["ProductType"].Visible = false;
-                    dgvFileContents.Columns["Lastname"].Visible = true;
-                    break;
-                case "camissa":
-                    dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
-                    dgvFileContents.Columns["Product"].Visible = false;
-                    dgvFileContents.Columns["ProductType"].Visible = false;
-                    dgvFileContents.Columns["Title"].Visible = true;
-                    dgvFileContents.Columns["Lastname"].Visible = true;
-                    break;
-                case "momentum":
-                    switch (_detectedFileDelimiter)
-                    {
-                        case "\t":
-                            dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
-                            break;
-                        default:
-                            dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
-                            break;
-                    }
+                dgvFileContents.DataSource = null;
 
-                    dgvFileContents.Columns["Lastname"].Visible = false;
-                    dgvFileContents.Columns["Product"].Visible = true;
-                    dgvFileContents.Columns["ProductType"].Visible = true;
-                    dgvFileContents.Columns["Title"].Visible = true;
-                    break;
-                case "easiworx":
-                case "easiworxtemplate":
-                    dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
-                    dgvFileContents.Columns["Product"].Visible = true;
-                    dgvFileContents.Columns["ProductType"].Visible = false;
-                    dgvFileContents.Columns["Title"].Visible = false;
-                    dgvFileContents.Columns["Lastname"].Visible = true;
-                    dgvFileContents.Columns["BirthDate"].Visible = true;
-                    dgvFileContents.Columns["RegistrationNo"].Visible = true;
-                    dgvFileContents.Columns["ClientNo"].Visible = true;
-                    dgvFileContents.Columns["Premium"].Visible = true;
-                    break;
-                default:
-                    MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
-                    break;
+                switch (_selectedLisp.ToLower())
+                {
+                    case "allangray":
+                    case "allan gray":
+                    case "alan gray":
+                        dgvFileContents.DataSource = csvRecords.Cast<AllanGrayRecord>().ToList();
+                        dgvFileContents.Columns["Product"].Visible = true;
+                        dgvFileContents.Columns["ProductType"].Visible = true;
+                        dgvFileContents.Columns["Title"].Visible = false;
+                        dgvFileContents.Columns["ProductType"].Visible = false;
+                        dgvFileContents.Columns["Lastname"].Visible = true;
+                        break;
+                    case "camissa":
+                        dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
+                        dgvFileContents.Columns["Product"].Visible = false;
+                        dgvFileContents.Columns["ProductType"].Visible = false;
+                        dgvFileContents.Columns["Title"].Visible = true;
+                        dgvFileContents.Columns["Lastname"].Visible = true;
+                        break;
+                    case "momentum":
+                        switch (_detectedFileDelimiter)
+                        {
+                            case "\t":
+                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
+                                break;
+                            default:
+                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
+                                break;
+                        }
+
+                        dgvFileContents.Columns["Lastname"].Visible = false;
+                        dgvFileContents.Columns["Product"].Visible = true;
+                        dgvFileContents.Columns["ProductType"].Visible = true;
+                        dgvFileContents.Columns["Title"].Visible = true;
+                        break;
+                    case "easiworx":
+                    case "easiworxtemplate":
+                        dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
+                        dgvFileContents.Columns["Product"].Visible = true;
+                        dgvFileContents.Columns["ProductType"].Visible = false;
+                        dgvFileContents.Columns["Title"].Visible = false;
+                        dgvFileContents.Columns["Lastname"].Visible = true;
+                        dgvFileContents.Columns["BirthDate"].Visible = true;
+                        dgvFileContents.Columns["RegistrationNo"].Visible = true;
+                        dgvFileContents.Columns["ClientNo"].Visible = true;
+                        dgvFileContents.Columns["Premium"].Visible = true;
+                        break;
+                    default:
+                        MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
+                        break;
+                }
+            }catch(Exception x){
+
             }
         }
         private void BackgroundWorker_ImportClientInvestmentsFromFile_DoWork(object sender, DoWorkEventArgs e)
@@ -1787,7 +1805,10 @@ namespace Finx.App.Forms
             {
                 //if (csvRecord.IDNumber == "1102120396083")
                 //Debugger.Break();
-                var fundValue = csvRecord.FundValue.Replace(".", ",");
+              //  var fundValue = csvRecord.FundValue.Replace(".", ",");
+
+                var fundValue = csvRecord.FundValue.Replace(",", "");
+
                 Double.TryParse(fundValue, out double dblFundValue);
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
@@ -2420,6 +2441,7 @@ namespace Finx.App.Forms
 
                     splitContainer1.Panel1.Visible = true;
                     splitContainer1.Panel2.Visible = true;
+
                 }
             });
         }
@@ -2470,6 +2492,7 @@ namespace Finx.App.Forms
         }
 
 
+
         //private void RecordCsvFileImport()
         //{
         //    //newly imported file name is same as an existing imported file but file contents are diff, go and change the file name so that we can add it to dict
@@ -2480,7 +2503,25 @@ namespace Finx.App.Forms
         //}
         #endregion
 
-       
+        private void lblNewClientCnt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblSelectedFile_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

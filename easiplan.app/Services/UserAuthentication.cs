@@ -103,8 +103,9 @@ namespace easiplan.app.Services
                     user.Designation = loggedInUser.role;                   
                     user.IsAdministrator = loggedInUser.role == "Company Admin";
                     //TO DO : YJ 2021-09-30 Get designations from API
-                    //user.Designation += ",Clerk,Advisor,Authoriser,Guest";
+                    user.Designation += ",Advisor";
                     //user.IsActive = true;
+                    user.IsAdvisor = true; //user.Designation.contains("Advisor");
                     user.Status = "Active";
                     user.CompanyName = loggedInUser.companyName;
 
