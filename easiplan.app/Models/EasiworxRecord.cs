@@ -22,6 +22,7 @@ namespace Finx.App.Models
         private string _validationErrors;
         private string _dob = "";
         private string _monthlyPremium;
+        
 
         [Ignore]
         public int RowNo { get; set; }
@@ -58,6 +59,7 @@ namespace Finx.App.Models
         [Index(2)]
         public string Dob
         {
+
             get { return _dob; }
             set 
             {
@@ -66,6 +68,7 @@ namespace Finx.App.Models
                 else
                     _dob = value;
             }
+            
         }
 
         [Index(3)] 
@@ -100,66 +103,84 @@ namespace Finx.App.Models
         }
 
         [Optional]
+        [Index(7)]
         public string PostalAddressStreetNo
         {
             get; set;
         }
 
         [Optional]
+        [Index(8)]
         public string PostalAddress
         {
             get; set;
         }
+
         [Optional]
-        public string Suburb
+        [Index(9)]
+        public string PostalSuburb
         {
             get; set;
         }
+
         [Optional]
+        [Index(10)]
         public string PostalCode
         {
             get; set;
         }
 
+        [Index(11)]
         [Optional]
         public string PhysicalAddressStreetNo
         {
             get; set;
         }
 
+        [Index(12)]
         [Optional]
         public string PhysicalAddress
         {
             get; set;
         }
+
+        [Index(13)]
         [Optional]
         public string PhysicalAddressSuburb
         {
             get; set;
         }
+
+        [Index(14)]
         [Optional]
         public string PhysicalAddressPostalCode
         {
             get; set;
         }
 
-        [Optional] 
+        [Optional]
+        [Index(15)]
         public string CellNo
         {
             get; set;
         }
+        
         [Optional]
+        [Index(16)]
         public string OfficeTel
         {
             get; set;
         }
+
         [Optional]
+        [Index(17)]
         public string HomeTel
         {
             get; set;
         }
         
         [Optional]
+        [Index(18)]
         public string EmailAddress
         {
             get; set;
@@ -244,10 +265,15 @@ namespace Finx.App.Models
         public string MonthlyPremium
         {
             get { return _monthlyPremium; }
-            set { _monthlyPremium = value; }
+            set {
+                //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
+                _monthlyPremium = value;  }
         }
 
+       
+
         [Optional]
+        [Index(30)]
         public string LISP { get; set; }
 
         [Optional]
@@ -274,10 +300,13 @@ namespace Finx.App.Models
         }
     }
 
+
+    
     public sealed class EasiworxRecordMap : ClassMap<EasiworxRecord>
     {
         public EasiworxRecordMap()
         {
+            //Console.WriteLine("What does this even rite: " +Map(c=>c.Dob));
             Map(c => c.Firstname);
             Map(c => c.Lastname);
             Map(c => c.Dob);
@@ -288,13 +317,19 @@ namespace Finx.App.Models
 
             Map(c => c.PostalAddressStreetNo);
             Map(c => c.PostalAddress);
-            Map(c => c.Suburb);
+            Map(c => c.PostalSuburb);
             Map(c => c.PostalCode);
 
             Map(c => c.PhysicalAddressStreetNo);
             Map(c => c.PhysicalAddress);
             Map(c => c.PhysicalAddressSuburb);
             Map(c => c.PhysicalAddressPostalCode);
+
+            Map(c => c.CellNo); 
+            Map(c => c.OfficeTel); 
+            Map(c => c.HomeTel);
+            Map(c => c.EmailAddress);
+            
 
             Map(c => c.ProductName);
             Map(c => c.ModelPortfolio);
@@ -306,6 +341,7 @@ namespace Finx.App.Models
             Map(c => c.AccountFundAllocation);
             Map(c => c.InceptionDate);
             Map(c => c.MonthlyPremium);
+            Map(c => c.LISP);
 
 
             Task.Run(() =>
