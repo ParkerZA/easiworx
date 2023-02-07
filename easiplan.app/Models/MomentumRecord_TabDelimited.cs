@@ -37,7 +37,9 @@ namespace Finx.App.Models
         public string AccountNo
         {
             get { return _accountNo; }
-            set { _accountNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _accountNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+                _accountNo = _accountNo.Replace('"', ' ').Trim();
+            }
         }
 
 
@@ -46,22 +48,26 @@ namespace Finx.App.Models
         public string Title
         {
             get { return _title; }
-            set { _title = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _title = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+                _title = _title.Replace('"', ' ').Trim();
+            }
         }
 
         [Index(5)]
         public string Initials
         {
             get { return _initials; }
-            set { _initials = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _initials = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+                _initials = _initials.Replace('"', ' ').Trim();
+            }
         }
 
         [Index(6)]
         public string Lastname
         {
             get { return _lastname; }
-            set { _lastname = value.Replace("'", string.Empty.Replace("\"", string.Empty));
-                Console.WriteLine(_lastname);
+            set { _lastname = (value.Replace("'", string.Empty.Replace("\"", string.Empty)));
+                _lastname = _lastname.Replace('"', ' ').Trim();
             }
         }
 
@@ -70,21 +76,27 @@ namespace Finx.App.Models
         public string ProductName
         {
             get { return _product; }
-            set { _product = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _product = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+                _product = _product.Replace('"', ' ').Trim();
+            }
         }
 
         [Index(7)]
         public string IDNumber
         {
             get { return _idNo; }
-            set { _idNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _idNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+                _idNo = _idNo.Replace('"', ' ').Trim();
+            }
         }
 
         [Optional]
         public string PassportNo
         {
             get { return _passportNo; }
-            set { _passportNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _passportNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+                _passportNo = _passportNo.Replace('"', ' ').Trim();
+            }
         }
 
         //This should not be optional
@@ -93,24 +105,30 @@ namespace Finx.App.Models
         public string FundCode
         {
             get { return _fundCode; }
-            set { _fundCode = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _fundCode = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+                _fundCode = _fundCode.Replace('"', ' ').Trim();
+            }
         }
 
         [Index(18)]
         public string FundName
         {
             get { return _fundName; }
-            set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty); }
+            set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty);
+                _fundName = _fundName.Replace('"', ' ').Trim();
+            }
         }
 
         [Index(21)]
 
         public string FundValue {
             get { return _fundValue; }
-            set { _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); }
+            set { _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); 
+               _fundValue = _fundValue.Replace('"', ' ').Trim();
+            }
         }
         
-        [Index(25)] //This is not the correct date and should be changed
+        [Index(25)] 
         [Optional]
         public string FundValueDate
         {
@@ -132,7 +150,9 @@ namespace Finx.App.Models
         public string ProductType
         {
             get { return _productType; }
-            set { _productType = value.Replace(",", string.Empty).Replace("\"", string.Empty); }
+            set { _productType = value.Replace(",", string.Empty).Replace("\"", string.Empty);
+                _productType = _productType.Replace('"', ' ').Trim();
+            }
         }
 
         [Index(42)]
