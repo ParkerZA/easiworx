@@ -60,7 +60,9 @@ namespace Finx.App.Models
         public string Lastname
         {
             get { return _lastname; }
-            set { _lastname = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+            set { _lastname = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+                Console.WriteLine(_lastname);
+            }
         }
 
         

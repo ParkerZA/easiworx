@@ -687,6 +687,8 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["Product"].Visible = true;
                     dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = true;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = false;
                     break;
                 case "easiworx":
                 case "easiworxtemplate":
