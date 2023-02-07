@@ -1,6 +1,7 @@
 ﻿using CsvFileImporter.CsvFile.Entities;
 using CsvHelper;
 using CsvHelper.Configuration;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using easiplan.domain.Entities;
 using easiplan.domain.Views;
@@ -661,6 +662,7 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["Title"].Visible = false;
                     dgvFileContents.Columns["ProductType"].Visible = false;
                     dgvFileContents.Columns["Lastname"].Visible = true;
+                    
                     break;
                 case "camissa":
                     dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
@@ -674,13 +676,14 @@ namespace Finx.App.Forms
                     {
                         case "\t":
                             dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
+                            
                             break;
                         default:
                             dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
                             break;
                     }
 
-                    dgvFileContents.Columns["Lastname"].Visible = false;
+                    dgvFileContents.Columns["Firstname"].Visible = false;
                     dgvFileContents.Columns["Product"].Visible = true;
                     dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = true;
@@ -1180,17 +1183,40 @@ namespace Finx.App.Forms
                             title = camissaRecord.Title;
                             firstname = camissaRecord.Firstname;
                             lastname = camissaRecord.Lastname;
-                            physicalAddress1 = camissaRecord.PhysicalAddress1;
-                            physicalAddress2 = camissaRecord.PhysicalAddress2;
-                            physicalAddress3 = camissaRecord.PhysicalAddress3;
+
+                            //Camissa Physical Address
+
+                            //Below I am splitting the first line of the Camissa address format into a street number and road name
+                            string streetNumber = "";
+                            string roadName = "";
+                            
+                            int spaceIndex = camissaRecord.PhysicalAddress1.IndexOf(' '); //Gets index of first space in address
+
+                            streetNumber = camissaRecord.PhysicalAddress1.Substring(0, spaceIndex); //Sets street number
+                            roadName = camissaRecord.PhysicalAddress1.Substring(spaceIndex).Trim(); //Sets road name
+                            
+                            physicalAddress1 = streetNumber; //Street number
+                            physicalAddress2 = roadName; //Road name
+                            physicalAddress3 = camissaRecord.PhysicalAddress2; // Suburb (Possibly refactor, especially if the other lisps have a very different address structure)
                             physicalAddress4 = camissaRecord.PhysicalAddress4;
                             physicalAddress5 = camissaRecord.PhysicalAddress5;
                             physicalAddress6 = camissaRecord.PhysicalAddress6;
                             int.TryParse(camissaRecord.PhysicalAddressPostalCode, out physicalAddressCode);
 
-                            postalAddress1 = camissaRecord.PostalAddress1;
-                            postalAddress2 = camissaRecord.PostalAddress2;
-                            postalAddress3 = camissaRecord.PostalAddress3;
+                            //Camissa Postal Address
+
+                            //Splitting postal road number from the street name
+                            string posStreetNumber = "";
+                            string posRoadName = "";
+
+                            int posSpaceIndex = camissaRecord.PostalAddress1.IndexOf(' '); //Gets index of first space in address
+
+                            posStreetNumber = camissaRecord.PhysicalAddress1.Substring(0, posSpaceIndex); //Sets street number
+                            posRoadName = camissaRecord.PhysicalAddress1.Substring(posSpaceIndex).Trim(); //Sets road name
+
+                            postalAddress1 = posStreetNumber; //Street number
+                            postalAddress2 = posRoadName; //Road name
+                            postalAddress3 = camissaRecord.PostalAddress2; //Suburb (This is really dumb... might have to refactor)
                             postalAddress4 = camissaRecord.PostalAddress4;
                             postalAddress5 = camissaRecord.PostalAddress5;
                             postalAddress6 = camissaRecord.PostalAddress6;
@@ -1230,6 +1256,7 @@ namespace Finx.App.Forms
 
                             firstname = allanGrayRecord.Firstname.Trim();
                             lastname = allanGrayRecord.Lastname.Trim();
+  
 
                             break;
                         case "easiworx":
@@ -1241,7 +1268,7 @@ namespace Finx.App.Forms
                             
                             // date format: dd/MM/yyyy
                             DateTime ewx_dtDob;
-                            if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
+                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
                             
 
@@ -1396,12 +1423,24 @@ namespace Finx.App.Forms
 
         private void LoadFile(FileSettings fileSettings)
         {
+
+            ApplicationException ex = new ApplicationException("Cannot access file");
             try
             {
                 var filepath = fileSettings.FilePath;
                 var csvHelperConfiguration = fileSettings.CsvConfiguration;
-                _detectedFileDelimiter = CsvFileHelper.DetectDelimiter(File.OpenText(filepath), csvHelperConfiguration.DetectDelimiterValues);
+
+                //This try catch block is to detect if there is an exception when trying to open the CSV file
+                try
+                {
+                    _detectedFileDelimiter = CsvFileHelper.DetectDelimiter(File.OpenText(filepath), csvHelperConfiguration.DetectDelimiterValues);
+                }
+                catch (IOException)
+                {
+                    throw new IOException("Cannot Access File");
+                }
                 csvHelperConfiguration.Delimiter = _detectedFileDelimiter;
+
 
                 if (_selectedLisp.ToLower().Contains("camissa"))
                 {
@@ -1434,12 +1473,12 @@ namespace Finx.App.Forms
                             throw new ApplicationException("Invalid file delimiter detected!");
                     }
                 }
-                
+
                 if (_selectedLisp.ToLower().Contains("easiworx"))
                 {
                     var fileName = fileSettings.FilePath;
                     var lisp = "";
-                    
+
                     if (fileName.ToLower().Contains("allan"))
                         lisp = "Allan Gray";
                     if (fileName.ToLower().Contains("camissa"))
@@ -1447,8 +1486,8 @@ namespace Finx.App.Forms
                     if (fileName.ToLower().Contains("momentum"))
                         lisp = "Momentum";
 
-                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration,lisp);
-                    
+                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration, lisp);
+
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
@@ -1460,15 +1499,26 @@ namespace Finx.App.Forms
                                                                                                         ec.ClientId != 0))
                                                            .Concat(_csvRecordList.Where(csvList2 => _existingClientDetails.Any(ec2 => ec2.PassportNo == csvList2.PassportNo &&
                                                                                                                                string.IsNullOrEmpty(ec2.IdentificationNo) &&
-                                                                                                                               csvList2.HasErrors == false &&
+                                                                                                                              csvList2.HasErrors == false &&
                                                                                                                                ec2.ClientId != 0))).ToList();
                 }
             }
+            catch (IOException)
+            {
+                MessageBox.Show("Please ensure that the CSV file is not being used by another application", "Cannot Access CSV File");
+            }
+            catch (ApplicationException)
+            {
+                MessageBox.Show("Please ensure that the CSV file is delimited only using commas: ',' or tabs: ' ' ", "Invalid file delimiter");
+            }
+            catch (CsvHelper.MissingFieldException)
+            {
+                MessageBox.Show("The CSV file is missing fields, please ensure that all necessary columns are included in the CSV file", "Missing Fields!");
+            }
             catch (Exception)
             {
-                MessageBox.Show("Invalid Csv File!");
+                MessageBox.Show("Invalid CSV File!");
             }
-
         }
 
         private async Task ImportClientInvestmentsFromFile(frmCsvImportProgressWindow frmCsvImportProgressWindow)
@@ -1646,7 +1696,9 @@ namespace Finx.App.Forms
                     {
                         case "allan gray":
                         case "allangray":
+                            //Console.WriteLine("Check this one: " + ((AllanGrayRecord)fund).FundAllocationPercentage);
                             Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
+                            //Console.WriteLine(fundAllocPerc);
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
@@ -1739,6 +1791,17 @@ namespace Finx.App.Forms
             {
                 case "camissa":
                     insured = soughtClient is null ? ((CamissaRecord)csvRecord).Firstname + " " + ((CamissaRecord)csvRecord).Lastname : soughtClient.FirstName + " " + soughtClient.LastName;
+
+                    foreach (CamissaRecord csv in _csvRecordList) //Cycles through list to fetch all entries for the same policy
+                    {
+                        if (csv.AccountNo == csvRecord.AccountNo)
+                        {
+                            Console.WriteLine(csv.MonthlyPremium);
+                            //premium += Convert.ToDouble(csv.Premium); //Adds total premium amount
+                        }
+                        //Console.WriteLine(premium);
+                    }
+
                     break;
                 case "momentum":
                     insured = soughtClient is null ? ((MomentumRecord)csvRecord).Firstname : soughtClient.FirstName;
@@ -2164,7 +2227,9 @@ namespace Finx.App.Forms
             else
             {
                 idNoCell = dgvFileContents.Rows[RowIndex].Cells["IDNumber"];
+                
                 idno = idNoCell.Value.ToString();
+                
                 if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
                 {
                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";

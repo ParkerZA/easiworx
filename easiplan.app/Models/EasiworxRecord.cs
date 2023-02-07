@@ -57,7 +57,7 @@ namespace Finx.App.Models
         }
 
         [Index(2)]
-        public string Dob
+        public string DateOfBirth
         {
 
             get { return _dob; }
@@ -68,7 +68,17 @@ namespace Finx.App.Models
                 else
                     _dob = value;
             }
-            
+
+            /*get { return _dob; }
+            set
+            {
+                //yyyy/mm/dd
+                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                    _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
+                else
+                    _dob = value;
+            }*/
+
         }
 
         [Index(3)] 
@@ -309,7 +319,7 @@ namespace Finx.App.Models
             //Console.WriteLine("What does this even rite: " +Map(c=>c.Dob));
             Map(c => c.Firstname);
             Map(c => c.Lastname);
-            Map(c => c.Dob);
+            Map(c => c.DateOfBirth);
             Map(c => c.IDNumber);
             Map(c => c.RegistrationNo);
             Map(c => c.PassportNo);

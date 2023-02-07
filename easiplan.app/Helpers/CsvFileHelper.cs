@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Finx.App.Helpers
 {
@@ -69,6 +70,8 @@ namespace Finx.App.Helpers
                                 RowNo++;
                                 fileRecord.RowNo = RowNo;
                                 fileRecordList.Add(fileRecord);
+                                
+                                
                             }
                         }
                     }
@@ -125,6 +128,7 @@ namespace Finx.App.Helpers
                 if (ex.InnerException != null)
                     msg = ex.InnerException.ToString();
                 throw;
+                
             }
 
             return fileRecordList;

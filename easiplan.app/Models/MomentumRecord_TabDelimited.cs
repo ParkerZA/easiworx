@@ -15,93 +15,101 @@ namespace Finx.App.Models
         [Ignore]
         public int RowNo { get; set; }
         private string _idNo = "";
-        private string _fundValue="";
+        private string _fundValue = "";
         private string _fundValueDate;
-        private string _lisp="Momentum";
+        private string _lisp = "Momentum";
         //private string _investmentStartDate;
         private string _fundName;
         private string _validationErrors;
         private string _passportNo;
         private string _product;
         private string _accountNo;
-        private string _firstname;
+        private string _lastname;
         private string _initials;
         private string _title;
         private string _fundCode;
         private string _productType;
 
-        [Optional]
-        public string Title 
-        {
-            get { return _title; }
-            set { _title = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
-        }
 
+        //Policy Number
         [Index(3)]
-        public string Initials 
-        {
-            get { return _initials; }
-            set { _initials = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
-        }
-        
-        [Index(4)]
-        public string Firstname
-        {
-            get { return _firstname; }
-            set { _firstname = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
-        }
-
-        [Index(5)]
-        public string AccountNo 
+        [Optional]
+        public string AccountNo
         {
             get { return _accountNo; }
             set { _accountNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
         }
 
-        [Index(7)]
-        public string Product
-        {
-            get { return _product; } 
-            set { _product = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
-            }
 
-        [Index(9)]
+        [Index(4)]
+        [Optional]
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
+
+        [Index(5)]
+        public string Initials
+        {
+            get { return _initials; }
+            set { _initials = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
+
+        [Index(6)]
+        public string Lastname
+        {
+            get { return _lastname; }
+            set { _lastname = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
+
+        
+        [Index(8)]
+        public string ProductName
+        {
+            get { return _product; }
+            set { _product = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
+        }
+
+        [Index(7)]
         public string IDNumber
         {
             get { return _idNo; }
-            set { _idNo = value.Replace("'", string.Empty.Replace("\"",string.Empty));}
+            set { _idNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
         }
-        
+
         [Optional]
         public string PassportNo
         {
             get { return _passportNo; }
-            set { _passportNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));}
+            set { _passportNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
         }
-      
 
-        [Index(13)]
-        public string FundCode 
+        //This should not be optional
+        //[Index(13)]
+        [Optional]
+        public string FundCode
         {
             get { return _fundCode; }
             set { _fundCode = value.Replace("'", string.Empty.Replace("\"", string.Empty)); }
         }
-        
-        [Index(14)]
-        public string FundName 
-        { 
-            get { return _fundName; } 
-            set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty); } 
+
+        [Index(18)]
+        public string FundName
+        {
+            get { return _fundName; }
+            set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty); }
         }
-       
-        [Index(17)]
-        
+
+        [Index(21)]
+
         public string FundValue {
-            get { return _fundValue; } 
-            set { _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); } 
-        } 
-        [Index(11)]
+            get { return _fundValue; }
+            set { _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); }
+        }
         
+        [Index(25)] //This is not the correct date and should be changed
+        [Optional]
         public string FundValueDate
         {
             get { return _fundValueDate; }
@@ -125,7 +133,7 @@ namespace Finx.App.Models
             set { _productType = value.Replace(",", string.Empty).Replace("\"", string.Empty); }
         }
 
-        
+        [Index(42)]
         [Optional]
         public string StartDate
         {
@@ -165,11 +173,11 @@ namespace Finx.App.Models
         public MomentumRecord_TabDelimited_Map()
         {
             Map(c => c.Title);
-            Map(c => c.Firstname);
+            Map(c => c.Lastname);
             Map(c => c.IDNumber);
             Map(c => c.AccountNo);
             Map(c => c.LISP).Default("Momentum");
-            Map(c => c.Product);
+            Map(c => c.ProductName);
             Map(c => c.ProductType);
             Map(c => c.FundCode);
             Map(c => c.FundName);

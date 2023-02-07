@@ -15,6 +15,7 @@ namespace Finx.App.Models
     {
         private string _idNo;
         private string _fundValue;
+        private string _premium;
         private string _fundValueDate;
         private string _lisp="Camissa";
         private string _dob;
@@ -48,10 +49,22 @@ namespace Finx.App.Models
                 if (value.ToLower() == "kagiso islamic high yield fund")
                     _fundName = "Camissa Islamic High Yield Fund";
                 else
-                    _fundName = value.ToLower().Replace("kagiso","Camissa").Replace("class a",string.Empty).Trim(); 
+                    _fundName = value.Replace("kagiso","Camissa").Replace("class a",string.Empty).Trim(); 
             }
         }
-        [Index(4)]
+
+        [Index(5)]
+        public string MonthlyPremium
+        {
+            get { return _premium; }
+            set
+            {
+                Console.WriteLine("ThE ONE is: " + value);
+                _premium = value;
+            }
+        }
+
+        [Index(6)]
         public string FundValue
         {
             get { return _fundValue; }
@@ -60,7 +73,7 @@ namespace Finx.App.Models
                 _fundValue = value.Replace(",", string.Empty);
             }
         }
-        [Index(5)]
+        [Index(7)]
         public string FundValueDate
         {
             get { return _fundValueDate; }
@@ -73,7 +86,7 @@ namespace Finx.App.Models
                     _fundValueDate = value;
             }
         }
-        [Index(6)]
+        [Index(8)]
         public string InvestmentStartDate
         {
             get { return _investmentStartDate; }
@@ -86,27 +99,28 @@ namespace Finx.App.Models
                     _investmentStartDate = value;
             }
         }
-        [Index(8)]
+        [Index(10)]
         public string Title { get { return _title; } set { _title = value; } }
-        [Index(9)]
+        [Index(11)]
         public string Firstname 
         { 
             get { return _firstname; } 
             set { _firstname = value.Replace("(TFI)","").Trim(); } 
         }
-        [Index(11)]
+        [Index(13)]
         public string Lastname 
         { 
             get { return _lastname; } 
             set { _lastname = value.Replace("(TFI)", "").Trim(); } 
         }
 
-        [Index(12)]
+        [Index(14)]
         public string InvestorType
         {
             get; set;
         }
-        [Index(13)]
+        
+        [Index(15)]
         public string IDNumber
         {
             get { return _idNo; }
@@ -118,22 +132,22 @@ namespace Finx.App.Models
                     _idNo = CsvFileHelper.FixSAIDNo(value);
             }
         }
-        [Index(14)]
+        [Index(16)]
         public string PassportNo
         {
             get;set;
         }
-        [Index(15)]
+        [Index(17)]
         public string CompanyRegistrationNo
         {
             get; set;
         }
-        [Index(16)]
+        [Index(18)]
         public string TaxNo
         {
             get; set;
         }
-        [Index(18)]
+        [Index(20)]
         public string DateOfBirth
         {
             get { return _dob; }
@@ -146,17 +160,17 @@ namespace Finx.App.Models
                     _dob = value;
             }
         }
-        [Index(21)]
+        [Index(23)]
         public string Restriction
         {
             get; set;
         }
-        [Index(29)]
+        [Index(31)]
         public string EmailAddress
         {
             get; set;
         }
-        [Index(30)]
+        [Index(32)]
         public string WorkTelephone
         {
             get { return _workTel; }
@@ -165,7 +179,7 @@ namespace Finx.App.Models
                 _workTel = value.Replace("'", string.Empty);
             }
         }
-        [Index(31)]
+        [Index(33)]
         public string HomeTelephone
         {
             get { return _homeTel; }
@@ -174,7 +188,7 @@ namespace Finx.App.Models
                 _homeTel = value.Replace("'", string.Empty);
             }
         }
-        [Index(32)]
+        [Index(34)]
         public string Cellphone
         {
             get { return _cellphone ; }
@@ -183,7 +197,7 @@ namespace Finx.App.Models
                 _cellphone = value.Replace("'", string.Empty);
             }
         }
-        [Index(33)]
+        [Index(35)]
         public string FaxNumber
         {
             get { return _faxNo; }
@@ -192,72 +206,72 @@ namespace Finx.App.Models
                 _faxNo = value.Replace("'", string.Empty);
             }
         }
-        [Index(34)]
+        [Index(36)]
         public string PostalAddress1
         {
             get; set;
         }
-        [Index(35)]
+        [Index(37)]
         public string PostalAddress2
         {
             get; set;
         }
-        [Index(36)]
+        [Index(38)]
         public string PostalAddress3
         {
             get; set;
         }
-        [Index(37)]
+        [Index(39)]
         public string PostalAddress4
         {
             get; set;
         }
-        [Index(38)]
+        [Index(40)]
         public string PostalAddress5
         {
             get; set;
         }
-        [Index(39)]
+        [Index(41)]
         public string PostalAddress6
         {
             get; set;
         }
-        [Index(40)]
+        [Index(42)]
         public string PostalCode
         {
             get; set;
         }
-        [Index(41)]
+        [Index(43)]
         public string PhysicalAddress1
         {
             get; set;
         }
-        [Index(42)]
+        [Index(44)]
         public string PhysicalAddress2
         {
             get; set;
         }
-        [Index(43)]
+        [Index(45)]
         public string PhysicalAddress3
         {
             get; set;
         }
-        [Index(44)]
+        [Index(46)]
         public string PhysicalAddress4
         {
             get; set;
         }
-        [Index(45)]
+        [Index(47)]
         public string PhysicalAddress5
         {
             get; set;
         }
-        [Index(46)]
+        [Index(48)]
         public string PhysicalAddress6
         {
             get; set;
         }
-        [Index(47)]
+        [Index(49)]
         public string PhysicalAddressPostalCode
         {
             get; set;
@@ -291,6 +305,7 @@ namespace Finx.App.Models
             Map(c => c.FundName);
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);
+            Map(c => c.MonthlyPremium);
             Map(c => c.InvestmentStartDate);
 
             Map(c => c.Title);
