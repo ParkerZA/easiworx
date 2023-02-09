@@ -19,82 +19,137 @@ namespace Finx.App.Models
         private string _fundValueDate;
         private string _lisp = "Momentum";
         //private string _investmentStartDate;
+        private string _birthDate;
         private string _fundName;
         private string _validationErrors;
         private string _passportNo;
-        private string _product;
         private string _accountNo;
         private string _lastname;
         private string _initials;
         private string _title;
         private string _fundCode;
+        private string _fundPerc;
         private string _productType;
-
+       
 
         //Policy Number
         [Index(3)]
         [Optional]
         public string AccountNo
         {
-            get { return _accountNo; }
-            set { _accountNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+            get 
+            { 
+                return _accountNo; 
+            }
+            set 
+            { 
+                _accountNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));
                 _accountNo = _accountNo.Replace('"', ' ').Trim();
             }
         }
 
 
+        //Clients Title (Mr/Mrs)
         [Index(4)]
         [Optional]
         public string Title
         {
-            get { return _title; }
-            set { _title = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+            get 
+            { 
+                return _title; 
+            }
+            set 
+            { 
+                _title = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
                 _title = _title.Replace('"', ' ').Trim();
             }
         }
 
+
+        //Clients first name initial
         [Index(5)]
         public string Initials
         {
-            get { return _initials; }
-            set { _initials = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+            get 
+            { 
+                return _initials; 
+            }
+            set 
+            { 
+                _initials = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
                 _initials = _initials.Replace('"', ' ').Trim();
             }
         }
 
+
+        //Clients last name
         [Index(6)]
         public string Lastname
         {
-            get { return _lastname; }
-            set { _lastname = (value.Replace("'", string.Empty.Replace("\"", string.Empty)));
+            get 
+            { 
+                return _lastname; 
+            }
+            set 
+            { 
+                _lastname = (value.Replace("'", string.Empty.Replace("\"", string.Empty)));
                 _lastname = _lastname.Replace('"', ' ').Trim();
             }
         }
 
         
+        //Type of policy 
         [Index(8)]
-        public string ProductName
+        public string ProductType
         {
-            get { return _product; }
-            set { _product = value.Replace("'", string.Empty.Replace("\"", string.Empty));
-                _product = _product.Replace('"', ' ').Trim();
+            get 
+            { 
+                return _productType; 
+            }
+            set 
+            { 
+                _productType = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+                _productType = _productType.Replace('"', ' ').Trim();
             }
         }
 
+
+        //Clients ID number
         [Index(7)]
         public string IDNumber
         {
-            get { return _idNo; }
-            set { _idNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+            get 
+            { 
+                return _idNo; 
+            }
+            set 
+            { 
+                _idNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
                 _idNo = _idNo.Replace('"', ' ').Trim();
             }
         }
 
+
+        //Clients date of birth, not currently supplied by momentum
+        [Optional]
+        public string DateOfBirth
+        {
+            get;
+            set;
+        }
+
+
+        //Clients passport number, used in place of ID for foreign nationals
         [Optional]
         public string PassportNo
         {
-            get { return _passportNo; }
-            set { _passportNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+            get 
+            { 
+                return _passportNo; 
+            }
+            set 
+            { 
+                _passportNo = value.Replace("'", string.Empty.Replace("\"", string.Empty));
                 _passportNo = _passportNo.Replace('"', ' ').Trim();
             }
         }
@@ -104,35 +159,74 @@ namespace Finx.App.Models
         [Optional]
         public string FundCode
         {
-            get { return _fundCode; }
-            set { _fundCode = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+            get 
+            { 
+                return _fundCode; 
+            }
+            set 
+            { 
+                _fundCode = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
                 _fundCode = _fundCode.Replace('"', ' ').Trim();
             }
         }
 
+
+        //Name of fund
         [Index(18)]
         public string FundName
         {
-            get { return _fundName; }
-            set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty);
+            get 
+            { 
+                return _fundName; 
+            }
+            set 
+            { 
+                _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty).Replace("\"", string.Empty);
                 _fundName = _fundName.Replace('"', ' ').Trim();
             }
         }
 
-        [Index(21)]
 
-        public string FundValue {
-            get { return _fundValue; }
-            set { _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); 
+        //Total amount that the fund is worth
+        [Index(21)]
+        public string FundValue 
+        {
+            get 
+            { 
+                return _fundValue; 
+            }
+            set 
+            { 
+                _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); 
                _fundValue = _fundValue.Replace('"', ' ').Trim();
             }
         }
+       
         
+        //Split percentage for fund amounts
+        [Index(22)]
+        public string FundPerc {
+            get 
+            { 
+                return _fundPerc; 
+            }
+            set 
+            { 
+                _fundPerc = value.Replace(',', '.');
+                _fundPerc = _fundPerc.Replace('"', ' ').Trim();
+            }
+        }
+
+
+        //Date at which the fund value was pulled
         [Index(25)] 
         [Optional]
         public string FundValueDate
         {
-            get { return _fundValueDate; }
+            get 
+            { 
+                return _fundValueDate; 
+            }
             set
             {
                 var strfundValueDate = value.Replace("\"", string.Empty).Trim();
@@ -142,18 +236,23 @@ namespace Finx.App.Models
                     _fundValueDate = value;
             }
         }
+
+
+        //LISP for this investment. Defaulted to Momentum
         [Optional]
-        public string LISP { get { return _lisp; } set { _lisp = "Momentum"; } }
-
-
-        [Index(29)]
-        public string ProductType
-        {
-            get { return _productType; }
-            set { _productType = value.Replace(",", string.Empty).Replace("\"", string.Empty);
-                _productType = _productType.Replace('"', ' ').Trim();
-            }
+        public string LISP 
+        { 
+            get 
+            { 
+                return _lisp; 
+            } 
+            set 
+            { 
+                _lisp = "Momentum"; 
+            } 
         }
+
+
 
         [Index(42)]
         [Optional]
@@ -169,6 +268,8 @@ namespace Finx.App.Models
             //        _investmentStartDate = value;
             //}
         }
+
+
         [Optional]
         public bool HasErrors { get; set; }
 
@@ -197,15 +298,16 @@ namespace Finx.App.Models
             Map(c => c.Title);
             Map(c => c.Lastname);
             Map(c => c.IDNumber);
+            Map(c => c.DateOfBirth);
             Map(c => c.AccountNo);
             Map(c => c.LISP).Default("Momentum");
-            Map(c => c.ProductName);
             Map(c => c.ProductType);
             Map(c => c.FundCode);
             Map(c => c.FundName);
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);
-            //Map(c => c.StartDate);
+            Map(c => c.FundPerc);
+            Map(c => c.StartDate);
 
             Map(c => c.ValidationErrors)
               .Convert(r => {
@@ -221,6 +323,7 @@ namespace Finx.App.Models
 
                   if (!Regex.IsMatch(idNumber, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
                       errors.Append("Invalid RSA ID Number!");
+                  
 
                   if (string.IsNullOrEmpty(policyNo))
                       errors.Append("Account or Policy Number is null!");

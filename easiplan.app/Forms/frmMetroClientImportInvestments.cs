@@ -670,13 +670,14 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["ProductType"].Visible = false;
                     dgvFileContents.Columns["Title"].Visible = true;
                     dgvFileContents.Columns["Lastname"].Visible = true;
+                    dgvFileContents.Columns["Premium"].Visible = true;
                     break;
                 case "momentum":
                     switch (_detectedFileDelimiter)
                     {
                         case "\t":
                             dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
-                            
+                            _selectedLisp = "mTab"; //Setting selected lisp to mTab to indicate that this is the Tab Delimited Momentum CSV 
                             break;
                         default:
                             dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
@@ -684,11 +685,12 @@ namespace Finx.App.Forms
                     }
 
                     dgvFileContents.Columns["Firstname"].Visible = false;
-                    dgvFileContents.Columns["Product"].Visible = true;
+                    dgvFileContents.Columns["Product"].Visible = false;
                     dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = true;
                     dgvFileContents.Columns["RegistrationNo"].Visible = false;
                     dgvFileContents.Columns["ClientNo"].Visible = false;
+                    dgvFileContents.Columns["Premium"].Visible = false;
                     break;
                 case "easiworx":
                 case "easiworxtemplate":
@@ -1242,10 +1244,23 @@ namespace Finx.App.Forms
                             var momentumRecord = csvRecord as MomentumRecord;
 
                             title = momentumRecord.Title;
-                            firstname = momentumRecord.Firstname;
-                            lastname = momentumRecord.Firstname; //momentum file does not give me the surname, and this is a required field in easiworx. defaulting to firstname until further notice
+                            firstname = momentumRecord.Initials; //Momentum only gives an initial, I am storing this as the first name for now
+                            lastname = momentumRecord.Lastname; 
 
                             break;
+
+                        case "mtab":
+                            //Nb! no dob field provided in csv file, therefor clients with passport nos wont get added to easiworx as dob is a required field
+                            if (string.IsNullOrEmpty(dob))
+                                return null;
+
+                            var momentumTabRecord = csvRecord as MomentumRecord_TabDelimited;
+
+                            title = momentumTabRecord.Title;
+                            firstname = momentumTabRecord.Initials; //Momentum does not give first name, only Initial. I am storing this as the first name for now
+                            lastname = momentumTabRecord.Lastname; 
+                            break;
+                        
                         case "alangray":
                         case "alan gray":
                         case "allangray":
@@ -1511,13 +1526,14 @@ namespace Finx.App.Forms
             }
             catch (ApplicationException)
             {
-                MessageBox.Show("Please ensure that the CSV file is delimited only using commas: ',' or tabs: ' ' ", "Invalid file delimiter");
+                MessageBox.Show("Please ensure that the CSV file is delimited only using commas: ',' or tabs: ' ' ", "Invalid File Delimiter");
             }
-            catch (CsvHelper.MissingFieldException)
+            catch (CsvHelper.MissingFieldException mfEx)
             {
-                MessageBox.Show("The CSV file is missing fields, please ensure that all necessary columns are included in the CSV file", "Missing Fields!");
+                var msg = mfEx.ToString();
+                MessageBox.Show(msg, "There is a problem with the CSV file");
             }
-            catch (Exception)
+            catch (Exception )
             {
                 MessageBox.Show("Invalid CSV File!");
             }
@@ -1709,6 +1725,9 @@ namespace Finx.App.Forms
                         case "momentum":
                             Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
                             break;
+                        case "mtab":
+                            Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
+                            break;
                     }
 
                     if (retirement.Funds.Count > 0)
@@ -1808,6 +1827,9 @@ namespace Finx.App.Forms
                 case "momentum":
                     insured = soughtClient is null ? ((MomentumRecord)csvRecord).Firstname : soughtClient.FirstName;
                     break;
+                case "mtab":
+                    insured = soughtClient is null ? ((MomentumRecord_TabDelimited)csvRecord).Lastname : soughtClient.LastName;
+                    break;
                 case "allangray":
                 case "allan gray":
                     insured = soughtClient is null ? ((AllanGrayRecord)csvRecord).Firstname : soughtClient.FirstName;
@@ -1876,6 +1898,9 @@ namespace Finx.App.Forms
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
+                    break;
+                case "MTAB":
+                    DateTime.TryParse(((MomentumRecord_TabDelimited)csvRecord).StartDate, out fundStartDate);
                     break;
                 case "CAMISSA":
                     DateTime.TryParse(((CamissaRecord)csvRecord).InvestmentStartDate, out fundStartDate);
@@ -1965,6 +1990,8 @@ namespace Finx.App.Forms
                     fileName += "FranklynTempleton_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
                 if (_selectedLisp.ToLower().Contains("momentum"))
+                    fileName += "Momentum_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
+                if (_selectedLisp.ToLower().Contains("mtab"))
                     fileName += "Momentum_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
                 if (_selectedLisp.ToLower().Contains("bullion"))
