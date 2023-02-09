@@ -19,7 +19,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -110,6 +109,8 @@ namespace Finx.App.Forms
             InitializeComponent();
             Initialize();
 
+            this.kbtnOpenFile.Enabled = false;
+            this.btnImportFile.Enabled = false;
         }
 
         #endregion
@@ -152,6 +153,7 @@ namespace Finx.App.Forms
             splitContainer1.Panel1.Visible = false;
             splitContainer1.Panel2.Visible = false;
 
+            
             using (new AppWaitCursor(sender))
             {
                 var csvHelperConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -170,13 +172,15 @@ namespace Finx.App.Forms
                 {
                     openFileDialog1.Multiselect = false;
                     openFileDialog1.Title = "Please select a file.";
-                    var dirPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) +
-                                                        "\\Easiworx\\" + _selectedLisp; 
+                    //var dirPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create) +
+                    //                                    "\\Easiworx\\" + _selectedLisp; 
 
-                    if (!Directory.Exists(dirPath))
-                        Directory.CreateDirectory(dirPath);
+                    //if (!Directory.Exists(dirPath))
+                    //    Directory.CreateDirectory(dirPath);
 
-                    openFileDialog1.InitialDirectory = dirPath;
+                    //openFileDialog1.InitialDirectory = dirPath;
+
+                    //TODO: STore path in registry so user always access the same dir
                     openFileDialog1.Filter = "CSV Files (*.csv)|*.csv";
                     DialogResult dialogResult;
 
@@ -220,7 +224,7 @@ namespace Finx.App.Forms
                         _fileProperties = CsvFileHelper.GetFileProperties(_filepath);
 
                         lblSelectedFile.Text = _selectedFilename;
-                        lblSelectedFile1.Visible = true;
+                        //lblSelectedFile1.Visible = true;
                         lblFileDate.Text = _fileProperties.FileDate.ToString("dd MMM yyyy hh:mm");
                         lblFileSize.Text = string.Format("{0} KB", (_fileProperties.FileSize / 1024).ToString());
 
@@ -264,8 +268,8 @@ namespace Finx.App.Forms
             lblImportStatus.Text = "Importing...";
 
             //todo:get last imported info from db
-            lblLastImportDate.Text = "";
-            lblLastImportUser.Text = "";
+            //lblLastImportDate.Text = "";
+            //lblLastImportUser.Text = "";
 
             var totClients = _fileClientInvestments.Count;
             cancelImport.Enabled = true;
@@ -316,15 +320,15 @@ namespace Finx.App.Forms
                     lblImportStatus.Text = "Imported";
                 });
 
-                lblLastImportDate.BeginInvoke((Action)delegate
-                {
-                    lblLastImportDate.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss");
-                });
+                //lblLastImportDate.BeginInvoke((Action)delegate
+                //{
+                //    lblLastImportDate.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss");
+                //});
 
-                lblLastImportUser.BeginInvoke((Action)delegate
-                {
-                    lblLastImportUser.Text = Program.User.Firstname;
-                });
+                //lblLastImportUser.BeginInvoke((Action)delegate
+                //{
+                //    lblLastImportUser.Text = Program.User.Firstname;
+                //});
 
                 await Task.Run(() =>
                 {
@@ -454,6 +458,9 @@ namespace Finx.App.Forms
         private void cmbSelectLisp_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLisp = cmbSelectLisp.SelectedItem.ToString().ToLower();
+
+            this.kbtnOpenFile.Enabled = _selectedLisp!="please select";
+            this.btnImportFile.Enabled = false;
         }
 
         private void FrmMetroClientImportInvestments_FormClosing(object sender, FormClosingEventArgs e)
@@ -498,6 +505,7 @@ namespace Finx.App.Forms
                     Task.Run(async () => {await SetFileImportDetails();});
 
                     //_dataBindingCompleteHasRun = true;
+
                 }
             }
         }
@@ -604,7 +612,7 @@ namespace Finx.App.Forms
         }
         private void GetExistingClientWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            btnImportFile.Enabled = true;
+           // btnImportFile.Enabled = true;
         }
         private void LoadFileWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -648,9 +656,44 @@ namespace Finx.App.Forms
 
 
 
+            this.btnImportFile.Enabled = true;
+
         }
         private void SetDgvFileContentsDataSource(List<ICsvRecord> csvRecords)
         {
+            try
+            {
+                dgvFileContents.DataSource = null;
+
+                switch (_selectedLisp.ToLower())
+                {
+                    case "allangray":
+                    case "allan gray":
+                    case "alan gray":
+                        dgvFileContents.DataSource = csvRecords.Cast<AllanGrayRecord>().ToList();
+                        dgvFileContents.Columns["Product"].Visible = true;
+                        dgvFileContents.Columns["ProductType"].Visible = true;
+                        dgvFileContents.Columns["Title"].Visible = false;
+                        dgvFileContents.Columns["ProductType"].Visible = false;
+                        dgvFileContents.Columns["Lastname"].Visible = true;
+                        break;
+                    case "camissa":
+                        dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
+                        dgvFileContents.Columns["Product"].Visible = false;
+                        dgvFileContents.Columns["ProductType"].Visible = false;
+                        dgvFileContents.Columns["Title"].Visible = true;
+                        dgvFileContents.Columns["Lastname"].Visible = true;
+                        break;
+                    case "momentum":
+                        switch (_detectedFileDelimiter)
+                        {
+                            case "\t":
+                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
+                                break;
+                            default:
+                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
+                                break;
+                        }
             switch (_selectedLisp.ToLower())
             {
                 case "allangray":
@@ -991,10 +1034,7 @@ namespace Finx.App.Forms
 
                     //get all funds per policy
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
-                    /*foreach (ICsvRecord thing in policyFunds)
-                    {
-                        Console.WriteLine("over here mate "+thing.Da);
-                    }*/
+
                     //add or update policy funds
                     var updatedretirement = await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
 
@@ -1292,42 +1332,12 @@ namespace Finx.App.Forms
                         case "easiworx":
                         case "easiworxtemplate":
                             var easiworxRecord = csvRecord as EasiworxRecord;
-                            Console.WriteLine("Hello there");
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
-                            
                             // date format: dd/MM/yyyy
                             DateTime ewx_dtDob;
-                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
+                            if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
-                            
-
-
-                            //Easiworx Physical Address
-
-                            physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
-                            physicalAddress2 = easiworxRecord.PhysicalAddress;
-                            physicalAddress3 = easiworxRecord.PhysicalAddressSuburb;
-                            //physicalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the physical address city
-                            int.TryParse(easiworxRecord.PhysicalAddressPostalCode, out physicalAddressCode); //Sets the physical address postal code
-
-                            //Easiworx Postal Address
-
-                            postalAddress1 = easiworxRecord.PostalAddressStreetNo;
-                            postalAddress2 = easiworxRecord.PostalAddress;
-                            postalAddress3 = easiworxRecord.PostalSuburb;
-                            //postalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the postal city
-                            int.TryParse(easiworxRecord.PostalCode, out postalCode); //Sets the postal address postal code
-
-                            //Easiworx Contact Details
-
-                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
-                            hometel = easiworxRecord.HomeTel; //Note that this one and the next one contain quotation marks when displayed on run... ask about this
-                            worktel = easiworxRecord.OfficeTel;
-                            cellno = easiworxRecord.CellNo;
-                            //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
-                            email = easiworxRecord.EmailAddress;
-
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1392,8 +1402,6 @@ namespace Finx.App.Forms
                                        physicalAddress6,
                             Code = physicalAddressCode
                         };
-
-                        Console.WriteLine(client.PhysicalAddress.Line2);
                     }
 
                     if (!string.IsNullOrEmpty(postalAddress1))
@@ -1414,8 +1422,6 @@ namespace Finx.App.Forms
                     {
                         DateTime.TryParse(dob, out DateTime dtDob);
                         client.ClientDetails.DateOfBirth = dtDob;
-                        //client.ClientDetails.DateOfBirth = dob;
-                        //Console.WriteLine("This is the actual new proper thing " + client.ClientDetails.DateOfBirth);
                     }
                     try
                     {
@@ -1516,8 +1522,8 @@ namespace Finx.App.Forms
                     if (fileName.ToLower().Contains("momentum"))
                         lisp = "Momentum";
 
-                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration, lisp);
-
+                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration,lisp);
+                    
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
@@ -1558,7 +1564,7 @@ namespace Finx.App.Forms
             {
                 var totClients = _fileClientInvestments.Count;
                 var clientKeys = _fileClientInvestments.Keys.ToList();
-                //Console.WriteLine("THe big new thing is: " + _fileClientInvestments.ToString());
+
                 ThreadPool.SetMinThreads(38, 38);
 
                 var parallelOptions = new ParallelOptions()
@@ -1707,7 +1713,6 @@ namespace Finx.App.Forms
         private Retirement AddRetirementFunds(Retirement retirement, List<ICsvRecord> funds)
         {
 
-
             double fundAllocPerc = 0;
             try
             {
@@ -1793,7 +1798,6 @@ namespace Finx.App.Forms
         private Retirement CreateRetirement(ICsvRecord csvRecord, string updateBy = "System", string RetirementType = "Unit Trusts")
         {
             var insured = "";
-            Double premium = 0;
             string identificationNo;
             ClientDetails soughtClient = null;
 
@@ -1850,17 +1854,6 @@ namespace Finx.App.Forms
                 case "easiworx":
                 case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
-                     //Sets premium as specified by the easiworx template
-                    
-                    foreach (EasiworxRecord csv in _csvRecordList) //Cycles through list to fetch all entries for the same policy
-                    {
-                        if (csv.AccountNo == csvRecord.AccountNo)
-                        { 
-                               
-                            premium += Convert.ToDouble(csv.MonthlyPremium); //Adds total premium amount
-                        }
-                        //Console.WriteLine(current);
-                    }
                     break;
                 default:
                     throw new ApplicationException("Invalid Lisp!");
@@ -1868,17 +1861,14 @@ namespace Finx.App.Forms
 
             lock (_lockObject)
             {
-                
                 return new Retirement()
                 {
                     Type = RetirementType,
-                    //Description = csvRecord.LISP,
                     Description = csvRecord.LISP,
                     ReferenceNo = csvRecord.AccountNo,
                     CreateDate = DateTime.Now,
                     Insured = insured,
                     CurrentAmount = 0,
-                    MonthlyContribution = premium, //Sets monthly premium 
                     FundsSplitPerc = 0,
                     GrowthPercentage = 0,
                     InflationPercentage = 0,
@@ -1892,15 +1882,8 @@ namespace Finx.App.Forms
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-            
-           
-            
-            var fundValue = csvRecord.FundValue.Replace(",", ""); //Removes comma if it exists, this is a potential area of contention
-
-            Double.TryParse(csvRecord.FundValue, out double dblFundValue);
-
-            
-
+            var fundValue = csvRecord.FundValue.Replace(".", ",");
+            Double.TryParse(fundValue, out double dblFundValue);
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
             //todo: check csvRecord Type & cast to appropriate type
@@ -1957,7 +1940,10 @@ namespace Finx.App.Forms
             {
                 //if (csvRecord.IDNumber == "1102120396083")
                 //Debugger.Break();
-                var fundValue = csvRecord.FundValue.Replace(".", ",");
+              //  var fundValue = csvRecord.FundValue.Replace(".", ",");
+
+                var fundValue = csvRecord.FundValue.Replace(",", "");
+
                 Double.TryParse(fundValue, out double dblFundValue);
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
@@ -2120,7 +2106,6 @@ namespace Finx.App.Forms
                         //else
                         var datagridViewRow = dgvFileContents.Rows[rowIndex];
                         var csvRecord = GetCsvRecordByRowIndex(dgvFileContents_RowNo);
-                        
 
                         ValidateSAIDNo(rowIndex, csvRecord);
                         ValidateFundValue(rowIndex, csvRecord);
@@ -2595,6 +2580,7 @@ namespace Finx.App.Forms
 
                     splitContainer1.Panel1.Visible = true;
                     splitContainer1.Panel2.Visible = true;
+
                 }
             });
         }
@@ -2656,7 +2642,22 @@ namespace Finx.App.Forms
         //}
         #endregion
 
-        private void dgvFileContents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void lblNewClientCnt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblSelectedFile_Click(object sender, EventArgs e)
         {
 
         }
