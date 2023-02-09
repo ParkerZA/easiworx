@@ -662,8 +662,12 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["Title"].Visible = false;
                     dgvFileContents.Columns["ProductType"].Visible = false;
                     dgvFileContents.Columns["Lastname"].Visible = true;
-                    
+                    dgvFileContents.Columns["BirthDate"].Visible = false;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = true;
+
                     break;
+
                 case "camissa":
                     dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
                     dgvFileContents.Columns["Product"].Visible = false;
@@ -671,16 +675,24 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["Title"].Visible = true;
                     dgvFileContents.Columns["Lastname"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = true;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = false;
+                    
                     break;
+
                 case "momentum":
                     switch (_detectedFileDelimiter)
                     {
                         case "\t":
                             dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
                             _selectedLisp = "mTab"; //Setting selected lisp to mTab to indicate that this is the Tab Delimited Momentum CSV 
+                           
                             break;
+
                         default:
                             dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
+                            
                             break;
                     }
 
@@ -688,6 +700,7 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["Product"].Visible = false;
                     dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = false;
                     dgvFileContents.Columns["RegistrationNo"].Visible = false;
                     dgvFileContents.Columns["ClientNo"].Visible = false;
                     dgvFileContents.Columns["Premium"].Visible = false;
@@ -1520,15 +1533,15 @@ namespace Finx.App.Forms
                                                                                                                                ec2.ClientId != 0))).ToList();
                 }
             }
-            catch (IOException)
+            catch (IOException) //Catches exception when the CSV file is being used by another program
             {
                 MessageBox.Show("Please ensure that the CSV file is not being used by another application", "Cannot Access CSV File");
             }
-            catch (ApplicationException)
+            catch (ApplicationException) //Catches exception when CSV file has incorrect Delimiter
             {
-                MessageBox.Show("Please ensure that the CSV file is delimited only using commas: ',' or tabs: ' ' ", "Invalid File Delimiter");
+                MessageBox.Show("Please ensure that the CSV file is delimited only using commas or tabs", "Invalid File Delimiter");
             }
-            catch (CsvHelper.MissingFieldException mfEx)
+            catch (CsvHelper.MissingFieldException mfEx) //Catches exception when CSV file contains incorrect columns
             {
                 var msg = mfEx.ToString();
                 MessageBox.Show(msg, "There is a problem with the CSV file");
