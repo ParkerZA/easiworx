@@ -661,39 +661,11 @@ namespace Finx.App.Forms
         }
         private void SetDgvFileContentsDataSource(List<ICsvRecord> csvRecords)
         {
-            try
-            {
-                dgvFileContents.DataSource = null;
+            
+            
+            dgvFileContents.DataSource = null;
 
-                switch (_selectedLisp.ToLower())
-                {
-                    case "allangray":
-                    case "allan gray":
-                    case "alan gray":
-                        dgvFileContents.DataSource = csvRecords.Cast<AllanGrayRecord>().ToList();
-                        dgvFileContents.Columns["Product"].Visible = true;
-                        dgvFileContents.Columns["ProductType"].Visible = true;
-                        dgvFileContents.Columns["Title"].Visible = false;
-                        dgvFileContents.Columns["ProductType"].Visible = false;
-                        dgvFileContents.Columns["Lastname"].Visible = true;
-                        break;
-                    case "camissa":
-                        dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
-                        dgvFileContents.Columns["Product"].Visible = false;
-                        dgvFileContents.Columns["ProductType"].Visible = false;
-                        dgvFileContents.Columns["Title"].Visible = true;
-                        dgvFileContents.Columns["Lastname"].Visible = true;
-                        break;
-                    case "momentum":
-                        switch (_detectedFileDelimiter)
-                        {
-                            case "\t":
-                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
-                                break;
-                            default:
-                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
-                                break;
-                        }
+               
             switch (_selectedLisp.ToLower())
             {
                 case "allangray":
@@ -1336,7 +1308,7 @@ namespace Finx.App.Forms
                             lastname = easiworxRecord.Lastname.Trim();
                             // date format: dd/MM/yyyy
                             DateTime ewx_dtDob;
-                            if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
+                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
                             break;
                         default:

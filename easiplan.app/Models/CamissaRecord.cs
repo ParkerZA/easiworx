@@ -32,14 +32,20 @@ namespace Finx.App.Models
 
         [Ignore]
         public int RowNo { get; set; }
+
+
         [Optional]
         public string LISP
         {
             get { return _lisp; }
             set { _lisp = "Camissa"; }
         }
+
+
         [Index(2)]
         public string AccountNo { get; set; }
+        
+        
         [Index(3)]
         public string FundName 
         {
@@ -53,14 +59,28 @@ namespace Finx.App.Models
             }
         }
 
+
         [Index(5)]
         public string MonthlyPremium
         {
-            get { return _premium; }
+            get 
+            { 
+                return _premium; 
+            }
             set
             {
-                Console.WriteLine("ThE ONE is: " + value);
-                _premium = value;
+                if (value.ToLower().Contains("none"))
+                {
+                    _premium = "0";
+                }
+                else if (value.StartsWith("R"))
+                {
+                    _premium = value.Substring(1);
+                }
+                else
+                {
+                    _premium = value;
+                }
             }
         }
 
