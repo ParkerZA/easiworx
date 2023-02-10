@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using CsvHelper;
+using Finx.App.Helpers;
 
 namespace Finx.App.Models
 {
@@ -123,9 +124,15 @@ namespace Finx.App.Models
                 return _idNo; 
             }
             set 
-            { 
-                _idNo = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
-                _idNo = _idNo.Replace('"', ' ').Trim();
+            {
+                string temp;
+                temp = value.Replace("'", string.Empty.Replace("\"", string.Empty)); 
+                temp = temp.Replace('"', ' ').Trim();
+                if (CsvFileHelper.IsPassportNo(temp))
+                        this.PassportNo = temp;
+                else
+                      _idNo = CsvFileHelper.FixSAIDNo(temp);
+                
             }
         }
 
