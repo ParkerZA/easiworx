@@ -30,36 +30,63 @@ namespace Finx.App.Models
         private string _fundName;
         private string _validationErrors;
 
+
+        //Row number which appears next to record on import screen
         [Ignore]
-        public int RowNo { get; set; }
-
-
-        [Optional]
-        public string LISP
-        {
-            get { return _lisp; }
-            set { _lisp = "Camissa"; }
+        public int RowNo 
+        { 
+            get;
+            set;
         }
 
 
-        [Index(2)]
-        public string AccountNo { get; set; }
-        
-        
-        [Index(3)]
-        public string FundName 
+        //LISP responsible for this record
+        [Optional]
+        public string LISP
         {
-            get { return _fundName; }
+            get 
+            { 
+                return _lisp; 
+            }
             set 
-            {
-                if (value.ToLower() == "kagiso islamic high yield fund")
-                    _fundName = "Camissa Islamic High Yield Fund";
-                else
-                    _fundName = value.Replace("kagiso","Camissa").Replace("class a",string.Empty).Trim(); 
+            { 
+                _lisp = "Camissa"; 
             }
         }
 
 
+        //Policy number associated with this fund
+        [Index(2)]
+        public string AccountNo 
+        { 
+            get;
+            set;
+        }
+        
+        
+        //Name of fund
+        [Index(3)]
+        public string FundName 
+        {
+            get 
+            {
+                return _fundName; 
+            }
+            set
+            {
+                if (value.ToLower() == "kagiso islamic high yield fund")
+                {
+                    _fundName = "Camissa Islamic High Yield Fund";
+                }
+                else
+                {
+                    _fundName = value.Replace("kagiso", "Camissa").Replace("class a", string.Empty).Trim();
+                }
+            }
+        }
+
+
+        //Monthly debit order
         [Index(5)]
         public string MonthlyPremium
         {
@@ -84,89 +111,171 @@ namespace Finx.App.Models
             }
         }
 
+
+        //Total amount which the fund is worth
         [Index(6)]
         public string FundValue
         {
-            get { return _fundValue; }
+            get 
+            { 
+                return _fundValue; 
+            }
             set
             {
                 _fundValue = value.Replace(",", string.Empty);
             }
         }
+
+
+        //Date at which the fund value was pulled
         [Index(7)]
         public string FundValueDate
         {
-            get { return _fundValueDate; }
+            get 
+            { 
+                return _fundValueDate; 
+            }
             set
             {
                 //if (DateTime.TryParse(value, out DateTime fundValDt))
                 if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                {
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
+                }
                 else
+                {
                     _fundValueDate = value;
+                }
             }
         }
+
+
+        //Starting date of the investment
         [Index(8)]
         public string InvestmentStartDate
         {
-            get { return _investmentStartDate; }
+            get 
+            { 
+                return _investmentStartDate; 
+            }
             set
             {
                 if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime investmentStartDt))
-                    //if (DateTime.TryParse(value, out DateTime investmentStartDt))
+                {    //if (DateTime.TryParse(value, out DateTime investmentStartDt))
                     _investmentStartDate = investmentStartDt.ToString("dd MMM yyyy");
+                }
                 else
+                {
                     _investmentStartDate = value;
+                }
             }
         }
+
+
+        //Clients title (eg: Mr, Mrs)
         [Index(10)]
-        public string Title { get { return _title; } set { _title = value; } }
+        public string Title 
+        { 
+            get 
+            { 
+                return _title; 
+            } 
+            set 
+            { 
+                _title = value; 
+            } 
+        }
+       
+        
+        //First name of client
         [Index(11)]
         public string Firstname 
         { 
-            get { return _firstname; } 
-            set { _firstname = value.Replace("(TFI)","").Trim(); } 
+            get 
+            { 
+                return _firstname;
+            } 
+            set 
+            {
+                _firstname = value.Replace("(TFI)","").Trim(); 
+            } 
         }
+
+
+        //Second name of client
         [Index(13)]
         public string Lastname 
         { 
-            get { return _lastname; } 
-            set { _lastname = value.Replace("(TFI)", "").Trim(); } 
+            get 
+            { 
+                return _lastname; 
+            } 
+            set 
+            { 
+                _lastname = value.Replace("(TFI)", "").Trim(); 
+            } 
         }
 
+
+        //Investor type
         [Index(14)]
         public string InvestorType
         {
-            get; set;
+            get;
+            set;
         }
         
+
+        //Client ID number
         [Index(15)]
         public string IDNumber
         {
-            get { return _idNo; }
+            get 
+            { 
+                return _idNo; 
+            }
             set
             {
                 if (CsvFileHelper.IsPassportNo(value))
+                {
                     this.PassportNo = value;
+                }
                 else
+                {
                     _idNo = CsvFileHelper.FixSAIDNo(value);
+                }
             }
         }
+
+
+        //Clients passport number
         [Index(16)]
         public string PassportNo
         {
-            get;set;
+            get;
+            set;
         }
+
+
+        //Companies registration number
         [Index(17)]
         public string CompanyRegistrationNo
         {
-            get; set;
+            get; 
+            set;
         }
+
+
+        //Clients tax number
         [Index(18)]
         public string TaxNo
         {
-            get; set;
+            get; 
+            set;
         }
+
+
+        //Clients date of birth
         [Index(20)]
         public string DateOfBirth
         {
@@ -174,139 +283,243 @@ namespace Finx.App.Models
             set
             {
                 //yyyy/mm/dd
-                if (DateTime.TryParseExact(value,"dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                {
                     _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
+                }
                 else
+                {
                     _dob = value;
+                }
             }
         }
+
+
+        //Restriction
         [Index(23)]
         public string Restriction
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Clients email address
         [Index(31)]
         public string EmailAddress
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Clients office telephone number
         [Index(32)]
         public string WorkTelephone
         {
-            get { return _workTel; }
+            get 
+            { 
+                return _workTel; 
+            }
             set
             {
                 _workTel = value.Replace("'", string.Empty);
             }
         }
+
+
+        //Clients home telephone number
         [Index(33)]
         public string HomeTelephone
         {
-            get { return _homeTel; }
+            get 
+            { 
+                return _homeTel;
+            }
             set
             {
                 _homeTel = value.Replace("'", string.Empty);
             }
         }
+
+
+        //Clients cellphone number
         [Index(34)]
         public string Cellphone
         {
-            get { return _cellphone ; }
+            get 
+            { 
+                return _cellphone ; 
+            }
             set
             {
                 _cellphone = value.Replace("'", string.Empty);
             }
         }
+
+        //Clients fax number
         [Index(35)]
         public string FaxNumber
         {
-            get { return _faxNo; }
+            get 
+            { 
+                return _faxNo; 
+            }
             set
             {
                 _faxNo = value.Replace("'", string.Empty);
             }
         }
+
+
+        // Clients postal address street number
         [Index(36)]
         public string PostalAddress1
         {
-            get; set;
+            get; 
+            set;
         }
+
+
+        //Clients postal address road name
         [Index(37)]
         public string PostalAddress2
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Clients postal address suburb name
         [Index(38)]
         public string PostalAddress3
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Additional postal address information
         [Index(39)]
         public string PostalAddress4
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Additional postal address information
         [Index(40)]
         public string PostalAddress5
         {
-            get; set;
+            get; 
+            set;
         }
+
+
+        //Additional postal address information
         [Index(41)]
         public string PostalAddress6
         {
-            get; set;
+            get; 
+            set;
         }
+
+
+        //Clients postal address postal code
         [Index(42)]
         public string PostalCode
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Clients home address street number
         [Index(43)]
         public string PhysicalAddress1
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Clients home address road name
         [Index(44)]
         public string PhysicalAddress2
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Clients home address suburb name
         [Index(45)]
         public string PhysicalAddress3
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Additional home address information
         [Index(46)]
         public string PhysicalAddress4
         {
-            get; set;
+            get; 
+            set;
         }
+
+
+        //Additional home address information
         [Index(47)]
         public string PhysicalAddress5
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Additional home address information
         [Index(48)]
         public string PhysicalAddress6
         {
-            get; set;
+            get;
+            set;
         }
+
+
+        //Clients home address postal code
         [Index(49)]
         public string PhysicalAddressPostalCode
         {
-            get; set;
+            get; 
+            set;
         }
+
+
         [Optional]
-        public bool HasErrors { get; set; }
+        public bool HasErrors 
+        { 
+            get;
+            set;
+        }
+
+
         [Optional]
         public string ValidationErrors
         {
-            get { return _validationErrors; }
+            get 
+            { 
+                return _validationErrors; 
+            }
             set
             {
                 _validationErrors = value;
                 if (!string.IsNullOrEmpty(value))
+                {
                     this.HasErrors = true;
+                }
             }
         }
 

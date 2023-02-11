@@ -697,6 +697,7 @@ namespace Finx.App.Forms
                     break;
 
                 case "momentum":
+                case "mtab":
                     switch (_detectedFileDelimiter)
                     {
                         case "\t":
@@ -1466,7 +1467,7 @@ namespace Finx.App.Forms
                 {
                     _csvRecordList = CsvFileHelper.GetRecords<SABullionRecord>(filepath, csvHelperConfiguration);
                 }
-                if (_selectedLisp.ToLower().Contains("momentum"))
+                if ((_selectedLisp.ToLower().Contains("momentum"))|| (_selectedLisp.ToLower().Contains("mtab")))
                 {
                     switch (_detectedFileDelimiter)
                     {
@@ -2586,6 +2587,7 @@ namespace Finx.App.Forms
                         return true;
                     break;
                 case "momentum":
+                case "mtab":
                     if (record.Any(r => r.ToUpper().StartsWith("NUMBER OF ROWS")) ||
                         (string.IsNullOrEmpty(record[1]) && string.IsNullOrEmpty(record[2])))
                         return true;
