@@ -82,8 +82,14 @@ namespace Finx.App.Models
 
         public string FundPerc
         {
-            get { return _fundPerc; } 
-            set { _fundPerc = value.Replace(',', '.'); }
+            get 
+            { 
+                return _fundPerc; 
+            } 
+            set 
+            { 
+                _fundPerc = value.Replace(',', '.'); 
+            }
         }
 
         [Index(25)]
