@@ -1,4 +1,5 @@
-﻿using easiplan.domain.Entities;
+﻿using easiplan.app.Models;
+using easiplan.domain.Entities;
 using easiplan.domain.Views;
 using Finx.App;
 using Finx.App.Enums;
@@ -24,7 +25,7 @@ namespace easiplan.app.ContextMenus
     public class DataGridContextMenu : SourceGrid.Cells.Controllers.ControllerBase
     {
         #region Local Variables
-        ContextMenu _menu = new ContextMenu();
+        ContextMenuStrip _menu = new ContextMenuStrip();
         ContextMenuType _contextMenuType;
         Form _parent;
         Client _client = null;
@@ -44,10 +45,11 @@ namespace easiplan.app.ContextMenus
         int _mouseX = 40;
         int _mouseY = 200;
 
+       
         #endregion
 
         #region Public Variables
-        public ContextMenu ContextMenu { get { return _menu; } }
+        public ContextMenuStrip ContextMenu { get { return _menu; } }
 
         #endregion
 
@@ -63,60 +65,75 @@ namespace easiplan.app.ContextMenus
 
             _OnCompleted = OnCompleted;
 
+           
+
             switch (contextMenuType)
             {
-                case ContextMenuType.RetirementPortfolio:
-                case ContextMenuType.InvestmentPortfolio:
+                case ContextMenuType.RetirementPortfolio:                    
+                case ContextMenuType.InvestmentPortfolio:                    
                 case ContextMenuType.EducationPortfolio:
                 case ContextMenuType.MedicalPortfolio:
                 case ContextMenuType.LifePortfolio:
+                    
+                    _menu.AddMenuItem("Amend Policy", new EventHandler(AmendPortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Policy History", new EventHandler(PolicyHistory_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Policy Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; 
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Cancel Policy", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
+                    if (contextMenuType == ContextMenuType.RetirementPortfolio)
+                    {
+                        _menu.AddMenuItem("-");
+                        _menu.AddMenuItem("Move to Non-Retirement", new EventHandler(MovePolicy_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
+                        
+                    };
+                    if (contextMenuType == ContextMenuType.InvestmentPortfolio)
+                    {
+                        _menu.AddMenuItem("-");
+                        _menu.AddMenuItem("Move to Retirement", new EventHandler(MovePolicy_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
+                        
+                    }
 
-                    _menu.MenuItems.Add("Amend Policy", new EventHandler(AmendPortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Policy History", new EventHandler(PolicyHistory_Click)).Enabled = !ReadOnly;
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Policy Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Remove Policy", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     break;
                 case ContextMenuType.AssetPortfolio:
-                    _menu.MenuItems.Add("Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Remove", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
+                    _menu.AddMenuItem("Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Remove", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     break;
                 case ContextMenuType.RetirementFna:
                 case ContextMenuType.EducationFna:
                 case ContextMenuType.InvestmentFna:
                 case ContextMenuType.RiskCoverFna:
-                    _menu.MenuItems.Add("Accept Advice", new EventHandler(UpdateFna_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Advice Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
+                    _menu.AddMenuItem("Accept Advice", new EventHandler(UpdateFna_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Advice Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
                     //_menu.MenuItems.Add("-");
                     //_menu.MenuItems.Add("Remove Advice", new EventHandler(RemoveFna_Click)).Enabled = !ReadOnly;
                     break;
                 case ContextMenuType.ClientInstruction:
-                    _menu.MenuItems.Add("Open Task", new EventHandler(UpdatePortfolio_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("Open Task", new EventHandler(UpdatePortfolio_Click)).Enabled = !ReadOnly;
                     break;
                 case ContextMenuType.ClientTask:
-                    _menu.MenuItems.Add("Open Client", new EventHandler(OpenClientForm_Click)).Enabled = !ReadOnly;
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Client Rating", new EventHandler(OpenClientRating_Click)).Enabled = !ReadOnly;
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Send Email/Sms", new EventHandler(SendEmailSmsForm_Click)).Enabled = true;
+                    _menu.AddMenuItem("Open Client", new EventHandler(OpenClientForm_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Client Rating", new EventHandler(OpenClientRating_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Send Email/Sms", new EventHandler(SendEmailSmsForm_Click)).Enabled = true;
                     break;
                 case ContextMenuType.ClientComms:
-                    _menu.MenuItems.Add("Send Email", new EventHandler(SendEmailForm_Click)).Enabled = true;
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Send SMS", new EventHandler(SendSMSForm_Click)).Enabled = true;
+                    _menu.AddMenuItem("Send Email", new EventHandler(SendEmailForm_Click)).Enabled = true;
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Send SMS", new EventHandler(SendSMSForm_Click)).Enabled = true;
                     break;
                 case ContextMenuType.MeetingSync:
-                    _menu.MenuItems.Add("Sync Outlook365", new EventHandler(SyncClientMeeting_Click));
+                    _menu.AddMenuItem("Sync Outlook365", new EventHandler(SyncClientMeeting_Click));
                     break;
 
                 case ContextMenuType.AdminTask:
-                    _menu.MenuItems.Add("Open Task", new EventHandler(UpdatePortfolio_Click)).Enabled = !ReadOnly;
-                    _menu.MenuItems.Add("-");
-                    _menu.MenuItems.Add("Open Client", new EventHandler(OpenClientForm_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("Open Task", new EventHandler(UpdatePortfolio_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Open Client", new EventHandler(OpenClientForm_Click)).Enabled = !ReadOnly;
                     break;
 
             }
@@ -154,6 +171,7 @@ namespace easiplan.app.ContextMenus
         public override void OnClick(CellContext sender, EventArgs e)
         {
             _selectedItem = null;
+           
             try
             {
                 if (sender.Position.Row > 0 && sender.Position.Row <= sender.Grid.Rows.LastVisibleScrollableRow)
@@ -1004,8 +1022,87 @@ namespace easiplan.app.ContextMenus
                 _OnCompleted?.Invoke(_selectedItem, e);
             }
         }
-        #endregion
 
+        private void MovePolicy_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedItem = GetSourceGridSelectedItem(_menu.SourceControl, e);
+
+                if (_selectedItem == null)
+                    return;
+
+                switch (_contextMenuType)
+                {
+                    case ContextMenuType.RetirementPortfolio:
+                        try{
+
+                            //Confirm
+                            if (!MessageBoxExt.ShowQuestion("Are you sure you wish to Move this Policy to Non-Retirement ?"))
+                                return;
+
+                            Retirement item = _selectedItem as Retirement;
+                            if(item!=null){
+                                _client.ClientPortfolio.RetirementsBindingList.Remove(item);
+                                _client.ClientPortfolio.InvestmentsBindingList.Add(item.CloneAsInvestment());
+                                
+                            }
+                            
+                        }catch(Exception x){
+                          //TODO Rollback move
+                        }
+                        break;
+                    case ContextMenuType.InvestmentPortfolio:
+                        try
+                        {
+
+                            //Confirm
+                            if (!MessageBoxExt.ShowQuestion("Are you sure you wish to Move this Policy to Retirement ?"))
+                                return;
+
+                            Investment item = _selectedItem as Investment;
+                            if (item != null)
+                            {
+                                _client.ClientPortfolio.InvestmentsBindingList.Remove(item);
+                                _client.ClientPortfolio.RetirementsBindingList.Add(item.CloneAsRetirement());
+
+                            }
+
+                        }
+                        catch (Exception x)
+                        {
+                            //TODO Rollback move
+                        }
+                        break;
+                    case ContextMenuType.EducationPortfolio:
+                         break;
+                    case ContextMenuType.MedicalPortfolio:
+                         break;
+                    case ContextMenuType.LifePortfolio:
+                         break;
+                    case ContextMenuType.AssetPortfolio:
+                         break;
+                    default:
+                        return;
+                }
+
+            }
+            catch (my.domain.lib.core.Domain.MyValidationException vx)
+            {
+                MessageBoxExt.ShowWarning(vx.Message);
+
+            }
+            catch (Exception x)
+            {
+                MessageBoxExt.ShowException(x);
+            }
+            finally
+            {
+                _OnCompleted?.Invoke(_selectedItem, e);
+
+            }
+        }
+        #endregion
 
         //To Be deleted
         #region Get Need Events
@@ -1856,5 +1953,18 @@ namespace easiplan.app.ContextMenus
         //      }
 
 
+    }
+
+    public static class ContextenuItemsExt{
+        public static ToolStripItem AddMenuItem(this ContextMenuStrip menu, string text, EventHandler clickEvent=null)
+        {
+            ToolStripItem item = menu.Items.Add(text);
+            
+            if(clickEvent!=null){
+                item.Click += clickEvent;
+                
+            }
+            return item;
+        }
     }
 }

@@ -7371,7 +7371,7 @@ namespace MetroFramework.Controls.Ext
         {
             this.BindingName = "SelectedValue";//SelectedValue
             this._dropDownList = DropdownList;
-
+            
             this.dataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
         }
         public override Control CreateControl()
@@ -7454,8 +7454,9 @@ namespace MetroFramework.Controls.Ext
                     FlatStyle = FlatStyle.Flat,
                     DropDownWidth = _width,
 
+                    
                 };
-
+                
             }
             catch (Exception x)
             {
@@ -7507,6 +7508,7 @@ namespace MetroFramework.Controls.Ext
                 this.DataGridEditor = new ComboBoxEditor((IEnumerable<ListDataItem>)_DataSource, !Enabled);
                 //this.DataGridEditor.StandardValues = values;
                 //this.DataGridEditor.StandardValuesExclusive = false;
+
             }
             catch (Exception x)
             {

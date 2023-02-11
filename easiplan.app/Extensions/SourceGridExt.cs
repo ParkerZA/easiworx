@@ -1608,6 +1608,7 @@ namespace Finx.App.Extensions
             grid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             grid.AutoStretchColumnsToFitWidth = true;
 
+            grid.SelectionMode = GridSelectionMode.Row;
 
             //Reset the datasource
             grid.DataSource = null;
@@ -2600,7 +2601,8 @@ namespace Finx.App.Extensions
 
                 dg.Selection.FocusRow(dg.MouseDownPosition.Row);
 
-                ContextMenu ctxMenu = dg.Tag as ContextMenu;
+                //ContextMenu ctxMenu = dg.Tag as ContextMenu;
+                ContextMenuStrip ctxMenu = dg.Tag as ContextMenuStrip;
 
                 if (ctxMenu != null)
                     ctxMenu.Show(dg, new Point(e.X, e.Y));
@@ -2782,7 +2784,7 @@ namespace Finx.App.Extensions
             if (cntrl != null)
                 if (cntrl.Control != null)
                     cntrl.Control.ShowTooltip(e.Exception.Message, "Error", "Error");
-
+                    
             e.Handled = true;
         }
 
@@ -3521,7 +3523,7 @@ namespace Finx.App.Extensions
             if (ReadOnly)
                 EditableMode = SourceGrid.EditableMode.None;
             else
-                EditableMode = SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.Focus;//| SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+                EditableMode = SourceGrid.EditableMode.SingleClick;
         }
 
         public ComboBoxEditor(ListDataItemType listDataItemType, bool ReadOnly = false) : this(ReadOnly)

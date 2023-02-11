@@ -61,25 +61,25 @@ namespace Finx.App.Forms
             this.openClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportErrorRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyCellContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblImportStatus = new System.Windows.Forms.Label();
-            this.cancelImport = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.lblTotValErrors = new System.Windows.Forms.Label();
-            this.lblNewClientCnt = new System.Windows.Forms.Label();
-            this.lblExistingClientCnt = new System.Windows.Forms.Label();
-            this.lblFileFormat = new System.Windows.Forms.Label();
-            this.lblFileSize = new System.Windows.Forms.Label();
-            this.lblFileDate = new System.Windows.Forms.Label();
-            this.lblRecCnt = new System.Windows.Forms.Label();
-            this.lblSelectedFile = new System.Windows.Forms.Label();
-            this.btnImportFile = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.label2 = new System.Windows.Forms.Label();
             this.chkViewErrorRecords = new System.Windows.Forms.CheckBox();
             this.chkViewExistingRecords = new System.Windows.Forms.CheckBox();
             this.chkViewNewRecords = new System.Windows.Forms.CheckBox();
             this.kbtnOpenFile = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.lblImportStatus = new System.Windows.Forms.Label();
+            this.lblTotValErrors = new System.Windows.Forms.Label();
             this.cmbSelectLisp = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblNewClientCnt = new System.Windows.Forms.Label();
+            this.cancelImport = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.lblExistingClientCnt = new System.Windows.Forms.Label();
+            this.btnImportFile = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.lblSelectedFile = new System.Windows.Forms.Label();
+            this.lblFileDate = new System.Windows.Forms.Label();
+            this.lblFileSize = new System.Windows.Forms.Label();
+            this.lblFileFormat = new System.Windows.Forms.Label();
+            this.lblRecCnt = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails.Panel)).BeginInit();
             this.kgbFileDetails.Panel.SuspendLayout();
@@ -409,112 +409,9 @@ namespace Finx.App.Forms
             this.copyCellContentToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.copyCellContentToolStripMenuItem.Text = "Copy cell content";
             // 
-            // lblImportStatus
-            // 
-            this.lblImportStatus.AutoSize = true;
-            this.lblImportStatus.Location = new System.Drawing.Point(639, 34);
-            this.lblImportStatus.Name = "lblImportStatus";
-            this.lblImportStatus.Size = new System.Drawing.Size(46, 13);
-            this.lblImportStatus.TabIndex = 43;
-            this.lblImportStatus.Text = "Pending";
-            // 
-            // cancelImport
-            // 
-            this.cancelImport.Enabled = false;
-            this.cancelImport.Location = new System.Drawing.Point(186, 54);
-            this.cancelImport.Name = "cancelImport";
-            this.cancelImport.Size = new System.Drawing.Size(127, 29);
-            this.cancelImport.TabIndex = 4;
-            this.cancelImport.Values.Text = "&Cancel Import";
-            // 
-            // lblTotValErrors
-            // 
-            this.lblTotValErrors.AutoSize = true;
-            this.lblTotValErrors.Location = new System.Drawing.Point(589, 75);
-            this.lblTotValErrors.Name = "lblTotValErrors";
-            this.lblTotValErrors.Size = new System.Drawing.Size(13, 13);
-            this.lblTotValErrors.TabIndex = 40;
-            this.lblTotValErrors.Text = "0";
-            // 
-            // lblNewClientCnt
-            // 
-            this.lblNewClientCnt.AutoSize = true;
-            this.lblNewClientCnt.Location = new System.Drawing.Point(589, 37);
-            this.lblNewClientCnt.Name = "lblNewClientCnt";
-            this.lblNewClientCnt.Size = new System.Drawing.Size(13, 13);
-            this.lblNewClientCnt.TabIndex = 38;
-            this.lblNewClientCnt.Text = "0";
-            this.lblNewClientCnt.Click += new System.EventHandler(this.lblNewClientCnt_Click);
-            // 
-            // lblExistingClientCnt
-            // 
-            this.lblExistingClientCnt.AutoSize = true;
-            this.lblExistingClientCnt.Location = new System.Drawing.Point(589, 55);
-            this.lblExistingClientCnt.Name = "lblExistingClientCnt";
-            this.lblExistingClientCnt.Size = new System.Drawing.Size(13, 13);
-            this.lblExistingClientCnt.TabIndex = 37;
-            this.lblExistingClientCnt.Text = "0";
-            // 
-            // lblFileFormat
-            // 
-            this.lblFileFormat.AutoSize = true;
-            this.lblFileFormat.Location = new System.Drawing.Point(639, 54);
-            this.lblFileFormat.Name = "lblFileFormat";
-            this.lblFileFormat.Size = new System.Drawing.Size(25, 13);
-            this.lblFileFormat.TabIndex = 34;
-            this.lblFileFormat.Text = "Csv";
-            // 
-            // lblFileSize
-            // 
-            this.lblFileSize.AutoSize = true;
-            this.lblFileSize.Location = new System.Drawing.Point(329, 55);
-            this.lblFileSize.Name = "lblFileSize";
-            this.lblFileSize.Size = new System.Drawing.Size(29, 13);
-            this.lblFileSize.TabIndex = 32;
-            this.lblFileSize.Text = "2MB";
-            // 
-            // lblFileDate
-            // 
-            this.lblFileDate.AutoSize = true;
-            this.lblFileDate.Location = new System.Drawing.Point(329, 37);
-            this.lblFileDate.Name = "lblFileDate";
-            this.lblFileDate.Size = new System.Drawing.Size(99, 13);
-            this.lblFileDate.TabIndex = 30;
-            this.lblFileDate.Text = "15 May 2022 06:00";
-            // 
-            // lblRecCnt
-            // 
-            this.lblRecCnt.AutoSize = true;
-            this.lblRecCnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRecCnt.Location = new System.Drawing.Point(387, 76);
-            this.lblRecCnt.Name = "lblRecCnt";
-            this.lblRecCnt.Size = new System.Drawing.Size(14, 13);
-            this.lblRecCnt.TabIndex = 28;
-            this.lblRecCnt.Text = "0";
-            // 
-            // lblSelectedFile
-            // 
-            this.lblSelectedFile.AutoSize = true;
-            this.lblSelectedFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectedFile.Location = new System.Drawing.Point(329, 10);
-            this.lblSelectedFile.Name = "lblSelectedFile";
-            this.lblSelectedFile.Size = new System.Drawing.Size(73, 17);
-            this.lblSelectedFile.TabIndex = 23;
-            this.lblSelectedFile.Text = "Filename";
-            this.lblSelectedFile.Click += new System.EventHandler(this.lblSelectedFile_Click);
-            // 
-            // btnImportFile
-            // 
-            this.btnImportFile.Enabled = false;
-            this.btnImportFile.Location = new System.Drawing.Point(45, 54);
-            this.btnImportFile.Name = "btnImportFile";
-            this.btnImportFile.Size = new System.Drawing.Size(127, 29);
-            this.btnImportFile.TabIndex = 3;
-            this.btnImportFile.Values.Text = "&Import File";
-            this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
-            // 
             // metroPanel1
             // 
+            this.metroPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.metroPanel1.Controls.Add(this.label2);
             this.metroPanel1.Controls.Add(this.chkViewErrorRecords);
             this.metroPanel1.Controls.Add(this.chkViewExistingRecords);
@@ -544,6 +441,16 @@ namespace Finx.App.Forms
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 10;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(329, 75);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 45;
+            this.label2.Text = "Records :";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // chkViewErrorRecords
             // 
@@ -596,6 +503,24 @@ namespace Finx.App.Forms
             this.kbtnOpenFile.Values.Text = "Select &File";
             this.kbtnOpenFile.Click += new System.EventHandler(this.kbtnOpenFile_Click);
             // 
+            // lblImportStatus
+            // 
+            this.lblImportStatus.AutoSize = true;
+            this.lblImportStatus.Location = new System.Drawing.Point(639, 34);
+            this.lblImportStatus.Name = "lblImportStatus";
+            this.lblImportStatus.Size = new System.Drawing.Size(46, 13);
+            this.lblImportStatus.TabIndex = 43;
+            this.lblImportStatus.Text = "Pending";
+            // 
+            // lblTotValErrors
+            // 
+            this.lblTotValErrors.AutoSize = true;
+            this.lblTotValErrors.Location = new System.Drawing.Point(589, 75);
+            this.lblTotValErrors.Name = "lblTotValErrors";
+            this.lblTotValErrors.Size = new System.Drawing.Size(13, 13);
+            this.lblTotValErrors.TabIndex = 40;
+            this.lblTotValErrors.Text = "0";
+            // 
             // cmbSelectLisp
             // 
             this.cmbSelectLisp.FormattingEnabled = true;
@@ -623,15 +548,91 @@ namespace Finx.App.Forms
             this.metroLabel1.Text = "Lisp:";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label2
+            // lblNewClientCnt
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(329, 75);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
-            this.label2.TabIndex = 45;
-            this.label2.Text = "Records :";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.lblNewClientCnt.AutoSize = true;
+            this.lblNewClientCnt.Location = new System.Drawing.Point(589, 37);
+            this.lblNewClientCnt.Name = "lblNewClientCnt";
+            this.lblNewClientCnt.Size = new System.Drawing.Size(13, 13);
+            this.lblNewClientCnt.TabIndex = 38;
+            this.lblNewClientCnt.Text = "0";
+            this.lblNewClientCnt.Click += new System.EventHandler(this.lblNewClientCnt_Click);
+            // 
+            // cancelImport
+            // 
+            this.cancelImport.Enabled = false;
+            this.cancelImport.Location = new System.Drawing.Point(186, 54);
+            this.cancelImport.Name = "cancelImport";
+            this.cancelImport.Size = new System.Drawing.Size(127, 29);
+            this.cancelImport.TabIndex = 4;
+            this.cancelImport.Values.Text = "&Cancel Import";
+            // 
+            // lblExistingClientCnt
+            // 
+            this.lblExistingClientCnt.AutoSize = true;
+            this.lblExistingClientCnt.Location = new System.Drawing.Point(589, 55);
+            this.lblExistingClientCnt.Name = "lblExistingClientCnt";
+            this.lblExistingClientCnt.Size = new System.Drawing.Size(13, 13);
+            this.lblExistingClientCnt.TabIndex = 37;
+            this.lblExistingClientCnt.Text = "0";
+            // 
+            // btnImportFile
+            // 
+            this.btnImportFile.Enabled = false;
+            this.btnImportFile.Location = new System.Drawing.Point(45, 54);
+            this.btnImportFile.Name = "btnImportFile";
+            this.btnImportFile.Size = new System.Drawing.Size(127, 29);
+            this.btnImportFile.TabIndex = 3;
+            this.btnImportFile.Values.Text = "&Import File";
+            this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
+            // 
+            // lblSelectedFile
+            // 
+            this.lblSelectedFile.AutoSize = true;
+            this.lblSelectedFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSelectedFile.Location = new System.Drawing.Point(329, 10);
+            this.lblSelectedFile.Name = "lblSelectedFile";
+            this.lblSelectedFile.Size = new System.Drawing.Size(73, 17);
+            this.lblSelectedFile.TabIndex = 23;
+            this.lblSelectedFile.Text = "Filename";
+            this.lblSelectedFile.Click += new System.EventHandler(this.lblSelectedFile_Click);
+            // 
+            // lblFileDate
+            // 
+            this.lblFileDate.AutoSize = true;
+            this.lblFileDate.Location = new System.Drawing.Point(329, 37);
+            this.lblFileDate.Name = "lblFileDate";
+            this.lblFileDate.Size = new System.Drawing.Size(99, 13);
+            this.lblFileDate.TabIndex = 30;
+            this.lblFileDate.Text = "15 May 2022 06:00";
+            // 
+            // lblFileSize
+            // 
+            this.lblFileSize.AutoSize = true;
+            this.lblFileSize.Location = new System.Drawing.Point(329, 55);
+            this.lblFileSize.Name = "lblFileSize";
+            this.lblFileSize.Size = new System.Drawing.Size(29, 13);
+            this.lblFileSize.TabIndex = 32;
+            this.lblFileSize.Text = "2MB";
+            // 
+            // lblFileFormat
+            // 
+            this.lblFileFormat.AutoSize = true;
+            this.lblFileFormat.Location = new System.Drawing.Point(639, 54);
+            this.lblFileFormat.Name = "lblFileFormat";
+            this.lblFileFormat.Size = new System.Drawing.Size(25, 13);
+            this.lblFileFormat.TabIndex = 34;
+            this.lblFileFormat.Text = "Csv";
+            // 
+            // lblRecCnt
+            // 
+            this.lblRecCnt.AutoSize = true;
+            this.lblRecCnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRecCnt.Location = new System.Drawing.Point(387, 76);
+            this.lblRecCnt.Name = "lblRecCnt";
+            this.lblRecCnt.Size = new System.Drawing.Size(14, 13);
+            this.lblRecCnt.TabIndex = 28;
+            this.lblRecCnt.Text = "0";
             // 
             // frmMetroClientImportInvestments
             // 

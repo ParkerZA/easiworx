@@ -1438,9 +1438,9 @@ namespace Finx.App.Forms
                                                                                                                                ec2.ClientId != 0))).ToList();
                 }
             }
-            catch (Exception)
+            catch (Exception x)
             {
-                MessageBox.Show("Invalid Csv File!");
+                MessageBox.Show("Invalid Csv File!" + x.Message);
             }
 
         }
