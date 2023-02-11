@@ -824,6 +824,7 @@
     <Compile Include="Models\LicenseActiveModel.cs" />
     <Compile Include="Models\LicenseKeyModel.cs" />
     <Compile Include="Models\LicenseModel.cs" />
+    <Compile Include="Models\ModelExt.cs" />
     <Compile Include="Models\MomentumRecord_TabDelimited.cs" />
     <Compile Include="Models\MomentumRecord.cs" />
     <Compile Include="Models\NedgroupRecord.cs" />

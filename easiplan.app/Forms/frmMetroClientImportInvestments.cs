@@ -1531,8 +1531,9 @@ namespace Finx.App.Forms
                 MessageBox.Show(msg, "The CSV file contains bad data");
             }
             catch (Exception )
+            catch (Exception x)
             {
-                MessageBox.Show("Invalid CSV File!");
+                MessageBox.Show("Invalid Csv File!" + x.Message);
             }
         }
 

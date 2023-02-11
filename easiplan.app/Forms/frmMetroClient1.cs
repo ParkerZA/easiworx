@@ -1934,22 +1934,23 @@ namespace Finx.App.Forms
         }
         private void ClientPortfolio_PolicyChanged_EventHandler(object sender, EventArgs e)
         {
-            return;
+           // return;
 
             if (!_isInitialising)
             {
                 Retirement retirement = sender as Retirement;
                 if (retirement != null)
                 {
-                    client.ClientPortfolio.Initialise();
+                    //client.ClientPortfolio.Initialise();
 
                     this.dataGrid_RetirementPortfolio.Rebind<Retirement>(client.ClientPortfolio.RetirementsBindingList);
+                    
                 }
 
                 Investment investment = sender as Investment;
                 if (investment != null)
                 {
-                    client.ClientPortfolio.Initialise();
+                    //client.ClientPortfolio.Initialise();
 
                     this.dataGrid_InvestmentPortfolio.Rebind<Investment>(client.ClientPortfolio.InvestmentsBindingList);
                 }
@@ -1957,7 +1958,7 @@ namespace Finx.App.Forms
                 Education education = sender as Education;
                 if (education != null)
                 {
-                    client.ClientPortfolio.Initialise();
+                    //client.ClientPortfolio.Initialise();
 
                     this.dataGrid_EducationPortfolio.Rebind<Education>(client.ClientPortfolio.EducationsBindingList);
                 }
@@ -1965,7 +1966,7 @@ namespace Finx.App.Forms
                 Medical medical = sender as Medical;
                 if (medical != null)
                 {
-                    client.ClientPortfolio.Initialise();
+                   // client.ClientPortfolio.Initialise();
 
                     this.dataGrid_MedicalPortfolio.Rebind<Medical>(client.ClientPortfolio.MedicalsBindingList);
                 }
@@ -1973,7 +1974,7 @@ namespace Finx.App.Forms
                 Life life = sender as Life;
                 if (life != null)
                 {
-                    client.ClientPortfolio.Initialise();
+                    //client.ClientPortfolio.Initialise();
 
                     this.dataGrid_LifePortfolio.Rebind<Life>(client.ClientPortfolio.LifesBindingList);
                 }
@@ -1981,7 +1982,7 @@ namespace Finx.App.Forms
                 IncomeAsset incomeAsset = sender as IncomeAsset;
                 if (incomeAsset != null)
                 {
-                    client.ClientPortfolio.Initialise();
+                    //client.ClientPortfolio.Initialise();
 
                     this.dataGrid_AssetsPortfolio.Rebind<IncomeAsset>(client.ClientPortfolio.IncomeAssetsBindingList);
                 }
@@ -1990,6 +1991,8 @@ namespace Finx.App.Forms
 
                 RefreshPortfolioSummary();
                 RefreshGrids();
+
+                propertyChanged_EventHandler(sender, e);
             }
 
         }

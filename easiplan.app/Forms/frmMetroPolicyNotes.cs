@@ -17,11 +17,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Finx.App.UserControls;
+using easiplan.domain;
 
 namespace Finx.App.Forms
 {
     public partial class frmMetroPolicyNotes : MetroForm
     {
+        ClientSearchModel searchModel = new ClientSearchModel();
 
         #region Delegates / Events
         public delegate Instruction GetInstructionEventHandler(object sender, EventArgs args);
@@ -47,6 +50,8 @@ namespace Finx.App.Forms
         EducationNeed EducationNeed = null;
         InvestmentNeed InvestmentNeed = null;
 
+        IList<Note> Notes = new List<Note>();
+        IList<Note> filteredNotes = new List<Note>();
         Note selectedNote = null;
 
         PolicyAction Action = PolicyAction.AmendPolicy;
@@ -54,6 +59,7 @@ namespace Finx.App.Forms
 
         #region Public Variables
         public Client Client { get; set; }
+        public object SelectedItem { get; set; }
         #endregion
 
         #region Constructors
@@ -65,15 +71,13 @@ namespace Finx.App.Forms
             ReadOnly = readOnly;
             Action = action;
 
-            this.Text = string.Empty;
-            this.SubTitle = string.Format("{0}", "Policy Notes");
+            this.Text = Title;// string.Empty;
+            //this.SubTitle = string.Format("{0}", "Policy Notes");
 
             #region Form Format
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.ResizeRedraw = true;
-
-            this.Text = string.Empty;
 
             this.xToolBarMenu1.tbCaption.Font = MetroFonts.DefaultBold(20f);
 
@@ -81,7 +85,7 @@ namespace Finx.App.Forms
             #endregion
 
             #region xToolBarMenu1
-            this.xToolBarMenu1.tbCaption.Text = string.Format("{0}", Title);
+            this.xToolBarMenu1.tbCaption.Text = string.Format("{0}", "Policy Notes");
             this.xToolBarMenu1.tbCaptionImage.Image = easiplan.app.Properties.Resources.notes_32;
 
             xToolBarMenu1.tbRefresh.Visible = !ReadOnly && Action == PolicyAction.AmendPolicy; xToolBarMenu1.tbRefresh.Text = "Delete";
@@ -96,20 +100,28 @@ namespace Finx.App.Forms
 
             xToolBarMenu1.CloseClicked += toolStripButton_Close_Click;
             #endregion
+
+            this.xInput_ShowCompletedTasks.ControlTypes = ControlTypes.CheckBox;
+            this.xInput_ShowCompletedTasks.MappedField = "ShowCompletedTask";
+            this.xInput_ShowCompletedTasks.LableText = "Show Completed notes";
+            this.xInput_ShowCompletedTasks.Model = searchModel;
+            this.xInput_ShowCompletedTasks.Label.Font = new Font(FontFamily.GenericSansSerif, 10F);
+            this.xInput_ShowCompletedTasks.chkBox.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
         }
 
-        public frmMetroPolicyNotes(Retirement model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(Retirement model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
-                throw new MyValidationException("Policy has not yet been saved. Please Update policy");
+                throw new MyValidationException("Policy has not yet been saved. Please Update policy");            
 
             Retirement = model;
+           
 
             Initialise_SelectPanel(model.Notes);
         }
 
-        public frmMetroPolicyNotes(Investment model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(Investment model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -122,43 +134,43 @@ namespace Finx.App.Forms
 
         }
 
-        public frmMetroPolicyNotes(Education model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(Education model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             Education = model;
-
+           
             Initialise_SelectPanel(model.Notes);
 
         }
 
-        public frmMetroPolicyNotes(Medical model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(Medical model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             Medical = model;
-
+            
             Initialise_SelectPanel(model.Notes);
 
         }
 
-        public frmMetroPolicyNotes(Life model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(Life model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             Life = model;
-
+           
             Initialise_SelectPanel(model.Notes);
 
         }
 
-        public frmMetroPolicyNotes(IncomeAsset model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(IncomeAsset model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -170,7 +182,7 @@ namespace Finx.App.Forms
 
         }
 
-        public frmMetroPolicyNotes(Need model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(Need model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -182,26 +194,26 @@ namespace Finx.App.Forms
 
         }
 
-        public frmMetroPolicyNotes(EducationNeed model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(EducationNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
                 throw new MyValidationException("Advice has not yet been saved. Please Update advice");
 
             EducationNeed = model;
-
+           
             Initialise_SelectPanel(model.Notes);
 
         }
 
-        public frmMetroPolicyNotes(InvestmentNeed model, bool readOnly, PolicyAction action) : this(model.Description, readOnly, action)
+        public frmMetroPolicyNotes(InvestmentNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
                 throw new MyValidationException("Advice has not yet been saved. Please Update advice");
 
             InvestmentNeed = model;
-
+       
             Initialise_SelectPanel(model.Notes);
 
         }
@@ -257,85 +269,65 @@ namespace Finx.App.Forms
 
         #region Initialisation
 
-        private void frmMetroAdminTaskAdd_Load(object sender, EventArgs e)
+        void Initialise_SelectPanel(IList<Note> notes=null)
         {
+            if(notes!=null)
+                Notes = notes;
 
-        }
-        void Initialise_SelectPanel(IList<Note> notes)
-        {
-            if (selectedNote == null)
+            if (Notes == null)
+                filteredNotes = new List<Note>();
+            else
+                filteredNotes = Notes.Where(x => x.IsCompleted == searchModel.ShowCompletedTask).ToList();
+
+            #region Notes Grid
+            this.dataGrid_Notes.Initialise1(filteredNotes, column =>
             {
-                if (notes.Count > 0)
-                    selectedNote = notes.LastOrDefault();
-                else
-                    selectedNote = new Note();
-            }
 
-            this.metroPanel_Select.Controls.Clear();
+                column.For(c => c.NoteDate, "Note Date", new DateEditor(), MinWidth: 100);
+                column.For(x => x.Text, "Note", new StringEditor());
+                column.For(c => c.IsCompleted, "Completed");
+                column.For(x => x.UpdateDate, "Last Date", new DateEditor());
+                column.For(x => x.UpdateBy, "Updt By", new StringEditor());
 
-            var cboCreateDate = new MetroComboListEditor(Width: 280).DataSourceList(notes.ToList(), "CreateDate", "CreateDate");
-            cboCreateDate.controlSelectedIndexChanged += CboCreateDate_controlSelectedIndexChanged;
+            },
+            RowSelectEventHandler: Notes_RowSelectEventHandlerChanged,
+            ReadOnly: true,
+            AllowDelete: false)
+            .Format1(true, fixedCols:1);
+            #endregion
 
-            this.metroPanel_Select.Initialise(selectedNote, cntr =>
-             {
-                 cntr.For(x => x.CreateDate, "Created on ...", cboCreateDate);
-             }, left: 10, top: 5, labelWidth: 120, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.Never).Format();
+            if (Notes.Count > 0)
+                selectedNote = filteredNotes.LastOrDefault();
+            else
+                selectedNote = new Note();
 
             Initialise_PolicyNotePanel();
         }
 
-        private void CboCreateDate_controlSelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                MetroComboListEditor cboEditor = sender as MetroComboListEditor;
-                MetroComboBox cbo = cboEditor.Control as MetroComboBox;
-
-                selectedNote = cbo.SelectedItem as Note;
-
-                Initialise_PolicyNotePanel();
-            }
-            catch (Exception x)
-            {
-                Program.Logger.Error(x);
-            }
-
-        }
-
         void Initialise_PolicyNotePanel()
         {
+            this.metroPanel_Select.Controls.Clear();
+
+            this.metroPanel_PolicyNote.Controls.Clear();
+
             if (selectedNote == null)
                 return;
 
             selectedNote.IsLoading = true;
 
-            this.metroPanel_PolicyNote.Controls.Clear();
-
-            this.metroPanel_PolicyNote.Initialise(selectedNote, cntr =>
+            this.metroPanel_Select.Initialise(selectedNote, cntr =>
             {
-                cntr.For(x => x.UpdateDate, "Updated on", new MetroTextBoxEditor(160).ReadOnly(true));//185
-            }, left: 10, top: 0, labelWidth: 120, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-
-            this.metroPanel_PolicyNote.Initialise(selectedNote, cntr =>
-            {
-                cntr.For(x => x.UpdateBy, "By", new MetroTextBoxEditor(100).ReadOnly(true));
-            }, left: 300, top: 0, labelWidth: 30, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-
-            this.metroPanel_PolicyNote.Initialise(selectedNote, cntr =>
-            {
-                cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor(100).ReadOnly(ReadOnly));
-            }, left: 440, top: 0, labelWidth: 80, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-
+                cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
+                cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
+            }, left: 10, top: 5, labelWidth: 120, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
 
             this.metroPanel_PolicyNote.Initialise<Note>(selectedNote, cntr =>
             {
 
-                //cntr.For(x => x.CreateDate, "Create Date", new MetroTextBoxEditor().ReadOnly(true));
-                cntr.For(x => x.Text, "Note", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_PolicyNote.Width - 20, Height: this.metroPanel_PolicyNote.Height - 50).ReadOnly(ReadOnly));
-                //cntr.For(x => x.UpdateDate, "Updated On", new MetroTextBoxEditor().ReadOnly(true));//185
-                //cntr.For(x => x.UpdateBy, "By", new MetroTextBoxEditor().ReadOnly(true));
+                cntr.For(x => x.Text, "Note", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_PolicyNote.Width - 20, Height: this.metroPanel_PolicyNote.Height - 30).ReadOnly(ReadOnly));
 
-            }, left: 10, top: 35, labelWidth: 0, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+
+            }, left: 10, top: 0, labelWidth: 100, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
 
             selectedNote.IsLoading = false;
         }
@@ -349,7 +341,8 @@ namespace Finx.App.Forms
         }
         private void toolStripButton_Save_Click(object sender, EventArgs e)
         {
-            try {
+            try
+            {
                 if (selectedNote.Id == 0)
                 {
                     InstructionType instructionType = InstructionType.UNKNOWN;
@@ -620,6 +613,8 @@ namespace Finx.App.Forms
 
         private void UpdateNote()
         {
+            searchModel.ShowCompletedTask = false;
+
             if (this.Retirement != null)
             {
                 Program.Repository.Update<Retirement, int>(this.Retirement);
@@ -711,88 +706,27 @@ namespace Finx.App.Forms
 
         }
 
-        //Show the Note
-        private void DataGridRowHeaderSelect_EventHandler(object sender, EventArgs e)
+        private void Notes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
         {
-            CellContext context = (CellContext)sender;
 
-            try
-            {
-                SourceGrid.DataGrid dGrid = context.Grid as SourceGrid.DataGrid;
-                BoundList<Note> bList = dGrid.DataSource as BoundList<Note>;
-                Note note = bList[context.Position.Row - 1] as Note;
+            SourceGrid.Selection.RowSelection selection = sender as SourceGrid.Selection.RowSelection;
+            if (selection == null)
+                return;
 
-                if (note == null)
-                    return;
+            if (filteredNotes.Count == 0 || e.Row > filteredNotes.Count)
+                selectedNote = null;
+            else
+                selectedNote = filteredNotes[e.Row - 1];
 
-                selectedNote = note;
 
-                Initialise_PolicyNotePanel();
-            }
-            catch (Exception x)
-            {
-
-            }
+            Initialise_PolicyNotePanel();
         }
-        private void DataGridViewSelect_EventHandler(object sender, EventArgs e)
+
+        private void XInput_ShowCompletedTask_KeyPressed(object sender, EventArgs e)
         {
-            try
-            {
-                MetroGrid grid = sender as MetroGrid;
+            searchModel.ShowCompletedTask = !searchModel.ShowCompletedTask;
 
-                int i = grid.CurrentCell.RowIndex;
-                Note note = Retirement.Notes[i] as Note;
-
-                if (note == null)
-                    return;
-
-                selectedNote = note;
-
-                Initialise_PolicyNotePanel();
-            }
-            catch (Exception x)
-            {
-                Program.Logger.Error(x);
-            }
-        }
-        private void DataGridViewCellSelect_EventHandler(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-
-                Note note = Retirement.Notes[e.RowIndex] as Note;
-
-                if (note == null)
-                    return;
-
-                selectedNote = note;
-
-                Initialise_PolicyNotePanel();
-            }
-            catch (Exception x)
-            {
-                Program.Logger.Error(x);
-            }
-        }
-        private void DataGridViewRowHeaderSelect_EventHandler(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            try
-            {
-
-                Note note = Retirement.Notes[e.RowIndex] as Note;
-
-                if (note == null)
-                    return;
-
-                selectedNote = note;
-
-                Initialise_PolicyNotePanel();
-            }
-            catch (Exception x)
-            {
-                Program.Logger.Error(x);
-            }
-
+            Initialise_SelectPanel();
         }
         #endregion
 
@@ -806,35 +740,10 @@ namespace Finx.App.Forms
 
         #endregion
 
-        private IList<TreeViewModel> GroupByYear(IList<Note> notes)
+        public class ClientSearchModel : BaseEntity<int>
         {
-            // Sort and group the dataList
-            var groups = notes
-                .OrderBy(x => x.CreateDate.Year).ThenBy(x => x.CreateDate.Month).ThenBy(x=>x.CreateDate.Day)
-                .ToLookup(x => x.CreateDate.ToString(), x => new TreeViewModel
-                {
-                    Key = x.CreateDate.ToShortDateString(),
-                    Name = x.Name,
-
-                });
-
-            // Assign children
-            foreach (var item in groups.SelectMany(x => x))
-            {
-                item.childCategories = groups[item.Key].ToList();
-            }
-
-           return groups[null].ToList();
+            public bool ShowCompletedTask { get; set; }
         }
     }
-
-    public class TreeViewModel
-    {
-        public string Name { get; set; }
-        public string Key { get; set; }
-
-        public string ImageName { get; set; }
-
-        public IList<TreeViewModel> childCategories { get; set; }
-    }
+   
 }
