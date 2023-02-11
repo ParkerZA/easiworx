@@ -44,8 +44,7 @@ namespace easiplan.app.ContextMenus
 
         int _mouseX = 40;
         int _mouseY = 200;
-
-       
+        
         #endregion
 
         #region Public Variables
@@ -647,8 +646,17 @@ namespace easiplan.app.ContextMenus
                 if (_selectedItem == null)
                     return;
 
-                if (frmPolicyNotes != null)
-                    frmPolicyNotes.Close();
+                if (frmPolicyNotes != null) {
+
+                    if (_selectedItem == frmPolicyNotes.SelectedItem && !frmPolicyNotes.IsDisposed)
+                    {
+                        frmPolicyNotes.BringToFront();
+                        return;
+                    }
+                    else
+                        frmPolicyNotes.Close();
+                }
+                   
 
                 switch (_contextMenuType)
                 {
@@ -688,10 +696,11 @@ namespace easiplan.app.ContextMenus
                 }
 
                 frmPolicyNotes.Client = this._client;
+                frmPolicyNotes.SelectedItem = _selectedItem;
 
                 using (new AppWaitCursor(sender))
                 {
-                    frmPolicyNotes.ShowDialog();
+                    frmPolicyNotes.Show();
                 }
 
             }
