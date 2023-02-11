@@ -1,6 +1,7 @@
 ﻿using CsvFileImporter.CsvFile.Entities;
 using CsvHelper;
 using CsvHelper.Configuration;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using easiplan.domain.Entities;
 using easiplan.domain.Views;
@@ -660,63 +661,85 @@ namespace Finx.App.Forms
         }
         private void SetDgvFileContentsDataSource(List<ICsvRecord> csvRecords)
         {
-            try
+            
+            
+            dgvFileContents.DataSource = null;
+
+               
+            switch (_selectedLisp.ToLower())
             {
-                dgvFileContents.DataSource = null;
+                case "allangray":
+                case "allan gray":
+                case "alan gray":
+                    dgvFileContents.DataSource = csvRecords.Cast<AllanGrayRecord>().ToList();
+                    dgvFileContents.Columns["Product"].Visible = true;
+                    dgvFileContents.Columns["ProductType"].Visible = true;
+                    dgvFileContents.Columns["Title"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = false;
+                    dgvFileContents.Columns["Lastname"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = false;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = true;
 
-                switch (_selectedLisp.ToLower())
-                {
-                    case "allangray":
-                    case "allan gray":
-                    case "alan gray":
-                        dgvFileContents.DataSource = csvRecords.Cast<AllanGrayRecord>().ToList();
-                        dgvFileContents.Columns["Product"].Visible = true;
-                        dgvFileContents.Columns["ProductType"].Visible = true;
-                        dgvFileContents.Columns["Title"].Visible = false;
-                        dgvFileContents.Columns["ProductType"].Visible = false;
-                        dgvFileContents.Columns["Lastname"].Visible = true;
-                        break;
-                    case "camissa":
-                        dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
-                        dgvFileContents.Columns["Product"].Visible = false;
-                        dgvFileContents.Columns["ProductType"].Visible = false;
-                        dgvFileContents.Columns["Title"].Visible = true;
-                        dgvFileContents.Columns["Lastname"].Visible = true;
-                        break;
-                    case "momentum":
-                        switch (_detectedFileDelimiter)
-                        {
-                            case "\t":
-                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
-                                break;
-                            default:
-                                dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
-                                break;
-                        }
+                    break;
 
-                        dgvFileContents.Columns["Lastname"].Visible = false;
-                        dgvFileContents.Columns["Product"].Visible = true;
-                        dgvFileContents.Columns["ProductType"].Visible = true;
-                        dgvFileContents.Columns["Title"].Visible = true;
-                        break;
-                    case "easiworx":
-                    case "easiworxtemplate":
-                        dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
-                        dgvFileContents.Columns["Product"].Visible = true;
-                        dgvFileContents.Columns["ProductType"].Visible = false;
-                        dgvFileContents.Columns["Title"].Visible = false;
-                        dgvFileContents.Columns["Lastname"].Visible = true;
-                        dgvFileContents.Columns["BirthDate"].Visible = true;
-                        dgvFileContents.Columns["RegistrationNo"].Visible = true;
-                        dgvFileContents.Columns["ClientNo"].Visible = true;
-                        dgvFileContents.Columns["Premium"].Visible = true;
-                        break;
-                    default:
-                        MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
-                        break;
-                }
-            }catch(Exception x){
+                case "camissa":
+                    dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
+                    dgvFileContents.Columns["Product"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = false;
+                    dgvFileContents.Columns["Title"].Visible = true;
+                    dgvFileContents.Columns["Lastname"].Visible = true;
+                    dgvFileContents.Columns["Premium"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = true;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = false;
+                    
+                    break;
 
+                case "momentum":
+                case "mtab":
+                    switch (_detectedFileDelimiter)
+                    {
+                        case "\t":
+                            dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord_TabDelimited>().ToList();
+                            _selectedLisp = "mTab"; //Setting selected lisp to mTab to indicate that this is the Tab Delimited Momentum CSV 
+                           
+                            break;
+
+                        default:
+                            dgvFileContents.DataSource = csvRecords.Cast<MomentumRecord>().ToList();
+                            
+                            break;
+                    }
+
+                    dgvFileContents.Columns["Firstname"].Visible = false;
+                    dgvFileContents.Columns["Product"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = true;
+                    dgvFileContents.Columns["Title"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = false;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = false;
+                    dgvFileContents.Columns["Premium"].Visible = false;
+                    break;
+                case "easiworx":
+                case "easiworxtemplate":
+                    dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
+                    
+                    dgvFileContents.Columns["Product"].Visible = true;
+                    dgvFileContents.Columns["ProductType"].Visible = false;
+                    dgvFileContents.Columns["Title"].Visible = false;
+                    dgvFileContents.Columns["Lastname"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = true;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = true;
+                    dgvFileContents.Columns["ClientNo"].Visible = true;
+                    dgvFileContents.Columns["Premium"].Visible = true;
+
+                    
+                    
+                    break;
+                default:
+                    MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
+                    break;
             }
         }
         private void BackgroundWorker_ImportClientInvestmentsFromFile_DoWork(object sender, DoWorkEventArgs e)
@@ -1190,17 +1213,40 @@ namespace Finx.App.Forms
                             title = camissaRecord.Title;
                             firstname = camissaRecord.Firstname;
                             lastname = camissaRecord.Lastname;
-                            physicalAddress1 = camissaRecord.PhysicalAddress1;
-                            physicalAddress2 = camissaRecord.PhysicalAddress2;
-                            physicalAddress3 = camissaRecord.PhysicalAddress3;
+
+                            //Camissa Physical Address
+
+                            //Below I am splitting the first line of the Camissa address format into a street number and road name
+                            string streetNumber = "";
+                            string roadName = "";
+                            
+                            int spaceIndex = camissaRecord.PhysicalAddress1.IndexOf(' '); //Gets index of first space in address
+
+                            streetNumber = camissaRecord.PhysicalAddress1.Substring(0, spaceIndex); //Sets street number
+                            roadName = camissaRecord.PhysicalAddress1.Substring(spaceIndex).Trim(); //Sets road name
+                            
+                            physicalAddress1 = streetNumber; //Street number
+                            physicalAddress2 = roadName; //Road name
+                            physicalAddress3 = camissaRecord.PhysicalAddress2; // Suburb (Possibly refactor, especially if the other lisps have a very different address structure)
                             physicalAddress4 = camissaRecord.PhysicalAddress4;
                             physicalAddress5 = camissaRecord.PhysicalAddress5;
                             physicalAddress6 = camissaRecord.PhysicalAddress6;
                             int.TryParse(camissaRecord.PhysicalAddressPostalCode, out physicalAddressCode);
 
-                            postalAddress1 = camissaRecord.PostalAddress1;
-                            postalAddress2 = camissaRecord.PostalAddress2;
-                            postalAddress3 = camissaRecord.PostalAddress3;
+                            //Camissa Postal Address
+
+                            //Splitting postal road number from the street name
+                            string posStreetNumber = "";
+                            string posRoadName = "";
+
+                            int posSpaceIndex = camissaRecord.PostalAddress1.IndexOf(' '); //Gets index of first space in address
+
+                            posStreetNumber = camissaRecord.PhysicalAddress1.Substring(0, posSpaceIndex); //Sets street number
+                            posRoadName = camissaRecord.PhysicalAddress1.Substring(posSpaceIndex).Trim(); //Sets road name
+
+                            postalAddress1 = posStreetNumber; //Street number
+                            postalAddress2 = posRoadName; //Road name
+                            postalAddress3 = camissaRecord.PostalAddress2; //Suburb (This is really dumb... might have to refactor)
                             postalAddress4 = camissaRecord.PostalAddress4;
                             postalAddress5 = camissaRecord.PostalAddress5;
                             postalAddress6 = camissaRecord.PostalAddress6;
@@ -1224,10 +1270,23 @@ namespace Finx.App.Forms
                             var momentumRecord = csvRecord as MomentumRecord;
 
                             title = momentumRecord.Title;
-                            firstname = momentumRecord.Firstname;
-                            lastname = momentumRecord.Firstname; //momentum file does not give me the surname, and this is a required field in easiworx. defaulting to firstname until further notice
+                            firstname = momentumRecord.Initials; //Momentum only gives an initial, I am storing this as the first name for now
+                            lastname = momentumRecord.Lastname; 
 
                             break;
+
+                        case "mtab":
+                            //Nb! no dob field provided in csv file, therefor clients with passport nos wont get added to easiworx as dob is a required field
+                            if (string.IsNullOrEmpty(dob))
+                                return null;
+
+                            var momentumTabRecord = csvRecord as MomentumRecord_TabDelimited;
+
+                            title = momentumTabRecord.Title;
+                            firstname = momentumTabRecord.Initials; //Momentum does not give first name, only Initial. I am storing this as the first name for now
+                            lastname = momentumTabRecord.Lastname; 
+                            break;
+                        
                         case "alangray":
                         case "alan gray":
                         case "allangray":
@@ -1240,6 +1299,7 @@ namespace Finx.App.Forms
 
                             firstname = allanGrayRecord.Firstname.Trim();
                             lastname = allanGrayRecord.Lastname.Trim();
+  
 
                             break;
                         case "easiworx":
@@ -1248,7 +1308,8 @@ namespace Finx.App.Forms
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
                             // date format: dd/MM/yyyy
-                            if (DateTime.TryParseExact(easiworxRecord.Dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ewx_dtDob))
+                            DateTime ewx_dtDob;
+                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
                             break;
                         default:
@@ -1371,12 +1432,24 @@ namespace Finx.App.Forms
 
         private void LoadFile(FileSettings fileSettings)
         {
+
+            ApplicationException ex = new ApplicationException("Cannot access file");
             try
             {
                 var filepath = fileSettings.FilePath;
                 var csvHelperConfiguration = fileSettings.CsvConfiguration;
-                _detectedFileDelimiter = CsvFileHelper.DetectDelimiter(File.OpenText(filepath), csvHelperConfiguration.DetectDelimiterValues);
+
+                //This try catch block is to detect if there is an exception when trying to open the CSV file
+                try
+                {
+                    _detectedFileDelimiter = CsvFileHelper.DetectDelimiter(File.OpenText(filepath), csvHelperConfiguration.DetectDelimiterValues);
+                }
+                catch (IOException)
+                {
+                    throw new IOException("Cannot Access File");
+                }
                 csvHelperConfiguration.Delimiter = _detectedFileDelimiter;
+
 
                 if (_selectedLisp.ToLower().Contains("camissa"))
                 {
@@ -1394,7 +1467,7 @@ namespace Finx.App.Forms
                 {
                     _csvRecordList = CsvFileHelper.GetRecords<SABullionRecord>(filepath, csvHelperConfiguration);
                 }
-                if (_selectedLisp.ToLower().Contains("momentum"))
+                if ((_selectedLisp.ToLower().Contains("momentum"))|| (_selectedLisp.ToLower().Contains("mtab")))
                 {
                     switch (_detectedFileDelimiter)
                     {
@@ -1409,12 +1482,12 @@ namespace Finx.App.Forms
                             throw new ApplicationException("Invalid file delimiter detected!");
                     }
                 }
-                
+
                 if (_selectedLisp.ToLower().Contains("easiworx"))
                 {
                     var fileName = fileSettings.FilePath;
                     var lisp = "";
-                    
+
                     if (fileName.ToLower().Contains("allan"))
                         lisp = "Allan Gray";
                     if (fileName.ToLower().Contains("camissa"))
@@ -1423,6 +1496,7 @@ namespace Finx.App.Forms
                         lisp = "Momentum";
 
                     _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration,lisp);
+                    
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
@@ -1434,15 +1508,27 @@ namespace Finx.App.Forms
                                                                                                         ec.ClientId != 0))
                                                            .Concat(_csvRecordList.Where(csvList2 => _existingClientDetails.Any(ec2 => ec2.PassportNo == csvList2.PassportNo &&
                                                                                                                                string.IsNullOrEmpty(ec2.IdentificationNo) &&
-                                                                                                                               csvList2.HasErrors == false &&
+                                                                                                                              csvList2.HasErrors == false &&
                                                                                                                                ec2.ClientId != 0))).ToList();
                 }
+            }
+            catch (IOException) //Catches exception when the CSV file is being used by another program
+            {
+                MessageBox.Show("Please ensure that the CSV file is not being used by another application", "Cannot Access CSV File");
+            }
+            catch (ApplicationException) //Catches exception when CSV file has incorrect Delimiter
+            {
+                MessageBox.Show("Please ensure that the CSV file is delimited only using commas or tabs", "Invalid File Delimiter");
+            }
+            catch (CsvHelper.MissingFieldException mfEx) //Catches exception when CSV file contains incorrect columns
+            {
+                var msg = mfEx.ToString();
+                MessageBox.Show(msg, "There is a problem with the CSV file");
             }
             catch (Exception x)
             {
                 MessageBox.Show("Invalid Csv File!" + x.Message);
             }
-
         }
 
         private async Task ImportClientInvestmentsFromFile(frmCsvImportProgressWindow frmCsvImportProgressWindow)
@@ -1619,7 +1705,9 @@ namespace Finx.App.Forms
                     {
                         case "allan gray":
                         case "allangray":
+                            //Console.WriteLine("Check this one: " + ((AllanGrayRecord)fund).FundAllocationPercentage);
                             Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
+                            //Console.WriteLine(fundAllocPerc);
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
@@ -1627,6 +1715,9 @@ namespace Finx.App.Forms
                             break;
                         case "momentum":
                             Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
+                            break;
+                        case "mtab":
+                            Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
                             break;
                     }
 
@@ -1711,9 +1802,23 @@ namespace Finx.App.Forms
             {
                 case "camissa":
                     insured = soughtClient is null ? ((CamissaRecord)csvRecord).Firstname + " " + ((CamissaRecord)csvRecord).Lastname : soughtClient.FirstName + " " + soughtClient.LastName;
+
+                    foreach (CamissaRecord csv in _csvRecordList) //Cycles through list to fetch all entries for the same policy
+                    {
+                        if (csv.AccountNo == csvRecord.AccountNo)
+                        {
+                            Console.WriteLine(csv.MonthlyPremium);
+                            //premium += Convert.ToDouble(csv.Premium); //Adds total premium amount
+                        }
+                        //Console.WriteLine(premium);
+                    }
+
                     break;
                 case "momentum":
                     insured = soughtClient is null ? ((MomentumRecord)csvRecord).Firstname : soughtClient.FirstName;
+                    break;
+                case "mtab":
+                    insured = soughtClient is null ? ((MomentumRecord_TabDelimited)csvRecord).Lastname : soughtClient.LastName;
                     break;
                 case "allangray":
                 case "allan gray":
@@ -1762,6 +1867,9 @@ namespace Finx.App.Forms
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
+                    break;
+                case "MTAB":
+                    DateTime.TryParse(((MomentumRecord_TabDelimited)csvRecord).StartDate, out fundStartDate);
                     break;
                 case "CAMISSA":
                     DateTime.TryParse(((CamissaRecord)csvRecord).InvestmentStartDate, out fundStartDate);
@@ -1854,6 +1962,8 @@ namespace Finx.App.Forms
                     fileName += "FranklynTempleton_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
                 if (_selectedLisp.ToLower().Contains("momentum"))
+                    fileName += "Momentum_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
+                if (_selectedLisp.ToLower().Contains("mtab"))
                     fileName += "Momentum_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
                 if (_selectedLisp.ToLower().Contains("bullion"))
@@ -2117,7 +2227,9 @@ namespace Finx.App.Forms
             else
             {
                 idNoCell = dgvFileContents.Rows[RowIndex].Cells["IDNumber"];
+                
                 idno = idNoCell.Value.ToString();
+                
                 if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
                 {
                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";
@@ -2475,6 +2587,7 @@ namespace Finx.App.Forms
                         return true;
                     break;
                 case "momentum":
+                case "mtab":
                     if (record.Any(r => r.ToUpper().StartsWith("NUMBER OF ROWS")) ||
                         (string.IsNullOrEmpty(record[1]) && string.IsNullOrEmpty(record[2])))
                         return true;
