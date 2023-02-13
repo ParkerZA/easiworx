@@ -3,6 +3,7 @@ using my.domain.lib.core.Domain;
 using System;
 using System.Runtime.Serialization;
 
+
 namespace easiplan.domain
 {
 	/// <summary>
@@ -170,14 +171,17 @@ namespace easiplan.domain
 		/// <summary>
 		/// Monthly installments or premiums
 		/// </summary>
+		/// 
+		//[Index(29)]
 		public virtual double MonthlyContribution
 		{
 			get
 			{
-				return _MonthlyContribution;
+                return _MonthlyContribution;
 			}
 			set
 			{
+
                 if (_MonthlyContribution == value) return;
 
                 _MonthlyContribution = value;

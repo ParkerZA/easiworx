@@ -15,6 +15,7 @@ namespace Finx.App.Models
     public sealed class AllanGrayRecord : ICsvRecord
     {
         private string _idNo = "";
+        private string _product = "";
         private string _fundValue = "";
         private string _fundValueDate = "";
         private string _lisp = "Allan Gray";
@@ -22,10 +23,12 @@ namespace Finx.App.Models
         private string _startDate;
         private string _firstname;
         private string _validationErrors;
+        private string _clientNo;
         private string _premium;
 
         [Ignore]
         public int RowNo { get; set; }
+
 
         [Index(1)]//fullname - Client name e.g. Taurique, Toffie
         public string Firstname 
@@ -67,12 +70,21 @@ namespace Finx.App.Models
                     _idNo = CsvFileHelper.FixSAIDNo(value);
             }
         }
-      
+
+        [Index(3)] //Client number
+        public string ClientNo
+        {
+            get { return _clientNo; }
+            set { _clientNo = value; }
+
+        }
 
         [Index(4)] //Product
-        public string Product
+        public string ProductName
         {
-            get; set;
+            get { return _product; } 
+            set { _product = value; }
+           
         }
 
         [Optional]
@@ -80,12 +92,7 @@ namespace Finx.App.Models
         {
             get; set;
         }
-        [Index(10)] //Fund name
-        public string FundName { get; set; }
-
-        [Index(11)] //Fund code
-        public string FundCode { get; set; }
-
+        
 
         [Index(7)] //Account number
         public string AccountNo { get; set; }
@@ -103,6 +110,12 @@ namespace Finx.App.Models
             }
         }
 
+        [Index(10)] //Fund name
+        public string FundName { get; set; }
+
+        [Index(11)] //Fund code
+        public string FundCode { get; set; }
+
         [Index(15)] //Monthly debit Order
         public string MonthlyPremium
         {
@@ -119,7 +132,8 @@ namespace Finx.App.Models
             get { return _fundAllocationPercentage; }
             set
             {
-                _fundAllocationPercentage = value.Replace("%",string.Empty).Replace(".",",");
+                _fundAllocationPercentage = value.Replace("%", string.Empty);//.Replace(".",",");
+                Console.WriteLine(_fundAllocationPercentage);
             }
         }
 
@@ -180,7 +194,8 @@ namespace Finx.App.Models
         {
             Map(c => c.Firstname);
             Map(c => c.IDNumber);
-            Map(c => c.Product);
+            Map(c => c.ClientNo);
+            Map(c => c.ProductName);
             Map(c => c.AccountNo);
             Map(c => c.FundName);
             Map(c => c.FundCode);

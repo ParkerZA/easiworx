@@ -607,8 +607,8 @@ namespace Finx.App
 
                             }
 
-                            //if (int.Parse(dbVersion.Version) < int.Parse(Global.CurrentAppVersion))
-                            //    throw new OutOfDateException(null);
+                            if (int.Parse(dbVersion.Version) < int.Parse(Global.CurrentAppVersion))
+                                throw new OutOfDateException(null);
 
                         }
                         catch (WarningException)

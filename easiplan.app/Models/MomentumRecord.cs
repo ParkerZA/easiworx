@@ -24,14 +24,18 @@ namespace Finx.App.Models
         private string _validationErrors;
         private string _fundPerc;
 
+
+        [Index(3)]
+        public string AccountNo { get; set; }
+
         [Index(4)]
         public string Title { get; set; }
         [Index(5)]
         public string Initials { get; set; }
-        [Index(6)]
+        [Optional]
         public string Firstname { get; set; }
 
-        [Optional]
+        [Index(6)]
         public string Lastname { get; set; }
 
         [Index(7)]
@@ -53,18 +57,17 @@ namespace Finx.App.Models
             get; set;
         }
         [Index(8)]//Investment Basket
-        public string Product
+        public string ProductType
         {
             get;set;
         }
 
-        [Index(17)]
+        [Optional]
         public string FundCode { get; set; }
         
         [Index(18)]
         public string FundName { get { return _fundName; } set { _fundName = value.Replace(",", string.Empty).Replace("'", string.Empty); } }
-        [Index(3)]
-        public string AccountNo { get; set; }
+        
         [Index(21)]
         
         public string FundValue {
@@ -79,8 +82,14 @@ namespace Finx.App.Models
 
         public string FundPerc
         {
-            get { return _fundPerc; } 
-            set { _fundPerc = value.Replace(',', '.'); }
+            get 
+            { 
+                return _fundPerc; 
+            } 
+            set 
+            { 
+                _fundPerc = value.Replace(',', '.'); 
+            }
         }
 
         [Index(25)]
@@ -145,10 +154,10 @@ namespace Finx.App.Models
     {
         public MomentumRecordMap()
         {
-            
-            Map(c => c.AccountNo);
-            Map(c => c.Product);
-            //Map(c => c.ProductType);
+
+            /*Map(c => c.AccountNo);
+            //Map(c => c.Product);
+            Map(c => c.ProductType);
             Map(c => c.LISP).Default("Momentum");
             Map(c => c.FundCode);
             Map(c => c.FundName);
@@ -156,9 +165,23 @@ namespace Finx.App.Models
             Map(c => c.FundPerc);
             Map(c => c.FundValueDate);
             Map(c => c.Title);
-            Map(c => c.Firstname);
-            //Map(c => c.Lastname);
+            //Map(c => c.Firstname);
+            Map(c => c.Lastname);
             Map(c => c.IDNumber);
+            Map(c => c.StartDate);*/
+
+            Map(c => c.Title);
+            Map(c => c.Lastname);
+            Map(c => c.IDNumber);
+            //Map(c => c.DateOfBirth);
+            Map(c => c.AccountNo);
+            Map(c => c.LISP).Default("Momentum");
+            Map(c => c.ProductType);
+            Map(c => c.FundCode);
+            Map(c => c.FundName);
+            Map(c => c.FundValue);
+            Map(c => c.FundValueDate);
+            Map(c => c.FundPerc);
             Map(c => c.StartDate);
 
             Map(c => c.ValidationErrors)

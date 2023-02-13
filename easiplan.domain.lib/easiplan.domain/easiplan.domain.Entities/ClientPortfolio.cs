@@ -725,6 +725,9 @@ namespace easiplan.domain.Entities
 
                 IsLoading = false;
             }
+            if(e.ListChangedType==ListChangedType.ItemDeleted){
+                _Retirements.RemoveAt(e.NewIndex);
+            }
 
             BindingList_ListChanged(sender, e);
         }
@@ -745,7 +748,10 @@ namespace easiplan.domain.Entities
 
                 IsLoading = false;
             }
-
+            if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                _Investments.RemoveAt(e.NewIndex);
+            }
             BindingList_ListChanged(sender, e);
         }
         private void MedicalsBindingList_ListChanged(object sender, ListChangedEventArgs e)
@@ -765,7 +771,10 @@ namespace easiplan.domain.Entities
 
                 IsLoading = false;
             }
-
+            if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                _Medicals.RemoveAt(e.NewIndex);
+            }
             BindingList_ListChanged(sender, e);
         }
         private void LifesBindingList_ListChanged(object sender, ListChangedEventArgs e)
@@ -785,7 +794,10 @@ namespace easiplan.domain.Entities
 
                 IsLoading = false;
             }
-
+            if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                _Lifes.RemoveAt(e.NewIndex);
+            }
             BindingList_ListChanged(sender, e);
         }
         private void EducationsBindingList_ListChanged(object sender, ListChangedEventArgs e)
@@ -805,7 +817,10 @@ namespace easiplan.domain.Entities
 
                 IsLoading = false;
             }
-
+            if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                _Educations.RemoveAt(e.NewIndex);
+            }
             BindingList_ListChanged(sender, e);
         }
         private void EstatesBindingList_ListChanged(object sender, ListChangedEventArgs e)
@@ -825,7 +840,10 @@ namespace easiplan.domain.Entities
 
                 IsLoading = false;
             }
-
+            if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                _Estates.RemoveAt(e.NewIndex);
+            }
             BindingList_ListChanged(sender, e);
         }
         private void IncomeAssetsBindingList_ListChanged(object sender, ListChangedEventArgs e)
@@ -845,7 +863,10 @@ namespace easiplan.domain.Entities
 
                 IsLoading = false;
             }
-
+            if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                _IncomeAssets.RemoveAt(e.NewIndex);
+            }
             BindingList_ListChanged(sender, e);
         }
 
