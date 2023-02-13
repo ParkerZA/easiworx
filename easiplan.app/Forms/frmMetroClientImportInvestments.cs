@@ -1467,7 +1467,7 @@ namespace Finx.App.Forms
                 {
                     _csvRecordList = CsvFileHelper.GetRecords<SABullionRecord>(filepath, csvHelperConfiguration);
                 }
-                if ((_selectedLisp.ToLower().Contains("momentum"))|| (_selectedLisp.ToLower().Contains("mtab")))
+                if ((_selectedLisp.ToLower().Contains("momentum")) || (_selectedLisp.ToLower().Contains("mtab")))
                 {
                     switch (_detectedFileDelimiter)
                     {
@@ -1495,8 +1495,8 @@ namespace Finx.App.Forms
                     if (fileName.ToLower().Contains("momentum"))
                         lisp = "Momentum";
 
-                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration,lisp);
-                    
+                    _csvRecordList = CsvFileHelper.GetRecords<EasiworxRecord>(filepath, csvHelperConfiguration, lisp);
+
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
@@ -1529,8 +1529,7 @@ namespace Finx.App.Forms
             {
                 var msg = bdEx.ToString();
                 MessageBox.Show(msg, "The CSV file contains bad data");
-            }
-            catch (Exception )
+            }            
             catch (Exception x)
             {
                 MessageBox.Show("Invalid Csv File!" + x.Message);
