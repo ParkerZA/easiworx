@@ -1525,6 +1525,12 @@ namespace Finx.App.Forms
                 var msg = mfEx.ToString();
                 MessageBox.Show(msg, "There is a problem with the CSV file");
             }
+            catch (CsvHelper.BadDataException bdEx) //Catches exception when CSV file contains bad data
+            {
+                var msg = bdEx.ToString();
+                MessageBox.Show(msg, "The CSV file contains bad data");
+            }
+            catch (Exception )
             catch (Exception x)
             {
                 MessageBox.Show("Invalid Csv File!" + x.Message);

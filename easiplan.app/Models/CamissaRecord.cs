@@ -102,11 +102,11 @@ namespace Finx.App.Models
                 }
                 else if (value.StartsWith("R"))
                 {
-                    _premium = value.Substring(1);
+                    _premium = value.Substring(1).Replace(',', '.');
                 }
                 else
                 {
-                    _premium = value;
+                    _premium = value.Replace(',','.');
                 }
             }
         }
