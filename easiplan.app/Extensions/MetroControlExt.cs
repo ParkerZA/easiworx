@@ -5432,7 +5432,7 @@ namespace MetroFramework.Controls.Ext
 
                 dg.Selection.FocusRow(dg.MouseDownPosition.Row);
 
-                ContextMenu ctxMenu = dg.Tag as ContextMenu;
+                ContextMenuStrip ctxMenu = dg.Tag as ContextMenuStrip;
 
                 if (ctxMenu != null)
                     ctxMenu.Show(dg, new Point(e.X, e.Y));
