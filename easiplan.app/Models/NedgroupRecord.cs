@@ -18,6 +18,7 @@ namespace Finx.App.Models
         private string _fundValueDate;
         private string _lisp;
 
+
         [Index(2)]
         [CsvHelper.Configuration.Attributes.Default("N/A")]
         public string AccountNo { get; set; }

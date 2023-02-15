@@ -266,7 +266,7 @@ namespace Finx.App.Models
 
         //Name of policy owned by client
         [Index(19) ]
-        public string ProductName
+        public string ProductType
         {
             get; 
             set;
@@ -469,7 +469,7 @@ namespace Finx.App.Models
             Map(c => c.EmailAddress);
             
 
-            Map(c => c.ProductName);
+            Map(c => c.ProductType);
             Map(c => c.ModelPortfolio);
             Map(c => c.AccountNo);
             Map(c => c.FundName);

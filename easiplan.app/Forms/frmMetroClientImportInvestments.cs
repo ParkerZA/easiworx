@@ -672,7 +672,7 @@ namespace Finx.App.Forms
                 case "allan gray":
                 case "alan gray":
                     dgvFileContents.DataSource = csvRecords.Cast<AllanGrayRecord>().ToList();
-                    dgvFileContents.Columns["Product"].Visible = true;
+                    dgvFileContents.Columns["Product"].Visible = false;
                     dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = false;
                     dgvFileContents.Columns["ProductType"].Visible = false;
@@ -725,8 +725,8 @@ namespace Finx.App.Forms
                 case "easiworxtemplate":
                     dgvFileContents.DataSource = csvRecords.Cast<EasiworxRecord>().ToList();
                     
-                    dgvFileContents.Columns["Product"].Visible = true;
-                    dgvFileContents.Columns["ProductType"].Visible = false;
+                    dgvFileContents.Columns["Product"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = false;
                     dgvFileContents.Columns["Lastname"].Visible = true;
                     dgvFileContents.Columns["BirthDate"].Visible = true;
@@ -988,7 +988,7 @@ namespace Finx.App.Forms
                         {
                             try
                             {
-                                retirement = CreateRetirement(policy);
+                                retirement = CreateRetirement(policy, "System", policy.ProductType);
                             }
                             catch (AggregateException ex)
                             {

@@ -17,6 +17,14 @@ namespace Finx.App.Models
         private string _fundValueDate;
         private string _lisp;
 
+        // Type of product
+        [Optional]
+        public string ProductType
+        {
+            get;
+            set;
+        }
+
         [Index(3)]
         [CsvHelper.Configuration.Attributes.Default("N/A")]
         public string Firstname { get; set; }
