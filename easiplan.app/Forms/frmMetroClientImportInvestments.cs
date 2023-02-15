@@ -1335,9 +1335,9 @@ namespace Finx.App.Forms
                             //Easiworx Contact Details
 
                             //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
-                            hometel = easiworxRecord.HomeTel; //Note that this one and the next one contain quotation marks when displayed on run... ask about this
-                            worktel = easiworxRecord.OfficeTel;
-                            cellno = easiworxRecord.CellNo;
+                            hometel = easiworxRecord.HomeTel.Replace("'", string.Empty); 
+                            worktel = easiworxRecord.OfficeTel.Replace("'", string.Empty); 
+                            cellno = easiworxRecord.CellNo.Replace("'", string.Empty); 
                             //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
                             email = easiworxRecord.EmailAddress;
                             
@@ -1907,20 +1907,24 @@ namespace Finx.App.Forms
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
             //todo: check csvRecord Type & cast to appropriate type
-            Double dblMonthlyPremium=100;
+            Double dblMonthlyPremium=0;
             switch (_selectedLisp.ToUpper())
             {
                 case "ALLANGRAY":
                     DateTime.TryParse(((AllanGrayRecord)csvRecord).StartDate, out fundStartDate);
+                    Double.TryParse(((AllanGrayRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
+                    //Double.TryParse(((MomentumRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium); //Momentum CSV does not provide premiums
                     break;
                 case "MTAB":
                     DateTime.TryParse(((MomentumRecord_TabDelimited)csvRecord).StartDate, out fundStartDate);
+                    //Double.TryParse(((MomentumRecord_TabDelimited)csvRecord).MonthlyPremium, out dblMonthlyPremium); //Momentum CSV does not provide premium
                     break;
                 case "CAMISSA":
                     DateTime.TryParse(((CamissaRecord)csvRecord).InvestmentStartDate, out fundStartDate);
+                    Double.TryParse(((CamissaRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
                     break;
                 case "EASIWORXTEMPLATE":
                 case "EASIWORX":

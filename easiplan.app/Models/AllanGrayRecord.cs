@@ -134,7 +134,7 @@ namespace Finx.App.Models
             set
             {
                 _fundAllocationPercentage = value.Replace("%", string.Empty);//.Replace(".",",");
-                Console.WriteLine(_fundAllocationPercentage);
+                
             }
         }
 
