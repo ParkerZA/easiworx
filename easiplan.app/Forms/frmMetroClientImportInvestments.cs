@@ -1304,13 +1304,43 @@ namespace Finx.App.Forms
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
+                            
                             var easiworxRecord = csvRecord as EasiworxRecord;
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
+
                             // date format: dd/MM/yyyy
                             DateTime ewx_dtDob;
                             if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
+
+
+
+                            //Easiworx Physical Address
+
+                            physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
+                            physicalAddress2 = easiworxRecord.PhysicalAddress;
+                            physicalAddress3 = easiworxRecord.PhysicalAddressSuburb;
+                            //physicalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the physical address city
+                            int.TryParse(easiworxRecord.PhysicalAddressPostalCode, out physicalAddressCode); //Sets the physical address postal code
+
+                            //Easiworx Postal Address
+
+                            postalAddress1 = easiworxRecord.PostalAddressStreetNo;
+                            postalAddress2 = easiworxRecord.PostalAddress;
+                            postalAddress3 = easiworxRecord.PostalSuburb;
+                            //postalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the postal city
+                            int.TryParse(easiworxRecord.PostalCode, out postalCode); //Sets the postal address postal code
+
+                            //Easiworx Contact Details
+
+                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
+                            hometel = easiworxRecord.HomeTel; //Note that this one and the next one contain quotation marks when displayed on run... ask about this
+                            worktel = easiworxRecord.OfficeTel;
+                            cellno = easiworxRecord.CellNo;
+                            //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
+                            email = easiworxRecord.EmailAddress;
+                            
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1530,10 +1560,9 @@ namespace Finx.App.Forms
                 var msg = bdEx.ToString();
                 MessageBox.Show(msg, "The CSV file contains bad data");
             }
-            catch (Exception )
-            catch (Exception x)
+            catch (Exception x) //Catches any further exceptions
             {
-                MessageBox.Show("Invalid Csv File!" + x.Message);
+                MessageBox.Show(x.Message,"Invalid CSV File!");
             }
         }
 
@@ -1693,6 +1722,7 @@ namespace Finx.App.Forms
         {
 
             double fundAllocPerc = 0;
+            
             try
             {
 
@@ -1700,12 +1730,14 @@ namespace Finx.App.Forms
                     retirement.Funds = new List<Fund>(1);
 
                 Fund newfund = null;
+
+                
                 foreach (var fund in funds)
                 {
 
                     //if (fund.IDNumber == "9903145082083")
                     //    Debugger.Break();
-
+                   
                     //switch (fund.LISP.ToLower())
                     switch (_selectedLisp.ToLower())
                     {
@@ -1718,6 +1750,7 @@ namespace Finx.App.Forms
                         case "easiworx":
                         case "easiworxtemplate":
                             Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
+
                             break;
                         case "momentum":
                             Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
@@ -1726,6 +1759,8 @@ namespace Finx.App.Forms
                             Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
                             break;
                     }
+
+
 
                     if (retirement.Funds.Count > 0)
                     {
@@ -1736,6 +1771,7 @@ namespace Finx.App.Forms
                             var retirementFunds = retirement.Funds;
                             retirementFunds.Add(newfund);
                             retirement.Funds = retirementFunds;
+                            retirement.MonthlyContribution += newfund.PolicyPremium;
                         }
                         else
                         {
@@ -1749,6 +1785,7 @@ namespace Finx.App.Forms
                                 var retirementFunds = retirement.Funds;
                                 retirementFunds.Add(newfund);
                                 retirement.Funds = retirementFunds;
+                                retirement.MonthlyContribution += newfund.PolicyPremium;
                             }
                             else
                                 UpdateFund(existingFund, fund);
@@ -1760,11 +1797,12 @@ namespace Finx.App.Forms
                         var retirementFunds = retirement.Funds;
                         retirementFunds.Add(newfund);
                         retirement.Funds = retirementFunds;
+                        retirement.MonthlyContribution += newfund.PolicyPremium;
                     }
                     newfund = null;
                 }
+ 
                 retirement.Calculate();
-
                 return retirement;
             }
             catch (Exception)
@@ -1777,6 +1815,7 @@ namespace Finx.App.Forms
         private Retirement CreateRetirement(ICsvRecord csvRecord, string updateBy = "System", string RetirementType = "Unit Trusts")
         {
             var insured = "";
+            
             string identificationNo;
             ClientDetails soughtClient = null;
 
@@ -1808,31 +1847,25 @@ namespace Finx.App.Forms
             {
                 case "camissa":
                     insured = soughtClient is null ? ((CamissaRecord)csvRecord).Firstname + " " + ((CamissaRecord)csvRecord).Lastname : soughtClient.FirstName + " " + soughtClient.LastName;
-
-                    foreach (CamissaRecord csv in _csvRecordList) //Cycles through list to fetch all entries for the same policy
-                    {
-                        if (csv.AccountNo == csvRecord.AccountNo)
-                        {
-                            Console.WriteLine(csv.MonthlyPremium);
-                            //premium += Convert.ToDouble(csv.Premium); //Adds total premium amount
-                        }
-                        //Console.WriteLine(premium);
-                    }
-
+                    
                     break;
                 case "momentum":
                     insured = soughtClient is null ? ((MomentumRecord)csvRecord).Firstname : soughtClient.FirstName;
                     break;
                 case "mtab":
                     insured = soughtClient is null ? ((MomentumRecord_TabDelimited)csvRecord).Lastname : soughtClient.LastName;
+                    //Momentum doesnt give monthly premium
                     break;
                 case "allangray":
                 case "allan gray":
                     insured = soughtClient is null ? ((AllanGrayRecord)csvRecord).Firstname : soughtClient.FirstName;
+                    
                     break;
                 case "easiworx":
                 case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
+                    
+
                     break;
                 default:
                     throw new ApplicationException("Invalid Lisp!");
@@ -1855,17 +1888,26 @@ namespace Finx.App.Forms
                     Status = "Implemented",
                     UpdateBy = updateBy
                 };
+                
             }
+            
         }
-
+        
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-            var fundValue = csvRecord.FundValue.Replace(".", ",");
-            Double.TryParse(fundValue, out double dblFundValue);
+            /*var fundValue = csvRecord.FundValue.Replace(".", ",");
+            Double.TryParse(fundValue, out double dblFundValue);*/
+
+            var fundValue = csvRecord.FundValue.Replace(",", ""); //Removes comma if it exists, this is a potential area of contention
+
+            Double.TryParse(csvRecord.FundValue, out double dblFundValue);
+            
+
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
             //todo: check csvRecord Type & cast to appropriate type
+            Double dblMonthlyPremium=100;
             switch (_selectedLisp.ToUpper())
             {
                 case "ALLANGRAY":
@@ -1883,11 +1925,12 @@ namespace Finx.App.Forms
                 case "EASIWORXTEMPLATE":
                 case "EASIWORX":
                     DateTime.TryParse(((EasiworxRecord)csvRecord).InceptionDate, out fundStartDate);
+                    Double.TryParse(((EasiworxRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
                     break;
 
             }
-            
 
+            
             //Program.Logger.Info("TT checking the funds details on Catherines machine Start");
             //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
             //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
@@ -1899,6 +1942,7 @@ namespace Finx.App.Forms
                 CreateDate = fundValDate,
                 CurrentAmount = dblFundValue,
                 SplitPerc = splitPercentage,
+                PolicyPremium = dblMonthlyPremium,
                 UpdateBy = updateBy,
                 UpdateDate = fundValDate
             };
@@ -1908,7 +1952,7 @@ namespace Finx.App.Forms
 
             if (fundStartDate != new DateTime(0001, 1, 1))
                 fund.StartDate = fundStartDate;
-            
+
             return fund;
         }
 
