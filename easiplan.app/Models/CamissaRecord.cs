@@ -17,7 +17,7 @@ namespace Finx.App.Models
         private string _fundValue;
         private string _premium;
         private string _fundValueDate;
-        private string _lisp="Camissa";
+        private string _lisp = "Camissa";
         private string _dob;
         private string _investmentStartDate;
         private string _workTel;
@@ -33,11 +33,20 @@ namespace Finx.App.Models
 
         //Row number which appears next to record on import screen
         [Ignore]
-        public int RowNo 
-        { 
+        public int RowNo
+        {
             get;
             set;
         }
+
+
+        // Type of product
+        [Optional]
+        public string ProductType
+            {
+            get;
+            set;
+            }
 
 
         //LISP responsible for this record

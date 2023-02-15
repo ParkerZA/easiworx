@@ -13,6 +13,8 @@ namespace Finx.App.Interfaces
         string PassportNo { get; set; }
         string LISP { get; set; }
         string AccountNo { get; set; } //this is the policyno
+
+        string ProductType { get; set; }
         string FundName { get; set; }
         string FundValue { get; set; }
         string FundValueDate { get; set; }

@@ -181,7 +181,6 @@ namespace easiplan.domain
 			}
 			set
 			{
-
                 if (_MonthlyContribution == value) return;
 
                 _MonthlyContribution = value;

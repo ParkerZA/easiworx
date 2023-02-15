@@ -30,6 +30,7 @@ namespace Finx.App.Models
         public int RowNo { get; set; }
 
 
+
         [Index(1)]//fullname - Client name e.g. Taurique, Toffie
         public string Firstname 
         { 
@@ -80,7 +81,7 @@ namespace Finx.App.Models
         }
 
         [Index(4)] //Product
-        public string ProductName
+        public string ProductType
         {
             get { return _product; } 
             set { _product = value; }
@@ -133,7 +134,7 @@ namespace Finx.App.Models
             set
             {
                 _fundAllocationPercentage = value.Replace("%", string.Empty);//.Replace(".",",");
-                Console.WriteLine(_fundAllocationPercentage);
+                
             }
         }
 
@@ -195,7 +196,7 @@ namespace Finx.App.Models
             Map(c => c.Firstname);
             Map(c => c.IDNumber);
             Map(c => c.ClientNo);
-            Map(c => c.ProductName);
+            Map(c => c.ProductType);
             Map(c => c.AccountNo);
             Map(c => c.FundName);
             Map(c => c.FundCode);
