@@ -686,7 +686,7 @@ namespace Finx.App.Forms
                 case "camissa":
                     dgvFileContents.DataSource = csvRecords.Cast<CamissaRecord>().ToList();
                     dgvFileContents.Columns["Product"].Visible = false;
-                    dgvFileContents.Columns["ProductType"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = true;
                     dgvFileContents.Columns["Lastname"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
@@ -1772,6 +1772,7 @@ namespace Finx.App.Forms
                             retirementFunds.Add(newfund);
                             retirement.Funds = retirementFunds;
                             retirement.MonthlyContribution += newfund.PolicyPremium;
+                            Console.WriteLine(newfund.StartDate);
                         }
                         else
                         {
@@ -1786,6 +1787,7 @@ namespace Finx.App.Forms
                                 retirementFunds.Add(newfund);
                                 retirement.Funds = retirementFunds;
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
+                                Console.WriteLine(newfund.StartDate);
                             }
                             else
                                 UpdateFund(existingFund, fund);
@@ -1798,11 +1800,13 @@ namespace Finx.App.Forms
                         retirementFunds.Add(newfund);
                         retirement.Funds = retirementFunds;
                         retirement.MonthlyContribution += newfund.PolicyPremium;
+                        Console.WriteLine(newfund.StartDate);
                     }
                     newfund = null;
                 }
  
                 retirement.Calculate();
+
                 return retirement;
             }
             catch (Exception)
@@ -1906,6 +1910,7 @@ namespace Finx.App.Forms
 
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
+           // DateTime nullDate = new DateTime(0001, 1, 1);
             //todo: check csvRecord Type & cast to appropriate type
             Double dblMonthlyPremium=0;
             switch (_selectedLisp.ToUpper())
@@ -1916,10 +1921,12 @@ namespace Finx.App.Forms
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
+                    Console.WriteLine("Wrong one");
                     //Double.TryParse(((MomentumRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium); //Momentum CSV does not provide premiums
                     break;
                 case "MTAB":
                     DateTime.TryParse(((MomentumRecord_TabDelimited)csvRecord).StartDate, out fundStartDate);
+                   
                     //Double.TryParse(((MomentumRecord_TabDelimited)csvRecord).MonthlyPremium, out dblMonthlyPremium); //Momentum CSV does not provide premium
                     break;
                 case "CAMISSA":
@@ -1934,12 +1941,12 @@ namespace Finx.App.Forms
 
             }
 
-            
+
             //Program.Logger.Info("TT checking the funds details on Catherines machine Start");
             //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
             //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
             //Program.Logger.Info("TT checking the funds details on Catherines machine End");
-
+            //Console.WriteLine("1 "+fundStartDate);
             var fund = new Fund()
             {
                 Description = csvRecord.FundName,
@@ -1953,10 +1960,12 @@ namespace Finx.App.Forms
 
             //if (fundValDate != new DateTime(0001, 1, 1))
             //fund.UpdateDate = fundValDate;
-
-            if (fundStartDate != new DateTime(0001, 1, 1))
+           
+            if (fundStartDate != new DateTime(0001,1,1))
+            {
                 fund.StartDate = fundStartDate;
-
+            }
+           
             return fund;
         }
 

@@ -206,7 +206,17 @@ namespace Finx.App.Models
             } 
             set 
             {
-                _firstname = value.Replace("(TFI)","").Trim(); 
+                //Camissa uses "(TFI)" in their client names to indictate when a product is tax free investment rather than unit trust
+                if (value.Contains("(TFI)"))
+                {
+                    _firstname = value.Replace("(TFI)", "").Trim();
+                    this.ProductType = "Tax Free Investment";
+                }
+                else
+                {
+                    _firstname = value.Trim();
+                    this.ProductType = "Unit Trusts";
+                }
             } 
         }
 
@@ -220,8 +230,18 @@ namespace Finx.App.Models
                 return _lastname; 
             } 
             set 
-            { 
-                _lastname = value.Replace("(TFI)", "").Trim(); 
+            {
+                //Camissa uses "(TFI)" in their client names to indictate when a product is tax free investment rather than unit trust
+                if (value.Contains("(TFI)"))
+                {
+                    _lastname = value.Replace("(TFI)", "").Trim();
+                    this.ProductType = "Tax Free Investment";
+                }
+                else
+                {
+                    _lastname = value.Trim();
+                    this.ProductType = "Unit Trusts";
+                }
             } 
         }
 

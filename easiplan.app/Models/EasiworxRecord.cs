@@ -377,14 +377,19 @@ namespace Finx.App.Models
         [Index(28)] 
         public string InceptionDate
         {
-            get { return _startDate; }
+            get 
+            {
+                return _startDate; 
+            }
             set
             {
                 //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
                 if (DateTime.TryParse(value, out DateTime dtStartDt))
                     _startDate = dtStartDt.ToString("dd MMM yyyy");
                 else
+                {
                     _startDate = value;
+                }
             }
         }
 

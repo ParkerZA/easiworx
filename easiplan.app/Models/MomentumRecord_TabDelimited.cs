@@ -19,7 +19,7 @@ namespace Finx.App.Models
         private string _fundValue = "";
         private string _fundValueDate;
         private string _lisp = "Momentum";
-        //private string _investmentStartDate;
+        private string _investmentStartDate;
         private string _birthDate;
         private string _fundName;
         private string _validationErrors;
@@ -270,15 +270,20 @@ namespace Finx.App.Models
         [Optional]
         public string StartDate
         {
-            get;set;
-            //get { return _investmentStartDate; }
-            //set
-            //{
-            //    if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
-            //        _investmentStartDate = fundValDt.ToString("dd MMM yyyy");
-            //    else
-            //        _investmentStartDate = value;
-            //}
+            get
+            {
+                return _investmentStartDate;
+            }
+            set
+            {
+                //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
+                var strInvestmentStartDate = value.Replace("\"", string.Empty).Trim();
+                if (DateTime.TryParse(strInvestmentStartDate, out DateTime dtStartDt))
+                    _investmentStartDate = dtStartDt.ToString("dd MMM yyyy");
+                else
+                    _investmentStartDate = value;
+                
+            }
         }
 
 
