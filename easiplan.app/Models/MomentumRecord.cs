@@ -71,10 +71,18 @@ namespace Finx.App.Models
         [Index(21)]
         
         public string FundValue {
-            get { return _fundValue; } 
+            get 
+            { 
+                return _fundValue; 
+            } 
             set 
             {
                 _fundValue = value.Replace(",", string.Empty);
+                
+                //Parsing to double in order to set the number into 2 decimal format
+                double rounded = 0;
+                Double.TryParse(_fundValue, out rounded);
+                _fundValue = String.Format("{0:0.00}", rounded);
             } 
         }
 

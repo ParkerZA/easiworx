@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+using easiplan.domain.Entities;
 using Finx.App.Forms;
 using Finx.App.Helpers;
 using Finx.App.Interfaces;
@@ -328,7 +329,12 @@ namespace Finx.App.Models
             }
             set
             {
-                _fundValue = value;
+                _fundValue = value.Replace(",",string.Empty);
+
+                //Parsing to double in order to set the number into 2 decimal format
+                double rounded = 0;
+                Double.TryParse(_fundValue, out rounded);
+                _fundValue = String.Format("{0:0.00}", rounded);
             }
         }
 

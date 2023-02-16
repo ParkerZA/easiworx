@@ -157,7 +157,7 @@ namespace Finx.App.Models
             get { return _fundValue; }
             set
             {
-                _fundValue = value;
+                _fundValue = value.Replace(",", string.Empty);
             }
         }
 
