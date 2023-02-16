@@ -206,6 +206,11 @@ namespace Finx.App.Models
             { 
                 _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); 
                _fundValue = _fundValue.Replace('"', ' ').Trim();
+
+                //Parsing to double in order to set the number into 2 decimal format
+                double rounded;
+                Double.TryParse(_fundValue, out rounded);
+                _fundValue = String.Format("{0:0.00}", rounded);        
             }
         }
        
