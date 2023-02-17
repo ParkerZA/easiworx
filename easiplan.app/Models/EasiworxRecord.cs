@@ -332,9 +332,13 @@ namespace Finx.App.Models
                 _fundValue = value.Replace(",",string.Empty);
 
                 //Parsing to double in order to set the number into 2 decimal format
-                double rounded = 0;
-                Double.TryParse(_fundValue, out rounded);
-                _fundValue = String.Format("{0:0.00}", rounded);
+                double rounded;
+
+                if (Double.TryParse(_fundValue, out rounded))
+                {
+                    _fundValue = String.Format("{0:0.00}", rounded);
+                }
+                
             }
         }
 
@@ -353,7 +357,10 @@ namespace Finx.App.Models
                 if (DateTime.TryParse(value, out DateTime fundValDt))
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
+                {
                     _fundValueDate = value;
+                    Console.WriteLine(value+" : "+this.Lastname);
+                }
             }
         }
 
@@ -377,14 +384,19 @@ namespace Finx.App.Models
         [Index(28)] 
         public string InceptionDate
         {
-            get { return _startDate; }
+            get 
+            {
+                return _startDate; 
+            }
             set
             {
                 //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
                 if (DateTime.TryParse(value, out DateTime dtStartDt))
                     _startDate = dtStartDt.ToString("dd MMM yyyy");
                 else
+                {
                     _startDate = value;
+                }
             }
         }
 
