@@ -1772,7 +1772,6 @@ namespace Finx.App.Forms
                             retirementFunds.Add(newfund);
                             retirement.Funds = retirementFunds;
                             retirement.MonthlyContribution += newfund.PolicyPremium;
-                            Console.WriteLine(newfund.StartDate);
                         }
                         else
                         {
@@ -1787,7 +1786,7 @@ namespace Finx.App.Forms
                                 retirementFunds.Add(newfund);
                                 retirement.Funds = retirementFunds;
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
-                                Console.WriteLine(newfund.StartDate);
+                              
                             }
                             else
                                 UpdateFund(existingFund, fund);
@@ -1800,12 +1799,16 @@ namespace Finx.App.Forms
                         retirementFunds.Add(newfund);
                         retirement.Funds = retirementFunds;
                         retirement.MonthlyContribution += newfund.PolicyPremium;
-                        Console.WriteLine(newfund.StartDate);
+                        
+                        
                     }
                     newfund = null;
                 }
- 
+
+               
                 retirement.Calculate();
+
+                
 
                 return retirement;
             }
@@ -1910,7 +1913,7 @@ namespace Finx.App.Forms
 
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
-           // DateTime nullDate = new DateTime(0001, 1, 1);
+
             //todo: check csvRecord Type & cast to appropriate type
             Double dblMonthlyPremium=0;
             switch (_selectedLisp.ToUpper())
@@ -1946,7 +1949,8 @@ namespace Finx.App.Forms
             //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
             //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
             //Program.Logger.Info("TT checking the funds details on Catherines machine End");
-            //Console.WriteLine("1 "+fundStartDate);
+           
+
             var fund = new Fund()
             {
                 Description = csvRecord.FundName,
@@ -1960,7 +1964,6 @@ namespace Finx.App.Forms
 
             //if (fundValDate != new DateTime(0001, 1, 1))
             //fund.UpdateDate = fundValDate;
-           
             if (fundStartDate != new DateTime(0001,1,1))
             {
                 fund.StartDate = fundStartDate;
