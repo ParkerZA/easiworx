@@ -209,8 +209,10 @@ namespace Finx.App.Models
 
                 //Parsing to double in order to set the number into 2 decimal format
                 double rounded;
-                Double.TryParse(_fundValue, out rounded);
-                _fundValue = String.Format("{0:0.00}", rounded);        
+                if (Double.TryParse(_fundValue, out rounded))
+                {
+                    _fundValue = String.Format("{0:0.00}", rounded);
+                }
             }
         }
        

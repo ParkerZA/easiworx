@@ -732,6 +732,7 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["Lastname"].Visible = true;
                     dgvFileContents.Columns["BirthDate"].Visible = true;
                     dgvFileContents.Columns["RegistrationNo"].Visible = true;
+                    dgvFileContents.Columns["AccountFundAllocation"].Visible = true;
                     dgvFileContents.Columns["ClientNo"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
 

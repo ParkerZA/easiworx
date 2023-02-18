@@ -57,6 +57,7 @@ namespace Finx.App.Forms
             this.FundValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FundValueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Premium = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AccountFundAllocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmClientRecords = new MetroFramework.Controls.MetroContextMenu(this.components);
             this.openClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportErrorRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -176,7 +177,8 @@ namespace Finx.App.Forms
             this.FundName,
             this.FundValue,
             this.FundValueDate,
-            this.Premium});
+            this.Premium,
+            this.AccountFundAllocation});
             this.dgvFileContents.ContextMenuStrip = this.cmClientRecords;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -374,6 +376,15 @@ namespace Finx.App.Forms
             this.Premium.Name = "Premium";
             this.Premium.ReadOnly = true;
             this.Premium.Width = 104;
+            //
+            // AccountFundAllocation
+            // 
+            this.AccountFundAllocation.DataPropertyName = "AccountFundAllocation";
+            this.AccountFundAllocation.HeaderText = "Percentage Split";
+            this.AccountFundAllocation.MinimumWidth = 6;
+            this.AccountFundAllocation.Name = "AccountFundAllocation";
+            this.AccountFundAllocation.ReadOnly = true;
+            this.AccountFundAllocation.Width = 104;
             // 
             // cmClientRecords
             // 
@@ -710,6 +721,7 @@ namespace Finx.App.Forms
         private DataGridViewTextBoxColumn FundValue;
         private DataGridViewTextBoxColumn FundValueDate;
         private DataGridViewTextBoxColumn Premium;
+        private DataGridViewTextBoxColumn AccountFundAllocation;
         private Label label2;
     }
 }
