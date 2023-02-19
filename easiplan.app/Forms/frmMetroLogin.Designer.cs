@@ -107,7 +107,7 @@
             // metroPanel_Logon
             // 
             this.metroPanel_Logon.BackColor = System.Drawing.Color.Transparent;
-            this.metroPanel_Logon.BackgroundImage = global::easiplan.app.Properties.Resources.App_Splash_Image_1;
+            this.metroPanel_Logon.BackgroundImage = global::easiplan.app.Properties.Resources.EWLogon;
             this.metroPanel_Logon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.metroPanel_Logon.Controls.Add(this.htmlPanel1);
             this.metroPanel_Logon.Controls.Add(this.htmlPanel5);
@@ -159,9 +159,9 @@
             this.metroPanel_Username.HorizontalScrollbarBarColor = true;
             this.metroPanel_Username.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_Username.HorizontalScrollbarSize = 10;
-            this.metroPanel_Username.Location = new System.Drawing.Point(94, 130);
+            this.metroPanel_Username.Location = new System.Drawing.Point(-1, 65);
             this.metroPanel_Username.Name = "metroPanel_Username";
-            this.metroPanel_Username.Size = new System.Drawing.Size(317, 125);
+            this.metroPanel_Username.Size = new System.Drawing.Size(260, 201);
             this.metroPanel_Username.TabIndex = 17;
             this.metroPanel_Username.Theme = MetroFramework.MetroThemeStyle.Light;
             this.metroPanel_Username.UseCustomBackColor = true;
@@ -176,7 +176,7 @@
             this.metroButton_Logon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroButton_Logon.FontSize = MetroFramework.MetroButtonSize.Large;
             this.metroButton_Logon.ForeColor = System.Drawing.Color.White;
-            this.metroButton_Logon.Location = new System.Drawing.Point(118, 93);
+            this.metroButton_Logon.Location = new System.Drawing.Point(40, 156);
             this.metroButton_Logon.Name = "metroButton_Logon";
             this.metroButton_Logon.Size = new System.Drawing.Size(175, 28);
             this.metroButton_Logon.TabIndex = 16;
@@ -192,8 +192,8 @@
             this.metroCheckBox_RememberMe.BackColor = System.Drawing.Color.Transparent;
             this.metroCheckBox_RememberMe.FontSize = MetroFramework.MetroCheckBoxSize.Large;
             this.metroCheckBox_RememberMe.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.metroCheckBox_RememberMe.ForeColor = System.Drawing.Color.White;
-            this.metroCheckBox_RememberMe.Location = new System.Drawing.Point(118, 67);
+            this.metroCheckBox_RememberMe.ForeColor = System.Drawing.Color.IndianRed;
+            this.metroCheckBox_RememberMe.Location = new System.Drawing.Point(40, 130);
             this.metroCheckBox_RememberMe.Name = "metroCheckBox_RememberMe";
             this.metroCheckBox_RememberMe.Size = new System.Drawing.Size(175, 20);
             this.metroCheckBox_RememberMe.Style = MetroFramework.MetroColorStyle.Orange;

@@ -8019,6 +8019,8 @@ namespace MetroFramework.Controls.Ext
     }
     public class MetroPasswordEditor : BaseMetroEditor
     {
+        MetroTextBox control = new MetroTextBox();
+
         public string RegExpression = string.Empty;
         public MetroPasswordEditor(int Width = 200, int Height = 0) : base(Width, Height)
         {
@@ -8027,7 +8029,7 @@ namespace MetroFramework.Controls.Ext
 
         public override Control CreateControl()
         {
-            MetroTextBox control = new MetroTextBox();
+            
 
             control.UseSystemPasswordChar = true;
             control.WaterMark = this.Watermark;
@@ -8039,6 +8041,11 @@ namespace MetroFramework.Controls.Ext
             this.Validator = new RegExValidator(RegExpression);
 
             return base.CreateControl();
+        }
+
+        public void ShowPassword(bool visible=true){
+
+            control.UseSystemPasswordChar = visible;
         }
     }
     public class MetroTrueFalseEditor : BaseMetroEditor

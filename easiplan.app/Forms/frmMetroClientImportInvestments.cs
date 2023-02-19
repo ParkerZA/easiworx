@@ -2702,6 +2702,11 @@ namespace Finx.App.Forms
         {
 
         }
+
+        private void dgvFileContents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
 
