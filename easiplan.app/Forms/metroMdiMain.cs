@@ -25,7 +25,7 @@ namespace Finx.App.Forms
         frmMetroClientSearch frmclientSearch;
         frmMetroAdminTasks frmAdminTasks;       
         frmClientManagement frmMetroClientManagement;
-        //public static Dictionary<string, byte[]> ImportedCsvFiles = null;
+       
 
         #region Constructor
         public metroMdiMain()
@@ -35,8 +35,8 @@ namespace Finx.App.Forms
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
 
-            this.Text = string.Format("{0}", Application.ProductName); 
-            this.SubTitle = string.Format(" v{0} ", Application.ProductVersion);
+            this.Text = string.Format("{0}", Program.ApplicationVersion()); 
+            //this.SubTitle = string.Format(" v{0} ", Program.ApplicationVersion());
             this.SubTitle += string.Format(" - {0} | logged on as : {1} [{2}]", Program.User.CompanyName, Program.User.Firstname, Program.User.Designation);
 
             this.Padding = new Padding(2, 8, 8, 8);

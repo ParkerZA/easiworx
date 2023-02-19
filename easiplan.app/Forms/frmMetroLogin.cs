@@ -16,6 +16,7 @@ namespace Finx.App.Forms
 {
     public partial class frmMetroLogin : MetroFramework.Forms.MetroForm
     {
+        MetroPasswordEditor pwdEditor = new MetroPasswordEditor(220);
         public frmMetroLogin()
         {
             InitializeComponent();
@@ -54,24 +55,28 @@ namespace Finx.App.Forms
             HtmlUtils.LoadHtmlPanel(this.htmlPanel4, "easiplan.app.Html.TermsOfUse.html");
             HtmlUtils.LoadHtmlPanel(this.htmlPanel5, "easiplan.app.Html.Welcome.html");
 
-            MetroPasswordEditor pwdEditor = new MetroPasswordEditor(175);
-            pwdEditor.EnterKeyClicked += PwdEditor_EnterKeyClicked; ;
+            
+            pwdEditor.EnterKeyClicked += PwdEditor_EnterKeyClicked; 
+
 
             this.metroPanel_Username.Initialise<User>(Program.User, cntr =>
             {
-                cntr.For(x => x.Username, "User Name / Email", new MetroTextBoxEditor(175).ReadOnly(false));
+                cntr.For(x => x.Username, "User Name / Email", new MetroTextBoxEditor(220).ReadOnly(false));
                 cntr.For(x => x.Password, "Password", pwdEditor);
-            }, ControlsLayout.Horizontal, top: 10, left: 5);
+            }, ControlsLayout.Vertical, top: 10, left: 30);
 
-            metroCheckBox_RememberMe.Checked = !string.IsNullOrEmpty(Program.User.Username);
-            metroCheckBox_RememberMe.Left = 130;
+            metroCheckBox_RememberMe.Checked = false;// !string.IsNullOrEmpty(Program.User.Username);
+            metroCheckBox_RememberMe.CheckedChanged += MetroCheckBox_RememberMe_CheckedChanged;
+            metroCheckBox_RememberMe.Left = 30;// 130;
+            metroCheckBox_RememberMe.Text = "Show Password";
+            MetroCheckBox_RememberMe_CheckedChanged(null, new EventArgs());
 
             //lbl_LOGON.ForeColor = Global.DFLT_PRIM_CLR;
             lbl_Register.ForeColor = Global.DFLT_PRIM_CLR;
             lbl_DbConfig.ForeColor = Global.DFLT_PRIM_CLR; ;
 
             this.metroButton_Logon.Width = 175;
-            this.metroButton_Logon.Left = 130;
+            this.metroButton_Logon.Left = 30;// 130;
 
             metroButton_Logon.BackColor = Global.DFLT_SEC_CLR;
 
@@ -107,6 +112,11 @@ namespace Finx.App.Forms
 
             SetLogonEnabled();
 
+        }
+
+        private void MetroCheckBox_RememberMe_CheckedChanged(object sender, EventArgs e)
+        {
+            pwdEditor.ShowPassword(!metroCheckBox_RememberMe.Checked);
         }
 
         private void PwdEditor_EnterKeyClicked(object sender, KeyEventArgs e)
