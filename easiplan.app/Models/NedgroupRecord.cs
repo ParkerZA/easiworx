@@ -28,6 +28,8 @@ namespace Finx.App.Models
         [Index(4)]
         [CsvHelper.Configuration.Attributes.Default("N/A")]
         public string ProductType { get; set; }
+        [Optional]
+        public string FundCode { get; set; }
         [Index(5)]
         [CsvHelper.Configuration.Attributes.Default("N/A")]
         public string FundName { get; set; }

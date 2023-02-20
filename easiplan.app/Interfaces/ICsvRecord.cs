@@ -15,6 +15,7 @@ namespace Finx.App.Interfaces
         string AccountNo { get; set; } //this is the policyno
 
         string ProductType { get; set; }
+        string FundCode { get; set; }
         string FundName { get; set; }
         string FundValue { get; set; }
         string FundValueDate { get; set; }

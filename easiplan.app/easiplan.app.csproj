@@ -632,6 +632,12 @@
     <Compile Include="Forms\frmCsvImportProgressWindow.Designer.cs">
       <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMetroPopUpWindow1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroPopUpWindow1.Designer.cs">
+      <DependentUpon>frmMetroPopUpWindow1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\EasiworxRecord.cs" />
     <Compile Include="Models\ClientInvestmentRecordAudit.cs" />
     <Compile Include="Forms\frmClientManagement.cs">
@@ -956,6 +962,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCsvImportProgressWindow.resx">
       <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroPopUpWindow1.resx">
+      <DependentUpon>frmMetroPopUpWindow1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroUpdateDatabase.resx">
       <DependentUpon>frmMetroUpdateDatabase.cs</DependentUpon>

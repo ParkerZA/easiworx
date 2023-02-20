@@ -29,6 +29,7 @@ namespace Finx.App.Models
         private string _lastname;
         private string _fundName;
         private string _validationErrors;
+        private string _fundCode;
 
 
         //Row number which appears next to record on import screen
@@ -73,6 +74,19 @@ namespace Finx.App.Models
         }
         
         
+        //Fund code
+        public string FundCode
+        {
+            get 
+            {
+                return _fundCode;        
+            }
+            set
+            {
+                _fundCode = value;
+            }
+        }
+
         //Name of fund
         [Index(3)]
         public string FundName 

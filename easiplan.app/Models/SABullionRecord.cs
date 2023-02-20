@@ -40,6 +40,9 @@ namespace Finx.App.Models
         {
             get; set;
         }
+
+        [Optional]
+        public string FundCode { get; set; }
         [Optional]
         [CsvHelper.Configuration.Attributes.Default("N/A")]
         public string FundName { get; set; }
