@@ -1738,7 +1738,7 @@ namespace Finx.App.Forms
         {
 
             double fundAllocPerc = 0;
-            
+
             try
             {
 
@@ -1747,13 +1747,13 @@ namespace Finx.App.Forms
 
                 Fund newfund = null;
 
-                
+
                 foreach (var fund in funds)
                 {
 
                     //if (fund.IDNumber == "9903145082083")
                     //    Debugger.Break();
-                   
+
                     //switch (fund.LISP.ToLower())
                     switch (_selectedLisp.ToLower())
                     {
@@ -1803,7 +1803,6 @@ namespace Finx.App.Forms
                                 retirementFunds.Add(newfund);
                                 retirement.Funds = retirementFunds;
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
-                              
                             }
                             else
                                 UpdateFund(existingFund, fund);
@@ -1816,15 +1815,12 @@ namespace Finx.App.Forms
                         retirementFunds.Add(newfund);
                         retirement.Funds = retirementFunds;
                         retirement.MonthlyContribution += newfund.PolicyPremium;
-                        
-                        
                     }
                     newfund = null;
                 }
 
-               
-                retirement.Calculate();
 
+                retirement.Calculate();
                 
 
                 return retirement;
@@ -1980,7 +1976,7 @@ namespace Finx.App.Forms
                 UpdateBy = updateBy,
                 UpdateDate = fundValDate
             };
-            Console.WriteLine(fund.FundCode);
+            //Console.WriteLine(fund.FundCode);
             //if (fundValDate != new DateTime(0001, 1, 1))
             //fund.UpdateDate = fundValDate;
             if (fundStartDate != new DateTime(0001,1,1))

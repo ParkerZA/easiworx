@@ -73,6 +73,8 @@ namespace easiplan.domain.Entities
         #endregion
 
         #region Persisted Properties
+
+       
         public virtual string Type
 		{
 			get;
