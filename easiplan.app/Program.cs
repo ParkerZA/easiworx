@@ -167,8 +167,7 @@ namespace Finx.App
 
                         //Show Logon Form
                         Application.Run(new frmMetroLogin());
-                        //Application.Run(new frmMetroClientImportInvestments());
-
+                       
                     }
 
                 }
