@@ -606,6 +606,7 @@
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Extensions\ControlExt.cs" />
     <Compile Include="Extensions\ListExt.cs" />
+    <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Extensions\ToolstripExt.cs" />
     <Compile Include="Extensions\DateTimeExt.cs" />
     <Compile Include="Extensions\HttpClientExt.cs" />
