@@ -29,6 +29,7 @@ namespace Finx.App.Models
         private string _lastname;
         private string _fundName;
         private string _validationErrors;
+        private string _fundCode;
 
 
         //Row number which appears next to record on import screen
@@ -71,8 +72,8 @@ namespace Finx.App.Models
             get;
             set;
         }
-        
-        
+
+
         //Name of fund
         [Index(3)]
         public string FundName 
@@ -94,6 +95,20 @@ namespace Finx.App.Models
             }
         }
 
+
+        //Fund code
+        [Index(4)]
+        public string FundCode
+        {
+            get
+            {
+                return _fundCode;
+            }
+            set
+            {
+                _fundCode = value;
+            }
+        }
 
         //Monthly debit order
         [Index(5)]
@@ -564,6 +579,7 @@ namespace Finx.App.Models
         {
             Map(c => c.LISP).Default("Camissa");
             Map(c => c.AccountNo);
+            Map(c => c.FundCode);
             Map(c => c.FundName);
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);

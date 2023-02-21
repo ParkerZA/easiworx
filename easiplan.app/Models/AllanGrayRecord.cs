@@ -128,7 +128,7 @@ namespace Finx.App.Models
         }
 
         [Index(19)] //Account fund allocation
-        public string FundAllocationPercentage
+        public string AccountFundAllocation
         {
             get { return _fundAllocationPercentage; }
             set
@@ -203,7 +203,7 @@ namespace Finx.App.Models
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);
             Map(c => c.StartDate);
-            Map(c => c.FundAllocationPercentage);
+            Map(c => c.AccountFundAllocation);
             Map(c => c.MonthlyPremium);
 
             Task.Run(() =>

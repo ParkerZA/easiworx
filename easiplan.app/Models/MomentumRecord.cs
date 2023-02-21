@@ -62,7 +62,7 @@ namespace Finx.App.Models
             get;set;
         }
 
-        [Optional]
+        [Index(17)]
         public string FundCode { get; set; }
         
         [Index(18)]
