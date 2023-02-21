@@ -27,6 +27,13 @@ namespace easiplan.domain.Entities
             set;
         }
 
+		[IgnoreAutoMap]
+        public virtual string FundCode
+        {
+            get;
+            set;
+        }
+
         [IgnoreAutoMap]
         public virtual string Risk
         {
@@ -66,19 +73,35 @@ namespace easiplan.domain.Entities
         #endregion
 
         #region Persisted Properties
+
+       
         public virtual string Type
 		{
 			get;
 			set;
 		}
 
-		public virtual string Description
+        /*public virtual string FundCode
+		{
+			get
+			{
+				return _fundCode;
+			}
+			set
+			{
+				_fundCode = value;
+			}
+		}*/
+
+        public virtual string Description
 		{
 			get;
 			set;
 		}
 
-		public virtual double SplitPerc
+        
+
+        public virtual double SplitPerc
 		{
 			get
 			{

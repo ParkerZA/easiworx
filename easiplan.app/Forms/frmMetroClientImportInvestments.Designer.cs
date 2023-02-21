@@ -40,6 +40,24 @@ namespace Finx.App.Forms
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panelGrid = new System.Windows.Forms.Panel();
             this.dgvFileContents = new MetroFramework.Controls.MetroGrid();
+            this.RowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IDNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegistrationNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PassportNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ClientNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BirthDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LISP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PolicyNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Product = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FundName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FundValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FundValueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Premium = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AccountFundAllocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmClientRecords = new MetroFramework.Controls.MetroContextMenu(this.components);
             this.openClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportErrorRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,24 +81,6 @@ namespace Finx.App.Forms
             this.lblFileSize = new System.Windows.Forms.Label();
             this.lblFileFormat = new System.Windows.Forms.Label();
             this.lblRecCnt = new System.Windows.Forms.Label();
-            this.RowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IDNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RegistrationNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PassportNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ClientNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BirthDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LISP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PolicyNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Product = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FundName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FundValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FundValueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Premium = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AccountFundAllocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kgbFileDetails.Panel)).BeginInit();
             this.kgbFileDetails.Panel.SuspendLayout();
@@ -103,21 +103,23 @@ namespace Finx.App.Forms
             this.kgbFileDetails.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.NormalPanel;
             this.kgbFileDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kgbFileDetails.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
-            this.kgbFileDetails.Location = new System.Drawing.Point(20, 60);
+            this.kgbFileDetails.Location = new System.Drawing.Point(25, 75);
+            this.kgbFileDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kgbFileDetails.Name = "kgbFileDetails";
             // 
             // kgbFileDetails.Panel
             // 
             this.kgbFileDetails.Panel.Controls.Add(this.splitContainer1);
             this.kgbFileDetails.Panel.Controls.Add(this.metroPanel1);
-            this.kgbFileDetails.Size = new System.Drawing.Size(1346, 538);
+            this.kgbFileDetails.Size = new System.Drawing.Size(1689, 672);
             this.kgbFileDetails.TabIndex = 11;
             this.kgbFileDetails.Values.Heading = "";
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 94);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 117);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -125,8 +127,9 @@ namespace Finx.App.Forms
             this.splitContainer1.Panel1.AutoScroll = true;
             this.splitContainer1.Panel1.Controls.Add(this.panelGrid);
             this.splitContainer1.Panel2Collapsed = true;
-            this.splitContainer1.Size = new System.Drawing.Size(1342, 440);
+            this.splitContainer1.Size = new System.Drawing.Size(1685, 551);
             this.splitContainer1.SplitterDistance = 993;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 10;
             // 
             // panelGrid
@@ -136,7 +139,7 @@ namespace Finx.App.Forms
             this.panelGrid.Location = new System.Drawing.Point(0, 0);
             this.panelGrid.Margin = new System.Windows.Forms.Padding(2);
             this.panelGrid.Name = "panelGrid";
-            this.panelGrid.Size = new System.Drawing.Size(1342, 440);
+            this.panelGrid.Size = new System.Drawing.Size(1685, 551);
             this.panelGrid.TabIndex = 12;
             // 
             // dgvFileContents
@@ -145,7 +148,7 @@ namespace Finx.App.Forms
             this.dgvFileContents.AllowUserToDeleteRows = false;
             this.dgvFileContents.AllowUserToOrderColumns = true;
             this.dgvFileContents.AllowUserToResizeRows = false;
-            this.dgvFileContents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.dgvFileContents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFileContents.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.dgvFileContents.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvFileContents.CausesValidation = false;
@@ -190,9 +193,11 @@ namespace Finx.App.Forms
             this.dgvFileContents.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvFileContents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFileContents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvFileContents.EnableHeadersVisualStyles = false;
             this.dgvFileContents.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dgvFileContents.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.dgvFileContents.Location = new System.Drawing.Point(0, 0);
+            this.dgvFileContents.Margin = new System.Windows.Forms.Padding(4, 15, 4, 4);
             this.dgvFileContents.MultiSelect = false;
             this.dgvFileContents.Name = "dgvFileContents";
             this.dgvFileContents.ReadOnly = true;
@@ -208,10 +213,183 @@ namespace Finx.App.Forms
             this.dgvFileContents.RowHeadersWidth = 51;
             this.dgvFileContents.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvFileContents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFileContents.Size = new System.Drawing.Size(1342, 440);
+            this.dgvFileContents.Size = new System.Drawing.Size(1685, 551);
             this.dgvFileContents.StandardTab = true;
             this.dgvFileContents.TabIndex = 6;
             this.dgvFileContents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFileContents_CellContentClick);
+            // 
+            // RowNo
+            // 
+            this.RowNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.RowNo.DataPropertyName = "RowNo";
+            this.RowNo.HeaderText = "Row No";
+            this.RowNo.MinimumWidth = 6;
+            this.RowNo.Name = "RowNo";
+            this.RowNo.ReadOnly = true;
+            this.RowNo.Width = 77;
+            // 
+            // Title
+            // 
+            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Title.DataPropertyName = "Title";
+            this.Title.HeaderText = "Title";
+            this.Title.MinimumWidth = 6;
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
+            this.Title.Width = 57;
+            // 
+            // Firstname
+            // 
+            this.Firstname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Firstname.DataPropertyName = "Firstname";
+            this.Firstname.HeaderText = "Firstname";
+            this.Firstname.MinimumWidth = 6;
+            this.Firstname.Name = "Firstname";
+            this.Firstname.ReadOnly = true;
+            this.Firstname.Width = 87;
+            // 
+            // Lastname
+            // 
+            this.Lastname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Lastname.DataPropertyName = "Lastname";
+            this.Lastname.HeaderText = "Lastname";
+            this.Lastname.MinimumWidth = 6;
+            this.Lastname.Name = "Lastname";
+            this.Lastname.ReadOnly = true;
+            this.Lastname.Width = 86;
+            // 
+            // IDNumber
+            // 
+            this.IDNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.IDNumber.DataPropertyName = "IDNumber";
+            this.IDNumber.HeaderText = "ID No";
+            this.IDNumber.MinimumWidth = 6;
+            this.IDNumber.Name = "IDNumber";
+            this.IDNumber.ReadOnly = true;
+            this.IDNumber.Width = 65;
+            // 
+            // RegistrationNo
+            // 
+            this.RegistrationNo.DataPropertyName = "RegistrationNo";
+            this.RegistrationNo.HeaderText = "RegistrationNo";
+            this.RegistrationNo.MinimumWidth = 6;
+            this.RegistrationNo.Name = "RegistrationNo";
+            this.RegistrationNo.ReadOnly = true;
+            this.RegistrationNo.Width = 114;
+            // 
+            // PassportNo
+            // 
+            this.PassportNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PassportNo.DataPropertyName = "PassportNo";
+            this.PassportNo.HeaderText = "Passport No";
+            this.PassportNo.MinimumWidth = 6;
+            this.PassportNo.Name = "PassportNo";
+            this.PassportNo.ReadOnly = true;
+            this.PassportNo.Width = 99;
+            // 
+            // ClientNo
+            // 
+            this.ClientNo.DataPropertyName = "ClientNo";
+            this.ClientNo.HeaderText = "ClientNo";
+            this.ClientNo.MinimumWidth = 6;
+            this.ClientNo.Name = "ClientNo";
+            this.ClientNo.ReadOnly = true;
+            this.ClientNo.Width = 82;
+            // 
+            // BirthDate
+            // 
+            this.BirthDate.DataPropertyName = "DateOfBirth";
+            this.BirthDate.HeaderText = "BirthDate";
+            this.BirthDate.MinimumWidth = 6;
+            this.BirthDate.Name = "BirthDate";
+            this.BirthDate.ReadOnly = true;
+            this.BirthDate.Width = 84;
+            // 
+            // LISP
+            // 
+            this.LISP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.LISP.DataPropertyName = "LISP";
+            this.LISP.HeaderText = "LISP";
+            this.LISP.MinimumWidth = 6;
+            this.LISP.Name = "LISP";
+            this.LISP.ReadOnly = true;
+            this.LISP.Width = 57;
+            // 
+            // PolicyNo
+            // 
+            this.PolicyNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PolicyNo.DataPropertyName = "AccountNo";
+            this.PolicyNo.HeaderText = "Policy No";
+            this.PolicyNo.MinimumWidth = 6;
+            this.PolicyNo.Name = "PolicyNo";
+            this.PolicyNo.ReadOnly = true;
+            this.PolicyNo.Width = 86;
+            // 
+            // Product
+            // 
+            this.Product.DataPropertyName = "ProductName";
+            this.Product.HeaderText = "Product";
+            this.Product.MinimumWidth = 6;
+            this.Product.Name = "Product";
+            this.Product.ReadOnly = true;
+            this.Product.Width = 77;
+            // 
+            // ProductType
+            // 
+            this.ProductType.DataPropertyName = "ProductType";
+            this.ProductType.HeaderText = "ProductType";
+            this.ProductType.MinimumWidth = 6;
+            this.ProductType.Name = "ProductType";
+            this.ProductType.ReadOnly = true;
+            this.ProductType.Width = 101;
+            // 
+            // FundName
+            // 
+            this.FundName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.FundName.DataPropertyName = "FundName";
+            this.FundName.HeaderText = "Fund Name";
+            this.FundName.MinimumWidth = 6;
+            this.FundName.Name = "FundName";
+            this.FundName.ReadOnly = true;
+            this.FundName.Width = 97;
+            // 
+            // FundValue
+            // 
+            this.FundValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.FundValue.DataPropertyName = "FundValue";
+            this.FundValue.HeaderText = "Fund Value (ZAR)";
+            this.FundValue.MinimumWidth = 6;
+            this.FundValue.Name = "FundValue";
+            this.FundValue.ReadOnly = true;
+            this.FundValue.Width = 126;
+            // 
+            // FundValueDate
+            // 
+            this.FundValueDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.FundValueDate.DataPropertyName = "FundValueDate";
+            this.FundValueDate.HeaderText = "Fund Value Date";
+            this.FundValueDate.MinimumWidth = 6;
+            this.FundValueDate.Name = "FundValueDate";
+            this.FundValueDate.ReadOnly = true;
+            this.FundValueDate.Width = 120;
+            // 
+            // Premium
+            // 
+            this.Premium.DataPropertyName = "MonthlyPremium";
+            this.Premium.HeaderText = "Premium (ZAR)";
+            this.Premium.MinimumWidth = 6;
+            this.Premium.Name = "Premium";
+            this.Premium.ReadOnly = true;
+            this.Premium.Width = 117;
+            // 
+            // AccountFundAllocation
+            // 
+            this.AccountFundAllocation.DataPropertyName = "AccountFundAllocation";
+            this.AccountFundAllocation.HeaderText = "Percentage Split";
+            this.AccountFundAllocation.MinimumWidth = 6;
+            this.AccountFundAllocation.Name = "AccountFundAllocation";
+            this.AccountFundAllocation.ReadOnly = true;
+            this.AccountFundAllocation.Width = 120;
             // 
             // cmClientRecords
             // 
@@ -222,7 +400,7 @@ namespace Finx.App.Forms
             this.exportErrorRecordsToolStripMenuItem,
             this.copyCellContentToolStripMenuItem});
             this.cmClientRecords.Name = "cmClientRecords";
-            this.cmClientRecords.Size = new System.Drawing.Size(168, 70);
+            this.cmClientRecords.Size = new System.Drawing.Size(194, 76);
             this.cmClientRecords.Style = MetroFramework.MetroColorStyle.Blue;
             this.cmClientRecords.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.cmClientRecords.Opening += new System.ComponentModel.CancelEventHandler(this.cmClientRecords_Opening);
@@ -231,20 +409,20 @@ namespace Finx.App.Forms
             // 
             this.openClientToolStripMenuItem.Enabled = false;
             this.openClientToolStripMenuItem.Name = "openClientToolStripMenuItem";
-            this.openClientToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.openClientToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
             this.openClientToolStripMenuItem.Text = "Open Client";
             this.openClientToolStripMenuItem.Click += new System.EventHandler(this.openClientToolStripMenuItem_Click);
             // 
             // exportErrorRecordsToolStripMenuItem
             // 
             this.exportErrorRecordsToolStripMenuItem.Name = "exportErrorRecordsToolStripMenuItem";
-            this.exportErrorRecordsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exportErrorRecordsToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
             this.exportErrorRecordsToolStripMenuItem.Visible = false;
             // 
             // copyCellContentToolStripMenuItem
             // 
             this.copyCellContentToolStripMenuItem.Name = "copyCellContentToolStripMenuItem";
-            this.copyCellContentToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.copyCellContentToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
             this.copyCellContentToolStripMenuItem.Text = "Copy cell content";
             // 
             // metroPanel1
@@ -271,21 +449,23 @@ namespace Finx.App.Forms
             this.metroPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
+            this.metroPanel1.HorizontalScrollbarSize = 12;
             this.metroPanel1.Location = new System.Drawing.Point(0, 0);
+            this.metroPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(1342, 94);
+            this.metroPanel1.Size = new System.Drawing.Size(1685, 117);
             this.metroPanel1.TabIndex = 4;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
+            this.metroPanel1.VerticalScrollbarSize = 12;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(329, 75);
+            this.label2.Location = new System.Drawing.Point(411, 94);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(65, 16);
             this.label2.TabIndex = 45;
             this.label2.Text = "Records :";
             this.label2.Click += new System.EventHandler(this.label2_Click);
@@ -295,10 +475,10 @@ namespace Finx.App.Forms
             this.chkViewErrorRecords.AutoSize = true;
             this.chkViewErrorRecords.Enabled = false;
             this.chkViewErrorRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkViewErrorRecords.Location = new System.Drawing.Point(453, 75);
+            this.chkViewErrorRecords.Location = new System.Drawing.Point(566, 94);
             this.chkViewErrorRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewErrorRecords.Name = "chkViewErrorRecords";
-            this.chkViewErrorRecords.Size = new System.Drawing.Size(117, 17);
+            this.chkViewErrorRecords.Size = new System.Drawing.Size(145, 20);
             this.chkViewErrorRecords.TabIndex = 21;
             this.chkViewErrorRecords.Text = "View Error Records";
             this.chkViewErrorRecords.UseVisualStyleBackColor = true;
@@ -309,10 +489,10 @@ namespace Finx.App.Forms
             this.chkViewExistingRecords.AutoSize = true;
             this.chkViewExistingRecords.Enabled = false;
             this.chkViewExistingRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkViewExistingRecords.Location = new System.Drawing.Point(453, 54);
+            this.chkViewExistingRecords.Location = new System.Drawing.Point(566, 68);
             this.chkViewExistingRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewExistingRecords.Name = "chkViewExistingRecords";
-            this.chkViewExistingRecords.Size = new System.Drawing.Size(131, 17);
+            this.chkViewExistingRecords.Size = new System.Drawing.Size(162, 20);
             this.chkViewExistingRecords.TabIndex = 20;
             this.chkViewExistingRecords.Text = "View Existing Records";
             this.chkViewExistingRecords.UseVisualStyleBackColor = true;
@@ -323,10 +503,10 @@ namespace Finx.App.Forms
             this.chkViewNewRecords.AutoSize = true;
             this.chkViewNewRecords.Enabled = false;
             this.chkViewNewRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkViewNewRecords.Location = new System.Drawing.Point(453, 33);
+            this.chkViewNewRecords.Location = new System.Drawing.Point(566, 41);
             this.chkViewNewRecords.Margin = new System.Windows.Forms.Padding(2);
             this.chkViewNewRecords.Name = "chkViewNewRecords";
-            this.chkViewNewRecords.Size = new System.Drawing.Size(117, 17);
+            this.chkViewNewRecords.Size = new System.Drawing.Size(143, 20);
             this.chkViewNewRecords.TabIndex = 19;
             this.chkViewNewRecords.Text = "View New Records";
             this.chkViewNewRecords.UseVisualStyleBackColor = true;
@@ -334,9 +514,10 @@ namespace Finx.App.Forms
             // 
             // kbtnOpenFile
             // 
-            this.kbtnOpenFile.Location = new System.Drawing.Point(189, 10);
+            this.kbtnOpenFile.Location = new System.Drawing.Point(236, 12);
+            this.kbtnOpenFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnOpenFile.Name = "kbtnOpenFile";
-            this.kbtnOpenFile.Size = new System.Drawing.Size(125, 31);
+            this.kbtnOpenFile.Size = new System.Drawing.Size(156, 39);
             this.kbtnOpenFile.TabIndex = 2;
             this.kbtnOpenFile.Values.Text = "Select &File";
             this.kbtnOpenFile.Click += new System.EventHandler(this.kbtnOpenFile_Click);
@@ -344,34 +525,37 @@ namespace Finx.App.Forms
             // lblImportStatus
             // 
             this.lblImportStatus.AutoSize = true;
-            this.lblImportStatus.Location = new System.Drawing.Point(639, 34);
+            this.lblImportStatus.Location = new System.Drawing.Point(799, 42);
+            this.lblImportStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblImportStatus.Name = "lblImportStatus";
-            this.lblImportStatus.Size = new System.Drawing.Size(46, 13);
+            this.lblImportStatus.Size = new System.Drawing.Size(57, 16);
             this.lblImportStatus.TabIndex = 43;
             this.lblImportStatus.Text = "Pending";
             // 
             // lblTotValErrors
             // 
             this.lblTotValErrors.AutoSize = true;
-            this.lblTotValErrors.Location = new System.Drawing.Point(589, 75);
+            this.lblTotValErrors.Location = new System.Drawing.Point(736, 94);
+            this.lblTotValErrors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotValErrors.Name = "lblTotValErrors";
-            this.lblTotValErrors.Size = new System.Drawing.Size(13, 13);
+            this.lblTotValErrors.Size = new System.Drawing.Size(14, 16);
             this.lblTotValErrors.TabIndex = 40;
             this.lblTotValErrors.Text = "0";
             // 
             // cmbSelectLisp
             // 
             this.cmbSelectLisp.FormattingEnabled = true;
-            this.cmbSelectLisp.ItemHeight = 23;
+            this.cmbSelectLisp.ItemHeight = 24;
             this.cmbSelectLisp.Items.AddRange(new object[] {
             "Please select",
             "AllanGray",
             "Camissa",
             "EasiworxTemplate",
             "Momentum"});
-            this.cmbSelectLisp.Location = new System.Drawing.Point(44, 10);
+            this.cmbSelectLisp.Location = new System.Drawing.Point(55, 12);
+            this.cmbSelectLisp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbSelectLisp.Name = "cmbSelectLisp";
-            this.cmbSelectLisp.Size = new System.Drawing.Size(139, 29);
+            this.cmbSelectLisp.Size = new System.Drawing.Size(173, 30);
             this.cmbSelectLisp.TabIndex = 1;
             this.cmbSelectLisp.UseSelectable = true;
             this.cmbSelectLisp.SelectedIndexChanged += new System.EventHandler(this.cmbSelectLisp_SelectedIndexChanged);
@@ -379,9 +563,10 @@ namespace Finx.App.Forms
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(4, 12);
+            this.metroLabel1.Location = new System.Drawing.Point(5, 15);
+            this.metroLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(34, 19);
+            this.metroLabel1.Size = new System.Drawing.Size(36, 20);
             this.metroLabel1.TabIndex = 17;
             this.metroLabel1.Text = "Lisp:";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -389,9 +574,10 @@ namespace Finx.App.Forms
             // lblNewClientCnt
             // 
             this.lblNewClientCnt.AutoSize = true;
-            this.lblNewClientCnt.Location = new System.Drawing.Point(589, 37);
+            this.lblNewClientCnt.Location = new System.Drawing.Point(736, 46);
+            this.lblNewClientCnt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNewClientCnt.Name = "lblNewClientCnt";
-            this.lblNewClientCnt.Size = new System.Drawing.Size(13, 13);
+            this.lblNewClientCnt.Size = new System.Drawing.Size(14, 16);
             this.lblNewClientCnt.TabIndex = 38;
             this.lblNewClientCnt.Text = "0";
             this.lblNewClientCnt.Click += new System.EventHandler(this.lblNewClientCnt_Click);
@@ -399,27 +585,30 @@ namespace Finx.App.Forms
             // cancelImport
             // 
             this.cancelImport.Enabled = false;
-            this.cancelImport.Location = new System.Drawing.Point(186, 54);
+            this.cancelImport.Location = new System.Drawing.Point(232, 68);
+            this.cancelImport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cancelImport.Name = "cancelImport";
-            this.cancelImport.Size = new System.Drawing.Size(127, 29);
+            this.cancelImport.Size = new System.Drawing.Size(159, 36);
             this.cancelImport.TabIndex = 4;
             this.cancelImport.Values.Text = "&Cancel Import";
             // 
             // lblExistingClientCnt
             // 
             this.lblExistingClientCnt.AutoSize = true;
-            this.lblExistingClientCnt.Location = new System.Drawing.Point(589, 55);
+            this.lblExistingClientCnt.Location = new System.Drawing.Point(736, 69);
+            this.lblExistingClientCnt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblExistingClientCnt.Name = "lblExistingClientCnt";
-            this.lblExistingClientCnt.Size = new System.Drawing.Size(13, 13);
+            this.lblExistingClientCnt.Size = new System.Drawing.Size(14, 16);
             this.lblExistingClientCnt.TabIndex = 37;
             this.lblExistingClientCnt.Text = "0";
             // 
             // btnImportFile
             // 
             this.btnImportFile.Enabled = false;
-            this.btnImportFile.Location = new System.Drawing.Point(45, 54);
+            this.btnImportFile.Location = new System.Drawing.Point(56, 68);
+            this.btnImportFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnImportFile.Name = "btnImportFile";
-            this.btnImportFile.Size = new System.Drawing.Size(127, 29);
+            this.btnImportFile.Size = new System.Drawing.Size(159, 36);
             this.btnImportFile.TabIndex = 3;
             this.btnImportFile.Values.Text = "&Import File";
             this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
@@ -428,9 +617,10 @@ namespace Finx.App.Forms
             // 
             this.lblSelectedFile.AutoSize = true;
             this.lblSelectedFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectedFile.Location = new System.Drawing.Point(329, 10);
+            this.lblSelectedFile.Location = new System.Drawing.Point(411, 12);
+            this.lblSelectedFile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSelectedFile.Name = "lblSelectedFile";
-            this.lblSelectedFile.Size = new System.Drawing.Size(73, 17);
+            this.lblSelectedFile.Size = new System.Drawing.Size(85, 20);
             this.lblSelectedFile.TabIndex = 23;
             this.lblSelectedFile.Text = "Filename";
             this.lblSelectedFile.Click += new System.EventHandler(this.lblSelectedFile_Click);
@@ -438,27 +628,30 @@ namespace Finx.App.Forms
             // lblFileDate
             // 
             this.lblFileDate.AutoSize = true;
-            this.lblFileDate.Location = new System.Drawing.Point(329, 37);
+            this.lblFileDate.Location = new System.Drawing.Point(411, 46);
+            this.lblFileDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileDate.Name = "lblFileDate";
-            this.lblFileDate.Size = new System.Drawing.Size(99, 13);
+            this.lblFileDate.Size = new System.Drawing.Size(115, 16);
             this.lblFileDate.TabIndex = 30;
             this.lblFileDate.Text = "15 May 2022 06:00";
             // 
             // lblFileSize
             // 
             this.lblFileSize.AutoSize = true;
-            this.lblFileSize.Location = new System.Drawing.Point(329, 55);
+            this.lblFileSize.Location = new System.Drawing.Point(411, 69);
+            this.lblFileSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileSize.Name = "lblFileSize";
-            this.lblFileSize.Size = new System.Drawing.Size(29, 13);
+            this.lblFileSize.Size = new System.Drawing.Size(34, 16);
             this.lblFileSize.TabIndex = 32;
             this.lblFileSize.Text = "2MB";
             // 
             // lblFileFormat
             // 
             this.lblFileFormat.AutoSize = true;
-            this.lblFileFormat.Location = new System.Drawing.Point(639, 54);
+            this.lblFileFormat.Location = new System.Drawing.Point(799, 68);
+            this.lblFileFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFileFormat.Name = "lblFileFormat";
-            this.lblFileFormat.Size = new System.Drawing.Size(25, 13);
+            this.lblFileFormat.Size = new System.Drawing.Size(30, 16);
             this.lblFileFormat.TabIndex = 34;
             this.lblFileFormat.Text = "Csv";
             // 
@@ -466,193 +659,23 @@ namespace Finx.App.Forms
             // 
             this.lblRecCnt.AutoSize = true;
             this.lblRecCnt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRecCnt.Location = new System.Drawing.Point(387, 76);
+            this.lblRecCnt.Location = new System.Drawing.Point(484, 95);
+            this.lblRecCnt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRecCnt.Name = "lblRecCnt";
-            this.lblRecCnt.Size = new System.Drawing.Size(14, 13);
+            this.lblRecCnt.Size = new System.Drawing.Size(17, 17);
             this.lblRecCnt.TabIndex = 28;
             this.lblRecCnt.Text = "0";
             // 
-            // RowNo
-            // 
-            this.RowNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.RowNo.DataPropertyName = "RowNo";
-            this.RowNo.HeaderText = "Row No";
-            this.RowNo.MinimumWidth = 6;
-            this.RowNo.Name = "RowNo";
-            this.RowNo.ReadOnly = true;
-            this.RowNo.Width = 73;
-            // 
-            // Title
-            // 
-            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Title.DataPropertyName = "Title";
-            this.Title.HeaderText = "Title";
-            this.Title.MinimumWidth = 6;
-            this.Title.Name = "Title";
-            this.Title.ReadOnly = true;
-            this.Title.Width = 54;
-            // 
-            // Firstname
-            // 
-            this.Firstname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Firstname.DataPropertyName = "Firstname";
-            this.Firstname.HeaderText = "Firstname";
-            this.Firstname.MinimumWidth = 6;
-            this.Firstname.Name = "Firstname";
-            this.Firstname.ReadOnly = true;
-            this.Firstname.Width = 82;
-            // 
-            // Lastname
-            // 
-            this.Lastname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Lastname.DataPropertyName = "Lastname";
-            this.Lastname.HeaderText = "Lastname";
-            this.Lastname.MinimumWidth = 6;
-            this.Lastname.Name = "Lastname";
-            this.Lastname.ReadOnly = true;
-            this.Lastname.Width = 80;
-            // 
-            // IDNumber
-            // 
-            this.IDNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.IDNumber.DataPropertyName = "IDNumber";
-            this.IDNumber.HeaderText = "ID No";
-            this.IDNumber.MinimumWidth = 6;
-            this.IDNumber.Name = "IDNumber";
-            this.IDNumber.ReadOnly = true;
-            this.IDNumber.Width = 61;
-            // 
-            // RegistrationNo
-            // 
-            this.RegistrationNo.DataPropertyName = "RegistrationNo";
-            this.RegistrationNo.HeaderText = "RegistrationNo";
-            this.RegistrationNo.MinimumWidth = 6;
-            this.RegistrationNo.Name = "RegistrationNo";
-            this.RegistrationNo.ReadOnly = true;
-            this.RegistrationNo.Width = 110;
-            // 
-            // PassportNo
-            // 
-            this.PassportNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PassportNo.DataPropertyName = "PassportNo";
-            this.PassportNo.HeaderText = "Passport No";
-            this.PassportNo.MinimumWidth = 6;
-            this.PassportNo.Name = "PassportNo";
-            this.PassportNo.ReadOnly = true;
-            this.PassportNo.Width = 94;
-            // 
-            // ClientNo
-            // 
-            this.ClientNo.DataPropertyName = "ClientNo";
-            this.ClientNo.HeaderText = "ClientNo";
-            this.ClientNo.MinimumWidth = 6;
-            this.ClientNo.Name = "ClientNo";
-            this.ClientNo.ReadOnly = true;
-            this.ClientNo.Width = 77;
-            // 
-            // BirthDate
-            // 
-            this.BirthDate.DataPropertyName = "DateOfBirth";
-            this.BirthDate.HeaderText = "BirthDate";
-            this.BirthDate.MinimumWidth = 6;
-            this.BirthDate.Name = "BirthDate";
-            this.BirthDate.ReadOnly = true;
-            this.BirthDate.Width = 80;
-            // 
-            // LISP
-            // 
-            this.LISP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.LISP.DataPropertyName = "LISP";
-            this.LISP.HeaderText = "LISP";
-            this.LISP.MinimumWidth = 6;
-            this.LISP.Name = "LISP";
-            this.LISP.ReadOnly = true;
-            this.LISP.Width = 52;
-            // 
-            // PolicyNo
-            // 
-            this.PolicyNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PolicyNo.DataPropertyName = "AccountNo";
-            this.PolicyNo.HeaderText = "Policy No";
-            this.PolicyNo.MinimumWidth = 6;
-            this.PolicyNo.Name = "PolicyNo";
-            this.PolicyNo.ReadOnly = true;
-            this.PolicyNo.Width = 79;
-            // 
-            // Product
-            // 
-            this.Product.DataPropertyName = "ProductName";
-            this.Product.HeaderText = "Product";
-            this.Product.MinimumWidth = 6;
-            this.Product.Name = "Product";
-            this.Product.ReadOnly = true;
-            this.Product.Width = 72;
-            // 
-            // ProductType
-            // 
-            this.ProductType.DataPropertyName = "ProductType";
-            this.ProductType.HeaderText = "ProductType";
-            this.ProductType.MinimumWidth = 6;
-            this.ProductType.Name = "ProductType";
-            this.ProductType.ReadOnly = true;
-            this.ProductType.Width = 95;
-            // 
-            // FundName
-            // 
-            this.FundName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.FundName.DataPropertyName = "FundName";
-            this.FundName.HeaderText = "Fund Name";
-            this.FundName.MinimumWidth = 6;
-            this.FundName.Name = "FundName";
-            this.FundName.ReadOnly = true;
-            this.FundName.Width = 91;
-            // 
-            // FundValue
-            // 
-            this.FundValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.FundValue.DataPropertyName = "FundValue";
-            this.FundValue.HeaderText = "Fund Value (ZAR)";
-            this.FundValue.MinimumWidth = 6;
-            this.FundValue.Name = "FundValue";
-            this.FundValue.ReadOnly = true;
-            this.FundValue.Width = 119;
-            // 
-            // FundValueDate
-            // 
-            this.FundValueDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.FundValueDate.DataPropertyName = "FundValueDate";
-            this.FundValueDate.HeaderText = "Fund Value Date";
-            this.FundValueDate.MinimumWidth = 6;
-            this.FundValueDate.Name = "FundValueDate";
-            this.FundValueDate.ReadOnly = true;
-            this.FundValueDate.Width = 117;
-            // 
-            // Premium
-            // 
-            this.Premium.DataPropertyName = "MonthlyPremium";
-            this.Premium.HeaderText = "Premium (ZAR)";
-            this.Premium.MinimumWidth = 6;
-            this.Premium.Name = "Premium";
-            this.Premium.ReadOnly = true;
-            this.Premium.Width = 105;
-            // 
-            // AccountFundAllocation
-            // 
-            this.AccountFundAllocation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.AccountFundAllocation.DataPropertyName = "AccountFundAllocation";
-            this.AccountFundAllocation.HeaderText = "Percentage Split";
-            this.AccountFundAllocation.MinimumWidth = 6;
-            this.AccountFundAllocation.Name = "AccountFundAllocation";
-            this.AccountFundAllocation.ReadOnly = true;
-            // 
             // frmMetroClientImportInvestments
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1386, 618);
+            this.ClientSize = new System.Drawing.Size(1739, 772);
             this.Controls.Add(this.kgbFileDetails);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmMetroClientImportInvestments";
+            this.Padding = new System.Windows.Forms.Padding(25, 75, 25, 25);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Style = MetroFramework.MetroColorStyle.Silver;
             this.Text = "Import Client Investments";
@@ -704,7 +727,6 @@ namespace Finx.App.Forms
         private CheckBox chkViewErrorRecords;
         private CheckBox chkViewExistingRecords;
         private CheckBox chkViewNewRecords;
-        private Label label2;
         private DataGridViewTextBoxColumn RowNo;
         private DataGridViewTextBoxColumn Title;
         private DataGridViewTextBoxColumn Firstname;
@@ -723,5 +745,6 @@ namespace Finx.App.Forms
         private DataGridViewTextBoxColumn FundValueDate;
         private DataGridViewTextBoxColumn Premium;
         private DataGridViewTextBoxColumn AccountFundAllocation;
+        private Label label2;
     }
 }

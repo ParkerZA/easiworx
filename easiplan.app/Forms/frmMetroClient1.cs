@@ -2450,6 +2450,7 @@ namespace Finx.App.Forms
 
                         this.dataGrid_PolicyFunds.Initialise1<Fund>(retirement.FundsBindingList, columns =>
                         {
+                            columns.For(x => x.FundCode, "Fund Code", new StringEditor(true));
                             columns.For(x => x.Description, "Fund Name", new StringEditor(true));
                             columns.For(x => x.StartDate, "Inception Dt", new DateEditor(true));
                             columns.For(x => x.InitialAmount, "Deposit", new CurrencyEditor(true));
@@ -2461,7 +2462,7 @@ namespace Finx.App.Forms
                             columns.For(x => x.UpdateDate, "Last Update", new DateEditor(true));
                             //columns.For(x => x.Type, "Type", new MetroTextBoxEditor().ReadOnly(true));
                             columns.For(x => x.Risk, "Risk", new StringEditor(true));
-                            columns.For(x => x.IRR, "IRR", new StringEditor(true));
+                            //columns.For(x => x.IRR, "IRR", new StringEditor(true));
                         },
                         PropertyChangedHandler: Fund_propertyChanged_EventHandler,
                         ReadOnly: _readOnlyForAdminAdvisorClerk,

@@ -302,7 +302,7 @@ namespace Finx.App.Models
 
 
         //Fund code
-        [Optional] 
+        [Index(23)] 
         public string FundCode 
         { 
             get;

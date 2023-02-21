@@ -163,7 +163,7 @@ namespace Finx.App.Models
 
         //This should not be optional
         //[Index(13)]
-        [Optional]
+        [Index(17)]
         public string FundCode
         {
             get 
@@ -219,7 +219,7 @@ namespace Finx.App.Models
         
         //Split percentage for fund amounts
         [Index(22)]
-        public string FundPerc {
+        public string AccountFundAllocation {
             get 
             { 
                 return _fundPerc; 
@@ -325,7 +325,7 @@ namespace Finx.App.Models
             Map(c => c.FundName);
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);
-            Map(c => c.FundPerc);
+            Map(c => c.AccountFundAllocation);
             Map(c => c.StartDate);
 
             Map(c => c.ValidationErrors)
