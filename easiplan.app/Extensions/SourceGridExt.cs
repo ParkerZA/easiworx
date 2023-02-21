@@ -2784,7 +2784,7 @@ namespace Finx.App.Extensions
             if (cntrl != null)
                 if (cntrl.Control != null)
                     cntrl.Control.ShowTooltip(e.Exception.Message, "Error", "Error");
-                    
+            
             e.Handled = true;
         }
 
@@ -3732,7 +3732,7 @@ namespace Finx.App.Extensions
             if (ReadOnly)
                 EditableMode = SourceGrid.EditableMode.None;
             else
-                EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+                EditableMode = SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
 
             // this.Control.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.Control.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -3804,7 +3804,7 @@ namespace Finx.App.Extensions
             if (ReadOnly)
                 EditableMode = SourceGrid.EditableMode.None;
             else
-                EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+                EditableMode =  SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
 
             this.Control.ValueMember = "FundName";
             this.Control.DisplayMember = "FundName";

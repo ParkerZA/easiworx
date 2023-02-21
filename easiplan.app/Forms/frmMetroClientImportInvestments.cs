@@ -1,8 +1,10 @@
-﻿using CsvFileImporter.CsvFile.Entities;
+﻿using AngleSharp.Text;
+using CsvFileImporter.CsvFile.Entities;
 using CsvHelper;
 using CsvHelper.Configuration;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Drawing.Charts;
+using easiplan.app.Extensions;
 using easiplan.domain.Entities;
 using easiplan.domain.Views;
 //using EnvDTE;
@@ -1745,19 +1747,22 @@ namespace Finx.App.Forms
                         case "allan gray":
                         case "allangray":
                             //Console.WriteLine("Check this one: " + ((AllanGrayRecord)fund).FundAllocationPercentage);
-                            Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
+                            //Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
                             //Console.WriteLine(fundAllocPerc);
+                            fundAllocPerc = ((AllanGrayRecord)fund).FundAllocationPercentage.AsDouble();
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
-                            Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
-
+                           // Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
+                            fundAllocPerc = ((EasiworxRecord)fund).AccountFundAllocation.AsDouble();
                             break;
                         case "momentum":
-                            Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
+                           // Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
+                            fundAllocPerc = ((MomentumRecord)fund).FundPerc.AsDouble();
                             break;
                         case "mtab":
-                            Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
+                           // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
+                            fundAllocPerc = ((MomentumRecord_TabDelimited)fund).FundPerc.AsDouble();
                             break;
                     }
 
@@ -1777,7 +1782,9 @@ namespace Finx.App.Forms
                         else
                         {
                             //check if new fund value & split perc is diff to original & if so add as new fund else update exist fund
-                            Double.TryParse(fund.FundValue, out double newFundValue);
+                            //Double.TryParse(fund.FundValue, out double newFundValue);
+
+                            double newFundValue = fund.FundValue.AsDouble();
                             DateTime.TryParse(fund.FundValueDate, out DateTime newFundValDate);
 
                             if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.UpdateDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
@@ -1909,8 +1916,9 @@ namespace Finx.App.Forms
 
             var fundValue = csvRecord.FundValue.Replace(",", ""); //Removes comma if it exists, this is a potential area of contention
 
-            Double.TryParse(csvRecord.FundValue, out double dblFundValue);
-            
+           // Double.TryParse(csvRecord.FundValue, out double dblFundValue);
+
+            double dblFundValue = csvRecord.FundValue.AsDouble();
 
             DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
             DateTime fundStartDate = new DateTime(0001,1,1);
@@ -1921,7 +1929,10 @@ namespace Finx.App.Forms
             {
                 case "ALLANGRAY":
                     DateTime.TryParse(((AllanGrayRecord)csvRecord).StartDate, out fundStartDate);
-                    Double.TryParse(((AllanGrayRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
+                    //Double.TryParse(((AllanGrayRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
+
+                    dblMonthlyPremium = ((AllanGrayRecord)csvRecord).MonthlyPremium.AsDouble();
+
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
@@ -1935,12 +1946,16 @@ namespace Finx.App.Forms
                     break;
                 case "CAMISSA":
                     DateTime.TryParse(((CamissaRecord)csvRecord).InvestmentStartDate, out fundStartDate);
-                    Double.TryParse(((CamissaRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
+                    //Double.TryParse(((CamissaRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
+
+                    dblMonthlyPremium = ((CamissaRecord)csvRecord).MonthlyPremium.AsDouble();
                     break;
                 case "EASIWORXTEMPLATE":
                 case "EASIWORX":
                     DateTime.TryParse(((EasiworxRecord)csvRecord).InceptionDate, out fundStartDate);
-                    Double.TryParse(((EasiworxRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
+                    //Double.TryParse(((EasiworxRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
+
+                    dblMonthlyPremium = ((EasiworxRecord)csvRecord).MonthlyPremium.AsDouble();
                     break;
 
             }
@@ -1984,7 +1999,9 @@ namespace Finx.App.Forms
 
                 var fundValue = csvRecord.FundValue.Replace(",", "");
 
-                Double.TryParse(fundValue, out double dblFundValue);
+                //Double.TryParse(fundValue, out double dblFundValue);
+
+                double dblFundValue = fundValue.AsDouble();
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
                 if (csvRecord.FundValueDate != null && fundValDate > fund.UpdateDate)
@@ -2343,7 +2360,8 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        _ = double.TryParse(fundValue, out double outFundValue);
+                       // _ = double.TryParse(fundValue, out double outFundValue);
+                       double outFundValue = fundValue.AsDouble();
                         if (outFundValue <= 0)
                         {
                             fundValueCell.ErrorText = "Invalid Fund Value!";
@@ -2372,7 +2390,8 @@ namespace Finx.App.Forms
                 }
                 else
                 {
-                    _ = double.TryParse(fundValue, out double outFundValue);
+                   // _ = double.TryParse(fundValue, out double outFundValue);
+                    double outFundValue = fundValue.AsDouble();
                     if (outFundValue <= 0)
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";

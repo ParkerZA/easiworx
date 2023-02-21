@@ -36,7 +36,7 @@ namespace Finx.App.Forms
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
 
             this.Text = string.Format("{0}", Program.ApplicationVersion()); 
-            //this.SubTitle = string.Format(" v{0} ", Program.ApplicationVersion());
+            
             this.SubTitle += string.Format(" - {0} | logged on as : {1} [{2}]", Program.User.CompanyName, Program.User.Firstname, Program.User.Designation);
 
             this.Padding = new Padding(2, 8, 8, 8);
