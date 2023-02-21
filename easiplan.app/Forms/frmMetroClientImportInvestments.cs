@@ -290,6 +290,10 @@ namespace Finx.App.Forms
 
             _frmCsvImportProgressWindow.ShowDialog(this);
             //_frmCsvImportProgressWindow.Close();
+            MetroPopUpWindow importComplete = new MetroPopUpWindow();
+            importComplete.SetCaption("Import complete");
+            importComplete.ShowDialog();
+
             this.ControlBox = true;
         }
 
@@ -761,10 +765,7 @@ namespace Finx.App.Forms
         private void BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //what to do here?
-            MetroPopUpWindow importComplete = new MetroPopUpWindow();
-            importComplete.SetCaption("Import complete");
-            importComplete.ShowDialog();
-
+           
             
         }
                 
@@ -1148,7 +1149,7 @@ namespace Finx.App.Forms
 
         private Client CreateNewClient(ICsvRecord csvRecord, string UpdateBy = "System")
         {
-
+            DateTime now = DateTime.Now;
             if (csvRecord == null) return null;
 
             Client client = null;
@@ -1202,10 +1203,16 @@ namespace Finx.App.Forms
                             DateTime.TryParseExact(strdt, "yy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
                             DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
                         {
+                            if (dtDob > now)
+                            {
+                                dtDob= dtDob.AddYears(-100);
+                                
+                            }
+
                             dob = dtDob.ToString("dd MMM yyyy");
                             //dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
                         }
-                        
+                       
                         //Console.WriteLine("ID: " + csvRecord.IDNumber);
                         //Console.WriteLine("Birthdate: " + dob);
 
@@ -1949,7 +1956,7 @@ namespace Finx.App.Forms
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
-                    Console.WriteLine("Wrong one");
+                    //Console.WriteLine("Wrong one");
                     //Double.TryParse(((MomentumRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium); //Momentum CSV does not provide premiums
                     break;
                 case "MTAB":
@@ -2233,7 +2240,7 @@ namespace Finx.App.Forms
                     {
                         if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                             {
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.White;
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2241,7 +2248,7 @@ namespace Finx.App.Forms
                         }
                         else
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                             {
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2250,7 +2257,7 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2266,7 +2273,7 @@ namespace Finx.App.Forms
                 {
                     if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.White;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2274,7 +2281,7 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2283,7 +2290,7 @@ namespace Finx.App.Forms
                 }
                 else
                 {
-                    if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                    if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                     {
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2325,7 +2332,7 @@ namespace Finx.App.Forms
                         idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                         idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         
                         csvRecord.HasErrors = true;
@@ -2337,7 +2344,7 @@ namespace Finx.App.Forms
                             idNoCell.ErrorText = "Invalid SA ID No!";
                             idNoCell.ToolTipText = "Invalid SA ID No!";
 
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
@@ -2354,7 +2361,7 @@ namespace Finx.App.Forms
                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                     idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                     dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     csvRecord.HasErrors = true;
                 }
@@ -2365,7 +2372,7 @@ namespace Finx.App.Forms
                         idNoCell.ErrorText = "Invalid SA ID No!";
                         idNoCell.ToolTipText = "Invalid SA ID No!";
 
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2392,7 +2399,7 @@ namespace Finx.App.Forms
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";
                         fundValueCell.ToolTipText = "Invalid Fund Value!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2404,7 +2411,7 @@ namespace Finx.App.Forms
                         {
                             fundValueCell.ErrorText = "Invalid Fund Value!";
                             fundValueCell.ToolTipText = "Invalid Fund Value!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
@@ -2424,7 +2431,7 @@ namespace Finx.App.Forms
                 {
                     fundValueCell.ErrorText = "Invalid Fund Value!";
                     fundValueCell.ToolTipText = "Invalid Fund Value!";
-                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                     dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     csvRecord.HasErrors = true;
                 }
@@ -2436,7 +2443,7 @@ namespace Finx.App.Forms
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";
                         fundValueCell.ToolTipText = "Invalid Fund Value!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2472,14 +2479,14 @@ namespace Finx.App.Forms
                         {
                             fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                             fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
 
                         if (DateTime.TryParse(fundValueDate, out _))
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                             {
                                 fundValueDateCell.ErrorText = string.Empty;
                                 fundValueDateCell.ToolTipText = string.Empty;
@@ -2490,7 +2497,7 @@ namespace Finx.App.Forms
                         {
                             fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                             fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;                        
                         }
@@ -2552,14 +2559,14 @@ namespace Finx.App.Forms
                     {
                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
 
                     if (DateTime.TryParse(fundValueDate, out _))
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Firebrick)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
                         {
                             fundValueDateCell.ErrorText = string.Empty;
                             fundValueDateCell.ToolTipText = string.Empty;
@@ -2570,7 +2577,7 @@ namespace Finx.App.Forms
                     {
                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Firebrick;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
