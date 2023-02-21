@@ -81,19 +81,19 @@ namespace easiplan.domain.Entities
 			set;
 		}
 
-        /*public virtual string FundCode
-		{
-			get
-			{
-				return _fundCode;
-			}
-			set
-			{
-				_fundCode = value;
-			}
-		}*/
+		//public virtual string FundCode
+		//{
+		//	get
+		//	{
+		//		return _fundCode;
+		//	}
+		//	set
+		//	{
+		//		_fundCode = value;
+		//	}
+		//}
 
-        public virtual string Description
+		public virtual string Description
 		{
 			get;
 			set;

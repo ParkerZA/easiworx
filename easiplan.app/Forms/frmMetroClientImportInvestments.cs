@@ -1762,9 +1762,9 @@ namespace Finx.App.Forms
                         case "allan gray":
                         case "allangray":
                             //Console.WriteLine("Check this one: " + ((AllanGrayRecord)fund).FundAllocationPercentage);
-                            Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
+                           // Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
                             //Console.WriteLine(fundAllocPerc);
-                            fundAllocPerc = ((AllanGrayRecord)fund).FundAllocationPercentage.AsDouble();
+                            fundAllocPerc = ((AllanGrayRecord)fund).AccountFundAllocation.AsDouble();
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
@@ -1776,7 +1776,8 @@ namespace Finx.App.Forms
                             fundAllocPerc = ((MomentumRecord)fund).FundPerc.AsDouble();
                             break;
                         case "mtab":
-                            Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
+                           // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
+                            //fundAllocPerc = ((MomentumRecord_TabDelimited)fund).FundPerc.AsDouble();
                             break;
                     }
 
