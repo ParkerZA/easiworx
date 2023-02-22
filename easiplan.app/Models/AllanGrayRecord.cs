@@ -123,7 +123,7 @@ namespace Finx.App.Models
             get { return _premium; }
             set 
             { 
-                _premium = value.Replace("R", String.Empty).Trim().Replace(".", ","); 
+                _premium = value.Replace("R", String.Empty).Trim().Replace(",", "."); 
             } 
         }
 

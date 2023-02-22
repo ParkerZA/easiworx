@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+using easiplan.app.Extensions;
 using easiplan.domain.Entities;
 using Finx.App.Forms;
 using Finx.App.Helpers;
@@ -24,6 +25,7 @@ namespace Finx.App.Models
         private string _validationErrors;
         private string _dob = "";
         private string _monthlyPremium;
+        private string _productType;
         
 
         //Sets row number as displayed on import screen
@@ -269,8 +271,21 @@ namespace Finx.App.Models
         [Index(19) ]
         public string ProductType
         {
-            get; 
-            set;
+            get
+            {
+                return _productType;
+            }
+            set
+            {
+                if (value.Contains("Retirement Income Option"))
+                {
+                    _productType = "Living Anuity";
+                }
+                else
+                {
+                    _productType = value;
+                }
+            }
         }
 
 
@@ -334,7 +349,11 @@ namespace Finx.App.Models
                 //Parsing to double in order to set the number into 2 decimal format
                 double rounded;
 
-                if (Double.TryParse(_fundValue, out rounded))
+                rounded = _fundValue.AsDouble();
+
+                
+
+                if (rounded!= 0)
                 {
                     _fundValue = String.Format("{0:0.00}", rounded);
                 }
@@ -415,7 +434,7 @@ namespace Finx.App.Models
             set 
             {
                 //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
-                _monthlyPremium = value;  
+                _monthlyPremium = value.Replace(",",".");  
             }
         }
 

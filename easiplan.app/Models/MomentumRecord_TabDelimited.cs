@@ -108,9 +108,18 @@ namespace Finx.App.Models
                 return _productType; 
             }
             set 
-            { 
-                _productType = value.Replace("'", string.Empty.Replace("\"", string.Empty));
-                _productType = _productType.Replace('"', ' ').Trim();
+            {
+
+                if (value.Contains("Retirement Income Option"))
+                {
+                    _productType = "Living Anuity";
+                }
+                else
+                {
+                    _productType = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+                    _productType = _productType.Replace('"', ' ').Trim();
+                }
+                
             }
         }
 
