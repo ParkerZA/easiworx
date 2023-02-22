@@ -367,6 +367,7 @@ namespace Finx.App.Models
 
         //Split percentage for fund amounts
         [Optional]
+        [Index(27)] 
         public string AccountFundAllocation
         {
             get 
@@ -376,6 +377,7 @@ namespace Finx.App.Models
             set
             {
                 _fundAllocationPercentage = value.Replace("%", string.Empty);
+                _fundAllocationPercentage = _fundAllocationPercentage.Replace(",", ".");
             }
         }
 

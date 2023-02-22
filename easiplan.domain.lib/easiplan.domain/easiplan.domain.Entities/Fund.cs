@@ -74,26 +74,31 @@ namespace easiplan.domain.Entities
 
         #region Persisted Properties
 
-       
+       /*public virtual string FundCode
+       {
+           get;
+           set;
+       }*/
         public virtual string Type
 		{
 			get;
 			set;
 		}
 
-		//public virtual string FundCode
-		//{
-		//	get
-		//	{
-		//		return _fundCode;
-		//	}
-		//	set
-		//	{
-		//		_fundCode = value;
-		//	}
-		//}
+        //public virtual string FundCode
+        //{
+        //	get
+        //	{
+        //		return _fundCode;
+        //	}
+        //	set
+        //	{
+        //		_fundCode = value;
+        //	}
+        //}
 
-		public virtual string Description
+      
+        public virtual string Description
 		{
 			get;
 			set;

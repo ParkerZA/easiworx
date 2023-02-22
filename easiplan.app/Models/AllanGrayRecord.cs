@@ -134,6 +134,7 @@ namespace Finx.App.Models
             set
             {
                 _fundAllocationPercentage = value.Replace("%", string.Empty);//.Replace(".",",");
+                _fundAllocationPercentage = _fundAllocationPercentage.Replace(",", ".");
                 
             }
         }
