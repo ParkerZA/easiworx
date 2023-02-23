@@ -18,8 +18,8 @@ using System.Runtime.InteropServices;
 #elif STAGING
     [assembly: AssemblyTitle("EasiWorx Staging")]  
     [assembly: AssemblyProduct("EasiWorx Staging")]
-    [assembly: AssemblyVersion("1.0.76")] 
-    [assembly: AssemblyFileVersion("1.0.76")] 
+    [assembly: AssemblyVersion("1.0.83")] 
+    [assembly: AssemblyFileVersion("1.0.83")] 
 #elif MOJAFF
     [assembly: AssemblyTitle("EasiWorx Mojaff Preview")]
     [assembly: AssemblyProduct("EasiWorx Mojaff")]
@@ -28,8 +28,8 @@ using System.Runtime.InteropServices;
 #else
     [assembly: AssemblyTitle("EasiWorx Dev")]
     [assembly: AssemblyProduct("EasiWorx Dev")]
-    [assembly: AssemblyVersion("1.0.82")]
-    [assembly: AssemblyFileVersion("1.0.82")]
+    [assembly: AssemblyVersion("1.0.83")]
+    [assembly: AssemblyFileVersion("1.0.83")]
 #endif
 
 [assembly: AssemblyDescription("Financial Services Software")]

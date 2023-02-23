@@ -7719,7 +7719,7 @@ namespace MetroFramework.Controls.Ext
 
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
                 FlatStyle = FlatStyle.Flat,
-                DropDownWidth = _width,
+                //DropDownWidth = _width,
 
             };
 
