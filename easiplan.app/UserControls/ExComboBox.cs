@@ -25,6 +25,8 @@ namespace Finx.App.UserControls
             this.Controls.Add(pnl);
             pnl.BringToFront();
             pnl.Visible = false;
+
+            
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
