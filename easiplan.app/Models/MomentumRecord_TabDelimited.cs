@@ -213,7 +213,7 @@ namespace Finx.App.Models
             }
             set 
             { 
-                _fundValue = value.Replace(",", string.Empty).Replace("\"", string.Empty); 
+                _fundValue = value.Replace(",", ".").Replace("\"", string.Empty); 
                _fundValue = _fundValue.Replace('"', ' ').Trim();
 
                 //Parsing to double in order to set the number into 2 decimal format

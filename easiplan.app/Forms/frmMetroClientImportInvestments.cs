@@ -987,16 +987,22 @@ namespace Finx.App.Forms
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
                 Retirement retirement = null;
-
+                Retirement tester = null;
                 foreach (var policy in distinctRetirementPolicies)
                 {
 
                     //check if retirement policy exists for this client
                     if (clientPortfolio != null && clientPortfolio.Retirements != null && clientPortfolio.Retirements.Count > 0)
+                    {
                         retirement = clientPortfolio.Retirements.Where(r => r.Description.Trim().ToLower() == policy.LISP.Trim().ToLower() &&
                                                                                      r.ReferenceNo.Trim().ToLower() == policy.AccountNo.Trim().ToLower())
                                                                                         .FirstOrDefault();
+                        
+                    
+                    }                                                                                                                  
+
                     if (retirement == null)
+                    {
                         Task.Run(() =>
                         {
                             try
@@ -1017,7 +1023,7 @@ namespace Finx.App.Forms
                             }
 
                         }).Wait();
-
+                    }
                     //get all funds per policy
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
 
