@@ -1785,7 +1785,7 @@ namespace Finx.App.Forms
                             break;
                         case "mtab":
                            // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
-                            //fundAllocPerc = ((MomentumRecord_TabDelimited)fund).FundPerc.AsDouble();
+                            fundAllocPerc = ((MomentumRecord_TabDelimited)fund).AccountFundAllocation.AsDouble();
                             break;
                     }
 
@@ -1794,7 +1794,7 @@ namespace Finx.App.Forms
                     if (retirement.Funds.Count > 0)
                     {
                         //Check if fund codes are the same indicating that the fund is already present in the list
-                        var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
+                        var existingFund = retirement.Funds.Where(f => f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower()).FirstOrDefault();
                         if (existingFund == null)
                         {
                             newfund = CreateFund(fund, fundAllocPerc);
@@ -1847,7 +1847,7 @@ namespace Finx.App.Forms
 
         }
 
-        private Retirement CreateRetirement(ICsvRecord csvRecord, string updateBy = "System", string RetirementType = "Unit Trusts")
+        private Retirement CreateRetirement(ICsvRecord csvRecord, string updateBy = "System", string RetirementType= "Error")
         {
             var insured = "";
             

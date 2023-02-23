@@ -45,6 +45,7 @@ using QSS.Components.Windows.Forms;
 using easiplan.app.Extensions;
 using easiplan.app.ContextMenus;
 using SourceGrid.Cells.Controllers;
+using MetroFramework.Controls;
 
 namespace Finx.App.Extensions
 {
@@ -3513,7 +3514,7 @@ namespace Finx.App.Extensions
     public class ComboBoxEditor<T, P> : SourceGrid.Cells.Editors.ComboBox
     {
         internal ExComboBox control = new ExComboBox();
-
+       
         private BindingSource bSource = new BindingSource();
 
         public ComboBoxEditor(bool ReadOnly = false) : base(typeof(P))
