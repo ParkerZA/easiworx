@@ -23,6 +23,7 @@ namespace Finx.App.Models
         private string _fundName;
         private string _validationErrors;
         private string _fundPerc;
+        private string _productType;
 
 
         [Index(3)]
@@ -59,7 +60,21 @@ namespace Finx.App.Models
         [Index(8)]//Investment Basket
         public string ProductType
         {
-            get;set;
+            get
+            {
+                return _productType;
+            }
+            set
+            {
+                if (value.Contains("Retirement Income Option"))
+                {
+                    _productType = "Living Anuity";
+                }
+                else 
+                {
+                    _productType = value;
+                }
+            }
         }
 
         [Index(17)]

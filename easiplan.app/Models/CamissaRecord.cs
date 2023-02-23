@@ -66,7 +66,7 @@ namespace Finx.App.Models
 
 
         //Policy number associated with this fund
-        [Index(2)]
+        [Index(0)]
         public string AccountNo 
         { 
             get;
