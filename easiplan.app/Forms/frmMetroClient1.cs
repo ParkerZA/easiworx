@@ -2096,13 +2096,12 @@ namespace Finx.App.Forms
             }
             try
             {
-
                 DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 Fund mObj = _bList.EditedObject as Fund;
 
                 mObj.UpdateBy = Program.User.Username;
                 mObj.UpdateDate = DateTime.Now;
-
+               
                 _hasChanges = true;
 
 
@@ -2459,7 +2458,7 @@ namespace Finx.App.Forms
                             columns.For(x => x.MonthlyContribution, "Premium", new CurrencyEditor(true));
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));
-                            columns.For(x => x.UpdateDate, "Last Update", new DateEditor(true));
+                            columns.For(x => x.FundValueDate, "Last Update", new DateEditor(true));
                             //columns.For(x => x.Type, "Type", new MetroTextBoxEditor().ReadOnly(true));
                             columns.For(x => x.Risk, "Risk", new StringEditor(true));
                             //columns.For(x => x.IRR, "IRR", new StringEditor(true));

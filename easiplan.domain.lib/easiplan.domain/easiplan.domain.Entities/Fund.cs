@@ -13,6 +13,8 @@ namespace easiplan.domain.Entities
 
 		private DateTime _StartDate;
 
+        private DateTime _FundValueDate;
+
 		private DateTime _EndDate;
 
         private double _WithdrawalAmount;
@@ -125,7 +127,27 @@ namespace easiplan.domain.Entities
 			}
 		}
 
-		public virtual DateTime EndDate
+
+        public virtual DateTime FundValueDate
+        {
+            get
+            {
+                return _FundValueDate;
+            }
+            set
+            {
+                if (_FundValueDate == value) return;
+
+                _FundValueDate = value;
+
+                //Calculate();
+
+                //InvokePropertyChanged("UpdateDate");
+            }
+        }
+
+
+        public virtual DateTime EndDate
 		{
 			get
 			{
