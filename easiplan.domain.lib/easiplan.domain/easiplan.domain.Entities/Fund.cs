@@ -80,16 +80,13 @@ namespace easiplan.domain.Entities
 			set;
 		}
 
-       
-
       
         public virtual string Description
 		{
 			get;
 			set;
 		}
-
-        
+ 
 
         public virtual double SplitPerc
 		{
@@ -108,6 +105,7 @@ namespace easiplan.domain.Entities
 				InvokePropertyChanged("SplitPercentage");
 			}
 		}
+
 
 		public virtual DateTime StartDate
 		{
@@ -142,7 +140,7 @@ namespace easiplan.domain.Entities
 
                 //Calculate();
 
-                //InvokePropertyChanged("UpdateDate");
+                InvokePropertyChanged("FundValueDate");
             }
         }
 
@@ -165,17 +163,20 @@ namespace easiplan.domain.Entities
 			}
 		}
 
+
 		public virtual string ReferenceNo
 		{
 			get;
 			set;
 		}
 
+
         public virtual int ReferenceId
         {
             get;
             set;
         }
+
 
         public virtual double WithdrawalAmount
         {

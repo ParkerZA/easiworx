@@ -997,7 +997,7 @@ namespace Finx.App.Forms
                         retirement = clientPortfolio.Retirements.Where(r => r.Description.Trim().ToLower() == policy.LISP.Trim().ToLower() &&
                                                                                      r.ReferenceNo.Trim().ToLower() == policy.AccountNo.Trim().ToLower())
                                                                                         .FirstOrDefault();
-                        
+                        //This is where you need to operate, need to make it check if the model portfolio is not the same as well (Should say if lisp is the same, and if (reference num or (model portfolio is the same and model portfolio is not blank))
                     
                     }                                                                                                                  
 
