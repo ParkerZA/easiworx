@@ -344,10 +344,10 @@ namespace Finx.App.Models
             }
             set
             {
-                _fundValue = value.Replace(" ", string.Empty).Replace(",", string.Empty);
+                _fundValue = value.Replace(" ", string.Empty).Replace(",", ".");
                 
                 //Parsing to double in order to set the number into 2 decimal format
-                double rounded;
+                double rounded=0;
 
                 rounded = _fundValue.AsDouble();
 

@@ -13,6 +13,8 @@ namespace easiplan.domain.Entities
 
 		private DateTime _StartDate;
 
+        private DateTime _FundValueDate;
+
 		private DateTime _EndDate;
 
         private double _WithdrawalAmount;
@@ -78,16 +80,13 @@ namespace easiplan.domain.Entities
 			set;
 		}
 
-       
-
       
         public virtual string Description
 		{
 			get;
 			set;
 		}
-
-        
+ 
 
         public virtual double SplitPerc
 		{
@@ -107,6 +106,7 @@ namespace easiplan.domain.Entities
 			}
 		}
 
+
 		public virtual DateTime StartDate
 		{
 			get
@@ -125,7 +125,27 @@ namespace easiplan.domain.Entities
 			}
 		}
 
-		public virtual DateTime EndDate
+
+        public virtual DateTime FundValueDate
+        {
+            get
+            {
+                return _FundValueDate;
+            }
+            set
+            {
+                if (_FundValueDate == value) return;
+
+                _FundValueDate = value;
+
+                //Calculate();
+
+                InvokePropertyChanged("FundValueDate");
+            }
+        }
+
+
+        public virtual DateTime EndDate
 		{
 			get
 			{
@@ -143,17 +163,20 @@ namespace easiplan.domain.Entities
 			}
 		}
 
+
 		public virtual string ReferenceNo
 		{
 			get;
 			set;
 		}
 
+
         public virtual int ReferenceId
         {
             get;
             set;
         }
+
 
         public virtual double WithdrawalAmount
         {

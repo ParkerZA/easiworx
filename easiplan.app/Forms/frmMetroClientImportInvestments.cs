@@ -988,16 +988,22 @@ namespace Finx.App.Forms
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
                 Retirement retirement = null;
-
+                Retirement tester = null;
                 foreach (var policy in distinctRetirementPolicies)
                 {
 
                     //check if retirement policy exists for this client
                     if (clientPortfolio != null && clientPortfolio.Retirements != null && clientPortfolio.Retirements.Count > 0)
+                    {
                         retirement = clientPortfolio.Retirements.Where(r => r.Description.Trim().ToLower() == policy.LISP.Trim().ToLower() &&
                                                                                      r.ReferenceNo.Trim().ToLower() == policy.AccountNo.Trim().ToLower())
                                                                                         .FirstOrDefault();
+                        //This is where you need to operate, need to make it check if the model portfolio is not the same as well (Should say if lisp is the same, and if (reference num or (model portfolio is the same and model portfolio is not blank))
+                    
+                    }                                                                                                                  
+
                     if (retirement == null)
+                    {
                         Task.Run(() =>
                         {
                             try
@@ -1018,7 +1024,7 @@ namespace Finx.App.Forms
                             }
 
                         }).Wait();
-
+                    }
                     //get all funds per policy
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
 
@@ -1460,6 +1466,7 @@ namespace Finx.App.Forms
                     {
                         //client already exists so do nothing here                    
                     }
+
 
                     if (client.Id > 0)
                     {
@@ -1992,12 +1999,12 @@ namespace Finx.App.Forms
             {
                 FundCode = csvRecord.FundCode,
                 Description = csvRecord.FundName,
-                CreateDate = fundValDate,
+                CreateDate = DateTime.Now,
                 CurrentAmount = dblFundValue,
                 SplitPerc = splitPercentage,
                 PolicyPremium = dblMonthlyPremium,
                 UpdateBy = updateBy,
-                UpdateDate = fundValDate
+                UpdateDate = DateTime.Now
             };
             //Console.WriteLine(fund.FundCode);
             //if (fundValDate != new DateTime(0001, 1, 1))
@@ -2006,9 +2013,30 @@ namespace Finx.App.Forms
             {
                 fund.StartDate = fundStartDate;
             }
-           
+            if (fundValDate != new DateTime(0001, 1, 1))
+            {
+                fund.FundValueDate = fundValDate;
+            }
+
             return fund;
         }
+
+        /*
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private Client UpdateClient(Client client, ICsvRecord csvRecord, string UpdateBy = "System")
+        {
+            try
+            {
+                client.PhysicalAddress.Line1 = "Naai man u mos dom";
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return client;
+        }
+        */
+
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund UpdateFund(Fund fund, ICsvRecord csvRecord, string UpdateBy = "System")
