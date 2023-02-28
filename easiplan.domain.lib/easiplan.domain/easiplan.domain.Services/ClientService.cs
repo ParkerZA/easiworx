@@ -21,9 +21,9 @@ namespace easiplan.domain.Services
 				throw new MyValidationException(results.Errors[0].ErrorMessage);
 			}
 
-			base.Add(entity);
+            base.Add(entity);
 
-			entity.SetModified(false);
+            entity.SetModified(false);
 		}
 
 		public override void Update(Client entity)
@@ -35,22 +35,22 @@ namespace easiplan.domain.Services
 				throw new MyValidationException(results.Errors[0].ErrorMessage);
 			}
 
-			base.Update(entity);
+            base.Update(entity);
 
-			entity.SetModified(false);
+            entity.SetModified(false);
 
 		}
 
 		public override void Remove(int id)
 		{
-			Client client = Get(id);
-			if (client != null)
-			{
-				client.AgentDetails = null;
-				Update(client);
-			}
+            base.Repository.BeginTransaction();
+			
+			base.Repository.Execute("UPDATE client SET AgentDetails_id = null where Id=" + id, null);
+
 			base.Remove(id);
-		}
+
+            base.Repository.Commit();
+        }
 
 	}
 
@@ -63,29 +63,33 @@ namespace easiplan.domain.Services
 
 		public override void Add(ClientFnaRisk entity)
 		{
-
-			base.Add(entity);
-
-			entity.SetModified(false);
+            base.Add(entity);
+           
+            entity.SetModified(false);
 		}
 
 		public override void Update(ClientFnaRisk entity)
 		{
+           
+            base.Update(entity);
 
-			base.Update(entity);
 
-			entity.SetModified(false);
+            entity.SetModified(false);
 
 		}
 
 		public override void Remove(int id)
 		{
-			ClientFnaRisk client = Get(id);
-			if (client != null)
-			{	
-				Update(client);
-			}
+			base.Repository.BeginTransaction();
+
+			//ClientFnaRisk client = Get(id);
+			//if (client != null)
+			//{	
+			//	Update(client);
+			//}
 			base.Remove(id);
+
+			base.Repository.Commit();
 		}
 	}
 }

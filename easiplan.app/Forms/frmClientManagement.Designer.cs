@@ -56,6 +56,7 @@
             this.tsb_SMS = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.lblClientCaption = new System.Windows.Forms.ToolStripLabel();
+            this.tsbDeleteClient = new System.Windows.Forms.ToolStripButton();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dataGrid_ClientInstructions = new SourceGrid.DataGrid();
             this.toolStripEx2 = new Finx.App.UserControls.ToolStripEx();
@@ -63,6 +64,7 @@
             this.tsbNew = new System.Windows.Forms.ToolStripButton();
             this.tsbClientRating = new System.Windows.Forms.ToolStripButton();
             this.miniToolStrip = new Finx.App.UserControls.ToolStripEx();
+            this.xInputSelectAll = new Finx.App.UserControls.xInput();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -267,6 +269,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.xInputSelectAll);
             this.panel2.Controls.Add(this.xInput_ShowCompletedTasks);
             this.panel2.Controls.Add(this.metroButton_Refresh);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -391,7 +394,8 @@
             this.toolStripSeparator3,
             this.tsb_SMS,
             this.toolStripSeparator1,
-            this.lblClientCaption});
+            this.lblClientCaption,
+            this.tsbDeleteClient});
             this.toolStripEx1.Location = new System.Drawing.Point(0, 0);
             this.toolStripEx1.Name = "toolStripEx1";
             this.toolStripEx1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -456,6 +460,16 @@
             this.lblClientCaption.Size = new System.Drawing.Size(93, 36);
             this.lblClientCaption.Text = "lblClientCaption";
             // 
+            // tsbDeleteClient
+            // 
+            this.tsbDeleteClient.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbDeleteClient.Image = global::easiplan.app.Properties.Resources.Delete_42;
+            this.tsbDeleteClient.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDeleteClient.Name = "tsbDeleteClient";
+            this.tsbDeleteClient.Size = new System.Drawing.Size(76, 36);
+            this.tsbDeleteClient.Text = "Delete";
+            this.tsbDeleteClient.Click += new System.EventHandler(this.tsbDeleteClient_Clicked);
+            // 
             // panel4
             // 
             this.panel4.Controls.Add(this.dataGrid_ClientInstructions);
@@ -511,7 +525,7 @@
             this.tsbNew.Image = global::easiplan.app.Properties.Resources.notes_32;
             this.tsbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbNew.Name = "tsbNew";
-            this.tsbNew.Size = new System.Drawing.Size(112, 36);
+            this.tsbNew.Size = new System.Drawing.Size(110, 36);
             this.tsbNew.Text = "Custom Task";
             // 
             // tsbClientRating
@@ -537,6 +551,30 @@
             this.miniToolStrip.Name = "miniToolStrip";
             this.miniToolStrip.Size = new System.Drawing.Size(582, 39);
             this.miniToolStrip.TabIndex = 0;
+            // 
+            // xInputSelectAll
+            // 
+            this.xInputSelectAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.xInputSelectAll.BackColor = System.Drawing.Color.Transparent;
+            this.xInputSelectAll.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
+            this.xInputSelectAll.ControlWidth = 15;
+            this.xInputSelectAll.DataSource = null;
+            this.xInputSelectAll.DisplayMember = "Text";
+            this.xInputSelectAll.Dock = System.Windows.Forms.DockStyle.Left;
+            this.xInputSelectAll.LablePosition = Finx.App.UserControls.LablePosition.Left;
+            this.xInputSelectAll.LableText = "Select All";
+            this.xInputSelectAll.Location = new System.Drawing.Point(0, 0);
+            this.xInputSelectAll.MappedField = null;
+            this.xInputSelectAll.Margin = new System.Windows.Forms.Padding(0);
+            this.xInputSelectAll.MinimumSize = new System.Drawing.Size(50, 30);
+            this.xInputSelectAll.Model = null;
+            this.xInputSelectAll.Name = "xInputSelectAll";
+            this.xInputSelectAll.Padding = new System.Windows.Forms.Padding(1);
+            this.xInputSelectAll.ReadOnly = false;
+            this.xInputSelectAll.Size = new System.Drawing.Size(112, 30);
+            this.xInputSelectAll.TabIndex = 6;
+            this.xInputSelectAll.Value = null;
+            this.xInputSelectAll.ValueMember = "Value";
             // 
             // frmClientManagement
             // 
@@ -607,5 +645,7 @@
         private System.Windows.Forms.ToolStripLabel lblClientCaption;
         private System.Windows.Forms.ToolStripButton tsbClientRating;
         private UserControls.xInput xInput_Advisor;
+        private System.Windows.Forms.ToolStripButton tsbDeleteClient;
+        private UserControls.xInput xInputSelectAll;
     }
 }

@@ -1964,6 +1964,60 @@ namespace easiplan.app.ContextMenus
 
     }
 
+    public class DataGridColumnCheckbox : SourceGrid.Cells.Controllers.ControllerBase
+    {
+
+        int x = 0;
+        int y = 0;
+
+        public DataGridColumnCheckbox()
+        {
+           
+        }
+
+        public override void OnMouseDown(CellContext sender, MouseEventArgs e)
+        {
+            x = e.X;
+            y = e.Y;
+
+            base.OnMouseDown(sender, e);
+        }
+
+        public override void OnMouseEnter(CellContext sender, EventArgs e)
+        {
+            base.OnMouseEnter(sender, e);
+
+            var grid = sender.Grid;
+
+            grid.InvalidateCell(sender.Position);
+
+            
+
+        }
+
+        public override void OnMouseLeave(CellContext sender, EventArgs e)
+        {
+            base.OnMouseLeave(sender, e);
+
+            var grid = sender.Grid;
+
+            grid.InvalidateCell(sender.Position);
+
+            
+
+        }
+
+        public override void OnClick(CellContext sender, EventArgs e)
+        {
+            var grid = sender.Grid;
+
+            
+            base.OnClick(sender, e);
+        }
+
+
+    }
+
     public static class ContextenuItemsExt{
         public static ToolStripItem AddMenuItem(this ContextMenuStrip menu, string text, EventHandler clickEvent=null)
         {

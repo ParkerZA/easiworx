@@ -30,6 +30,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.DEV|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.DEV|Any CPU.Build.0 = Debug|Any CPU
 		{FA30A407-6E11-4DF4-B976-7BB87F661F05}.MOJAFF|Any CPU.ActiveCfg = MOJAFF|Any CPU
