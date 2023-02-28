@@ -204,7 +204,42 @@ namespace my.domain.lib.core.Repository
 
         public int Execute(string commandText, Dictionary<string, object> parameters)
         {
-            throw new NotImplementedException();
+           
+            try
+            {
+                //if (this.Transaction == null)
+                //{
+                //    using (ISession session = this.OpenSession())
+                //    {
+                //        session.CreateSQLQuery(commandText);
+
+                //        using (ITransaction transaction = session.BeginTransaction())
+                //        {
+                //            transaction.Commit();
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                   var query = this.SSession.CreateSQLQuery(commandText);
+
+                   query.ExecuteUpdate();
+
+                //}
+
+            }
+            catch (NullReferenceException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new DataException(ex.Message, ex.InnerException);
+            }
+
+
+
+            return 0;
         }
 
         public object QueryValue(string commandText, Dictionary<string, object> parameters)

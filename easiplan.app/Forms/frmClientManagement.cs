@@ -28,6 +28,7 @@ using System.Windows.Forms;
 using easiplan.app.ContextMenus;
 using easiplan.domain.Views;
 using easiplan.app.Extensions;
+using System.Threading.Tasks;
 
 namespace Finx.App.Forms
 {
@@ -108,6 +109,13 @@ namespace Finx.App.Forms
             this.xInput_Advisor.comboBox.SelectedIndexChanged += XInput_AgentId_Changed;
             this.xInput_Advisor.Enabled = !Program.User.IsAdvisorOnly;
 
+            this.xInputSelectAll.ControlTypes = ControlTypes.CheckBox;
+            this.xInputSelectAll.MappedField = "SelectAll";
+            this.xInputSelectAll.LableText = "Select All";
+            this.xInputSelectAll.Model = searchModel;
+            this.xInputSelectAll.Label.Font = new Font(FontFamily.GenericSansSerif, 10F);
+            this.xInputSelectAll.chkBox.CheckedChanged += XInput_SelectAll_KeyPressed;
+
             #endregion
 
             #region Toolstrip Buttons
@@ -131,24 +139,47 @@ namespace Finx.App.Forms
             this.tsbNew.ToolTipText = "Add a custom task linked to this client.";
             tsbNew.Click += TsbNew_Click;
 
+            this.tsbDeleteClient.Visible = Program.User.IsAdministrator;
             #endregion
 
             #region ClientDetailsViewList Grid
-            this.dataGrid_ClientDetails.Initialise(clientDetailsViewList, column =>
+            //this.dataGrid_ClientDetails.Initialise(clientDetailsViewList, column =>
+            //{
+            //    column.For(x => x.IsSelected, "Select", new MetroCheckBoxEditor());
+            //    column.For(x => x.Fullname, "Full Name", new MetroStringEditor(201).ReadOnly(true));
+            //    column.For(x => x.DateOfBirth, "Birth Date", new MetroDateEditor(100));
+            //    column.For(x => x.IdentificationNo, "Identification No", new MetroDateEditor(140));
+            //    column.For(c => c.RecipientAddress, "Email", new MetroStringEditor(201));
+            //    column.For(c => c.RecipientCell, "Cellphone", new MetroStringEditor(201));
+            //    column.For(x => x.AgentName, "Advisor Name", new MetroStringEditor(201));
+            //    column.For(c => c.Rating, "Rating", new MetroStringEditor(70));
+            //},
+            //RowSelectEventHandler: ClientDetails_RowSelect_EventHandler,
+            //ContextMenu: new DataGridContextMenu(this, ContextMenuType.ClientTask, false, null),
+            //ReadOnly: false,
+            //AllowDelete: false)
+            //.Formatt();
+
+            this.dataGrid_ClientDetails.Initialise1<ClientDetailsView>(clientDetailsViewList, column =>
             {
-                column.For(x => x.Fullname, "Full Name", new MetroStringEditor(201));
-                column.For(x => x.DateOfBirth, "Birth Date", new MetroDateEditor(100));
-                column.For(x => x.IdentificationNo, "Identification No", new MetroDateEditor(140));
-                column.For(c => c.RecipientAddress, "Email", new MetroStringEditor(201));
-                column.For(c => c.RecipientCell, "Cellphone", new MetroStringEditor(201));
-                column.For(x => x.AgentName, "Advisor Name", new MetroStringEditor(201));
-                column.For(c => c.Rating, "Rating", new MetroStringEditor(70));
+                column.For(x => x.IsSelected,"=");
+                column.For(x => x.Fullname, "Full Name", new StringEditor(true), MinWidth: 200);
+                column.For(x => x.DateOfBirth, "Birth Date", new DateEditor(true),MinWidth:100);
+                column.For(x => x.IdentificationNo, "Identification No", new StringEditor(true), MinWidth: 200);
+                column.For(c => c.RecipientAddress, "Email", new StringEditor(), MinWidth: 200);
+                column.For(c => c.RecipientCell, "Cellphone", new StringEditor(), MinWidth: 200);
+                column.For(x => x.AgentName, "Advisor Name", new StringEditor(true), MinWidth: 200);
+                column.For(c => c.Rating, "Rating", new StringEditor(true), MinWidth: 70);
+
             },
             RowSelectEventHandler: ClientDetails_RowSelect_EventHandler,
+            
             ContextMenu: new DataGridContextMenu(this, ContextMenuType.ClientTask, false, null),
-            ReadOnly: true,
-            AllowDelete: false)
-            .Formatt(true);
+            ReadOnly: true, AllowDelete: false
+            ).Format1(AllowAddNew:false, fixedCols:2);
+
+            this.dataGrid_ClientDetails.EnableSort = true;
+            
             #endregion
 
             #region ClientInstructions Grid
@@ -285,6 +316,31 @@ namespace Finx.App.Forms
                 MessageBoxExt.ShowException(x, "Not a valid client");
             };
         }
+
+        private async void tsbDeleteClient_Clicked(object sender, EventArgs e)
+        {
+            var count= this.clientDetailsViewList.Where(x => x.IsSelected==true).Count();
+            if(MessageBoxExt.ShowQuestion($"Are you sure you wish to permanently delete these {count} client/s")){
+                using (new AppWaitCursor(sender))
+                {
+                    foreach (var client in this.clientDetailsViewList.Where(x => x.IsSelected == true))
+                    {
+                        Application.DoEvents();
+
+                        await Task.Run(() =>
+                        {
+
+                            Program.ClientService.Remove(client.ClientId);
+
+                        });
+                    }
+
+                    metroButton_Refresh_Click_1(sender, e);
+                }
+                
+            };
+        }
+
         #endregion
 
         #region SearchControl KeyPress events
@@ -439,6 +495,14 @@ namespace Finx.App.Forms
 
             FillClientInstructionsList();
         }
+
+        private void XInput_SelectAll_KeyPressed(object sender, EventArgs e)
+        {
+            searchModel.SelectAll = this.xInputSelectAll.chkBox.Checked;
+            clientDetailsViewList.Select(c => { c.IsSelected = searchModel.SelectAll; return c; }).ToList();
+
+            FillClientDetailsList();
+        }
         private void XInput_AgentId_Changed(object sender, EventArgs e)
         {
             //if (!(searchModel.AgentId==0))
@@ -555,9 +619,10 @@ namespace Finx.App.Forms
             FillClientInstructionsList();
         }
 
+
         #endregion
 
-
+        
     }
 
 
@@ -586,6 +651,8 @@ namespace Finx.App.Forms
         public DateTime AppointmentDate { get { return _AppointmentDate; } set { _AppointmentDate = value; InvokePropertyChanged("AppointmentDate"); } }
 
         public bool ShowCompletedTask { get; set; }
+
+        public bool SelectAll { get; set; }
 
         int _agentId;
         public int AgentId { get { return _agentId; } set { _agentId = value; InvokePropertyChanged("AgentId"); } }

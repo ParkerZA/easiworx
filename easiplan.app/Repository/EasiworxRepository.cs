@@ -196,5 +196,7 @@ namespace easiplan.app.Repository
             }).MigrateDown(version);
             base.DBMigrateDown(assembly, version, dbNameType);
         }
+
+        
     }
 }
