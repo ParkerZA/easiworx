@@ -25,7 +25,7 @@ namespace Finx.App.Models
         private string _birthDate;
         private string _fundName;
         private string _validationErrors;
-        private string _passportNo;
+        private string _passportNo="";
         private string _accountNo;
         private string _lastname;
         private string _initials;
@@ -327,6 +327,7 @@ namespace Finx.App.Models
             Map(c => c.AccountNo);
             Map(c => c.LISP).Default("Momentum");
             Map(c => c.ProductType);
+            Map(c => c.PassportNo);
             Map(c => c.FundCode);
             Map(c => c.FundName);
             Map(c => c.FundValue);

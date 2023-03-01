@@ -2618,14 +2618,27 @@ namespace Finx.App.Forms
             //await Task.Run(() =>
             //{
             var idno = "";
+            var ppno = "";
             DataGridViewCell idNoCell = null;
+            DataGridViewCell ppNoCell = null;
+
+
+
 
             if (dgvFileContents.InvokeRequired == true)
                 dgvFileContents.BeginInvoke((Action)delegate
                 {
+                    ppNoCell = dgvFileContents.Rows[RowIndex].Cells["PassportNo"];
+                    ppno = ppNoCell.Value.ToString();
                     idNoCell = dgvFileContents.Rows[RowIndex].Cells["IDNumber"];
                     idno = idNoCell.Value.ToString();
-                    if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+
+                    if (string.IsNullOrEmpty(idno) && !(string.IsNullOrEmpty(ppno)))
+                    {
+                        //Do nothing, there is a passport number instead of ID
+                    }
+
+                    else if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
                     {
                         idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                         idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
@@ -2653,10 +2666,18 @@ namespace Finx.App.Forms
             else
             {
                 idNoCell = dgvFileContents.Rows[RowIndex].Cells["IDNumber"];
-                
                 idno = idNoCell.Value.ToString();
-                
-                if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+
+                ppNoCell = dgvFileContents.Rows[RowIndex].Cells["PassportNo"];
+                ppno = ppNoCell.Value.ToString();
+
+
+                if (string.IsNullOrEmpty(idno) && !(string.IsNullOrEmpty(ppno)))
+                {
+                    //Do nothing, there is a passport number instead of ID
+                }
+
+                else if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
                 {
                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                     idNoCell.ToolTipText = "Invalid ID No. Length < 13!";

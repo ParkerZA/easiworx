@@ -19,6 +19,7 @@ namespace Finx.App.Models
         private string _product = "";
         private string _fundValue = "";
         private string _fundValueDate = "";
+        private string _passportNo = "";
         private string _lisp = "Allan Gray";
         private string _fundAllocationPercentage;
         private string _startDate;
@@ -92,7 +93,14 @@ namespace Finx.App.Models
         [Optional]
         public string PassportNo
         {
-            get; set;
+            get
+            {
+                return _passportNo;
+            } 
+            set
+            {
+                _passportNo = value;
+            }
         }
         
 
@@ -201,6 +209,7 @@ namespace Finx.App.Models
             Map(c => c.ProductType);
             Map(c => c.AccountNo);
             Map(c => c.FundName);
+            Map(c => c.PassportNo);
             Map(c => c.FundCode);
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);

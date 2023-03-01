@@ -26,6 +26,7 @@ namespace Finx.App.Models
         private string _validationErrors;
         private string _fundPerc;
         private string _productType;
+        private string _passportNo = "";
 
 
         [Index(3)]
@@ -57,7 +58,14 @@ namespace Finx.App.Models
         [Optional]
         public string PassportNo
         {
-            get; set;
+            get
+            {
+                return _passportNo;
+            }
+            set 
+            {
+                _passportNo = value;
+            }
         }
         [Index(8)]//Investment Basket
         public string ProductType
