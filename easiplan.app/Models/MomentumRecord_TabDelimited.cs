@@ -352,6 +352,7 @@ namespace Finx.App.Models
                   SaIdValidator validator = new SaIdValidator();
                   if (!(validator.Validate(idNumber)))
                   {
+                      Console.WriteLine("ID is no good");
                       errors.Append("Invalid SA ID No!");
                   }
 

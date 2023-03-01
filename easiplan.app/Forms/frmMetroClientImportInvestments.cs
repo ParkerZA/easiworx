@@ -33,6 +33,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using my.domain.lib.core.Validation;
+
 
 namespace Finx.App.Forms
 {
@@ -2635,7 +2637,9 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
+                        //Validate ID number
+                        SaIdValidator validator = new SaIdValidator();
+                        if (!(validator.Validate(idno)))
                         {
                             idNoCell.ErrorText = "Invalid SA ID No!";
                             idNoCell.ToolTipText = "Invalid SA ID No!";
@@ -2663,7 +2667,9 @@ namespace Finx.App.Forms
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
+                    //Validate ID number
+                    SaIdValidator validator = new SaIdValidator();
+                    if (!(validator.Validate(idno)))
                     {
                         idNoCell.ErrorText = "Invalid SA ID No!";
                         idNoCell.ToolTipText = "Invalid SA ID No!";
