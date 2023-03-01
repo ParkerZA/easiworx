@@ -2089,6 +2089,7 @@ namespace Finx.App.Extensions
             grid.AddRowHeader(RowHeaderSelectEventHandler);
             #endregion
 
+            
             #region Add the Columns
             //Add the delete event handler when not in ReadOnly mode
             if (!ReadOnly && AllowDelete)
@@ -2761,7 +2762,12 @@ namespace Finx.App.Extensions
                     dgCol.HeaderCell.View = new ColumnInfoView();
                 }
 
-
+                //if(column.ColumnType == typeof(bool)){
+                //    DataGridColumnCheckbox chk = new DataGridColumnCheckbox();
+                    
+                //    dgCol.HeaderCell.AddController(chk);
+                //}           
+                    
             }
 
             //Add a delete button
@@ -2884,7 +2890,7 @@ namespace Finx.App.Extensions
         /// Specifies a column should be constructed for the specified property.
         /// </summary>
         /// <param name="propertySpecifier">Lambda that specifies the property for which a column should be constructed</param>
-        public GridColumn<T> For(Expression<Func<T, object>> propertySpecifier, string displayName = "", EditorBase editor = null, bool Editable = true, int Width = 0, int MinWidth = 0, string Tooltip = "")
+        public GridColumn<T> For(Expression<Func<T, object>> propertySpecifier, string displayName = "", EditorBase editor = null, bool Editable = true, int Width = 0, int MinWidth = 0, string Tooltip = "",EventHandler ColumnHeaderClickEvent=null)
         {
             var memberExpression = GetMemberExpression(propertySpecifier);
             var propertyType = GetTypeFromMemberExpression(memberExpression);
@@ -2917,7 +2923,7 @@ namespace Finx.App.Extensions
             if (MinWidth > 0) column.ColumnFormat.MinWidth = MinWidth;
             column.ColumnFormat.Editable = Editable;
 
-            column.ColumnFormat.Tooltip = Tooltip;
+            column.ColumnFormat.Tooltip = Tooltip;            
 
             Add(column);
 

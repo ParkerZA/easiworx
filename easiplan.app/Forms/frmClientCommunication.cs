@@ -63,6 +63,7 @@ namespace Finx.App.Forms
                     //filteredList.RemoveAll(c => string.IsNullOrEmpty(c.RecipientCell) == true);
                     filteredList.Select(c => { c.IsSelected = true; return c; }).ToList();
                     break;
+               
                 default:
                     this.Text = "Send Email/SMS";
                     filteredList.Select(c => { c.IsSelected = true; return c; }).ToList();
@@ -219,8 +220,7 @@ namespace Finx.App.Forms
             //};
 
 
-
-            this.objectListView1.ShowGroups = false;
+                this.objectListView1.ShowGroups = false;
 
             this.objectListView1.UseAlternatingBackColors = false;
 
@@ -1003,6 +1003,10 @@ namespace Finx.App.Forms
 
             instructionList.Clear();
         }
+        #endregion
+
+        #region Delete Clients
+
         #endregion
     }
 

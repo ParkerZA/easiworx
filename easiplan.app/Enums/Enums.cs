@@ -350,6 +350,7 @@ namespace Finx.App.Enums
         SendEmail,
         SendSMS,
         SendAll
+        
     }
 
     public enum VersionType

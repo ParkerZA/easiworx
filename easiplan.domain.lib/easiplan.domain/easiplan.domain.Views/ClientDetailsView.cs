@@ -30,7 +30,7 @@ namespace easiplan.domain.Views
 
         public virtual int ClientId { get; set; }
 
-        public virtual bool IsSelected { get; set; } = true;
+        public virtual bool IsSelected { get; set; } = false;
 
         public virtual int Age
         {
