@@ -178,8 +178,8 @@ namespace Finx.App.Forms
                         childForm.Show();
                     }
                     catch (NullReferenceException ex)
-                    { 
-                    
+                    {
+                        MessageBox.Show("Error with this one");
                     }
                     catch (Exception x)
                     {
