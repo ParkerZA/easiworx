@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using my.domain.lib.core.Validation;
 
 namespace Finx.App.Models
 {
@@ -18,6 +19,7 @@ namespace Finx.App.Models
         private string _product = "";
         private string _fundValue = "";
         private string _fundValueDate = "";
+        private string _passportNo = "";
         private string _lisp = "Allan Gray";
         private string _fundAllocationPercentage;
         private string _startDate;
@@ -91,7 +93,14 @@ namespace Finx.App.Models
         [Optional]
         public string PassportNo
         {
-            get; set;
+            get
+            {
+                return _passportNo;
+            } 
+            set
+            {
+                _passportNo = value;
+            }
         }
         
 
@@ -200,6 +209,7 @@ namespace Finx.App.Models
             Map(c => c.ProductType);
             Map(c => c.AccountNo);
             Map(c => c.FundName);
+            Map(c => c.PassportNo);
             Map(c => c.FundCode);
             Map(c => c.FundValue);
             Map(c => c.FundValueDate);
@@ -221,9 +231,15 @@ namespace Finx.App.Models
 
                         if (string.IsNullOrEmpty(idNumber))
                             errors.Append("ID Number is null!");
-                    
+                        /*
                         if (!Regex.IsMatch(idNumber, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
                             errors.Append("Invalid SA ID No!");
+                        */
+                        SaIdValidator validator = new SaIdValidator();
+                        if (!(validator.Validate(idNumber)))
+                        {
+                            errors.Append("Invalid SA ID No!");
+                        }
 
                         if (string.IsNullOrEmpty(policyNo))
                             errors.Append("Policy Number is null!");

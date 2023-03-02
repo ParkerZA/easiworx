@@ -33,6 +33,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using my.domain.lib.core.Validation;
+
 
 namespace Finx.App.Forms
 {
@@ -957,6 +959,7 @@ namespace Finx.App.Forms
                                         client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
                                         Program.ClientService.Update(client);
                                     }
+                                    
                                 }
                             }
                             catch (AggregateException x)
@@ -983,6 +986,21 @@ namespace Finx.App.Forms
                     if (client == null) return;
                 }
 
+                /*  //if csv is easiworx then all the easiwox address and contact details
+                  client.PhysicalAddress = new AddressDetail()
+                  {
+                          Line1 = "Yoh",
+                          Line2 = "Naai",
+                          Line3 = "Nruh",
+                          Line4 = "aight",
+                          Code = 8999
+                  };*/
+
+                UpdateClientDetails(client, Investments.FirstOrDefault());
+                
+
+
+
                 //get all distinct policies for this client
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
@@ -997,7 +1015,7 @@ namespace Finx.App.Forms
                         retirement = clientPortfolio.Retirements.Where(r => r.Description.Trim().ToLower() == policy.LISP.Trim().ToLower() &&
                                                                                      r.ReferenceNo.Trim().ToLower() == policy.AccountNo.Trim().ToLower())
                                                                                         .FirstOrDefault();
-                        //This is where you need to operate, need to make it check if the model portfolio is not the same as well (Should say if lisp is the same, and if (reference num or (model portfolio is the same and model portfolio is not blank))
+                        //This is where you need to operate, need to make it check if the model portfolio is not the same as well (Should say if lisp is the same, and if (reference num or (model portfolio is the same and model p))
                     
                     }                                                                                                                  
 
@@ -1166,7 +1184,7 @@ namespace Finx.App.Forms
                 var firstname = "";
                 var lastname = "";
 
-                var physicalAddress1 = "";
+              /*  var physicalAddress1 = "";
                 var physicalAddress2 = "";
                 var physicalAddress3 = "";
                 var physicalAddress4 = "";
@@ -1187,7 +1205,7 @@ namespace Finx.App.Forms
                 var worktel = "";
                 var faxno = "";
                 var cellno = "";
-                var email = "";
+                var email = "";*/
                 var dob = "";
 
                 try
@@ -1244,7 +1262,7 @@ namespace Finx.App.Forms
                             title = camissaRecord.Title;
                             firstname = camissaRecord.Firstname;
                             lastname = camissaRecord.Lastname;
-
+/*
                             //Camissa Physical Address
 
                             //Below I am splitting the first line of the Camissa address format into a street number and road name
@@ -1290,7 +1308,7 @@ namespace Finx.App.Forms
                             cellno = camissaRecord.Cellphone;
                             faxno = camissaRecord.FaxNumber;
                             email = camissaRecord.EmailAddress;
-
+*/
                             break;
 
                         case "momentum":
@@ -1346,7 +1364,7 @@ namespace Finx.App.Forms
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
 
 
-
+/*
                             //Easiworx Physical Address
 
                             physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
@@ -1371,7 +1389,7 @@ namespace Finx.App.Forms
                             cellno = easiworxRecord.CellNo.Replace("'", string.Empty); 
                             //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
                             email = easiworxRecord.EmailAddress;
-                            
+                            */
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1394,7 +1412,7 @@ namespace Finx.App.Forms
                         },
                         ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now }
                     };
-                    if (!string.IsNullOrEmpty(physicalAddress1))
+                    /*if (!string.IsNullOrEmpty(physicalAddress1))
                     {
                         client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
                                                  physicalAddress2 + " " +
@@ -1450,7 +1468,18 @@ namespace Finx.App.Forms
                                 postalAddress6,
                             Code = postalCode
                         };
-                    }
+                    }*/
+
+                    client.ClientContacts = new ClientContacts()
+                    {
+                        EMailAddr = "",
+                        FaxNo = "",
+                        HomeTel = "",
+                        BussTel = "",
+                        CellNo = "",
+                        CreateDate = DateTime.Now,
+                        UpdateBy = UpdateBy
+                    };
 
                     if (!string.IsNullOrEmpty(dob))
                     {
@@ -1491,6 +1520,259 @@ namespace Finx.App.Forms
 
             return client;
         }
+
+
+        
+
+        private Client UpdateClientDetails(Client client, ICsvRecord csvRecord, string UpdateBy = "System")
+        {
+            
+            try
+            {
+
+                DateTime now = DateTime.Now;
+                if (csvRecord == null) return null;
+
+
+                lock (_lockObject)
+                {
+
+                    var physicalAddress1 = "";
+                    var physicalAddress2 = "";
+                    var physicalAddress3 = "";
+                    var physicalAddress4 = "";
+                    var physicalAddress5 = "";
+                    var physicalAddress6 = "";
+                    var physicalAddressCode = 0;
+
+                    var postalAddress1 = "";
+                    var postalAddress2 = "";
+                    var postalAddress3 = "";
+                    var postalAddress4 = "";
+                    var postalAddress5 = "";
+                    var postalAddress6 = "";
+                    var postalCode = 0;
+
+                    var taxNo = "";
+                    var hometel = "";
+                    var worktel = "";
+                    var faxno = "";
+                    var cellno = "";
+                    var email = "";
+
+
+
+                    //switch (csvRecord.LISP.ToLower())
+                    switch (_selectedLisp.ToLower())
+                    {
+                        case "camissa":
+                            var camissaRecord = csvRecord as CamissaRecord;
+
+
+                            //Camissa Physical Address
+
+                            //Below I am splitting the first line of the Camissa address format into a street number and road name
+                            string streetNumber = "";
+                            string roadName = "";
+
+                            int spaceIndex = camissaRecord.PhysicalAddress1.IndexOf(' '); //Gets index of first space in address
+
+                            streetNumber = camissaRecord.PhysicalAddress1.Substring(0, spaceIndex); //Sets street number
+                            roadName = camissaRecord.PhysicalAddress1.Substring(spaceIndex).Trim(); //Sets road name
+
+                            physicalAddress1 = streetNumber; //Street number
+                            physicalAddress2 = roadName; //Road name
+                            physicalAddress3 = camissaRecord.PhysicalAddress2; // Suburb (Possibly refactor, especially if the other lisps have a very different address structure)
+                            physicalAddress4 = camissaRecord.PhysicalAddress4;
+                            physicalAddress5 = camissaRecord.PhysicalAddress5;
+                            physicalAddress6 = camissaRecord.PhysicalAddress6;
+                            int.TryParse(camissaRecord.PhysicalAddressPostalCode, out physicalAddressCode);
+
+                            //Camissa Postal Address
+
+                            //Splitting postal road number from the street name
+                            string posStreetNumber = "";
+                            string posRoadName = "";
+
+                            int posSpaceIndex = camissaRecord.PostalAddress1.IndexOf(' '); //Gets index of first space in address
+
+                            posStreetNumber = camissaRecord.PhysicalAddress1.Substring(0, posSpaceIndex); //Sets street number
+                            posRoadName = camissaRecord.PhysicalAddress1.Substring(posSpaceIndex).Trim(); //Sets road name
+
+                            postalAddress1 = posStreetNumber; //Street number
+                            postalAddress2 = posRoadName; //Road name
+                            postalAddress3 = camissaRecord.PostalAddress2; //Suburb (This is really dumb... might have to refactor)
+                            postalAddress4 = camissaRecord.PostalAddress4;
+                            postalAddress5 = camissaRecord.PostalAddress5;
+                            postalAddress6 = camissaRecord.PostalAddress6;
+                            int.TryParse(camissaRecord.PostalCode, out postalCode);
+
+                            taxNo = camissaRecord.TaxNo;
+
+                            hometel = camissaRecord.HomeTelephone;
+                            worktel = camissaRecord.WorkTelephone;
+                            cellno = camissaRecord.Cellphone;
+                            faxno = camissaRecord.FaxNumber;
+                            email = camissaRecord.EmailAddress;
+
+                            break;
+
+                        case "momentum":
+
+
+                            var momentumRecord = csvRecord as MomentumRecord;
+                            //Currently momentum does not provide address and contact details
+
+                            break;
+
+                        case "mtab":
+
+
+                            var momentumTabRecord = csvRecord as MomentumRecord_TabDelimited;
+
+                            break;
+
+                        case "alangray":
+                        case "alan gray":
+                        case "allangray":
+                        case "allan gray":
+
+                            var allanGrayRecord = csvRecord as AllanGrayRecord;
+
+                            //firstname = allanGrayRecord.Firstname.Trim();
+                            //lastname = allanGrayRecord.Lastname.Trim();
+
+
+                            break;
+                        case "easiworx":
+                        case "easiworxtemplate":
+
+                            var easiworxRecord = csvRecord as EasiworxRecord;
+                            //firstname = easiworxRecord.Firstname.Trim();
+                            //lastname = easiworxRecord.Lastname.Trim();
+
+
+                            //Easiworx Physical Address
+
+                            physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
+                            physicalAddress2 = easiworxRecord.PhysicalAddress;
+                            physicalAddress3 = easiworxRecord.PhysicalAddressSuburb;
+                            //physicalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the physical address city
+                            int.TryParse(easiworxRecord.PhysicalAddressPostalCode, out physicalAddressCode); //Sets the physical address postal code
+
+                            //Easiworx Postal Address
+
+                            postalAddress1 = easiworxRecord.PostalAddressStreetNo;
+                            postalAddress2 = easiworxRecord.PostalAddress;
+                            postalAddress3 = easiworxRecord.PostalSuburb;
+                            //postalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the postal city
+                            int.TryParse(easiworxRecord.PostalCode, out postalCode); //Sets the postal address postal code
+
+                            //Easiworx Contact Details
+
+                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
+                            hometel = easiworxRecord.HomeTel.Replace("'", string.Empty);
+                            worktel = easiworxRecord.OfficeTel.Replace("'", string.Empty);
+                            cellno = easiworxRecord.CellNo.Replace("'", string.Empty);
+                            //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
+                            email = easiworxRecord.EmailAddress;
+
+                            break;
+                        default:
+                            throw new ApplicationException("Invalid Lisp!");
+                    }
+
+
+
+                    if (!string.IsNullOrEmpty(physicalAddress1))
+                    {
+                        client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
+                                                 physicalAddress2 + " " +
+                                                 physicalAddress3 + " " +
+                                                 physicalAddress4 + " " +
+                                                 physicalAddress5 + " " +
+                                                 physicalAddress6 + " " +
+                                                 physicalAddressCode;
+                    }
+
+                    if (!string.IsNullOrEmpty(taxNo))
+                        client.ClientDetails.TaxNumber = taxNo;
+
+                    if (!string.IsNullOrEmpty(cellno))
+                        client.ClientDetails.RecipientCell = cellno;
+
+                    if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(faxno) || !string.IsNullOrEmpty(hometel) || !string.IsNullOrEmpty(worktel) || !string.IsNullOrEmpty(cellno))
+                    {
+
+
+                        client.ClientContacts.EMailAddr = email;
+                        client.ClientContacts.FaxNo = faxno;
+                        client.ClientContacts.HomeTel = hometel;
+                        client.ClientContacts.BussTel = worktel;
+                        client.ClientContacts.CellNo = cellno;
+                        client.ClientContacts.UpdateBy = UpdateBy;
+                    }
+                    
+                    if (!string.IsNullOrEmpty(physicalAddress1))
+                    {
+                        client.PhysicalAddress = new AddressDetail()
+                        {
+                            Line1 = physicalAddress1,
+                            Line2 = physicalAddress2,
+                            Line3 = physicalAddress3,
+                            Line4 = physicalAddress4 + " " +
+                                       physicalAddress5 + " " +
+                                       physicalAddress6,
+                            Code = physicalAddressCode
+                        };
+                    }
+
+                    if (!string.IsNullOrEmpty(postalAddress1))
+                    {
+                        client.PostalAddress = new AddressDetail()
+                        {
+                            Line1 = postalAddress1,
+                            Line2 = postalAddress2,
+                            Line3 = postalAddress3,
+                            Line4 = postalAddress4 + " " +
+                                postalAddress5 + " " +
+                                postalAddress6,
+                            Code = postalCode
+                        };
+                    }
+
+
+
+
+                    if (client.Id > 0)
+                    {
+                        client.ClientDetails.ClientId = client.Id;
+
+                        if (client.ClientContacts != null)
+                        {
+                            client.ClientContacts.ClientId = client.Id;
+                            client.ClientContacts.ClientDetailsId = client.ClientDetails.Id;
+                        }
+
+                        Program.ClientService.Update(client);
+                    }
+                    else
+                        client = null;
+
+                }
+            }
+                catch (Exception)
+                {
+                    throw;
+                }
+            
+
+            return client;
+        }
+
+
+
+        
 
         private void LoadFile(FileSettings fileSettings)
         {
@@ -1800,7 +2082,7 @@ namespace Finx.App.Forms
                     if (retirement.Funds.Count > 0)
                     {
                         //Check if fund codes are the same indicating that the fund is already present in the list
-                        var existingFund = retirement.Funds.Where(f => f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower()).FirstOrDefault();
+                        var existingFund = retirement.Funds.Where(f => f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower() || f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
                         if (existingFund == null)
                         {
                             newfund = CreateFund(fund, fundAllocPerc);
@@ -2003,7 +2285,7 @@ namespace Finx.App.Forms
                 SplitPerc = splitPercentage,
                 PolicyPremium = dblMonthlyPremium,
                 UpdateBy = updateBy,
-                UpdateDate = DateTime.Now
+                UpdateDate = fundValDate
             };
             //Console.WriteLine(fund.FundCode);
             //if (fundValDate != new DateTime(0001, 1, 1))
@@ -2015,26 +2297,13 @@ namespace Finx.App.Forms
             if (fundValDate != new DateTime(0001, 1, 1))
             {
                 fund.FundValueDate = fundValDate;
+                Console.WriteLine(fundValDate);
             }
 
             return fund;
         }
 
-        /*
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        private Client UpdateClient(Client client, ICsvRecord csvRecord, string UpdateBy = "System")
-        {
-            try
-            {
-                client.PhysicalAddress.Line1 = "Naai man u mos dom";
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return client;
-        }
-        */
+        
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -2058,6 +2327,7 @@ namespace Finx.App.Forms
                     fund.CurrentAmount = dblFundValue;
                     fund.UpdateBy = UpdateBy;
                     fund.UpdateDate = fundValDate;
+                    fund.FundValueDate = fundValDate;
                 }
             }
             catch (Exception)
@@ -2348,14 +2618,27 @@ namespace Finx.App.Forms
             //await Task.Run(() =>
             //{
             var idno = "";
+            var ppno = "";
             DataGridViewCell idNoCell = null;
+            DataGridViewCell ppNoCell = null;
+
+
+
 
             if (dgvFileContents.InvokeRequired == true)
                 dgvFileContents.BeginInvoke((Action)delegate
                 {
+                    ppNoCell = dgvFileContents.Rows[RowIndex].Cells["PassportNo"];
+                    ppno = ppNoCell.Value.ToString();
                     idNoCell = dgvFileContents.Rows[RowIndex].Cells["IDNumber"];
                     idno = idNoCell.Value.ToString();
-                    if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+
+                    if (string.IsNullOrEmpty(idno) && !(string.IsNullOrEmpty(ppno)))
+                    {
+                        //Do nothing, there is a passport number instead of ID
+                    }
+
+                    else if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
                     {
                         idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                         idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
@@ -2367,7 +2650,9 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
+                        //Validate ID number
+                        SaIdValidator validator = new SaIdValidator();
+                        if (!(validator.Validate(idno)))
                         {
                             idNoCell.ErrorText = "Invalid SA ID No!";
                             idNoCell.ToolTipText = "Invalid SA ID No!";
@@ -2381,10 +2666,18 @@ namespace Finx.App.Forms
             else
             {
                 idNoCell = dgvFileContents.Rows[RowIndex].Cells["IDNumber"];
-                
                 idno = idNoCell.Value.ToString();
-                
-                if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
+
+                ppNoCell = dgvFileContents.Rows[RowIndex].Cells["PassportNo"];
+                ppno = ppNoCell.Value.ToString();
+
+
+                if (string.IsNullOrEmpty(idno) && !(string.IsNullOrEmpty(ppno)))
+                {
+                    //Do nothing, there is a passport number instead of ID
+                }
+
+                else if (!string.IsNullOrEmpty(idno) && idno.Length < 13)
                 {
                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                     idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
@@ -2395,7 +2688,9 @@ namespace Finx.App.Forms
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(idno) && !Regex.IsMatch(idno, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
+                    //Validate ID number
+                    SaIdValidator validator = new SaIdValidator();
+                    if (!(validator.Validate(idno)))
                     {
                         idNoCell.ErrorText = "Invalid SA ID No!";
                         idNoCell.ToolTipText = "Invalid SA ID No!";

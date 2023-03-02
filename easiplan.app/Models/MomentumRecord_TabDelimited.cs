@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using CsvHelper;
 using Finx.App.Helpers;
+using my.domain.lib.core.Validation;
+
 
 namespace Finx.App.Models
 {
@@ -23,7 +25,7 @@ namespace Finx.App.Models
         private string _birthDate;
         private string _fundName;
         private string _validationErrors;
-        private string _passportNo;
+        private string _passportNo="";
         private string _accountNo;
         private string _lastname;
         private string _initials;
@@ -216,12 +218,7 @@ namespace Finx.App.Models
                 _fundValue = value.Replace(",", ".").Replace("\"", string.Empty); 
                _fundValue = _fundValue.Replace('"', ' ').Trim();
 
-                //Parsing to double in order to set the number into 2 decimal format
-                double rounded;
-                if (Double.TryParse(_fundValue, out rounded))
-                {
-                    _fundValue = String.Format("{0:0.00}", rounded);
-                }
+                
             }
         }
        
@@ -330,6 +327,7 @@ namespace Finx.App.Models
             Map(c => c.AccountNo);
             Map(c => c.LISP).Default("Momentum");
             Map(c => c.ProductType);
+            Map(c => c.PassportNo);
             Map(c => c.FundCode);
             Map(c => c.FundName);
             Map(c => c.FundValue);
@@ -348,10 +346,16 @@ namespace Finx.App.Models
 
                   if (string.IsNullOrEmpty(idNumber))
                       errors.Append("ID Number is null!");
-
+                  /*
                   if (!Regex.IsMatch(idNumber, @"(((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229))(( |-)(\d{4})( |-)(\d{3})|(\d{7}))"))
                       errors.Append("Invalid RSA ID Number!");
-                  
+                  */
+                  SaIdValidator validator = new SaIdValidator();
+                  if (!(validator.Validate(idNumber)))
+                  {
+                      Console.WriteLine("ID is no good");
+                      errors.Append("Invalid SA ID No!");
+                  }
 
                   if (string.IsNullOrEmpty(policyNo))
                       errors.Append("Account or Policy Number is null!");

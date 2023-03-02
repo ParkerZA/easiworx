@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using CsvHelper;
 using Finx.App.Helpers;
+using my.domain.lib.core.Validation;
+
 
 namespace Finx.App.Models
 {
@@ -24,6 +26,7 @@ namespace Finx.App.Models
         private string _validationErrors;
         private string _fundPerc;
         private string _productType;
+        private string _passportNo = "";
 
 
         [Index(3)]
@@ -55,7 +58,14 @@ namespace Finx.App.Models
         [Optional]
         public string PassportNo
         {
-            get; set;
+            get
+            {
+                return _passportNo;
+            }
+            set 
+            {
+                _passportNo = value;
+            }
         }
         [Index(8)]//Investment Basket
         public string ProductType
@@ -218,10 +228,12 @@ namespace Finx.App.Models
 
                   if (string.IsNullOrEmpty(idNumber))
                       errors.Append("ID Number is null!");
+                    
 
+                  /*
                   if (!Regex.IsMatch(idNumber, @"(?<Year>[0-9][0-9])(?<Month>([0][1-9])|([1][0-2]))(?<Day>([0-2][1-9])|([3][0-1]))(?<Gender>[0-9])(?<Series>[0-9]{3})(?<Citizenship>[0-9])(?<Uniform>[0-9])(?<Control>[0-9])"))
                       errors.Append("Invalid RSA ID Number!");
-
+                  */
                   if (string.IsNullOrEmpty(policyNo))
                       errors.Append("Account or Policy Number is null!");
 
