@@ -83,7 +83,7 @@ namespace easiplan.app.Repository
                         (m =>
                         {
                             m.FluentMappings.AddFromAssemblyOf<ClientDetailsView>(); //ClassMap mappings   
-                            m.FluentMappings.AddFromAssemblyOf<ClientRetirementPortfolio_View>(); //ClassMap mappings   
+                          //  m.FluentMappings.AddFromAssemblyOf<ClientRetirementPortfolio_View>(); //ClassMap mappings   
                             m.AutoMappings.Add(this.CreateAutomappings(Assembly.GetAssembly(typeof(DomainServices)), "easiplan.domain.Entities").Conventions.Add(FluentNHibernate.Conventions.Helpers.DefaultLazy.Always())); //Automap entities in namespace
                             m.AutoMappings.Add(this.CreateAutomappings(Assembly.GetAssembly(typeof(EstateAnalysisService)), "easiplan.domain.estate.Entities")); //Automap entities in namespace 
                             

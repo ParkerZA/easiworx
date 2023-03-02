@@ -2101,6 +2101,7 @@ namespace Finx.App.Forms
 
                 mObj.UpdateBy = Program.User.Username;
                 mObj.UpdateDate = DateTime.Now;
+                mObj.FundValueDate = DateTime.Now;
                
                 _hasChanges = true;
 

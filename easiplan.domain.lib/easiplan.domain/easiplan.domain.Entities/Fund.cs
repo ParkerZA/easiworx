@@ -201,6 +201,8 @@ namespace easiplan.domain.Entities
 
 			StartDate = DateTime.Now;
 
+            FundValueDate= DateTime.Now;
+
             IsLoading = false;
 		}
 

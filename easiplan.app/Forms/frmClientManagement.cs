@@ -325,12 +325,10 @@ namespace Finx.App.Forms
                 {
                     foreach (var client in this.clientDetailsViewList.Where(x => x.IsSelected == true))
                     {
-                        Application.DoEvents();
-
+                       
                         await Task.Run(() =>
                         {
-
-                            Program.ClientService.Remove(client.ClientId);
+                           Program.ClientService.Remove(client.ClientId);
 
                         });
                     }
