@@ -45,9 +45,63 @@ namespace easiplan.domain.Services
 		{
             base.Repository.BeginTransaction();
 			
-			base.Repository.Execute("UPDATE client SET AgentDetails_id = null where Id=" + id, null);
+			
+			Client client = Get(id);
+			if (client != null)
+			{
+                base.Repository.Execute("UPDATE client SET AgentDetails_id = null where Id=" + id, null);
 
-			base.Remove(id);
+				base.Repository.Remove<Client, int>(id);
+
+				if(client.ClientDetails!= null)
+                    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+                if (client.SpouseDetails != null)
+                    base.Repository.Remove<ClientDetails, int>(client.SpouseDetails.Id);
+				if (client.ClientDependents != null)
+					base.Repository.Remove<ClientDependents, int>(client.ClientDependents.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+				//if (client.ClientDetails != null)
+				//    base.Repository.Remove<ClientDetails, int>(client.ClientDetails.Id);
+
+
+
+
+
+					// base.Remove(id);
+			}
+
+			
 
             base.Repository.Commit();
         }
