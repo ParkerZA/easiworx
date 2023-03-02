@@ -524,9 +524,9 @@ namespace Finx.App.Forms
         #region Form Button Events
         private void metroButton_Refresh_Click_1(object sender, EventArgs e)
         {
-            if (searchModel.Clientname.Length >= 1)
+            if (searchModel.Clientname!=null)
                 XInput_Surname_KeyPressed(sender, e);
-            else if (searchModel.ClientIdentification.Length >= 1)
+            else if (searchModel.ClientIdentification!=null)
                 XInput_Identification_KeyPressed(sender, e);
 
 
