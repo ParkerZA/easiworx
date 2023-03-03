@@ -41,6 +41,7 @@
             this.xInput1_Identification = new Finx.App.UserControls.xInput();
             this.xInput_ClientSegment = new Finx.App.UserControls.xInput();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.xInputSelectAll = new Finx.App.UserControls.xInput();
             this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.metroButton_Refresh = new MetroFramework.Controls.MetroButton();
             this.xInput_Surname = new Finx.App.UserControls.xInput();
@@ -64,7 +65,6 @@
             this.tsbNew = new System.Windows.Forms.ToolStripButton();
             this.tsbClientRating = new System.Windows.Forms.ToolStripButton();
             this.miniToolStrip = new Finx.App.UserControls.ToolStripEx();
-            this.xInputSelectAll = new Finx.App.UserControls.xInput();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -277,6 +277,30 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1077, 26);
             this.panel2.TabIndex = 13;
+            // 
+            // xInputSelectAll
+            // 
+            this.xInputSelectAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.xInputSelectAll.BackColor = System.Drawing.Color.Transparent;
+            this.xInputSelectAll.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
+            this.xInputSelectAll.ControlWidth = 15;
+            this.xInputSelectAll.DataSource = null;
+            this.xInputSelectAll.DisplayMember = "Text";
+            this.xInputSelectAll.Dock = System.Windows.Forms.DockStyle.Left;
+            this.xInputSelectAll.LablePosition = Finx.App.UserControls.LablePosition.Left;
+            this.xInputSelectAll.LableText = "Select All";
+            this.xInputSelectAll.Location = new System.Drawing.Point(0, 0);
+            this.xInputSelectAll.MappedField = null;
+            this.xInputSelectAll.Margin = new System.Windows.Forms.Padding(0);
+            this.xInputSelectAll.MinimumSize = new System.Drawing.Size(50, 30);
+            this.xInputSelectAll.Model = null;
+            this.xInputSelectAll.Name = "xInputSelectAll";
+            this.xInputSelectAll.Padding = new System.Windows.Forms.Padding(1);
+            this.xInputSelectAll.ReadOnly = false;
+            this.xInputSelectAll.Size = new System.Drawing.Size(112, 30);
+            this.xInputSelectAll.TabIndex = 6;
+            this.xInputSelectAll.Value = null;
+            this.xInputSelectAll.ValueMember = "Value";
             // 
             // xInput_ShowCompletedTasks
             // 
@@ -551,30 +575,6 @@
             this.miniToolStrip.Name = "miniToolStrip";
             this.miniToolStrip.Size = new System.Drawing.Size(582, 39);
             this.miniToolStrip.TabIndex = 0;
-            // 
-            // xInputSelectAll
-            // 
-            this.xInputSelectAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.xInputSelectAll.BackColor = System.Drawing.Color.Transparent;
-            this.xInputSelectAll.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
-            this.xInputSelectAll.ControlWidth = 15;
-            this.xInputSelectAll.DataSource = null;
-            this.xInputSelectAll.DisplayMember = "Text";
-            this.xInputSelectAll.Dock = System.Windows.Forms.DockStyle.Left;
-            this.xInputSelectAll.LablePosition = Finx.App.UserControls.LablePosition.Left;
-            this.xInputSelectAll.LableText = "Select All";
-            this.xInputSelectAll.Location = new System.Drawing.Point(0, 0);
-            this.xInputSelectAll.MappedField = null;
-            this.xInputSelectAll.Margin = new System.Windows.Forms.Padding(0);
-            this.xInputSelectAll.MinimumSize = new System.Drawing.Size(50, 30);
-            this.xInputSelectAll.Model = null;
-            this.xInputSelectAll.Name = "xInputSelectAll";
-            this.xInputSelectAll.Padding = new System.Windows.Forms.Padding(1);
-            this.xInputSelectAll.ReadOnly = false;
-            this.xInputSelectAll.Size = new System.Drawing.Size(112, 30);
-            this.xInputSelectAll.TabIndex = 6;
-            this.xInputSelectAll.Value = null;
-            this.xInputSelectAll.ValueMember = "Value";
             // 
             // frmClientManagement
             // 

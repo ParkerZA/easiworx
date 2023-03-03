@@ -183,6 +183,7 @@ namespace easiplan.domain.Entities
 			set;
 		}
 
+      
 		public virtual ClientDetails ClientDetails
 		{
 			get;
