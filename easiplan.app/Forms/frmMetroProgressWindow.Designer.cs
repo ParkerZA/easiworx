@@ -40,7 +40,8 @@
             // 
             this.metroLabel_Caption.AutoSize = true;
             this.metroLabel_Caption.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel_Caption.Location = new System.Drawing.Point(35, 64);
+            this.metroLabel_Caption.Location = new System.Drawing.Point(47, 79);
+            this.metroLabel_Caption.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.metroLabel_Caption.Name = "metroLabel_Caption";
             this.metroLabel_Caption.Size = new System.Drawing.Size(71, 25);
             this.metroLabel_Caption.TabIndex = 0;
@@ -48,26 +49,29 @@
             // 
             // metroProgressBar1
             // 
-            this.metroProgressBar1.Location = new System.Drawing.Point(14, 144);
+            this.metroProgressBar1.Location = new System.Drawing.Point(19, 177);
+            this.metroProgressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.metroProgressBar1.Name = "metroProgressBar1";
-            this.metroProgressBar1.Size = new System.Drawing.Size(65, 23);
+            this.metroProgressBar1.Size = new System.Drawing.Size(87, 28);
             this.metroProgressBar1.TabIndex = 1;
             this.metroProgressBar1.Visible = false;
             // 
             // metroProgressSpinner1
             // 
-            this.metroProgressSpinner1.Location = new System.Drawing.Point(324, 64);
+            this.metroProgressSpinner1.Location = new System.Drawing.Point(432, 79);
+            this.metroProgressSpinner1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.metroProgressSpinner1.Maximum = 100;
             this.metroProgressSpinner1.Name = "metroProgressSpinner1";
-            this.metroProgressSpinner1.Size = new System.Drawing.Size(54, 45);
+            this.metroProgressSpinner1.Size = new System.Drawing.Size(72, 55);
             this.metroProgressSpinner1.TabIndex = 2;
             this.metroProgressSpinner1.UseSelectable = true;
             // 
             // metroLabel_Status
             // 
-            this.metroLabel_Status.Location = new System.Drawing.Point(23, 100);
+            this.metroLabel_Status.Location = new System.Drawing.Point(31, 123);
+            this.metroLabel_Status.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.metroLabel_Status.Name = "metroLabel_Status";
-            this.metroLabel_Status.Size = new System.Drawing.Size(295, 41);
+            this.metroLabel_Status.Size = new System.Drawing.Size(393, 50);
             this.metroLabel_Status.TabIndex = 3;
             this.metroLabel_Status.Text = "please wait ...";
             this.metroLabel_Status.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -75,18 +79,20 @@
             // 
             // metroButton_Cancel
             // 
-            this.metroButton_Cancel.Location = new System.Drawing.Point(130, 144);
+            this.metroButton_Cancel.Location = new System.Drawing.Point(173, 177);
+            this.metroButton_Cancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.metroButton_Cancel.Name = "metroButton_Cancel";
-            this.metroButton_Cancel.Size = new System.Drawing.Size(139, 30);
+            this.metroButton_Cancel.Size = new System.Drawing.Size(185, 37);
             this.metroButton_Cancel.TabIndex = 4;
             this.metroButton_Cancel.Text = "Cancel";
             this.metroButton_Cancel.UseSelectable = true;
+            this.metroButton_Cancel.Click += new System.EventHandler(this.metroButton_Cancel_Click);
             // 
             // MetroProgressWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 184);
+            this.ClientSize = new System.Drawing.Size(531, 226);
             this.ControlBox = false;
             this.Controls.Add(this.metroButton_Cancel);
             this.Controls.Add(this.metroLabel_Status);
@@ -94,9 +100,11 @@
             this.Controls.Add(this.metroProgressBar1);
             this.Controls.Add(this.metroLabel_Caption);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MetroProgressWindow";
+            this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.Style = MetroFramework.MetroColorStyle.Default;

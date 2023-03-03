@@ -945,7 +945,14 @@ namespace Finx.App.Forms
                         matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
 
                     if (matchedClientDetails == null)
+                    {
                         client = await Task.Run(() => CreateNewClient(Investments.FirstOrDefault()));
+                        lock (_lockObject)
+                        {
+                            UpdateClientDetails(client, Investments.FirstOrDefault());
+                            Program.ClientService.Update(client);
+                        }
+                    }
                     else
                     {
                         await Task.Run(() =>
@@ -960,7 +967,13 @@ namespace Finx.App.Forms
                                         client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
                                         Program.ClientService.Update(client);
                                     }
-                                    
+
+                                    if (!(client.ClientContacts == null))
+                                    {
+                                        UpdateClientDetails(client, Investments.FirstOrDefault());
+                                        Program.ClientService.Update(client);
+                                    }
+
                                 }
                             }
                             catch (AggregateException x)
@@ -997,7 +1010,7 @@ namespace Finx.App.Forms
                           Code = 8999
                   };*/
 
-                UpdateClientDetails(client, Investments.FirstOrDefault());
+                //UpdateClientDetails(client, Investments.FirstOrDefault());
                 
 
 
@@ -1006,7 +1019,6 @@ namespace Finx.App.Forms
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
                 Retirement retirement = null;
-                Retirement tester = null;
                 foreach (var policy in distinctRetirementPolicies)
                 {
 

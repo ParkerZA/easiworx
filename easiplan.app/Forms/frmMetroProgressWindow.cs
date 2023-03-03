@@ -257,7 +257,11 @@ namespace Finx.App.Forms
             abortEvent.Set();
         }
         #endregion
-             
+
+        private void metroButton_Cancel_Click(object sender, EventArgs e)
+        {
+            this.DoEnd();
+        }
     }
 
     
