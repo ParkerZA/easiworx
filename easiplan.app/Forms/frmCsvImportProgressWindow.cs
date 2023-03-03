@@ -274,6 +274,7 @@ namespace Finx.App.Forms
         private void metroButton_Cancel_Click(object sender, EventArgs e)
         {
             AbortWork();
+            //this.CloseForm();
         }
     }
 
