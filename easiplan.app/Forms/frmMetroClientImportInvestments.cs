@@ -1195,29 +1195,6 @@ namespace Finx.App.Forms
                 var title = "";
                 var firstname = "";
                 var lastname = "";
-
-              /*  var physicalAddress1 = "";
-                var physicalAddress2 = "";
-                var physicalAddress3 = "";
-                var physicalAddress4 = "";
-                var physicalAddress5 = "";
-                var physicalAddress6 = "";
-                var physicalAddressCode = 0;
-
-                var postalAddress1 = "";
-                var postalAddress2 = "";
-                var postalAddress3 = "";
-                var postalAddress4 = "";
-                var postalAddress5 = "";
-                var postalAddress6 = "";
-                var postalCode = 0;
-
-                var taxNo = "";
-                var hometel = "";
-                var worktel = "";
-                var faxno = "";
-                var cellno = "";
-                var email = "";*/
                 var dob = "";
 
                 try
@@ -1274,53 +1251,7 @@ namespace Finx.App.Forms
                             title = camissaRecord.Title;
                             firstname = camissaRecord.Firstname;
                             lastname = camissaRecord.Lastname;
-/*
-                            //Camissa Physical Address
 
-                            //Below I am splitting the first line of the Camissa address format into a street number and road name
-                            string streetNumber = "";
-                            string roadName = "";
-                            
-                            int spaceIndex = camissaRecord.PhysicalAddress1.IndexOf(' '); //Gets index of first space in address
-
-                            streetNumber = camissaRecord.PhysicalAddress1.Substring(0, spaceIndex); //Sets street number
-                            roadName = camissaRecord.PhysicalAddress1.Substring(spaceIndex).Trim(); //Sets road name
-                            
-                            physicalAddress1 = streetNumber; //Street number
-                            physicalAddress2 = roadName; //Road name
-                            physicalAddress3 = camissaRecord.PhysicalAddress2; // Suburb (Possibly refactor, especially if the other lisps have a very different address structure)
-                            physicalAddress4 = camissaRecord.PhysicalAddress4;
-                            physicalAddress5 = camissaRecord.PhysicalAddress5;
-                            physicalAddress6 = camissaRecord.PhysicalAddress6;
-                            int.TryParse(camissaRecord.PhysicalAddressPostalCode, out physicalAddressCode);
-
-                            //Camissa Postal Address
-
-                            //Splitting postal road number from the street name
-                            string posStreetNumber = "";
-                            string posRoadName = "";
-
-                            int posSpaceIndex = camissaRecord.PostalAddress1.IndexOf(' '); //Gets index of first space in address
-
-                            posStreetNumber = camissaRecord.PhysicalAddress1.Substring(0, posSpaceIndex); //Sets street number
-                            posRoadName = camissaRecord.PhysicalAddress1.Substring(posSpaceIndex).Trim(); //Sets road name
-
-                            postalAddress1 = posStreetNumber; //Street number
-                            postalAddress2 = posRoadName; //Road name
-                            postalAddress3 = camissaRecord.PostalAddress2; //Suburb (This is really dumb... might have to refactor)
-                            postalAddress4 = camissaRecord.PostalAddress4;
-                            postalAddress5 = camissaRecord.PostalAddress5;
-                            postalAddress6 = camissaRecord.PostalAddress6;
-                            int.TryParse(camissaRecord.PostalCode, out postalCode);
-
-                            taxNo = camissaRecord.TaxNo;
-
-                            hometel = camissaRecord.HomeTelephone;
-                            worktel = camissaRecord.WorkTelephone;
-                            cellno = camissaRecord.Cellphone;
-                            faxno = camissaRecord.FaxNumber;
-                            email = camissaRecord.EmailAddress;
-*/
                             break;
 
                         case "momentum":
@@ -1375,33 +1306,6 @@ namespace Finx.App.Forms
                             if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
 
-
-/*
-                            //Easiworx Physical Address
-
-                            physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
-                            physicalAddress2 = easiworxRecord.PhysicalAddress;
-                            physicalAddress3 = easiworxRecord.PhysicalAddressSuburb;
-                            //physicalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the physical address city
-                            int.TryParse(easiworxRecord.PhysicalAddressPostalCode, out physicalAddressCode); //Sets the physical address postal code
-
-                            //Easiworx Postal Address
-
-                            postalAddress1 = easiworxRecord.PostalAddressStreetNo;
-                            postalAddress2 = easiworxRecord.PostalAddress;
-                            postalAddress3 = easiworxRecord.PostalSuburb;
-                            //postalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the postal city
-                            int.TryParse(easiworxRecord.PostalCode, out postalCode); //Sets the postal address postal code
-
-                            //Easiworx Contact Details
-
-                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
-                            hometel = easiworxRecord.HomeTel.Replace("'", string.Empty); 
-                            worktel = easiworxRecord.OfficeTel.Replace("'", string.Empty); 
-                            cellno = easiworxRecord.CellNo.Replace("'", string.Empty); 
-                            //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
-                            email = easiworxRecord.EmailAddress;
-                            */
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1424,63 +1328,7 @@ namespace Finx.App.Forms
                         },
                         ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now }
                     };
-                    /*if (!string.IsNullOrEmpty(physicalAddress1))
-                    {
-                        client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
-                                                 physicalAddress2 + " " +
-                                                 physicalAddress3 + " " +
-                                                 physicalAddress4 + " " +
-                                                 physicalAddress5 + " " +
-                                                 physicalAddress6 + " " +
-                                                 physicalAddressCode;
-                    }
-
-                    if (!string.IsNullOrEmpty(taxNo))
-                        client.ClientDetails.TaxNumber = taxNo;
-
-                    if (!string.IsNullOrEmpty(cellno))
-                        client.ClientDetails.RecipientCell = cellno;
-
-                    if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(faxno) || !string.IsNullOrEmpty(hometel) || !string.IsNullOrEmpty(worktel) || !string.IsNullOrEmpty(cellno))
-                    {
-                        client.ClientContacts = new ClientContacts()
-                        {
-                            EMailAddr = email,
-                            FaxNo = faxno,
-                            HomeTel = hometel,
-                            BussTel = worktel,
-                            CellNo = cellno,
-                            CreateDate = DateTime.Now,
-                            UpdateBy = UpdateBy
-                        };
-                    }
-                    if (!string.IsNullOrEmpty(physicalAddress1))
-                    {
-                        client.PhysicalAddress = new AddressDetail()
-                        {
-                            Line1 = physicalAddress1,
-                            Line2 = physicalAddress2,
-                            Line3 = physicalAddress3,
-                            Line4 = physicalAddress4 + " " +
-                                       physicalAddress5 + " " +
-                                       physicalAddress6,
-                            Code = physicalAddressCode
-                        };
-                    }
-
-                    if (!string.IsNullOrEmpty(postalAddress1))
-                    {
-                        client.PostalAddress = new AddressDetail()
-                        {
-                            Line1 = postalAddress1,
-                            Line2 = postalAddress2,
-                            Line3 = postalAddress3,
-                            Line4 = postalAddress4 + " " +
-                                postalAddress5 + " " +
-                                postalAddress6,
-                            Code = postalCode
-                        };
-                    }*/
+                    
 
                     client.ClientContacts = new ClientContacts()
                     {
@@ -2309,7 +2157,6 @@ namespace Finx.App.Forms
             if (fundValDate != new DateTime(0001, 1, 1))
             {
                 fund.FundValueDate = fundValDate;
-                Console.WriteLine(fundValDate);
             }
 
             return fund;
@@ -2550,7 +2397,7 @@ namespace Finx.App.Forms
                     {
                         if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                             {
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.White;
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2558,7 +2405,7 @@ namespace Finx.App.Forms
                         }
                         else
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                             {
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2567,7 +2414,7 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2583,7 +2430,7 @@ namespace Finx.App.Forms
                 {
                     if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.White;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2591,7 +2438,7 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2600,7 +2447,7 @@ namespace Finx.App.Forms
                 }
                 else
                 {
-                    if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                    if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                     {
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2655,7 +2502,7 @@ namespace Finx.App.Forms
                         idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                         idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255,46,46);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         
                         csvRecord.HasErrors = true;
@@ -2669,7 +2516,7 @@ namespace Finx.App.Forms
                             idNoCell.ErrorText = "Invalid SA ID No!";
                             idNoCell.ToolTipText = "Invalid SA ID No!";
 
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
@@ -2694,7 +2541,7 @@ namespace Finx.App.Forms
                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                     idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                     dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     csvRecord.HasErrors = true;
                 }
@@ -2707,7 +2554,7 @@ namespace Finx.App.Forms
                         idNoCell.ErrorText = "Invalid SA ID No!";
                         idNoCell.ToolTipText = "Invalid SA ID No!";
 
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2734,7 +2581,7 @@ namespace Finx.App.Forms
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";
                         fundValueCell.ToolTipText = "Invalid Fund Value!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2746,7 +2593,7 @@ namespace Finx.App.Forms
                         {
                             fundValueCell.ErrorText = "Invalid Fund Value!";
                             fundValueCell.ToolTipText = "Invalid Fund Value!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
@@ -2766,7 +2613,7 @@ namespace Finx.App.Forms
                 {
                     fundValueCell.ErrorText = "Invalid Fund Value!";
                     fundValueCell.ToolTipText = "Invalid Fund Value!";
-                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                     dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     csvRecord.HasErrors = true;
                 }
@@ -2778,7 +2625,7 @@ namespace Finx.App.Forms
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";
                         fundValueCell.ToolTipText = "Invalid Fund Value!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2814,14 +2661,14 @@ namespace Finx.App.Forms
                         {
                             fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                             fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
 
                         if (DateTime.TryParse(fundValueDate, out _))
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                             {
                                 fundValueDateCell.ErrorText = string.Empty;
                                 fundValueDateCell.ToolTipText = string.Empty;
@@ -2832,7 +2679,7 @@ namespace Finx.App.Forms
                         {
                             fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                             fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;                        
                         }
@@ -2894,14 +2741,14 @@ namespace Finx.App.Forms
                     {
                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
 
                     if (DateTime.TryParse(fundValueDate, out _))
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             fundValueDateCell.ErrorText = string.Empty;
                             fundValueDateCell.ToolTipText = string.Empty;
@@ -2912,7 +2759,7 @@ namespace Finx.App.Forms
                     {
                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }

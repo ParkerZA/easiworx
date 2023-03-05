@@ -368,7 +368,6 @@ namespace Finx.App.Models
                 else
                 {
                     _fundValueDate = value;
-                    Console.WriteLine(value+" : "+this.Lastname);
                 }
             }
         }
