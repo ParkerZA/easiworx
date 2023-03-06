@@ -2181,11 +2181,11 @@ namespace Finx.App.Forms
                 double dblFundValue = fundValue.AsDouble();
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
-                if (csvRecord.FundValueDate != null && fundValDate > fund.UpdateDate)
+                if (csvRecord.FundValueDate != null && fundValDate > fund.FundValueDate)
                 {
                     fund.CurrentAmount = dblFundValue;
                     fund.UpdateBy = UpdateBy;
-                    fund.UpdateDate = fundValDate;
+                    fund.UpdateDate = DateTime.Now;
                     fund.FundValueDate = fundValDate;
                 }
             }
