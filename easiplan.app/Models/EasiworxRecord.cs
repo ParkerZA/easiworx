@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using my.domain.lib.core.Validation;
+using System.Linq;
 
 namespace Finx.App.Models
 {
@@ -86,10 +87,35 @@ namespace Finx.App.Models
             }
             set 
             {
-                if (DateTime.TryParse(value, out DateTime dobDt))
-                    _dob = dobDt.ToString("dd MMM yyyy");
+                /* if (DateTime.TryParse(value, out DateTime dobDt))
+                     _dob = dobDt.ToString("dd MMM yyyy");
+                 else
+                     _dob = value;*/
+
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp.Replace(" ", string.Empty);
+
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+                    
+                    DateTime dtDob;
+                    if (DateTime.TryParseExact(strdt, "yyyy-mm-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
+                        {
+                            _dob = dtDob.ToString("dd MMM yyyy");
+                            Console.WriteLine(_dob);
+                        }
+                }
                 else
+                {
                     _dob = value;
+                }
             }
 
             /*get { return _dob; }
@@ -278,9 +304,33 @@ namespace Finx.App.Models
             }
             set
             {
-                if (value.Contains("Retirement Income Option"))
+                if (value.ToLower().Contains("retirement income option") || value.ToLower().Contains("glacier living annuity"))
                 {
-                    _productType = "Living Anuity";
+                    _productType = "Living Annuity";
+                }
+                else if (value.ToLower().Contains("retirement annuity option"))
+                {
+                    _productType = "Retirement Annuities";
+                }
+                else if (value.ToLower().Contains("investment platform unit trust") || value.ToLower().Contains("flexible investment option"))
+                {
+                    _productType = "Unit Trust";
+                }
+                else if (value.ToLower().Contains("preservation")&& value.ToLower().Contains("provident"))
+                {
+                    _productType = "Provident/Preservation Funds";
+                }
+                else if (value.ToLower().Contains("tax-free"))
+                {
+                    _productType = "Tax Free";
+                }
+                else if (value.ToLower().Contains("pension preservation fund"))
+                {
+                    _productType = "Pension/Preservation Fund";
+                }
+                else if (value.ToLower().Contains("flexible endowment option"))
+                {
+                    _productType = "Endowment";
                 }
                 else
                 {
@@ -362,15 +412,40 @@ namespace Finx.App.Models
             }
             set
             {
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    //temp.Replace(" ", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+                    Console.WriteLine(temp);
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtFVD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-mm-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
+                        DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
+                    {
+                        _fundValueDate = dtFVD.ToString("dd MMM yyyy");
+                    }
+                }
+                else
+                {
+                    _fundValueDate = value;
+                }
+            }
+            /*{
                 //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
                 if (DateTime.TryParse(value, out DateTime fundValDt))
                     _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
                 {
                     _fundValueDate = value;
-                    Console.WriteLine(value+" : "+this.Lastname);
                 }
-            }
+            }*/
         }
 
 
@@ -400,10 +475,34 @@ namespace Finx.App.Models
                 return _startDate; 
             }
             set
-            {
+            /*{
                 //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
                 if (DateTime.TryParse(value, out DateTime dtStartDt))
                     _startDate = dtStartDt.ToString("dd MMM yyyy");
+                else
+                {
+                    _startDate = value;
+                }
+            }*/
+            {
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtSD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-mm-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
+                        DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD))
+                    {
+                        _startDate = dtSD.ToString("dd MMM yyyy");
+                    }
+                }
                 else
                 {
                     _startDate = value;
@@ -424,7 +523,9 @@ namespace Finx.App.Models
             set 
             {
                 //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
-                _monthlyPremium = value.Replace(",",".");  
+                _monthlyPremium = value.Replace("R", string.Empty);
+                _monthlyPremium = _monthlyPremium.Replace(" ", string.Empty);
+                _monthlyPremium = _monthlyPremium.Replace(",",".");  
             }
         }
 
