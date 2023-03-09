@@ -58,6 +58,7 @@ namespace Finx.App.Forms
         List<ListDataItem> LifeInsurersPlans = new List<ListDataItem>();
 
         //Popup DataGrid for PolicyFunds
+
         SourceGrid.DataGrid dataGrid_PolicyFunds = new SourceGrid.DataGrid() { Name = "dataGrid_PolicyFunds" };
 
         //Keep track of which tab is currently selected
@@ -1944,6 +1945,7 @@ namespace Finx.App.Forms
                     //client.ClientPortfolio.Initialise();
 
                     this.dataGrid_RetirementPortfolio.Rebind<Retirement>(client.ClientPortfolio.RetirementsBindingList);
+                    Console.WriteLine("Look here i wrote a thing");
                     
                 }
 
@@ -2090,12 +2092,15 @@ namespace Finx.App.Forms
 
         private void Fund_propertyChanged_EventHandler(object sender, ListChangedEventArgs e)
         {
+            Console.WriteLine("Check if this method calls at all");
             if (_isInitialising)
             {
+                Console.WriteLine("Here is the first if");
                 return;
             }
             try
             {
+                Console.WriteLine("Ok now i am actually changing it");
                 DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 Fund mObj = _bList.EditedObject as Fund;
 
@@ -2465,6 +2470,10 @@ namespace Finx.App.Forms
                             //columns.For(x => x.IRR, "IRR", new StringEditor(true));
                         },
                         PropertyChangedHandler: Fund_propertyChanged_EventHandler,
+
+                         //OnCompleted: Fund_propertyChanged_EventHandler),
+                        
+
                         ReadOnly: _readOnlyForAdminAdvisorClerk,
                         AllowAddNew: false,
                         AllowDelete: false
@@ -3812,9 +3821,13 @@ namespace Finx.App.Forms
 
         }
 
+
         #endregion
 
+        private void toolStripButton_Edit_Click_1(object sender, EventArgs e)
+        {
 
+        }
     }
 
 }

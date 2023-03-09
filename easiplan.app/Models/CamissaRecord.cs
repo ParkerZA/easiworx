@@ -8,7 +8,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using my.domain.lib.core.Validation;
-
+using System.Linq;
 
 namespace Finx.App.Models
 {
@@ -32,7 +32,7 @@ namespace Finx.App.Models
         private string _fundName;
         private string _validationErrors;
         private string _fundCode;
-
+        private string _productType;
 
         //Row number which appears next to record on import screen
         [Ignore]
@@ -46,12 +46,48 @@ namespace Finx.App.Models
         // Type of product
         [Optional]
         public string ProductType
+        {
+            get
             {
-            get;
-            set;
+                return _productType;
+            }
+            set
+            {
+                if (value.ToLower().Contains("retirement income option") || value.ToLower().Contains("glacier living annuity"))
+                {
+                    _productType = "Living Annuity";
+                }
+                else if (value.ToLower().Contains("retirement annuity option") || value.ToLower().Contains("retirement annuity fund"))
+                {
+                    _productType = "Retirement Annuities";
+                }
+                else if (value.ToLower().Contains("investment platform unit trust") || value.ToLower().Contains("flexible investment option") || value.ToLower().Contains("investment plan"))
+                {
+                    _productType = "Unit Trust";
+                }
+                else if (value.ToLower().Contains("preservation") && value.ToLower().Contains("provident"))
+                {
+                    _productType = "Provident/Preservation Funds";
+                }
+                else if (value.ToLower().Contains("tax-free"))
+                {
+                    _productType = "Tax Free";
+                }
+                else if (value.ToLower().Contains("pension preservation fund"))
+                {
+                    _productType = "Pension/Preservation Fund";
+                }
+                else if (value.ToLower().Contains("flexible endowment option"))
+                {
+                    _productType = "Endowment";
+                }
+                else
+                {
+                    _productType = value;
+                }
             }
 
-
+        }
         //LISP responsible for this record
         [Optional]
         public string LISP
@@ -163,10 +199,24 @@ namespace Finx.App.Models
             }
             set
             {
-                //if (DateTime.TryParse(value, out DateTime fundValDt))
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (value.Length > 8)
                 {
-                    _fundValueDate = fundValDt.ToString("dd MMM yyyy");
+                    String temp = value.Replace("/", string.Empty);
+                    //temp.Replace(" ", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtFVD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
+                    {
+                        _fundValueDate = dtFVD.ToString("dd MMM yyyy");
+                    }
                 }
                 else
                 {
@@ -186,9 +236,22 @@ namespace Finx.App.Models
             }
             set
             {
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime investmentStartDt))
-                {    //if (DateTime.TryParse(value, out DateTime investmentStartDt))
-                    _investmentStartDate = investmentStartDt.ToString("dd MMM yyyy");
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtSD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD))
+                    {
+                        _investmentStartDate = dtSD.ToString("dd MMM yyyy");
+                    }
                 }
                 else
                 {
@@ -328,10 +391,26 @@ namespace Finx.App.Models
             get { return _dob; }
             set
             {
-                //yyyy/mm/dd
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                if (value.Length > 8)
                 {
-                    _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
+                    String temp = value.Replace("/", string.Empty);
+                    temp.Replace(" ", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtDob;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
+                        )
+                    {
+                        _dob = dtDob.ToString("dd MMM yyyy");
+                        Console.WriteLine(dtDob.Month);
+                    }
                 }
                 else
                 {
@@ -339,7 +418,6 @@ namespace Finx.App.Models
                 }
             }
         }
-
 
         //Restriction
         [Index(23)]

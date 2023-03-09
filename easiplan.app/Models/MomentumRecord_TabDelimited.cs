@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using CsvHelper;
 using Finx.App.Helpers;
 using my.domain.lib.core.Validation;
-
+using System.Linq;
 
 namespace Finx.App.Models
 {
@@ -111,16 +111,39 @@ namespace Finx.App.Models
             }
             set 
             {
-
-                if (value.Contains("Retirement Income Option"))
-                {
-                    _productType = "Living Anuity";
-                }
-                else
-                {
-                    _productType = value.Replace("'", string.Empty.Replace("\"", string.Empty));
-                    _productType = _productType.Replace('"', ' ').Trim();
-                }
+                 if (value.ToLower().Contains("retirement income option") || value.ToLower().Contains("glacier living annuity"))
+                 {
+                    _productType = "Living Annuity";
+                 }
+                 else if (value.ToLower().Contains("retirement annuity option") || value.ToLower().Contains("retirement annuity fund"))
+                 {
+                   _productType = "Retirement Annuities";
+                 }
+                 else if (value.ToLower().Contains("investment platform unit trust") || value.ToLower().Contains("flexible investment option") || value.ToLower().Contains("investment plan"))
+                 {
+                   _productType = "Unit Trust";
+                 }
+                 else if (value.ToLower().Contains("preservation") && value.ToLower().Contains("provident"))
+                 {
+                   _productType = "Provident/Preservation Funds";
+                 }
+                 else if (value.ToLower().Contains("tax-free"))
+                 {
+                   _productType = "Tax Free";
+                 }
+                 else if (value.ToLower().Contains("pension preservation fund"))
+                 {
+                   _productType = "Pension/Preservation Fund";
+                 }
+                 else if (value.ToLower().Contains("flexible endowment option"))
+                 {
+                   _productType = "Endowment";
+                 }
+                 else
+                 {
+                   _productType = value.Replace("'", string.Empty.Replace("\"", string.Empty));
+                   _productType = _productType.Replace('"', ' ').Trim();
+                 }
                 
             }
         }
@@ -152,10 +175,41 @@ namespace Finx.App.Models
         [Optional]
         public string DateOfBirth
         {
-            get;
-            set;
-        }
+            get
+            {
+                return _birthDate;
+            }
+            set
+            {
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp.Replace(" ", string.Empty);
+                    temp.Replace("'", string.Empty.Replace("\"", string.Empty));
+                    temp.Replace('"', ' ').Trim();
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
 
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtDob;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
+                        )
+                    {
+                        _birthDate = dtDob.ToString("dd MMM yyyy");
+                        Console.WriteLine(dtDob.Month);
+                    }
+                }
+                else
+                {
+                    _birthDate = value;
+                }
+            }
+        }
 
         //Clients passport number, used in place of ID for foreign nationals
         [Optional]
@@ -249,11 +303,29 @@ namespace Finx.App.Models
             }
             set
             {
-                var strfundValueDate = value.Replace("\"", string.Empty).Trim();
-                if (DateTime.TryParseExact(strfundValueDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
-                    _fundValueDate = fundValDt.ToString("dd MMM yyyy");
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp = temp.Replace('"', ' ' ).Trim();
+                    temp =temp.Replace("\"", string.Empty).Trim();
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtFVD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
+                    {
+                        _fundValueDate = dtFVD.ToString("dd MMM yyyy");
+                    }
+                }
                 else
+                {
                     _fundValueDate = value;
+                }
             }
         }
 
@@ -284,13 +356,28 @@ namespace Finx.App.Models
             }
             set
             {
-                //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
-                var strInvestmentStartDate = value.Replace("\"", string.Empty).Trim();
-                if (DateTime.TryParse(strInvestmentStartDate, out DateTime dtStartDt))
-                    _investmentStartDate = dtStartDt.ToString("dd MMM yyyy");
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp = temp.Replace("\"", string.Empty).Trim();
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    var strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtSD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD))
+                    {
+                        _investmentStartDate = dtSD.ToString("dd MMM yyyy");
+                    }
+                }
                 else
+                {
                     _investmentStartDate = value;
-                
+                }
             }
         }
 

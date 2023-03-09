@@ -946,10 +946,14 @@ namespace Finx.App.Forms
                     if (matchedClientDetails == null)
                     {
                         client = await Task.Run(() => CreateNewClient(Investments.FirstOrDefault()));
-                        lock (_lockObject)
+
+                        if (!(client == null))
                         {
-                            UpdateClientDetails(client, Investments.FirstOrDefault());
-                            Program.ClientService.Update(client);
+                            lock (_lockObject)
+                            {
+                                UpdateClientDetails(client, Investments.FirstOrDefault());
+                                Program.ClientService.Update(client);
+                            }
                         }
                     }
                     else
@@ -961,18 +965,21 @@ namespace Finx.App.Forms
                                 lock (_lockObject)
                                 {
                                     client = Program.ClientService.Get(matchedClientDetails.ClientId);
-                                    if (client.ClientPortfolio == null)
-                                    {
-                                        client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
-                                        Program.ClientService.Update(client);
-                                    }
 
-                                    if (!(client.ClientContacts == null))
-                                    {
-                                        UpdateClientDetails(client, Investments.FirstOrDefault());
-                                        Program.ClientService.Update(client);
-                                    }
+                                    if (!(client == null))
+                                    { 
+                                        if (client.ClientPortfolio == null)
+                                        {
+                                            client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
+                                            Program.ClientService.Update(client);
+                                        }
 
+                                        if (!(client.ClientContacts == null))
+                                        {
+                                            UpdateClientDetails(client, Investments.FirstOrDefault());
+                                            Program.ClientService.Update(client);
+                                        }
+                                    }
                                 }
                             }
                             catch (AggregateException x)
@@ -1396,7 +1403,7 @@ namespace Finx.App.Forms
 
                 lock (_lockObject)
                 {
-
+                    var dob = "";
                     var physicalAddress1 = "";
                     var physicalAddress2 = "";
                     var physicalAddress3 = "";
@@ -1428,6 +1435,12 @@ namespace Finx.App.Forms
                         case "camissa":
                             var camissaRecord = csvRecord as CamissaRecord;
 
+
+                            //birthdate
+
+                            DateTime cm_dtDob;
+                            if (DateTime.TryParseExact(camissaRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out cm_dtDob))
+                                dob = cm_dtDob.ToString("dd MMM yyyy");
 
                             //Camissa Physical Address
 
@@ -1511,6 +1524,11 @@ namespace Finx.App.Forms
                             //firstname = easiworxRecord.Firstname.Trim();
                             //lastname = easiworxRecord.Lastname.Trim();
 
+                            //birthdate
+
+                            DateTime ewx_dtDob;
+                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
+                                dob = ewx_dtDob.ToString("dd MMM yyyy");
 
                             //Easiworx Physical Address
 
@@ -1542,7 +1560,11 @@ namespace Finx.App.Forms
                             throw new ApplicationException("Invalid Lisp!");
                     }
 
-
+                    if (!string.IsNullOrEmpty(dob))
+                    {
+                        DateTime.TryParse(dob, out DateTime dtDob);
+                        client.ClientDetails.DateOfBirth = dtDob;
+                    }
 
                     if (!string.IsNullOrEmpty(physicalAddress1))
                     {
@@ -2851,7 +2873,7 @@ namespace Finx.App.Forms
                         lblRecCnt.Text = totRecs.ToString();
                         lblTotValErrors.Text = errCnt.ToString();
                         lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
 
                         lblExistingClientCnt.Visible = true;
                         lblNewClientCnt.Visible = true;
@@ -2865,7 +2887,7 @@ namespace Finx.App.Forms
                     lblRecCnt.Text = totRecs.ToString();
                     lblTotValErrors.Text = errCnt.ToString();
                     lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                    lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                    lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
 
                     lblExistingClientCnt.Visible = true;
                     lblNewClientCnt.Visible = true;
@@ -2957,6 +2979,11 @@ namespace Finx.App.Forms
         }
 
         private void dgvFileContents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lblExistingClientCnt_Click(object sender, EventArgs e)
         {
 
         }
