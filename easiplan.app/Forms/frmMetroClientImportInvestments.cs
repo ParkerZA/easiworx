@@ -540,7 +540,7 @@ namespace Finx.App.Forms
             if (chkViewNewRecords.Checked)
             {
                 SetDgvFileContentsDataSource(_csvRecordList);
-                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList();
+                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList();
                 var originalListCopy = _csvRecordList;
                 var newRecords = originalListCopy.Where(l => newRecordList.Any(n => n.Cells[0].Value.ToString() == l.RowNo.ToString())).ToList();
                 SetDgvFileContentsDataSource(newRecords); 
@@ -581,9 +581,15 @@ namespace Finx.App.Forms
 
             if (dgvFileContents.DataSource == null) return;
             if (_csvErrorRecords == null) return;
-            
+
             if (chkViewErrorRecords.Checked)
-                SetDgvFileContentsDataSource(_csvErrorRecords);
+            {
+                SetDgvFileContentsDataSource(_csvRecordList);
+                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230,7,7)).ToList();
+                var originalListCopy = _csvRecordList;
+                var newRecords = originalListCopy.Where(l => newRecordList.Any(n => n.Cells[0].Value.ToString() == l.RowNo.ToString())).ToList();
+                SetDgvFileContentsDataSource(newRecords);
+            }
             else
                 SetDgvFileContentsDataSource(_csvRecordList);
 
@@ -1981,7 +1987,7 @@ namespace Finx.App.Forms
                             double newFundValue = fund.FundValue.AsDouble();
                             DateTime.TryParse(fund.FundValueDate, out DateTime newFundValDate);
 
-                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.UpdateDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
+                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
                             {
                                 newfund = CreateFund(fund, fundAllocPerc);
                                 var retirementFunds = retirement.Funds;
@@ -1990,7 +1996,7 @@ namespace Finx.App.Forms
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
                             }
                             else
-                                UpdateFund(existingFund, fund);
+                                UpdateFund(existingFund, fund, fundAllocPerc);
                         }
                     }
                     else
@@ -2188,7 +2194,7 @@ namespace Finx.App.Forms
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private Fund UpdateFund(Fund fund, ICsvRecord csvRecord, string UpdateBy = "System")
+        private Fund UpdateFund(Fund fund, ICsvRecord csvRecord, double dblSplitPerc, string UpdateBy = "System" )
         {
             try
             {
@@ -2197,7 +2203,7 @@ namespace Finx.App.Forms
               //  var fundValue = csvRecord.FundValue.Replace(".", ",");
 
                 var fundValue = csvRecord.FundValue.Replace(",", "");
-
+                //var splitPerc = csvRecord.
                 //Double.TryParse(fundValue, out double dblFundValue);
 
                 double dblFundValue = fundValue.AsDouble();
@@ -2206,6 +2212,7 @@ namespace Finx.App.Forms
                 if (csvRecord.FundValueDate != null && fundValDate > fund.FundValueDate)
                 {
                     fund.CurrentAmount = dblFundValue;
+                    fund.SplitPerc = dblSplitPerc; 
                     fund.UpdateBy = UpdateBy;
                     fund.UpdateDate = DateTime.Now;
                     fund.FundValueDate = fundValDate;
@@ -2871,9 +2878,20 @@ namespace Finx.App.Forms
                     {
 
                         lblRecCnt.Text = totRecs.ToString();
-                        lblTotValErrors.Text = errCnt.ToString();
+
+                        //Set onscreen error count
+                        if (lblTotValErrors.Text == "0")
+                        {
+                            lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString(); ;
+                        }
+                        
                         lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
+
+                        //Set onscreen new client count
+                        if (lblNewClientCnt.Text == "0")
+                        {
+                            lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                        }
 
                         lblExistingClientCnt.Visible = true;
                         lblNewClientCnt.Visible = true;
@@ -2885,10 +2903,19 @@ namespace Finx.App.Forms
                 else
                 {
                     lblRecCnt.Text = totRecs.ToString();
-                    lblTotValErrors.Text = errCnt.ToString();
-                    lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                    lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
 
+                    //Set onscreen new client count
+                    if (lblTotValErrors.Text == "0")
+                    {
+                        lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString();
+                    }
+                    lblExistingClientCnt.Text = _noOfExistingClients.ToString();
+
+                    //Set onscreen new client count
+                    if (lblNewClientCnt.Text == "0")
+                    {
+                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                    }
                     lblExistingClientCnt.Visible = true;
                     lblNewClientCnt.Visible = true;
                     cmClientRecords.Enabled = true;

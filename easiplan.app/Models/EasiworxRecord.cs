@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using my.domain.lib.core.Validation;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Finx.App.Models
 {
@@ -92,21 +93,28 @@ namespace Finx.App.Models
                     String temp = value.Replace("/", string.Empty);
                     temp.Replace(" ", string.Empty);
                     temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
-
-                    var day = int.Parse(temp.Substring(0, 2));
-                    var month = int.Parse(temp.Substring(2, 2));
-                    var year = int.Parse(temp.Substring(4, 4));
-
-                    var strdt = year + "-" + month + "-" + day;
+                    var strdt = "";
+                    try
+                    {
+                        var day = int.Parse(temp.Substring(0, 2));
+                        var month = int.Parse(temp.Substring(2, 2));
+                        var year = int.Parse(temp.Substring(4, 4));
+                        strdt = year + "-" + month + "-" + day;
+                    }
+                    catch (FormatException)
+                    {
+                        
+                    }
+                    
                     
                     DateTime dtDob;
                     if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
                         DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
                         )
-                        {
-                            _dob = dtDob.ToString("dd MMM yyyy");
-                            Console.WriteLine(dtDob.Month);
-                        }
+                    {
+                        _dob = dtDob.ToString("dd MMM yyyy");
+                    }
+                   
                 }
                 else
                 {
@@ -608,6 +616,7 @@ namespace Finx.App.Models
                         var policyNo = r.Row.GetField<string>("AccountNo");
                         var fundName = r.Row.GetField<string>("FundName");
                         var fundValueDate = r.Row.GetField<string>("FundValueDate");
+                        var birthDate = r.Row.GetField<string>("BirthDate");
 
                         if (string.IsNullOrEmpty(idNumber))
                             errors.Append("ID Number is null!");
@@ -629,6 +638,9 @@ namespace Finx.App.Models
 
                         if (string.IsNullOrEmpty(fundValueDate))
                             errors.Append("Fund Value Date is null!");
+
+                        if (string.IsNullOrEmpty(birthDate))
+                            errors.Append("Birthdate is null!");
 
                         return errors.ToString();
 
