@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using my.domain.lib.core.Validation;
 using System.Linq;
 using System.Windows.Forms;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Finx.App.Models
 {
@@ -422,12 +423,20 @@ namespace Finx.App.Models
                     //temp.Replace(" ", string.Empty);
                     temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
 
-                    var day = int.Parse(temp.Substring(0, 2));
-                    var month = int.Parse(temp.Substring(2, 2));
-                    var year = int.Parse(temp.Substring(4, 4));
+                    var strdt = "";
 
-                    var strdt = year + "-" + month + "-" + day;
+                    try
+                    {
+                        var day = int.Parse(temp.Substring(0, 2));
+                        var month = int.Parse(temp.Substring(2, 2));
+                        var year = int.Parse(temp.Substring(4, 4));
 
+                        strdt = year + "-" + month + "-" + day;
+                    }
+                    catch (FormatException)
+                    { 
+                    
+                    }
                     DateTime dtFVD;
                     if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
                         DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
@@ -483,11 +492,20 @@ namespace Finx.App.Models
                 {
                     String temp = value.Replace("/", string.Empty);
                     temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
-                    var day = int.Parse(temp.Substring(0, 2));
-                    var month = int.Parse(temp.Substring(2, 2));
-                    var year = int.Parse(temp.Substring(4, 4));
 
-                    var strdt = year + "-" + month + "-" + day;
+                    var strdt = "";
+                    try
+                    {
+                        var day = int.Parse(temp.Substring(0, 2));
+                        var month = int.Parse(temp.Substring(2, 2));
+                        var year = int.Parse(temp.Substring(4, 4));
+
+                        strdt = year + "-" + month + "-" + day;
+                    }
+                    catch (FormatException)
+                    {
+
+                    }
 
                     DateTime dtSD;
                     if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
