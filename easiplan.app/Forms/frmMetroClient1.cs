@@ -2092,10 +2092,8 @@ namespace Finx.App.Forms
 
         private void Fund_propertyChanged_EventHandler(object sender, ListChangedEventArgs e)
         {
-            Console.WriteLine("Check if this method calls at all");
             if (_isInitialising)
             {
-                Console.WriteLine("Here is the first if");
                 return;
             }
             try

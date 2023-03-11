@@ -67,6 +67,7 @@ namespace Finx.App.Forms
         private static object _lockObject = new object();
         //private static int _dgvFileContentsRowCnt = 0;
         private static bool? _importCompleted = null;
+        private static bool? _importCancelled = null;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken _cancellationToken;
         private string _detectedFileDelimiter;
@@ -289,11 +290,21 @@ namespace Finx.App.Forms
             backgroundWorker_ImportClientInvestmentsFromFile.DoWork += BackgroundWorker_ImportClientInvestmentsFromFile_DoWork;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerCompleted += BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerAsync(_frmCsvImportProgressWindow);
+           
 
             _frmCsvImportProgressWindow.ShowDialog(this);
             //_frmCsvImportProgressWindow.Close();
             MetroPopUpWindow importComplete = new MetroPopUpWindow();
-            importComplete.SetCaption("Import complete");
+            if ((_importCompleted!= null) && (_importCompleted==true))
+            {
+                importComplete.SetCaption("Import complete");
+            }
+            else if ((_importCancelled != null) && (_importCancelled == true))
+            {
+                importComplete.SetCaption("Import cancelled");
+                _importCancelled= false;
+                lblImportStatus.Text = "Pending";
+            }
             importComplete.ShowDialog();
 
             this.ControlBox = true;
@@ -766,14 +777,14 @@ namespace Finx.App.Forms
             var frmCsvImportProgressWindow = e.Argument as frmCsvImportProgressWindow;
             if (frmCsvImportProgressWindow == null)
                 frmCsvImportProgressWindow = _frmCsvImportProgressWindow;
-
             frmCsvImportProgressWindow.CancellationTokenSource = _cancellationTokenSource;
+            
             ImportClientInvestmentsFromFile(frmCsvImportProgressWindow).Wait();
         }
         private void BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //what to do here?
-           
+            //MessageBox.Show("You clicked cancel");
             
         }
                 
@@ -812,7 +823,7 @@ namespace Finx.App.Forms
             this.FormClosing += FrmMetroClientImportInvestments_FormClosing;
             this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;
             _cancellationTokenSource = new CancellationTokenSource();
-
+            //_cancellationToken  = _cancellationTokenSource.Token;
             if (_lockObject == null)
                 _lockObject = new object();
 
@@ -835,11 +846,7 @@ namespace Finx.App.Forms
 
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
 
-                        if (parallelOptions.CancellationToken.IsCancellationRequested)
-                        {
-                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
-                            //loopState.Break();
-                        }
+                       //here
 
                         await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
                         _recCnt++;
@@ -849,6 +856,13 @@ namespace Finx.App.Forms
                         clientInvestmentRecordImportAudit.SetMessage(message);
                         clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
                         Progress.Report(clientInvestmentRecordImportAudit);
+                        
+                        //Check if cancel button has been clicked
+                        if (parallelOptions.CancellationToken.IsCancellationRequested)
+                        {   
+                            parallelOptions.CancellationToken.ThrowIfCancellationRequested(); 
+                        }
+
                     }
                     catch (OperationCanceledException ex)
                     {
@@ -856,6 +870,12 @@ namespace Finx.App.Forms
                         clientInvestmentRecordImportAudit.SetMessage(ex.Message);
                         Program.Logger.Error(clientIdentificationNo + ": " + ex);
                         Progress.Report(clientInvestmentRecordImportAudit);
+                        _importCancelled= true;
+                        _importCompleted = false;
+
+                        //Close the progress window
+                        frmCsvImportProgressWindow.End();
+                        loopState.Break();
                     }
                     catch (NullReferenceException ex)
                     {
@@ -1780,7 +1800,7 @@ namespace Finx.App.Forms
                 var parallelOptions = new ParallelOptions()
                 {
                     MaxDegreeOfParallelism = -1,
-                    CancellationToken = _cancellationToken
+                    CancellationToken = frmCsvImportProgressWindow.canTok
                 };
 
                 var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
@@ -1801,56 +1821,75 @@ namespace Finx.App.Forms
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
                     var progressCallback = frmCsvImportProgressWindow;
                     clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
-
-                    foreach (var clientIdentificationNo in clientKeys)
+                    try
                     {
-                        _recCnt++;
-
-                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
-
-                        await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
-
-                        _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
-
-                        clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
-                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
-                        clientInvestmentRecordImportAudit.SetMessage(message);
-
-                        ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
-
-                        //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
-
-                        if (_percCompleted == 100)
+                        foreach (var clientIdentificationNo in clientKeys)
                         {
-                            _importCompleted = true;
-                            clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
-                            progressCallback.End();
 
-                            //RecordCsvFileImport();
-
-                            await Task.Run(() =>
+                            //Check if cancel button has been clicked
+                            if (parallelOptions.CancellationToken.IsCancellationRequested)
                             {
-                                //var win32Parent = new NativeWindow();
-                                //win32Parent.AssignHandle(_handle);
-                                //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
-                                ValidateDataGridRecords();
-                            });
+                                parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                            }
 
-                            await Task.Run(() =>
+                            _recCnt++;
+
+
+                            clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
+
+                            await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
+
+                            _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
+
+                            clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
+                            var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
+                            clientInvestmentRecordImportAudit.SetMessage(message);
+
+                            ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
+
+                            //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
+
+                            if (_percCompleted == 100)
                             {
-                                kbtnOpenFile.BeginInvoke((Action)delegate
+                                _importCompleted = true;
+                                clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
+                                progressCallback.End();
+
+                                //RecordCsvFileImport();
+
+                                await Task.Run(() =>
                                 {
-                                    if (!kbtnOpenFile.Enabled)
-                                        kbtnOpenFile.Enabled = true;
+                                    //var win32Parent = new NativeWindow();
+                                    //win32Parent.AssignHandle(_handle);
+                                    //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
+                                    ValidateDataGridRecords();
                                 });
-                            });
 
+                                await Task.Run(() =>
+                                {
+                                    kbtnOpenFile.BeginInvoke((Action)delegate
+                                    {
+                                        if (!kbtnOpenFile.Enabled)
+                                            kbtnOpenFile.Enabled = true;
+                                    });
+                                });
+
+                            }
                         }
                     }
+                    catch (OperationCanceledException ex)
+                    {
+                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Error);
+                        clientInvestmentRecordImportAudit.SetMessage(ex.Message);
+                        _importCancelled = true;
+                        _importCompleted = false;
 
+                        //Close progress window
+                        frmCsvImportProgressWindow.End();
+                    }
                 }
             }
-            catch (OperationCanceledException)
+            /*catch (OperationCanceledException)
             {
                 await Task.Run(() =>
                 {
@@ -1859,7 +1898,7 @@ namespace Finx.App.Forms
                     MessageBox.Show(win32Parent, "Import operation has been cancelled!", "Easiworx Error", MessageBoxButtons.OK);
                 });
 
-            }
+            }*/
             catch (OperationAbortedException)
             {
                 await Task.Run(() =>
