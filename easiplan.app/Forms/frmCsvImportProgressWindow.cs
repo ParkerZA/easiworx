@@ -18,6 +18,10 @@ namespace Finx.App.Forms
     public partial class frmCsvImportProgressWindow : MetroForm, IProgressCallback
     {
         private string titleRoot = "";
+
+        public CancellationTokenSource canTokSc;
+        public CancellationToken ct;
+
         public delegate void SetTextInvoker(string text);
         public delegate void IncrementInvoker(int val);
         public delegate void StepToInvoker(int val);
@@ -28,6 +32,8 @@ namespace Finx.App.Forms
         public delegate void cancelImportDelegate();
         public event cancelImportDelegate CancelImport = new cancelImportDelegate(cancelImportEventHandler);
 
+        
+
         private static void cancelImportEventHandler()
         {
             throw new NotImplementedException();
@@ -37,10 +43,21 @@ namespace Finx.App.Forms
         {
             InitializeComponent();
             InitialiseFormProperties();
+
+            canTokSc = new CancellationTokenSource();
+            ct = canTokSc.Token;
         }
 
         public CancellationTokenSource CancellationTokenSource
         { get; set; }
+
+        public CancellationToken canTok
+        {
+            get
+            {
+                return ct;
+            }
+        }
         private void InitialiseFormProperties()
         {
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
@@ -267,13 +284,18 @@ namespace Finx.App.Forms
         private void AbortWork()
         {
             manualResetEventAbort.Set();
-            this.CancellationTokenSource.Cancel();
+            //Console.WriteLine(this.CancellationTokenSource.Token.ToString());
+            canTokSc.Cancel();
+            //this.CancellationTokenSource.Cancel();
+            //this.CancellationTokenSource.t
         }
         #endregion
 
         private void metroButton_Cancel_Click(object sender, EventArgs e)
         {
+            this.SetText("Please wait while the operation is cancelled");
             AbortWork();
+            //this.SetCaption("Please wait while the operation is cancelled");
             //this.CloseForm();
         }
     }

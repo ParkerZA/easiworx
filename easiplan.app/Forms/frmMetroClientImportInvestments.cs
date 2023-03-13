@@ -68,6 +68,7 @@ namespace Finx.App.Forms
         private static object _lockObject = new object();
         //private static int _dgvFileContentsRowCnt = 0;
         private static bool? _importCompleted = null;
+        private static bool? _importCancelled = null;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken _cancellationToken;
         private string _detectedFileDelimiter;
@@ -290,11 +291,21 @@ namespace Finx.App.Forms
             backgroundWorker_ImportClientInvestmentsFromFile.DoWork += BackgroundWorker_ImportClientInvestmentsFromFile_DoWork;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerCompleted += BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerAsync(_frmCsvImportProgressWindow);
+           
 
             _frmCsvImportProgressWindow.ShowDialog(this);
             //_frmCsvImportProgressWindow.Close();
             MetroPopUpWindow importComplete = new MetroPopUpWindow();
-            importComplete.SetCaption("Import complete");
+            if ((_importCompleted!= null) && (_importCompleted==true))
+            {
+                importComplete.SetCaption("Import complete");
+            }
+            else if ((_importCancelled != null) && (_importCancelled == true))
+            {
+                importComplete.SetCaption("Import cancelled");
+                _importCancelled= false;
+                lblImportStatus.Text = "Pending";
+            }
             importComplete.ShowDialog();
 
             this.ControlBox = true;
@@ -541,7 +552,7 @@ namespace Finx.App.Forms
             if (chkViewNewRecords.Checked)
             {
                 SetDgvFileContentsDataSource(_csvRecordList);
-                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList();
+                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList();
                 var originalListCopy = _csvRecordList;
                 var newRecords = originalListCopy.Where(l => newRecordList.Any(n => n.Cells[0].Value.ToString() == l.RowNo.ToString())).ToList();
                 SetDgvFileContentsDataSource(newRecords); 
@@ -582,9 +593,15 @@ namespace Finx.App.Forms
 
             if (dgvFileContents.DataSource == null) return;
             if (_csvErrorRecords == null) return;
-            
+
             if (chkViewErrorRecords.Checked)
-                SetDgvFileContentsDataSource(_csvErrorRecords);
+            {
+                SetDgvFileContentsDataSource(_csvRecordList);
+                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230,7,7)).ToList();
+                var originalListCopy = _csvRecordList;
+                var newRecords = originalListCopy.Where(l => newRecordList.Any(n => n.Cells[0].Value.ToString() == l.RowNo.ToString())).ToList();
+                SetDgvFileContentsDataSource(newRecords);
+            }
             else
                 SetDgvFileContentsDataSource(_csvRecordList);
 
@@ -761,14 +778,14 @@ namespace Finx.App.Forms
             var frmCsvImportProgressWindow = e.Argument as frmCsvImportProgressWindow;
             if (frmCsvImportProgressWindow == null)
                 frmCsvImportProgressWindow = _frmCsvImportProgressWindow;
-
             frmCsvImportProgressWindow.CancellationTokenSource = _cancellationTokenSource;
+            
             ImportClientInvestmentsFromFile(frmCsvImportProgressWindow).Wait();
         }
         private void BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //what to do here?
-           
+            //MessageBox.Show("You clicked cancel");
             
         }
                 
@@ -807,7 +824,7 @@ namespace Finx.App.Forms
             this.FormClosing += FrmMetroClientImportInvestments_FormClosing;
             this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;
             _cancellationTokenSource = new CancellationTokenSource();
-
+            //_cancellationToken  = _cancellationTokenSource.Token;
             if (_lockObject == null)
                 _lockObject = new object();
 
@@ -830,11 +847,7 @@ namespace Finx.App.Forms
 
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
 
-                        if (parallelOptions.CancellationToken.IsCancellationRequested)
-                        {
-                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
-                            //loopState.Break();
-                        }
+                       //here
 
                         await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
                         _recCnt++;
@@ -844,6 +857,13 @@ namespace Finx.App.Forms
                         clientInvestmentRecordImportAudit.SetMessage(message);
                         clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
                         Progress.Report(clientInvestmentRecordImportAudit);
+                        
+                        //Check if cancel button has been clicked
+                        if (parallelOptions.CancellationToken.IsCancellationRequested)
+                        {   
+                            parallelOptions.CancellationToken.ThrowIfCancellationRequested(); 
+                        }
+
                     }
                     catch (OperationCanceledException ex)
                     {
@@ -851,6 +871,12 @@ namespace Finx.App.Forms
                         clientInvestmentRecordImportAudit.SetMessage(ex.Message);
                         Program.Logger.Error(clientIdentificationNo + ": " + ex);
                         Progress.Report(clientInvestmentRecordImportAudit);
+                        _importCancelled= true;
+                        _importCompleted = false;
+
+                        //Close the progress window
+                        frmCsvImportProgressWindow.End();
+                        loopState.Break();
                     }
                     catch (NullReferenceException ex)
                     {
@@ -947,10 +973,14 @@ namespace Finx.App.Forms
                     if (matchedClientDetails == null)
                     {
                         client = await Task.Run(() => CreateNewClient(Investments.FirstOrDefault()));
-                        lock (_lockObject)
+
+                        if (!(client == null))
                         {
-                            UpdateClientDetails(client, Investments.FirstOrDefault());
-                            Program.ClientService.Update(client);
+                            lock (_lockObject)
+                            {
+                                UpdateClientDetails(client, Investments.FirstOrDefault());
+                                Program.ClientService.Update(client);
+                            }
                         }
                     }
                     else
@@ -962,18 +992,21 @@ namespace Finx.App.Forms
                                 lock (_lockObject)
                                 {
                                     client = Program.ClientService.Get(matchedClientDetails.ClientId);
-                                    if (client.ClientPortfolio == null)
-                                    {
-                                        client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
-                                        Program.ClientService.Update(client);
-                                    }
 
-                                    if (!(client.ClientContacts == null))
-                                    {
-                                        UpdateClientDetails(client, Investments.FirstOrDefault());
-                                        Program.ClientService.Update(client);
-                                    }
+                                    if (!(client == null))
+                                    { 
+                                        if (client.ClientPortfolio == null)
+                                        {
+                                            client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
+                                            Program.ClientService.Update(client);
+                                        }
 
+                                        if (!(client.ClientContacts == null))
+                                        {
+                                            UpdateClientDetails(client, Investments.FirstOrDefault());
+                                            Program.ClientService.Update(client);
+                                        }
+                                    }
                                 }
                             }
                             catch (AggregateException x)
@@ -1397,7 +1430,7 @@ namespace Finx.App.Forms
 
                 lock (_lockObject)
                 {
-
+                    var dob = "";
                     var physicalAddress1 = "";
                     var physicalAddress2 = "";
                     var physicalAddress3 = "";
@@ -1429,6 +1462,12 @@ namespace Finx.App.Forms
                         case "camissa":
                             var camissaRecord = csvRecord as CamissaRecord;
 
+
+                            //birthdate
+
+                            DateTime cm_dtDob;
+                            if (DateTime.TryParseExact(camissaRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out cm_dtDob))
+                                dob = cm_dtDob.ToString("dd MMM yyyy");
 
                             //Camissa Physical Address
 
@@ -1512,6 +1551,11 @@ namespace Finx.App.Forms
                             //firstname = easiworxRecord.Firstname.Trim();
                             //lastname = easiworxRecord.Lastname.Trim();
 
+                            //birthdate
+
+                            DateTime ewx_dtDob;
+                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
+                                dob = ewx_dtDob.ToString("dd MMM yyyy");
 
                             //Easiworx Physical Address
 
@@ -1543,7 +1587,11 @@ namespace Finx.App.Forms
                             throw new ApplicationException("Invalid Lisp!");
                     }
 
-
+                    if (!string.IsNullOrEmpty(dob))
+                    {
+                        DateTime.TryParse(dob, out DateTime dtDob);
+                        client.ClientDetails.DateOfBirth = dtDob;
+                    }
 
                     if (!string.IsNullOrEmpty(physicalAddress1))
                     {
@@ -1753,7 +1801,7 @@ namespace Finx.App.Forms
                 var parallelOptions = new ParallelOptions()
                 {
                     MaxDegreeOfParallelism = -1,
-                    CancellationToken = _cancellationToken
+                    CancellationToken = frmCsvImportProgressWindow.canTok
                 };
 
                 var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
@@ -1774,56 +1822,75 @@ namespace Finx.App.Forms
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
                     var progressCallback = frmCsvImportProgressWindow;
                     clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
-
-                    foreach (var clientIdentificationNo in clientKeys)
+                    try
                     {
-                        _recCnt++;
-
-                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
-
-                        await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
-
-                        _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
-
-                        clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
-                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
-                        clientInvestmentRecordImportAudit.SetMessage(message);
-
-                        ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
-
-                        //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
-
-                        if (_percCompleted == 100)
+                        foreach (var clientIdentificationNo in clientKeys)
                         {
-                            _importCompleted = true;
-                            clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
-                            progressCallback.End();
 
-                            //RecordCsvFileImport();
-
-                            await Task.Run(() =>
+                            //Check if cancel button has been clicked
+                            if (parallelOptions.CancellationToken.IsCancellationRequested)
                             {
-                                //var win32Parent = new NativeWindow();
-                                //win32Parent.AssignHandle(_handle);
-                                //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
-                                ValidateDataGridRecords();
-                            });
+                                parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                            }
 
-                            await Task.Run(() =>
+                            _recCnt++;
+
+
+                            clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
+
+                            await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
+
+                            _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
+
+                            clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
+                            var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
+                            clientInvestmentRecordImportAudit.SetMessage(message);
+
+                            ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
+
+                            //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
+
+                            if (_percCompleted == 100)
                             {
-                                kbtnOpenFile.BeginInvoke((Action)delegate
+                                _importCompleted = true;
+                                clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
+                                progressCallback.End();
+
+                                //RecordCsvFileImport();
+
+                                await Task.Run(() =>
                                 {
-                                    if (!kbtnOpenFile.Enabled)
-                                        kbtnOpenFile.Enabled = true;
+                                    //var win32Parent = new NativeWindow();
+                                    //win32Parent.AssignHandle(_handle);
+                                    //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
+                                    ValidateDataGridRecords();
                                 });
-                            });
 
+                                await Task.Run(() =>
+                                {
+                                    kbtnOpenFile.BeginInvoke((Action)delegate
+                                    {
+                                        if (!kbtnOpenFile.Enabled)
+                                            kbtnOpenFile.Enabled = true;
+                                    });
+                                });
+
+                            }
                         }
                     }
+                    catch (OperationCanceledException ex)
+                    {
+                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Error);
+                        clientInvestmentRecordImportAudit.SetMessage(ex.Message);
+                        _importCancelled = true;
+                        _importCompleted = false;
 
+                        //Close progress window
+                        frmCsvImportProgressWindow.End();
+                    }
                 }
             }
-            catch (OperationCanceledException)
+            /*catch (OperationCanceledException)
             {
                 await Task.Run(() =>
                 {
@@ -1832,7 +1899,7 @@ namespace Finx.App.Forms
                     MessageBox.Show(win32Parent, "Import operation has been cancelled!", "Easiworx Error", MessageBoxButtons.OK);
                 });
 
-            }
+            }*/
             catch (OperationAbortedException)
             {
                 await Task.Run(() =>
@@ -1960,7 +2027,7 @@ namespace Finx.App.Forms
                             double newFundValue = fund.FundValue.AsDouble();
                             DateTime.TryParse(fund.FundValueDate, out DateTime newFundValDate);
 
-                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.UpdateDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
+                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
                             {
                                 newfund = CreateFund(fund, fundAllocPerc);
                                 var retirementFunds = retirement.Funds;
@@ -1969,7 +2036,7 @@ namespace Finx.App.Forms
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
                             }
                             else
-                                UpdateFund(existingFund, fund);
+                                UpdateFund(existingFund, fund, fundAllocPerc);
                         }
                     }
                     else
@@ -2167,7 +2234,7 @@ namespace Finx.App.Forms
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private Fund UpdateFund(Fund fund, ICsvRecord csvRecord, string UpdateBy = "System")
+        private Fund UpdateFund(Fund fund, ICsvRecord csvRecord, double dblSplitPerc, string UpdateBy = "System" )
         {
             try
             {
@@ -2176,7 +2243,7 @@ namespace Finx.App.Forms
               //  var fundValue = csvRecord.FundValue.Replace(".", ",");
 
                 var fundValue = csvRecord.FundValue.Replace(",", "");
-
+                //var splitPerc = csvRecord.
                 //Double.TryParse(fundValue, out double dblFundValue);
 
                 double dblFundValue = fundValue.AsDouble();
@@ -2185,6 +2252,7 @@ namespace Finx.App.Forms
                 if (csvRecord.FundValueDate != null && fundValDate > fund.FundValueDate)
                 {
                     fund.CurrentAmount = dblFundValue;
+                    fund.SplitPerc = dblSplitPerc; 
                     fund.UpdateBy = UpdateBy;
                     fund.UpdateDate = DateTime.Now;
                     fund.FundValueDate = fundValDate;
@@ -2850,9 +2918,20 @@ namespace Finx.App.Forms
                     {
 
                         lblRecCnt.Text = totRecs.ToString();
-                        lblTotValErrors.Text = errCnt.ToString();
+
+                        //Set onscreen error count
+                        if (lblTotValErrors.Text == "0")
+                        {
+                            lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString(); ;
+                        }
+                        
                         lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList().Count.ToString(); //_noOfNewClients.ToString();
+
+                        //Set onscreen new client count
+                        if (lblNewClientCnt.Text == "0")
+                        {
+                            lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                        }
 
                         lblExistingClientCnt.Visible = true;
                         lblNewClientCnt.Visible = true;
@@ -2864,10 +2943,19 @@ namespace Finx.App.Forms
                 else
                 {
                     lblRecCnt.Text = totRecs.ToString();
-                    lblTotValErrors.Text = errCnt.ToString();
-                    lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                    lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList().Count.ToString(); //_noOfNewClients.ToString();
 
+                    //Set onscreen new client count
+                    if (lblTotValErrors.Text == "0")
+                    {
+                        lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString();
+                    }
+                    lblExistingClientCnt.Text = _noOfExistingClients.ToString();
+
+                    //Set onscreen new client count
+                    if (lblNewClientCnt.Text == "0")
+                    {
+                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                    }
                     lblExistingClientCnt.Visible = true;
                     lblNewClientCnt.Visible = true;
                     cmClientRecords.Enabled = true;
@@ -2958,6 +3046,11 @@ namespace Finx.App.Forms
         }
 
         private void dgvFileContents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lblExistingClientCnt_Click(object sender, EventArgs e)
         {
 
         }

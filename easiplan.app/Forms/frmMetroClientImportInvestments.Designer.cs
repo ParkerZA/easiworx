@@ -104,7 +104,7 @@ namespace Finx.App.Forms
             this.kgbFileDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kgbFileDetails.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
             this.kgbFileDetails.Location = new System.Drawing.Point(25, 75);
-            this.kgbFileDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kgbFileDetails.Margin = new System.Windows.Forms.Padding(4);
             this.kgbFileDetails.Name = "kgbFileDetails";
             // 
             // kgbFileDetails.Panel
@@ -119,7 +119,7 @@ namespace Finx.App.Forms
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 117);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -451,7 +451,7 @@ namespace Finx.App.Forms
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 12;
             this.metroPanel1.Location = new System.Drawing.Point(0, 0);
-            this.metroPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.metroPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(1685, 117);
             this.metroPanel1.TabIndex = 4;
@@ -515,7 +515,7 @@ namespace Finx.App.Forms
             // kbtnOpenFile
             // 
             this.kbtnOpenFile.Location = new System.Drawing.Point(236, 12);
-            this.kbtnOpenFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kbtnOpenFile.Margin = new System.Windows.Forms.Padding(4);
             this.kbtnOpenFile.Name = "kbtnOpenFile";
             this.kbtnOpenFile.Size = new System.Drawing.Size(156, 39);
             this.kbtnOpenFile.TabIndex = 2;
@@ -553,7 +553,7 @@ namespace Finx.App.Forms
             "EasiworxTemplate",
             "Momentum"});
             this.cmbSelectLisp.Location = new System.Drawing.Point(55, 12);
-            this.cmbSelectLisp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbSelectLisp.Margin = new System.Windows.Forms.Padding(4);
             this.cmbSelectLisp.Name = "cmbSelectLisp";
             this.cmbSelectLisp.Size = new System.Drawing.Size(173, 30);
             this.cmbSelectLisp.TabIndex = 1;
@@ -586,7 +586,7 @@ namespace Finx.App.Forms
             // 
             this.cancelImport.Enabled = false;
             this.cancelImport.Location = new System.Drawing.Point(232, 68);
-            this.cancelImport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cancelImport.Margin = new System.Windows.Forms.Padding(4);
             this.cancelImport.Name = "cancelImport";
             this.cancelImport.Size = new System.Drawing.Size(159, 36);
             this.cancelImport.TabIndex = 4;
@@ -601,12 +601,13 @@ namespace Finx.App.Forms
             this.lblExistingClientCnt.Size = new System.Drawing.Size(14, 16);
             this.lblExistingClientCnt.TabIndex = 37;
             this.lblExistingClientCnt.Text = "0";
+            this.lblExistingClientCnt.Click += new System.EventHandler(this.lblExistingClientCnt_Click);
             // 
             // btnImportFile
             // 
             this.btnImportFile.Enabled = false;
             this.btnImportFile.Location = new System.Drawing.Point(56, 68);
-            this.btnImportFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnImportFile.Margin = new System.Windows.Forms.Padding(4);
             this.btnImportFile.Name = "btnImportFile";
             this.btnImportFile.Size = new System.Drawing.Size(159, 36);
             this.btnImportFile.TabIndex = 3;
@@ -673,7 +674,7 @@ namespace Finx.App.Forms
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1739, 772);
             this.Controls.Add(this.kgbFileDetails);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMetroClientImportInvestments";
             this.Padding = new System.Windows.Forms.Padding(25, 75, 25, 25);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
