@@ -476,10 +476,10 @@ namespace Finx.App.Forms
                 }
 
                 if (messages.Count <= 0)
-                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid cellphone number.", smsPortal.smsToken.Balance, messages.Count));
-
-                if (Double.Parse(smsPortal.GetBalance()) < messages.Count)
-                    throw new ApplicationException(string.Format("You only have '{0}' credits, not enough to send these '{1}' sms's. \r\n\r\nPlease purchase additional credits or select fewer clients.", smsPortal.smsToken.Balance, messages.Count));
+                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid cellphone number."));
+                var _balance = smsPortal.GetBalance();
+                if (_balance.Balance < messages.Count)
+                    throw new ApplicationException(string.Format("You only have '{0}' credits, not enough to send these '{1}' sms's. \r\n\r\nPlease purchase additional credits or select fewer clients.", _balance.Balance, messages.Count));
 
                 if (!MessageBoxExt.ShowQuestion(string.Format("Are you sure you wish to send these {0} sms's ?", messages.Count)))
                     return false;
@@ -784,7 +784,7 @@ namespace Finx.App.Forms
                 }
 
                 if (messages.Count <= 0)
-                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid email address.", smsPortal.smsToken.Balance, messages.Count));
+                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid email address."));
 
 
                 if (!MessageBoxExt.ShowQuestion(string.Format("Are you sure you wish to send these {0} emails ?", messages.Count)))
