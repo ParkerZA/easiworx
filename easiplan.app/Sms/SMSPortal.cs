@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using easiplan.app.Extensions;
 using easiplan.domain;
+using easiplan.domain.Entities;
 using Newtonsoft.Json;
 
 namespace Finx.App.Sms
@@ -12,7 +14,6 @@ namespace Finx.App.Sms
     {
         public SmsConfiguration smsConfig { get; set; }
         public SmsToken smsToken { get; set; }
-
         public SmsPortal(SmsConfiguration smsConfiguration)
         {
 
@@ -20,43 +21,48 @@ namespace Finx.App.Sms
             smsToken = new SmsToken();
         }
 
-        public string GetBalance()
-        {           
-            if (smsToken.IsValidToken(smsConfig))
+        public BalanceResult GetBalance()
+        {            
+           
+            try
             {
+                smsToken.Authenticate(smsConfig);
+
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(smsConfig.baseRestUri + "Balance");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "GET";
                 httpWebRequest.Accept = "application/json";
                 httpWebRequest.PreAuthenticate = true;
-                httpWebRequest.Headers.Add("Authorization", "Bearer " + smsToken.Token);
+                httpWebRequest.Headers.Add("Authorization:Bearer "+ smsToken.Token);
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Populate(streamReader, smsToken);
+                    //JsonSerializer serializer = new JsonSerializer();
+                    //serializer.Populate(streamReader, smsToken);
 
-                    //var result = streamReader.ReadToEnd();
+                    var result = streamReader.ReadToEnd();
                     //const string MATCH_PATTERN = @"""Balance"": ?""(?<Balance>.+)""";
-                    //Token = Regex.Match(result, MATCH_PATTERN).Groups["Balance"].Value;
-                }
-            }
+                    //var balance = Regex.Match(result, MATCH_PATTERN).Groups["Balance"].Value;
 
-            return smsToken.Balance;
+                    return result.FromJson<BalanceResult>();
+                }
+            }catch(Exception ex) {
+                throw;
+            }
+           
         }
 
         public void SendBulkMessages(SmsSendOptions sendOptions,IList<SmsMessage> messages)
         {
-
+            try{ 
             BulkMessage Msg = new BulkMessage(sendOptions);
             Msg.messages = messages;
 
             var sMsg = JsonConvert.SerializeObject(Msg, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
             sMsg = sMsg.Replace("\\\"", "\"").Replace("\"[", "[").Replace("]\"", "]");
 
-            smsToken.IsValidToken(smsConfig);
- 
+            smsToken.Authenticate(smsConfig); 
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(smsConfig.baseRestUri + "BulkMessages");
             httpWebRequest.ContentType = "application/json";
@@ -78,6 +84,11 @@ namespace Finx.App.Sms
             {
                 var result = streamReader.ReadToEnd();
 
+            }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
@@ -112,17 +123,21 @@ namespace Finx.App.Sms
     public class SmsToken
     {
         public string Token { get; set; }
-        public string Balance { get; set; }
-        public bool IsValidToken(SmsConfiguration SmsConfig)
+      
+        public bool Authenticate(SmsConfiguration SmsConfig)
         {
+           
+            Token = EncodeTo64(string.Format("{0}:{1}", SmsConfig.ClientKey, SmsConfig.SecretKey));
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(SmsConfig.baseRestUri + "Balance");
+                
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(SmsConfig.baseRestUri + "Authentication");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "GET";
                 httpWebRequest.Accept = "application/json";
                 httpWebRequest.PreAuthenticate = true;
-                httpWebRequest.Headers.Add("Authorization", "Bearer " + Token);
+                httpWebRequest.Headers.Add("Authorization:Basic "+ Token);
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -131,42 +146,14 @@ namespace Finx.App.Sms
                     //serializer.Populate(streamReader, smsToken);
 
                     var result = streamReader.ReadToEnd();
-                    const string MATCH_PATTERN = @"""Balance"": ?""(?<Balance>.+)""";
-                    Balance = Regex.Match(result, MATCH_PATTERN).Groups["Balance"].Value;
+                    const string MATCH_PATTERN = @"""token"": ?""(?<token>.+)""";
+                    //Token = Regex.Match(result, MATCH_PATTERN).Groups["token"].Value;
                 }
-
                 return true;
             }
-            catch(Exception)
-            {   //Create New Token
-                try
-                {
-                    string AuthorisationToken = "Basic ";
-                    AuthorisationToken += EncodeTo64(string.Format("{0}:{1}", SmsConfig.ClientKey, SmsConfig.SecretKey));
+            catch (Exception x1) { throw new Exception("Failed to authenticate with SMS provider using the supplied credentials."); }
 
-                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(SmsConfig.baseRestUri + "Authentication");
-                    httpWebRequest.ContentType = "application/json";
-                    httpWebRequest.Method = "GET";
-                    httpWebRequest.Accept = "application/json";
-                    httpWebRequest.PreAuthenticate = true;
-                    httpWebRequest.Headers.Add("Authorization", AuthorisationToken);
-
-                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                    {
-                        //JsonSerializer serializer = new JsonSerializer();
-                        //serializer.Populate(streamReader, smsToken);
-
-                        var result = streamReader.ReadToEnd();
-                        const string MATCH_PATTERN = @"""token"": ?""(?<token>.+)""";
-                        Token = Regex.Match(result, MATCH_PATTERN).Groups["token"].Value;
-                    }
-                    return true;
-                }catch(Exception x1) { throw new Exception("Failed to authenticate with SMS provider using the supplied credentials."); }
-            }
-            return false;
         }
-
 
         string EncodeTo64(string toEncode)
 
@@ -253,5 +240,8 @@ namespace Finx.App.Sms
     {
         public string Message { get; set; }
         public string[] Groups { get; set; }
+    }
+    public class BalanceResult{
+        public double Balance { get; set; }
     }
 }
