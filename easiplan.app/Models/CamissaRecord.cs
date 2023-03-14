@@ -271,11 +271,28 @@ namespace Finx.App.Models
             } 
             set 
             { 
-                _title = value; 
+                _title = value.ToLower();
+                _title = CapitalizeSentence(_title);
             } 
         }
-       
-        
+
+        //Method to format string names
+        public static string CapitalizeSentence(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                if (word.Length > 0)
+                {
+                    char firstLetter = char.ToUpper(word[0]);
+                    string restOfWord = word.Substring(1);
+                    words[i] = firstLetter + restOfWord;
+                }
+            }
+            return string.Join(" ", words);
+        }
+
         //First name of client
         [Index(11)]
         public string Firstname 
@@ -289,14 +306,16 @@ namespace Finx.App.Models
                 //Camissa uses "(TFI)" in their client names to indictate when a product is tax free investment rather than unit trust
                 if (value.Contains("(TFI)"))
                 {
-                    _firstname = value.Replace("(TFI)", "").Trim();
+                    _firstname = value.Replace("(TFI)", "").Trim().ToLower();
                     this.ProductType = "Tax Free Investment";
                 }
                 else
                 {
-                    _firstname = value.Trim();
+                    _firstname = value.Trim().ToLower();
                     this.ProductType = "Unit Trusts";
                 }
+
+                _firstname = CapitalizeSentence(_firstname);
             } 
         }
 
@@ -314,14 +333,16 @@ namespace Finx.App.Models
                 //Camissa uses "(TFI)" in their client names to indictate when a product is tax free investment rather than unit trust
                 if (value.Contains("(TFI)"))
                 {
-                    _lastname = value.Replace("(TFI)", "").Trim();
+                    _lastname = value.Replace("(TFI)", "").Trim().ToLower();
                     this.ProductType = "Tax Free Investment";
                 }
                 else
                 {
-                    _lastname = value.Trim();
+                    _lastname = value.Trim().ToLower();
                     this.ProductType = "Unit Trusts";
                 }
+
+                _lastname= CapitalizeSentence(_lastname);
             } 
         }
 

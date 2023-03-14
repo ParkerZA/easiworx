@@ -68,6 +68,21 @@ namespace Finx.App.Models
             }
         }
 
+        public static string CapitalizeSentence(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                if (word.Length > 0)
+                {
+                    char firstLetter = char.ToUpper(word[0]);
+                    string restOfWord = word.Substring(1);
+                    words[i] = firstLetter + restOfWord;
+                }
+            }
+            return string.Join(" ", words);
+        }
 
         //Clients first name initial
         [Index(5)]
@@ -96,7 +111,8 @@ namespace Finx.App.Models
             set 
             { 
                 _lastname = (value.Replace("'", string.Empty.Replace("\"", string.Empty)));
-                _lastname = _lastname.Replace('"', ' ').Trim();
+                _lastname = _lastname.Replace('"', ' ').Trim().ToLower();
+                _lastname = CapitalizeSentence(_lastname);
             }
         }
 

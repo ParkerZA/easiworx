@@ -32,7 +32,21 @@ namespace Finx.App.Models
         [Ignore]
         public int RowNo { get; set; }
 
-
+        public static string CapitalizeSentence(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                if (word.Length > 0)
+                {
+                    char firstLetter = char.ToUpper(word[0]);
+                    string restOfWord = word.Substring(1);
+                    words[i] = firstLetter + restOfWord;
+                }
+            }
+            return string.Join(" ", words);
+        }
 
         [Index(1)]//fullname - Client name e.g. Taurique, Toffie
         public string Firstname 
@@ -46,14 +60,17 @@ namespace Finx.App.Models
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim();
-                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim();
+                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim().ToLower();
+                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim().ToLower();
+                        this.Lastname = CapitalizeSentence(this.Lastname);
                     }
                     else
-                        _firstname = value;
+                        _firstname = value.ToLower();
                 }
                 else
-                    _firstname = value; 
+                    _firstname = value.ToLower(); 
+
+                _firstname= CapitalizeSentence(this.Firstname);
             } 
         }
 
