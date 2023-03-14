@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Finx.App.UserControls;
 using MetroFramework.Controls;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace Finx.App.Forms
 {
@@ -29,6 +30,7 @@ namespace Finx.App.Forms
         private ManualResetEvent manualResetEventInit = new ManualResetEvent(false);
         private ManualResetEvent manualResetEventAbort = new ManualResetEvent(false);
         private bool requiresClose = true;
+        private bool allowTextEdit = true;
         public delegate void cancelImportDelegate();
         public event cancelImportDelegate CancelImport = new cancelImportDelegate(cancelImportEventHandler);
 
@@ -113,16 +115,19 @@ namespace Finx.App.Forms
         /// <param name="text">The progress text to display</param>
         public void SetText(String text)
         {
-            try
+            if (allowTextEdit)
             {
-                if (InvokeRequired)
-                    Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
-                else
-                    DoSetText(text);
-            }
-            catch (ObjectDisposedException)
-            {
-                                
+                try
+                {
+                    if (InvokeRequired)
+                        Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
+                    else
+                        DoSetText(text);
+                }
+                catch (ObjectDisposedException)
+                {
+
+                }
             }
             
         }
@@ -293,8 +298,31 @@ namespace Finx.App.Forms
 
         private void metroButton_Cancel_Click(object sender, EventArgs e)
         {
-            this.SetText("Please wait while the operation is cancelled");
-            AbortWork();
+
+
+
+            var dialogResult = new DialogResult();
+
+                var win32Parent = new NativeWindow();
+                //win32Parent.AssignHandle(_handle);
+                dialogResult = MessageBox.Show(win32Parent, "Are you sure you want to cancel this import ? Nb! All records which have already begun the import process will still be completed", "Cancel CSV import", MessageBoxButtons.YesNo);
+
+
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                this.SetCaption("The import has been Cancelled");
+                this.SetText("Please wait while records in progress complete importation, no further records will be imported");
+
+                this.allowTextEdit = false;
+                AbortWork();
+            }
+
+
+
             //this.SetCaption("Please wait while the operation is cancelled");
             //this.CloseForm();
         }

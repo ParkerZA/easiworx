@@ -1514,11 +1514,11 @@ namespace Finx.App.Forms
                         //if (!Program.User.Designation.Contains("Authoriser"))
                         //    throw new MyValidationException("UnAuthorised . This action can only be performed by a valid Authoriser");
 
-                        if (MessageBoxExt.ShowQuestion("Are you sure you wish to Add this policy to the Client's Portfolio ?"))
+                        if (MessageBoxExt.ShowQuestion("Are you sure you wish to Add this policy to the Client's Portfolio?"))
                         {
                             TempNeed.Validate("ReferenceNo");
                             TempNeed.Validate("startdate");
-
+                           
                             TempNeed.Status = NeedStatus.Implemented.ToText();
                             TempNeed.IsImplemented = true;
                             TempNeed.IsCancelled = false;
@@ -2375,7 +2375,7 @@ namespace Finx.App.Forms
             {
                 //DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 //Fund mObj = _bList.EditedObject as Fund;
-
+                Console.WriteLine("High am me");
                 HasChanges = true;
             }
             catch (Exception x)
