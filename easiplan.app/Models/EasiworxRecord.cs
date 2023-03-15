@@ -144,6 +144,10 @@ namespace Finx.App.Models
                 {
                     _dob = "-";
                 }
+                catch (ArgumentOutOfRangeException)
+                {
+                    _dob = "-";
+                }
             }
                 
         }

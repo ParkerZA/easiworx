@@ -151,6 +151,11 @@ namespace Finx.App.Forms
         {
             //Console.WriteLine($"kbtnOpenFile_Click {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
 
+            chkViewErrorRecords.Checked = false;
+            chkViewNewRecords.Checked = false;
+            chkViewExistingRecords.Checked = false;
+
+
             if (cmbSelectLisp.SelectedIndex == 0 || cmbSelectLisp.SelectedItem.ToString().ToLower() == "please select")
             {
                 cmbSelectLisp.Focus();
@@ -234,11 +239,18 @@ namespace Finx.App.Forms
                         lblFileDate.Text = _fileProperties.FileDate.ToString("dd MMM yyyy hh:mm");
                         lblFileSize.Text = string.Format("{0} KB", (_fileProperties.FileSize / 1024).ToString());
 
+
+                       
+
+
                         var _loadFileWorker = new BackgroundWorker() { WorkerReportsProgress = false };
                         _loadFileWorker.DoWork += LoadFileWorker_DoWork;
                         var fileSettings = new FileSettings() { FilePath = _filepath, CsvConfiguration = csvHelperConfiguration };
                         _loadFileWorker.RunWorkerCompleted += LoadFileWorker_RunWorkerCompleted;
                         _loadFileWorker.RunWorkerAsync(fileSettings);
+
+                      
+
                     }
                     else
                     {
@@ -657,6 +669,8 @@ namespace Finx.App.Forms
         {
             try
             {
+                
+
                 if (_csvRecordList == null) return;
 
                 dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
@@ -2784,8 +2798,11 @@ namespace Finx.App.Forms
                 else
                 {
                     birthDateCell = dgvFileContents.Rows[RowIndex].Cells["BirthDate"];
-                birthDate = birthDateCell.Value.ToString();
 
+                if (birthDateCell.Value != null)
+                {
+                    birthDate = birthDateCell.Value.ToString();
+                }
 
                     if (birthDate == "-")
                     {
@@ -3018,26 +3035,27 @@ namespace Finx.App.Forms
         }
         private async Task SetFileImportDetails()
         {
+            
+
             await Task.Run(() =>
             {
+
                 var totRecs = _csvRecordList.Count;
                 var errCnt = _csvErrorRecords == null ? 0 : _csvErrorRecords.Count;
 
-                lblTotValErrors.Text = "0";
-                lblNewClientCnt.Text = "0";
-                
 
                 _noOfExistingClients = _matchedClientsFromCsv.Count;
                 _noOfNewClients = totRecs - _noOfExistingClients;
+                
+                
 
                 if (InvokeRequired)
                     BeginInvoke(new Action(() =>
                     {
-
                         lblRecCnt.Text = totRecs.ToString();
 
                         //Set onscreen error count
-                        if (lblTotValErrors.Text == "0")
+                        if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                         {
                             lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString(); ;
                         }
@@ -3045,7 +3063,7 @@ namespace Finx.App.Forms
                         lblExistingClientCnt.Text = _noOfExistingClients.ToString();
 
                         //Set onscreen new client count
-                        if (lblNewClientCnt.Text == "0")
+                        if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                         {
                             lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
                         }
@@ -3062,14 +3080,14 @@ namespace Finx.App.Forms
                     lblRecCnt.Text = totRecs.ToString();
 
                     //Set onscreen new client count
-                    if (lblTotValErrors.Text == "0")
+                    if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                     {
                         lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString();
                     }
                     lblExistingClientCnt.Text = _noOfExistingClients.ToString();
 
                     //Set onscreen new client count
-                    if (lblNewClientCnt.Text == "0")
+                    if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                     {
                         lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
                     }
