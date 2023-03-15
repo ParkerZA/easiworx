@@ -2458,6 +2458,7 @@ namespace Finx.App.Forms
                         ValidateSAIDNo(rowIndex, csvRecord);
                         ValidateFundValue(rowIndex, csvRecord);
                         ValidateFundValueDate(rowIndex, csvRecord);
+                        ValidateBirthDate(rowIndex, csvRecord);
                         ColourRow(rowIndex);
 
                         /*await ValidateSAIDNo(datagridViewRow, csvRecord);
@@ -2752,6 +2753,55 @@ namespace Finx.App.Forms
 
             //});
         }
+
+
+
+        private void ValidateBirthDate(int RowIndex, ICsvRecord csvRecord)
+        {
+            DataGridViewCell birthDateCell = null;
+            var birthDate = "";
+
+
+                if (dgvFileContents.InvokeRequired == true)
+                    dgvFileContents.BeginInvoke((Action)delegate
+                    {
+                        birthDateCell = dgvFileContents.Rows[RowIndex].Cells["BirthDate"];
+                        birthDate = birthDateCell.Value.ToString();
+
+                        if (birthDate == "-")
+                        {
+                            birthDateCell.ErrorText = "Invalid Birthdate!";
+                            birthDateCell.ToolTipText = "Please ensure that Birthdate is in the format: 'dd/mm/yyyy'";
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                            csvRecord.HasErrors = true;
+                        }
+
+
+                        
+                        
+                    });
+                else
+                {
+                    birthDateCell = dgvFileContents.Rows[RowIndex].Cells["BirthDate"];
+                birthDate = birthDateCell.Value.ToString();
+
+
+                    if (birthDate == "-")
+                    {
+                        birthDateCell.ErrorText = "Invalid Birthdate!";
+                        birthDateCell.ToolTipText = "Please ensure that Birthdate is in the format: 'dd/mm/yyyy'";
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                        csvRecord.HasErrors = true;
+                    }   
+                }
+    }
+
+
+
+
+
         private void ValidateFundValueDate(int RowIndex, ICsvRecord csvRecord)
         {
             //Console.WriteLine($"ValidateFundValueDate {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
@@ -2769,6 +2819,15 @@ namespace Finx.App.Forms
                     {
                         fundValueDateCell = dgvFileContents.Rows[RowIndex].Cells["FundValueDate"];
                         fundValueDate = fundValueDateCell.Value.ToString();
+
+                        if (fundValueDate == "-")
+                        {
+                            fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                            fundValueDateCell.ToolTipText = "Please ensure that Fund Value Date is in the correct format!";
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                            csvRecord.HasErrors = true;
+                        }
 
                         if (string.IsNullOrEmpty(fundValueDate))
                         {
@@ -2849,6 +2908,16 @@ namespace Finx.App.Forms
                 {
                     fundValueDateCell = dgvFileContents.Rows[RowIndex].Cells["FundValueDate"];
                     fundValueDate = fundValueDateCell.Value.ToString();
+
+
+                    if (fundValueDate == "-")
+                    {
+                        fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                        fundValueDateCell.ToolTipText = "Please ensure that Fund Value Date is in the correct format!";
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                        csvRecord.HasErrors = true;
+                    }
 
                     if (string.IsNullOrEmpty(fundValueDate))
                     {
@@ -2953,6 +3022,10 @@ namespace Finx.App.Forms
             {
                 var totRecs = _csvRecordList.Count;
                 var errCnt = _csvErrorRecords == null ? 0 : _csvErrorRecords.Count;
+
+                lblTotValErrors.Text = "0";
+                lblNewClientCnt.Text = "0";
+                
 
                 _noOfExistingClients = _matchedClientsFromCsv.Count;
                 _noOfNewClients = totRecs - _noOfExistingClients;
