@@ -32,7 +32,21 @@ namespace Finx.App.Models
         [Ignore]
         public int RowNo { get; set; }
 
-
+        public static string CapitalizeSentence(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                if (word.Length > 0)
+                {
+                    char firstLetter = char.ToUpper(word[0]);
+                    string restOfWord = word.Substring(1);
+                    words[i] = firstLetter + restOfWord;
+                }
+            }
+            return string.Join(" ", words);
+        }
 
         [Index(1)]//fullname - Client name e.g. Taurique, Toffie
         public string Firstname 
@@ -46,14 +60,17 @@ namespace Finx.App.Models
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim();
-                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim();
+                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim().ToLower();
+                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim().ToLower();
+                        this.Lastname = CapitalizeSentence(this.Lastname);
                     }
                     else
-                        _firstname = value;
+                        _firstname = value.ToLower();
                 }
                 else
-                    _firstname = value; 
+                    _firstname = value.ToLower(); 
+
+                _firstname= CapitalizeSentence(this.Firstname);
             } 
         }
 
@@ -147,30 +164,16 @@ namespace Finx.App.Models
         [Index(8)] //Inception date
         public string StartDate
         {
-            get { return _startDate; }
+            get 
+            { 
+                return _startDate; 
+            }
             set
             {
-                if (value.Length > 8)
-                {
-                    String temp = value.Replace("/", string.Empty);
-                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
-                    var day = int.Parse(temp.Substring(0, 2));
-                    var month = int.Parse(temp.Substring(2, 2));
-                    var year = int.Parse(temp.Substring(4, 4));
-
-                    var strdt = year + "-" + month + "-" + day;
-
-                    DateTime dtSD;
-                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
-                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD))
-                    {
-                        _startDate = dtSD.ToString("dd MMM yyyy");
-                    }
-                }
+                if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
+                    _startDate = dtStartDt.ToString("dd MMM yyyy");
                 else
-                {
                     _startDate = value;
-                }
             }
         }
 
@@ -205,39 +208,27 @@ namespace Finx.App.Models
         [Index(22)] //Price date
         public string FundValueDate
         {
-            get { return _fundValueDate; }
+            get 
+            { 
+                return _fundValueDate; 
+            }
             set
             {
-                if (value.Length > 8)
-                {
-                    String temp = value.Replace("/", string.Empty);
-                    //temp.Replace(" ", string.Empty);
-                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
-                    
-                    var day = int.Parse(temp.Substring(0, 2));
-                    var month = int.Parse(temp.Substring(2, 2));
-                    var year = int.Parse(temp.Substring(4, 4));
-
-                    var strdt = year + "-" + month + "-" + day;
-
-                    DateTime dtFVD;
-                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
-                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
-                    {
-                        _fundValueDate = dtFVD.ToString("dd MMM yyyy");
-                    }
-                }
+                if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                    _fundValueDate = fundValDt.ToString("dd MMM yyyy");
                 else
-                {
                     _fundValueDate = value;
-                }
             }
+        
         }
 
         [Index(26)] //Market value in rands
         public string FundValue
         {
-            get { return _fundValue; }
+            get 
+            { 
+                return _fundValue; 
+            }
             set
             {
                 _fundValue = value.Replace(",", string.Empty);

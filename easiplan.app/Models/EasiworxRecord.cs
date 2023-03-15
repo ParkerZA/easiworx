@@ -26,6 +26,7 @@ namespace Finx.App.Models
         private string _fundAllocationPercentage;
         private string _startDate;
         private string _firstname;
+        private string _lastname;  
         private string _validationErrors;
         private string _dob = "";
         private string _monthlyPremium;
@@ -57,14 +58,18 @@ namespace Finx.App.Models
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim();
-                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim();
+                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim().ToLower();
+                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim().ToLower();
+                        this.Lastname = CapitalizeSentence(this.Lastname);
                     }
                     else
-                        _firstname = value;
+                        _firstname = value.ToLower().Trim();
                 }
                 else
-                    _firstname = value; 
+                    _firstname = value.ToLower().Trim();
+
+                _firstname = CapitalizeSentence(_firstname);
+               
             } 
         }
 
@@ -73,8 +78,34 @@ namespace Finx.App.Models
         [Index(1)]
         public string Lastname
         {
-            get;
-            set;
+            get
+            {
+                return _lastname;
+            }
+            set
+            { 
+                _lastname= value.ToLower().Trim();
+                _lastname = CapitalizeSentence(_lastname);
+            }
+        }
+
+
+        //Method to format string names
+
+        public static string CapitalizeSentence(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                if (word.Length > 0)
+                {
+                    char firstLetter = char.ToUpper(word[0]);
+                    string restOfWord = word.Substring(1);
+                    words[i] = firstLetter + restOfWord;
+                }
+            }
+            return string.Join(" ", words);
         }
 
 
@@ -622,6 +653,7 @@ namespace Finx.App.Models
             Map(c => c.MonthlyPremium);
             Map(c => c.LISP);
 
+            
 
             Task.Run(() =>
             {

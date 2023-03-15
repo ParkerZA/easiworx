@@ -1945,7 +1945,6 @@ namespace Finx.App.Forms
                     //client.ClientPortfolio.Initialise();
 
                     this.dataGrid_RetirementPortfolio.Rebind<Retirement>(client.ClientPortfolio.RetirementsBindingList);
-                    Console.WriteLine("Look here i wrote a thing");
                     
                 }
 
@@ -2098,7 +2097,6 @@ namespace Finx.App.Forms
             }
             try
             {
-                Console.WriteLine("Ok now i am actually changing it");
                 DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 Fund mObj = _bList.EditedObject as Fund;
 

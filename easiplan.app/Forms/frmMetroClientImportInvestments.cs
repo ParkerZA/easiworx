@@ -294,6 +294,8 @@ namespace Finx.App.Forms
            
 
             _frmCsvImportProgressWindow.ShowDialog(this);
+            //Close the progress window
+            _frmCsvImportProgressWindow.End();
             //_frmCsvImportProgressWindow.Close();
             MetroPopUpWindow importComplete = new MetroPopUpWindow();
             if ((_importCompleted!= null) && (_importCompleted==true))
@@ -837,8 +839,10 @@ namespace Finx.App.Forms
             {
                 loopResults.Add(Parallel.ForEach(batchedClientInvestment, parallelOptions, async (clientIdentificationNo, loopState) =>
                 {
-                  
+                    Console.WriteLine("A new one");
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
+
+                    clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
                     //frmCsvImportProgressWindow.CancellationTokenSource = parallelOptions.CancellationToken
                     var progressCallback = frmCsvImportProgressWindow;
                     clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
@@ -847,23 +851,32 @@ namespace Finx.App.Forms
 
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
 
-                       //here
-
+                        //here
+                        if (parallelOptions.CancellationToken.IsCancellationRequested)
+                        {
+                            loopState.Stop(); 
+                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                        }
                         await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
                         _recCnt++;
                         _percCompleted = (int)Math.Round((double)(100 * _recCnt) / _fileClientInvestments.Keys.Count);
-                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
-                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
-                        clientInvestmentRecordImportAudit.SetMessage(message);
                         clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
+                       
+                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
+                        
+                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
+                        
+                        clientInvestmentRecordImportAudit.SetMessage(message);
+                        
+                        
                         Progress.Report(clientInvestmentRecordImportAudit);
                         
                         //Check if cancel button has been clicked
                         if (parallelOptions.CancellationToken.IsCancellationRequested)
-                        {   
-                            parallelOptions.CancellationToken.ThrowIfCancellationRequested(); 
+                        {
+                            loopState.Stop();
+                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
                         }
-
                     }
                     catch (OperationCanceledException ex)
                     {
@@ -874,9 +887,11 @@ namespace Finx.App.Forms
                         _importCancelled= true;
                         _importCompleted = false;
 
-                        //Close the progress window
-                        frmCsvImportProgressWindow.End();
-                        loopState.Break();
+                        
+                        //loopState.Stop();
+
+
+                        //return;
                     }
                     catch (NullReferenceException ex)
                     {
@@ -902,8 +917,13 @@ namespace Finx.App.Forms
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Error);
                         Progress.Report(clientInvestmentRecordImportAudit);
                     }
-                }));
+                }
+                
+                ));
+                //Close the progress window
+                //frmCsvImportProgressWindow.End();
             });
+           
             return loopResults;
         }
 
@@ -1003,6 +1023,22 @@ namespace Finx.App.Forms
 
                                         if (!(client.ClientContacts == null))
                                         {
+                                            UpdateClientDetails(client, Investments.FirstOrDefault());
+                                            Program.ClientService.Update(client);
+                                        }
+                                        else
+                                        {
+                                            client.ClientContacts = new ClientContacts()
+                                            {
+                                                EMailAddr = "",
+                                                FaxNo = "",
+                                                HomeTel = "",
+                                                BussTel = "",
+                                                CellNo = "",
+                                                CreateDate = DateTime.Now,
+                                                UpdateBy = "System"
+                                            };
+
                                             UpdateClientDetails(client, Investments.FirstOrDefault());
                                             Program.ClientService.Update(client);
                                         }
@@ -1377,7 +1413,7 @@ namespace Finx.App.Forms
 
                     if (!string.IsNullOrEmpty(dob))
                     {
-                        DateTime.TryParse(dob, out DateTime dtDob);
+                        DateTime.TryParseExact(dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtDob);
                         client.ClientDetails.DateOfBirth = dtDob;
                     }
                     try
@@ -1582,18 +1618,20 @@ namespace Finx.App.Forms
                             //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
                             email = easiworxRecord.EmailAddress;
 
+                            //Console.WriteLine(easiworxRecord.Firstname + " " + easiworxRecord.Lastname);
+
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
                     }
 
-                    if (!string.IsNullOrEmpty(dob))
+                    if (!string.IsNullOrWhiteSpace(dob))
                     {
                         DateTime.TryParse(dob, out DateTime dtDob);
                         client.ClientDetails.DateOfBirth = dtDob;
                     }
 
-                    if (!string.IsNullOrEmpty(physicalAddress1))
+                    if (!string.IsNullOrEmpty(physicalAddress1) || !string.IsNullOrEmpty(physicalAddress2) || !string.IsNullOrEmpty(physicalAddress3) || !(physicalAddressCode == 0))
                     {
                         client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
                                                  physicalAddress2 + " " +
@@ -1604,13 +1642,13 @@ namespace Finx.App.Forms
                                                  physicalAddressCode;
                     }
 
-                    if (!string.IsNullOrEmpty(taxNo))
+                    if (!string.IsNullOrWhiteSpace(taxNo))
                         client.ClientDetails.TaxNumber = taxNo;
 
-                    if (!string.IsNullOrEmpty(cellno))
+                    if (!string.IsNullOrWhiteSpace(cellno))
                         client.ClientDetails.RecipientCell = cellno;
 
-                    if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(faxno) || !string.IsNullOrEmpty(hometel) || !string.IsNullOrEmpty(worktel) || !string.IsNullOrEmpty(cellno))
+                    if (!string.IsNullOrWhiteSpace(email) || !string.IsNullOrWhiteSpace(faxno) || !string.IsNullOrWhiteSpace(hometel) || !string.IsNullOrWhiteSpace(worktel) || !string.IsNullOrWhiteSpace(cellno))
                     {
 
 
@@ -1622,7 +1660,8 @@ namespace Finx.App.Forms
                         client.ClientContacts.UpdateBy = UpdateBy;
                     }
                     
-                    if (!string.IsNullOrEmpty(physicalAddress1))
+                    
+                    if (!string.IsNullOrWhiteSpace(physicalAddress1) || !string.IsNullOrWhiteSpace(physicalAddress2) || !string.IsNullOrWhiteSpace(physicalAddress3) || !(physicalAddressCode == 0))
                     {
                         client.PhysicalAddress = new AddressDetail()
                         {
@@ -1636,7 +1675,7 @@ namespace Finx.App.Forms
                         };
                     }
 
-                    if (!string.IsNullOrEmpty(postalAddress1))
+                    if (!string.IsNullOrWhiteSpace(postalAddress1)|| !string.IsNullOrWhiteSpace(postalAddress2) || !string.IsNullOrWhiteSpace(postalAddress3) || !(postalCode==0))
                     {
                         client.PostalAddress = new AddressDetail()
                         {
@@ -1649,7 +1688,8 @@ namespace Finx.App.Forms
                             Code = postalCode
                         };
                     }
-
+                    
+                    //Console.WriteLine(client.Name + " " + physicalAddress1 + " " + physicalAddress2 + " " + physicalAddress3 + " " + physicalAddress4 + " ");
 
 
 
@@ -1813,8 +1853,12 @@ namespace Finx.App.Forms
 
                     foreach (var batchedClientInvestment in batchedClientInvestments)
                     {
-                        var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow);
+                        if (!parallelOptions.CancellationToken.IsCancellationRequested)
+                        {
+                            var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow);
+                        }
                     }
+                    //frmCsvImportProgressWindow.End();
                 }
                 else
                 {
@@ -1831,6 +1875,7 @@ namespace Finx.App.Forms
                             if (parallelOptions.CancellationToken.IsCancellationRequested)
                             {
                                 parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                                break;
                             }
 
                             _recCnt++;
