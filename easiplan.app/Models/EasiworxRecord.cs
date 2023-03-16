@@ -31,7 +31,14 @@ namespace Finx.App.Models
         private string _dob = "";
         private string _monthlyPremium;
         private string _productType;
-        
+
+        private string _bankName;
+        private string _branchName;
+        private string _branchCode;
+        private string _bankAccNo;
+        private string _bankAccType;
+       
+
 
         //Sets row number as displayed on import screen
         [Ignore]
@@ -575,6 +582,60 @@ namespace Finx.App.Models
             set; 
         }
 
+        [Optional]
+        [Index(31)]
+        public string BankName
+        {
+            get
+            {
+                return _bankName;
+            }
+            set
+            {
+                _bankName = value.ToLower().Trim();
+                _bankName = CapitalizeSentence(_bankName);
+            }
+        }
+
+        [Optional]
+        [Index(32)]
+        public string BranchName
+        {
+            get
+            {
+                return _branchName;
+            }
+            set
+            {
+                _branchName = value.ToLower().Trim();
+                _branchName = CapitalizeSentence(_branchName);
+            }
+        }
+
+        [Optional]
+        [Index(33)]
+        public string BranchCode
+        {
+            get;
+            set;
+        }
+
+        [Optional]
+        [Index(34)]
+        public string BankAccNo
+        {
+            get;
+            set;
+        }
+
+        [Optional]
+        [Index(35)]
+        public string BankAccType
+        {
+            get;
+            set;
+        }
+
 
         [Optional]
         public string ValidationErrors 
@@ -647,7 +708,11 @@ namespace Finx.App.Models
             Map(c => c.MonthlyPremium);
             Map(c => c.LISP);
 
-            
+            Map(c => c.BankName);
+            Map(c => c.BranchName);
+            Map(c => c.BranchCode);
+            Map(c => c.BankAccNo);
+            Map(c => c.BankAccType);
 
             Task.Run(() =>
             {

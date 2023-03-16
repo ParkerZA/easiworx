@@ -1082,17 +1082,8 @@ namespace Finx.App.Forms
                     if (client == null) return;
                 }
 
-                /*  //if csv is easiworx then all the easiwox address and contact details
-                  client.PhysicalAddress = new AddressDetail()
-                  {
-                          Line1 = "Yoh",
-                          Line2 = "Naai",
-                          Line3 = "Nruh",
-                          Line4 = "aight",
-                          Code = 8999
-                  };*/
+                
 
-                //UpdateClientDetails(client, Investments.FirstOrDefault());
                 
 
 
@@ -1503,7 +1494,12 @@ namespace Finx.App.Forms
                     var cellno = "";
                     var email = "";
 
-
+                    var bankName = "";
+                    var branchName= "";
+                    var branchCode = "";
+                    var bankAccNo = "";
+                    var bankAccType = "";
+                   
 
                     //switch (csvRecord.LISP.ToLower())
                     switch (_selectedLisp.ToLower())
@@ -1631,7 +1627,13 @@ namespace Finx.App.Forms
                             //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
                             email = easiworxRecord.EmailAddress;
 
-                            //Console.WriteLine(easiworxRecord.Firstname + " " + easiworxRecord.Lastname);
+                            //Easiworx Banking Details
+                            bankName = easiworxRecord.BankName;
+                            branchName = easiworxRecord.BranchName;
+                            branchCode = easiworxRecord.BranchCode;
+                            bankAccNo = easiworxRecord.BankAccNo;
+                            bankAccType = easiworxRecord.BankAccType;
+                                
 
                             break;
                         default:
@@ -1701,10 +1703,23 @@ namespace Finx.App.Forms
                             Code = postalCode
                         };
                     }
-                    
+
                     //Console.WriteLine(client.Name + " " + physicalAddress1 + " " + physicalAddress2 + " " + physicalAddress3 + " " + physicalAddress4 + " ");
+                    Console.WriteLine(branchCode);
 
-
+                    if (!string.IsNullOrWhiteSpace(bankName) || !string.IsNullOrWhiteSpace(branchName) || !string.IsNullOrWhiteSpace(branchCode) || !string.IsNullOrWhiteSpace(bankAccType) || !string.IsNullOrWhiteSpace(bankAccNo))
+                    {
+                        client.BankDetails = new BankDetail()
+                        {
+                            BnkName = bankName,
+                            BrnchName = branchName,
+                            BrnchCode = branchCode,
+                            AcctNumber = bankAccNo,
+                            AcctType = bankAccType
+                        };
+                        
+                    }
+                    Console.WriteLine(client.BankDetails.AcctNumber + "yup");
 
                     if (client.Id > 0)
                     {
