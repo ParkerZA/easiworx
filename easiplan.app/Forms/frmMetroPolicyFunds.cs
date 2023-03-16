@@ -2380,8 +2380,11 @@ namespace Finx.App.Forms
                 Fund mObj = _bList.EditedObject as Fund;
 
                 if (!(mObj == null))
-                { 
+                {
+
+                    mObj.UpdateBy = Program.User.Username;
                     mObj.FundValueDate = DateTime.Now;
+                    mObj.UpdateDate = DateTime.Now;
                 }
                 
 
