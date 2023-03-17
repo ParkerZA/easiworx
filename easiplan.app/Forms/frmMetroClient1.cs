@@ -2097,7 +2097,9 @@ namespace Finx.App.Forms
             }
             try
             {
-                DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
+                //HasChanges = true;
+
+                 DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 Fund mObj = _bList.EditedObject as Fund;
 
                 mObj.UpdateBy = Program.User.Username;

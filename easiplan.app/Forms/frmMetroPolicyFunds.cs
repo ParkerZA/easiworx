@@ -2375,7 +2375,19 @@ namespace Finx.App.Forms
             {
                 //DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 //Fund mObj = _bList.EditedObject as Fund;
-                Console.WriteLine("High am me");
+
+                DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
+                Fund mObj = _bList.EditedObject as Fund;
+
+                if (!(mObj == null))
+                {
+
+                    mObj.UpdateBy = Program.User.Username;
+                    mObj.FundValueDate = DateTime.Now;
+                    mObj.UpdateDate = DateTime.Now;
+                }
+                
+
                 HasChanges = true;
             }
             catch (Exception x)

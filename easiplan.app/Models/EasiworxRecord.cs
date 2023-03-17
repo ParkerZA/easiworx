@@ -31,7 +31,14 @@ namespace Finx.App.Models
         private string _dob = "";
         private string _monthlyPremium;
         private string _productType;
-        
+
+        private string _bankName;
+        private string _branchName;
+        private string _branchCode;
+        private string _bankAccNo;
+        private string _bankAccType;
+       
+
 
         //Sets row number as displayed on import screen
         [Ignore]
@@ -120,39 +127,37 @@ namespace Finx.App.Models
             }
             set 
             {
-                if (value.Length > 8)
+                try
                 {
                     String temp = value.Replace("/", string.Empty);
                     temp.Replace(" ", string.Empty);
                     temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
                     var strdt = "";
-                    try
-                    {
+                    
                         var day = int.Parse(temp.Substring(0, 2));
                         var month = int.Parse(temp.Substring(2, 2));
                         var year = int.Parse(temp.Substring(4, 4));
                         strdt = year + "-" + month + "-" + day;
-                    }
-                    catch (FormatException)
-                    {
-                        
-                    }
-                    
-                    
-                    DateTime dtDob;
-                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
-                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
-                        )
-                    {
-                        _dob = dtDob.ToString("dd MMM yyyy");
-                    }
-                   
+
+                        DateTime dtDob;
+                        if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                            DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
+                            )
+                        {
+                            _dob = dtDob.ToString("dd MMM yyyy");
+                        }
                 }
-                else
+                catch (FormatException)
                 {
-                    _dob = value;
+                    _dob = "-";
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    _dob = "-";
                 }
             }
+                
+        }
 
             /*get { return _dob; }
             set
@@ -164,7 +169,7 @@ namespace Finx.App.Models
                     _dob = value;
             }*/
 
-        }
+        
 
 
         //Clients ID number
@@ -439,16 +444,16 @@ namespace Finx.App.Models
 
 
         //Date at which the fund value is pulled
-        [Index(26)] 
+        [Index(26)]
         public string FundValueDate
         {
-            get 
-            { 
-                return _fundValueDate; 
+            get
+            {
+                return _fundValueDate;
             }
             set
             {
-                if (value.Length > 8)
+                try
                 {
                     String temp = value.Replace("/", string.Empty);
                     //temp.Replace(" ", string.Empty);
@@ -456,18 +461,14 @@ namespace Finx.App.Models
 
                     var strdt = "";
 
-                    try
-                    {
-                        var day = int.Parse(temp.Substring(0, 2));
-                        var month = int.Parse(temp.Substring(2, 2));
-                        var year = int.Parse(temp.Substring(4, 4));
 
-                        strdt = year + "-" + month + "-" + day;
-                    }
-                    catch (FormatException)
-                    { 
-                    
-                    }
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    strdt = year + "-" + month + "-" + day;
+
+
                     DateTime dtFVD;
                     if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
                         DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
@@ -475,23 +476,23 @@ namespace Finx.App.Models
                         _fundValueDate = dtFVD.ToString("dd MMM yyyy");
                     }
                 }
-                else
+                catch (FormatException)
                 {
-                    _fundValueDate = value;
+                    _fundValueDate = "-";
                 }
+
+                /*{
+                    //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
+                    if (DateTime.TryParse(value, out DateTime fundValDt))
+                        _fundValueDate = fundValDt.ToString("dd MMM yyyy");
+                    else
+                    {
+                        _fundValueDate = value;
+                    }
+                }*/
             }
-            /*{
-                //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
-                if (DateTime.TryParse(value, out DateTime fundValDt))
-                    _fundValueDate = fundValDt.ToString("dd MMM yyyy");
-                else
-                {
-                    _fundValueDate = value;
-                }
-            }*/
+
         }
-
-
         //Split percentage for fund amounts
         [Optional]
         [Index(27)] 
@@ -581,6 +582,60 @@ namespace Finx.App.Models
             set; 
         }
 
+        [Optional]
+        [Index(31)]
+        public string BankName
+        {
+            get
+            {
+                return _bankName;
+            }
+            set
+            {
+                _bankName = value.ToLower().Trim();
+                _bankName = CapitalizeSentence(_bankName);
+            }
+        }
+
+        [Optional]
+        [Index(32)]
+        public string BranchName
+        {
+            get
+            {
+                return _branchName;
+            }
+            set
+            {
+                _branchName = value.ToLower().Trim();
+                _branchName = CapitalizeSentence(_branchName);
+            }
+        }
+
+        [Optional]
+        [Index(33)]
+        public string BranchCode
+        {
+            get;
+            set;
+        }
+
+        [Optional]
+        [Index(34)]
+        public string BankAccNo
+        {
+            get;
+            set;
+        }
+
+        [Optional]
+        [Index(35)]
+        public string BankAccType
+        {
+            get;
+            set;
+        }
+
 
         [Optional]
         public string ValidationErrors 
@@ -653,7 +708,11 @@ namespace Finx.App.Models
             Map(c => c.MonthlyPremium);
             Map(c => c.LISP);
 
-            
+            Map(c => c.BankName);
+            Map(c => c.BranchName);
+            Map(c => c.BranchCode);
+            Map(c => c.BankAccNo);
+            Map(c => c.BankAccType);
 
             Task.Run(() =>
             {

@@ -152,6 +152,11 @@ namespace Finx.App.Forms
         {
             //Console.WriteLine($"kbtnOpenFile_Click {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
 
+            chkViewErrorRecords.Checked = false;
+            chkViewNewRecords.Checked = false;
+            chkViewExistingRecords.Checked = false;
+
+
             if (cmbSelectLisp.SelectedIndex == 0 || cmbSelectLisp.SelectedItem.ToString().ToLower() == "please select")
             {
                 cmbSelectLisp.Focus();
@@ -235,11 +240,18 @@ namespace Finx.App.Forms
                         lblFileDate.Text = _fileProperties.FileDate.ToString("dd MMM yyyy hh:mm");
                         lblFileSize.Text = string.Format("{0} KB", (_fileProperties.FileSize / 1024).ToString());
 
+
+                       
+
+
                         var _loadFileWorker = new BackgroundWorker() { WorkerReportsProgress = false };
                         _loadFileWorker.DoWork += LoadFileWorker_DoWork;
                         var fileSettings = new FileSettings() { FilePath = _filepath, CsvConfiguration = csvHelperConfiguration };
                         _loadFileWorker.RunWorkerCompleted += LoadFileWorker_RunWorkerCompleted;
                         _loadFileWorker.RunWorkerAsync(fileSettings);
+
+                      
+
                     }
                     else
                     {
@@ -658,6 +670,8 @@ namespace Finx.App.Forms
         {
             try
             {
+                
+
                 if (_csvRecordList == null) return;
 
                 dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
@@ -1069,17 +1083,8 @@ namespace Finx.App.Forms
                     if (client == null) return;
                 }
 
-                /*  //if csv is easiworx then all the easiwox address and contact details
-                  client.PhysicalAddress = new AddressDetail()
-                  {
-                          Line1 = "Yoh",
-                          Line2 = "Naai",
-                          Line3 = "Nruh",
-                          Line4 = "aight",
-                          Code = 8999
-                  };*/
+                
 
-                //UpdateClientDetails(client, Investments.FirstOrDefault());
                 
 
 
@@ -1490,7 +1495,12 @@ namespace Finx.App.Forms
                     var cellno = "";
                     var email = "";
 
-
+                    var bankName = "";
+                    var branchName= "";
+                    var branchCode = "";
+                    var bankAccNo = "";
+                    var bankAccType = "";
+                   
 
                     //switch (csvRecord.LISP.ToLower())
                     switch (_selectedLisp.ToLower())
@@ -1618,7 +1628,13 @@ namespace Finx.App.Forms
                             //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
                             email = easiworxRecord.EmailAddress;
 
-                            //Console.WriteLine(easiworxRecord.Firstname + " " + easiworxRecord.Lastname);
+                            //Easiworx Banking Details
+                            bankName = easiworxRecord.BankName;
+                            branchName = easiworxRecord.BranchName;
+                            branchCode = easiworxRecord.BranchCode;
+                            bankAccNo = easiworxRecord.BankAccNo;
+                            bankAccType = easiworxRecord.BankAccType;
+                                
 
                             break;
                         default:
@@ -1688,10 +1704,23 @@ namespace Finx.App.Forms
                             Code = postalCode
                         };
                     }
-                    
+
                     //Console.WriteLine(client.Name + " " + physicalAddress1 + " " + physicalAddress2 + " " + physicalAddress3 + " " + physicalAddress4 + " ");
+                    Console.WriteLine(branchCode);
 
-
+                    if (!string.IsNullOrWhiteSpace(bankName) || !string.IsNullOrWhiteSpace(branchName) || !string.IsNullOrWhiteSpace(branchCode) || !string.IsNullOrWhiteSpace(bankAccType) || !string.IsNullOrWhiteSpace(bankAccNo))
+                    {
+                        client.BankDetails = new BankDetail()
+                        {
+                            BnkName = bankName,
+                            BrnchName = branchName,
+                            BrnchCode = branchCode,
+                            AcctNumber = bankAccNo,
+                            AcctType = bankAccType
+                        };
+                        
+                    }
+                    Console.WriteLine(client.BankDetails.AcctNumber + "yup");
 
                     if (client.Id > 0)
                     {
@@ -2459,6 +2488,7 @@ namespace Finx.App.Forms
                         ValidateSAIDNo(rowIndex, csvRecord);
                         ValidateFundValue(rowIndex, csvRecord);
                         ValidateFundValueDate(rowIndex, csvRecord);
+                        ValidateBirthDate(rowIndex, csvRecord);
                         ColourRow(rowIndex);
 
                         /*await ValidateSAIDNo(datagridViewRow, csvRecord);
@@ -2753,6 +2783,58 @@ namespace Finx.App.Forms
 
             //});
         }
+
+
+
+        private void ValidateBirthDate(int RowIndex, ICsvRecord csvRecord)
+        {
+            DataGridViewCell birthDateCell = null;
+            var birthDate = "";
+
+
+                if (dgvFileContents.InvokeRequired == true)
+                    dgvFileContents.BeginInvoke((Action)delegate
+                    {
+                        birthDateCell = dgvFileContents.Rows[RowIndex].Cells["BirthDate"];
+                        birthDate = birthDateCell.Value.ToString();
+
+                        if (birthDate == "-")
+                        {
+                            birthDateCell.ErrorText = "Invalid Birthdate!";
+                            birthDateCell.ToolTipText = "Please ensure that Birthdate is in the format: 'dd/mm/yyyy'";
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                            csvRecord.HasErrors = true;
+                        }
+
+
+                        
+                        
+                    });
+                else
+                {
+                    birthDateCell = dgvFileContents.Rows[RowIndex].Cells["BirthDate"];
+
+                if (birthDateCell.Value != null)
+                {
+                    birthDate = birthDateCell.Value.ToString();
+                }
+
+                    if (birthDate == "-")
+                    {
+                        birthDateCell.ErrorText = "Invalid Birthdate!";
+                        birthDateCell.ToolTipText = "Please ensure that Birthdate is in the format: 'dd/mm/yyyy'";
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                        csvRecord.HasErrors = true;
+                    }   
+                }
+    }
+
+
+
+
+
         private void ValidateFundValueDate(int RowIndex, ICsvRecord csvRecord)
         {
             //Console.WriteLine($"ValidateFundValueDate {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
@@ -2770,6 +2852,15 @@ namespace Finx.App.Forms
                     {
                         fundValueDateCell = dgvFileContents.Rows[RowIndex].Cells["FundValueDate"];
                         fundValueDate = fundValueDateCell.Value.ToString();
+
+                        if (fundValueDate == "-")
+                        {
+                            fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                            fundValueDateCell.ToolTipText = "Please ensure that Fund Value Date is in the correct format!";
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                            csvRecord.HasErrors = true;
+                        }
 
                         if (string.IsNullOrEmpty(fundValueDate))
                         {
@@ -2850,6 +2941,16 @@ namespace Finx.App.Forms
                 {
                     fundValueDateCell = dgvFileContents.Rows[RowIndex].Cells["FundValueDate"];
                     fundValueDate = fundValueDateCell.Value.ToString();
+
+
+                    if (fundValueDate == "-")
+                    {
+                        fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                        fundValueDateCell.ToolTipText = "Please ensure that Fund Value Date is in the correct format!";
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                        csvRecord.HasErrors = true;
+                    }
 
                     if (string.IsNullOrEmpty(fundValueDate))
                     {
@@ -2950,22 +3051,27 @@ namespace Finx.App.Forms
         }
         private async Task SetFileImportDetails()
         {
+            
+
             await Task.Run(() =>
             {
+
                 var totRecs = _csvRecordList.Count;
                 var errCnt = _csvErrorRecords == null ? 0 : _csvErrorRecords.Count;
 
+
                 _noOfExistingClients = _matchedClientsFromCsv.Count;
                 _noOfNewClients = totRecs - _noOfExistingClients;
+                
+                
 
                 if (InvokeRequired)
                     BeginInvoke(new Action(() =>
                     {
-
                         lblRecCnt.Text = totRecs.ToString();
 
                         //Set onscreen error count
-                        if (lblTotValErrors.Text == "0")
+                        if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                         {
                             lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString(); ;
                         }
@@ -2973,7 +3079,7 @@ namespace Finx.App.Forms
                         lblExistingClientCnt.Text = _noOfExistingClients.ToString();
 
                         //Set onscreen new client count
-                        if (lblNewClientCnt.Text == "0")
+                        if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                         {
                             lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
                         }
@@ -2990,14 +3096,14 @@ namespace Finx.App.Forms
                     lblRecCnt.Text = totRecs.ToString();
 
                     //Set onscreen new client count
-                    if (lblTotValErrors.Text == "0")
+                    if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                     {
                         lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString();
                     }
                     lblExistingClientCnt.Text = _noOfExistingClients.ToString();
 
                     //Set onscreen new client count
-                    if (lblNewClientCnt.Text == "0")
+                    if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
                     {
                         lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
                     }
