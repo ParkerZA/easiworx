@@ -289,9 +289,14 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Absa", "Absa"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Albaraka", "Albaraka"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Capitec", "Capitec"));
-            Items.Add(new ListDataItem(ListDataItemType.Banks, "Fnb", "Fnb"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "FNB", "FNB"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Nedbank", "Nedbank"));
-            Items.Add(new ListDataItem(ListDataItemType.Banks, "Standard", "Standard"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Standard Bank", "Standard Bank"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Discovery Bank", "Discovery Bank"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Bidvest", "Bidvest"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "TymeBank", "TymeBank"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Mercantile", "Mercantile"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Bank Zero", "Bank Zero"));
 
 
 
