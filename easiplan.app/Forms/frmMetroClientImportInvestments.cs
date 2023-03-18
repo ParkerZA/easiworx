@@ -1729,8 +1729,6 @@ namespace Finx.App.Forms
                                 bankAccType = "Other";
                             }
 
-
-                            bankAccType = easiworxRecord.BankAccType;
                                 
 
                             break;
@@ -1960,7 +1958,7 @@ namespace Finx.App.Forms
                 var parallelOptions = new ParallelOptions()
                 {
                     MaxDegreeOfParallelism = -1,
-                    CancellationToken = frmCsvImportProgressWindow.canTok
+                    CancellationToken = frmCsvImportProgressWindow.cancelTk
                 };
 
                 var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
