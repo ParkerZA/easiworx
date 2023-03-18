@@ -1722,7 +1722,7 @@ namespace Finx.App.Forms
                             }
                             else if (bnkAccType.Contains("savings"))
                             {
-                                bankAccType = "Savings";
+                                bankAccType = "Saving";
                             }
                             else
                             {
@@ -1796,8 +1796,6 @@ namespace Finx.App.Forms
                         client.PostalAddress.UpdateBy = UpdateBy;
                     }
 
-                    //Console.WriteLine(client.Name + " " + physicalAddress1 + " " + physicalAddress2 + " " + physicalAddress3 + " " + physicalAddress4 + " ");
-                    Console.WriteLine(branchCode);
 
                     if (!string.IsNullOrWhiteSpace(bankName) || !string.IsNullOrWhiteSpace(branchName) || !string.IsNullOrWhiteSpace(branchCode) || !string.IsNullOrWhiteSpace(bankAccType) || !string.IsNullOrWhiteSpace(bankAccNo))
                     {
