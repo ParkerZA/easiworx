@@ -26,46 +26,47 @@ namespace Finx.App.Models
         private string _fundAllocationPercentage;
         private string _startDate;
         private string _firstname;
-        private string _lastname;  
+        private string _lastname;
         private string _validationErrors;
         private string _dob = "";
         private string _monthlyPremium;
         private string _productType;
+        private string _taxNo;
 
         private string _bankName;
         private string _branchName;
         private string _branchCode;
         private string _bankAccNo;
         private string _bankAccType;
-       
+
 
 
         //Sets row number as displayed on import screen
         [Ignore]
-        public int RowNo 
-        { 
-            get; 
+        public int RowNo
+        {
+            get;
             set;
         }
 
 
         //Clients first name
         [Index(0)]
-        public string Firstname 
-        { 
-            get 
-            { 
-                return _firstname; 
-            } 
-            set 
+        public string Firstname
+        {
+            get
+            {
+                return _firstname;
+            }
+            set
             {
                 if (value.Contains(","))
                 {
-                    
+
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim().ToLower();
+                        _firstname = fullnames[1].Replace("\"", string.Empty).Trim().ToLower();
                         this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim().ToLower();
                         this.Lastname = CapitalizeSentence(this.Lastname);
                     }
@@ -76,8 +77,8 @@ namespace Finx.App.Models
                     _firstname = value.ToLower().Trim();
 
                 _firstname = CapitalizeSentence(_firstname);
-               
-            } 
+
+            }
         }
 
 
@@ -90,8 +91,8 @@ namespace Finx.App.Models
                 return _lastname;
             }
             set
-            { 
-                _lastname= value.ToLower().Trim();
+            {
+                _lastname = value.ToLower().Trim();
                 _lastname = CapitalizeSentence(_lastname);
             }
         }
@@ -121,11 +122,11 @@ namespace Finx.App.Models
         public string DateOfBirth
         {
 
-            get 
-            { 
-                return _dob; 
+            get
+            {
+                return _dob;
             }
-            set 
+            set
             {
                 try
                 {
@@ -133,19 +134,19 @@ namespace Finx.App.Models
                     temp.Replace(" ", string.Empty);
                     temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
                     var strdt = "";
-                    
-                        var day = int.Parse(temp.Substring(0, 2));
-                        var month = int.Parse(temp.Substring(2, 2));
-                        var year = int.Parse(temp.Substring(4, 4));
-                        strdt = year + "-" + month + "-" + day;
 
-                        DateTime dtDob;
-                        if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
-                            DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
-                            )
-                        {
-                            _dob = dtDob.ToString("dd MMM yyyy");
-                        }
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+                    strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtDob;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
+                        )
+                    {
+                        _dob = dtDob.ToString("dd MMM yyyy");
+                    }
                 }
                 catch (FormatException)
                 {
@@ -156,29 +157,29 @@ namespace Finx.App.Models
                     _dob = "-";
                 }
             }
-                
+
         }
 
-            /*get { return _dob; }
-            set
-            {
-                //yyyy/mm/dd
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
-                    _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
-                else
-                    _dob = value;
-            }*/
+        /*get { return _dob; }
+        set
+        {
+            //yyyy/mm/dd
+            if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
+            else
+                _dob = value;
+        }*/
 
-        
+
 
 
         //Clients ID number
-        [Index(3)] 
+        [Index(3)]
         public string IDNumber
         {
-            get 
-            { 
-                return _idNo; 
+            get
+            {
+                return _idNo;
             }
             set
             {
@@ -191,7 +192,7 @@ namespace Finx.App.Models
 
 
         //Clients registration number as provided by LISP 
-        [Index(4)] 
+        [Index(4)]
         public string RegistrationNo
         {
             get;
@@ -203,7 +204,7 @@ namespace Finx.App.Models
         [Index(5)]
         public string PassportNo
         {
-            get; 
+            get;
             set;
         }
 
@@ -221,7 +222,7 @@ namespace Finx.App.Models
         [Index(7)]
         public string PostalAddressStreetNo
         {
-            get; 
+            get;
             set;
         }
 
@@ -241,7 +242,7 @@ namespace Finx.App.Models
         [Index(9)]
         public string PostalSuburb
         {
-            get; 
+            get;
             set;
         }
 
@@ -251,7 +252,7 @@ namespace Finx.App.Models
         [Index(10)]
         public string PostalCode
         {
-            get; 
+            get;
             set;
         }
 
@@ -261,7 +262,7 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressStreetNo
         {
-            get; 
+            get;
             set;
         }
 
@@ -271,7 +272,7 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddress
         {
-            get; 
+            get;
             set;
         }
 
@@ -281,7 +282,7 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressSuburb
         {
-            get; 
+            get;
             set;
         }
 
@@ -291,7 +292,7 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressPostalCode
         {
-            get; 
+            get;
             set;
         }
 
@@ -301,17 +302,17 @@ namespace Finx.App.Models
         [Index(15)]
         public string CellNo
         {
-            get; 
+            get;
             set;
         }
-        
+
 
         //Clients work telephone number
         [Optional]
         [Index(16)]
         public string OfficeTel
         {
-            get; 
+            get;
             set;
         }
 
@@ -324,7 +325,7 @@ namespace Finx.App.Models
             get;
             set;
         }
-        
+
 
         //Clients Email address
         [Optional]
@@ -336,7 +337,7 @@ namespace Finx.App.Models
 
 
         //Name of policy owned by client
-        [Index(19) ]
+        [Index(19)]
         public string ProductType
         {
             get
@@ -357,7 +358,7 @@ namespace Finx.App.Models
                 {
                     _productType = "Unit Trust";
                 }
-                else if (value.ToLower().Contains("preservation")&& value.ToLower().Contains("provident"))
+                else if (value.ToLower().Contains("preservation") && value.ToLower().Contains("provident"))
                 {
                     _productType = "Provident/Preservation Funds";
                 }
@@ -385,60 +386,60 @@ namespace Finx.App.Models
         [Index(20)]
         public string ModelPortfolio
         {
-            get; 
+            get;
             set;
         }
 
 
         //Clients surname gets assigned as account name
         [Index(21)]
-        public string AccountName 
-        { 
-            get; 
-            set; 
+        public string AccountName
+        {
+            get;
+            set;
         }
 
 
         //Policy Number
-        [Index(22)]  
-        public string AccountNo 
-        { 
+        [Index(22)]
+        public string AccountNo
+        {
             get;
-            set; 
+            set;
         }
 
 
         //Fund code
-        [Index(23)] 
-        public string FundCode 
-        { 
+        [Index(23)]
+        public string FundCode
+        {
             get;
             set;
         }
 
 
         //Name of fund
-        [Index(24)] 
-        public string FundName 
-        { 
+        [Index(24)]
+        public string FundName
+        {
             get;
             set;
         }
 
 
         //Market value in rands
-        [Index(25)] 
+        [Index(25)]
         public string FundValue
         {
-            get 
-            { 
-                return _fundValue; 
+            get
+            {
+                return _fundValue;
             }
             set
             {
                 _fundValue = value.Replace(" ", string.Empty);
                 _fundValue = _fundValue.Replace(",", ".");
-                
+
             }
         }
 
@@ -495,12 +496,12 @@ namespace Finx.App.Models
         }
         //Split percentage for fund amounts
         [Optional]
-        [Index(27)] 
+        [Index(27)]
         public string AccountFundAllocation
         {
-            get 
-            { 
-                return _fundAllocationPercentage; 
+            get
+            {
+                return _fundAllocationPercentage;
             }
             set
             {
@@ -511,14 +512,14 @@ namespace Finx.App.Models
 
 
         //Fund inception date
-        [Index(28)] 
+        [Index(28)]
         public string InceptionDate
         {
-            get 
+            get
             {
-                return _startDate; 
+                return _startDate;
             }
-            set           
+            set
             {
                 if (value.Length > 8)
                 {
@@ -541,7 +542,7 @@ namespace Finx.App.Models
 
                     DateTime dtSD;
                     if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
-                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD)) 
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD))
                     {
                         _startDate = dtSD.ToString("dd MMM yyyy");
                     }
@@ -555,31 +556,31 @@ namespace Finx.App.Models
 
 
         //Monthly Debit Order Premium
-        [Optional] 
+        [Optional]
         [Index(29)]
         public string MonthlyPremium
         {
-            get 
+            get
             {
-                return _monthlyPremium; 
+                return _monthlyPremium;
             }
-            set 
+            set
             {
                 //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
                 _monthlyPremium = value.Replace("R", string.Empty);
                 _monthlyPremium = _monthlyPremium.Replace(" ", string.Empty);
-                _monthlyPremium = _monthlyPremium.Replace(",",".");  
+                _monthlyPremium = _monthlyPremium.Replace(",", ".");
             }
         }
 
-       
+
         //Name of LISP responsible for this policy
         [Optional]
         [Index(30)]
-        public string LISP 
-        { 
+        public string LISP
+        {
             get;
-            set; 
+            set;
         }
 
         [Optional]
@@ -636,6 +637,14 @@ namespace Finx.App.Models
             set;
         }
 
+        //Clients tax Number
+        //[Index(5)]
+        [Optional]
+        public string TaxNo
+        {
+            get;
+            set;
+        }
 
         [Optional]
         public string ValidationErrors 
@@ -679,6 +688,7 @@ namespace Finx.App.Models
             Map(c => c.RegistrationNo);
             Map(c => c.PassportNo);
             Map(c => c.ClientNo);
+            Map(c => c.TaxNo);
 
             Map(c => c.PostalAddressStreetNo);
             Map(c => c.PostalAddress);
@@ -694,7 +704,6 @@ namespace Finx.App.Models
             Map(c => c.OfficeTel); 
             Map(c => c.HomeTel);
             Map(c => c.EmailAddress);
-            
 
             Map(c => c.ProductType);
             Map(c => c.ModelPortfolio);

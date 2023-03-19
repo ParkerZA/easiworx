@@ -760,6 +760,14 @@ namespace Finx.App.Forms
                         break;
                     case 4:
                         #region Retirement FNA
+
+                        //Initialise client portfolio so that values are present for graph display
+                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+
+                        client.ClientPortfolio.Initialise();
+                        client.ClientPortfolio.Calculate();
+
+                        //Initialise Retirement FNA
                         client.ClientFna.ServiceProvider = Program.ServiceProviders;
 
                         client.ClientFna.Initialise();
