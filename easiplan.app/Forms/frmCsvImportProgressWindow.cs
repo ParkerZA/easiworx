@@ -20,8 +20,8 @@ namespace Finx.App.Forms
     {
         private string titleRoot = "";
 
-        public CancellationTokenSource canTokSc;
-        public CancellationToken ct;
+        public CancellationTokenSource cancelTokenSc;
+        public CancellationToken cancelToken;
 
         public delegate void SetTextInvoker(string text);
         public delegate void IncrementInvoker(int val);
@@ -46,18 +46,18 @@ namespace Finx.App.Forms
             InitializeComponent();
             InitialiseFormProperties();
 
-            canTokSc = new CancellationTokenSource();
-            ct = canTokSc.Token;
+            cancelTokenSc = new CancellationTokenSource();
+            cancelToken = cancelTokenSc.Token;
         }
 
         public CancellationTokenSource CancellationTokenSource
         { get; set; }
 
-        public CancellationToken canTok
+        public CancellationToken cancelTk
         {
             get
             {
-                return ct;
+                return cancelToken;
             }
         }
         private void InitialiseFormProperties()
@@ -290,7 +290,7 @@ namespace Finx.App.Forms
         {
             manualResetEventAbort.Set();
             //Console.WriteLine(this.CancellationTokenSource.Token.ToString());
-            canTokSc.Cancel();
+            cancelTokenSc.Cancel();
             //this.CancellationTokenSource.Cancel();
             //this.CancellationTokenSource.t
         }
@@ -315,7 +315,7 @@ namespace Finx.App.Forms
             else
             {
                 this.SetCaption("The import has been Cancelled");
-                this.SetText("Please wait while records in progress complete importation, no further records will be imported");
+                this.SetText("Please wait while records in progress finish importing, no further records will be imported");
 
                 this.allowTextEdit = false;
                 AbortWork();

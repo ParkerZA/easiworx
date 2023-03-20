@@ -853,7 +853,7 @@ namespace Finx.App.Forms
             {
                 loopResults.Add(Parallel.ForEach(batchedClientInvestment, parallelOptions, async (clientIdentificationNo, loopState) =>
                 {
-                    Console.WriteLine("A new one");
+                    //Console.WriteLine("A new one");
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
 
                     clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
@@ -1035,27 +1035,28 @@ namespace Finx.App.Forms
                                             Program.ClientService.Update(client);
                                         }
 
-                                        if (!(client.ClientContacts == null))
+                                        if (client.PhysicalAddress == null)
                                         {
-                                            UpdateClientDetails(client, Investments.FirstOrDefault());
+                                            client.PhysicalAddress = new AddressDetail() { CreateDate = DateTime.Now };
                                             Program.ClientService.Update(client);
                                         }
-                                        else
-                                        {
-                                            client.ClientContacts = new ClientContacts()
-                                            {
-                                                EMailAddr = "",
-                                                FaxNo = "",
-                                                HomeTel = "",
-                                                BussTel = "",
-                                                CellNo = "",
-                                                CreateDate = DateTime.Now,
-                                                UpdateBy = "System"
-                                            };
 
-                                            UpdateClientDetails(client, Investments.FirstOrDefault());
+                                        if (client.PostalAddress == null)
+                                        {
+                                            client.PostalAddress = new AddressDetail() { CreateDate = DateTime.Now };
                                             Program.ClientService.Update(client);
                                         }
+
+
+                                        if (client.BankDetails == null)
+                                        {
+                                            client.BankDetails = new BankDetail() { CreateDate = DateTime.Now };
+                                            Program.ClientService.Update(client);
+                                        }
+
+                                        UpdateClientDetails(client, Investments.FirstOrDefault());
+                                        Program.ClientService.Update(client);
+                                        
                                     }
                                 }
                             }
@@ -1084,11 +1085,6 @@ namespace Finx.App.Forms
                 }
 
                 
-
-                
-
-
-
                 //get all distinct policies for this client
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
@@ -1416,6 +1412,37 @@ namespace Finx.App.Forms
                         UpdateBy = UpdateBy
                     };
 
+                    client.PhysicalAddress = new AddressDetail()
+                    {
+                        Line1 = "",
+                        Line2 = "",
+                        Line3 = "",
+                        Line4 = "",
+                        Code = 0,
+                        CreateDate = DateTime.Now,
+                        UpdateBy = UpdateBy
+                    };
+
+                    client.PostalAddress = new AddressDetail()
+                    {
+                        Line1 = "",
+                        Line2 = "",
+                        Line3 = "",
+                        Line4 = "",
+                        Code = 0,
+                        CreateDate = DateTime.Now,
+                        UpdateBy = UpdateBy
+                    };
+
+                    client.BankDetails = new BankDetail()
+                    {
+                        BnkName = "",
+                        BrnchName = "",
+                        BrnchCode = "",
+                        AcctNumber = "",
+                        AcctType = ""
+                    };
+
                     if (!string.IsNullOrEmpty(dob))
                     {
                         DateTime.TryParseExact(dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtDob);
@@ -1628,12 +1655,81 @@ namespace Finx.App.Forms
                             //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
                             email = easiworxRecord.EmailAddress;
 
+
                             //Easiworx Banking Details
-                            bankName = easiworxRecord.BankName;
+
+                            //Match Bank name
+
+                            string bnkName = easiworxRecord.BankName.ToLower();
+
+                            if (bnkName.Contains("absa"))
+                            {
+                                bankName = "Absa";
+                            }
+                            else if (bnkName.Contains("albaraka"))
+                            {
+                                bankName = "Albaraka";
+                            }
+                            else if (bnkName.Contains("capitec"))
+                            {
+                                bankName = "Capitec";
+                            }
+                            else if (bnkName.Contains("fnb"))
+                            {
+                                bankName = "FNB";
+                            }
+                            else if (bnkName.Contains("nedbank"))
+                            {
+                                bankName = "Nedbank";
+                            }
+                            else if (bnkName.Contains("standard"))
+                            {
+                                bankName = "Standard Bank";
+                            }
+                            else if (bnkName.Contains("discovery"))
+                            {
+                                bankName = "Discovery Bank";
+                            }
+                            else if (bnkName.Contains("bidvest"))
+                            {
+                                bankName = "Bidvest";
+                            }
+                            else if (bnkName.Contains("tyme"))
+                            {
+                                bankName = "TymeBank";
+                            }
+                            else if (bnkName.Contains("mercantile"))
+                            {
+                                bankName = "Mercantile";
+                            }
+                            else if (bnkName.Contains("zero"))
+                            {
+                                bankName = "Bank Zero";
+                            }
+                            
+                            
                             branchName = easiworxRecord.BranchName;
                             branchCode = easiworxRecord.BranchCode;
                             bankAccNo = easiworxRecord.BankAccNo;
-                            bankAccType = easiworxRecord.BankAccType;
+
+                            //Matching account types
+
+
+                            string bnkAccType = easiworxRecord.BankAccType.ToLower();
+
+                            if (bnkAccType.Contains("current"))
+                            {
+                                bankAccType = "Current";
+                            }
+                            else if (bnkAccType.Contains("savings"))
+                            {
+                                bankAccType = "Saving";
+                            }
+                            else
+                            {
+                                bankAccType = "Other";
+                            }
+
                                 
 
                             break;
@@ -1679,48 +1775,39 @@ namespace Finx.App.Forms
                     
                     if (!string.IsNullOrWhiteSpace(physicalAddress1) || !string.IsNullOrWhiteSpace(physicalAddress2) || !string.IsNullOrWhiteSpace(physicalAddress3) || !(physicalAddressCode == 0))
                     {
-                        client.PhysicalAddress = new AddressDetail()
-                        {
-                            Line1 = physicalAddress1,
-                            Line2 = physicalAddress2,
-                            Line3 = physicalAddress3,
-                            Line4 = physicalAddress4 + " " +
-                                       physicalAddress5 + " " +
-                                       physicalAddress6,
-                            Code = physicalAddressCode
-                        };
+                        client.PhysicalAddress.Line1 = physicalAddress1;
+                        client.PhysicalAddress.Line2 = physicalAddress2;
+                        client.PhysicalAddress.Line3 = physicalAddress3;
+                        client.PhysicalAddress.Line4 = physicalAddress4 + " " +
+                                   physicalAddress5 + " " +
+                                   physicalAddress6;
+                        client.PhysicalAddress.Code = physicalAddressCode;
+                        client.PhysicalAddress.UpdateBy = UpdateBy;
                     }
 
                     if (!string.IsNullOrWhiteSpace(postalAddress1)|| !string.IsNullOrWhiteSpace(postalAddress2) || !string.IsNullOrWhiteSpace(postalAddress3) || !(postalCode==0))
                     {
-                        client.PostalAddress = new AddressDetail()
-                        {
-                            Line1 = postalAddress1,
-                            Line2 = postalAddress2,
-                            Line3 = postalAddress3,
-                            Line4 = postalAddress4 + " " +
-                                postalAddress5 + " " +
-                                postalAddress6,
-                            Code = postalCode
-                        };
+                        client.PostalAddress.Line1 = postalAddress1;
+                        client.PostalAddress.Line2 = postalAddress2;
+                        client.PostalAddress.Line3 = postalAddress3;
+                        client.PostalAddress.Line4 = postalAddress4 + " " +
+                            postalAddress5 + " " +
+                            postalAddress6;
+                        client.PostalAddress.Code = postalCode;
+                        client.PostalAddress.UpdateBy = UpdateBy;
                     }
 
-                    //Console.WriteLine(client.Name + " " + physicalAddress1 + " " + physicalAddress2 + " " + physicalAddress3 + " " + physicalAddress4 + " ");
-                    Console.WriteLine(branchCode);
 
                     if (!string.IsNullOrWhiteSpace(bankName) || !string.IsNullOrWhiteSpace(branchName) || !string.IsNullOrWhiteSpace(branchCode) || !string.IsNullOrWhiteSpace(bankAccType) || !string.IsNullOrWhiteSpace(bankAccNo))
                     {
-                        client.BankDetails = new BankDetail()
-                        {
-                            BnkName = bankName,
-                            BrnchName = branchName,
-                            BrnchCode = branchCode,
-                            AcctNumber = bankAccNo,
-                            AcctType = bankAccType
-                        };
+                         client.BankDetails.BnkName = bankName;
+                         client.BankDetails.BrnchName = branchName;
+                         client.BankDetails.BrnchCode = branchCode;
+                         client.BankDetails.AcctNumber = bankAccNo;
+                         client.BankDetails.AcctType = bankAccType;
                         
                     }
-                    Console.WriteLine(client.BankDetails.AcctNumber + "yup");
+                    //Console.WriteLine(client.BankDetails.AcctNumber + "yup");
 
                     if (client.Id > 0)
                     {
@@ -1870,7 +1957,7 @@ namespace Finx.App.Forms
                 var parallelOptions = new ParallelOptions()
                 {
                     MaxDegreeOfParallelism = -1,
-                    CancellationToken = frmCsvImportProgressWindow.canTok
+                    CancellationToken = frmCsvImportProgressWindow.cancelTk
                 };
 
                 var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
