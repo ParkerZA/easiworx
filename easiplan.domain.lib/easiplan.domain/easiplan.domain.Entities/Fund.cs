@@ -22,6 +22,13 @@ namespace easiplan.domain.Entities
 
         #region NonPersisted Properties
 
+         [IgnoreAutoMap]
+        public virtual string ModelPortfolio
+        {
+            get;
+            set;
+        }
+
         [IgnoreAutoMap]
         public virtual double PolicyPremium
         {

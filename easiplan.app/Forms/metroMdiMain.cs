@@ -476,8 +476,15 @@ namespace Finx.App.Forms
                 // Set cursor as hourglass
                 Cursor.Current = Cursors.WaitCursor;
 
-                frmAdminTasks.Show();
-                
+                if (frmAdminTasks != null)
+                {
+                    frmAdminTasks.Show();
+                }
+                else
+                {
+                    frmAdminTasks = new frmMetroAdminTasks();
+                    frmAdminTasks.Show();
+                }
             }
             catch (Exception)
             {

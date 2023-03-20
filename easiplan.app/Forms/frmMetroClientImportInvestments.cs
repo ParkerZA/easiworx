@@ -34,6 +34,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using my.domain.lib.core.Validation;
+using EnvDTE;
 
 
 namespace Finx.App.Forms
@@ -2124,6 +2125,10 @@ namespace Finx.App.Forms
         {
 
             double fundAllocPerc = 0;
+            string modelPortfolio = "";
+            List<List<int>> modelPortfolios = new List<List<int>>();
+            
+
 
             try
             {
@@ -2132,11 +2137,12 @@ namespace Finx.App.Forms
                     retirement.Funds = new List<Fund>(1);
 
                 Fund newfund = null;
-
+                
+                List<ICsvRecord> mp = new List<ICsvRecord>(1);
 
                 foreach (var fund in funds)
                 {
-
+                   
                     //if (fund.IDNumber == "9903145082083")
                     //    Debugger.Break();
 
@@ -2154,6 +2160,7 @@ namespace Finx.App.Forms
                         case "easiworxtemplate":
                            // Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
                             fundAllocPerc = ((EasiworxRecord)fund).AccountFundAllocation.AsDouble();
+                            modelPortfolio = ((EasiworxRecord)fund).ModelPortfolio;
                             break;
                         case "momentum":
                            // Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
@@ -2165,7 +2172,11 @@ namespace Finx.App.Forms
                             break;
                     }
 
-
+                    if (!string.IsNullOrEmpty(modelPortfolio))
+                    {
+                        mp.Add(fund);
+                        continue;
+                    }
 
                     if (retirement.Funds.Count > 0)
                     {
@@ -2210,7 +2221,56 @@ namespace Finx.App.Forms
                     newfund = null;
                 }
 
+                if (mp.Count > 1)
+                {
 
+                    double mpFundValue=0;
+                    double mpSplitPerc = 0;
+                    double mpPolicyPremium = 0;
+                    //double mpFundValue = 0;
+                    DateTime mpFundValDate= new DateTime(0001, 1, 1);
+                    DateTime mpStartDate = new DateTime(0001, 1, 1);
+
+                    foreach (var fund in mp)
+                    {
+                        EasiworxRecord esFund = ((EasiworxRecord)fund);
+                        mpFundValue += esFund.FundValue.AsDouble();
+                        mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
+                        mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+
+                        if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
+                        DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);
+                        DateTime.TryParse(esFund.InceptionDate, out mpStartDate);
+                    }
+
+                    var modelPortfolioFund = new Fund()
+                    {
+                        FundCode = "N/A",
+                        Description = "Model Portfolio",
+                        CreateDate = DateTime.Now,
+                        CurrentAmount = mpFundValue,
+                        SplitPerc = Math.Round(mpSplitPerc, 2, MidpointRounding.AwayFromZero),
+                        PolicyPremium = mpPolicyPremium,
+                        UpdateBy = "System",
+                        UpdateDate = DateTime.Now
+
+                    };
+
+                    if (mpStartDate != new DateTime(0001, 1, 1))
+                    {
+                        modelPortfolioFund.StartDate = mpStartDate;
+                    }
+                    if (mpFundValDate != new DateTime(0001, 1, 1))
+                    {
+                        modelPortfolioFund.FundValueDate = mpFundValDate;
+                    }
+
+                    var retirementFunds = retirement.Funds;
+                    retirementFunds.Add(modelPortfolioFund);
+                    retirement.Funds = retirementFunds;
+                    retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+
+                }
                 retirement.Calculate();
                 
 
@@ -2322,6 +2382,11 @@ namespace Finx.App.Forms
 
             //todo: check csvRecord Type & cast to appropriate type
             Double dblMonthlyPremium=0;
+
+            //Initialise model portfolio for easiworx imports
+            string modelPortfolio="";
+
+
             switch (_selectedLisp.ToUpper())
             {
                 case "ALLANGRAY":
@@ -2353,6 +2418,7 @@ namespace Finx.App.Forms
                     //Double.TryParse(((EasiworxRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
 
                     dblMonthlyPremium = ((EasiworxRecord)csvRecord).MonthlyPremium.AsDouble();
+                    modelPortfolio = ((EasiworxRecord)csvRecord).ModelPortfolio;
                     break;
 
             }
@@ -2374,10 +2440,19 @@ namespace Finx.App.Forms
                 PolicyPremium = dblMonthlyPremium,
                 UpdateBy = updateBy,
                 UpdateDate = fundValDate
+                
             };
             //Console.WriteLine(fund.FundCode);
             //if (fundValDate != new DateTime(0001, 1, 1))
             //fund.UpdateDate = fundValDate;
+
+            //Set model portfolio if the value is not empty
+            if (!string.IsNullOrEmpty(modelPortfolio))
+            {
+                fund.ModelPortfolio = modelPortfolio;
+            }
+
+            //Set start dates and fund value dates if the values are not empty
             if (fundStartDate != new DateTime(0001,1,1))
             {
                 fund.StartDate = fundStartDate;

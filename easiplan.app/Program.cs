@@ -138,7 +138,12 @@ namespace Finx.App
                     progress2.ShowDialog();
                     progress2.Close();
 
+
                     //Check Repository initiation successful
+                    /*if (Program.Repository == null)
+                    { 
+                        //Application.Exit(); 
+                    }*/
                     if (Program.Repository.IsInError)
                         Application.Exit();
                     else
