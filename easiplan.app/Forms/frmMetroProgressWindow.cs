@@ -261,8 +261,8 @@ namespace Finx.App.Forms
         private void metroButton_Cancel_Click(object sender, EventArgs e)
         {
             //Console.WriteLine("Hi");
-            //this.AbortWork();
-            //this.DoEnd();
+            this.AbortWork();
+            this.End();
         }
     }
 

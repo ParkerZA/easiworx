@@ -312,7 +312,7 @@ namespace Finx.App.Forms
             MetroPopUpWindow importComplete = new MetroPopUpWindow();
             if ((_importCompleted!= null) && (_importCompleted==true))
             {
-                importComplete.SetCaption("Import complete");
+                importComplete.SetCaption("Import concluded");
             }
             else if ((_importCancelled != null) && (_importCancelled == true))
             {
@@ -888,6 +888,7 @@ namespace Finx.App.Forms
                         //Check if cancel button has been clicked
                         if (parallelOptions.CancellationToken.IsCancellationRequested)
                         {
+                            //Console.WriteLine("Hi, still going");
                             loopState.Stop();
                             parallelOptions.CancellationToken.ThrowIfCancellationRequested();
                         }
@@ -901,9 +902,9 @@ namespace Finx.App.Forms
                         _importCancelled= true;
                         _importCompleted = false;
 
-                        
-                        //loopState.Stop();
 
+                        //loopState.Stop();
+                        //frmCsvImportProgressWindow.End();
 
                         //return;
                     }
@@ -1705,6 +1706,10 @@ namespace Finx.App.Forms
                             else if (bnkName.Contains("zero"))
                             {
                                 bankName = "Bank Zero";
+                            }
+                            else if (bnkName.Contains("investec"))
+                            {
+                                bankName = "Investec";
                             }
                             
                             

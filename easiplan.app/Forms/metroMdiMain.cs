@@ -175,11 +175,18 @@ namespace Finx.App.Forms
 
                         childForm.MdiParent = this;
                         childForm.Text = FormText;
-                        childForm.Show();
+                        if (childForm != null)
+                        {
+                            childForm.Show();
+                        }
+                        else 
+                        {
+                            MessageBox.Show("There has been an error loading this client, please try again later", "Error");
+                        }
                     }
                     catch (NullReferenceException ex)
                     {
-                        MessageBox.Show("Error with this one");
+                        
                     }
                     catch (Exception x)
                     {
