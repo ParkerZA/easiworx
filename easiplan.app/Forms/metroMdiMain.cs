@@ -175,7 +175,7 @@ namespace Finx.App.Forms
 
                         childForm.MdiParent = this;
                         childForm.Text = FormText;
-                        if (childForm != null)
+                        if (!(childForm == null))
                         {
                             childForm.Show();
                         }
