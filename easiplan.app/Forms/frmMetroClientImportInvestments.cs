@@ -1130,8 +1130,10 @@ namespace Finx.App.Forms
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
 
                     //add or update policy funds
+                    
+                    
                     var updatedretirement = await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
-
+                    
                     //get existing client retirements
                     List<Retirement> existingRetirements = null;
 
@@ -2305,57 +2307,60 @@ namespace Finx.App.Forms
 
 
                     //start
-                    if (retirement.Funds.Count > 0)
-                    {
-                        //Check if fund codes are the same indicating that the fund is already present in the list
-                        var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == modelPortfolioFund.Description.Trim().ToLower()).FirstOrDefault();
-                        if (existingFund == null)
+                 
+                    
+                        if (retirement.Funds.Count > 0)
                         {
-                            var retirementFunds = retirement.Funds;
-                            retirementFunds.Add(modelPortfolioFund);
-                            retirement.Funds = retirementFunds;
-                            retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
-                        }
-                       
-                        else
-                        {
-                            //check if new fund value & split perc is diff to original & if so add as new fund else update exist fund
-                            //Double.TryParse(fund.FundValue, out double newFundValue);
-
-                            double newFundValue = modelPortfolioFund.CurrentAmount;
-                            //DateTime.TryParse(modelPortfolioFund.FundValueDate, out DateTime newFundValDate);
-                            DateTime newFundValDate = modelPortfolioFund.FundValueDate;
-
-                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && modelPortfolioFund.SplitPerc != 0 && modelPortfolioFund.SplitPerc != existingFund.SplitPerc)
+                            //Check if fund codes are the same indicating that the fund is already present in the list
+                            var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == modelPortfolioFund.Description.Trim().ToLower()).FirstOrDefault();
+                            if (existingFund == null)
                             {
                                 var retirementFunds = retirement.Funds;
                                 retirementFunds.Add(modelPortfolioFund);
                                 retirement.Funds = retirementFunds;
                                 retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
                             }
+
                             else
                             {
-                                existingFund.FundCode = modelPortfolioFund.FundCode;
-                                existingFund.Description = modelPortfolioFund.Description;
-                                existingFund.CreateDate = modelPortfolioFund.CreateDate;
-                                existingFund.CurrentAmount = modelPortfolioFund.CurrentAmount;
-                                existingFund.SplitPerc = modelPortfolioFund.SplitPerc;
-                                existingFund.PolicyPremium = modelPortfolioFund.PolicyPremium;
-                                existingFund.UpdateBy = "System";
-                                existingFund.UpdateDate = DateTime.Now;
+                                //check if new fund value & split perc is diff to original & if so add as new fund else update exist fund
+                                //Double.TryParse(fund.FundValue, out double newFundValue);
+
+                                double newFundValue = modelPortfolioFund.CurrentAmount;
+                                //DateTime.TryParse(modelPortfolioFund.FundValueDate, out DateTime newFundValDate);
+                                DateTime newFundValDate = modelPortfolioFund.FundValueDate;
+
+                                if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && modelPortfolioFund.SplitPerc != 0 && modelPortfolioFund.SplitPerc != existingFund.SplitPerc)
+                                {
+                                    var retirementFunds = retirement.Funds;
+                                    retirementFunds.Add(modelPortfolioFund);
+                                    retirement.Funds = retirementFunds;
+                                    retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                                }
+                                else
+                                {
+
+                                    existingFund.FundCode = modelPortfolioFund.FundCode;
+                                    existingFund.Description = modelPortfolioFund.Description;
+                                    existingFund.CreateDate = modelPortfolioFund.CreateDate;
+                                    existingFund.CurrentAmount = modelPortfolioFund.CurrentAmount;
+                                    existingFund.SplitPerc = modelPortfolioFund.SplitPerc;
+                                    existingFund.PolicyPremium = modelPortfolioFund.PolicyPremium;
+                                    existingFund.UpdateBy = "System";
+                                    existingFund.UpdateDate = DateTime.Now;
+
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        var retirementFunds = retirement.Funds;
-                        retirementFunds.Add(modelPortfolioFund);
-                        retirement.Funds = retirementFunds;
-                        retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
-                    }
+                        else
+                        {
+                            var retirementFunds = retirement.Funds;
+                            retirementFunds.Add(modelPortfolioFund);
+                            retirement.Funds = retirementFunds;
+                            retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                        }
+                    
                     //End
-
-                    modelPortfolioFund = null;
 
 
 
