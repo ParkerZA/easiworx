@@ -34,6 +34,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using my.domain.lib.core.Validation;
+using EnvDTE;
 
 
 namespace Finx.App.Forms
@@ -312,7 +313,7 @@ namespace Finx.App.Forms
             MetroPopUpWindow importComplete = new MetroPopUpWindow();
             if ((_importCompleted!= null) && (_importCompleted==true))
             {
-                importComplete.SetCaption("Import complete");
+                importComplete.SetCaption("Import concluded");
             }
             else if ((_importCancelled != null) && (_importCancelled == true))
             {
@@ -888,6 +889,7 @@ namespace Finx.App.Forms
                         //Check if cancel button has been clicked
                         if (parallelOptions.CancellationToken.IsCancellationRequested)
                         {
+                            //Console.WriteLine("Hi, still going");
                             loopState.Stop();
                             parallelOptions.CancellationToken.ThrowIfCancellationRequested();
                         }
@@ -901,9 +903,9 @@ namespace Finx.App.Forms
                         _importCancelled= true;
                         _importCompleted = false;
 
-                        
-                        //loopState.Stop();
 
+                        //loopState.Stop();
+                        //frmCsvImportProgressWindow.End();
 
                         //return;
                     }
@@ -1283,7 +1285,7 @@ namespace Finx.App.Forms
 
                         var strdt = year + "-" + month + "-" + day;
                         DateTime dtDob;
-                        if (DateTime.TryParseExact(strdt, "yy-mm-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        if (DateTime.TryParseExact(strdt, "yy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
                             DateTime.TryParseExact(strdt, "yy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
                             DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
                         {
@@ -1706,6 +1708,10 @@ namespace Finx.App.Forms
                             {
                                 bankName = "Bank Zero";
                             }
+                            else if (bnkName.Contains("investec"))
+                            {
+                                bankName = "Investec";
+                            }
                             
                             
                             branchName = easiworxRecord.BranchName;
@@ -2125,6 +2131,10 @@ namespace Finx.App.Forms
         {
 
             double fundAllocPerc = 0;
+            string modelPortfolio = "";
+            List<List<int>> modelPortfolios = new List<List<int>>();
+            
+
 
             try
             {
@@ -2133,11 +2143,12 @@ namespace Finx.App.Forms
                     retirement.Funds = new List<Fund>(1);
 
                 Fund newfund = null;
-
+                
+                List<ICsvRecord> mp = new List<ICsvRecord>(1);
 
                 foreach (var fund in funds)
                 {
-
+                   
                     //if (fund.IDNumber == "9903145082083")
                     //    Debugger.Break();
 
@@ -2155,6 +2166,7 @@ namespace Finx.App.Forms
                         case "easiworxtemplate":
                            // Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
                             fundAllocPerc = ((EasiworxRecord)fund).AccountFundAllocation.AsDouble();
+                            modelPortfolio = ((EasiworxRecord)fund).ModelPortfolio;
                             break;
                         case "momentum":
                            // Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
@@ -2166,12 +2178,22 @@ namespace Finx.App.Forms
                             break;
                     }
 
+                    if (!string.IsNullOrEmpty(modelPortfolio))
+                    {
+                        mp.Add(fund);
+                        continue;
+                    }
 
+                    /*if (!string.IsNullOrEmpty(modelPortfolio))
+                    {
+                        fund.FundName= modelPortfolio;
+                        fund.FundCode = "N/A";
+                    }*/
 
                     if (retirement.Funds.Count > 0)
                     {
                         //Check if fund codes are the same indicating that the fund is already present in the list
-                        var existingFund = retirement.Funds.Where(f => f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower() || f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
+                        var existingFund = retirement.Funds.Where(f => (f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower() && fund.FundCode!= "N/A") || f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
                         if (existingFund == null)
                         {
                             newfund = CreateFund(fund, fundAllocPerc);
@@ -2180,6 +2202,30 @@ namespace Finx.App.Forms
                             retirement.Funds = retirementFunds;
                             retirement.MonthlyContribution += newfund.PolicyPremium;
                         }
+                        /*else if (!string.IsNullOrEmpty(modelPortfolio))
+                        {
+                            //Check if fund is part of model portfolio, and add fund values to the portfolio
+                            //FundCode = "N/A",
+                            EasiworxRecord esFund = ((EasiworxRecord)fund);
+
+                            if (existingFund.Description == esFund.FundName)
+                                try
+                                {
+                                    //existingFund.CreateDate = DateTime.Now,
+                                    existingFund.CurrentAmount += esFund.FundValue.AsDouble();
+
+                                    existingFund.SplitPerc += esFund.AccountFundAllocation.AsDouble();
+                                    existingFund.SplitPerc = Math.Round(existingFund.SplitPerc, 2, MidpointRounding.AwayFromZero);
+
+                                    existingFund.PolicyPremium += esFund.MonthlyPremium.AsDouble();
+                                    existingFund.UpdateBy = "System";
+                                    existingFund.UpdateDate = DateTime.Now;
+                                }
+                                catch(Exception) 
+                                {
+                                    throw;
+                                }
+                        }*/
                         else
                         {
                             //check if new fund value & split perc is diff to original & if so add as new fund else update exist fund
@@ -2210,8 +2256,118 @@ namespace Finx.App.Forms
                     }
                     newfund = null;
                 }
+                
+                if (mp.Count > 1)
+                {
+                    string mpName = "";
+                    double mpFundValue=0;
+                    double mpSplitPerc = 0;
+                    double mpPolicyPremium = 0;
+                    //double mpFundValue = 0;
+                    DateTime mpFundValDate= new DateTime(0001, 1, 1);
+                    DateTime mpStartDate = new DateTime(0001, 1, 1);
+
+                    foreach (var fund in mp)
+                    {
+                        EasiworxRecord esFund = ((EasiworxRecord)fund);
+                        mpName = esFund.ModelPortfolio;
+                        mpFundValue += esFund.FundValue.AsDouble();
+                        mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
+                        mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+
+                        if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
+                        DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);
+                        DateTime.TryParse(esFund.InceptionDate, out mpStartDate);
+                    }
+
+                    var modelPortfolioFund = new Fund()
+                    {
+                        FundCode = "N/A",
+                        Description = mpName,
+                        CreateDate = DateTime.Now,
+                        CurrentAmount = mpFundValue,
+                        SplitPerc = Math.Round(mpSplitPerc, 2, MidpointRounding.AwayFromZero),
+                        PolicyPremium = mpPolicyPremium,
+                        UpdateBy = "System",
+                        UpdateDate = DateTime.Now
+
+                    };
+
+                    if (mpStartDate != new DateTime(0001, 1, 1))
+                    {
+                        modelPortfolioFund.StartDate = mpStartDate;
+                    }
+                    if (mpFundValDate != new DateTime(0001, 1, 1))
+                    {
+                        modelPortfolioFund.FundValueDate = mpFundValDate;
+                    }
 
 
+
+
+                    //start
+                    if (retirement.Funds.Count > 0)
+                    {
+                        //Check if fund codes are the same indicating that the fund is already present in the list
+                        var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == modelPortfolioFund.Description.Trim().ToLower()).FirstOrDefault();
+                        if (existingFund == null)
+                        {
+                            var retirementFunds = retirement.Funds;
+                            retirementFunds.Add(modelPortfolioFund);
+                            retirement.Funds = retirementFunds;
+                            retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                        }
+                       
+                        else
+                        {
+                            //check if new fund value & split perc is diff to original & if so add as new fund else update exist fund
+                            //Double.TryParse(fund.FundValue, out double newFundValue);
+
+                            double newFundValue = modelPortfolioFund.CurrentAmount;
+                            //DateTime.TryParse(modelPortfolioFund.FundValueDate, out DateTime newFundValDate);
+                            DateTime newFundValDate = modelPortfolioFund.FundValueDate;
+
+                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && modelPortfolioFund.SplitPerc != 0 && modelPortfolioFund.SplitPerc != existingFund.SplitPerc)
+                            {
+                                var retirementFunds = retirement.Funds;
+                                retirementFunds.Add(modelPortfolioFund);
+                                retirement.Funds = retirementFunds;
+                                retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                            }
+                            else
+                            {
+                                existingFund.FundCode = modelPortfolioFund.FundCode;
+                                existingFund.Description = modelPortfolioFund.Description;
+                                existingFund.CreateDate = modelPortfolioFund.CreateDate;
+                                existingFund.CurrentAmount = modelPortfolioFund.CurrentAmount;
+                                existingFund.SplitPerc = modelPortfolioFund.SplitPerc;
+                                existingFund.PolicyPremium = modelPortfolioFund.PolicyPremium;
+                                existingFund.UpdateBy = "System";
+                                existingFund.UpdateDate = DateTime.Now;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var retirementFunds = retirement.Funds;
+                        retirementFunds.Add(modelPortfolioFund);
+                        retirement.Funds = retirementFunds;
+                        retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                    }
+                    //End
+
+                    modelPortfolioFund = null;
+
+
+
+
+
+                    /*var retirementFunds = retirement.Funds;
+                    retirementFunds.Add(modelPortfolioFund);
+                    retirement.Funds = retirementFunds;
+                    retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;*/
+
+                }
                 retirement.Calculate();
                 
 
@@ -2323,6 +2479,11 @@ namespace Finx.App.Forms
 
             //todo: check csvRecord Type & cast to appropriate type
             Double dblMonthlyPremium=0;
+
+            //Initialise model portfolio for easiworx imports
+            string modelPortfolio="";
+
+
             switch (_selectedLisp.ToUpper())
             {
                 case "ALLANGRAY":
@@ -2354,6 +2515,7 @@ namespace Finx.App.Forms
                     //Double.TryParse(((EasiworxRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
 
                     dblMonthlyPremium = ((EasiworxRecord)csvRecord).MonthlyPremium.AsDouble();
+                    modelPortfolio = ((EasiworxRecord)csvRecord).ModelPortfolio;
                     break;
 
             }
@@ -2375,10 +2537,19 @@ namespace Finx.App.Forms
                 PolicyPremium = dblMonthlyPremium,
                 UpdateBy = updateBy,
                 UpdateDate = fundValDate
+                
             };
             //Console.WriteLine(fund.FundCode);
             //if (fundValDate != new DateTime(0001, 1, 1))
             //fund.UpdateDate = fundValDate;
+
+            //Set model portfolio if the value is not empty
+            if (!string.IsNullOrEmpty(modelPortfolio))
+            {
+                fund.ModelPortfolio = modelPortfolio;
+            }
+
+            //Set start dates and fund value dates if the values are not empty
             if (fundStartDate != new DateTime(0001,1,1))
             {
                 fund.StartDate = fundStartDate;

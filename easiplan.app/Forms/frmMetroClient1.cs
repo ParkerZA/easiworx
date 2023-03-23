@@ -2273,23 +2273,29 @@ namespace Finx.App.Forms
             _hasChanges = true;
             try
             {
-                if (e.PropertyDescriptor.Name == "Type")
+                if (e.PropertyDescriptor!=null)
                 {
-                    //    DevAge.ComponentModel.BoundList<Life> _bList = sender as DevAge.ComponentModel.BoundList<Life>;
-                    //    Life mObj = _bList.EditedObject as Life;
+                    if (e.PropertyDescriptor.Name == "Type")
+                    {
+                        //    DevAge.ComponentModel.BoundList<Life> _bList = sender as DevAge.ComponentModel.BoundList<Life>;
+                        //    Life mObj = _bList.EditedObject as Life;
 
-                    //    dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = new List<LifeProduct>();
+                        //    dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = new List<LifeProduct>();
 
-                    //    IEnumerable<LifeProduct> lifeProducts = (IEnumerable<LifeProduct>)Program.ServiceProviders.LifeProviders.LifeInsurers.Where(x => x.InsurerName == mObj.Type).FirstOrDefault().LifeProducts;
+                        //    IEnumerable<LifeProduct> lifeProducts = (IEnumerable<LifeProduct>)Program.ServiceProviders.LifeProviders.LifeInsurers.Where(x => x.InsurerName == mObj.Type).FirstOrDefault().LifeProducts;
 
-                    //    if (lifeProducts.Where(x => x.ProductName != null).Count() > 0)
-                    //    {
-                    //        dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = lifeProducts.Select(x => x.ProductName).ToList();
+                        //    if (lifeProducts.Where(x => x.ProductName != null).Count() > 0)
+                        //    {
+                        //        dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = lifeProducts.Select(x => x.ProductName).ToList();
 
-                    //        // m.Description = "";//reset the policy
-                    //    }
+                        //        // m.Description = "";//reset the policy
+                        //    }
+                    }
                 }
-
+            }
+            catch (NullReferenceException)
+            { 
+                
             }
             catch (Exception x)
             {

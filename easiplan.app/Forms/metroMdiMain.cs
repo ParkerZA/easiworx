@@ -175,11 +175,18 @@ namespace Finx.App.Forms
 
                         childForm.MdiParent = this;
                         childForm.Text = FormText;
-                        childForm.Show();
+                        if (!(childForm == null))
+                        {
+                            childForm.Show();
+                        }
+                        else 
+                        {
+                            MessageBox.Show("There has been an error loading this client, please try again later", "Error");
+                        }
                     }
                     catch (NullReferenceException ex)
                     {
-                        MessageBox.Show("Error with this one");
+                        
                     }
                     catch (Exception x)
                     {
@@ -476,8 +483,15 @@ namespace Finx.App.Forms
                 // Set cursor as hourglass
                 Cursor.Current = Cursors.WaitCursor;
 
-                frmAdminTasks.Show();
-                
+                if (frmAdminTasks != null)
+                {
+                    frmAdminTasks.Show();
+                }
+                else
+                {
+                    frmAdminTasks = new frmMetroAdminTasks();
+                    frmAdminTasks.Show();
+                }
             }
             catch (Exception)
             {

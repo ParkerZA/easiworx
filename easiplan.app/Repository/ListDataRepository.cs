@@ -1,4 +1,6 @@
-﻿using easiplan.domain;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using easiplan.domain;
+using Microsoft.Graph;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -31,6 +33,7 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.MaritalStatus, "Married Islamic", "Married Islamic"));
             Items.Add(new ListDataItem(ListDataItemType.MaritalStatus, "Co-habiting", "Co-habiting"));
             Items.Add(new ListDataItem(ListDataItemType.MaritalStatus, "Divorced", "Divorced"));
+            Items.Add(new ListDataItem(ListDataItemType.MaritalStatus, "Widower", "Widower"));
 
             Items.Add(new ListDataItem(ListDataItemType.ContactTypes, "HomeTelephone", "Home Telephone"));
             Items.Add(new ListDataItem(ListDataItemType.ContactTypes, "WorkTelephone", "Work Telephone"));
@@ -72,6 +75,7 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Retirement Annuities", "Retirement Annuities"));
 
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Endowment", "Endowment"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Offshore Endowment", "Offshore Endowment"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Flexible Investment", "Flexible Investment"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Living Annuity", "Living Annuity"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Life Annuity", "Life Annuity"));
@@ -288,14 +292,15 @@ namespace Finx.App
 
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Absa", "Absa"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Albaraka", "Albaraka"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Bidvest", "Bidvest"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Capitec", "Capitec"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Discovery Bank", "Discovery Bank"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "FNB", "FNB"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Investec", "Investec"));
+            Items.Add(new ListDataItem(ListDataItemType.Banks, "Mercantile", "Mercantile"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Nedbank", "Nedbank"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Standard Bank", "Standard Bank"));
-            Items.Add(new ListDataItem(ListDataItemType.Banks, "Discovery Bank", "Discovery Bank"));
-            Items.Add(new ListDataItem(ListDataItemType.Banks, "Bidvest", "Bidvest"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "TymeBank", "TymeBank"));
-            Items.Add(new ListDataItem(ListDataItemType.Banks, "Mercantile", "Mercantile"));
             Items.Add(new ListDataItem(ListDataItemType.Banks, "Bank Zero", "Bank Zero"));
 
 
@@ -321,8 +326,15 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Contingent Liability", "Contingent Liability"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Buy And Sell", "Buy And Sell"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "GLA", "GLA"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Sickness", "Sickness"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Permanent Incapacity", "Permanent Incapacity"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Admissions Rider Benefit", "Admissions Rider Benefit"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Pregnancy Complications", "Pregnancy Complications"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Critical Illness", "Critical Illness"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Functional Impairment", "Functional Impairment"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Other", "Other"));
 
+            
 
             Items.Add(new ListDataItem(ListDataItemType.PolicyStatus, "Implemented", "Implemented"));
             Items.Add(new ListDataItem(ListDataItemType.PolicyStatus, "Cancelled", "Cancelled"));
@@ -428,7 +440,14 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.CustomTaskType, "Trust Formation", "Trust Formation"));
             Items.Add(new ListDataItem(ListDataItemType.CustomTaskType, "Full Surrender", "Full Surrender"));
             Items.Add(new ListDataItem(ListDataItemType.CustomTaskType, "Amendments", "Amendments"));
+            Items.Add(new ListDataItem(ListDataItemType.CustomTaskType, "Quotes", "Quotes"));
+            Items.Add(new ListDataItem(ListDataItemType.CustomTaskType, "Risk Quotes", "Risk Quotes"));
+            Items.Add(new ListDataItem(ListDataItemType.CustomTaskType, "Portfolio Schedule", "Portfolio Schedule"));
             Items.Add(new ListDataItem(ListDataItemType.CustomTaskType, "Other", "Other"));
+
+            
+
+
 
             Items.Add(new ListDataItem(ListDataItemType.CustomTaskStatus, "Pending", "Pending"));
             Items.Add(new ListDataItem(ListDataItemType.CustomTaskStatus, "InProgress", "InProgress"));

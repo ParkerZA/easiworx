@@ -95,10 +95,10 @@ namespace Finx.App.Forms
             
             this.dataGrid_LispFunds.Initialise();
 
-            this.dataGrid_LispFunds.Columns.Add("FundCode", "Fund Code",
-                                  new SourceGrid.Cells.Editors.TextBox(typeof(string)) { EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey }).Width = 100;
             this.dataGrid_LispFunds.Columns.Add("FundName", "Fund Name",
                                 new SourceGrid.Cells.Editors.TextBox(typeof(string)) { EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey }).Width = 300;
+            this.dataGrid_LispFunds.Columns.Add("FundCode", "Fund Code",
+                                  new SourceGrid.Cells.Editors.TextBox(typeof(string)) { EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey }).Width = 100;
             this.dataGrid_LispFunds.Columns.Add("FundClass", "Fund Class",
                                 new SourceGrid.Cells.Editors.TextBox(typeof(string)) { EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey }).Width = 150;
             this.dataGrid_LispFunds.Columns.Add("UnitClass", "Unit Class",
