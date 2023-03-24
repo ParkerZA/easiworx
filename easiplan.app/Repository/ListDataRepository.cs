@@ -69,6 +69,7 @@ namespace Finx.App
             //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Property", "Property"));
             //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Jewellery", "Jewellery"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Unit Trusts", "Unit Trusts"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Offshore Unit Trust", "Offshore Unit Trust"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Pension/Provident Funds", "Pension/Provident Funds"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Pension/Preservation Funds", "Pension/Preservation Funds"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Provident/Preservation Funds", "Provident/Preservation Funds"));

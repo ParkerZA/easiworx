@@ -191,17 +191,11 @@ namespace Finx.App.Models
         }
 
 
-        //Clients registration number as provided by LISP 
-        [Index(4)]
-        public string RegistrationNo
-        {
-            get;
-            set;
-        }
+        
 
 
         //Clients passport number if ID number is absent
-        [Index(5)]
+        [Index(4)]
         public string PassportNo
         {
             get;
@@ -210,11 +204,21 @@ namespace Finx.App.Models
 
 
         //Client number as provided by LISP
-        [Index(6)]
+        [Index(5)]
         public string ClientNo
         {
             get; set;
         }
+
+        //Clients tax number
+        [Index(6)]
+        public string TaxNo
+        {
+            get;
+            set;
+        }
+
+        
 
 
         //Street number of clients postal address
@@ -336,8 +340,88 @@ namespace Finx.App.Models
         }
 
 
-        //Name of policy owned by client
+        //Name of bank client is with
+        [Optional]
         [Index(19)]
+        public string BankName
+        {
+            get
+            {
+                return _bankName;
+            }
+            set
+            {
+                _bankName = value.ToLower().Trim();
+                _bankName = CapitalizeSentence(_bankName);
+            }
+        }
+
+
+        //Clients banks branch name
+        [Optional]
+        [Index(20)]
+        public string BranchName
+        {
+            get
+            {
+                return _branchName;
+            }
+            set
+            {
+                _branchName = value.ToLower().Trim();
+                _branchName = CapitalizeSentence(_branchName);
+            }
+        }
+
+
+        //Clients banks branch code
+        [Optional]
+        [Index(21)]
+        public string BranchCode
+        {
+            get;
+            set;
+        }
+
+
+        //Clients bank account number
+        [Optional]
+        [Index(22)]
+        public string BankAccNo
+        {
+            get;
+            set;
+        }
+
+
+        //Clients bank account type (Check or savings)
+        [Optional]
+        [Index(23)]
+        public string BankAccType
+        {
+            get;
+            set;
+        }
+
+        //Clients surname gets assigned as account name
+        [Index(24)]
+        public string AccountName
+        {
+            get;
+            set;
+        }
+
+        //Name of LISP responsible for this policy
+        [Optional]
+        [Index(25)]
+        public string LISP
+        {
+            get;
+            set;
+        }
+
+        //Name of policy owned by client
+        [Index(26)]
         public string ProductType
         {
             get
@@ -381,27 +465,8 @@ namespace Finx.App.Models
             }
         }
 
-
-        //Model portfolio
-        [Index(20)]
-        public string ModelPortfolio
-        {
-            get;
-            set;
-        }
-
-
-        //Clients surname gets assigned as account name
-        [Index(21)]
-        public string AccountName
-        {
-            get;
-            set;
-        }
-
-
         //Policy Number
-        [Index(22)]
+        [Index(27)]
         public string AccountNo
         {
             get;
@@ -410,7 +475,7 @@ namespace Finx.App.Models
 
 
         //Fund code
-        [Index(23)]
+        [Index(28)]
         public string FundCode
         {
             get;
@@ -419,7 +484,7 @@ namespace Finx.App.Models
 
 
         //Name of fund
-        [Index(24)]
+        [Index(29)]
         public string FundName
         {
             get;
@@ -427,8 +492,17 @@ namespace Finx.App.Models
         }
 
 
+        //Model portfolio
+        [Index(30)]
+        public string ModelPortfolio
+        {
+            get;
+            set;
+        }
+
+
         //Market value in rands
-        [Index(25)]
+        [Index(31)]
         public string FundValue
         {
             get
@@ -444,59 +518,9 @@ namespace Finx.App.Models
         }
 
 
-        //Date at which the fund value is pulled
-        [Index(26)]
-        public string FundValueDate
-        {
-            get
-            {
-                return _fundValueDate;
-            }
-            set
-            {
-                try
-                {
-                    String temp = value.Replace("/", string.Empty);
-                    //temp.Replace(" ", string.Empty);
-                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
-
-                    var strdt = "";
-
-
-                    var day = int.Parse(temp.Substring(0, 2));
-                    var month = int.Parse(temp.Substring(2, 2));
-                    var year = int.Parse(temp.Substring(4, 4));
-
-                    strdt = year + "-" + month + "-" + day;
-
-
-                    DateTime dtFVD;
-                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
-                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
-                    {
-                        _fundValueDate = dtFVD.ToString("dd MMM yyyy");
-                    }
-                }
-                catch (FormatException)
-                {
-                    _fundValueDate = "-";
-                }
-
-                /*{
-                    //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
-                    if (DateTime.TryParse(value, out DateTime fundValDt))
-                        _fundValueDate = fundValDt.ToString("dd MMM yyyy");
-                    else
-                    {
-                        _fundValueDate = value;
-                    }
-                }*/
-            }
-
-        }
         //Split percentage for fund amounts
         [Optional]
-        [Index(27)]
+        [Index(32)]
         public string AccountFundAllocation
         {
             get
@@ -511,8 +535,27 @@ namespace Finx.App.Models
         }
 
 
+        //Monthly Debit Order Premium
+        [Optional]
+        [Index(33)]
+        public string MonthlyPremium
+        {
+            get
+            {
+                return _monthlyPremium;
+            }
+            set
+            {
+                //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
+                _monthlyPremium = value.Replace("R", string.Empty);
+                _monthlyPremium = _monthlyPremium.Replace(" ", string.Empty);
+                _monthlyPremium = _monthlyPremium.Replace(",", ".");
+            }
+        }
+
+
         //Fund inception date
-        [Index(28)]
+        [Index(34)]
         public string InceptionDate
         {
             get
@@ -555,96 +598,49 @@ namespace Finx.App.Models
         }
 
 
-        //Monthly Debit Order Premium
-        [Optional]
-        [Index(29)]
-        public string MonthlyPremium
-        {
-            get
-            {
-                return _monthlyPremium;
-            }
-            set
-            {
-                //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
-                _monthlyPremium = value.Replace("R", string.Empty);
-                _monthlyPremium = _monthlyPremium.Replace(" ", string.Empty);
-                _monthlyPremium = _monthlyPremium.Replace(",", ".");
-            }
-        }
-
-
-        //Name of LISP responsible for this policy
-        [Optional]
-        [Index(30)]
-        public string LISP
-        {
-            get;
-            set;
-        }
-
-        [Optional]
-        [Index(31)]
-        public string BankName
-        {
-            get
-            {
-                return _bankName;
-            }
-            set
-            {
-                _bankName = value.ToLower().Trim();
-                _bankName = CapitalizeSentence(_bankName);
-            }
-        }
-
-        [Optional]
-        [Index(32)]
-        public string BranchName
-        {
-            get
-            {
-                return _branchName;
-            }
-            set
-            {
-                _branchName = value.ToLower().Trim();
-                _branchName = CapitalizeSentence(_branchName);
-            }
-        }
-
-        [Optional]
-        [Index(33)]
-        public string BranchCode
-        {
-            get;
-            set;
-        }
-
-        [Optional]
-        [Index(34)]
-        public string BankAccNo
-        {
-            get;
-            set;
-        }
-
-        [Optional]
+        //Date at which the fund value is pulled
         [Index(35)]
-        public string BankAccType
+        public string FundValueDate
         {
-            get;
-            set;
-        }
+            get
+            {
+                return _fundValueDate;
+            }
+            set
+            {
+                try
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    //temp.Replace(" ", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
 
-        //Clients tax Number
-        //[Index(5)]
-        [Optional]
-        public string TaxNo
-        {
-            get;
-            set;
+                    var strdt = "";
+
+
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    strdt = year + "-" + month + "-" + day;
+
+
+                    DateTime dtFVD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
+                    {
+                        _fundValueDate = dtFVD.ToString("dd MMM yyyy");
+                    }
+                }
+                catch (FormatException)
+                {
+                    _fundValueDate = "-";
+                }
+
+               
+            }
+
         }
+        
 
         [Optional]
         public string ValidationErrors 
@@ -685,10 +681,10 @@ namespace Finx.App.Models
             Map(c => c.Lastname);
             Map(c => c.DateOfBirth);
             Map(c => c.IDNumber);
-            Map(c => c.RegistrationNo);
+            Map(c => c.TaxNo);
             Map(c => c.PassportNo);
             Map(c => c.ClientNo);
-            Map(c => c.TaxNo);
+           
 
             Map(c => c.PostalAddressStreetNo);
             Map(c => c.PostalAddress);
