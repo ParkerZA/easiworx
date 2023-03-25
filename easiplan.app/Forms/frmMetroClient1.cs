@@ -555,6 +555,14 @@ namespace Finx.App.Forms
                         break;
                     case 1:
                         #region Assets and Liabilities
+
+                        //Initialise client portfolio so that values are present for graph display
+                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+
+                        client.ClientPortfolio.Initialise();
+                        client.ClientPortfolio.Calculate();
+
+
                         client.ClientAssets.Initialise();
                         this.dataGrid_ClientAssets.Initialise1<Asset>(client.ClientAssets.AssetsBindingList, column =>
                         {
@@ -586,6 +594,12 @@ namespace Finx.App.Forms
                     case 2:
                         client.ClientIncomes.Initialise();
                         #region Income
+
+                        //Initialise client portfolio so that values are present income and expense grid
+                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+
+                        client.ClientPortfolio.Initialise();
+                        client.ClientPortfolio.Calculate();
 
                         this.dataGrid_ClientIncomes.Initialise1<Income>(client.ClientIncomes.IncomesBindingList, column =>
                         {
