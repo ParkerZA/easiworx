@@ -453,7 +453,7 @@ namespace Finx.App.Forms
 
                         if (_mnth < DateTime.Now.Month)
                             _yr += 1;
-                        else if (_day < DateTime.Now.Day)
+                        else if ((_mnth == DateTime.Now.Month)&& (_day < DateTime.Now.Day)) //If you want to revert this just removed the if month = date part
                             _yr += 1;
 
                         DateTime _birthDt = DateTime.Parse(string.Format("{0}-{1}-{2} 08:00:00 AM", _yr, _mnth, _day));
