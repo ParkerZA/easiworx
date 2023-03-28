@@ -27,8 +27,10 @@ namespace Finx.App.Models
         private string _startDate;
         private string _firstname;
         private string _lastname;
+        private string _accountName;
         private string _validationErrors;
         private string _dob = "";
+        private DateTime _birthday;
         private string _monthlyPremium;
         private string _productType;
         private string _taxNo;
@@ -145,6 +147,7 @@ namespace Finx.App.Models
                         DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
                         )
                     {
+                        _birthday = dtDob;
                         _dob = dtDob.ToString("dd MMM yyyy");
                     }
                 }
@@ -158,6 +161,11 @@ namespace Finx.App.Models
                 }
             }
 
+        }
+
+        public DateTime getBirthday
+        {
+            get { return _birthday; }
         }
 
         /*get { return _dob; }
@@ -404,11 +412,25 @@ namespace Finx.App.Models
         }
 
         //Clients surname gets assigned as account name
+        [Optional]
         [Index(24)]
         public string AccountName
         {
-            get;
-            set;
+            get 
+            { 
+                return _accountName; 
+            }
+            set 
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _accountName = value;
+                }
+                else
+                {
+                    _accountName = Firstname[0] +" "+ Lastname;
+                }
+            }
         }
 
         //Name of LISP responsible for this policy

@@ -1271,7 +1271,8 @@ namespace Finx.App.Forms
                 var firstname = "";
                 var lastname = "";
                 var dob = "";
-
+                var taxNo = "";
+                var accName = "";
                 try
                 {
                     //if (csvRecord.PassportNo == "ZP004396")
@@ -1375,12 +1376,17 @@ namespace Finx.App.Forms
                             var easiworxRecord = csvRecord as EasiworxRecord;
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
+                            accName = easiworxRecord.AccountName.Trim();
+                            
+                            taxNo = easiworxRecord.TaxNo.Trim();
+
 
                             // date format: dd/MM/yyyy
                             DateTime ewx_dtDob;
                             if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
                                 dob = ewx_dtDob.ToString("dd MMM yyyy");
-
+                            
+                            //Console.WriteLine("First one " + dob);
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1397,6 +1403,7 @@ namespace Finx.App.Forms
                             LastName = lastname,
                             IdentificationNo = csvRecord.IDNumber,
                             PassportNo = csvRecord.PassportNo,
+                            TaxNumber = taxNo,
                             UpdateBy = UpdateBy,
                             CreateDate = DateTime.Now
 
@@ -1444,13 +1451,19 @@ namespace Finx.App.Forms
                         BrnchName = "",
                         BrnchCode = "",
                         AcctNumber = "",
-                        AcctType = ""
+                        AcctType = "",
+                        AcctName = accName
                     };
 
                     if (!string.IsNullOrEmpty(dob))
                     {
                         DateTime.TryParseExact(dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtDob);
                         client.ClientDetails.DateOfBirth = dtDob;
+                        Console.WriteLine("Here " + dtDob.ToString("dd MMM yyyy"));
+                    }
+                    else 
+                    { 
+                        Console.WriteLine("Its null"); 
                     }
                     try
                     {
@@ -1502,6 +1515,8 @@ namespace Finx.App.Forms
 
                 lock (_lockObject)
                 {
+                    DateTime ewx_dtDob= new DateTime(0001, 1, 1);
+
                     var dob = "";
                     var physicalAddress1 = "";
                     var physicalAddress2 = "";
@@ -1531,7 +1546,7 @@ namespace Finx.App.Forms
                     var branchCode = "";
                     var bankAccNo = "";
                     var bankAccType = "";
-                   
+                    //var accName = "";
 
                     //switch (csvRecord.LISP.ToLower())
                     switch (_selectedLisp.ToLower())
@@ -1628,12 +1643,14 @@ namespace Finx.App.Forms
                             //firstname = easiworxRecord.Firstname.Trim();
                             //lastname = easiworxRecord.Lastname.Trim();
 
+                            //Tax number 
+                            taxNo = easiworxRecord.TaxNo.Trim();
+
+
                             //birthdate
 
-                            DateTime ewx_dtDob;
-                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
-                                dob = ewx_dtDob.ToString("dd MMM yyyy");
-
+                            ewx_dtDob = easiworxRecord.getBirthday;
+                            
                             //Easiworx Physical Address
 
                             physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
@@ -1719,6 +1736,7 @@ namespace Finx.App.Forms
                             branchName = easiworxRecord.BranchName;
                             branchCode = easiworxRecord.BranchCode;
                             bankAccNo = easiworxRecord.BankAccNo;
+                            //accName = easiworxRecord.AccountName;
 
                             //Matching account types
 
@@ -1745,12 +1763,22 @@ namespace Finx.App.Forms
                             throw new ApplicationException("Invalid Lisp!");
                     }
 
-                    if (!string.IsNullOrWhiteSpace(dob))
+                    if (!string.IsNullOrWhiteSpace(taxNo))
                     {
-                        DateTime.TryParse(dob, out DateTime dtDob);
-                        client.ClientDetails.DateOfBirth = dtDob;
+                        client.ClientDetails.TaxNumber = taxNo;
                     }
 
+                    /*if (!string.IsNullOrWhiteSpace(dob))
+                    {
+                        DateTime.TryParse(dob, out DateTime dtDob);
+                        client.ClientDetails.DateOfBirth = dtDob; 
+                        Console.WriteLine("Here " + dtDob.ToString("dd MMM yyyy"));
+                    }*/
+
+                    if ((ewx_dtDob != (new DateTime(0001, 1, 1))))
+                    {
+                        client.ClientDetails.DateOfBirth = ewx_dtDob;
+                    }
                     if (!string.IsNullOrEmpty(physicalAddress1) || !string.IsNullOrEmpty(physicalAddress2) || !string.IsNullOrEmpty(physicalAddress3) || !(physicalAddressCode == 0))
                     {
                         client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
@@ -1813,6 +1841,7 @@ namespace Finx.App.Forms
                          client.BankDetails.BrnchCode = branchCode;
                          client.BankDetails.AcctNumber = bankAccNo;
                          client.BankDetails.AcctType = bankAccType;
+                        //client.BankDetails.AcctName = accName;
                         
                     }
                     //Console.WriteLine(client.BankDetails.AcctNumber + "yup");
@@ -2195,7 +2224,7 @@ namespace Finx.App.Forms
                     if (retirement.Funds.Count > 0)
                     {
                         //Check if fund codes are the same indicating that the fund is already present in the list
-                        var existingFund = retirement.Funds.Where(f => (f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower() && fund.FundCode!= "N/A") || f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
+                        var existingFund = retirement.Funds.Where(f => (f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower() && fund.FundCode!= "N/A" && !(string.IsNullOrWhiteSpace(fund.FundCode))) || (f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower())).FirstOrDefault();
                         if (existingFund == null)
                         {
                             newfund = CreateFund(fund, fundAllocPerc);
@@ -2264,7 +2293,7 @@ namespace Finx.App.Forms
                     string mpName = "";
                     double mpFundValue=0;
                     double mpSplitPerc = 0;
-                    double mpPolicyPremium = 0;
+                    double mpPolicyPremium = 100;
                     //double mpFundValue = 0;
                     DateTime mpFundValDate= new DateTime(0001, 1, 1);
                     DateTime mpStartDate = new DateTime(0001, 1, 1);
@@ -2275,7 +2304,7 @@ namespace Finx.App.Forms
                         mpName = esFund.ModelPortfolio;
                         mpFundValue += esFund.FundValue.AsDouble();
                         mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
-                        mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+                        //mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
 
                         if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
                         DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);

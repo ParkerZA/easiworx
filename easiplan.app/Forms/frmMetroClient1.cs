@@ -555,6 +555,14 @@ namespace Finx.App.Forms
                         break;
                     case 1:
                         #region Assets and Liabilities
+
+                        //Initialise client portfolio so that values are present for graph display
+                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+
+                        client.ClientPortfolio.Initialise();
+                        client.ClientPortfolio.Calculate();
+
+
                         client.ClientAssets.Initialise();
                         this.dataGrid_ClientAssets.Initialise1<Asset>(client.ClientAssets.AssetsBindingList, column =>
                         {
@@ -584,6 +592,13 @@ namespace Finx.App.Forms
                         RefreshAssetLiabilitiesSummary();
                         break;
                     case 2:
+
+                        //Initialise client portfolio so that values are present income and expense grid
+                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+
+                        client.ClientPortfolio.Initialise();
+                        client.ClientPortfolio.Calculate();
+
                         client.ClientIncomes.Initialise();
                         #region Income
 
@@ -2196,26 +2211,29 @@ namespace Finx.App.Forms
             _hasChanges = true;
             try
             {
-                if (e.PropertyDescriptor.Name == "DependentName")
+                if (!(e.PropertyDescriptor == null))
                 {
-                    DevAge.ComponentModel.BoundList<Education> _bList = sender as DevAge.ComponentModel.BoundList<Education>;
-                    Education mObj = _bList.EditedObject as Education;
+                    if (e.PropertyDescriptor.Name == "DependentName")
+                    {
+                        DevAge.ComponentModel.BoundList<Education> _bList = sender as DevAge.ComponentModel.BoundList<Education>;
+                        Education mObj = _bList.EditedObject as Education;
 
-                    var _Obj = client.Beneficiaries.Where(x => x.DependentName == mObj.DependentName).FirstOrDefault();
-                    if (_Obj != null)
-                    {
-                        mObj.DependentDOB = _Obj.BirthDate;
-                        mObj.CurrentAge = _Obj._Age;
-                    }
-                    //Calculate the fund policy
-                    if (dataGrid_PolicyFunds.Tag != null)
-                    {
-                        BaseEntity<int> entity = dataGrid_PolicyFunds.Tag as BaseEntity<int>;
-                        if (entity != null)
+                        var _Obj = client.Beneficiaries.Where(x => x.DependentName == mObj.DependentName).FirstOrDefault();
+                        if (_Obj != null)
                         {
-                            entity.Calculate();
+                            mObj.DependentDOB = _Obj.BirthDate;
+                            mObj.CurrentAge = _Obj._Age;
                         }
+                        //Calculate the fund policy
+                        if (dataGrid_PolicyFunds.Tag != null)
+                        {
+                            BaseEntity<int> entity = dataGrid_PolicyFunds.Tag as BaseEntity<int>;
+                            if (entity != null)
+                            {
+                                entity.Calculate();
+                            }
 
+                        }
                     }
                 }
             }

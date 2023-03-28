@@ -23,6 +23,9 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Ms", "Ms"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Mss", "Mss"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Dr", "Dr"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Prof", "Prof"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Adv", "Adv"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Judge", "Judge"));
 
             Items.Add(new ListDataItem(ListDataItemType.Gender, "Male", "Male"));
             Items.Add(new ListDataItem(ListDataItemType.Gender, "Female", "Female"));
@@ -53,56 +56,65 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.AssetTypes, "Cash", "Cash"));
             Items.Add(new ListDataItem(ListDataItemType.AssetTypes, "Other", "Other"));
 
-            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Property", "Property"));
-            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Vehicles", "Vehicles"));
-            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Jewellery", "Jewellery"));
+
+            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Cash", "Cash"));
+            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Debtors", "Debtors"));
             Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Household Goods", "Household Goods"));
+            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Jewellery", "Jewellery"));
+            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Property", "Property"));
+            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Shares", "Shares"));
+            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Vehicles", "Vehicles"));
+            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Other", "Other"));
             //Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Unit Trusts", "Unit Trusts"));
             //Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Pension/Provident Funds", "Pension/Provident Funds"));
             //Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Retirement Annuities", "Retirement Annuities"));
-            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Cash", "Cash"));
             //Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Endowment/Life Policies", "Endowment/Life Policies"));
-            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Shares", "Shares"));
-            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Debtors", "Debtors"));
-            Items.Add(new ListDataItem(ListDataItemType.AssetClass, "Other", "Other"));
 
-            //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Property", "Property"));
-            //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Jewellery", "Jewellery"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Unit Trusts", "Unit Trusts"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Offshore Unit Trust", "Offshore Unit Trust"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Pension/Provident Funds", "Pension/Provident Funds"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Pension/Preservation Funds", "Pension/Preservation Funds"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Provident/Preservation Funds", "Provident/Preservation Funds"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Retirement Annuities", "Retirement Annuities"));
+
 
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Endowment", "Endowment"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Offshore Endowment", "Offshore Endowment"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Flexible Investment", "Flexible Investment"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Living Annuity", "Living Annuity"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Life Annuity", "Life Annuity"));
-
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Tax Free", "Tax Free"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Gold", "Gold"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Life Annuity", "Life Annuity"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Living Annuity", "Living Annuity"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Offshore Endowment", "Offshore Endowment"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Offshore Unit Trust", "Offshore Unit Trust"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Pension/Preservation Funds", "Pension/Preservation Funds"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Pension/Provident Funds", "Pension/Provident Funds"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Profit Share", "Profit Share"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Provident/Preservation Funds", "Provident/Preservation Funds"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Retirement Annuities", "Retirement Annuities"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Tax Free", "Tax Free"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Unit Trusts", "Unit Trusts"));
+            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Other", "Other"));
+            //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Property", "Property"));
+            //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Jewellery", "Jewellery"));
             //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Buy & Sell", "Buy & Sell"));
             //.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Keyman", "Keyman"));
             //Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Contingent Liability", "Contingent Liability"));
-            Items.Add(new ListDataItem(ListDataItemType.RetirementAssetClass, "Other", "Other"));
 
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "CASH", "CASH"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "SAVINGS/EMERGENCY", "SAVINGS/EMERGENCY"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "SHARES", "SHARES"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "STOCKS", "STOCKS"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "UNIT TRUSTS", "UNIT TRUSTS"));
-            // Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "EDUCATION", "EDUCATION"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "HOLIDAY", "HOLIDAY"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "PURCHASES", "PURCHASES"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "PROPERTY", "PROPERTY"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "JEWELLERY", "JEWELLERY"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "FLEXIBLE INVESTMENT", "FLEXIBLE INVESTMENT"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "ENDOWMENT", "ENDOWMENT"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "TAX FREE", "TAX FREE"));
-            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "OTHER", "OTHER"));
+
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Cash", "Cash"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Endowment", "Endowment"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Flexible Investment", "Flexible Investment"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Holiday", "Holiday"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Jewllery", "Jewellery"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Property", "Property"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Purchases", "Purchases"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Savings/Emergency", "Savings/Emergency"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Shares", "Shares"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Stocks", "Stocks"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Tax Free", "Tax Free"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Unit Trusts", "Unit Trusts"));
+            Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Other", "Other"));
+            // Items.Add(new ListDataItem(ListDataItemType.InvestmentClass, "Education", "Educaiton"));
+
+
+
+
+
+
+
 
             Items.Add(new ListDataItem(ListDataItemType.RetirementWants, "Income", "Income"));
             Items.Add(new ListDataItem(ListDataItemType.RetirementWants, "Holiday", "Holiday"));
@@ -117,15 +129,15 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.LiabilityTypes, "Variable", "Variable"));
             Items.Add(new ListDataItem(ListDataItemType.LiabilityTypes, "Other", "Other"));
 
+            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Accounts", "Accounts"));
             Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Bond", "Bond"));
-            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Loan", "Loan"));
-            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Investment", "Investment"));
             Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Credit Card", "Credit Card"));
             Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Creditors", "Creditors"));
-            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Overdraft", "Overdraft"));
             Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Hire Purchase", "Hire Purchase"));
+            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Investment", "Investment"));
+            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Loan", "Loan"));
+            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Overdraft", "Overdraft"));
             Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Overdue Taxes", "Overdue Taxes"));
-            Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Accounts", "Accounts"));
             Items.Add(new ListDataItem(ListDataItemType.LiabilityClass, "Other", "Other"));
 
             Items.Add(new ListDataItem(ListDataItemType.DBTypes, "MySQL", "MySQL"));
@@ -319,20 +331,19 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.MedicalBenefit, "Chronic", "Chronic"));
             Items.Add(new ListDataItem(ListDataItemType.MedicalBenefit, "Other", "Other"));
 
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Life", "Life"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Dreaded Disease", "Dreaded Disease"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Admissions Rider Benefit", "Admissions Rider Benefit"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Buy And Sell", "Buy And Sell"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Contingent Liability", "Contingent Liability"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Critical Illness", "Critical Illness"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Disability", "Disability"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Functional Impairment", "Functional Impairment"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "GLA", "GLA"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Income Protection", "Income Protection"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Keyman", "Keyman"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Contingent Liability", "Contingent Liability"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Buy And Sell", "Buy And Sell"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "GLA", "GLA"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Sickness", "Sickness"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Life", "Life"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Permanent Incapacity", "Permanent Incapacity"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Admissions Rider Benefit", "Admissions Rider Benefit"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Pregnancy Complications", "Pregnancy Complications"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Critical Illness", "Critical Illness"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Functional Impairment", "Functional Impairment"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Sickness", "Sickness"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Other", "Other"));
 
             
@@ -468,14 +479,16 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.RiskNeedsType, "Education", "Education"));
             Items.Add(new ListDataItem(ListDataItemType.RiskNeedsType, "Other", "Other"));
 
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Life Cover", "Life Cover"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Buy And Sell", "Buy And Sell"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Contingent Liability", "Contingent Liability"));
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Disability Cover", "Disability Cover"));
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Dreaded Disease", "Dreaded Disease"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Income Protection", "Income Protection"));
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Education", "Education"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Income Protection", "Income Protection")); 
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Keyman", "Keyman"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Contingent Liability", "Contingent Liability"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Buy And Sell", "Buy And Sell"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Life Cover", "Life Cover"));
+            
+            
 
             Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Life Cover", "Life Cover"));
             Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Disability Cover", "Disability Cover"));
