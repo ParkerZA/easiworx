@@ -23,9 +23,11 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Ms", "Ms"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Mss", "Mss"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Dr", "Dr"));
-            Items.Add(new ListDataItem(ListDataItemType.Titles, "Prof", "Prof"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Adv", "Adv"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Judge", "Judge"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Prof", "Prof"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Reverend", "Reverend"));
+
 
             Items.Add(new ListDataItem(ListDataItemType.Gender, "Male", "Male"));
             Items.Add(new ListDataItem(ListDataItemType.Gender, "Female", "Female"));
@@ -325,6 +327,8 @@ namespace Finx.App
 
             Items.Add(new ListDataItem(ListDataItemType.Language, "English", "English"));
             Items.Add(new ListDataItem(ListDataItemType.Language, "Afrikaans", "Afrikaans"));
+            Items.Add(new ListDataItem(ListDataItemType.Language, "isiXhosa", "isiXhosa"));
+            Items.Add(new ListDataItem(ListDataItemType.Language, "isiZulu", "isiZulu"));
 
             Items.Add(new ListDataItem(ListDataItemType.MedicalBenefit, "Day to Day", "Day to Day"));
             Items.Add(new ListDataItem(ListDataItemType.MedicalBenefit, "Hospital", "Hospital"));
