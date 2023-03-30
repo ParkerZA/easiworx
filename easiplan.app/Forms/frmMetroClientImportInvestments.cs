@@ -2187,6 +2187,7 @@ namespace Finx.App.Forms
             try
             {
 
+
                 if (retirement.Funds == null)
                     retirement.Funds = new List<Fund>(1);
 
@@ -2358,7 +2359,8 @@ namespace Finx.App.Forms
                     
                         if (retirement.Funds.Count > 0)
                         {
-                            //Check if fund codes are the same indicating that the fund is already present in the list
+                        //Check if fund codes are the same indicating that the fund is already present in the list
+                        Console.WriteLine("'" + modelPortfolioFund.Description + "'");
                             var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == modelPortfolioFund.Description.Trim().ToLower()).FirstOrDefault();
                             if (existingFund == null)
                             {
@@ -2405,7 +2407,8 @@ namespace Finx.App.Forms
                             retirementFunds.Add(modelPortfolioFund);
                             retirement.Funds = retirementFunds;
                             retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
-                        }
+                            Console.WriteLine("'" + modelPortfolioFund.Description + "'");
+                    }
                     
                     //End
 
