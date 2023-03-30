@@ -1273,6 +1273,7 @@ namespace Finx.App.Forms
                 var dob = "";
                 var taxNo = "";
                 var accName = "";
+                DateTime dtDob = new DateTime(0001, 1, 1);
                 try
                 {
                     //if (csvRecord.PassportNo == "ZP004396")
@@ -1286,11 +1287,20 @@ namespace Finx.App.Forms
                         var month = int.Parse(datePart.Substring(2, 2));
                         var day = int.Parse(datePart.Substring(4, 2));
 
+                        if (year > 49)
+                        {
+                            year = year + 1900;
+                        }
+                        else 
+                        {
+                            year = year + 2000;
+                        }
+
                         var strdt = year + "-" + month + "-" + day;
-                        DateTime dtDob;
-                        if (DateTime.TryParseExact(strdt, "yy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
-                            DateTime.TryParseExact(strdt, "yy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
-                            DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
+                        
+                        if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                            DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
+                            // || DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
                         {
                             if (dtDob > now)
                             {
@@ -1301,7 +1311,7 @@ namespace Finx.App.Forms
                             dob = dtDob.ToString("dd MMM yyyy");
                             //dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
                         }
-                       
+                        
                         //Console.WriteLine("ID: " + csvRecord.IDNumber);
                         //Console.WriteLine("Birthdate: " + dob);
 
@@ -1318,7 +1328,7 @@ namespace Finx.App.Forms
                                 return null;
 
                             // date format: dd/MM/yyyy
-                            DateTime dtDob;
+                            //DateTime dtDob;
                             if (DateTime.TryParseExact(camissaRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
                                 dob = dtDob.ToString("dd MMM yyyy");
 
@@ -1382,10 +1392,13 @@ namespace Finx.App.Forms
 
 
                             // date format: dd/MM/yyyy
-                            DateTime ewx_dtDob;
-                            if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
-                                dob = ewx_dtDob.ToString("dd MMM yyyy");
-                            
+                            //DateTime ewx_dtDob;
+                            //if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
+                            //dob = ewx_dtDob.ToString("dd MMM yyyy");
+                            if (easiworxRecord.getBirthday != null)
+                            {
+                                dtDob = easiworxRecord.getBirthday;
+                            }
                             //Console.WriteLine("First one " + dob);
                             break;
                         default:
@@ -1455,7 +1468,7 @@ namespace Finx.App.Forms
                         AcctName = accName
                     };
 
-                    if (!string.IsNullOrEmpty(dob))
+                    /*if (!string.IsNullOrEmpty(dob))
                     {
                         DateTime.TryParseExact(dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtDob);
                         client.ClientDetails.DateOfBirth = dtDob;
@@ -1464,6 +1477,11 @@ namespace Finx.App.Forms
                     else 
                     { 
                         Console.WriteLine("Its null"); 
+                    }*/
+
+                    if ((dtDob != (new DateTime(0001, 1, 1))))
+                    {
+                        client.ClientDetails.DateOfBirth = dtDob;
                     }
                     try
                     {

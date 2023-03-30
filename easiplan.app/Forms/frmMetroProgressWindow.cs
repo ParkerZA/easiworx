@@ -14,7 +14,7 @@ using MetroFramework.Controls;
 
 namespace Finx.App.Forms
 {
-    public partial class MetroProgressWindow : MetroForm, IProgressCallback
+    public partial class MetroProgressWindow : MetroForm, IProgressCallback, IProgressDataObjectCallback
     {
 
         /// <summary>
