@@ -1311,6 +1311,8 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <Content Include="Resources\Easiworx landing Page 3.jpg" />
+    <None Include="Resources\Easiworx Landing Page 3.png" />
     <None Include="Resources\EWLogon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
