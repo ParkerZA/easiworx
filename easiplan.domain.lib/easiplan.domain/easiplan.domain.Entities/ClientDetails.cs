@@ -157,9 +157,14 @@ namespace easiplan.domain.Entities
 			set
 			{
                 if (_Lastname == value) return;
+				
 
-				_Lastname = Capitilized(value);
-				InvokePropertyChanged("LastName");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _Lastname = char.ToUpper(value[0]) + value.Substring(1);
+                }
+
+                InvokePropertyChanged("LastName");
 			}
 		}
 
@@ -187,9 +192,11 @@ namespace easiplan.domain.Entities
 			set
 			{
                 if (_MidName == value) return;
-
-                _MidName = Capitilized(value);
-				InvokePropertyChanged("MidName");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _MidName = char.ToUpper(value[0]) + value.Substring(1);
+                }
+                InvokePropertyChanged("MidName");
 			}
 		}
 
@@ -202,9 +209,11 @@ namespace easiplan.domain.Entities
 			set
 			{
                 if (_FirstName == value) return;
-
-                _FirstName = Capitilized(value);
-				InvokePropertyChanged("FirstName");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _FirstName = char.ToUpper(value[0]) + value.Substring(1);
+                }
+                InvokePropertyChanged("FirstName");
 			}
 		}
 
@@ -292,8 +301,8 @@ namespace easiplan.domain.Entities
 			set
 			{
                 if (_BirthPlace == value) return;
-
-                _BirthPlace = Capitilized(value);
+				_BirthPlace = value;
+                //_BirthPlace = Capitilized(value);
 				InvokePropertyChanged("BirthPlace");
 			}
 		}
@@ -381,9 +390,11 @@ namespace easiplan.domain.Entities
 			{
 
                 if (_Occupation == value) return;
-
-                _Occupation = Capitilized(value);
-				InvokePropertyChanged("Occupation");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _Occupation = char.ToUpper(value[0]) + value.Substring(1);
+                }
+                InvokePropertyChanged("Occupation");
 			}
 		}
 
@@ -492,6 +503,7 @@ namespace easiplan.domain.Entities
             base.Initialise(isLoading);
         }
 
+		/*[IgnoreAutoMap]
 		public string Capitilized(String line)
 		{
 			if (!string.IsNullOrEmpty(line))
@@ -499,7 +511,7 @@ namespace easiplan.domain.Entities
 				line = char.ToUpper(line[0]) + line.Substring(1);
 			}
 			return line;
-		}
+		}*/
     public override void Validate(string PropertyName = null)
 		{
 

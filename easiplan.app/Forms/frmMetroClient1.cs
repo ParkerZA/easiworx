@@ -343,10 +343,7 @@ namespace Finx.App.Forms
         #endregion
 
         //Special method
-        private string makeBad(string bot)
-        {
-            return "Lololol";
-        }
+       
 
         #region TabControl Events
         private void MetroTabControl_Main_Selected(object sender, TabControlEventArgs e)
@@ -3117,69 +3114,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private void ClientDetails_propertyChanged_EventHandler(object sender, EventArgs e)
-        {
-
-            try
-            {
-                ClientDetails clDtls= (ClientDetails)sender;
-
-
-                //Below is code to ensure that the first letter of various text fields is capitilised
-
-                //First name
-                if (!string.IsNullOrEmpty(clDtls.FirstName))
-                {
-                    clDtls.FirstName = char.ToUpper(clDtls.FirstName[0]) + clDtls.FirstName.Substring(1);
-                    //this.kgbMemberDetails.Panel.Refresh();
-                }
-
-                //Middle name
-                if (!string.IsNullOrEmpty(clDtls.MidName))
-                {
-                    clDtls.MidName = char.ToUpper(clDtls.MidName[0]) + clDtls.MidName.Substring(1);
-                    //this.kgbMemberDetails.Panel.Refresh();
-                }
-
-                //Last name
-                if (!string.IsNullOrEmpty(clDtls.LastName))
-                {
-                    clDtls.LastName = char.ToUpper(clDtls.LastName[0]) + clDtls.LastName.Substring(1);
-                    //this.kgbMemberDetails.Panel.Refresh();
-                    //clDtls.
-                }
-
-                //Birth place
-                if (!string.IsNullOrEmpty(clDtls.BirthPlace))
-                {
-                    clDtls.BirthPlace = char.ToUpper(clDtls.BirthPlace[0]) + clDtls.BirthPlace.Substring(1);
-                    //this.kgbMemberDetails.Panel.Refresh();
-                }
-
-                //Occupation
-                if (!string.IsNullOrEmpty(clDtls.Occupation))
-                {
-                    clDtls.Occupation = char.ToUpper(clDtls.Occupation[0]) + clDtls.Occupation.Substring(1);
-                }
-               // this.kgbMemberDetails.Panel.Refresh();
-                Console.WriteLine(clDtls.LastName);
-            }
-            catch (Exception x)
-            {
-
-            }
-            finally
-            {
-                //this.dataGrid_PolicyDetails.Refresh();
-                //this.dataGrid_PolicyFunds.Refresh();
-
-                // UpdateToolBar();
-               // this.kgbMemberDetails.Refresh();
-
-            }
-
-
-        }
+        
 
 
         private void RetirementNeed_propertyChanged_EventHandler(object sender, EventArgs e)
