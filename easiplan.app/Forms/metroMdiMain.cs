@@ -116,7 +116,7 @@ namespace Finx.App.Forms
                 }
                 else
                 {
-                    this.BackgroundImage = global::easiplan.app.Properties.Resources.background1;
+                    this.BackgroundImage = global::easiplan.app.Properties.Resources.background2;
                 }
 
                 this.BackgroundImageLayout = ImageLayout.Stretch;
