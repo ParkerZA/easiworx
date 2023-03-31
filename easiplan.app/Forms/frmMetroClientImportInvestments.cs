@@ -562,7 +562,7 @@ namespace Finx.App.Forms
             chkViewErrorRecords.Checked = false;
 
             if (dgvFileContents.DataSource == null) return;
-            
+
             if (chkViewNewRecords.Checked)
             {
                 SetDgvFileContentsDataSource(_csvRecordList);
@@ -1281,7 +1281,13 @@ namespace Finx.App.Forms
                     //dob is a required field
                     if (!string.IsNullOrEmpty(csvRecord.IDNumber) && csvRecord.IDNumber.Length >= 9 && csvRecord.IDNumber.Length <= 13)
                     {
-                        var datePart = csvRecord.IDNumber.Substring(0, 6);
+
+                        dtDob = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)csvRecord.IDNumber.Substring(4, 2), (object)csvRecord.IDNumber.Substring(2, 2), (object)csvRecord.IDNumber.Substring(0, 2)));
+                        if (dtDob.CompareTo(DateTime.Now) > 0)
+                        {
+                            dtDob = dtDob.AddYears(-100);
+                        }
+                        /*var datePart = csvRecord.IDNumber.Substring(0, 6);
                         var year = int.Parse(datePart.Substring(0, 2));
                         var month = int.Parse(datePart.Substring(2, 2));
                         var day = int.Parse(datePart.Substring(4, 2));
@@ -1309,10 +1315,11 @@ namespace Finx.App.Forms
 
                             dob = dtDob.ToString("dd MMM yyyy");
                             //dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
-                        }
-                        
+                        }*/
+
                         //Console.WriteLine("ID: " + csvRecord.IDNumber);
                         //Console.WriteLine("Birthdate: " + dob);
+                        dob = dtDob.ToString("dd MMM yyyy");
 
                     }
 
@@ -1712,7 +1719,7 @@ namespace Finx.App.Forms
                             {
                                 bankName = "Capitec";
                             }
-                            else if (bnkName.Contains("fnb"))
+                            else if (bnkName.Contains("fnb")||bnkName.Contains("first national bank"))
                             {
                                 bankName = "FNB";
                             }
@@ -2193,7 +2200,7 @@ namespace Finx.App.Forms
 
                 Fund newfund = null;
                 
-                List<ICsvRecord> mp = new List<ICsvRecord>(1);
+                List<ICsvRecord> mpFunds = new List<ICsvRecord>(1); //List of all model portfolio funds assigned to this retirement record
 
                 foreach (var fund in funds)
                 {
@@ -2227,9 +2234,10 @@ namespace Finx.App.Forms
                             break;
                     }
 
+                    //If this fund belongs to a model portfolio, then add it to the list and skip this loop iteration
                     if (!string.IsNullOrEmpty(modelPortfolio))
                     {
-                        mp.Add(fund);
+                        mpFunds.Add(fund);
                         continue;
                     }
 
@@ -2306,7 +2314,7 @@ namespace Finx.App.Forms
                     newfund = null;
                 }
                 
-                if (mp.Count > 1)
+                if (mpFunds.Count > 1)
                 {
                     string mpName = "";
                     double mpFundValue=0;
@@ -2316,7 +2324,8 @@ namespace Finx.App.Forms
                     DateTime mpFundValDate= new DateTime(0001, 1, 1);
                     DateTime mpStartDate = new DateTime(0001, 1, 1);
 
-                    foreach (var fund in mp)
+                    //Add together the values of the model portfolio
+                    foreach (var fund in mpFunds)
                     {
                         EasiworxRecord esFund = ((EasiworxRecord)fund);
                         mpName = esFund.ModelPortfolio;
@@ -2329,6 +2338,7 @@ namespace Finx.App.Forms
                         DateTime.TryParse(esFund.InceptionDate, out mpStartDate);
                     }
 
+                    //Create new fund object for the model portfolio
                     var modelPortfolioFund = new Fund()
                     {
                         FundCode = "N/A",
@@ -2359,7 +2369,7 @@ namespace Finx.App.Forms
                     
                         if (retirement.Funds.Count > 0)
                         {
-                        //Check if fund codes are the same indicating that the fund is already present in the list
+                        //Check if model portfolio names are the same indicating that the fund is already present in the list
                         Console.WriteLine("'" + modelPortfolioFund.Description + "'");
                             var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == modelPortfolioFund.Description.Trim().ToLower()).FirstOrDefault();
                             if (existingFund == null)
@@ -2407,16 +2417,12 @@ namespace Finx.App.Forms
                             retirementFunds.Add(modelPortfolioFund);
                             retirement.Funds = retirementFunds;
                             retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
-                            Console.WriteLine("'" + modelPortfolioFund.Description + "'");
-                    }
+                            //Console.WriteLine("'" + modelPortfolioFund.Description + "'");
+                            
+                        }
                     
                     //End
-
-
-
-
-
-                    /*var retirementFunds = retirement.Funds;
+                     /*var retirementFunds = retirement.Funds;
                     retirementFunds.Add(modelPortfolioFund);
                     retirement.Funds = retirementFunds;
                     retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;*/

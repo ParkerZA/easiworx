@@ -15,6 +15,7 @@ using my.domain.lib.core.Validation;
 using System.Linq;
 using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace Finx.App.Models
 {
@@ -33,7 +34,7 @@ namespace Finx.App.Models
         private DateTime _birthday;
         private string _monthlyPremium;
         private string _productType;
-        private string _taxNo;
+        private string _modelPortfolio;
 
         private string _bankName;
         private string _branchName;
@@ -199,7 +200,7 @@ namespace Finx.App.Models
         }
 
 
-        
+
 
 
         //Clients passport number if ID number is absent
@@ -226,7 +227,7 @@ namespace Finx.App.Models
             set;
         }
 
-        
+
 
 
         //Street number of clients postal address
@@ -416,11 +417,11 @@ namespace Finx.App.Models
         [Index(24)]
         public string AccountName
         {
-            get 
-            { 
-                return _accountName; 
+            get
+            {
+                return _accountName;
             }
-            set 
+            set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
@@ -428,7 +429,7 @@ namespace Finx.App.Models
                 }
                 else
                 {
-                    _accountName = Firstname[0] +" "+ Lastname;
+                    _accountName = Firstname[0] + " " + Lastname;
                 }
             }
         }
@@ -518,8 +519,19 @@ namespace Finx.App.Models
         [Index(30)]
         public string ModelPortfolio
         {
-            get;
-            set;
+            get
+            {
+                return _modelPortfolio; 
+            }
+            
+            set
+            {
+                _modelPortfolio= value.Trim();
+                if (_modelPortfolio.StartsWith("(") && _modelPortfolio.EndsWith(")"))
+                {
+                    _modelPortfolio = _modelPortfolio.Substring(1, _modelPortfolio.Length - 2);
+                }
+            }
         }
 
 

@@ -1065,7 +1065,7 @@ namespace Finx.App.Forms
                         columns.For(x => x.NewFundValue, "New Fund Value", new MetroCurrencyEditor(130).ReadOnly(true));
                         columns.For(x => x.FundValueDate, "Last Update", new MetroDateEditor(100).ReadOnly(true));
                     }, PropertyChangedHandler: Fund_propertyChanged_EventHandler,
-                        ItemDeleteEventHandler: Fund_propertyDelete_EventHandler,
+                        ItemDeleteEventHandler: Fund_propertyDelete_EventHandler, 
                         ReadOnly: ReadOnly,
                         AllowDelete: Action == PolicyAction.UpdateInstruction ? false : true,
                         AllowAddNew: Action == PolicyAction.UpdateInstruction ? false : true)

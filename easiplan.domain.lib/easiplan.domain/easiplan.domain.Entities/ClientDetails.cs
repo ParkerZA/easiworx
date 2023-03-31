@@ -158,7 +158,7 @@ namespace easiplan.domain.Entities
 			{
                 if (_Lastname == value) return;
 
-				_Lastname = value;
+				_Lastname = Capitilized(value);
 				InvokePropertyChanged("LastName");
 			}
 		}
@@ -188,7 +188,7 @@ namespace easiplan.domain.Entities
 			{
                 if (_MidName == value) return;
 
-                _MidName = value;
+                _MidName = Capitilized(value);
 				InvokePropertyChanged("MidName");
 			}
 		}
@@ -203,7 +203,7 @@ namespace easiplan.domain.Entities
 			{
                 if (_FirstName == value) return;
 
-                _FirstName = value;
+                _FirstName = Capitilized(value);
 				InvokePropertyChanged("FirstName");
 			}
 		}
@@ -293,7 +293,7 @@ namespace easiplan.domain.Entities
 			{
                 if (_BirthPlace == value) return;
 
-                _BirthPlace = value;
+                _BirthPlace = Capitilized(value);
 				InvokePropertyChanged("BirthPlace");
 			}
 		}
@@ -382,7 +382,7 @@ namespace easiplan.domain.Entities
 
                 if (_Occupation == value) return;
 
-                _Occupation = value;
+                _Occupation = Capitilized(value);
 				InvokePropertyChanged("Occupation");
 			}
 		}
@@ -492,7 +492,15 @@ namespace easiplan.domain.Entities
             base.Initialise(isLoading);
         }
 
-        public override void Validate(string PropertyName = null)
+		public string Capitilized(String line)
+		{
+			if (!string.IsNullOrEmpty(line))
+			{
+				line = char.ToUpper(line[0]) + line.Substring(1);
+			}
+			return line;
+		}
+    public override void Validate(string PropertyName = null)
 		{
 
             if (PropertyName.ToLower() == "identificationno" && !string.IsNullOrEmpty(IdentificationNo))
