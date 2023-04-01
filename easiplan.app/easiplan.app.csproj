@@ -639,6 +639,7 @@
     <Compile Include="Forms\frmMetroPopUpWindow1.Designer.cs">
       <DependentUpon>frmMetroPopUpWindow1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AstuteRecord.cs" />
     <Compile Include="Models\EasiworxRecord.cs" />
     <Compile Include="Models\ClientInvestmentRecordAudit.cs" />
     <Compile Include="Forms\frmClientManagement.cs">

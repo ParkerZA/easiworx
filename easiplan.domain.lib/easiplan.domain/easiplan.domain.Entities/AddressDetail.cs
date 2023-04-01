@@ -1,3 +1,4 @@
+//using easiplan.app.extentions;
 namespace easiplan.domain.Entities
 {
 	public class AddressDetail : BaseEntity<int>

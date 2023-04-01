@@ -2201,7 +2201,7 @@ namespace Finx.App.Forms
                 Fund newfund = null;
                 
                 List<ICsvRecord> mpFunds = new List<ICsvRecord>(1); //List of all model portfolio funds assigned to this retirement record
-
+                Console.WriteLine(mpFunds.Count);
                 foreach (var fund in funds)
                 {
                    
@@ -2318,9 +2318,9 @@ namespace Finx.App.Forms
                 {
                     string mpName = "";
                     double mpFundValue=0;
-                    double mpSplitPerc = 0;
-                    double mpPolicyPremium = 100;
-                    //double mpFundValue = 0;
+                    double mpSplitPerc = 100;
+                    double mpPolicyPremium = 0;
+
                     DateTime mpFundValDate= new DateTime(0001, 1, 1);
                     DateTime mpStartDate = new DateTime(0001, 1, 1);
 
@@ -2330,8 +2330,8 @@ namespace Finx.App.Forms
                         EasiworxRecord esFund = ((EasiworxRecord)fund);
                         mpName = esFund.ModelPortfolio;
                         mpFundValue += esFund.FundValue.AsDouble();
-                        mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
-                        //mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+                        //mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
+                        mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
 
                         if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
                         DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);
