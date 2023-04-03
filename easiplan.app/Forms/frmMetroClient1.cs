@@ -2493,7 +2493,7 @@ namespace Finx.App.Forms
                             columns.For(x => x.StartDate, "Inception Dt", new DateEditor(true));
                             columns.For(x => x.InitialAmount, "Deposit", new CurrencyEditor(true));
                             columns.For(x => x.WithdrawalAmount, "Withdrawal", new CurrencyEditor(true));
-                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(true));
+                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(_readOnly));
                             columns.For(x => x.MonthlyContribution, "Premium", new CurrencyEditor(true));
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));

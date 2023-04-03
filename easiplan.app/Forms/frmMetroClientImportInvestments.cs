@@ -1498,7 +1498,9 @@ namespace Finx.App.Forms
                         BrnchCode = "",
                         AcctNumber = "",
                         AcctType = "",
-                        AcctName = accName
+                        AcctName = accName,
+                        CreateDate = DateTime.Now,
+                        UpdateBy = UpdateBy
                     };
 
                     if (!string.IsNullOrEmpty(dob))
@@ -2054,10 +2056,9 @@ namespace Finx.App.Forms
 
                     foreach (var batchedClientInvestment in batchedClientInvestments)
                     {
-                        if (!parallelOptions.CancellationToken.IsCancellationRequested)
-                        {
+                        
                             var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow);
-                        }
+                        
                     }
                     //frmCsvImportProgressWindow.End();
                 }
