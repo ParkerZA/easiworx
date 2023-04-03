@@ -780,9 +780,21 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["AccountFundAllocation"].Visible = true;
                     dgvFileContents.Columns["ClientNo"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
+ 
+                    break;
 
-                    
-                    
+                case "astutetemplate":
+                    dgvFileContents.DataSource = csvRecords.Cast<AstuteRecord>().ToList();
+
+                    dgvFileContents.Columns["Product"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = true;
+                    dgvFileContents.Columns["Title"].Visible = false;
+                    dgvFileContents.Columns["Lastname"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = false;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["AccountFundAllocation"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = false;
+                    dgvFileContents.Columns["Premium"].Visible = false;
                     break;
                 default:
                     MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
@@ -2493,8 +2505,12 @@ namespace Finx.App.Forms
                 case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
                     
+                    break;
+                case "astutetemplate":
+                    insured = soughtClient is null ? ((AstuteRecord)csvRecord).Firstname : soughtClient.FirstName;
 
                     break;
+
                 default:
                     throw new ApplicationException("Invalid Lisp!");
             }
@@ -2577,6 +2593,9 @@ namespace Finx.App.Forms
                     dblMonthlyPremium = ((EasiworxRecord)csvRecord).MonthlyPremium.AsDouble();
                     modelPortfolio = ((EasiworxRecord)csvRecord).ModelPortfolio;
                     break;
+                case "ASTUTETEMPLATE":
+                    DateTime.TryParse(((AstuteRecord)csvRecord).InceptionDate, out fundStartDate);
+                    break;
 
             }
 
@@ -2585,7 +2604,7 @@ namespace Finx.App.Forms
             //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
             //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
             //Program.Logger.Info("TT checking the funds details on Catherines machine End");
-           
+
 
             var fund = new Fund()
             {

@@ -152,7 +152,7 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Lastname;
+				return _Lastname.InitCaps();
 			}
 			set
 			{
