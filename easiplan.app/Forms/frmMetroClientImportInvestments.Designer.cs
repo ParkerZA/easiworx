@@ -548,6 +548,7 @@ namespace Finx.App.Forms
             this.cmbSelectLisp.ItemHeight = 24;
             this.cmbSelectLisp.Items.AddRange(new object[] {
             "Please select",
+            "AstuteTemplate",
             "AllanGray",
             "Camissa",
             "EasiworxTemplate",
