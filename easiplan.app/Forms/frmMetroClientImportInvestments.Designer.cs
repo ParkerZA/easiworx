@@ -548,11 +548,12 @@ namespace Finx.App.Forms
             this.cmbSelectLisp.ItemHeight = 24;
             this.cmbSelectLisp.Items.AddRange(new object[] {
             "Please select",
-            "AstuteTemplate",
-            "AllanGray",
-            "Camissa",
-            "EasiworxTemplate",
-            "Momentum"});
+            "AstuteTemplate", //LISP files hidden until further notice
+            //"AllanGray",
+            //"Camissa",
+            "EasiworxTemplate" });
+            //,
+            //"Momentum"});
             this.cmbSelectLisp.Location = new System.Drawing.Point(55, 12);
             this.cmbSelectLisp.Margin = new System.Windows.Forms.Padding(4);
             this.cmbSelectLisp.Name = "cmbSelectLisp";
