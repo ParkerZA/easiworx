@@ -80,7 +80,7 @@ namespace Finx.App.Models
             }
             set
             {
-                if (value.Contains(","))
+                /*if (value.Contains(","))
                 {
 
                     var fullnames = value.Split(',');
@@ -96,7 +96,8 @@ namespace Finx.App.Models
                 else
                     _firstname = value.InitCaps();
 
-                _firstname = _firstname.InitCaps();
+                _firstname = _firstname.InitCaps();*/
+                _firstname = value.InitCaps();
 
             }
         }
@@ -112,7 +113,7 @@ namespace Finx.App.Models
             }
             set
             {
-                _lastname = _lastname.InitCaps();
+                _lastname = value.InitCaps();
             }
         }
 
@@ -134,7 +135,7 @@ namespace Finx.App.Models
             }
         }
 
-
+        [Optional]
         public string PassportNo
         {
             get;
@@ -235,9 +236,10 @@ namespace Finx.App.Models
                     var strdt = "";
 
 
-                    var day = int.Parse(temp.Substring(0, 2));
-                    var month = int.Parse(temp.Substring(2, 2));
-                    var year = int.Parse(temp.Substring(4, 4));
+                    var year = int.Parse(temp.Substring(0, 4));
+                    var month = int.Parse(temp.Substring(4, 2));
+
+                    var day = int.Parse(temp.Substring(6, 2));
 
                     strdt = year + "-" + month + "-" + day;
 
@@ -380,10 +382,9 @@ namespace Finx.App.Models
 
 
 
-        /*
+        
         //Split percentage for fund amounts
         [Optional]
-        [Index(32)]
         public string AccountFundAllocation
         {
             get
@@ -396,7 +397,7 @@ namespace Finx.App.Models
                 _fundAllocationPercentage = _fundAllocationPercentage.Replace(",", ".");
             }
         }
-
+        /*
 
         //Monthly Debit Order Premium
         [Optional]

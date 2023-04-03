@@ -786,6 +786,7 @@ namespace Finx.App.Forms
                 case "astutetemplate":
                     dgvFileContents.DataSource = csvRecords.Cast<AstuteRecord>().ToList();
 
+                    dgvFileContents.Columns["PassportNo"].Visible=false;
                     dgvFileContents.Columns["Product"].Visible = false;
                     dgvFileContents.Columns["ProductType"].Visible = true;
                     dgvFileContents.Columns["Title"].Visible = false;
@@ -1398,6 +1399,20 @@ namespace Finx.App.Forms
   
 
                             break;
+
+                        case "astutetemplate":
+                            //Nb! no dob field provided in csv file, therefor clients with passport nos wont get added to easiworx as dob is a required field
+                            if (string.IsNullOrEmpty(dob))
+                                return null;
+
+                            var astuteRecord = csvRecord as AstuteRecord;
+
+                            firstname = astuteRecord.Firstname.Trim();
+                            lastname = astuteRecord.Lastname.Trim();
+
+
+                            break;
+
                         case "easiworx":
                         case "easiworxtemplate":
                             
@@ -1657,6 +1672,12 @@ namespace Finx.App.Forms
 
 
                             var momentumTabRecord = csvRecord as MomentumRecord_TabDelimited;
+
+                            break;
+                        case "astutetemplate":
+
+
+                            var astuteRecord = csvRecord as AstuteRecord;
 
                             break;
 
@@ -1933,6 +1954,10 @@ namespace Finx.App.Forms
                 csvHelperConfiguration.Delimiter = _detectedFileDelimiter;
 
 
+                if (_selectedLisp.ToLower().Contains("astute"))
+                {
+                    _csvRecordList = CsvFileHelper.GetRecords<AstuteRecord>(filepath, csvHelperConfiguration);
+                }
                 if (_selectedLisp.ToLower().Contains("camissa"))
                 {
                     _csvRecordList = CsvFileHelper.GetRecords<CamissaRecord>(filepath, csvHelperConfiguration);
@@ -2243,6 +2268,10 @@ namespace Finx.App.Forms
                         case "mtab":
                            // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
                             fundAllocPerc = ((MomentumRecord_TabDelimited)fund).AccountFundAllocation.AsDouble();
+                            break;
+                        case "astutetemplate":
+                            // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
+                            fundAllocPerc = ((AstuteRecord)fund).AccountFundAllocation.AsDouble();
                             break;
                     }
 
@@ -2688,6 +2717,9 @@ namespace Finx.App.Forms
                 if (_selectedLisp.ToLower().Contains("allan"))
                     fileName += "AllanGray_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
+                if (_selectedLisp.ToLower().Contains("astute"))
+                    fileName += "Astute_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
+
                 if (_selectedLisp.ToLower().Contains("atwork"))
                     fileName += "AtWork_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
@@ -3009,8 +3041,10 @@ namespace Finx.App.Forms
                 idno = idNoCell.Value.ToString();
 
                 ppNoCell = dgvFileContents.Rows[RowIndex].Cells["PassportNo"];
-                ppno = ppNoCell.Value.ToString();
-
+                if (ppNoCell.Value!= null)
+                {
+                    ppno = ppNoCell.Value.ToString();
+                }
 
                 if (string.IsNullOrEmpty(idno) && !(string.IsNullOrEmpty(ppno)))
                 {
