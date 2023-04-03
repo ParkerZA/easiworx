@@ -16,6 +16,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
 using DocumentFormat.OpenXml.EMMA;
+using my.domain.lib.core.Extensions;
 
 namespace Finx.App.Models
 {
@@ -59,12 +60,12 @@ namespace Finx.App.Models
         {
             get
             {
-                return _lastname;
+                return _lastname.InitCaps();
             }
             set
             {
                 _lastname = value.ToLower().Trim();
-                _lastname = _lastname.FormatEasiworxString();
+                _lastname = _lastname.InitCaps();
             }
         }
 
@@ -75,7 +76,7 @@ namespace Finx.App.Models
         {
             get
             {
-                return _firstname;
+                return _firstname.InitCaps();
             }
             set
             {
@@ -87,15 +88,15 @@ namespace Finx.App.Models
                     {
                         _firstname = fullnames[1].Replace("\"", string.Empty);
                         this.Lastname = fullnames[0].Replace("\"", string.Empty);
-                        this.Lastname = this.Lastname.FormatEasiworxString();
+                        this.Lastname = this.Lastname.InitCaps();
                     }
                     else
-                        _firstname = value.FormatEasiworxString();
+                        _firstname = value.InitCaps();
                 }
                 else
-                    _firstname = value.FormatEasiworxString();
+                    _firstname = value.InitCaps();
 
-                _firstname = _firstname.FormatEasiworxString();
+                _firstname = _firstname.InitCaps();
 
             }
         }
@@ -107,12 +108,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _lastname;
+                return _lastname.InitCaps();
             }
             set
             {
-                _lastname = value.ToLower().Trim();
-                _lastname = _lastname.FormatEasiworxString();
+                _lastname = _lastname.InitCaps();
             }
         }
 
@@ -193,7 +193,7 @@ namespace Finx.App.Models
                 }
                 else
                 {
-                    _productType = value.FormatEasiworxString();
+                    _productType = value.InitCaps();
                 }
             }
         }

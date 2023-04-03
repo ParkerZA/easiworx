@@ -16,6 +16,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
 using DocumentFormat.OpenXml.EMMA;
+using my.domain.lib.core.Extensions;
 
 namespace Finx.App.Models
 {
@@ -78,15 +79,15 @@ namespace Finx.App.Models
                     {
                         _firstname = fullnames[1].Replace("\"", string.Empty);
                         this.Lastname = fullnames[0].Replace("\"", string.Empty);
-                        this.Lastname = this.Lastname.FormatEasiworxString();
+                        this.Lastname = this.Lastname.InitCaps();
                     }
                     else
-                        _firstname = value.FormatEasiworxString();
+                        _firstname = value.InitCaps();
                 }
                 else
-                    _firstname = value.FormatEasiworxString();
+                    _firstname = value.InitCaps();
 
-                _firstname = _firstname.FormatEasiworxString();
+                _firstname = _firstname.InitCaps();
 
             }
         }
@@ -98,12 +99,12 @@ namespace Finx.App.Models
         {
             get
             {
-                return _lastname;
+                return _lastname.InitCaps();
             }
             set
             {
                 _lastname = value.ToLower().Trim();
-                _lastname = _lastname.FormatEasiworxString();
+                _lastname = _lastname.InitCaps();
             }
         }
 
@@ -244,11 +245,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _postalAddressStreetNo;
+                return _postalAddressStreetNo.InitCaps();
             }
             set
             {
-                _postalAddressStreetNo = value.FormatEasiworxString();
+                _postalAddressStreetNo = value.InitCaps();
             }
         }
 
@@ -260,11 +261,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _postalAddress;
+                return _postalAddress.InitCaps();
             }
             set 
             {
-                _postalAddress = value.FormatEasiworxString();
+                _postalAddress = value.InitCaps();
             }
         }
 
@@ -276,11 +277,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _postalAddressSuburb;
+                return _postalAddressSuburb.InitCaps();
             }
             set
             {
-                _postalAddressSuburb = value.FormatEasiworxString();
+                _postalAddressSuburb = value.InitCaps();
             }
         }
 
@@ -302,11 +303,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _physicalAddressStreetNo;
+                return _physicalAddressStreetNo.InitCaps();
             }
             set
             {
-                _physicalAddressStreetNo = value.FormatEasiworxString();
+                _physicalAddressStreetNo = value.InitCaps();
             }
         }
 
@@ -317,11 +318,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _physicalAddress;
+                return _physicalAddress.InitCaps();
             }
             set
             {
-                _physicalAddress = value.FormatEasiworxString();
+                _physicalAddress = value.InitCaps();
             }
         }
 
@@ -333,11 +334,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _physicalAddressSuburb;
+                return _physicalAddressSuburb.InitCaps();
             }
             set
             {
-                _physicalAddressSuburb = value.FormatEasiworxString();
+                _physicalAddressSuburb = value.InitCaps();
             }
         }
 
@@ -398,11 +399,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _bankName;
+                return _bankName.InitCaps();
             }
             set
             {
-                _bankName = value.FormatEasiworxString();
+                _bankName = value.InitCaps();
                 //_bankName = CapitalizeSentence(_bankName);
             }
         }
@@ -415,11 +416,11 @@ namespace Finx.App.Models
         {
             get
             {
-                return _branchName;
+                return _branchName.InitCaps();
             }
             set
             {
-                _branchName = value.FormatEasiworxString();
+                _branchName = value.InitCaps();
                 //_branchName = CapitalizeSentence(_branchName);
             }
         }
