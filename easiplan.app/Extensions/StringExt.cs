@@ -12,7 +12,10 @@ namespace easiplan.app.Extensions
 {
     internal static class StringExt
     {
-    internal static double AsDouble(this string str)    {
+
+        //Method to convert string to double
+        internal static double AsDouble(this string str)    
+        {
 
             if (string.IsNullOrEmpty(str)) return 0.0d;
 
@@ -24,7 +27,9 @@ namespace easiplan.app.Extensions
             Match m = Regex.Match(str, @"[0-9]+(\.[0-9]+)?");
             double number = Convert.ToDouble(m.Value, CultureInfo.InvariantCulture);
             return number;
-    }
+        }
+
+
 
         internal static T FromJson<T>(this string content)
         {

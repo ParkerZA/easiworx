@@ -15,6 +15,8 @@ using my.domain.lib.core.Validation;
 using System.Linq;
 using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
+using DocumentFormat.OpenXml.EMMA;
+using my.domain.lib.core.Extensions;
 
 namespace Finx.App.Models
 {
@@ -33,7 +35,7 @@ namespace Finx.App.Models
         private DateTime _birthday;
         private string _monthlyPremium;
         private string _productType;
-        private string _taxNo;
+        private string _modelPortfolio;
 
         private string _bankName;
         private string _branchName;
@@ -41,6 +43,13 @@ namespace Finx.App.Models
         private string _bankAccNo;
         private string _bankAccType;
 
+        private string _postalAddressStreetNo;
+        private string _postalAddress;
+        private string _postalAddressSuburb;
+
+        private string _physicalAddressStreetNo;
+        private string _physicalAddress;
+        private string _physicalAddressSuburb;
 
 
         //Sets row number as displayed on import screen
@@ -68,17 +77,17 @@ namespace Finx.App.Models
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[1].Replace("\"", string.Empty).Trim().ToLower();
-                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim().ToLower();
-                        this.Lastname = CapitalizeSentence(this.Lastname);
+                        _firstname = fullnames[1].Replace("\"", string.Empty);
+                        this.Lastname = fullnames[0].Replace("\"", string.Empty);
+                        this.Lastname = this.Lastname.InitCaps();
                     }
                     else
-                        _firstname = value.ToLower().Trim();
+                        _firstname = value.InitCaps();
                 }
                 else
-                    _firstname = value.ToLower().Trim();
+                    _firstname = value.InitCaps();
 
-                _firstname = CapitalizeSentence(_firstname);
+                _firstname = _firstname.InitCaps();
 
             }
         }
@@ -90,16 +99,16 @@ namespace Finx.App.Models
         {
             get
             {
-                return _lastname;
+                return _lastname.InitCaps();
             }
             set
             {
                 _lastname = value.ToLower().Trim();
-                _lastname = CapitalizeSentence(_lastname);
+                _lastname = _lastname.InitCaps();
             }
         }
 
-
+        /*
         //Method to format string names
 
         public static string CapitalizeSentence(string sentence)
@@ -117,7 +126,7 @@ namespace Finx.App.Models
             }
             return string.Join(" ", words);
         }
-
+        */
 
         //Clients date of birth
         [Index(2)]
@@ -199,7 +208,7 @@ namespace Finx.App.Models
         }
 
 
-        
+
 
 
         //Clients passport number if ID number is absent
@@ -226,7 +235,7 @@ namespace Finx.App.Models
             set;
         }
 
-        
+
 
 
         //Street number of clients postal address
@@ -234,8 +243,14 @@ namespace Finx.App.Models
         [Index(7)]
         public string PostalAddressStreetNo
         {
-            get;
-            set;
+            get
+            {
+                return _postalAddressStreetNo.InitCaps();
+            }
+            set
+            {
+                _postalAddressStreetNo = value.InitCaps();
+            }
         }
 
 
@@ -244,8 +259,14 @@ namespace Finx.App.Models
         [Index(8)]
         public string PostalAddress
         {
-            get;
-            set;
+            get
+            {
+                return _postalAddress.InitCaps();
+            }
+            set 
+            {
+                _postalAddress = value.InitCaps();
+            }
         }
 
 
@@ -254,8 +275,14 @@ namespace Finx.App.Models
         [Index(9)]
         public string PostalSuburb
         {
-            get;
-            set;
+            get
+            {
+                return _postalAddressSuburb.InitCaps();
+            }
+            set
+            {
+                _postalAddressSuburb = value.InitCaps();
+            }
         }
 
 
@@ -274,18 +301,29 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressStreetNo
         {
-            get;
-            set;
+            get
+            {
+                return _physicalAddressStreetNo.InitCaps();
+            }
+            set
+            {
+                _physicalAddressStreetNo = value.InitCaps();
+            }
         }
-
 
         //Road name for clients home address
         [Index(12)]
         [Optional]
         public string PhysicalAddress
         {
-            get;
-            set;
+            get
+            {
+                return _physicalAddress.InitCaps();
+            }
+            set
+            {
+                _physicalAddress = value.InitCaps();
+            }
         }
 
 
@@ -294,8 +332,14 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressSuburb
         {
-            get;
-            set;
+            get
+            {
+                return _physicalAddressSuburb.InitCaps();
+            }
+            set
+            {
+                _physicalAddressSuburb = value.InitCaps();
+            }
         }
 
 
@@ -355,12 +399,12 @@ namespace Finx.App.Models
         {
             get
             {
-                return _bankName;
+                return _bankName.InitCaps();
             }
             set
             {
-                _bankName = value.ToLower().Trim();
-                _bankName = CapitalizeSentence(_bankName);
+                _bankName = value.InitCaps();
+                //_bankName = CapitalizeSentence(_bankName);
             }
         }
 
@@ -372,12 +416,12 @@ namespace Finx.App.Models
         {
             get
             {
-                return _branchName;
+                return _branchName.InitCaps();
             }
             set
             {
-                _branchName = value.ToLower().Trim();
-                _branchName = CapitalizeSentence(_branchName);
+                _branchName = value.InitCaps();
+                //_branchName = CapitalizeSentence(_branchName);
             }
         }
 
@@ -416,11 +460,11 @@ namespace Finx.App.Models
         [Index(24)]
         public string AccountName
         {
-            get 
-            { 
-                return _accountName; 
+            get
+            {
+                return _accountName;
             }
-            set 
+            set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
@@ -428,7 +472,7 @@ namespace Finx.App.Models
                 }
                 else
                 {
-                    _accountName = Firstname[0] +" "+ Lastname;
+                    _accountName = Firstname[0] + " " + Lastname;
                 }
             }
         }
@@ -518,8 +562,19 @@ namespace Finx.App.Models
         [Index(30)]
         public string ModelPortfolio
         {
-            get;
-            set;
+            get
+            {
+                return _modelPortfolio; 
+            }
+            
+            set
+            {
+                _modelPortfolio= value.Trim();
+                if (_modelPortfolio.StartsWith("(") && _modelPortfolio.EndsWith(")"))
+                {
+                    _modelPortfolio = _modelPortfolio.Substring(1, _modelPortfolio.Length - 2);
+                }
+            }
         }
 
 

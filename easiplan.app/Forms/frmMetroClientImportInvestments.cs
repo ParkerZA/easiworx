@@ -563,7 +563,7 @@ namespace Finx.App.Forms
             chkViewErrorRecords.Checked = false;
 
             if (dgvFileContents.DataSource == null) return;
-            
+
             if (chkViewNewRecords.Checked)
             {
                 SetDgvFileContentsDataSource(_csvRecordList);
@@ -781,9 +781,21 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["AccountFundAllocation"].Visible = true;
                     dgvFileContents.Columns["ClientNo"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
+ 
+                    break;
 
-                    
-                    
+                case "astutetemplate":
+                    dgvFileContents.DataSource = csvRecords.Cast<AstuteRecord>().ToList();
+
+                    dgvFileContents.Columns["Product"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = true;
+                    dgvFileContents.Columns["Title"].Visible = false;
+                    dgvFileContents.Columns["Lastname"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = false;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["AccountFundAllocation"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = false;
+                    dgvFileContents.Columns["Premium"].Visible = false;
                     break;
                 default:
                     MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
@@ -1282,7 +1294,13 @@ namespace Finx.App.Forms
                     //dob is a required field
                     if (!string.IsNullOrEmpty(csvRecord.IDNumber) && csvRecord.IDNumber.Length >= 9 && csvRecord.IDNumber.Length <= 13)
                     {
-                        var datePart = csvRecord.IDNumber.Substring(0, 6);
+
+                        dtDob = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)csvRecord.IDNumber.Substring(4, 2), (object)csvRecord.IDNumber.Substring(2, 2), (object)csvRecord.IDNumber.Substring(0, 2)));
+                        if (dtDob.CompareTo(DateTime.Now) > 0)
+                        {
+                            dtDob = dtDob.AddYears(-100);
+                        }
+                        /*var datePart = csvRecord.IDNumber.Substring(0, 6);
                         var year = int.Parse(datePart.Substring(0, 2));
                         var month = int.Parse(datePart.Substring(2, 2));
                         var day = int.Parse(datePart.Substring(4, 2));
@@ -1310,10 +1328,11 @@ namespace Finx.App.Forms
 
                             dob = dtDob.ToString("dd MMM yyyy");
                             //dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
-                        }
-                        
+                        }*/
+
                         //Console.WriteLine("ID: " + csvRecord.IDNumber);
                         //Console.WriteLine("Birthdate: " + dob);
+                        dob = dtDob.ToString("dd MMM yyyy");
 
                     }
 
@@ -1713,7 +1732,7 @@ namespace Finx.App.Forms
                             {
                                 bankName = "Capitec";
                             }
-                            else if (bnkName.Contains("fnb"))
+                            else if (bnkName.Contains("fnb")||bnkName.Contains("first national bank"))
                             {
                                 bankName = "FNB";
                             }
@@ -2188,13 +2207,14 @@ namespace Finx.App.Forms
             try
             {
 
+
                 if (retirement.Funds == null)
                     retirement.Funds = new List<Fund>(1);
 
                 Fund newfund = null;
                 
-                List<ICsvRecord> mp = new List<ICsvRecord>(1);
-
+                List<ICsvRecord> mpFunds = new List<ICsvRecord>(1); //List of all model portfolio funds assigned to this retirement record
+                Console.WriteLine(mpFunds.Count);
                 foreach (var fund in funds)
                 {
                    
@@ -2227,9 +2247,10 @@ namespace Finx.App.Forms
                             break;
                     }
 
+                    //If this fund belongs to a model portfolio, then add it to the list and skip this loop iteration
                     if (!string.IsNullOrEmpty(modelPortfolio))
                     {
-                        mp.Add(fund);
+                        mpFunds.Add(fund);
                         continue;
                     }
 
@@ -2306,29 +2327,31 @@ namespace Finx.App.Forms
                     newfund = null;
                 }
                 
-                if (mp.Count > 1)
+                if (mpFunds.Count > 1)
                 {
                     string mpName = "";
                     double mpFundValue=0;
-                    double mpSplitPerc = 0;
-                    double mpPolicyPremium = 100;
-                    //double mpFundValue = 0;
+                    double mpSplitPerc = 100;
+                    double mpPolicyPremium = 0;
+
                     DateTime mpFundValDate= new DateTime(0001, 1, 1);
                     DateTime mpStartDate = new DateTime(0001, 1, 1);
 
-                    foreach (var fund in mp)
+                    //Add together the values of the model portfolio
+                    foreach (var fund in mpFunds)
                     {
                         EasiworxRecord esFund = ((EasiworxRecord)fund);
                         mpName = esFund.ModelPortfolio;
                         mpFundValue += esFund.FundValue.AsDouble();
-                        mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
-                        //mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+                        //mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
+                        mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
 
                         if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
                         DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);
                         DateTime.TryParse(esFund.InceptionDate, out mpStartDate);
                     }
 
+                    //Create new fund object for the model portfolio
                     var modelPortfolioFund = new Fund()
                     {
                         FundCode = "N/A",
@@ -2359,7 +2382,8 @@ namespace Finx.App.Forms
                     
                         if (retirement.Funds.Count > 0)
                         {
-                            //Check if fund codes are the same indicating that the fund is already present in the list
+                        //Check if model portfolio names are the same indicating that the fund is already present in the list
+                        Console.WriteLine("'" + modelPortfolioFund.Description + "'");
                             var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == modelPortfolioFund.Description.Trim().ToLower()).FirstOrDefault();
                             if (existingFund == null)
                             {
@@ -2406,15 +2430,12 @@ namespace Finx.App.Forms
                             retirementFunds.Add(modelPortfolioFund);
                             retirement.Funds = retirementFunds;
                             retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                            //Console.WriteLine("'" + modelPortfolioFund.Description + "'");
+                            
                         }
                     
                     //End
-
-
-
-
-
-                    /*var retirementFunds = retirement.Funds;
+                     /*var retirementFunds = retirement.Funds;
                     retirementFunds.Add(modelPortfolioFund);
                     retirement.Funds = retirementFunds;
                     retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;*/
@@ -2485,8 +2506,12 @@ namespace Finx.App.Forms
                 case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
                     
+                    break;
+                case "astutetemplate":
+                    insured = soughtClient is null ? ((AstuteRecord)csvRecord).Firstname : soughtClient.FirstName;
 
                     break;
+
                 default:
                     throw new ApplicationException("Invalid Lisp!");
             }
@@ -2569,6 +2594,9 @@ namespace Finx.App.Forms
                     dblMonthlyPremium = ((EasiworxRecord)csvRecord).MonthlyPremium.AsDouble();
                     modelPortfolio = ((EasiworxRecord)csvRecord).ModelPortfolio;
                     break;
+                case "ASTUTETEMPLATE":
+                    DateTime.TryParse(((AstuteRecord)csvRecord).InceptionDate, out fundStartDate);
+                    break;
 
             }
 
@@ -2577,7 +2605,7 @@ namespace Finx.App.Forms
             //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
             //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
             //Program.Logger.Info("TT checking the funds details on Catherines machine End");
-           
+
 
             var fund = new Fund()
             {
