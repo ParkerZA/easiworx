@@ -696,12 +696,14 @@ namespace Finx.App.Forms
                         System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(SendEmailAsync), progress);
                         progress.ShowDialog(this);
                         progress.Close();
-
+                       
                         //Update Instruction List
                         UpdateInstructionList();
 
                         //reset checked client list
                         this.objectListView1.CheckedObjects = null;
+
+                        MessageBoxExt.ShowInformation("Emails have been sent");
                     }
 
                 }
@@ -1008,6 +1010,11 @@ namespace Finx.App.Forms
         #region Delete Clients
 
         #endregion
+
+        private void tsbSendEmailNow_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

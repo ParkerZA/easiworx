@@ -160,7 +160,7 @@ namespace easiplan.domain.Entities
 
 				_Lastname = value.InitCaps();
 
-				InvokePropertyChanged("LastName");
+                InvokePropertyChanged("LastName");
 			}
 		}
 
@@ -183,14 +183,15 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _MidName;
+				return _MidName.InitCaps();
 			}
 			set
 			{
                 if (_MidName == value) return;
-
-                _MidName = value;
-				InvokePropertyChanged("MidName");
+                
+                _MidName = value.InitCaps();
+                
+                InvokePropertyChanged("MidName");
 			}
 		}
 
@@ -198,14 +199,15 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _FirstName;
+				return _FirstName.InitCaps();
 			}
 			set
 			{
                 if (_FirstName == value) return;
 
-                _FirstName = value;
-				InvokePropertyChanged("FirstName");
+				_FirstName = value.InitCaps();
+                
+                InvokePropertyChanged("FirstName");
 			}
 		}
 
@@ -273,13 +275,13 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Nationality;
+				return _Nationality.InitCaps();
 			}
 			set
 			{
                 if (_Nationality == value) return;
 
-                _Nationality = value;
+                _Nationality = value.InitCaps();
 				InvokePropertyChanged("Nationality");
 			}
 		}
@@ -288,13 +290,12 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _BirthPlace;
+				return _BirthPlace.InitCaps();
 			}
 			set
 			{
                 if (_BirthPlace == value) return;
-
-                _BirthPlace = value;
+				_BirthPlace = value.InitCaps();
 				InvokePropertyChanged("BirthPlace");
 			}
 		}
@@ -376,15 +377,16 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Occupation;
+				return _Occupation.InitCaps();
 			}
 			set
 			{
 
                 if (_Occupation == value) return;
-
-                _Occupation = value;
-				InvokePropertyChanged("Occupation");
+                
+                _Occupation = value.InitCaps();
+                
+                InvokePropertyChanged("Occupation");
 			}
 		}
 
@@ -493,7 +495,16 @@ namespace easiplan.domain.Entities
             base.Initialise(isLoading);
         }
 
-        public override void Validate(string PropertyName = null)
+		/*[IgnoreAutoMap]
+		public string Capitilized(String line)
+		{
+			if (!string.IsNullOrEmpty(line))
+			{
+				line = char.ToUpper(line[0]) + line.Substring(1);
+			}
+			return line;
+		}*/
+    public override void Validate(string PropertyName = null)
 		{
 
             if (PropertyName.ToLower() == "identificationno" && !string.IsNullOrEmpty(IdentificationNo))

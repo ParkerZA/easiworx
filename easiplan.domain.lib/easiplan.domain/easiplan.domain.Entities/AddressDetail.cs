@@ -1,3 +1,6 @@
+//using easiplan.app.extentions;
+using my.domain.lib.core.Extensions;
+
 namespace easiplan.domain.Entities
 {
 	public class AddressDetail : BaseEntity<int>
@@ -46,11 +49,11 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Line1;
+				return _Line1.InitCaps();
 			}
 			set
 			{
-				_Line1 = value;
+				_Line1 = value.InitCaps();
 				InvokePropertyChanged("Line1");
 			}
 		}
@@ -59,11 +62,11 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Line2;
+				return _Line2.InitCaps();
 			}
 			set
 			{
-				_Line2 = value;
+				_Line2 = value.InitCaps();
 				InvokePropertyChanged("Line2");
 			}
 		}
@@ -72,11 +75,11 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Line3;
+				return _Line3.InitCaps();
 			}
 			set
 			{
-				_Line3 = value;
+				_Line3 = value.InitCaps();
 				InvokePropertyChanged("Line3");
 			}
 		}
@@ -85,11 +88,11 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Line4;
+				return _Line4.InitCaps();
 			}
 			set
 			{
-				_Line4 = value;
+				_Line4 = value.InitCaps();
 				InvokePropertyChanged("Line4");
 			}
 		}

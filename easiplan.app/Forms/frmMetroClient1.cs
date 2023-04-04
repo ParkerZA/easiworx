@@ -342,6 +342,9 @@ namespace Finx.App.Forms
         }
         #endregion
 
+        //Special method
+       
+
         #region TabControl Events
         private void MetroTabControl_Main_Selected(object sender, TabControlEventArgs e)
         {
@@ -2212,29 +2215,29 @@ namespace Finx.App.Forms
             try
             {
                 if (!(e.PropertyDescriptor == null))
+                { 
+                if (e.PropertyDescriptor.Name == "DependentName")
                 {
-                    if (e.PropertyDescriptor.Name == "DependentName")
+                    DevAge.ComponentModel.BoundList<Education> _bList = sender as DevAge.ComponentModel.BoundList<Education>;
+                    Education mObj = _bList.EditedObject as Education;
+
+                    var _Obj = client.Beneficiaries.Where(x => x.DependentName == mObj.DependentName).FirstOrDefault();
+                    if (_Obj != null)
                     {
-                        DevAge.ComponentModel.BoundList<Education> _bList = sender as DevAge.ComponentModel.BoundList<Education>;
-                        Education mObj = _bList.EditedObject as Education;
-
-                        var _Obj = client.Beneficiaries.Where(x => x.DependentName == mObj.DependentName).FirstOrDefault();
-                        if (_Obj != null)
-                        {
-                            mObj.DependentDOB = _Obj.BirthDate;
-                            mObj.CurrentAge = _Obj._Age;
-                        }
-                        //Calculate the fund policy
-                        if (dataGrid_PolicyFunds.Tag != null)
-                        {
-                            BaseEntity<int> entity = dataGrid_PolicyFunds.Tag as BaseEntity<int>;
-                            if (entity != null)
-                            {
-                                entity.Calculate();
-                            }
-
-                        }
+                        mObj.DependentDOB = _Obj.BirthDate;
+                        mObj.CurrentAge = _Obj._Age;
                     }
+                    //Calculate the fund policy
+                    if (dataGrid_PolicyFunds.Tag != null)
+                    {
+                        BaseEntity<int> entity = dataGrid_PolicyFunds.Tag as BaseEntity<int>;
+                        if (entity != null)
+                        {
+                            entity.Calculate();
+                        }
+
+                    }
+                }
                 }
             }
             catch (Exception x)
@@ -2490,7 +2493,7 @@ namespace Finx.App.Forms
                             columns.For(x => x.StartDate, "Inception Dt", new DateEditor(true));
                             columns.For(x => x.InitialAmount, "Deposit", new CurrencyEditor(true));
                             columns.For(x => x.WithdrawalAmount, "Withdrawal", new CurrencyEditor(true));
-                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(true));
+                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(_readOnly));
                             columns.For(x => x.MonthlyContribution, "Premium", new CurrencyEditor(true));
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));
@@ -3110,6 +3113,9 @@ namespace Finx.App.Forms
             {
             }
         }
+
+        
+
 
         private void RetirementNeed_propertyChanged_EventHandler(object sender, EventArgs e)
         {
