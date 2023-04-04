@@ -114,5 +114,10 @@ namespace Finx.App.Forms
 
         }
 
+        private void btnClearImage_Click(object sender, EventArgs e)
+        {
+            RegistryWrapper.WriteRegistry(Global.RegistryKey, "BackgroundImage", "");
+            htmlPanel_BackgroundImg.BackgroundImage = null;
+        }
     }
 }

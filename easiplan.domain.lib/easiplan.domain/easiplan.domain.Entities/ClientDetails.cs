@@ -152,13 +152,14 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _Lastname;
+				return _Lastname.InitCaps();
 			}
 			set
 			{
                 if (_Lastname == value) return;
 
-				_Lastname = value;
+				_Lastname = value.InitCaps();
+
 				InvokePropertyChanged("LastName");
 			}
 		}

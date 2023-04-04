@@ -29,6 +29,7 @@ using easiplan.domain;
 using MetroFramework.Forms;
 using ComponentFactory.Krypton.Toolkit;
 using easiplan.app.ContextMenus;
+using my.domain.lib.core.Extensions;
 
 namespace MetroFramework.Controls.Ext
 {
@@ -6898,6 +6899,7 @@ namespace MetroFramework.Controls.Ext
 
             return base.CreateControl();
         }
+            
 
         private void Control_ReadOnlyChanged(object sender, EventArgs e)
         {
@@ -6936,6 +6938,7 @@ namespace MetroFramework.Controls.Ext
             return base.CreateDataGridColumn(name, headerText, grid);
         }
 
+      
     }
     public class MetroMultiLineTextBoxEditor : BaseMetroEditor
     {
