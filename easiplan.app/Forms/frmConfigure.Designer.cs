@@ -31,18 +31,19 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabControl_Configuration = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.button_loadPicture = new System.Windows.Forms.Button();
             this.htmlPanel_BackgroundImg = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
-            this.tabPage_SMS = new System.Windows.Forms.TabPage();
-            this.htmlPanel1 = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
-            this.button_TestSMSConfig = new System.Windows.Forms.Button();
+            this.button_loadPicture = new System.Windows.Forms.Button();
             this.xInput_Caption = new Finx.App.UserControls.xInput();
             this.xInput_FSBNo = new Finx.App.UserControls.xInput();
             this.xInput_RegistrationNumber = new Finx.App.UserControls.xInput();
             this.xInput_CompanyName = new Finx.App.UserControls.xInput();
+            this.tabPage_SMS = new System.Windows.Forms.TabPage();
+            this.htmlPanel1 = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
+            this.button_TestSMSConfig = new System.Windows.Forms.Button();
             this.xInput_SMSUri = new Finx.App.UserControls.xInput();
             this.xInput_SMSSecretKey = new Finx.App.UserControls.xInput();
             this.xInput_SMSClientKey = new Finx.App.UserControls.xInput();
+            this.btnClearImage = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.tabControl_Configuration.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -89,6 +90,23 @@
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Background Image";
             // 
+            // htmlPanel_BackgroundImg
+            // 
+            this.htmlPanel_BackgroundImg.AutoScroll = true;
+            this.htmlPanel_BackgroundImg.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.htmlPanel_BackgroundImg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.htmlPanel_BackgroundImg.BaseStylesheet = "";
+            this.htmlPanel_BackgroundImg.Controls.Add(this.btnClearImage);
+            this.htmlPanel_BackgroundImg.Controls.Add(this.button_loadPicture);
+            this.htmlPanel_BackgroundImg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlPanel_BackgroundImg.Location = new System.Drawing.Point(3, 3);
+            this.htmlPanel_BackgroundImg.Margin = new System.Windows.Forms.Padding(0);
+            this.htmlPanel_BackgroundImg.Name = "htmlPanel_BackgroundImg";
+            this.htmlPanel_BackgroundImg.Size = new System.Drawing.Size(516, 261);
+            this.htmlPanel_BackgroundImg.TabIndex = 25;
+            this.htmlPanel_BackgroundImg.TabStop = false;
+            this.htmlPanel_BackgroundImg.Text = null;
+            // 
             // button_loadPicture
             // 
             this.button_loadPicture.BackColor = System.Drawing.Color.White;
@@ -101,60 +119,6 @@
             this.button_loadPicture.Text = "Load New Image";
             this.button_loadPicture.UseVisualStyleBackColor = false;
             this.button_loadPicture.Click += new System.EventHandler(this.button_LoadPicture_Click);
-            // 
-            // htmlPanel_BackgroundImg
-            // 
-            this.htmlPanel_BackgroundImg.AutoScroll = true;
-            this.htmlPanel_BackgroundImg.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.htmlPanel_BackgroundImg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.htmlPanel_BackgroundImg.BaseStylesheet = "";
-            this.htmlPanel_BackgroundImg.Controls.Add(this.button_loadPicture);
-            this.htmlPanel_BackgroundImg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlPanel_BackgroundImg.Location = new System.Drawing.Point(3, 3);
-            this.htmlPanel_BackgroundImg.Margin = new System.Windows.Forms.Padding(0);
-            this.htmlPanel_BackgroundImg.Name = "htmlPanel_BackgroundImg";
-            this.htmlPanel_BackgroundImg.Size = new System.Drawing.Size(516, 261);
-            this.htmlPanel_BackgroundImg.TabIndex = 25;
-            this.htmlPanel_BackgroundImg.TabStop = false;
-            this.htmlPanel_BackgroundImg.Text = null;
-            // 
-            // tabPage_SMS
-            // 
-            this.tabPage_SMS.Controls.Add(this.htmlPanel1);
-            this.tabPage_SMS.Controls.Add(this.button_TestSMSConfig);
-            this.tabPage_SMS.Controls.Add(this.xInput_SMSUri);
-            this.tabPage_SMS.Controls.Add(this.xInput_SMSSecretKey);
-            this.tabPage_SMS.Controls.Add(this.xInput_SMSClientKey);
-            this.tabPage_SMS.Location = new System.Drawing.Point(4, 24);
-            this.tabPage_SMS.Name = "tabPage_SMS";
-            this.tabPage_SMS.Size = new System.Drawing.Size(522, 267);
-            this.tabPage_SMS.TabIndex = 3;
-            this.tabPage_SMS.Text = "SMS Configuration";
-            this.tabPage_SMS.UseVisualStyleBackColor = true;
-            // 
-            // htmlPanel1
-            // 
-            this.htmlPanel1.AutoScroll = true;
-            this.htmlPanel1.BackColor = System.Drawing.SystemColors.Window;
-            this.htmlPanel1.BaseStylesheet = null;
-            this.htmlPanel1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.htmlPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.htmlPanel1.Location = new System.Drawing.Point(0, 0);
-            this.htmlPanel1.Name = "htmlPanel1";
-            this.htmlPanel1.Size = new System.Drawing.Size(522, 105);
-            this.htmlPanel1.TabIndex = 23;
-            this.htmlPanel1.Text = null;
-            // 
-            // button_TestSMSConfig
-            // 
-            this.button_TestSMSConfig.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_TestSMSConfig.Location = new System.Drawing.Point(391, 222);
-            this.button_TestSMSConfig.Name = "button_TestSMSConfig";
-            this.button_TestSMSConfig.Size = new System.Drawing.Size(115, 34);
-            this.button_TestSMSConfig.TabIndex = 21;
-            this.button_TestSMSConfig.Text = "Save ...";
-            this.button_TestSMSConfig.UseVisualStyleBackColor = true;
-            this.button_TestSMSConfig.Click += new System.EventHandler(this.button_SaveSMSConfig_Click);
             // 
             // xInput_Caption
             // 
@@ -244,6 +208,44 @@
             this.xInput_CompanyName.Value = "";
             this.xInput_CompanyName.ValueMember = "Value";
             // 
+            // tabPage_SMS
+            // 
+            this.tabPage_SMS.Controls.Add(this.htmlPanel1);
+            this.tabPage_SMS.Controls.Add(this.button_TestSMSConfig);
+            this.tabPage_SMS.Controls.Add(this.xInput_SMSUri);
+            this.tabPage_SMS.Controls.Add(this.xInput_SMSSecretKey);
+            this.tabPage_SMS.Controls.Add(this.xInput_SMSClientKey);
+            this.tabPage_SMS.Location = new System.Drawing.Point(4, 24);
+            this.tabPage_SMS.Name = "tabPage_SMS";
+            this.tabPage_SMS.Size = new System.Drawing.Size(192, 72);
+            this.tabPage_SMS.TabIndex = 3;
+            this.tabPage_SMS.Text = "SMS Configuration";
+            this.tabPage_SMS.UseVisualStyleBackColor = true;
+            // 
+            // htmlPanel1
+            // 
+            this.htmlPanel1.AutoScroll = true;
+            this.htmlPanel1.BackColor = System.Drawing.SystemColors.Window;
+            this.htmlPanel1.BaseStylesheet = null;
+            this.htmlPanel1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.htmlPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.htmlPanel1.Location = new System.Drawing.Point(0, 0);
+            this.htmlPanel1.Name = "htmlPanel1";
+            this.htmlPanel1.Size = new System.Drawing.Size(192, 105);
+            this.htmlPanel1.TabIndex = 23;
+            this.htmlPanel1.Text = null;
+            // 
+            // button_TestSMSConfig
+            // 
+            this.button_TestSMSConfig.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_TestSMSConfig.Location = new System.Drawing.Point(391, 222);
+            this.button_TestSMSConfig.Name = "button_TestSMSConfig";
+            this.button_TestSMSConfig.Size = new System.Drawing.Size(115, 34);
+            this.button_TestSMSConfig.TabIndex = 21;
+            this.button_TestSMSConfig.Text = "Save ...";
+            this.button_TestSMSConfig.UseVisualStyleBackColor = true;
+            this.button_TestSMSConfig.Click += new System.EventHandler(this.button_SaveSMSConfig_Click);
+            // 
             // xInput_SMSUri
             // 
             this.xInput_SMSUri.BackColor = System.Drawing.Color.Transparent;
@@ -310,6 +312,19 @@
             this.xInput_SMSClientKey.Value = "";
             this.xInput_SMSClientKey.ValueMember = "Value";
             // 
+            // btnClearImage
+            // 
+            this.btnClearImage.BackColor = System.Drawing.Color.White;
+            this.btnClearImage.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnClearImage.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearImage.Location = new System.Drawing.Point(265, 6);
+            this.btnClearImage.Name = "btnClearImage";
+            this.btnClearImage.Size = new System.Drawing.Size(115, 34);
+            this.btnClearImage.TabIndex = 21;
+            this.btnClearImage.Text = "Clear Image";
+            this.btnClearImage.UseVisualStyleBackColor = false;
+            this.btnClearImage.Click += new System.EventHandler(this.btnClearImage_Click);
+            // 
             // frmConfigure
             // 
             this.ClientSize = new System.Drawing.Size(580, 407);
@@ -342,5 +357,6 @@
         private UserControls.xInput xInput_SMSSecretKey;
         private UserControls.xInput xInput_SMSClientKey;
         private TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel htmlPanel1;
+        private System.Windows.Forms.Button btnClearImage;
     }
 }

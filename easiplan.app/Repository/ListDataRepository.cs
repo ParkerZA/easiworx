@@ -24,10 +24,13 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Mss", "Mss"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Dr", "Dr"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Adv", "Adv"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Fr", "Fr"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Judge", "Judge"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Paster", "Paster"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Prof", "Prof"));
-            Items.Add(new ListDataItem(ListDataItemType.Titles, "Reverend", "Reverend"));
-
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Rabbi", "Rabbi"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Revd", "Revd"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Sheikh", "Sheikh"));
 
             Items.Add(new ListDataItem(ListDataItemType.Gender, "Male", "Male"));
             Items.Add(new ListDataItem(ListDataItemType.Gender, "Female", "Female"));
@@ -184,6 +187,7 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.ExpenseTypes, "Rates & Taxes", "Rates & Taxes"));
             //Items.Add(new ListDataItem(ListDataItemType.ExpenseTypes, "Savings/Investments", "Savings/Investments"));
             Items.Add(new ListDataItem(ListDataItemType.ExpenseTypes, "School Fees", "School Fees"));
+            Items.Add(new ListDataItem(ListDataItemType.ExpenseTypes, "Tithe", "Tithe"));
             Items.Add(new ListDataItem(ListDataItemType.ExpenseTypes, "Transport Expenses", "Transport Expenses"));
             Items.Add(new ListDataItem(ListDataItemType.ExpenseTypes, "Water & Electricity", "Water & Electricity"));
             Items.Add(new ListDataItem(ListDataItemType.ExpenseTypes, "Zakaat", "Zakaat"));
