@@ -3580,7 +3580,7 @@ namespace Finx.App.Forms
                 {
                     Fund f = fund.ToObject<Fund>();
                     f.Id = 0;
-                    f.StartDate = DateTime.Now;
+                    f.StartDate = DateTime.Now; //Inception bug
                     f.EndDate = f.MinDateTime;
                     f.InitialAmount = 0;
                     f.WithdrawalAmount = 0;

@@ -1295,7 +1295,14 @@ namespace Finx.App.Forms
                     if (!string.IsNullOrEmpty(csvRecord.IDNumber) && csvRecord.IDNumber.Length >= 9 && csvRecord.IDNumber.Length <= 13)
                     {
                         DateTime dtDob;
-                        dtDob = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)csvRecord.IDNumber.Substring(4, 2), (object)csvRecord.IDNumber.Substring(2, 2), (object)csvRecord.IDNumber.Substring(0, 2)));
+                        //Here I have put in easiworx id to do testing on saadiqas side
+                        var easiworx = csvRecord as EasiworxRecord;
+
+                        //Messagebox to check for difference in ID
+                        MessageBox.Show("The id number is *" + csvRecord.IDNumber + "*");
+
+                        //These easiworx ids are to be switched out for csvRecord.IDNumber once problem is solved
+                        dtDob = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)easiworx.IDNumber.Substring(4, 2), (object)easiworx.IDNumber.Substring(2, 2), (object)easiworx.IDNumber.Substring(0, 2)));
                         if (dtDob.CompareTo(DateTime.Now) > 0)
                         {
                             dtDob = dtDob.AddYears(-100);
@@ -2608,7 +2615,7 @@ namespace Finx.App.Forms
             //Console.WriteLine(fund.FundCode);
             //if (fundValDate != new DateTime(0001, 1, 1))
             //fund.UpdateDate = fundValDate;
-
+            //Console.WriteLine(fund.UpdateDate);
             //Set model portfolio if the value is not empty
             if (!string.IsNullOrEmpty(modelPortfolio))
             {

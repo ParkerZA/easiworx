@@ -2498,6 +2498,10 @@ namespace Finx.App.Forms
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));
                             columns.For(x => x.FundValueDate, "Last Update", new DateEditor(true));
+
+                            //remove this
+                            //columns.For(x => x.UpdateDate, "Update", new DateEditor(true));
+
                             //columns.For(x => x.Type, "Type", new MetroTextBoxEditor().ReadOnly(true));
                             columns.For(x => x.Risk, "Risk", new StringEditor(true));
                             //columns.For(x => x.IRR, "IRR", new StringEditor(true));

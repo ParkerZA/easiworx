@@ -118,6 +118,7 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
+                
 				return _StartDate;
 			}
 			set
@@ -125,10 +126,9 @@ namespace easiplan.domain.Entities
                 if (_StartDate == value) return;
 
                 _StartDate = value;
+                //Calculate();
 
-				//Calculate();
-
-				InvokePropertyChanged("StartDate");
+                InvokePropertyChanged("StartDate");
 			}
 		}
 
@@ -144,7 +144,6 @@ namespace easiplan.domain.Entities
                 if (_FundValueDate == value) return;
 
                 _FundValueDate = value;
-
                 //Calculate();
 
                 InvokePropertyChanged("FundValueDate");
