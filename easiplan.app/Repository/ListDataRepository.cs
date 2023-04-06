@@ -26,7 +26,7 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Adv", "Adv"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Fr", "Fr"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Judge", "Judge"));
-            Items.Add(new ListDataItem(ListDataItemType.Titles, "Paster", "Paster"));
+            Items.Add(new ListDataItem(ListDataItemType.Titles, "Pastor", "Pastor"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Prof", "Prof"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Rabbi", "Rabbi"));
             Items.Add(new ListDataItem(ListDataItemType.Titles, "Revd", "Revd"));
@@ -342,8 +342,8 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Admissions Rider Benefit", "Admissions Rider Benefit"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Buy And Sell", "Buy And Sell"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Contingent Liability", "Contingent Liability"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Critical Illness", "Critical Illness"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Disability", "Disability"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Dreaded Disease", "Dreaded Disease"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Functional Impairment", "Functional Impairment"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "GLA", "GLA"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Income Protection", "Income Protection"));
