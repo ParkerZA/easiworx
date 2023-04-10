@@ -4,7 +4,10 @@
 // MVID: 4BBC88EF-DDEF-4B94-AC1F-3C173E27DA87
 // Assembly location: C:\Users\Admins\Projects\FinX\BckUp\my.domain.lib.core.dll
 
+using Google.Protobuf.WellKnownTypes;
+using MySqlX.XDevAPI;
 using System;
+using System.Globalization;
 
 namespace my.domain.lib.core.Validation
 {
@@ -27,9 +30,33 @@ namespace my.domain.lib.core.Validation
                     IdentityNumber identityNumber = new IdentityNumber(IdentificationNo);
                     if (identityNumber.IsUsable && identityNumber.IsValid)
                     {
-                        this.DateOfBirth = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)IdentificationNo.Substring(4, 2), (object)IdentificationNo.Substring(2, 2), (object)IdentificationNo.Substring(0, 2)));
+                        
+                        
+                        //New formatted way, to include if testing proves it necessary
+                        
+                        /*
+                        DateTime dtDob;
+                        string strdt = string.Format("{0}/{1}/20{2}", (object)IdentificationNo.Substring(4, 2), (object)IdentificationNo.Substring(2, 2), (object)IdentificationNo.Substring(0, 2));
+
+                        if (DateTime.TryParseExact(strdt, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        DateTime.TryParseExact(strdt, "d/M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
+                        {
+                            this.DateOfBirth = dtDob;
+                            if (this.DateOfBirth.CompareTo(DateTime.Now) > 0)
+                                this.DateOfBirth = this.DateOfBirth.AddYears(-100);
+
+                        }
+
+                        */
+
+
+                        // Old unformated way
+                            this.DateOfBirth = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)IdentificationNo.Substring(4, 2), (object)IdentificationNo.Substring(2, 2), (object)IdentificationNo.Substring(0, 2)));
                         if (this.DateOfBirth.CompareTo(DateTime.Now) > 0)
                             this.DateOfBirth = this.DateOfBirth.AddYears(-100);
+                        
+                        
+                        
                         switch (identityNumber.Gender)
                         {
                             case IdentityNumber.PersonGender.Female:
