@@ -34,7 +34,7 @@ namespace my.domain.lib.core.Validation
                         
                         //New formatted way, to include if testing proves it necessary
                         
-                        /*
+                        
                         DateTime dtDob;
                         string strdt = string.Format("{0}/{1}/20{2}", (object)IdentificationNo.Substring(4, 2), (object)IdentificationNo.Substring(2, 2), (object)IdentificationNo.Substring(0, 2));
 
@@ -47,14 +47,14 @@ namespace my.domain.lib.core.Validation
 
                         }
 
-                        */
+                        
 
-
+                        /*
                         // Old unformated way
                             this.DateOfBirth = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)IdentificationNo.Substring(4, 2), (object)IdentificationNo.Substring(2, 2), (object)IdentificationNo.Substring(0, 2)));
                         if (this.DateOfBirth.CompareTo(DateTime.Now) > 0)
                             this.DateOfBirth = this.DateOfBirth.AddYears(-100);
-                        
+                        */
                         
                         
                         switch (identityNumber.Gender)

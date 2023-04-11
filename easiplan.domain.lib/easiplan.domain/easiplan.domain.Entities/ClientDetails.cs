@@ -249,7 +249,7 @@ namespace easiplan.domain.Entities
 
 				_IdentificationNo = value;
 
-				//Calculate(); //Remove this comment after testing
+				Calculate(); //Remove this comment after testing
 
 				InvokePropertyChanged("IdentificationNo");
 			}
@@ -367,7 +367,7 @@ namespace easiplan.domain.Entities
 
                 _DateOfBirth = value;
 
-				//Calculate(); //Remove this comment after testing
+				Calculate(); //Remove this comment after testing
 
 				InvokePropertyChanged("DateOfBirth");
 			}
