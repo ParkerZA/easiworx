@@ -305,7 +305,7 @@ namespace Finx.App.Forms
 
                 var win32Parent = new NativeWindow();
                 //win32Parent.AssignHandle(_handle);
-                dialogResult = MessageBox.Show(win32Parent, "Are you sure you want to cancel this import ? Nb! All records which have already begun the import process will still be completed", "Cancel CSV import", MessageBoxButtons.YesNo);
+                dialogResult = MessageBox.Show(win32Parent, "Are you sure you want to cancel this import ? Nb! Import batches which have already begun the import process will still be completed", "Cancel CSV import", MessageBoxButtons.YesNo);
 
 
             if (dialogResult == DialogResult.No)
@@ -315,7 +315,7 @@ namespace Finx.App.Forms
             else
             {
                 this.SetCaption("The import has been Cancelled");
-                this.SetText("Please wait while records in progress finish importing, no further records will be imported");
+                this.SetText("Please wait while current import batch finishes importing, no further batches will be imported");
 
                 this.allowTextEdit = false;
                 AbortWork();

@@ -1296,19 +1296,15 @@ namespace Finx.App.Forms
                     if (!string.IsNullOrEmpty(csvRecord.IDNumber) && csvRecord.IDNumber.Length >= 9 && csvRecord.IDNumber.Length <= 13)
                     {
                         DateTime dtDob;
-                        //Here I have put in easiworx id to do testing on saadiqas side
-                        var easiworx = csvRecord as EasiworxRecord;
-
-                        //Messagebox to check for difference in ID
-                        MessageBox.Show("The id number is *" + csvRecord.IDNumber + "*");
+                        
 
                         //These easiworx ids are to be switched out for csvRecord.IDNumber once problem is solved
-                        dtDob = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)easiworx.IDNumber.Substring(4, 2), (object)easiworx.IDNumber.Substring(2, 2), (object)easiworx.IDNumber.Substring(0, 2)));
+                        /*dtDob = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)csvRecord.IDNumber.Substring(4, 2), (object)csvRecord.IDNumber.Substring(2, 2), (object)csvRecord.IDNumber.Substring(0, 2)));
                         if (dtDob.CompareTo(DateTime.Now) > 0)
                         {
                             dtDob = dtDob.AddYears(-100);
-                        }
-                        /*var datePart = csvRecord.IDNumber.Substring(0, 6);
+                        }*/
+                        var datePart = csvRecord.IDNumber.Substring(0, 6);
                         var year = int.Parse(datePart.Substring(0, 2));
                         var month = int.Parse(datePart.Substring(2, 2));
                         var day = int.Parse(datePart.Substring(4, 2));
@@ -1336,7 +1332,7 @@ namespace Finx.App.Forms
 
                             dob = dtDob.ToString("dd MMM yyyy");
                             //dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
-                        }*/
+                        }
 
                         dob = dtDob.ToString("dd MMM yyyy");
 
@@ -1456,6 +1452,7 @@ namespace Finx.App.Forms
                             FirstName = firstname,
                             LastName = lastname,
                             IdentificationNo = csvRecord.IDNumber,
+                            //DateOfBirth = new DateTime(01, 01, 0001), //Remove this after testing
                             PassportNo = csvRecord.PassportNo,
                             TaxNumber = taxNo,
                             UpdateBy = UpdateBy,
