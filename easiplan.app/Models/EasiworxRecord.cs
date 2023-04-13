@@ -32,7 +32,7 @@ namespace Finx.App.Models
         private string _accountName;
         private string _validationErrors;
         private string _dob = "";
-        private DateTime _birthday;
+      
         private string _monthlyPremium;
         private string _productType;
         private string _modelPortfolio;
@@ -108,25 +108,6 @@ namespace Finx.App.Models
             }
         }
 
-        /*
-        //Method to format string names
-
-        public static string CapitalizeSentence(string sentence)
-        {
-            string[] words = sentence.Split(' ');
-            for (int i = 0; i < words.Length; i++)
-            {
-                string word = words[i];
-                if (word.Length > 0)
-                {
-                    char firstLetter = char.ToUpper(word[0]);
-                    string restOfWord = word.Substring(1);
-                    words[i] = firstLetter + restOfWord;
-                }
-            }
-            return string.Join(" ", words);
-        }
-        */
 
         //Clients date of birth
         [Index(2)]
@@ -156,7 +137,6 @@ namespace Finx.App.Models
                         DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
                         )
                     {
-                        _birthday = dtDob;
                         _dob = dtDob.ToString("dd MMM yyyy");
                     }
                 }
@@ -172,10 +152,7 @@ namespace Finx.App.Models
 
         }
 
-        public DateTime getBirthday
-        {
-            get { return _birthday; }
-        }
+       
 
         /*get { return _dob; }
         set
@@ -623,7 +600,6 @@ namespace Finx.App.Models
             }
             set
             {
-                //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
                 _monthlyPremium = value.Replace("R", string.Empty);
                 _monthlyPremium = _monthlyPremium.Replace(" ", string.Empty);
                 _monthlyPremium = _monthlyPremium.Replace(",", ".");
@@ -753,7 +729,6 @@ namespace Finx.App.Models
     {
         public EasiworxRecordMap()
         {
-            //Console.WriteLine("What does this even rite: " +Map(c=>c.Dob));
             Map(c => c.Firstname);
             Map(c => c.Lastname);
             Map(c => c.DateOfBirth);
@@ -761,7 +736,6 @@ namespace Finx.App.Models
             Map(c => c.TaxNo);
             Map(c => c.PassportNo);
             Map(c => c.ClientNo);
-           
 
             Map(c => c.PostalAddressStreetNo);
             Map(c => c.PostalAddress);

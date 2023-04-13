@@ -866,7 +866,6 @@ namespace Finx.App.Forms
             {
                 loopResults.Add(Parallel.ForEach(batchedClientInvestment, parallelOptions, async (clientIdentificationNo, loopState) =>
                 {
-                    //Console.WriteLine("A new one");
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
 
                     clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
@@ -901,7 +900,6 @@ namespace Finx.App.Forms
                         //Check if cancel button has been clicked
                         if (parallelOptions.CancellationToken.IsCancellationRequested)
                         {
-                            //Console.WriteLine("Hi, still going");
                             loopState.Stop();
                             parallelOptions.CancellationToken.ThrowIfCancellationRequested();
                         }
@@ -1431,11 +1429,6 @@ namespace Finx.App.Forms
                             { 
                                 dob = ewx_dtDob.ToString("dd MMM yyyy"); 
                             }
-                            /*if (easiworxRecord.getBirthday != null)
-                            {
-                                dtDob = easiworxRecord.getBirthday;
-                            }*/
-                            //Console.WriteLine("First one " + dob);
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1569,7 +1562,6 @@ namespace Finx.App.Forms
 
                 lock (_lockObject)
                 {
-                    //DateTime ewx_dtDob= new DateTime(0001, 1, 1);
 
                     var dob = "";
                     var physicalAddress1 = "";
@@ -1602,7 +1594,6 @@ namespace Finx.App.Forms
                     var bankAccType = "";
                     //var accName = "";
 
-                    //switch (csvRecord.LISP.ToLower())
                     switch (_selectedLisp.ToLower())
                     {
                         case "camissa":
@@ -1691,25 +1682,14 @@ namespace Finx.App.Forms
 
                             var allanGrayRecord = csvRecord as AllanGrayRecord;
 
-                            //firstname = allanGrayRecord.Firstname.Trim();
-                            //lastname = allanGrayRecord.Lastname.Trim();
-
-
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
 
                             var easiworxRecord = csvRecord as EasiworxRecord;
-                            //firstname = easiworxRecord.Firstname.Trim();
-                            //lastname = easiworxRecord.Lastname.Trim();
-
-                            //Tax number 
-                            taxNo = easiworxRecord.TaxNo.Trim();
 
 
-                            //birthdate
-
-                            //ewx_dtDob = easiworxRecord.getBirthday;
+                            
                             
                             //Easiworx Physical Address
 
@@ -1729,7 +1709,7 @@ namespace Finx.App.Forms
 
                             //Easiworx Contact Details
 
-                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
+                            taxNo = easiworxRecord.TaxNo.Trim(); 
                             hometel = easiworxRecord.HomeTel.Replace("'", string.Empty);
                             worktel = easiworxRecord.OfficeTel.Replace("'", string.Empty);
                             cellno = easiworxRecord.CellNo.Replace("'", string.Empty);
@@ -1800,7 +1780,6 @@ namespace Finx.App.Forms
 
                             //Matching account types
 
-
                             string bnkAccType = easiworxRecord.BankAccType.ToLower();
 
                             if (bnkAccType.Contains("current"))
@@ -1823,25 +1802,7 @@ namespace Finx.App.Forms
                             throw new ApplicationException("Invalid Lisp!");
                     }
 
-                    if (!string.IsNullOrWhiteSpace(taxNo))
-                    {
-                        client.ClientDetails.TaxNumber = taxNo;
-                    }
-
-                    /*if (!string.IsNullOrWhiteSpace(dob))
-                    {
-                        if (DateTime.TryParseExact(dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtDob))
-                        {
-                            client.ClientDetails.DateOfBirth = dtDob;
-                            Console.WriteLine("Here " + dtDob.ToString("dd MMM yyyy"));
-                        }
-                    }*/
-
-                    /*
-                    if ((ewx_dtDob != (new DateTime(0001, 1, 1))))
-                    {
-                        client.ClientDetails.DateOfBirth = ewx_dtDob;
-                    }
+               
                     if (!string.IsNullOrEmpty(physicalAddress1) || !string.IsNullOrEmpty(physicalAddress2) || !string.IsNullOrEmpty(physicalAddress3) || !(physicalAddressCode == 0))
                     {
                         client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
@@ -1852,13 +1813,20 @@ namespace Finx.App.Forms
                                                  physicalAddress6 + " " +
                                                  physicalAddressCode;
                     }
-                    */
+                    
+                    //Setting tax number
+
                     if (!string.IsNullOrWhiteSpace(taxNo))
                         client.ClientDetails.TaxNumber = taxNo;
+
+                    //Setting recipient cell number
 
                     if (!string.IsNullOrWhiteSpace(cellno))
                         client.ClientDetails.RecipientCell = cellno;
                     
+
+                    //Setting contact details
+
                     if (!string.IsNullOrWhiteSpace(email) || !string.IsNullOrWhiteSpace(faxno) || !string.IsNullOrWhiteSpace(hometel) || !string.IsNullOrWhiteSpace(worktel) || !string.IsNullOrWhiteSpace(cellno))
                     {
 
@@ -2241,27 +2209,20 @@ namespace Finx.App.Forms
                     {
                         case "allan gray":
                         case "allangray":
-                            //Console.WriteLine("Check this one: " + ((AllanGrayRecord)fund).FundAllocationPercentage);
-                           // Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
-                            //Console.WriteLine(fundAllocPerc);
                             fundAllocPerc = ((AllanGrayRecord)fund).AccountFundAllocation.AsDouble();
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
-                           // Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
                             fundAllocPerc = ((EasiworxRecord)fund).AccountFundAllocation.AsDouble();
                             modelPortfolio = ((EasiworxRecord)fund).ModelPortfolio;
                             break;
                         case "momentum":
-                           // Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
                             fundAllocPerc = ((MomentumRecord)fund).FundPerc.AsDouble();
                             break;
                         case "mtab":
-                           // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
                             fundAllocPerc = ((MomentumRecord_TabDelimited)fund).AccountFundAllocation.AsDouble();
                             break;
                         case "astutetemplate":
-                            // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
                             fundAllocPerc = ((AstuteRecord)fund).AccountFundAllocation.AsDouble();
                             break;
                     }
@@ -2420,16 +2381,9 @@ namespace Finx.App.Forms
                             retirementFunds.Add(modelPortfolioFund);
                             retirement.Funds = retirementFunds;
                             retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
-                            //Console.WriteLine("'" + modelPortfolioFund.Description + "'");
                             
                         }
                     
-                    //End
-                     /*var retirementFunds = retirement.Funds;
-                    retirementFunds.Add(modelPortfolioFund);
-                    retirement.Funds = retirementFunds;
-                    retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;*/
-
                 }
                 retirement.Calculate();
                 
@@ -2562,7 +2516,6 @@ namespace Finx.App.Forms
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
-                    //Console.WriteLine("Wrong one");
                     //Double.TryParse(((MomentumRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium); //Momentum CSV does not provide premiums
                     break;
                 case "MTAB":
@@ -2591,11 +2544,6 @@ namespace Finx.App.Forms
             }
 
 
-            //Program.Logger.Info("TT checking the funds details on Catherines machine Start");
-            //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
-            //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
-            //Program.Logger.Info("TT checking the funds details on Catherines machine End");
-
 
             var fund = new Fund()
             {
@@ -2609,10 +2557,7 @@ namespace Finx.App.Forms
                 UpdateDate = fundValDate
                 
             };
-            //Console.WriteLine(fund.FundCode);
-            //if (fundValDate != new DateTime(0001, 1, 1))
-            //fund.UpdateDate = fundValDate;
-            //Console.WriteLine(fund.UpdateDate);
+
             //Set model portfolio if the value is not empty
             if (!string.IsNullOrEmpty(modelPortfolio))
             {
