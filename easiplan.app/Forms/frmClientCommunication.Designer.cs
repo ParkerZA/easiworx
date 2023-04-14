@@ -352,6 +352,7 @@
             this.tsbEmailSendBday.Size = new System.Drawing.Size(154, 46);
             this.tsbEmailSendBday.Text = "Send on B\'Day";
             this.tsbEmailSendBday.ToolTipText = "Send Email on Birth Date";
+            this.tsbEmailSendBday.Visible = false; //Hiding email on birthday funtion until further notice
             // 
             // tbpSms
             // 

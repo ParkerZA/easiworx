@@ -410,7 +410,6 @@ namespace Finx.App.Models
             }
             set
             {
-                //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
                 _monthlyPremium = value.Replace("R", string.Empty);
                 _monthlyPremium = _monthlyPremium.Replace(" ", string.Empty);
                 _monthlyPremium = _monthlyPremium.Replace(",", ".");

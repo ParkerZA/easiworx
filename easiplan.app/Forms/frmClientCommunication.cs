@@ -323,7 +323,7 @@ namespace Finx.App.Forms
                         {
                             DateTime _deliveryDt = DateTime.Parse(grp[0].SendDate);
 
-                            if (_deliveryDt > DateTime.Now && _deliveryDt < DateTime.Now.AddMonths(3))
+                            if (_deliveryDt >= DateTime.Now && _deliveryDt <= DateTime.Now.AddMonths(3))
                             {
                                 SmsSendOptions sendOptions = new SmsSendOptions()
                                 {

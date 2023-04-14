@@ -339,15 +339,19 @@ namespace Finx.App
             Items.Add(new ListDataItem(ListDataItemType.MedicalBenefit, "Chronic", "Chronic"));
             Items.Add(new ListDataItem(ListDataItemType.MedicalBenefit, "Other", "Other"));
 
+
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Accelerated Critical Illness", "Accelerated Critical Illness"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Accelerated Disability", "Accelerated Disability"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Admissions Rider Benefit", "Admissions Rider Benefit"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Buy And Sell", "Buy And Sell"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Contingent Liability", "Contingent Liability"));
+            //Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Buy And Sell", "Buy And Sell"));
+            //Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Contingent Liability", "Contingent Liability"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Critical Illness", "Critical Illness"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Disability", "Disability"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Dreaded Disease", "Dreaded Disease"));
+            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Exact Rider Benefit", "Exact Rider Benefit"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Functional Impairment", "Functional Impairment"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "GLA", "GLA"));
+            //Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "GLA", "GLA"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Income Protection", "Income Protection"));
-            Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Keyman", "Keyman"));
+            //Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Keyman", "Keyman"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Life", "Life"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Permanent Incapacity", "Permanent Incapacity"));
             Items.Add(new ListDataItem(ListDataItemType.LifeBenefit, "Pregnancy Complications", "Pregnancy Complications"));
@@ -489,10 +493,11 @@ namespace Finx.App
 
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Buy And Sell", "Buy And Sell"));
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Contingent Liability", "Contingent Liability"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Disability Cover", "Disability Cover"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Dreaded Disease", "Dreaded Disease"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Education", "Education"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Income Protection", "Income Protection")); 
+            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "GLA (Group Life Cover)", "GLA (Group Life Cover)"));
+            //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Disability Cover", "Disability Cover"));
+            //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Dreaded Disease", "Dreaded Disease"));
+            //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Education", "Education"));
+            //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Income Protection", "Income Protection")); 
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Keyman", "Keyman"));
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Life Cover", "Life Cover"));
             

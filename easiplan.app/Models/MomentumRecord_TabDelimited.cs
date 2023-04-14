@@ -217,7 +217,6 @@ namespace Finx.App.Models
                         )
                     {
                         _birthDate = dtDob.ToString("dd MMM yyyy");
-                        Console.WriteLine(dtDob.Month);
                     }
                 }
                 else

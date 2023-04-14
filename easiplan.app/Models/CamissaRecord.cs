@@ -430,7 +430,6 @@ namespace Finx.App.Models
                         )
                     {
                         _dob = dtDob.ToString("dd MMM yyyy");
-                        Console.WriteLine(dtDob.Month);
                     }
                 }
                 else
