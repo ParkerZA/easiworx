@@ -329,8 +329,9 @@ namespace Finx.App.Forms
                                 {
                                     checkOptOuts = true,
                                     //duplicateCheck = "true",
-                                    senderId = Program.User.Username,
-                                    startDeliveryUtc = _deliveryDt.ToUTCString()
+                                    senderId = Program.User.Id.ToString(),
+                                    startDeliveryUtc = _deliveryDt.ToUTCString(),
+                                    campaignName=""
 
                                 };
 
@@ -1012,6 +1013,11 @@ namespace Finx.App.Forms
         #endregion
 
         private void tsbSendEmailNow_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsbSmsSendBday_Click(object sender, EventArgs e)
         {
 
         }
