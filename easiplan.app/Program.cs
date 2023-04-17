@@ -30,6 +30,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using za.co.easiworx.office365.net;
 
 namespace Finx.App
@@ -169,7 +170,7 @@ namespace Finx.App
 
                             Program.EstateAnalysisService = new EstateAnalysisService(Program.Repository);
                         }
-
+                        Program.Logger.Info("Initialisation completed. Opening Logon form.");
                         //Show Logon Form
                         Application.Run(new frmMetroLogin());
                        
@@ -500,6 +501,8 @@ namespace Finx.App
                 Program.Licensing = new LicenseModel(typeof(LicenseModel)) { Status = string.Empty };
 
                 Program.Licensing.Validate().Wait();
+
+                Program.Logger.Info($"MachineKey: {Program.Licensing.MachineKey}");
 
                 callback.SetText(string.Format("Done checking Licensing model ..."));
 
