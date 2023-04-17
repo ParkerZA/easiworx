@@ -8,13 +8,13 @@ using System.Runtime.InteropServices;
 #if PRODUCTION
     [assembly: AssemblyTitle("EasiWorx")]
     [assembly: AssemblyProduct("EasiWorx")]
-    [assembly: AssemblyVersion("1.0.75")]
-    [assembly: AssemblyFileVersion("1.0.75")]
+    [assembly: AssemblyVersion("1.0.85")]
+    [assembly: AssemblyFileVersion("1.0.85")]
 #elif PREVIEW
     [assembly: AssemblyTitle("EasiWorx Preview")]  
     [assembly: AssemblyProduct("EasiWorx Preview")]
-    [assembly: AssemblyVersion("1.0.75")] 
-    [assembly: AssemblyFileVersion("1.0.75")] 
+    [assembly: AssemblyVersion("1.0.85")] 
+    [assembly: AssemblyFileVersion("1.0.85")] 
 #elif STAGING
     [assembly: AssemblyTitle("EasiWorx Staging")]  
     [assembly: AssemblyProduct("EasiWorx Staging")]
@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
     [assembly: AssemblyVersion("1.0.75")]
     [assembly: AssemblyFileVersion("1.0.75")]
 #else
-    [assembly: AssemblyTitle("EasiWorx Dev")]
+[assembly: AssemblyTitle("EasiWorx Dev")]
     [assembly: AssemblyProduct("EasiWorx Dev")]
     [assembly: AssemblyVersion("1.0.85")]
     [assembly: AssemblyFileVersion("1.0.85")]
