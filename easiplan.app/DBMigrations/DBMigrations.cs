@@ -313,8 +313,8 @@ namespace Finx.App.DBMigrations
         }
     }
 
-    [Migration(503, "Update clientretirementportfolio_view")]
-    public class _20230417_503 : Migration
+    [Migration(505, "Update clientretirementportfolio_view")]
+    public class _20230417_505 : Migration
     {
 
         public override void Up()
