@@ -8,28 +8,28 @@ using System.Runtime.InteropServices;
 #if PRODUCTION
     [assembly: AssemblyTitle("EasiWorx")]
     [assembly: AssemblyProduct("EasiWorx")]
-    [assembly: AssemblyVersion("1.0.85")]
-    [assembly: AssemblyFileVersion("1.0.85")]
+    [assembly: AssemblyVersion("1.0.86")]
+    [assembly: AssemblyFileVersion("1.0.86")]
 #elif PREVIEW
     [assembly: AssemblyTitle("EasiWorx Preview")]  
     [assembly: AssemblyProduct("EasiWorx Preview")]
-    [assembly: AssemblyVersion("1.0.85")] 
-    [assembly: AssemblyFileVersion("1.0.85")] 
+    [assembly: AssemblyVersion("1.0.86")] 
+    [assembly: AssemblyFileVersion("1.0.86")] 
 #elif STAGING
     [assembly: AssemblyTitle("EasiWorx Staging")]  
     [assembly: AssemblyProduct("EasiWorx Staging")]
-    [assembly: AssemblyVersion("1.0.85")] 
-    [assembly: AssemblyFileVersion("1.0.85")] 
+    [assembly: AssemblyVersion("1.0.86")] 
+    [assembly: AssemblyFileVersion("1.0.86")] 
 #elif MOJAFF
     [assembly: AssemblyTitle("EasiWorx Mojaff Preview")]
     [assembly: AssemblyProduct("EasiWorx Mojaff")]
-    [assembly: AssemblyVersion("1.0.75")]
-    [assembly: AssemblyFileVersion("1.0.75")]
+    [assembly: AssemblyVersion("1.0.86")]
+    [assembly: AssemblyFileVersion("1.0.86")]
 #else
 [assembly: AssemblyTitle("EasiWorx Dev")]
     [assembly: AssemblyProduct("EasiWorx Dev")]
-    [assembly: AssemblyVersion("1.0.85")]
-    [assembly: AssemblyFileVersion("1.0.85")]
+    [assembly: AssemblyVersion("1.0.86")]
+    [assembly: AssemblyFileVersion("1.0.86")]
 #endif
 
 [assembly: AssemblyDescription("Financial Services Software")]
