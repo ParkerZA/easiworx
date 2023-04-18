@@ -312,4 +312,19 @@ namespace Finx.App.DBMigrations
             // Execute.Sql("DROP VIEW 'ClientContactView'");
         }
     }
+
+    [Migration(505, "Update clientretirementportfolio_view")]
+    public class _20230417_505 : Migration
+    {
+
+        public override void Up()
+        {
+            Execute.EmbeddedScript(@"DBMigrations.clientretirementportfolio_view.sql");
+        }
+
+        public override void Down()
+        {
+            
+        }
+    }
 }

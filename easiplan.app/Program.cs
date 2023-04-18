@@ -793,6 +793,7 @@ namespace Finx.App
             Program.Repository.DBMigrateUp(typeof(_20211222_501).Assembly);
 
             Program.Repository.DBMigrateUp(typeof(_20211222_502).Assembly);
+            Program.Repository.DBMigrateUp(typeof(_20230417_505).Assembly);
 
         }  
 
