@@ -500,16 +500,17 @@ namespace Finx.App
             //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Income Protection", "Income Protection")); 
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Keyman", "Keyman"));
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Life Cover", "Life Cover"));
-            
-            
 
-            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Life Cover", "Life Cover"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Disability Cover", "Disability Cover"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Dreaded Disease", "Dreaded Disease"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Income Protection", "Income Protection"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Keyman", "Keyman"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Contingent Liability", "Contingent Liability"));
+
             Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Buy And Sell", "Buy And Sell"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Contingent Liability", "Contingent Liability"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "GLA (Group Life Cover)", "GLA (Group Life Cover)"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Keyman", "Keyman"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Life Cover", "Life Cover"));
+            //Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Disability Cover", "Disability Cover"));
+            //Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Dreaded Disease", "Dreaded Disease"));
+            //Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Income Protection", "Income Protection"));
+           
 
             Items.Add(new ListDataItem(ListDataItemType.YesNo, false, "No"));
             Items.Add(new ListDataItem(ListDataItemType.YesNo, true, "Yes"));
