@@ -1006,31 +1006,38 @@ namespace Finx.App.Forms
             {
                 //get client, if client portfolio exists on easiworx, return it otherwise create new client & return it
                 var clientPortfolio = await GetClientPortfolio(ClientUniqueId);
+
+                var matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.IdentificationNo.Trim() == ClientUniqueId).FirstOrDefault());
+
+                if (matchedClientDetails == null) //try passport no
+                    matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
+
+                //Declare empty client
                 Client client = null;
 
+                
                 if (clientPortfolio == null) //create new client & return it
                 {
                     //1st check if client exists
 
+                    //Dont make sense that we check portfolio before client... this is why the update streets isnt firing... check that... also look into using an await
+
+                    /*
                     var matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.IdentificationNo.Trim() == ClientUniqueId).FirstOrDefault());
 
                     if (matchedClientDetails == null) //try passport no
                         matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
 
+                    */
+
+                    //If client does not exist, create new client
                     if (matchedClientDetails == null)
                     {
+                        
                         client = await Task.Run(() => CreateNewClient(Investments.FirstOrDefault()));
-
-                        if (!(client == null))
-                        {
-                            lock (_lockObject)
-                            {
-                                UpdateClientDetails(client, Investments.FirstOrDefault());
-                                Program.ClientService.Update(client);
-                            }
-                        }
+                        
                     }
-                    else
+                    else //If client does exist but client portfolio not initialised, then initialise client portfolio and details
                     {
                         await Task.Run(() =>
                         {
@@ -1041,7 +1048,7 @@ namespace Finx.App.Forms
                                     client = Program.ClientService.Get(matchedClientDetails.ClientId);
 
                                     if (!(client == null))
-                                    { 
+                                    {
                                         if (client.ClientPortfolio == null)
                                         {
                                             client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
@@ -1067,9 +1074,6 @@ namespace Finx.App.Forms
                                             Program.ClientService.Update(client);
                                         }
 
-                                        UpdateClientDetails(client, Investments.FirstOrDefault());
-                                        Program.ClientService.Update(client);
-                                        
                                     }
                                 }
                             }
@@ -1096,8 +1100,19 @@ namespace Finx.App.Forms
 
                     if (client == null) return;
                 }
+                else
+                {
+                    //If client does exist then set client
+                    client = Program.ClientService.Get(matchedClientDetails.ClientId);
+                }
 
-                
+                //Fill in client Address and contact details
+                if (!(client == null))
+                {
+                    await Task.Run(() => UpdateClientDetails(client, Investments.FirstOrDefault()));
+                        Program.ClientService.Update(client);   
+                }
+
                 //get all distinct policies for this client
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
@@ -2257,7 +2272,7 @@ namespace Finx.App.Forms
                             double newFundValue = fund.FundValue.AsDouble();
                             DateTime.TryParse(fund.FundValueDate, out DateTime newFundValDate);
 
-                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
+                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.UpdateDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
                             {
                                 newfund = CreateFund(fund, fundAllocPerc);
                                 var retirementFunds = retirement.Funds;
@@ -2597,7 +2612,7 @@ namespace Finx.App.Forms
                 double dblFundValue = fundValue.AsDouble();
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
-                if (csvRecord.FundValueDate != null && fundValDate > fund.FundValueDate)
+                if (csvRecord.FundValueDate != null && fundValDate > fund.UpdateDate)
                 {
                     fund.CurrentAmount = dblFundValue;
                     fund.SplitPerc = dblSplitPerc; 
