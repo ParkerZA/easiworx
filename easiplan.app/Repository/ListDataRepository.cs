@@ -493,7 +493,7 @@ namespace Finx.App
 
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Buy And Sell", "Buy And Sell"));
             Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Contingent Liability", "Contingent Liability"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "GLA (Group Life Cover)", "GLA (Group Life Cover)"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "GLA (Group Life Assurance)", "GLA (Group Life Assurance)"));
             //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Disability Cover", "Disability Cover"));
             //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Dreaded Disease", "Dreaded Disease"));
             //Items.Add(new ListDataItem(ListDataItemType.RiskPolicyType, "Education", "Education"));
@@ -504,7 +504,7 @@ namespace Finx.App
 
             Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Buy And Sell", "Buy And Sell"));
             Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Contingent Liability", "Contingent Liability"));
-            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "GLA (Group Life Cover)", "GLA (Group Life Cover)"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "GLA (Group Life Assurance)", "GLA (Group Life Assurance)"));
             Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Keyman", "Keyman"));
             Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Life Cover", "Life Cover"));
             //Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Disability Cover", "Disability Cover"));
