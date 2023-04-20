@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using my.domain.lib.core.Validation;
 using EnvDTE;
-
+using HibernatingRhinos.Profiler.Appender.CosmosDB.Integration;
 
 namespace Finx.App.Forms
 {
@@ -1000,9 +1000,10 @@ namespace Finx.App.Forms
 
         private async Task ImportClientInvestments(string ClientUniqueId, List<ICsvRecord> Investments)
         {
-
+            
             try
             {
+                Console.WriteLine(Environment.ProcessorCount - 1);
                 //get client, if client portfolio exists on easiworx, return it otherwise create new client & return it
                 var clientPortfolio = await GetClientPortfolio(ClientUniqueId);
 
@@ -1109,7 +1110,11 @@ namespace Finx.App.Forms
                 if (!(client == null))
                 {
                     await Task.Run(() => UpdateClientDetails(client, Investments.FirstOrDefault()));
-                        Program.ClientService.Update(client);   
+
+                    lock (_lockObject)
+                    {
+                        Program.ClientService.Update(client);
+                    }
                 }
 
                 //get all distinct policies for this client
@@ -2030,7 +2035,7 @@ namespace Finx.App.Forms
 
                 var parallelOptions = new ParallelOptions()
                 {
-                    MaxDegreeOfParallelism = -1,
+                    MaxDegreeOfParallelism = Environment.ProcessorCount - 1, //was -1
                     CancellationToken = frmCsvImportProgressWindow.cancelTk
                 };
 
