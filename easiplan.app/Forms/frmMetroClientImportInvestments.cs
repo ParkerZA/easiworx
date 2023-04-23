@@ -36,6 +36,7 @@ using System.Windows.Forms;
 using my.domain.lib.core.Validation;
 using EnvDTE;
 using HibernatingRhinos.Profiler.Appender.CosmosDB.Integration;
+using Finx.App.UserControls;
 
 namespace Finx.App.Forms
 {
@@ -2265,6 +2266,7 @@ namespace Finx.App.Forms
                             var retirementFunds = retirement.Funds;
                             retirementFunds.Add(newfund);
                             retirement.Funds = retirementFunds;
+                            addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                             retirement.MonthlyContribution += newfund.PolicyPremium;
                         }
                         
@@ -2282,6 +2284,7 @@ namespace Finx.App.Forms
                                 var retirementFunds = retirement.Funds;
                                 retirementFunds.Add(newfund);
                                 retirement.Funds = retirementFunds;
+                                addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
                             }
                             else
@@ -2294,6 +2297,7 @@ namespace Finx.App.Forms
                         var retirementFunds = retirement.Funds;
                         retirementFunds.Add(newfund);
                         retirement.Funds = retirementFunds;
+                        addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                         retirement.MonthlyContribution += newfund.PolicyPremium;
                     }
                     newfund = null;
@@ -2305,7 +2309,7 @@ namespace Finx.App.Forms
                     double mpFundValue=0;
                     double mpSplitPerc = 100;
                     double mpPolicyPremium = 0;
-
+                    string mpLisp = "";
                     DateTime mpFundValDate= new DateTime(0001, 1, 1);
                     DateTime mpStartDate = new DateTime(0001, 1, 1);
 
@@ -2315,8 +2319,8 @@ namespace Finx.App.Forms
                         EasiworxRecord esFund = ((EasiworxRecord)fund);
                         mpName = esFund.ModelPortfolio;
                         mpFundValue += esFund.FundValue.AsDouble();
-                        //mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
                         mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+                        mpLisp = esFund.LISP;
 
                         if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
                         DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);
@@ -2361,6 +2365,7 @@ namespace Finx.App.Forms
                                 var retirementFunds = retirement.Funds;
                                 retirementFunds.Add(modelPortfolioFund);
                                 retirement.Funds = retirementFunds;
+                                addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
                                 retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
                             }
 
@@ -2378,6 +2383,7 @@ namespace Finx.App.Forms
                                     var retirementFunds = retirement.Funds;
                                     retirementFunds.Add(modelPortfolioFund);
                                     retirement.Funds = retirementFunds;
+                                    addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
                                     retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
                                 }
                                 else
@@ -2400,6 +2406,7 @@ namespace Finx.App.Forms
                             var retirementFunds = retirement.Funds;
                             retirementFunds.Add(modelPortfolioFund);
                             retirement.Funds = retirementFunds;
+                            addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
                             retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
                             
                         }
@@ -2506,9 +2513,7 @@ namespace Finx.App.Forms
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-            /*var fundValue = csvRecord.FundValue.Replace(".", ",");
-            Double.TryParse(fundValue, out double dblFundValue);*/
-
+            
             var fundValue = csvRecord.FundValue.Replace(",", ""); //Removes comma if it exists, this is a potential area of contention
 
            // Double.TryParse(csvRecord.FundValue, out double dblFundValue);
@@ -2563,7 +2568,7 @@ namespace Finx.App.Forms
 
             }
 
-
+            
 
             var fund = new Fund()
             {
@@ -2631,6 +2636,70 @@ namespace Finx.App.Forms
             }
             return fund;
         }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void addFundsToRepository(string fundCode, string fundName, string lispName)
+        {
+
+            //Create lisp object
+            Lisp lispProvider = new Lisp() { LispName = lispName };
+
+            //Extract fund class from the brackets in the fund name
+            string fundClass = Regex.Match(fundName, @"(?<=\()[^)]+(?=\))").Value.Replace("Class", "").Trim();
+
+
+            //Create the fund object using fund code, fund name excluding the class part, and fund class
+            LispFund lispFund = new LispFund()
+            {
+                FundCode = fundCode,
+                FundName = Regex.Replace(fundName, @"\([^)]*\)", ""),
+                //FundClass = fundClass
+
+            };
+
+            if (!string.IsNullOrWhiteSpace(fundClass))
+            {
+                lispFund.FundClass = fundClass;
+            }
+
+
+            //Set repositary
+            Provider ServiceProviders = new Provider();
+            ServiceProviders = (Provider)Program.Repository.List<Provider, int>(null).FirstOrDefault();
+
+
+            //Search repository to see if lisp exists already
+            var existingLisp = ServiceProviders.LispProviders.Lisps.Where(sp => sp.LispName.ToLower().Equals(lispProvider.LispName.ToLower())).FirstOrDefault();
+            
+            //Add lisp to database if it doesnt exist
+            if (existingLisp == null)
+            {
+                existingLisp = lispProvider;
+                ServiceProviders.LispProviders.Lisps.Add(lispProvider);
+            }
+
+            //Search database to see if funds already belong to lisp
+            var existingLispFund = existingLisp.LispFunds.Where(lf => lf.FundCode.Equals(lispFund.FundCode) || (string.IsNullOrEmpty(lispFund.FundCode) && lf.FundName.Equals(lispFund.FundName))).FirstOrDefault();
+
+            //Add fund to lisp if it doesnt exist already
+            if (existingLispFund == null)
+            {
+                existingLispFund = lispFund;
+                existingLisp.LispFunds.Add(existingLispFund);
+            }
+
+            //Update repository
+            Program.Repository.Update<Provider, int>(ServiceProviders);
+
+            //Refresh service provider tab
+            Program.SetServiceProviders();
+
+        }
+
+
+
+
         private async Task ExportErrorRecordsToCsvFile()
         {
             string fileName = "";
