@@ -533,16 +533,25 @@ namespace Finx.App.Forms
                 if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
                     Task.Run(async () => { await GetMatchedEasiworxClientsFromCsv(); });
-                    
+
                     ValidateDataGridRecords();
 
-                    Task.Run(async () => {await GetErrorRecords();});
+                    Task.Run(async () => { await GetErrorRecords(); });
 
-                    Task.Run(async () => {await SetFileImportDetails();});
+                    Task.Run(async () => { await SetFileImportDetails(); });
 
                     //_dataBindingCompleteHasRun = true;
 
                 }
+                else
+                {
+                    ValidateDataGridRecords();
+
+                    Task.Run(async () => { await GetErrorRecords(); });
+
+                    Task.Run(async () => { await SetFileImportDetails(); });
+                }
+                
             }
         }
 
@@ -1989,6 +1998,9 @@ namespace Finx.App.Forms
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
+
+                
+
                 if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
                     _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => ec.IdentificationNo == csvList.IDNumber &&
@@ -2000,6 +2012,7 @@ namespace Finx.App.Forms
                                                                                                                               csvList2.HasErrors == false &&
                                                                                                                                ec2.ClientId != 0))).ToList();
                 }
+
             }
             catch (IOException) //Catches exception when the CSV file is being used by another program
             {
@@ -2680,7 +2693,7 @@ namespace Finx.App.Forms
             }
 
             //Search database to see if funds already belong to lisp
-            var existingLispFund = existingLisp.LispFunds.Where(lf => lf.FundCode.Equals(lispFund.FundCode) || (string.IsNullOrEmpty(lispFund.FundCode) && lf.FundName.Equals(lispFund.FundName))).FirstOrDefault();
+            var existingLispFund = existingLisp.LispFunds.Where(lf => (lf.FundCode.Equals(lispFund.FundCode)&& !(string.IsNullOrEmpty(lispFund.FundCode))) || (string.IsNullOrEmpty(lispFund.FundCode) && lf.FundName.Equals(lispFund.FundName))).FirstOrDefault();
 
             //Add fund to lisp if it doesnt exist already
             if (existingLispFund == null)
@@ -3408,7 +3421,7 @@ namespace Finx.App.Forms
                 if (Program.ClientDetailsService == null)
                     throw new ApplicationException("ClientDetails service is null!");
 
-                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null).ToList());
+                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null).ToList()); //Define existing clients
             }
             catch (Exception)
             {
@@ -3425,9 +3438,15 @@ namespace Finx.App.Forms
 
                 var totRecs = _csvRecordList.Count;
                 var errCnt = _csvErrorRecords == null ? 0 : _csvErrorRecords.Count;
-
-
-                _noOfExistingClients = _matchedClientsFromCsv.Count;
+                
+                if (_matchedClientsFromCsv != null)
+                {
+                    _noOfExistingClients = _matchedClientsFromCsv.Count;
+                }
+                else
+                {
+                    _noOfExistingClients = 0;
+                }
                 _noOfNewClients = totRecs - _noOfExistingClients;
                 
                 
