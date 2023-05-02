@@ -320,24 +320,6 @@ namespace Finx.App.Forms
         }
 
 
-        //Do database cleanout here
-
-
-
-        //Remove this after testing
-        /*
-         List<Client> ClientDetailscheck = null;
-           ClientDetailscheck = Program.ClientService.List(null).ToList();
-         foreach (Client rec in ClientDetailscheck)
-         {
-             //Program.ClientService.Remove(rec.Id);
-         }
-         //var clients = Program.ClientService.get
-         foreach (ClientDetails rec in _existingClientDetails)
-         {
-             //Program.ClientDetailsService.Remove(rec.Id);
-         }
-         */
         private async void tsbDeleteClient_Clicked(object sender, EventArgs e)
         {
             var count= this.clientDetailsViewList.Where(x => x.IsSelected==true).Count();
