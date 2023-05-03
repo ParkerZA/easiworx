@@ -279,7 +279,9 @@ namespace Finx.App
 
             Items.Add(new ListDataItem(ListDataItemType.RiskProfileStatus, "Unknown", "Unknown"));
             Items.Add(new ListDataItem(ListDataItemType.RiskProfileStatus, "Conservative", "Conservative"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskProfileStatus, "Moderate Conservative", "Moderate Conservative"));
             Items.Add(new ListDataItem(ListDataItemType.RiskProfileStatus, "Moderate", "Moderate"));
+            Items.Add(new ListDataItem(ListDataItemType.RiskProfileStatus, "Moderate Aggressive", "Moderate Aggressive"));
             Items.Add(new ListDataItem(ListDataItemType.RiskProfileStatus, "Aggressive", "Aggressive"));
 
             Items.Add(new ListDataItem(ListDataItemType.DependentType, "Spouse", "Spouse"));
