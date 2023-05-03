@@ -633,6 +633,12 @@
     <Compile Include="Forms\frmCsvImportProgressWindow.Designer.cs">
       <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMetroClientAdviceRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientAdviceRecord.Designer.cs">
+      <DependentUpon>frmMetroClientAdviceRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMetroPopUpWindow1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -944,6 +950,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageManualTemplatesAdd.resx">
       <DependentUpon>frmManageManualTemplatesAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroClientAdviceRecord.resx">
+      <DependentUpon>frmMetroClientAdviceRecord.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroClientImportInvestments.resx">
       <DependentUpon>frmMetroClientImportInvestments.cs</DependentUpon>
