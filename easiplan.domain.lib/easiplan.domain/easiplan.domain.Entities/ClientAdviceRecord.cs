@@ -1,0 +1,273 @@
+﻿using FluentValidation;
+using my.domain.lib.core.Attributes;
+using my.domain.lib.core.Domain;
+using my.domain.lib.core.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+namespace easiplan.domain.Entities
+{
+    public class ClientAdviceRecord : BaseEntity<int>
+    {
+        private string _clientName;
+        private string _adviserName;
+        private string _venue;
+        private string _date;
+        private string _generalNotes;
+        private string _riskProfile;
+        private string _investmentType;
+        private string _policyNumber;
+        private string _needsAndObjectives;
+        private string _financialSituation;
+        private string _investmentHorizen;
+        private string _accessToCapital;
+        private string _additionalInfo;
+        private string _recommendedProduct;
+        private string _motivation;
+        private string _initialRecommendation;
+
+
+        //Name of the client that owns the policy
+        public virtual string ClientName
+        {
+            get
+            {
+                return _clientName;
+            }
+            set
+            {
+                _clientName = value;
+                InvokePropertyChanged("ClientName");
+            }
+        }
+
+
+        //Name of the advisor responsible for the client
+        public virtual string AdviserName
+        {
+            get
+            {
+                return _adviserName;
+            }
+            set
+            {
+                _adviserName = value;
+                InvokePropertyChanged("AdviserName");
+            }
+        }
+
+
+        //Venue
+        public virtual string Venue
+        {
+            get
+            {
+                return _venue;
+            }
+            set
+            {
+                _venue = value;
+                InvokePropertyChanged("Venue");
+            }
+        }
+
+
+        //Date that the car is created
+        public virtual string Date
+        {
+            get
+            {
+                return _date;
+            }
+            set
+            {
+                _date = value;
+                InvokePropertyChanged("Date");
+            }
+        }
+
+
+        //General notes from the advisor
+        public virtual string GeneralNotes
+        {
+            get
+            {
+                return _generalNotes;
+            }
+            set
+            {
+                _generalNotes = value;
+                InvokePropertyChanged("GeneralNotes");
+            }
+        }
+
+
+        //Clients risk profile
+        public virtual string RiskProfile
+        {
+            get
+            {
+                return _riskProfile;
+            }
+            set
+            {
+                _riskProfile = value;
+                InvokePropertyChanged("RiskProfile");
+            }
+        }
+
+
+        //Type of investment
+        public virtual string InvestmentType
+        {
+            get
+            {
+                return _investmentType;
+            }
+            set
+            {
+                _investmentType = value;
+                InvokePropertyChanged("InvestmentType");
+            }
+        }
+
+
+        //Policy number for the policy
+        public virtual string PolicyNumber
+        {
+            get
+            {
+                return _policyNumber;
+            }
+            set
+            {
+                _policyNumber = value;
+                InvokePropertyChanged("PolicyNumber");
+            }
+        }
+
+
+        //Clients needs and objectives as given by the adviser
+        public virtual string NeedsAndObjectives
+        {
+            get
+            {
+                return _needsAndObjectives;
+            }
+            set
+            {
+                _needsAndObjectives = value;
+                InvokePropertyChanged("NeedsAndObjectives");
+            }
+        }
+
+
+        //Clients financial situation
+        public virtual string FincancialSituation
+        {
+            get
+            {
+                return _financialSituation;
+            }
+            set
+            {
+                _financialSituation = value;
+                InvokePropertyChanged("FinancialSituation");
+            }
+        }
+
+
+        //The spot where the sun comes out and the money glistens
+        public virtual string InvestmentHorizen
+        {
+            get
+            {
+                return _investmentHorizen;
+            }
+            set
+            {
+                _investmentHorizen = value;
+                InvokePropertyChanged("InvestmentHorizen");
+            }
+        }
+
+
+        public virtual string AccessToCapital
+        {
+            get
+            {
+                return _accessToCapital;
+            }
+            set
+            {
+                _accessToCapital = value;
+                InvokePropertyChanged("AccessToCapital");
+            }
+        }
+
+
+        //Additional information given by the adviser
+        public virtual string AdditionalInfo
+        {
+            get
+            {
+                return _additionalInfo;
+            }
+            set
+            {
+                _additionalInfo = value;
+                InvokePropertyChanged("AdditionalInfo");
+            }
+        }
+
+
+        //Investment product / fund that has been recommended by advisor
+        public virtual string RecommendedProduct
+        {
+            get
+            {
+                return _recommendedProduct;
+            }
+            set
+            {
+                _recommendedProduct = value;
+                InvokePropertyChanged("RecommendedProduct");
+            }
+        }
+
+
+        //Motivation for the investment
+        public virtual string Motivation
+        {
+            get
+            {
+                return _motivation;
+            }
+            set
+            {
+                _motivation = value;
+                InvokePropertyChanged("Motivation");
+            }
+        }
+
+
+        //Advisors recommendation to the client
+        public virtual string InitialRecommendation
+        {
+            get
+            {
+                return _initialRecommendation;
+            }
+            set
+            {
+                _initialRecommendation = value;
+                InvokePropertyChanged("InitalRecommendation");
+            }
+        }
+        public override void Calculate()
+        {
+            base.Calculate();
+        }
+    }
+}
