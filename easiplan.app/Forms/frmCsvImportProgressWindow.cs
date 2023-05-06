@@ -316,7 +316,7 @@ namespace Finx.App.Forms
             {
                 this.SetCaption("The import has been Cancelled");
                 this.SetText("Please wait while current import batch finishes importing, no further batches will be imported");
-
+                this.metroButton_Cancel.Enabled = false;
                 this.allowTextEdit = false;
                 AbortWork();
             }

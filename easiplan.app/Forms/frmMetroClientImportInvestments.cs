@@ -35,7 +35,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using my.domain.lib.core.Validation;
 using EnvDTE;
-
+using HibernatingRhinos.Profiler.Appender.CosmosDB.Integration;
+using Finx.App.UserControls;
 
 namespace Finx.App.Forms
 {
@@ -532,16 +533,25 @@ namespace Finx.App.Forms
                 if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
                     Task.Run(async () => { await GetMatchedEasiworxClientsFromCsv(); });
-                    
+
                     ValidateDataGridRecords();
 
-                    Task.Run(async () => {await GetErrorRecords();});
+                    Task.Run(async () => { await GetErrorRecords(); });
 
-                    Task.Run(async () => {await SetFileImportDetails();});
+                    Task.Run(async () => { await SetFileImportDetails(); });
 
                     //_dataBindingCompleteHasRun = true;
 
                 }
+                else
+                {
+                    ValidateDataGridRecords();
+
+                    Task.Run(async () => { await GetErrorRecords(); });
+
+                    Task.Run(async () => { await SetFileImportDetails(); });
+                }
+                
             }
         }
 
@@ -1000,36 +1010,44 @@ namespace Finx.App.Forms
 
         private async Task ImportClientInvestments(string ClientUniqueId, List<ICsvRecord> Investments)
         {
-
+            
             try
             {
+                Console.WriteLine(Environment.ProcessorCount - 1);
                 //get client, if client portfolio exists on easiworx, return it otherwise create new client & return it
                 var clientPortfolio = await GetClientPortfolio(ClientUniqueId);
+
+                var matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.IdentificationNo.Trim() == ClientUniqueId).FirstOrDefault());
+
+                if (matchedClientDetails == null) //try passport no
+                    matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
+
+                //Declare empty client
                 Client client = null;
 
+                
                 if (clientPortfolio == null) //create new client & return it
                 {
                     //1st check if client exists
 
+                    //Dont make sense that we check portfolio before client... this is why the update streets isnt firing... check that... also look into using an await
+
+                    /*
                     var matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.IdentificationNo.Trim() == ClientUniqueId).FirstOrDefault());
 
                     if (matchedClientDetails == null) //try passport no
                         matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
 
+                    */
+
+                    //If client does not exist, create new client
                     if (matchedClientDetails == null)
                     {
+                        
                         client = await Task.Run(() => CreateNewClient(Investments.FirstOrDefault()));
-
-                        if (!(client == null))
-                        {
-                            lock (_lockObject)
-                            {
-                                UpdateClientDetails(client, Investments.FirstOrDefault());
-                                Program.ClientService.Update(client);
-                            }
-                        }
+                        
                     }
-                    else
+                    else //If client does exist but client portfolio not initialised, then initialise client portfolio and details
                     {
                         await Task.Run(() =>
                         {
@@ -1040,7 +1058,7 @@ namespace Finx.App.Forms
                                     client = Program.ClientService.Get(matchedClientDetails.ClientId);
 
                                     if (!(client == null))
-                                    { 
+                                    {
                                         if (client.ClientPortfolio == null)
                                         {
                                             client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
@@ -1066,9 +1084,6 @@ namespace Finx.App.Forms
                                             Program.ClientService.Update(client);
                                         }
 
-                                        UpdateClientDetails(client, Investments.FirstOrDefault());
-                                        Program.ClientService.Update(client);
-                                        
                                     }
                                 }
                             }
@@ -1095,8 +1110,23 @@ namespace Finx.App.Forms
 
                     if (client == null) return;
                 }
+                else
+                {
+                    //If client does exist then set client
+                    client = Program.ClientService.Get(matchedClientDetails.ClientId);
+                }
 
-                
+                //Fill in client Address and contact details
+                if (!(client == null))
+                {
+                    await Task.Run(() => UpdateClientDetails(client, Investments.FirstOrDefault()));
+
+                    lock (_lockObject)
+                    {
+                        Program.ClientService.Update(client);
+                    }
+                }
+
                 //get all distinct policies for this client
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
@@ -1968,6 +1998,9 @@ namespace Finx.App.Forms
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
+
+                
+
                 if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
                     _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => ec.IdentificationNo == csvList.IDNumber &&
@@ -1979,6 +2012,7 @@ namespace Finx.App.Forms
                                                                                                                               csvList2.HasErrors == false &&
                                                                                                                                ec2.ClientId != 0))).ToList();
                 }
+
             }
             catch (IOException) //Catches exception when the CSV file is being used by another program
             {
@@ -2015,7 +2049,7 @@ namespace Finx.App.Forms
 
                 var parallelOptions = new ParallelOptions()
                 {
-                    MaxDegreeOfParallelism = -1,
+                    MaxDegreeOfParallelism = Environment.ProcessorCount - 1, //was -1
                     CancellationToken = frmCsvImportProgressWindow.cancelTk
                 };
 
@@ -2245,6 +2279,7 @@ namespace Finx.App.Forms
                             var retirementFunds = retirement.Funds;
                             retirementFunds.Add(newfund);
                             retirement.Funds = retirementFunds;
+                            addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                             retirement.MonthlyContribution += newfund.PolicyPremium;
                         }
                         
@@ -2256,12 +2291,13 @@ namespace Finx.App.Forms
                             double newFundValue = fund.FundValue.AsDouble();
                             DateTime.TryParse(fund.FundValueDate, out DateTime newFundValDate);
 
-                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
+                            if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.UpdateDate && fundAllocPerc != 0 && fundAllocPerc != existingFund.SplitPerc)
                             {
                                 newfund = CreateFund(fund, fundAllocPerc);
                                 var retirementFunds = retirement.Funds;
                                 retirementFunds.Add(newfund);
                                 retirement.Funds = retirementFunds;
+                                addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
                             }
                             else
@@ -2274,6 +2310,7 @@ namespace Finx.App.Forms
                         var retirementFunds = retirement.Funds;
                         retirementFunds.Add(newfund);
                         retirement.Funds = retirementFunds;
+                        addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                         retirement.MonthlyContribution += newfund.PolicyPremium;
                     }
                     newfund = null;
@@ -2285,7 +2322,7 @@ namespace Finx.App.Forms
                     double mpFundValue=0;
                     double mpSplitPerc = 100;
                     double mpPolicyPremium = 0;
-
+                    string mpLisp = "";
                     DateTime mpFundValDate= new DateTime(0001, 1, 1);
                     DateTime mpStartDate = new DateTime(0001, 1, 1);
 
@@ -2295,8 +2332,8 @@ namespace Finx.App.Forms
                         EasiworxRecord esFund = ((EasiworxRecord)fund);
                         mpName = esFund.ModelPortfolio;
                         mpFundValue += esFund.FundValue.AsDouble();
-                        //mpSplitPerc += esFund.AccountFundAllocation.AsDouble();
                         mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+                        mpLisp = esFund.LISP;
 
                         if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
                         DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);
@@ -2341,6 +2378,7 @@ namespace Finx.App.Forms
                                 var retirementFunds = retirement.Funds;
                                 retirementFunds.Add(modelPortfolioFund);
                                 retirement.Funds = retirementFunds;
+                                addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
                                 retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
                             }
 
@@ -2358,6 +2396,7 @@ namespace Finx.App.Forms
                                     var retirementFunds = retirement.Funds;
                                     retirementFunds.Add(modelPortfolioFund);
                                     retirement.Funds = retirementFunds;
+                                    addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
                                     retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
                                 }
                                 else
@@ -2380,6 +2419,7 @@ namespace Finx.App.Forms
                             var retirementFunds = retirement.Funds;
                             retirementFunds.Add(modelPortfolioFund);
                             retirement.Funds = retirementFunds;
+                            addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
                             retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
                             
                         }
@@ -2486,9 +2526,7 @@ namespace Finx.App.Forms
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-            /*var fundValue = csvRecord.FundValue.Replace(".", ",");
-            Double.TryParse(fundValue, out double dblFundValue);*/
-
+            
             var fundValue = csvRecord.FundValue.Replace(",", ""); //Removes comma if it exists, this is a potential area of contention
 
            // Double.TryParse(csvRecord.FundValue, out double dblFundValue);
@@ -2543,7 +2581,7 @@ namespace Finx.App.Forms
 
             }
 
-
+            
 
             var fund = new Fund()
             {
@@ -2596,7 +2634,7 @@ namespace Finx.App.Forms
                 double dblFundValue = fundValue.AsDouble();
                 DateTime.TryParse(csvRecord.FundValueDate, out DateTime fundValDate);
 
-                if (csvRecord.FundValueDate != null && fundValDate > fund.FundValueDate)
+                if (csvRecord.FundValueDate != null && fundValDate > fund.UpdateDate)
                 {
                     fund.CurrentAmount = dblFundValue;
                     fund.SplitPerc = dblSplitPerc; 
@@ -2611,6 +2649,70 @@ namespace Finx.App.Forms
             }
             return fund;
         }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void addFundsToRepository(string fundCode, string fundName, string lispName)
+        {
+
+            //Create lisp object
+            Lisp lispProvider = new Lisp() { LispName = lispName };
+
+            //Extract fund class from the brackets in the fund name
+            string fundClass = Regex.Match(fundName, @"(?<=\()[^)]+(?=\))").Value.Replace("Class", "").Trim();
+
+
+            //Create the fund object using fund code, fund name excluding the class part, and fund class
+            LispFund lispFund = new LispFund()
+            {
+                FundCode = fundCode,
+                FundName = Regex.Replace(fundName, @"\([^)]*\)", ""),
+                //FundClass = fundClass
+
+            };
+
+            if (!string.IsNullOrWhiteSpace(fundClass))
+            {
+                lispFund.FundClass = fundClass;
+            }
+
+
+            //Set repositary
+            Provider ServiceProviders = new Provider();
+            ServiceProviders = (Provider)Program.Repository.List<Provider, int>(null).FirstOrDefault();
+
+
+            //Search repository to see if lisp exists already
+            var existingLisp = ServiceProviders.LispProviders.Lisps.Where(sp => sp.LispName.ToLower().Equals(lispProvider.LispName.ToLower())).FirstOrDefault();
+            
+            //Add lisp to database if it doesnt exist
+            if (existingLisp == null)
+            {
+                existingLisp = lispProvider;
+                ServiceProviders.LispProviders.Lisps.Add(lispProvider);
+            }
+
+            //Search database to see if funds already belong to lisp
+            var existingLispFund = existingLisp.LispFunds.Where(lf => (lf.FundCode.Equals(lispFund.FundCode)&& !(string.IsNullOrEmpty(lispFund.FundCode))) || (string.IsNullOrEmpty(lispFund.FundCode) && lf.FundName.Equals(lispFund.FundName))).FirstOrDefault();
+
+            //Add fund to lisp if it doesnt exist already
+            if (existingLispFund == null)
+            {
+                existingLispFund = lispFund;
+                existingLisp.LispFunds.Add(existingLispFund);
+            }
+
+            //Update repository
+            Program.Repository.Update<Provider, int>(ServiceProviders);
+
+            //Refresh service provider tab
+            Program.SetServiceProviders();
+
+        }
+
+
+
+
         private async Task ExportErrorRecordsToCsvFile()
         {
             string fileName = "";
@@ -3319,7 +3421,7 @@ namespace Finx.App.Forms
                 if (Program.ClientDetailsService == null)
                     throw new ApplicationException("ClientDetails service is null!");
 
-                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null).ToList());
+                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null).ToList()); //Define existing clients
             }
             catch (Exception)
             {
@@ -3336,9 +3438,15 @@ namespace Finx.App.Forms
 
                 var totRecs = _csvRecordList.Count;
                 var errCnt = _csvErrorRecords == null ? 0 : _csvErrorRecords.Count;
-
-
-                _noOfExistingClients = _matchedClientsFromCsv.Count;
+                
+                if (_matchedClientsFromCsv != null)
+                {
+                    _noOfExistingClients = _matchedClientsFromCsv.Count;
+                }
+                else
+                {
+                    _noOfExistingClients = 0;
+                }
                 _noOfNewClients = totRecs - _noOfExistingClients;
                 
                 

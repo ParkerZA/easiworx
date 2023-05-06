@@ -32,6 +32,7 @@ namespace easiplan.app.ContextMenus
 
         frmMetroPolicyFunds frmPolicyFunds = null;
         frmMetroPolicyNotes frmPolicyNotes = null;
+        frmMetroClientAdviceRecord frmClientAdviceRecord = null;
 
         EventHandler _OnCompleted;
 
@@ -80,6 +81,8 @@ namespace easiplan.app.ContextMenus
                     _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Policy Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; 
                     _menu.AddMenuItem("-");
+                    //_menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
+                    //_menu.AddMenuItem("-");
                     _menu.AddMenuItem("Cancel Policy", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     if (contextMenuType == ContextMenuType.RetirementPortfolio)
                     {
@@ -718,6 +721,97 @@ namespace easiplan.app.ContextMenus
                 _OnCompleted?.Invoke(_selectedItem, e);
             }
         }
+
+
+        //Open client advice record
+
+        private void ClientAdviceRecord_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedItem = GetSourceGridSelectedItem(_menu.SourceControl, e);
+
+                if (_selectedItem == null)
+                    return;
+
+                if (frmClientAdviceRecord != null)
+                {
+
+                    if (_selectedItem == frmClientAdviceRecord.SelectedItem && !frmClientAdviceRecord.IsDisposed)
+                    {
+                        frmClientAdviceRecord.BringToFront();
+                        return;
+                    }
+                    else
+                        frmClientAdviceRecord.Close();
+                }
+
+
+                switch (_contextMenuType)
+                {
+                    case ContextMenuType.RetirementPortfolio:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Retirement, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.InvestmentPortfolio:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Investment, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.EducationPortfolio:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Education, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.MedicalPortfolio:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Medical, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.LifePortfolio:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Life, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.AssetPortfolio:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as IncomeAsset, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.RetirementFna:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Need, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.EducationFna:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as EducationNeed, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.InvestmentFna:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as InvestmentNeed, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    case ContextMenuType.ClientInstruction:
+                    case ContextMenuType.AdminTask:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Instruction, ReadOnly, PolicyAction.AmendPolicy);
+                        break;
+                    default:
+                        return;
+                }
+
+                frmClientAdviceRecord.Client = this._client;
+                frmClientAdviceRecord.SelectedItem = _selectedItem;
+
+                using (new AppWaitCursor(sender))
+                {
+                    frmClientAdviceRecord.WindowState = FormWindowState.Maximized;
+                    frmClientAdviceRecord.Show();
+                }
+
+            }
+            catch (my.domain.lib.core.Domain.MyValidationException vx)
+            {
+                MessageBoxExt.ShowWarning(vx.Message);
+
+            }
+            catch (Exception x)
+            {
+                MessageBoxExt.ShowException(x);
+            }
+            finally
+            {
+                _OnCompleted?.Invoke(_selectedItem, e);
+            }
+        }
+
+
+
+
         private void OpenClientForm_Click(object sender, EventArgs e)
         {
             try

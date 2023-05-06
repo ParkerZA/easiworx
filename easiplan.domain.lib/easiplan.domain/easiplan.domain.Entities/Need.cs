@@ -277,6 +277,10 @@ namespace easiplan.domain.Entities
 					
 				}
 
+				//CurrentAmount = Funds.Sum((Fund x) => x.CurrentAmount);
+
+				//if(InitialAmount==0)
+				//	InitialAmount = Funds.Sum((Fund x) => x.InitialAmount)- Funds.Sum((Fund x) => x.WithdrawalAmount);
                 //CurrentAmount = Funds.Sum((Fund x) => x.CurrentAmount);
 
                 //if(InitialAmount==0)

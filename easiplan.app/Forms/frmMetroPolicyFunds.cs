@@ -1063,7 +1063,7 @@ namespace Finx.App.Forms
                         columns.For(x => x.MonthlyContribution, "Split Premium", new MetroCurrencyEditor(120).ReadOnly(true));
                         columns.For(x => x.CurrentAmount, "Fund Value", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
                         columns.For(x => x.NewFundValue, "New Fund Value", new MetroCurrencyEditor(130).ReadOnly(true));
-                        columns.For(x => x.FundValueDate, "Last Update", new MetroDateEditor(100).ReadOnly(true));
+                        columns.For(x => x.UpdateDate, "Last Update", new MetroDateEditor(100).ReadOnly(true));
                     }, PropertyChangedHandler: Fund_propertyChanged_EventHandler,
                         ItemDeleteEventHandler: Fund_propertyDelete_EventHandler, 
                         ReadOnly: ReadOnly,

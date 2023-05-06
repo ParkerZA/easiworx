@@ -481,9 +481,9 @@ namespace Finx.App.Models
                 {
                     _productType = "Retirement Annuities";
                 }
-                else if (value.ToLower().Contains("investment platform unit trust") || value.ToLower().Contains("flexible investment option") || value.ToLower().Contains("investment plan"))
+                else if (value.ToLower().Contains("investment platform unit trust") || value.ToLower().Contains("flexible investment option") || value.ToLower().Contains("investment plan") || value.ToLower().Equals("unit trust"))
                 {
-                    _productType = "Unit Trust";
+                    _productType = "Unit Trusts";
                 }
                 else if (value.ToLower().Contains("preservation") && value.ToLower().Contains("provident"))
                 {

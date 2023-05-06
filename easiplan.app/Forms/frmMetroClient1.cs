@@ -2497,7 +2497,7 @@ namespace Finx.App.Forms
                             columns.For(x => x.MonthlyContribution, "Premium", new CurrencyEditor(true));
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));
-                            columns.For(x => x.FundValueDate, "Last Update", new DateEditor(true));
+                            columns.For(x => x.UpdateDate, "Last Update", new DateEditor(true));
 
                             //remove this
                             //columns.For(x => x.UpdateDate, "Update", new DateEditor(true));
