@@ -207,9 +207,12 @@ namespace easiplan.domain.Entities
 				need.NeedType = NeedTypes.InvestmentNeed;
 				need.Periods = Periods;
 				need.InflationPercentage = InflationPercentage;
-				need.GrowthPercentage = GrowthPercentage;
-				need.EscalationPercentage = EsclPercentage;
-				if (ServiceProvider != null)
+
+				//YJ 09/05/2023 - bug causing values to be reset to 0
+                //need.GrowthPercentage = GrowthPercentage;
+                //need.EscalationPercentage = EsclPercentage;
+
+                if (ServiceProvider != null)
 				{
 					need.LispProvider = (from x in ServiceProvider.LispProviders.Lisps
 					where x.LispName == need.Description
