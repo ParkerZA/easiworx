@@ -8610,6 +8610,8 @@ namespace MetroFramework.Controls.Ext
 
                         lableHeight += label.Height + 5;
 
+                       label.TextAlign = ContentAlignment.MiddleRight;
+
                         label.Name = "lbl_" + control.Name;
                         panel.Controls.Add(label);
                     }
