@@ -162,7 +162,9 @@ namespace easiplan.domain
 
 				if (IsLoading) return;
 
-				Calculate();
+				RecalcNewMonthlyPremium = true;
+
+                Calculate();
 
 				InvokePropertyChanged("GrowthPercentage");
 			}
@@ -210,7 +212,9 @@ namespace easiplan.domain
 
 				if (IsLoading) return;
 
-				Calculate();
+                RecalcNewMonthlyPremium = true;
+
+                Calculate();
 
 				InvokePropertyChanged("EscalationPercentage");
 			}

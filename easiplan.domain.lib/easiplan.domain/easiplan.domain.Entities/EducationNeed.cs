@@ -117,7 +117,7 @@ namespace easiplan.domain.Entities
 
 			FutureAmount = FinFormula.FutureValue(RequiredAmount, 0.0, InflationPercentage, 0.0, 0.0, InvestmentYears, 0);
 
-           // if (RecalcNewMonthlyPremium)
+			if (RecalcNewMonthlyPremium)
 				NewMonthlyContribution = FinFormula.MonthlyPayment(InitialAmount, Math.Abs(FutureAmount), GrowthPercentage, 0.0, EscalationPercentage, InvestmentYears, 12);
 
             RecalcNewMonthlyPremium = false;
