@@ -339,7 +339,7 @@ namespace Finx.App.Forms
         {
             this.metroPanel_Select.Controls.Clear();
 
-            this.metroPanel_PolicyNote.Controls.Clear();
+            //this.metroPanel_PolicyNote.Controls.Clear();
 
             if (selectedNote == null)
                 return;
@@ -351,7 +351,7 @@ namespace Finx.App.Forms
                 cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
                 cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
             }, left: 10, top: 5, labelWidth: 120, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-
+/*
             this.metroPanel_PolicyNote.Initialise<Note>(selectedNote, cntr =>
             {
 
@@ -359,7 +359,7 @@ namespace Finx.App.Forms
 
 
             }, left: 10, top: 0, labelWidth: 100, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-
+*/
             selectedNote.IsLoading = false;
         }
 
@@ -742,6 +742,16 @@ namespace Finx.App.Forms
         }
 
         private void frmMetroClientAdviceRecord_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroLabel8_Click(object sender, EventArgs e)
         {
 
         }
