@@ -362,6 +362,7 @@ namespace Finx.App.Forms
                 {
                     case 0:
 
+
                         #region Personal Details
                         client.ClientDetails.Initialise(true);
                         this.kgbMemberDetails.Panel.Initialise<ClientDetails>(client.ClientDetails, cntr =>
@@ -1908,7 +1909,10 @@ namespace Finx.App.Forms
             this.dataGrid_LifeRiskFna.Refresh();
         }
 
+       
+
         #endregion
+
 
         #region DataGrid propertyChanged EventHandlers
         private void propertyChanged_EventHandler(object sender, PropertyChangedEventArgs e)
@@ -3276,6 +3280,11 @@ namespace Finx.App.Forms
 
         private void DocumentTemplate_OnClick(object sender, EventArgs e)
         {
+
+            //Ensure that all tabs are initialised so that all information pulls to reports
+            initialiseTabs();
+
+
             try
             {
                 ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
@@ -3406,7 +3415,6 @@ namespace Finx.App.Forms
             {
                 try
                 {
-
                     //Check InActive Status
                     if (client.Status == ClientStatus.InActive.ToString())
                         if (!Program.User.IsAdministrator)
@@ -3428,11 +3436,8 @@ namespace Finx.App.Forms
 
                         Program.ClientService.Add(client);
                     }
-
                     client.Calculate();
-
                     Program.ClientService.Update(client);
-
                     if (Program.Licensing.HasFeature("Estate & Risk Planning"))
                     {
                         if (EstateAnalysis.Id == 0)
@@ -3445,9 +3450,7 @@ namespace Finx.App.Forms
                         Program.ClientFnaRiskService.Add(ClientFnaRisk);
                     else
                         Program.ClientFnaRiskService.Update(ClientFnaRisk);
-
                     _hasChanges = false;
-
                 }
                 catch (MyValidationException vx)
                 {
@@ -3799,6 +3802,49 @@ namespace Finx.App.Forms
             }
         }
 
+        //This is a method to initialise all tabs in the client form in order to ensure that no information goes missing when a report is generated. 
+        private void initialiseTabs()
+        {
+            //Initialise Client portfolio
+            client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+            client.ClientPortfolio.Initialise();
+            client.ClientPortfolio.Calculate();
+            RefreshPortfolioSummary();
+
+            //Initialise Assets and Liabilities
+            client.ClientAssets.Initialise();
+            client.ClientLiabilities.Initialise();
+            RefreshAssetLiabilitiesSummary();
+
+            //Initialise income and expenses
+            client.ClientIncomes.Initialise();
+            client.ClientExpenses.Initialise();
+            RefreshIncomeExpensesSummary();
+
+            //Initialise Retirement FNA
+            client.ClientFna.ServiceProvider = Program.ServiceProviders;
+            client.ClientFna.Initialise();
+            client.UpdateRetirementFNA();
+            RefreshClientFnaSummary();
+
+            //Initialise Non Retirement FNA
+            client.ClientFnaInvestment.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+            client.ClientFnaInvestment.Initialise();
+            client.ClientFnaInvestment.Calculate();
+
+            //Initialise Education needs
+            client.ClientFnaEducation.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+
+            client.ClientFnaEducation.Initialise();
+            client.ClientFnaEducation.Calculate();
+
+            //Initialise Risk cover
+            ClientFnaRisk.Initialise();
+            ClientFnaRisk.Calculate();
+
+            //Initialise Estate Planning
+            EstateAnalysis.Initialise();
+        }
         #endregion
 
         #region EstateDuty Events

@@ -874,6 +874,7 @@ namespace easiplan.app.ContextMenus
                                 childForm.MdiParent = mdiForm1;
                                 childForm.Text = FormText1;
                                 childForm.Show();
+                                
                             }
                             else
                             {

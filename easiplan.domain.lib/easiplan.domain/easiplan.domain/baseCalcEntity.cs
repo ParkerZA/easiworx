@@ -227,15 +227,18 @@ namespace easiplan.domain
 			}
 			set
 			{
-				if (_InvestmentYears == value) return;
-
-				_InvestmentYears = value;
-
+                Console.WriteLine(value);
+                if (_InvestmentYears == value) return;
+                Console.WriteLine(_InvestmentYears);
+                _InvestmentYears = value;
+                Console.WriteLine(_InvestmentYears);
 				if (IsLoading || IsCalculating) return;
 
+				//Calculate();
 				Calculate();
 
 				InvokePropertyChanged("InvestmentYears");
+				Console.WriteLine(_InvestmentYears);
 			}
 		}
 
