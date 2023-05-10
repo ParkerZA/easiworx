@@ -301,6 +301,11 @@ namespace Finx.App.Forms
                 //Select the current tab
                 MetroTabControl_Main_Selected(this.metroTabControl_Main, _currentTabControlEventArgs);
 
+                Size _size = new Size(width: 520, height:600);
+                this.kgbMemberDetails.Size=_size;
+                this.kgbSpouseDetails.Size = _size;
+
+
             }
             catch (Exception x)
             {
@@ -341,10 +346,7 @@ namespace Finx.App.Forms
             ReleaseClientLock();
         }
         #endregion
-
-        //Special method
        
-
         #region TabControl Events
         private void MetroTabControl_Main_Selected(object sender, TabControlEventArgs e)
         {
@@ -3911,6 +3913,11 @@ namespace Finx.App.Forms
         #endregion
 
         private void toolStripButton_Edit_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kgbSpouseDetails_Paint(object sender, PaintEventArgs e)
         {
 
         }
