@@ -81,8 +81,8 @@ namespace easiplan.app.ContextMenus
                     _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Policy Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; 
                     _menu.AddMenuItem("-");
-                    //_menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
-                    //_menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Cancel Policy", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     if (contextMenuType == ContextMenuType.RetirementPortfolio)
                     {

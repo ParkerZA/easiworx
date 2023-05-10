@@ -315,10 +315,11 @@ namespace Finx.App.Forms
             {
 
                 column.For(c => c.NoteDate, "Note Date", new DateEditor(), MinWidth: 100);
-                column.For(x => x.Text, "Note", new StringEditor());
-                column.For(c => c.IsCompleted, "Completed");
+                column.For(x => x.Text, "Policy no.", new StringEditor());
+                column.For(x => x.Text, "Policy status", new StringEditor());
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
-                column.For(x => x.UpdateBy, "Updt By", new StringEditor());
+                column.For(x => x.UpdateBy, "Updated By", new StringEditor());
+                column.For(c => c.IsCompleted, "Completed");
 
             },
             RowSelectEventHandler: Notes_RowSelectEventHandlerChanged,
@@ -350,16 +351,17 @@ namespace Finx.App.Forms
             {
                 cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
                 cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
-            }, left: 10, top: 5, labelWidth: 120, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-/*
-            this.metroPanel_PolicyNote.Initialise<Note>(selectedNote, cntr =>
+            }, left: 10, top: 5, labelWidth: 100, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+
+            
+            this.metroPanel_needAndObj.Initialise<Note>(selectedNote, cntr =>
             {
 
-                cntr.For(x => x.Text, "Note", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_PolicyNote.Width - 20, Height: this.metroPanel_PolicyNote.Height - 30).ReadOnly(ReadOnly));
+                cntr.For(x => x.Text,"Needs and Objectives", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_needAndObj.Width - 4, Height: this.metroPanel_needAndObj.Height - 30).ReadOnly(ReadOnly));
 
 
-            }, left: 10, top: 0, labelWidth: 100, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-*/
+            }, left: 10, top: 0, labelWidth: 300, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+            
             selectedNote.IsLoading = false;
         }
 
@@ -755,6 +757,332 @@ namespace Finx.App.Forms
         {
 
         }
+
+        #region Check buttons
+
+        #region Investment Horizen buttons
+        private void IHchk1_Click(object sender, EventArgs e)
+        {
+            if (this.IHchk1.Image != null)
+            {
+                this.IHchk1.Image = null;
+            }
+            else
+            {
+                this.IHchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk2.Image = null;
+                this.IHchk3.Image = null;
+                this.IHchk4.Image = null;
+            }
+        }
+
+        private void IHchk2_Click(object sender, EventArgs e)
+        {
+            if (this.IHchk2.Image != null)
+            {
+                this.IHchk2.Image = null;
+            }
+            else
+            {
+                this.IHchk1.Image = null;
+                this.IHchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk3.Image = null;
+                this.IHchk4.Image = null;
+            }
+        }
+
+        private void IHchk3_Click(object sender, EventArgs e)
+        {
+            if (this.IHchk3.Image != null)
+            {
+                this.IHchk3.Image = null;
+            }
+            else
+            {
+                this.IHchk1.Image = null;
+                this.IHchk2.Image = null;
+                this.IHchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk4.Image = null;
+            }
+        }
+
+        private void IHchk4_Click(object sender, EventArgs e)
+        {
+            if (this.IHchk4.Image != null)
+            {
+                this.IHchk4.Image = null;
+            }
+            else
+            {
+                this.IHchk1.Image = null;
+                this.IHchk2.Image = null;
+                this.IHchk3.Image = null;
+                this.IHchk4.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+        }
+        #endregion
+
+        #region Product Knowledge and Experience buttons
+        private void PKEchk1_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk1.Image != null)
+            {
+                this.PKEchk1.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk2_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk2.Image != null)
+            {
+                this.PKEchk2.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk3_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk3.Image != null)
+            {
+                this.PKEchk3.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk4_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk4.Image != null)
+            {
+                this.PKEchk4.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk5_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk5.Image != null)
+            {
+                this.PKEchk5.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk6_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk6.Image != null)
+            {
+                this.PKEchk6.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk7_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk7.Image != null)
+            {
+                this.PKEchk7.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk8_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk8.Image != null)
+            {
+                this.PKEchk8.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk9_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk9.Image != null)
+            {
+                this.PKEchk9.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk10.Image = null;
+            }
+        }
+
+        private void PKEchk10_Click(object sender, EventArgs e)
+        {
+            if (this.PKEchk10.Image != null)
+            {
+                this.PKEchk10.Image = null;
+            }
+            else
+            {
+                this.PKEchk1.Image = null;
+                this.PKEchk2.Image = null;
+                this.PKEchk3.Image = null;
+                this.PKEchk4.Image = null;
+                this.PKEchk5.Image = null;
+                this.PKEchk6.Image = null;
+                this.PKEchk7.Image = null;
+                this.PKEchk8.Image = null;
+                this.PKEchk9.Image = null;
+                this.PKEchk10.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+        }
+        #endregion
+
+        #region Access to Capital buttons
+
+        private void AtCchk1_Click(object sender, EventArgs e)
+        {
+            if (this.AtCchk1.Image != null)
+            {
+                this.AtCchk1.Image = null;
+            }
+            else
+            {
+                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk2.Image = null;
+                this.AtCchk3.Image = null;
+            }
+        }
+
+        private void AtCchk2_Click(object sender, EventArgs e)
+        {
+            if (this.AtCchk2.Image != null)
+            {
+                this.AtCchk2.Image = null;
+            }
+            else
+            {
+                this.AtCchk1.Image = null;
+                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk3.Image = null;
+            }
+        }
+
+        private void AtCchk3_Click(object sender, EventArgs e)
+        {
+            if (this.AtCchk3.Image != null)
+            {
+                this.AtCchk3.Image = null;
+            }
+            else
+            {
+                this.AtCchk1.Image = null;
+                this.AtCchk2.Image = null;
+                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+
     }
 
 }
