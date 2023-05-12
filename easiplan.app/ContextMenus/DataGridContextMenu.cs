@@ -752,7 +752,7 @@ namespace easiplan.app.ContextMenus
                     case ContextMenuType.RetirementPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Retirement, ReadOnly, PolicyAction.AmendPolicy);
                         break;
-                    case ContextMenuType.InvestmentPortfolio:
+                    /*case ContextMenuType.InvestmentPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Investment, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.EducationPortfolio:
@@ -779,7 +779,7 @@ namespace easiplan.app.ContextMenus
                     case ContextMenuType.ClientInstruction:
                     case ContextMenuType.AdminTask:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Instruction, ReadOnly, PolicyAction.AmendPolicy);
-                        break;
+                        break;*/
                     default:
                         return;
                 }

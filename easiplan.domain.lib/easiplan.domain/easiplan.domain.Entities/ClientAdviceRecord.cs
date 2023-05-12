@@ -26,7 +26,26 @@ namespace easiplan.domain.Entities
         private string _recommendedProduct;
         private string _motivation;
         private string _initialRecommendation;
+        private bool _IsCompleted;
 
+
+        public virtual bool IsCompleted
+        {
+            get
+            {
+                return _IsCompleted;
+            }
+            set
+            {
+                _IsCompleted = value;
+                InvokePropertyChanged("IsCompleted");
+            }
+        }
+
+        public virtual DateTime AdviceDate
+        {
+            get => base.CreateDate; set => base.CreateDate = value;
+        }
 
         //Name of the client that owns the policy
         public virtual string ClientName

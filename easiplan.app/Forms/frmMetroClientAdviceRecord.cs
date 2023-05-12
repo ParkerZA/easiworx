@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Finx.App.UserControls;
 using easiplan.domain;
+using System.Management;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace Finx.App.Forms
 {
@@ -37,6 +39,7 @@ namespace Finx.App.Forms
         #region Locals
         bool ReadOnly = false;
 
+        string InvestmentType = "";
         Retirement Retirement = null;
         Investment Investment = null;
         Education Education = null;
@@ -50,9 +53,9 @@ namespace Finx.App.Forms
         EducationNeed EducationNeed = null;
         InvestmentNeed InvestmentNeed = null;
 
-        IList<Note> Notes = new List<Note>();
-        IList<Note> filteredNotes = new List<Note>();
-        Note selectedNote = null;
+        IList<ClientAdviceRecord> Notes = new List<ClientAdviceRecord>();
+        IList<ClientAdviceRecord> filteredNotes = new List<ClientAdviceRecord>();
+        ClientAdviceRecord selectedNote = null;
 
         PolicyAction Action = PolicyAction.AmendPolicy;
         #endregion
@@ -147,11 +150,15 @@ namespace Finx.App.Forms
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             Retirement = model;
+            InvestmentType = "Retirement";
 
-
-            Initialise_SelectPanel(model.Notes);
+            Initialise_SelectPanel(model.AdviceRecords);
+            selectedNote.PolicyNumber = model.ReferenceNo;
+            this.xToolBarMenu1.tbCaption.Text = this.xToolBarMenu1.tbCaption.Text + " - Retirement";
+            metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler;
         }
 
+        /*
         public frmMetroClientAdviceRecord(Investment model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -188,7 +195,7 @@ namespace Finx.App.Forms
             Initialise_SelectPanel(model.Notes);
 
         }
-
+        
         public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -248,7 +255,7 @@ namespace Finx.App.Forms
             Initialise_SelectPanel(model.Notes);
 
         }
-
+        
         public frmMetroClientAdviceRecord(Instruction model, bool readOnly, PolicyAction action) : this(model.Name, readOnly, action)
         {
 
@@ -291,22 +298,22 @@ namespace Finx.App.Forms
                     throw new MyValidationException("Unknown Instruction Type");
 
             }
+        
 
 
 
-
-        }
+        }*/
         #endregion
 
         #region Initialisation
 
-        void Initialise_SelectPanel(IList<Note> notes = null)
+        void Initialise_SelectPanel(IList<ClientAdviceRecord> notes = null)
         {
             if (notes != null)
                 Notes = notes;
 
             if (Notes == null)
-                filteredNotes = new List<Note>();
+                filteredNotes = new List<ClientAdviceRecord>();
             else
                 filteredNotes = Notes.Where(x => x.IsCompleted == searchModel.ShowCompletedTask).ToList();
 
@@ -314,9 +321,9 @@ namespace Finx.App.Forms
             this.dataGrid_Notes.Initialise1(filteredNotes, column =>
             {
 
-                column.For(c => c.NoteDate, "Note Date", new DateEditor(), MinWidth: 100);
-                column.For(x => x.Text, "Policy no.", new StringEditor());
-                column.For(x => x.Text, "Policy status", new StringEditor());
+                column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
+                column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
+                //column.For(x => x.pol, "Policy status", new StringEditor());
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
                 column.For(c => c.IsCompleted, "Completed");
@@ -331,7 +338,10 @@ namespace Finx.App.Forms
             if (Notes.Count > 0)
                 selectedNote = filteredNotes.LastOrDefault();
             else
-                selectedNote = new Note();
+                selectedNote = new ClientAdviceRecord();
+
+            //selectedNote.InvestmentType = "Retirement";
+
 
             Initialise_PolicyNotePanel();
         }
@@ -340,7 +350,15 @@ namespace Finx.App.Forms
         {
             this.metroPanel_Select.Controls.Clear();
 
-            //this.metroPanel_PolicyNote.Controls.Clear();
+            this.metroPanel_PolicyNote.Controls.Clear();
+
+            switch (InvestmentType.ToLower())
+            {
+                case "retirement":
+                    InitializeRetirement();
+                    populateRetirement();
+                    break;
+            }
 
             if (selectedNote == null)
                 return;
@@ -349,20 +367,52 @@ namespace Finx.App.Forms
 
             this.metroPanel_Select.Initialise(selectedNote, cntr =>
             {
-                cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
+                //Put back after cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
                 cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
             }, left: 10, top: 5, labelWidth: 100, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
 
-            
-            this.metroPanel_needAndObj.Initialise<Note>(selectedNote, cntr =>
-            {
+            /* 
+             this.metroPanel_needAndObj.Initialise<Note>(selectedNote, cntr =>
+             {
 
-                cntr.For(x => x.Text,"Needs and Objectives", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_needAndObj.Width - 4, Height: this.metroPanel_needAndObj.Height - 30).ReadOnly(ReadOnly));
+                 //cntr.For(x => x.Text,"Needs and Objectives", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_needAndObj.Width - 4, Height: this.metroPanel_needAndObj.Height - 30).ReadOnly(ReadOnly));
 
 
-            }, left: 10, top: 0, labelWidth: 300, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-            
+             }, left: 10, top: 0, labelWidth: 300, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+             */
             selectedNote.IsLoading = false;
+        }
+
+        void InitializeRetirement()
+        {
+            //Summary (Title)
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_Summary);
+
+            //Product Knowledge and Experience
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_PKE);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_PKEHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_PKE);
+
+            //Investment Horizon
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_InvestHorizen);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_InvestHorizonHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_InvestHorizen);
+
+            //Access to Capital
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_AccessToCapital);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_AccessToCapitalHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_AccessCapital);
+
+            //Needs and Objectives
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_NeedsAndObj);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_NeedsAndObjHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_needAndObj);
+
+
+
+
+
+
         }
 
         #endregion
@@ -385,16 +435,17 @@ namespace Finx.App.Forms
 
                     if (this.Retirement != null)
                     {
-                        this.Retirement.Notes.Add(selectedNote);
+                        this.Retirement.AdviceRecords.Add(selectedNote);
 
                         instructionType = InstructionType.RETIRE_POLICY_NOTE;
                         referenceId = this.Retirement.Id;
                         referenceNumber = this.Retirement.ReferenceNo;
                         comment = this.Retirement.Description;
                     }
+                    /*
                     if (this.Investment != null)
                     {
-                        this.Investment.Notes.Add(selectedNote);
+                        this.Investment.AdviceRecords.Add(selectedNote);
 
                         instructionType = InstructionType.INVEST_POLICY_NOTE; ;
                         referenceId = this.Investment.Id;
@@ -470,8 +521,8 @@ namespace Finx.App.Forms
                         referenceNumber = this.InvestmentNeed.ReferenceNo;
                         comment = this.InvestmentNeed.Description;
                     }
-
-
+                    */
+                    /*
                     if (MessageBoxExt.ShowQuestion("Do you wish to create a Task for this note?"))
                     {
                         Instruction = new Instruction()
@@ -491,7 +542,7 @@ namespace Finx.App.Forms
                         AddClientInstructionEvent?.Invoke(Instruction, new EventArgs());
 
                         selectedNote.InstructionId = Instruction.Id;
-                    }
+                    }*/
                 }
 
                 UpdateNote();
@@ -513,9 +564,10 @@ namespace Finx.App.Forms
                 if (selectedNote.Id == 0)
                     return;
 
-                selectedNote = new Note();
+                selectedNote = new ClientAdviceRecord();
 
                 Initialise_PolicyNotePanel();
+                clearSelection();
 
             }
             catch (Exception x)
@@ -568,7 +620,9 @@ namespace Finx.App.Forms
                     if (!MessageBoxExt.ShowQuestion("Are you sure you wish to delete this note ?"))
                         return;
 
+                    //Fix once know whats klapping
                     //Update the Admin Task
+                    /*
                     if (selectedNote.InstructionId > 0)
                     {
                         Instruction = GetInstructionEvent(selectedNote.InstructionId, new EventArgs());
@@ -578,17 +632,17 @@ namespace Finx.App.Forms
                             DeleteClientInstructionEvent?.Invoke(Instruction, new EventArgs());
 
                         }
-                    }
+                    }*/
 
                     if (this.Retirement != null)
                     {
-                        this.Retirement.Notes.Remove(selectedNote);
+                        this.Retirement.AdviceRecords.Remove(selectedNote);
                         Program.Repository.Update<Retirement, int>(this.Retirement);
 
                         selectedNote = null;
-                        Initialise_SelectPanel(this.Retirement.Notes);
+                        Initialise_SelectPanel(this.Retirement.AdviceRecords);
                     }
-                    
+
                 }
 
 
@@ -611,8 +665,10 @@ namespace Finx.App.Forms
             if (this.Retirement != null)
             {
                 Program.Repository.Update<Retirement, int>(this.Retirement);
-                Initialise_SelectPanel(this.Retirement.Notes);
+                Initialise_SelectPanel(this.Retirement.AdviceRecords);
             }
+
+            /*
             if (this.Investment != null)
             {
                 Program.Repository.Update<Investment, int>(this.Investment);
@@ -675,19 +731,38 @@ namespace Finx.App.Forms
                         UpdateClientInstructionEvent?.Invoke(Instruction, new EventArgs());
                     }
                 }
-            }
+            }*/
 
         }
         #endregion
 
         #region Event handlers
-        private void Note_propertyChanged_EventHandler(object sender, EventArgs e)
+        private void AdviceRecord_propertyChanged_EventHandler(object sender, EventArgs e)
         {
 
             try
             {
                 this.xToolBarMenu1.SetEditMode(true);
 
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void NeedAndObv_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetEditMode(true);
+
+                selectedNote.NeedsAndObjectives = metroTextBox_NeedAndObjective.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -773,6 +848,8 @@ namespace Finx.App.Forms
                 this.IHchk2.Image = null;
                 this.IHchk3.Image = null;
                 this.IHchk4.Image = null;
+                selectedNote.InvestmentHorizen = "0-2";
+                this.xToolBarMenu1.SetEditMode(true);
             }
         }
 
@@ -788,6 +865,7 @@ namespace Finx.App.Forms
                 this.IHchk2.Image = global::easiplan.app.Properties.Resources.delete;
                 this.IHchk3.Image = null;
                 this.IHchk4.Image = null;
+                selectedNote.InvestmentHorizen = "2-5";
             }
         }
 
@@ -803,6 +881,7 @@ namespace Finx.App.Forms
                 this.IHchk2.Image = null;
                 this.IHchk3.Image = global::easiplan.app.Properties.Resources.delete;
                 this.IHchk4.Image = null;
+                selectedNote.InvestmentHorizen = "5-9";
             }
         }
 
@@ -818,6 +897,7 @@ namespace Finx.App.Forms
                 this.IHchk2.Image = null;
                 this.IHchk3.Image = null;
                 this.IHchk4.Image = global::easiplan.app.Properties.Resources.delete;
+                selectedNote.InvestmentHorizen = "10+";
             }
         }
         #endregion
@@ -841,6 +921,7 @@ namespace Finx.App.Forms
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
             }
         }
 
@@ -1047,6 +1128,7 @@ namespace Finx.App.Forms
                 this.AtCchk1.Image = global::easiplan.app.Properties.Resources.delete;
                 this.AtCchk2.Image = null;
                 this.AtCchk3.Image = null;
+                selectedNote.AccessToCapital = "Need to draw an Income";
             }
         }
 
@@ -1061,6 +1143,7 @@ namespace Finx.App.Forms
                 this.AtCchk1.Image = null;
                 this.AtCchk2.Image = global::easiplan.app.Properties.Resources.delete;
                 this.AtCchk3.Image = null;
+                selectedNote.AccessToCapital = "Always require access to capital";
             }
         }
 
@@ -1075,10 +1158,117 @@ namespace Finx.App.Forms
                 this.AtCchk1.Image = null;
                 this.AtCchk2.Image = null;
                 this.AtCchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                selectedNote.AccessToCapital = "Do not require access to capital for 5 years";
             }
         }
 
         #endregion
+
+        #endregion
+
+        #region Populate methods
+
+        private void populateProductAndExperience()
+        {
+
+        }
+
+        private void populateInvestmentHorizon()
+        {
+            if (selectedNote.InvestmentHorizen.Contains("0-2"))
+            {
+                this.IHchk1.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+            else if (selectedNote.InvestmentHorizen.Contains("2-5"))
+            {
+                this.IHchk2.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+            else if (selectedNote.InvestmentHorizen.Contains("5-9"))
+            {
+                this.IHchk3.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+            else if (selectedNote.InvestmentHorizen.Contains("10"))
+            {
+                this.IHchk4.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+        }
+
+        private void populateAccessToCapital()
+        {
+            if (selectedNote.AccessToCapital.ToLower().Contains("income"))
+            {
+                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+            else if (selectedNote.AccessToCapital.ToLower().Contains("always"))
+            {
+                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+            else if (selectedNote.AccessToCapital.ToLower().Contains("5"))
+            {
+                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.delete;
+            }
+        }
+
+        private void populateRetirement()
+        {
+            clearSelection();
+            populateProductAndExperience();
+            populateInvestmentHorizon();
+            populateAccessToCapital();
+            populateNeedsAndObjectives();
+        }
+
+        private void populateNeedsAndObjectives()
+        {
+            this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
+        }
+
+        #endregion
+
+        #region Clear methods
+
+        private void clearProductKnlgeAndExperience()
+        {
+            this.PKEchk1.Image = null;
+            this.PKEchk2.Image = null;
+            this.PKEchk3.Image = null;
+            this.PKEchk4.Image = null;
+            this.PKEchk5.Image = null;
+            this.PKEchk6.Image = null;
+            this.PKEchk7.Image = null;
+            this.PKEchk8.Image = null;
+            this.PKEchk9.Image = null;
+            this.PKEchk10.Image = null;
+        }
+
+
+        private void clearInvestmentHorizon()
+        {
+            this.IHchk1.Image = null;
+            this.IHchk2.Image = null;
+            this.IHchk3.Image = null;
+            this.IHchk4.Image = null;
+        }
+        private void clearAccessToCapital()
+        {
+            this.AtCchk1.Image = null;
+            this.AtCchk2.Image = null;
+            this.AtCchk3.Image = null;
+        }
+
+        private void clearNeedsAndObj()
+        {
+            this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
+        }
+
+
+        private void clearSelection()
+        {
+            clearProductKnlgeAndExperience();
+            clearInvestmentHorizon();
+            clearAccessToCapital();
+            clearNeedsAndObj();
+        }
 
         #endregion
 

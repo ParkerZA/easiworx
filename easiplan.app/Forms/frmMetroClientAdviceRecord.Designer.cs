@@ -1,4 +1,9 @@
-﻿using System.Drawing;
+﻿using MetroFramework;
+using MetroFramework.Controls;
+using MetroFramework.Controls.Ext;
+using System.Drawing;
+using System.Management.Instrumentation;
+using System.Windows.Forms;
 
 namespace Finx.App.Forms
 {
@@ -34,12 +39,17 @@ namespace Finx.App.Forms
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGrid_Notes = new SourceGrid.DataGrid();
             this.metroPanel_PolicyNote = new MetroFramework.Controls.MetroPanel();
-            this.label18 = new System.Windows.Forms.Label();
-            this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
+            this.metroPanel_needAndObj = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox_NeedAndObjective = new MetroFramework.Controls.MetroTextBox();
+            this.metroLabel_Summary = new System.Windows.Forms.Label();
+            this.metroPanel_AccessCapital = new MetroFramework.Controls.MetroPanel();
+            this.AtCchk3 = new System.Windows.Forms.Button();
+            this.AtCchk2 = new System.Windows.Forms.Button();
+            this.AtCchk1 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.metroPanel_PKE = new MetroFramework.Controls.MetroPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.PKEchk10 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -53,7 +63,6 @@ namespace Finx.App.Forms
             this.PKEchk7 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.PKEchk6 = new System.Windows.Forms.Button();
-            this.htmlLabel1 = new MetroFramework.Drawing.Html.HtmlLabel();
             this.PKEchk5 = new System.Windows.Forms.Button();
             this.PKEchk4 = new System.Windows.Forms.Button();
             this.PKEchk3 = new System.Windows.Forms.Button();
@@ -61,7 +70,7 @@ namespace Finx.App.Forms
             this.PKEchk2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.PKEchk1 = new System.Windows.Forms.Button();
-            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.metroPanel_InvestHorizen = new MetroFramework.Controls.MetroPanel();
             this.IHchk4 = new System.Windows.Forms.Button();
             this.IHchk3 = new System.Windows.Forms.Button();
             this.IHchk2 = new System.Windows.Forms.Button();
@@ -70,19 +79,17 @@ namespace Finx.App.Forms
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_NeedsAndObjHint = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_NeedsAndObj = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_AccessToCapitalHint = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_AccessToCapital = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_InvestHorizonHint = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_InvestHorizen = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_PKEHint = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_PKE = new MetroFramework.Controls.MetroLabel();
             this.metroPanel_Select = new MetroFramework.Controls.MetroPanel();
-            this.AtCchk3 = new System.Windows.Forms.Button();
-            this.AtCchk2 = new System.Windows.Forms.Button();
-            this.AtCchk1 = new System.Windows.Forms.Button();
-            this.metroPanel_needAndObj = new MetroFramework.Controls.MetroPanel();
+            this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
+            this.panel = new MetroFramework.Controls.MetroPanel();
             this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -90,9 +97,11 @@ namespace Finx.App.Forms
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.metroPanel_PolicyNote.SuspendLayout();
-            this.metroPanel3.SuspendLayout();
-            this.metroPanel2.SuspendLayout();
-            this.metroPanel1.SuspendLayout();
+            this.metroPanel_needAndObj.SuspendLayout();
+            this.metroPanel_AccessCapital.SuspendLayout();
+            this.metroPanel_PKE.SuspendLayout();
+            this.metroPanel_InvestHorizen.SuspendLayout();
+            this.panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -112,7 +121,7 @@ namespace Finx.App.Forms
             this.splitContainer1.Panel2.Controls.Add(this.metroPanel_PolicyNote);
             this.splitContainer1.Panel2.Controls.Add(this.metroPanel_Select);
             this.splitContainer1.Size = new System.Drawing.Size(1685, 946);
-            this.splitContainer1.SplitterDistance = 550;
+            this.splitContainer1.SplitterDistance = 600;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 7;
             // 
@@ -126,70 +135,153 @@ namespace Finx.App.Forms
             this.dataGrid_Notes.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_Notes.Name = "dataGrid_Notes";
             this.dataGrid_Notes.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_Notes.Size = new System.Drawing.Size(550, 909);
+            this.dataGrid_Notes.Size = new System.Drawing.Size(600, 909);
             this.dataGrid_Notes.TabIndex = 7;
             this.dataGrid_Notes.TabStop = true;
             this.dataGrid_Notes.ToolTipText = "";
             // 
             // metroPanel_PolicyNote
             // 
+            this.metroPanel_PolicyNote.AutoScroll = true;
             this.metroPanel_PolicyNote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_needAndObj);
-            this.metroPanel_PolicyNote.Controls.Add(this.label18);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel3);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel2);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel1);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel9);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel8);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel7);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel6);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel5);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel4);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel3);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel2);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_Summary);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_AccessCapital);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_PKE);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_InvestHorizen);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_NeedsAndObjHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_NeedsAndObj);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_AccessToCapitalHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_AccessToCapital);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_InvestHorizonHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_InvestHorizen);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_PKEHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_PKE);
             this.metroPanel_PolicyNote.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroPanel_PolicyNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.metroPanel_PolicyNote.HorizontalScrollbar = true;
             this.metroPanel_PolicyNote.HorizontalScrollbarBarColor = true;
             this.metroPanel_PolicyNote.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_PolicyNote.HorizontalScrollbarSize = 12;
             this.metroPanel_PolicyNote.Location = new System.Drawing.Point(0, 74);
             this.metroPanel_PolicyNote.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel_PolicyNote.Name = "metroPanel_PolicyNote";
-            this.metroPanel_PolicyNote.Size = new System.Drawing.Size(1180, 872);
+            this.metroPanel_PolicyNote.Size = new System.Drawing.Size(1080, 872);
             this.metroPanel_PolicyNote.TabIndex = 9;
+            this.metroPanel_PolicyNote.VerticalScrollbar = true;
             this.metroPanel_PolicyNote.VerticalScrollbarBarColor = true;
             this.metroPanel_PolicyNote.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel_PolicyNote.VerticalScrollbarSize = 13;
             this.metroPanel_PolicyNote.Paint += new System.Windows.Forms.PaintEventHandler(this.metroPanel_PolicyNote_Paint);
             // 
-            // label18
+            // metroPanel_needAndObj
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(474, 4);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(141, 32);
-            this.label18.TabIndex = 18;
-            this.label18.Text = "Summary";
+            this.metroPanel_needAndObj.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroPanel_needAndObj.Controls.Add(this.metroTextBox_NeedAndObjective);
+            this.metroPanel_needAndObj.HorizontalScrollbarBarColor = true;
+            this.metroPanel_needAndObj.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_needAndObj.HorizontalScrollbarSize = 10;
+            this.metroPanel_needAndObj.Location = new System.Drawing.Point(69, 605);
+            this.metroPanel_needAndObj.Name = "metroPanel_needAndObj";
+            this.metroPanel_needAndObj.Size = new System.Drawing.Size(999, 246);
+            this.metroPanel_needAndObj.TabIndex = 19;
+            this.metroPanel_needAndObj.VerticalScrollbarBarColor = true;
+            this.metroPanel_needAndObj.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_needAndObj.VerticalScrollbarSize = 10;
             // 
-            // metroPanel3
+            // metroTextBox_NeedAndObjective
             // 
-            this.metroPanel3.Controls.Add(this.AtCchk3);
-            this.metroPanel3.Controls.Add(this.AtCchk2);
-            this.metroPanel3.Controls.Add(this.AtCchk1);
-            this.metroPanel3.Controls.Add(this.label16);
-            this.metroPanel3.Controls.Add(this.label17);
-            this.metroPanel3.Controls.Add(this.label15);
-            this.metroPanel3.HorizontalScrollbarBarColor = true;
-            this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel3.HorizontalScrollbarSize = 10;
-            this.metroPanel3.Location = new System.Drawing.Point(69, 445);
-            this.metroPanel3.Name = "metroPanel3";
-            this.metroPanel3.Size = new System.Drawing.Size(606, 84);
-            this.metroPanel3.TabIndex = 17;
-            this.metroPanel3.VerticalScrollbarBarColor = true;
-            this.metroPanel3.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel3.VerticalScrollbarSize = 10;
+            // 
+            // 
+            // 
+            this.metroTextBox_NeedAndObjective.CustomButton.Image = null;
+            this.metroTextBox_NeedAndObjective.CustomButton.Location = new System.Drawing.Point(755, 2);
+            this.metroTextBox_NeedAndObjective.CustomButton.Name = "";
+            this.metroTextBox_NeedAndObjective.CustomButton.Size = new System.Drawing.Size(235, 235);
+            this.metroTextBox_NeedAndObjective.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_NeedAndObjective.CustomButton.TabIndex = 1;
+            this.metroTextBox_NeedAndObjective.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_NeedAndObjective.CustomButton.UseSelectable = true;
+            this.metroTextBox_NeedAndObjective.CustomButton.Visible = false;
+            this.metroTextBox_NeedAndObjective.Lines = new string[0];
+            this.metroTextBox_NeedAndObjective.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox_NeedAndObjective.MaxLength = 32767;
+            this.metroTextBox_NeedAndObjective.Multiline = true;
+            this.metroTextBox_NeedAndObjective.Name = "metroTextBox_NeedAndObjective";
+            this.metroTextBox_NeedAndObjective.PasswordChar = '\0';
+            this.metroTextBox_NeedAndObjective.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox_NeedAndObjective.SelectedText = "";
+            this.metroTextBox_NeedAndObjective.SelectionLength = 0;
+            this.metroTextBox_NeedAndObjective.SelectionStart = 0;
+            this.metroTextBox_NeedAndObjective.ShortcutsEnabled = true;
+            this.metroTextBox_NeedAndObjective.Size = new System.Drawing.Size(993, 240);
+            this.metroTextBox_NeedAndObjective.TabIndex = 2;
+            this.metroTextBox_NeedAndObjective.UseCustomBackColor = true;
+            this.metroTextBox_NeedAndObjective.UseSelectable = true;
+            this.metroTextBox_NeedAndObjective.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_NeedAndObjective.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroLabel_Summary
+            // 
+            this.metroLabel_Summary.AutoSize = true;
+            this.metroLabel_Summary.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.metroLabel_Summary.Location = new System.Drawing.Point(474, 4);
+            this.metroLabel_Summary.Name = "metroLabel_Summary";
+            this.metroLabel_Summary.Size = new System.Drawing.Size(141, 32);
+            this.metroLabel_Summary.TabIndex = 18;
+            this.metroLabel_Summary.Text = "Summary";
+            // 
+            // metroPanel_AccessCapital
+            // 
+            this.metroPanel_AccessCapital.Controls.Add(this.AtCchk3);
+            this.metroPanel_AccessCapital.Controls.Add(this.AtCchk2);
+            this.metroPanel_AccessCapital.Controls.Add(this.AtCchk1);
+            this.metroPanel_AccessCapital.Controls.Add(this.label16);
+            this.metroPanel_AccessCapital.Controls.Add(this.label17);
+            this.metroPanel_AccessCapital.Controls.Add(this.label15);
+            this.metroPanel_AccessCapital.HorizontalScrollbarBarColor = true;
+            this.metroPanel_AccessCapital.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_AccessCapital.HorizontalScrollbarSize = 10;
+            this.metroPanel_AccessCapital.Location = new System.Drawing.Point(69, 445);
+            this.metroPanel_AccessCapital.Name = "metroPanel_AccessCapital";
+            this.metroPanel_AccessCapital.Size = new System.Drawing.Size(606, 84);
+            this.metroPanel_AccessCapital.TabIndex = 17;
+            this.metroPanel_AccessCapital.VerticalScrollbarBarColor = true;
+            this.metroPanel_AccessCapital.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_AccessCapital.VerticalScrollbarSize = 10;
+            // 
+            // AtCchk3
+            // 
+            this.AtCchk3.BackColor = System.Drawing.Color.White;
+            this.AtCchk3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AtCchk3.Location = new System.Drawing.Point(400, 40);
+            this.AtCchk3.Name = "AtCchk3";
+            this.AtCchk3.Size = new System.Drawing.Size(203, 40);
+            this.AtCchk3.TabIndex = 21;
+            this.AtCchk3.UseVisualStyleBackColor = false;
+            this.AtCchk3.Click += new System.EventHandler(this.AtCchk3_Click);
+            // 
+            // AtCchk2
+            // 
+            this.AtCchk2.BackColor = System.Drawing.Color.White;
+            this.AtCchk2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AtCchk2.Location = new System.Drawing.Point(200, 40);
+            this.AtCchk2.Name = "AtCchk2";
+            this.AtCchk2.Size = new System.Drawing.Size(203, 40);
+            this.AtCchk2.TabIndex = 22;
+            this.AtCchk2.UseVisualStyleBackColor = false;
+            this.AtCchk2.Click += new System.EventHandler(this.AtCchk2_Click);
+            // 
+            // AtCchk1
+            // 
+            this.AtCchk1.BackColor = System.Drawing.Color.White;
+            this.AtCchk1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AtCchk1.Location = new System.Drawing.Point(0, 40);
+            this.AtCchk1.Name = "AtCchk1";
+            this.AtCchk1.Size = new System.Drawing.Size(203, 40);
+            this.AtCchk1.TabIndex = 23;
+            this.AtCchk1.UseVisualStyleBackColor = false;
+            this.AtCchk1.Click += new System.EventHandler(this.AtCchk1_Click);
             // 
             // label16
             // 
@@ -227,39 +319,38 @@ namespace Finx.App.Forms
             this.label15.Text = "Need to draw an Income";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // metroPanel2
+            // metroPanel_PKE
             // 
-            this.metroPanel2.Controls.Add(this.label10);
-            this.metroPanel2.Controls.Add(this.PKEchk10);
-            this.metroPanel2.Controls.Add(this.label9);
-            this.metroPanel2.Controls.Add(this.label8);
-            this.metroPanel2.Controls.Add(this.label7);
-            this.metroPanel2.Controls.Add(this.label6);
-            this.metroPanel2.Controls.Add(this.PKEchk9);
-            this.metroPanel2.Controls.Add(this.label5);
-            this.metroPanel2.Controls.Add(this.PKEchk8);
-            this.metroPanel2.Controls.Add(this.label4);
-            this.metroPanel2.Controls.Add(this.PKEchk7);
-            this.metroPanel2.Controls.Add(this.label3);
-            this.metroPanel2.Controls.Add(this.PKEchk6);
-            this.metroPanel2.Controls.Add(this.htmlLabel1);
-            this.metroPanel2.Controls.Add(this.PKEchk5);
-            this.metroPanel2.Controls.Add(this.PKEchk4);
-            this.metroPanel2.Controls.Add(this.PKEchk3);
-            this.metroPanel2.Controls.Add(this.label2);
-            this.metroPanel2.Controls.Add(this.PKEchk2);
-            this.metroPanel2.Controls.Add(this.label1);
-            this.metroPanel2.Controls.Add(this.PKEchk1);
-            this.metroPanel2.HorizontalScrollbarBarColor = true;
-            this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.HorizontalScrollbarSize = 10;
-            this.metroPanel2.Location = new System.Drawing.Point(69, 137);
-            this.metroPanel2.Name = "metroPanel2";
-            this.metroPanel2.Size = new System.Drawing.Size(825, 84);
-            this.metroPanel2.TabIndex = 16;
-            this.metroPanel2.VerticalScrollbarBarColor = true;
-            this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.VerticalScrollbarSize = 10;
+            this.metroPanel_PKE.Controls.Add(this.PKEchk2);
+            this.metroPanel_PKE.Controls.Add(this.label10);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk10);
+            this.metroPanel_PKE.Controls.Add(this.label9);
+            this.metroPanel_PKE.Controls.Add(this.label8);
+            this.metroPanel_PKE.Controls.Add(this.label7);
+            this.metroPanel_PKE.Controls.Add(this.label6);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk9);
+            this.metroPanel_PKE.Controls.Add(this.label5);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk8);
+            this.metroPanel_PKE.Controls.Add(this.label4);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk7);
+            this.metroPanel_PKE.Controls.Add(this.label3);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk6);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk1);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk5);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk4);
+            this.metroPanel_PKE.Controls.Add(this.PKEchk3);
+            this.metroPanel_PKE.Controls.Add(this.label2);
+            this.metroPanel_PKE.Controls.Add(this.label1);
+            this.metroPanel_PKE.HorizontalScrollbarBarColor = true;
+            this.metroPanel_PKE.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_PKE.HorizontalScrollbarSize = 10;
+            this.metroPanel_PKE.Location = new System.Drawing.Point(69, 137);
+            this.metroPanel_PKE.Name = "metroPanel_PKE";
+            this.metroPanel_PKE.Size = new System.Drawing.Size(825, 84);
+            this.metroPanel_PKE.TabIndex = 16;
+            this.metroPanel_PKE.VerticalScrollbarBarColor = true;
+            this.metroPanel_PKE.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_PKE.VerticalScrollbarSize = 10;
             // 
             // label10
             // 
@@ -400,18 +491,6 @@ namespace Finx.App.Forms
             this.PKEchk6.UseVisualStyleBackColor = false;
             this.PKEchk6.Click += new System.EventHandler(this.PKEchk6_Click);
             // 
-            // htmlLabel1
-            // 
-            this.htmlLabel1.AutoScroll = true;
-            this.htmlLabel1.AutoScrollMinSize = new System.Drawing.Size(74, 25);
-            this.htmlLabel1.AutoSize = false;
-            this.htmlLabel1.BackColor = System.Drawing.SystemColors.Window;
-            this.htmlLabel1.Location = new System.Drawing.Point(9, 61);
-            this.htmlLabel1.Name = "htmlLabel1";
-            this.htmlLabel1.Size = new System.Drawing.Size(15, 8);
-            this.htmlLabel1.TabIndex = 28;
-            this.htmlLabel1.Text = "htmlLabel1";
-            // 
             // PKEchk5
             // 
             this.PKEchk5.BackColor = System.Drawing.Color.White;
@@ -489,26 +568,26 @@ namespace Finx.App.Forms
             this.PKEchk1.UseVisualStyleBackColor = false;
             this.PKEchk1.Click += new System.EventHandler(this.PKEchk1_Click);
             // 
-            // metroPanel1
+            // metroPanel_InvestHorizen
             // 
-            this.metroPanel1.Controls.Add(this.IHchk4);
-            this.metroPanel1.Controls.Add(this.IHchk3);
-            this.metroPanel1.Controls.Add(this.IHchk2);
-            this.metroPanel1.Controls.Add(this.label14);
-            this.metroPanel1.Controls.Add(this.IHchk1);
-            this.metroPanel1.Controls.Add(this.label12);
-            this.metroPanel1.Controls.Add(this.label13);
-            this.metroPanel1.Controls.Add(this.label11);
-            this.metroPanel1.HorizontalScrollbarBarColor = true;
-            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(69, 289);
-            this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(334, 84);
-            this.metroPanel1.TabIndex = 15;
-            this.metroPanel1.VerticalScrollbarBarColor = true;
-            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
+            this.metroPanel_InvestHorizen.Controls.Add(this.IHchk4);
+            this.metroPanel_InvestHorizen.Controls.Add(this.IHchk3);
+            this.metroPanel_InvestHorizen.Controls.Add(this.IHchk2);
+            this.metroPanel_InvestHorizen.Controls.Add(this.label14);
+            this.metroPanel_InvestHorizen.Controls.Add(this.IHchk1);
+            this.metroPanel_InvestHorizen.Controls.Add(this.label12);
+            this.metroPanel_InvestHorizen.Controls.Add(this.label13);
+            this.metroPanel_InvestHorizen.Controls.Add(this.label11);
+            this.metroPanel_InvestHorizen.HorizontalScrollbarBarColor = true;
+            this.metroPanel_InvestHorizen.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_InvestHorizen.HorizontalScrollbarSize = 10;
+            this.metroPanel_InvestHorizen.Location = new System.Drawing.Point(69, 289);
+            this.metroPanel_InvestHorizen.Name = "metroPanel_InvestHorizen";
+            this.metroPanel_InvestHorizen.Size = new System.Drawing.Size(334, 84);
+            this.metroPanel_InvestHorizen.TabIndex = 15;
+            this.metroPanel_InvestHorizen.VerticalScrollbarBarColor = true;
+            this.metroPanel_InvestHorizen.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_InvestHorizen.VerticalScrollbarSize = 10;
             // 
             // IHchk4
             // 
@@ -602,89 +681,89 @@ namespace Finx.App.Forms
             this.label11.Text = "0-2\r\nYears";
             this.label11.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // metroLabel9
+            // metroLabel_NeedsAndObjHint
             // 
-            this.metroLabel9.AutoSize = true;
-            this.metroLabel9.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel9.Location = new System.Drawing.Point(65, 566);
-            this.metroLabel9.Name = "metroLabel9";
-            this.metroLabel9.Size = new System.Drawing.Size(665, 20);
-            this.metroLabel9.TabIndex = 14;
-            this.metroLabel9.Text = "(What are the client\'s needs and what does the client wish to achieve by purchasi" +
+            this.metroLabel_NeedsAndObjHint.AutoSize = true;
+            this.metroLabel_NeedsAndObjHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_NeedsAndObjHint.Location = new System.Drawing.Point(65, 566);
+            this.metroLabel_NeedsAndObjHint.Name = "metroLabel_NeedsAndObjHint";
+            this.metroLabel_NeedsAndObjHint.Size = new System.Drawing.Size(665, 20);
+            this.metroLabel_NeedsAndObjHint.TabIndex = 14;
+            this.metroLabel_NeedsAndObjHint.Text = "(What are the client\'s needs and what does the client wish to achieve by purchasi" +
     "ng this financial product?)";
-            this.metroLabel9.UseCustomForeColor = true;
+            this.metroLabel_NeedsAndObjHint.UseCustomForeColor = true;
             // 
-            // metroLabel8
+            // metroLabel_NeedsAndObj
             // 
-            this.metroLabel8.AutoSize = true;
-            this.metroLabel8.Location = new System.Drawing.Point(65, 546);
-            this.metroLabel8.Name = "metroLabel8";
-            this.metroLabel8.Size = new System.Drawing.Size(149, 20);
-            this.metroLabel8.TabIndex = 13;
-            this.metroLabel8.Text = "Needs and Objectives:";
-            this.metroLabel8.Click += new System.EventHandler(this.metroLabel8_Click);
+            this.metroLabel_NeedsAndObj.AutoSize = true;
+            this.metroLabel_NeedsAndObj.Location = new System.Drawing.Point(65, 546);
+            this.metroLabel_NeedsAndObj.Name = "metroLabel_NeedsAndObj";
+            this.metroLabel_NeedsAndObj.Size = new System.Drawing.Size(149, 20);
+            this.metroLabel_NeedsAndObj.TabIndex = 13;
+            this.metroLabel_NeedsAndObj.Text = "Needs and Objectives:";
+            this.metroLabel_NeedsAndObj.Click += new System.EventHandler(this.metroLabel8_Click);
             // 
-            // metroLabel7
+            // metroLabel_AccessToCapitalHint
             // 
-            this.metroLabel7.AutoSize = true;
-            this.metroLabel7.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel7.Location = new System.Drawing.Point(65, 411);
-            this.metroLabel7.Name = "metroLabel7";
-            this.metroLabel7.Size = new System.Drawing.Size(314, 20);
-            this.metroLabel7.TabIndex = 12;
-            this.metroLabel7.Text = "(The accessibility and liquidity of the invesement.)";
-            this.metroLabel7.UseCustomForeColor = true;
+            this.metroLabel_AccessToCapitalHint.AutoSize = true;
+            this.metroLabel_AccessToCapitalHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_AccessToCapitalHint.Location = new System.Drawing.Point(65, 411);
+            this.metroLabel_AccessToCapitalHint.Name = "metroLabel_AccessToCapitalHint";
+            this.metroLabel_AccessToCapitalHint.Size = new System.Drawing.Size(314, 20);
+            this.metroLabel_AccessToCapitalHint.TabIndex = 12;
+            this.metroLabel_AccessToCapitalHint.Text = "(The accessibility and liquidity of the invesement.)";
+            this.metroLabel_AccessToCapitalHint.UseCustomForeColor = true;
             // 
-            // metroLabel6
+            // metroLabel_AccessToCapital
             // 
-            this.metroLabel6.AutoSize = true;
-            this.metroLabel6.Location = new System.Drawing.Point(65, 391);
-            this.metroLabel6.Name = "metroLabel6";
-            this.metroLabel6.Size = new System.Drawing.Size(116, 20);
-            this.metroLabel6.TabIndex = 11;
-            this.metroLabel6.Text = "Access to Capital:";
+            this.metroLabel_AccessToCapital.AutoSize = true;
+            this.metroLabel_AccessToCapital.Location = new System.Drawing.Point(65, 391);
+            this.metroLabel_AccessToCapital.Name = "metroLabel_AccessToCapital";
+            this.metroLabel_AccessToCapital.Size = new System.Drawing.Size(116, 20);
+            this.metroLabel_AccessToCapital.TabIndex = 11;
+            this.metroLabel_AccessToCapital.Text = "Access to Capital:";
             // 
-            // metroLabel5
+            // metroLabel_InvestHorizonHint
             // 
-            this.metroLabel5.AutoSize = true;
-            this.metroLabel5.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel5.Location = new System.Drawing.Point(65, 256);
-            this.metroLabel5.Name = "metroLabel5";
-            this.metroLabel5.Size = new System.Drawing.Size(634, 20);
-            this.metroLabel5.TabIndex = 10;
-            this.metroLabel5.Text = "(For how long the client expects his/her money to be invested before he/she would" +
+            this.metroLabel_InvestHorizonHint.AutoSize = true;
+            this.metroLabel_InvestHorizonHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_InvestHorizonHint.Location = new System.Drawing.Point(65, 256);
+            this.metroLabel_InvestHorizonHint.Name = "metroLabel_InvestHorizonHint";
+            this.metroLabel_InvestHorizonHint.Size = new System.Drawing.Size(634, 20);
+            this.metroLabel_InvestHorizonHint.TabIndex = 10;
+            this.metroLabel_InvestHorizonHint.Text = "(For how long the client expects his/her money to be invested before he/she would" +
     " like to cash it in?)";
-            this.metroLabel5.UseCustomForeColor = true;
+            this.metroLabel_InvestHorizonHint.UseCustomForeColor = true;
             // 
-            // metroLabel4
+            // metroLabel_InvestHorizen
             // 
-            this.metroLabel4.AutoSize = true;
-            this.metroLabel4.Location = new System.Drawing.Point(65, 236);
-            this.metroLabel4.Name = "metroLabel4";
-            this.metroLabel4.Size = new System.Drawing.Size(132, 20);
-            this.metroLabel4.TabIndex = 9;
-            this.metroLabel4.Text = "Investment Horison:";
+            this.metroLabel_InvestHorizen.AutoSize = true;
+            this.metroLabel_InvestHorizen.Location = new System.Drawing.Point(65, 236);
+            this.metroLabel_InvestHorizen.Name = "metroLabel_InvestHorizen";
+            this.metroLabel_InvestHorizen.Size = new System.Drawing.Size(133, 20);
+            this.metroLabel_InvestHorizen.TabIndex = 9;
+            this.metroLabel_InvestHorizen.Text = "Investment Horizon:";
             // 
-            // metroLabel3
+            // metroLabel_PKEHint
             // 
-            this.metroLabel3.AutoSize = true;
-            this.metroLabel3.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel3.Location = new System.Drawing.Point(65, 103);
-            this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(526, 20);
-            this.metroLabel3.TabIndex = 8;
-            this.metroLabel3.Text = "(Describe the client\'s level of knowledge and experience of the product purchased" +
+            this.metroLabel_PKEHint.AutoSize = true;
+            this.metroLabel_PKEHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_PKEHint.Location = new System.Drawing.Point(65, 103);
+            this.metroLabel_PKEHint.Name = "metroLabel_PKEHint";
+            this.metroLabel_PKEHint.Size = new System.Drawing.Size(526, 20);
+            this.metroLabel_PKEHint.TabIndex = 8;
+            this.metroLabel_PKEHint.Text = "(Describe the client\'s level of knowledge and experience of the product purchased" +
     ".)";
-            this.metroLabel3.UseCustomForeColor = true;
+            this.metroLabel_PKEHint.UseCustomForeColor = true;
             // 
-            // metroLabel2
+            // metroLabel_PKE
             // 
-            this.metroLabel2.AutoSize = true;
-            this.metroLabel2.Location = new System.Drawing.Point(65, 83);
-            this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(233, 20);
-            this.metroLabel2.TabIndex = 7;
-            this.metroLabel2.Text = "Product Knowledge and Experience:";
+            this.metroLabel_PKE.AutoSize = true;
+            this.metroLabel_PKE.Location = new System.Drawing.Point(65, 83);
+            this.metroLabel_PKE.Name = "metroLabel_PKE";
+            this.metroLabel_PKE.Size = new System.Drawing.Size(233, 20);
+            this.metroLabel_PKE.TabIndex = 7;
+            this.metroLabel_PKE.Text = "Product Knowledge and Experience:";
             // 
             // metroPanel_Select
             // 
@@ -695,59 +774,57 @@ namespace Finx.App.Forms
             this.metroPanel_Select.Location = new System.Drawing.Point(0, 0);
             this.metroPanel_Select.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel_Select.Name = "metroPanel_Select";
-            this.metroPanel_Select.Size = new System.Drawing.Size(1180, 74);
+            this.metroPanel_Select.Size = new System.Drawing.Size(1080, 74);
             this.metroPanel_Select.TabIndex = 8;
             this.metroPanel_Select.VerticalScrollbarBarColor = true;
             this.metroPanel_Select.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel_Select.VerticalScrollbarSize = 13;
             // 
-            // AtCchk3
+            // multiLineTextEditor
             // 
-            this.AtCchk3.BackColor = System.Drawing.Color.White;
-            this.AtCchk3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AtCchk3.Location = new System.Drawing.Point(400, 40);
-            this.AtCchk3.Name = "AtCchk3";
-            this.AtCchk3.Size = new System.Drawing.Size(203, 40);
-            this.AtCchk3.TabIndex = 21;
-            this.AtCchk3.UseVisualStyleBackColor = false;
-            this.AtCchk3.Click += new System.EventHandler(this.AtCchk3_Click);
             // 
-            // AtCchk2
             // 
-            this.AtCchk2.BackColor = System.Drawing.Color.White;
-            this.AtCchk2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AtCchk2.Location = new System.Drawing.Point(200, 40);
-            this.AtCchk2.Name = "AtCchk2";
-            this.AtCchk2.Size = new System.Drawing.Size(203, 40);
-            this.AtCchk2.TabIndex = 22;
-            this.AtCchk2.UseVisualStyleBackColor = false;
-            this.AtCchk2.Click += new System.EventHandler(this.AtCchk2_Click);
             // 
-            // AtCchk1
+            this.multiLineTextEditor.CustomButton.Image = null;
+            this.multiLineTextEditor.CustomButton.Location = new System.Drawing.Point(-20, 2);
+            this.multiLineTextEditor.CustomButton.Name = "";
+            this.multiLineTextEditor.CustomButton.Size = new System.Drawing.Size(17, 17);
+            this.multiLineTextEditor.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.multiLineTextEditor.CustomButton.TabIndex = 1;
+            this.multiLineTextEditor.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.multiLineTextEditor.CustomButton.UseSelectable = true;
+            this.multiLineTextEditor.CustomButton.Visible = false;
+            this.multiLineTextEditor.Lines = new string[0];
+            this.multiLineTextEditor.Location = new System.Drawing.Point(0, 0);
+            this.multiLineTextEditor.MaxLength = 32767;
+            this.multiLineTextEditor.Multiline = true;
+            this.multiLineTextEditor.Name = "multiLineTextEditor";
+            this.multiLineTextEditor.PasswordChar = '\0';
+            this.multiLineTextEditor.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.multiLineTextEditor.SelectedText = "";
+            this.multiLineTextEditor.SelectionLength = 0;
+            this.multiLineTextEditor.SelectionStart = 0;
+            this.multiLineTextEditor.ShortcutsEnabled = true;
+            this.multiLineTextEditor.Size = new System.Drawing.Size(0, 22);
+            this.multiLineTextEditor.TabIndex = 2;
+            this.multiLineTextEditor.UseSelectable = true;
+            this.multiLineTextEditor.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.multiLineTextEditor.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            this.AtCchk1.BackColor = System.Drawing.Color.White;
-            this.AtCchk1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AtCchk1.Location = new System.Drawing.Point(0, 40);
-            this.AtCchk1.Name = "AtCchk1";
-            this.AtCchk1.Size = new System.Drawing.Size(203, 40);
-            this.AtCchk1.TabIndex = 23;
-            this.AtCchk1.UseVisualStyleBackColor = false;
-            this.AtCchk1.Click += new System.EventHandler(this.AtCchk1_Click);
+            // panel
             // 
-            // metroPanel_needAndObj
-            // 
-            this.metroPanel_needAndObj.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.metroPanel_needAndObj.HorizontalScrollbarBarColor = true;
-            this.metroPanel_needAndObj.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel_needAndObj.HorizontalScrollbarSize = 10;
-            this.metroPanel_needAndObj.Location = new System.Drawing.Point(69, 605);
-            this.metroPanel_needAndObj.Name = "metroPanel_needAndObj";
-            this.metroPanel_needAndObj.Size = new System.Drawing.Size(999, 246);
-            this.metroPanel_needAndObj.TabIndex = 19;
-            this.metroPanel_needAndObj.UseCustomBackColor = true;
-            this.metroPanel_needAndObj.VerticalScrollbarBarColor = true;
-            this.metroPanel_needAndObj.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel_needAndObj.VerticalScrollbarSize = 10;
+            this.panel.Controls.Add(this.multiLineTextEditor);
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.HorizontalScrollbarBarColor = true;
+            this.panel.HorizontalScrollbarHighlightOnWheel = false;
+            this.panel.HorizontalScrollbarSize = 10;
+            this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(200, 100);
+            this.panel.TabIndex = 0;
+            this.panel.VerticalScrollbarBarColor = true;
+            this.panel.VerticalScrollbarHighlightOnWheel = false;
+            this.panel.VerticalScrollbarSize = 10;
             // 
             // xInput_ShowCompletedTasks
             // 
@@ -768,7 +845,7 @@ namespace Finx.App.Forms
             this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
             this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
             this.xInput_ShowCompletedTasks.ReadOnly = false;
-            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
+            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(600, 37);
             this.xInput_ShowCompletedTasks.TabIndex = 6;
             this.xInput_ShowCompletedTasks.Value = null;
             this.xInput_ShowCompletedTasks.ValueMember = "Value";
@@ -803,9 +880,11 @@ namespace Finx.App.Forms
             this.splitContainer1.ResumeLayout(false);
             this.metroPanel_PolicyNote.ResumeLayout(false);
             this.metroPanel_PolicyNote.PerformLayout();
-            this.metroPanel3.ResumeLayout(false);
-            this.metroPanel2.ResumeLayout(false);
-            this.metroPanel1.ResumeLayout(false);
+            this.metroPanel_needAndObj.ResumeLayout(false);
+            this.metroPanel_AccessCapital.ResumeLayout(false);
+            this.metroPanel_PKE.ResumeLayout(false);
+            this.metroPanel_InvestHorizen.ResumeLayout(false);
+            this.panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -818,18 +897,18 @@ namespace Finx.App.Forms
         private MetroFramework.Controls.MetroPanel metroPanel_Select;
         private UserControls.xInput xInput_ShowCompletedTasks;
         private SourceGrid.DataGrid dataGrid_Notes;
-        private MetroFramework.Controls.MetroLabel metroLabel8;
-        private MetroFramework.Controls.MetroLabel metroLabel7;
-        private MetroFramework.Controls.MetroLabel metroLabel6;
-        private MetroFramework.Controls.MetroLabel metroLabel5;
-        private MetroFramework.Controls.MetroLabel metroLabel4;
-        private MetroFramework.Controls.MetroLabel metroLabel3;
-        private MetroFramework.Controls.MetroLabel metroLabel2;
-        private MetroFramework.Controls.MetroLabel metroLabel9;
-        private MetroFramework.Controls.MetroPanel metroPanel3;
-        private MetroFramework.Controls.MetroPanel metroPanel2;
-        private MetroFramework.Controls.MetroPanel metroPanel1;
-        private System.Windows.Forms.Label label18;
+        private MetroFramework.Controls.MetroLabel metroLabel_NeedsAndObj;
+        private MetroFramework.Controls.MetroLabel metroLabel_AccessToCapitalHint;
+        private MetroFramework.Controls.MetroLabel metroLabel_AccessToCapital;
+        private MetroFramework.Controls.MetroLabel metroLabel_InvestHorizonHint;
+        private MetroFramework.Controls.MetroLabel metroLabel_InvestHorizen;
+        private MetroFramework.Controls.MetroLabel metroLabel_PKEHint;
+        private MetroFramework.Controls.MetroLabel metroLabel_PKE;
+        private MetroFramework.Controls.MetroLabel metroLabel_NeedsAndObjHint;
+        private MetroFramework.Controls.MetroPanel metroPanel_AccessCapital;
+        private MetroFramework.Controls.MetroPanel metroPanel_PKE;
+        private MetroFramework.Controls.MetroPanel metroPanel_InvestHorizen;
+        private System.Windows.Forms.Label metroLabel_Summary;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label15;
@@ -848,7 +927,6 @@ namespace Finx.App.Forms
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button IHchk1;
-        private MetroFramework.Drawing.Html.HtmlLabel htmlLabel1;
         private System.Windows.Forms.Button PKEchk10;
         private System.Windows.Forms.Button PKEchk9;
         private System.Windows.Forms.Button PKEchk8;
@@ -866,5 +944,8 @@ namespace Finx.App.Forms
         private System.Windows.Forms.Button AtCchk2;
         private System.Windows.Forms.Button AtCchk1;
         private MetroFramework.Controls.MetroPanel metroPanel_needAndObj;
+        private MetroTextBox metroTextBox_NeedAndObjective;
+        private MetroTextBox multiLineTextEditor;
+        private MetroPanel panel;
     }
 }
