@@ -151,11 +151,15 @@ namespace Finx.App.Forms
 
             Retirement = model;
             InvestmentType = "Retirement";
+            this.xToolBarMenu1.tbCaption.Text = this.xToolBarMenu1.tbCaption.Text + " - Retirement";
 
             Initialise_SelectPanel(model.AdviceRecords);
             selectedNote.PolicyNumber = model.ReferenceNo;
-            this.xToolBarMenu1.tbCaption.Text = this.xToolBarMenu1.tbCaption.Text + " - Retirement";
+            
+            
             metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler;
+            metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler;
+
         }
 
         /*
@@ -322,7 +326,7 @@ namespace Finx.App.Forms
             {
 
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
-                column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
+                //column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
                 //column.For(x => x.pol, "Policy status", new StringEditor());
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
@@ -352,6 +356,11 @@ namespace Finx.App.Forms
 
             this.metroPanel_PolicyNote.Controls.Clear();
 
+            if (selectedNote == null)
+                return;
+
+            selectedNote.IsLoading = true;
+
             switch (InvestmentType.ToLower())
             {
                 case "retirement":
@@ -360,10 +369,7 @@ namespace Finx.App.Forms
                     break;
             }
 
-            if (selectedNote == null)
-                return;
-
-            selectedNote.IsLoading = true;
+            
 
             this.metroPanel_Select.Initialise(selectedNote, cntr =>
             {
@@ -408,11 +414,10 @@ namespace Finx.App.Forms
             this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_NeedsAndObjHint);
             this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_needAndObj);
 
-
-
-
-
-
+            //Financial Solution
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_FinancialSolution);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_FinancialSolutionHint);
+            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_FinancialSolution);
         }
 
         #endregion
@@ -774,6 +779,25 @@ namespace Finx.App.Forms
 
         }
 
+        private void FinancialSolution_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetEditMode(true);
+
+                selectedNote.FinancialSolution = metroTextBox_FinancialSolution.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
         private void Notes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
         {
 
@@ -844,13 +868,18 @@ namespace Finx.App.Forms
             }
             else
             {
-                this.IHchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.IHchk2.Image = null;
                 this.IHchk3.Image = null;
                 this.IHchk4.Image = null;
                 selectedNote.InvestmentHorizen = "0-2";
-                this.xToolBarMenu1.SetEditMode(true);
+                
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void IHchk2_Click(object sender, EventArgs e)
@@ -862,11 +891,16 @@ namespace Finx.App.Forms
             else
             {
                 this.IHchk1.Image = null;
-                this.IHchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.IHchk3.Image = null;
                 this.IHchk4.Image = null;
                 selectedNote.InvestmentHorizen = "2-5";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void IHchk3_Click(object sender, EventArgs e)
@@ -879,10 +913,15 @@ namespace Finx.App.Forms
             {
                 this.IHchk1.Image = null;
                 this.IHchk2.Image = null;
-                this.IHchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.IHchk4.Image = null;
                 selectedNote.InvestmentHorizen = "5-9";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void IHchk4_Click(object sender, EventArgs e)
@@ -896,9 +935,14 @@ namespace Finx.App.Forms
                 this.IHchk1.Image = null;
                 this.IHchk2.Image = null;
                 this.IHchk3.Image = null;
-                this.IHchk4.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 selectedNote.InvestmentHorizen = "10+";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         #endregion
 
@@ -908,10 +952,12 @@ namespace Finx.App.Forms
             if (this.PKEchk1.Image != null)
             {
                 this.PKEchk1.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
-                this.PKEchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk2.Image = null;
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
@@ -922,7 +968,14 @@ namespace Finx.App.Forms
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
 
+                selectedNote.ProductKnowledge = "1";
+
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk2_Click(object sender, EventArgs e)
@@ -930,11 +983,13 @@ namespace Finx.App.Forms
             if (this.PKEchk2.Image != null)
             {
                 this.PKEchk2.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
                 this.PKEchk1.Image = null;
-                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
@@ -943,7 +998,14 @@ namespace Finx.App.Forms
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "2";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk3_Click(object sender, EventArgs e)
@@ -951,12 +1013,14 @@ namespace Finx.App.Forms
             if (this.PKEchk3.Image != null)
             {
                 this.PKEchk3.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
                 this.PKEchk1.Image = null;
                 this.PKEchk2.Image = null;
-                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
@@ -964,7 +1028,14 @@ namespace Finx.App.Forms
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "3";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk4_Click(object sender, EventArgs e)
@@ -972,20 +1043,29 @@ namespace Finx.App.Forms
             if (this.PKEchk4.Image != null)
             {
                 this.PKEchk4.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
                 this.PKEchk1.Image = null;
                 this.PKEchk2.Image = null;
                 this.PKEchk3.Image = null;
-                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "4";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk5_Click(object sender, EventArgs e)
@@ -993,6 +1073,8 @@ namespace Finx.App.Forms
             if (this.PKEchk5.Image != null)
             {
                 this.PKEchk5.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
@@ -1000,13 +1082,20 @@ namespace Finx.App.Forms
                 this.PKEchk2.Image = null;
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
-                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "5";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk6_Click(object sender, EventArgs e)
@@ -1014,6 +1103,8 @@ namespace Finx.App.Forms
             if (this.PKEchk6.Image != null)
             {
                 this.PKEchk6.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
@@ -1022,12 +1113,19 @@ namespace Finx.App.Forms
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
-                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "6";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk7_Click(object sender, EventArgs e)
@@ -1035,6 +1133,8 @@ namespace Finx.App.Forms
             if (this.PKEchk7.Image != null)
             {
                 this.PKEchk7.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
@@ -1044,11 +1144,18 @@ namespace Finx.App.Forms
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
-                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "7";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk8_Click(object sender, EventArgs e)
@@ -1056,6 +1163,8 @@ namespace Finx.App.Forms
             if (this.PKEchk8.Image != null)
             {
                 this.PKEchk8.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
@@ -1066,10 +1175,17 @@ namespace Finx.App.Forms
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
-                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "8";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk9_Click(object sender, EventArgs e)
@@ -1077,6 +1193,8 @@ namespace Finx.App.Forms
             if (this.PKEchk9.Image != null)
             {
                 this.PKEchk9.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
@@ -1088,9 +1206,16 @@ namespace Finx.App.Forms
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
-                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "9";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void PKEchk10_Click(object sender, EventArgs e)
@@ -1098,6 +1223,8 @@ namespace Finx.App.Forms
             if (this.PKEchk10.Image != null)
             {
                 this.PKEchk10.Image = null;
+
+                selectedNote.ProductKnowledge = "";
             }
             else
             {
@@ -1110,8 +1237,15 @@ namespace Finx.App.Forms
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
-                this.PKEchk10.Image = global::easiplan.app.Properties.Resources.delete;
+                this.PKEchk10.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+
+                selectedNote.ProductKnowledge = "10";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         #endregion
 
@@ -1125,11 +1259,16 @@ namespace Finx.App.Forms
             }
             else
             {
-                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.AtCchk2.Image = null;
                 this.AtCchk3.Image = null;
                 selectedNote.AccessToCapital = "Need to draw an Income";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void AtCchk2_Click(object sender, EventArgs e)
@@ -1141,10 +1280,15 @@ namespace Finx.App.Forms
             else
             {
                 this.AtCchk1.Image = null;
-                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 this.AtCchk3.Image = null;
                 selectedNote.AccessToCapital = "Always require access to capital";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void AtCchk3_Click(object sender, EventArgs e)
@@ -1157,9 +1301,14 @@ namespace Finx.App.Forms
             {
                 this.AtCchk1.Image = null;
                 this.AtCchk2.Image = null;
-                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
                 selectedNote.AccessToCapital = "Do not require access to capital for 5 years";
             }
+
+            this.xToolBarMenu1.SetEditMode(true);
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         #endregion
@@ -1170,42 +1319,114 @@ namespace Finx.App.Forms
 
         private void populateProductAndExperience()
         {
+            if (string.IsNullOrEmpty(selectedNote.ProductKnowledge))
+            { 
+            return; 
+            }
 
+            if (selectedNote.ProductKnowledge.Contains("1"))
+            {
+                this.PKEchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("2"))
+            {
+                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("3"))
+            {
+                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("4"))
+            {
+                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("5"))
+            {
+                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("6"))
+            {
+                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("7"))
+            {
+                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("8"))
+            {
+                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("9"))
+            {
+                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+            else if (selectedNote.ProductKnowledge.Contains("10"))
+            {
+                this.PKEchk10.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
         }
 
         private void populateInvestmentHorizon()
         {
+            if (string.IsNullOrEmpty(selectedNote.InvestmentHorizen))
+            {
+                return;
+            }
+
             if (selectedNote.InvestmentHorizen.Contains("0-2"))
             {
-                this.IHchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
             }
             else if (selectedNote.InvestmentHorizen.Contains("2-5"))
             {
-                this.IHchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
             }
             else if (selectedNote.InvestmentHorizen.Contains("5-9"))
             {
-                this.IHchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
             }
             else if (selectedNote.InvestmentHorizen.Contains("10"))
             {
-                this.IHchk4.Image = global::easiplan.app.Properties.Resources.delete;
+                this.IHchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
             }
         }
 
         private void populateAccessToCapital()
         {
+
+            if (string.IsNullOrEmpty(selectedNote.AccessToCapital))
+            {
+                return;
+            }
+
             if (selectedNote.AccessToCapital.ToLower().Contains("income"))
             {
-                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
             }
             else if (selectedNote.AccessToCapital.ToLower().Contains("always"))
             {
-                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
             }
             else if (selectedNote.AccessToCapital.ToLower().Contains("5"))
             {
-                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.delete;
+                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+            }
+        }
+
+        
+        private void populateNeedsAndObjectives()
+        {
+            if (selectedNote.NeedsAndObjectives != null)
+            {
+                this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
+            }
+        }
+
+        private void populateFinancialSolution()
+        {
+            if (selectedNote.FinancialSolution != null)
+            {
+                this.metroTextBox_FinancialSolution.Text = selectedNote.FinancialSolution;
             }
         }
 
@@ -1216,13 +1437,8 @@ namespace Finx.App.Forms
             populateInvestmentHorizon();
             populateAccessToCapital();
             populateNeedsAndObjectives();
+            populateFinancialSolution();
         }
-
-        private void populateNeedsAndObjectives()
-        {
-            this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
-        }
-
         #endregion
 
         #region Clear methods
@@ -1261,6 +1477,10 @@ namespace Finx.App.Forms
             this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
         }
 
+        private void clearFinancialSolution()
+        {
+            this.metroTextBox_FinancialSolution.Text = selectedNote.FinancialSolution;
+        }
 
         private void clearSelection()
         {
@@ -1268,6 +1488,7 @@ namespace Finx.App.Forms
             clearInvestmentHorizon();
             clearAccessToCapital();
             clearNeedsAndObj();
+            clearFinancialSolution();
         }
 
         #endregion

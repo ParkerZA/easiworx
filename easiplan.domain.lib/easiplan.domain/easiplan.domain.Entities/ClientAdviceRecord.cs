@@ -15,6 +15,8 @@ namespace easiplan.domain.Entities
         private string _venue;
         private string _date;
         private string _generalNotes;
+        private string _productKnowledge;
+        private string _financialSolution;
         private string _riskProfile;
         private string _investmentType;
         private string _policyNumber;
@@ -76,6 +78,34 @@ namespace easiplan.domain.Entities
             }
         }
 
+
+        //Product knowlege and Experience
+        public virtual string ProductKnowledge
+        {
+            get
+            {
+                return _productKnowledge;
+            }
+            set
+            {
+                _productKnowledge = value;
+                InvokePropertyChanged("ProductKnowledge");
+            }
+        }
+
+
+        public virtual string FinancialSolution
+        {
+            get
+            {
+                return _financialSolution;
+            }
+            set
+            {
+                _financialSolution = value;
+                InvokePropertyChanged("FinancialSolution");
+            }
+        }
 
         //Venue
         public virtual string Venue

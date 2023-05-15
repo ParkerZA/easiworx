@@ -1323,7 +1323,12 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="Resources\out.png" />
+    <None Include="Resources\tick_30.png" />
     <EmbeddedResource Include="DBMigrations\clientretirementportfolio_view.sql" />
+    <None Include="Resources\checkmark.png" />
+    <None Include="Resources\checkmark %281%29 %281%29 %281%29 %281%29 %281%29.png" />
+    <None Include="Resources\checkmark_1.png" />
     <Content Include="Resources\Easiworx landing Page 3.jpg" />
     <None Include="Resources\Easiworx Landing Page 3.png" />
     <None Include="Resources\EWLogon.png" />

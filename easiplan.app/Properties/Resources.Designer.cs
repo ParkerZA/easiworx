@@ -61,6 +61,16 @@ namespace easiplan.app.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _out {
+            get {
+                object obj = ResourceManager.GetObject("out", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon arrow_d_128 {
@@ -176,6 +186,36 @@ namespace easiplan.app.Properties {
         internal static System.Drawing.Bitmap centre {
             get {
                 object obj = ResourceManager.GetObject("centre", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checkmark {
+            get {
+                object obj = ResourceManager.GetObject("checkmark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checkmark__1___1___1___1___1_ {
+            get {
+                object obj = ResourceManager.GetObject("checkmark (1) (1) (1) (1) (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checkmark_1 {
+            get {
+                object obj = ResourceManager.GetObject("checkmark_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -776,6 +816,16 @@ namespace easiplan.app.Properties {
         internal static System.Drawing.Bitmap Tasks {
             get {
                 object obj = ResourceManager.GetObject("Tasks", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tick_30 {
+            get {
+                object obj = ResourceManager.GetObject("tick_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
