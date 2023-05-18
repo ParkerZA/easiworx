@@ -101,6 +101,8 @@ namespace easiplan.app.ContextMenus
                 case ContextMenuType.AssetPortfolio:
                     _menu.AddMenuItem("Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
                     _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Remove", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     break;
                 case ContextMenuType.RetirementFna:
@@ -754,19 +756,19 @@ namespace easiplan.app.ContextMenus
                         break;
                     /*case ContextMenuType.InvestmentPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Investment, ReadOnly, PolicyAction.AmendPolicy);
-                        break;
+                        break;*/
                     case ContextMenuType.EducationPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Education, ReadOnly, PolicyAction.AmendPolicy);
-                        break;
+                        break;/*
                     case ContextMenuType.MedicalPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Medical, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.LifePortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Life, ReadOnly, PolicyAction.AmendPolicy);
-                        break;
+                        break;*/
                     case ContextMenuType.AssetPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as IncomeAsset, ReadOnly, PolicyAction.AmendPolicy);
-                        break;
+                        break;/*
                     case ContextMenuType.RetirementFna:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Need, ReadOnly, PolicyAction.AmendPolicy);
                         break;

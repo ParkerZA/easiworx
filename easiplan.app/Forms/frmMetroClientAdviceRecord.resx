@@ -117,4 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="metroLabel5.Text" xml:space="preserve">
+    <value>(State why the product recommended will suit the client. When noting reasons, make reference to relevant information
+ above to make your case why the product is suitable. Where this is a replacement, provide an overview of the reasons why
+ the replacement product was considered to be more suitable to the client's needs.)</value>
+  </data>
 </root>
