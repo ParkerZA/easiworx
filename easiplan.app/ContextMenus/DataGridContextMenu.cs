@@ -759,10 +759,10 @@ namespace easiplan.app.ContextMenus
                         break;*/
                     case ContextMenuType.EducationPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Education, ReadOnly, PolicyAction.AmendPolicy);
-                        break;/*
+                        break;
                     case ContextMenuType.MedicalPortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Medical, ReadOnly, PolicyAction.AmendPolicy);
-                        break;
+                        break;/*
                     case ContextMenuType.LifePortfolio:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Life, ReadOnly, PolicyAction.AmendPolicy);
                         break;*/

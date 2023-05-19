@@ -21,6 +21,7 @@ using Finx.App.UserControls;
 using easiplan.domain;
 using System.Management;
 using DocumentFormat.OpenXml.EMMA;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 
 namespace Finx.App.Forms
 {
@@ -168,7 +169,7 @@ namespace Finx.App.Forms
 
         }
 
-        /*
+        
         public frmMetroClientAdviceRecord(Medical model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -176,11 +177,12 @@ namespace Finx.App.Forms
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             Medical = model;
+            InvestmentType = "Medical";
 
-            Initialise_SelectPanel(model.Notes);
+            Initialise_SelectPanel(model.AdviceRecords);
 
         }
-        
+        /*
         public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -334,9 +336,8 @@ namespace Finx.App.Forms
 
         void Initialise_PolicyNotePanel(ClientAdviceRecord record)
         {
-            this.metroPanel_Select.Controls.Clear();
-
-            this.metroPanel_PolicyNote.Controls.Clear();
+            //this.metroPanel_Select.Controls.Clear();
+            ClearMetroPanel(this.metroPanel_AdviceRecord);
 
             if (selectedNote == null)
                 return;
@@ -346,53 +347,52 @@ namespace Finx.App.Forms
             switch (InvestmentType.ToLower())
             {
                 case "retirement":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record - Retirement Portfolio";
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Retirement Portfolio";
                     mostRecentRecord = Retirement.AdviceRecords.LastOrDefault();
                     InitializeStandardPortfolio();
                     populateRetirement(record);
-
-                    
-                    
+ 
                     break;
                 case "investment":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record - Investment Portfolio";
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Investment Portfolio";
                     mostRecentRecord = Investment.AdviceRecords.LastOrDefault();
 
                     InitializeStandardPortfolio();
                     populateRetirement(record);
                     
-                    metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler;
-                    metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler;
+                    break;
+                case "medical":
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Medical Portfolio";
+                    mostRecentRecord = Medical.AdviceRecords.LastOrDefault();
+
+                    initialiseMedicalPortfolio();
+                    populateMedical(record);
+
                     break;
                 case "education":
-                    this.xToolBarMenu1.tbCaption.Text =  "Client Advice Record - Education Portfolio";
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Education Portfolio";
                     mostRecentRecord = Education.AdviceRecords.LastOrDefault();
 
                     InitializeStandardPortfolio();
                     populateRetirement(record);
                     
-                    metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler;
-                    metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler;
                     break;
                 case "incomeasset":
-                    this.xToolBarMenu1.tbCaption.Text =  "Client Advice Record - Income Assets Portfolio";
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
                     mostRecentRecord = IncomeAsset.AdviceRecords.LastOrDefault();
                     
                     InitializeStandardPortfolio();
                     populateRetirement(record);
                     
-                    metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler;
-                    metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler;
                     break;
             }
 
             
-
-            this.metroPanel_Select.Initialise(selectedNote, cntr =>
+                       /* this.metroPanel_Select.Initialise(selectedNote, cntr =>
             {
                 //Put back after cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
                 cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
-            }, left: 10, top: 5, labelWidth: 100, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+            }, left: 100, top: 5, labelWidth: 100, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
 
             /* 
              this.metroPanel_needAndObj.Initialise<Note>(selectedNote, cntr =>
@@ -428,35 +428,76 @@ namespace Finx.App.Forms
         }
 
         //Initialise the form screen for Retirement, Non-retirement, education, and income asset portfolios
-        void InitializeStandardPortfolio()
+         void InitializeStandardPortfolio()
         {
             //Summary (Title)
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_Summary);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
 
             //Product Knowledge and Experience
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_PKE);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_PKEHint);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_PKE);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
 
             //Investment Horizon
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_InvestHorizen);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_InvestHorizonHint);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_InvestHorizen);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_InvestHorizen);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_InvestHorizonHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_InvestHorizen);
 
             //Access to Capital
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_AccessToCapital);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_AccessToCapitalHint);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_AccessCapital);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_AccessToCapital);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_AccessToCapitalHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_AccessCapital);
 
             //Needs and Objectives
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_NeedsAndObj);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_NeedsAndObjHint);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_needAndObj);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndObj);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndObjHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_needAndObj);
 
             //Financial Solution
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_FinancialSolution);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroLabel_FinancialSolutionHint);
-            this.metroPanel_PolicyNote.Controls.Add(this.metroPanel_FinancialSolution);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_FinancialSolution);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_FinancialSolutionHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_FinancialSolution);
+
+            //Other Information
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
+            
+            //Recommended Product
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedFund);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
+
+            //Motivation 
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Motivation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MotivationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Motivation);
+
+            //this.metroPanel_PolicyNote.Controls.Add(new MetroScrollBar );
+
+            this.metroPanel_AdviceRecord.PerformLayout();
+        }
+
+        void initialiseMedicalPortfolio()
+        {
+            //Summary (Title)
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
+
+            //Product Knowledge and Experience
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
+
+            //Medical Conditions
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalConditions);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalConditionsHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalConditions);
+
+            //Current Medical Cover
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCover);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCoverHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalCover);
+
+            this.metroPanel_AdviceRecord.PerformLayout();
         }
 
 
@@ -545,16 +586,16 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
                         comment = this.Education.Description;
 
                     }
-                    /*
+                    
                     if (this.Medical != null)
                     {
-                        this.Medical.Notes.Add(selectedNote);
+                        this.Medical.AdviceRecords.Add(selectedNote);
 
                         instructionType = InstructionType.MEDICAL_POLICY_NOTE;
                         referenceId = this.Medical.Id;
                         referenceNumber = this.Medical.ReferenceNo;
                         comment = this.Medical.Description;
-                    }
+                    }/*
                     if (this.Life != null)
                     {
                         this.Life.Notes.Add(selectedNote);
@@ -732,15 +773,15 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
                         selectedNote = null;
                         Initialise_SelectPanel(this.Education.AdviceRecords);
 
-                    }/*
+                    }
                     if (this.Medical != null)
                     {
-                        this.Medical.Notes.Remove(selectedNote);
+                        this.Medical.AdviceRecords.Remove(selectedNote);
                         Program.Repository.Update<Medical, int>(this.Medical);
 
                         selectedNote = null;
-                        Initialise_SelectPanel(this.Medical.Notes);
-                    }
+                        Initialise_SelectPanel(this.Medical.AdviceRecords);
+                    }/*
                     if (this.Life != null)
                     {
                         this.Life.Notes.Remove(selectedNote);
@@ -817,12 +858,12 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
             {
                 Program.Repository.Update<Education, int>(this.Education);
                 Initialise_SelectPanel(this.Education.AdviceRecords);
-            }/*
+            }
             if (this.Medical != null)
             {
                 Program.Repository.Update<Medical, int>(this.Medical);
-                Initialise_SelectPanel(this.Medical.Notes);
-            }
+                Initialise_SelectPanel(this.Medical.AdviceRecords);
+            }/*
             if (this.Life != null)
             {
                 Program.Repository.Update<Life, int>(this.Life);
@@ -1621,9 +1662,36 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
             populateNeedsAndObjectives(advRecord);
             populateFinancialSolution(advRecord);
         }
+
+        private void populateMedical(ClientAdviceRecord advRecord)
+        {
+            clearSelection();
+            populateProductAndExperience(advRecord);
+        }
+
         #endregion
 
         #region Clear methods
+
+        private void ClearMetroPanel(MetroPanel metroPanel)
+        {
+            List<Control> controlsToRemove = new List<Control>();
+
+            foreach (Control control in metroPanel.Controls)
+            {
+                if (!(control is MetroScrollBar))
+                {
+                    controlsToRemove.Add(control);
+                }
+            }
+
+            foreach (Control control in controlsToRemove)
+            {
+                metroPanel.Controls.Remove(control);
+                //control.Dispose(); // Optional, if needed
+            }
+        }
+
 
         private void clearProductKnlgeAndExperience()
         {
