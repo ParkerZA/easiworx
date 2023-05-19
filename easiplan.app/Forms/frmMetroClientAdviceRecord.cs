@@ -463,10 +463,14 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
-            
+
             //Recommended Product
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdviceHint);
+            
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedFund);
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_RecomendedFunds);
+            //this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
 
             //Motivation 
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Motivation);
@@ -517,6 +521,11 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
+
+            //Hospitalisation
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Hospitalisation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_HospitalisationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
 
 
             //this.metroPanel_AdviceRecord.PerformLayout();

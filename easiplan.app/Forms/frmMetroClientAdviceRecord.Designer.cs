@@ -132,12 +132,12 @@ namespace Finx.App.Forms
             this.label_Date = new System.Windows.Forms.Label();
             this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
             this.panel = new MetroFramework.Controls.MetroPanel();
-            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
-            this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             this.metroLabel_Hospitalisation = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel_hospitalisationHint = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_HospitalisationHint = new MetroFramework.Controls.MetroLabel();
             this.metroPanel_Hospitalisation = new MetroFramework.Controls.MetroPanel();
             this.metroTextBox11 = new MetroFramework.Controls.MetroTextBox();
+            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
+            this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -203,7 +203,7 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.AutoScroll = true;
             this.metroPanel_AdviceRecord.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_hospitalisationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_HospitalisationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Hospitalisation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalCover);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCoverHint);
@@ -1688,43 +1688,6 @@ namespace Finx.App.Forms
             this.panel.VerticalScrollbarHighlightOnWheel = false;
             this.panel.VerticalScrollbarSize = 10;
             // 
-            // xInput_ShowCompletedTasks
-            // 
-            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
-            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.ControlWidth = 40;
-            this.xInput_ShowCompletedTasks.DataSource = null;
-            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
-            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
-            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
-            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
-            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
-            this.xInput_ShowCompletedTasks.MappedField = null;
-            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
-            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
-            this.xInput_ShowCompletedTasks.Model = null;
-            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
-            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
-            this.xInput_ShowCompletedTasks.ReadOnly = false;
-            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
-            this.xInput_ShowCompletedTasks.TabIndex = 6;
-            this.xInput_ShowCompletedTasks.Value = null;
-            this.xInput_ShowCompletedTasks.ValueMember = "Value";
-            // 
-            // xToolBarMenu1
-            // 
-            this.xToolBarMenu1.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.xToolBarMenu1.BackColor = System.Drawing.Color.White;
-            this.xToolBarMenu1.CausesValidation = false;
-            this.xToolBarMenu1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.xToolBarMenu1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.xToolBarMenu1.Location = new System.Drawing.Point(27, 74);
-            this.xToolBarMenu1.Margin = new System.Windows.Forms.Padding(4);
-            this.xToolBarMenu1.Name = "xToolBarMenu1";
-            this.xToolBarMenu1.Size = new System.Drawing.Size(1685, 57);
-            this.xToolBarMenu1.TabIndex = 2;
-            // 
             // metroLabel_Hospitalisation
             // 
             this.metroLabel_Hospitalisation.AutoSize = true;
@@ -1734,17 +1697,17 @@ namespace Finx.App.Forms
             this.metroLabel_Hospitalisation.TabIndex = 36;
             this.metroLabel_Hospitalisation.Text = "Hospitalisation:";
             // 
-            // metroLabel_hospitalisationHint
+            // metroLabel_HospitalisationHint
             // 
-            this.metroLabel_hospitalisationHint.AutoSize = true;
-            this.metroLabel_hospitalisationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_hospitalisationHint.Location = new System.Drawing.Point(10, 679);
-            this.metroLabel_hospitalisationHint.Name = "metroLabel_hospitalisationHint";
-            this.metroLabel_hospitalisationHint.Size = new System.Drawing.Size(746, 20);
-            this.metroLabel_hospitalisationHint.TabIndex = 37;
-            this.metroLabel_hospitalisationHint.Text = "(Whether the client or any dependant has been admitted to hospital in the last 12" +
+            this.metroLabel_HospitalisationHint.AutoSize = true;
+            this.metroLabel_HospitalisationHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_HospitalisationHint.Location = new System.Drawing.Point(10, 679);
+            this.metroLabel_HospitalisationHint.Name = "metroLabel_HospitalisationHint";
+            this.metroLabel_HospitalisationHint.Size = new System.Drawing.Size(746, 20);
+            this.metroLabel_HospitalisationHint.TabIndex = 37;
+            this.metroLabel_HospitalisationHint.Text = "(Whether the client or any dependant has been admitted to hospital in the last 12" +
     " months, any planned procedures etc.)";
-            this.metroLabel_hospitalisationHint.UseCustomForeColor = true;
+            this.metroLabel_HospitalisationHint.UseCustomForeColor = true;
             // 
             // metroPanel_Hospitalisation
             // 
@@ -1793,6 +1756,43 @@ namespace Finx.App.Forms
             this.metroTextBox11.UseSelectable = true;
             this.metroTextBox11.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.metroTextBox11.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // xInput_ShowCompletedTasks
+            // 
+            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
+            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
+            this.xInput_ShowCompletedTasks.ControlWidth = 40;
+            this.xInput_ShowCompletedTasks.DataSource = null;
+            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
+            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
+            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
+            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
+            this.xInput_ShowCompletedTasks.MappedField = null;
+            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
+            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
+            this.xInput_ShowCompletedTasks.Model = null;
+            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
+            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
+            this.xInput_ShowCompletedTasks.ReadOnly = false;
+            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
+            this.xInput_ShowCompletedTasks.TabIndex = 6;
+            this.xInput_ShowCompletedTasks.Value = null;
+            this.xInput_ShowCompletedTasks.ValueMember = "Value";
+            // 
+            // xToolBarMenu1
+            // 
+            this.xToolBarMenu1.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.xToolBarMenu1.BackColor = System.Drawing.Color.White;
+            this.xToolBarMenu1.CausesValidation = false;
+            this.xToolBarMenu1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.xToolBarMenu1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.xToolBarMenu1.Location = new System.Drawing.Point(27, 74);
+            this.xToolBarMenu1.Margin = new System.Windows.Forms.Padding(4);
+            this.xToolBarMenu1.Name = "xToolBarMenu1";
+            this.xToolBarMenu1.Size = new System.Drawing.Size(1685, 57);
+            this.xToolBarMenu1.TabIndex = 2;
             // 
             // frmMetroClientAdviceRecord
             // 
@@ -1932,7 +1932,7 @@ namespace Finx.App.Forms
         private MetroTextBox metroTextBox10;
         private MetroLabel metroLabel_MedicalCoverHint;
         private MetroLabel metroLabel_MedicalCover;
-        private MetroLabel metroLabel_hospitalisationHint;
+        private MetroLabel metroLabel_HospitalisationHint;
         private MetroLabel metroLabel_Hospitalisation;
         private MetroPanel metroPanel_Hospitalisation;
         private MetroTextBox metroTextBox11;
