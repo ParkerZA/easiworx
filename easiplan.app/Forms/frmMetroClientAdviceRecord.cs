@@ -483,21 +483,40 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
 
             //Product Knowledge and Experience
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
+            //this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
+            //this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
+            //this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
 
             //Medical Conditions
+            //this.metroLabel_MedicalConditions.Location = new System.Drawing.Point(10, 203);
+            //this.metroLabel_MedicalConditionsHint.Location = new System.Drawing.Point(10, 223);
+            //this.metroPanel_MedicalConditions.Location = new System.Drawing.Point(15, 255);
+
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalConditions);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalConditionsHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalConditions);
 
             //Current Medical Cover
+            //this.metroLabel_MedicalCover.Location = new System.Drawing.Point(10, 355);
+            //this.metroLabel_MedicalCoverHint.Location = new System.Drawing.Point(10, 375);
+            //this.metroPanel_MedicalCover.Location = new System.Drawing.Point(15, 407);
+
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCover);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCoverHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalCover);
 
-            this.metroPanel_AdviceRecord.PerformLayout();
+
+            //Other Information
+            this.metroLabel_OtherInformation.Location = new System.Drawing.Point(10, 507);
+            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(10, 527);
+            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(15, 559);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
+
+
+            //this.metroPanel_AdviceRecord.PerformLayout();
         }
 
 
