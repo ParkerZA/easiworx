@@ -134,6 +134,10 @@ namespace Finx.App.Forms
             this.panel = new MetroFramework.Controls.MetroPanel();
             this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
+            this.metroLabel_Hospitalisation = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_hospitalisationHint = new MetroFramework.Controls.MetroLabel();
+            this.metroPanel_Hospitalisation = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox11 = new MetroFramework.Controls.MetroTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -155,6 +159,7 @@ namespace Finx.App.Forms
             this.metroPanel_InvestHorizen.SuspendLayout();
             this.metroPanel_Select.SuspendLayout();
             this.panel.SuspendLayout();
+            this.metroPanel_Hospitalisation.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -197,6 +202,9 @@ namespace Finx.App.Forms
             // 
             this.metroPanel_AdviceRecord.AutoScroll = true;
             this.metroPanel_AdviceRecord.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_hospitalisationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Hospitalisation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalCover);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCoverHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCover);
@@ -300,10 +308,10 @@ namespace Finx.App.Forms
             this.metroLabel_MedicalCoverHint.ForeColor = System.Drawing.Color.Gray;
             this.metroLabel_MedicalCoverHint.Location = new System.Drawing.Point(10, 375);
             this.metroLabel_MedicalCoverHint.Name = "metroLabel_MedicalCoverHint";
-            this.metroLabel_MedicalCoverHint.Size = new System.Drawing.Size(648, 40);
+            this.metroLabel_MedicalCoverHint.Size = new System.Drawing.Size(820, 20);
             this.metroLabel_MedicalCoverHint.TabIndex = 35;
             this.metroLabel_MedicalCoverHint.Text = "(Information on the client\'s current medical scheme and benifits, period of unint" +
-    "erupted cover, period of\r\nany breakage in cover etc.)";
+    "erupted cover, period of any breakage in cover etc.)";
             this.metroLabel_MedicalCoverHint.UseCustomForeColor = true;
             // 
             // metroLabel_MedicalCover
@@ -1717,6 +1725,75 @@ namespace Finx.App.Forms
             this.xToolBarMenu1.Size = new System.Drawing.Size(1685, 57);
             this.xToolBarMenu1.TabIndex = 2;
             // 
+            // metroLabel_Hospitalisation
+            // 
+            this.metroLabel_Hospitalisation.AutoSize = true;
+            this.metroLabel_Hospitalisation.Location = new System.Drawing.Point(10, 659);
+            this.metroLabel_Hospitalisation.Name = "metroLabel_Hospitalisation";
+            this.metroLabel_Hospitalisation.Size = new System.Drawing.Size(100, 20);
+            this.metroLabel_Hospitalisation.TabIndex = 36;
+            this.metroLabel_Hospitalisation.Text = "Hospitalisation:";
+            // 
+            // metroLabel_hospitalisationHint
+            // 
+            this.metroLabel_hospitalisationHint.AutoSize = true;
+            this.metroLabel_hospitalisationHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_hospitalisationHint.Location = new System.Drawing.Point(10, 679);
+            this.metroLabel_hospitalisationHint.Name = "metroLabel_hospitalisationHint";
+            this.metroLabel_hospitalisationHint.Size = new System.Drawing.Size(746, 20);
+            this.metroLabel_hospitalisationHint.TabIndex = 37;
+            this.metroLabel_hospitalisationHint.Text = "(Whether the client or any dependant has been admitted to hospital in the last 12" +
+    " months, any planned procedures etc.)";
+            this.metroLabel_hospitalisationHint.UseCustomForeColor = true;
+            // 
+            // metroPanel_Hospitalisation
+            // 
+            this.metroPanel_Hospitalisation.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroPanel_Hospitalisation.Controls.Add(this.metroTextBox11);
+            this.metroPanel_Hospitalisation.HorizontalScrollbarBarColor = true;
+            this.metroPanel_Hospitalisation.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_Hospitalisation.HorizontalScrollbarSize = 10;
+            this.metroPanel_Hospitalisation.Location = new System.Drawing.Point(15, 711);
+            this.metroPanel_Hospitalisation.Name = "metroPanel_Hospitalisation";
+            this.metroPanel_Hospitalisation.Size = new System.Drawing.Size(972, 84);
+            this.metroPanel_Hospitalisation.TabIndex = 38;
+            this.metroPanel_Hospitalisation.VerticalScrollbarBarColor = true;
+            this.metroPanel_Hospitalisation.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_Hospitalisation.VerticalScrollbarSize = 10;
+            // 
+            // metroTextBox11
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox11.CustomButton.Image = null;
+            this.metroTextBox11.CustomButton.Location = new System.Drawing.Point(890, 2);
+            this.metroTextBox11.CustomButton.Name = "";
+            this.metroTextBox11.CustomButton.Size = new System.Drawing.Size(73, 73);
+            this.metroTextBox11.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox11.CustomButton.TabIndex = 1;
+            this.metroTextBox11.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox11.CustomButton.UseSelectable = true;
+            this.metroTextBox11.CustomButton.Visible = false;
+            this.metroTextBox11.ForeColor = System.Drawing.Color.Firebrick;
+            this.metroTextBox11.Lines = new string[0];
+            this.metroTextBox11.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox11.MaxLength = 32767;
+            this.metroTextBox11.Multiline = true;
+            this.metroTextBox11.Name = "metroTextBox11";
+            this.metroTextBox11.PasswordChar = '\0';
+            this.metroTextBox11.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.metroTextBox11.SelectedText = "";
+            this.metroTextBox11.SelectionLength = 0;
+            this.metroTextBox11.SelectionStart = 0;
+            this.metroTextBox11.ShortcutsEnabled = true;
+            this.metroTextBox11.Size = new System.Drawing.Size(966, 78);
+            this.metroTextBox11.TabIndex = 2;
+            this.metroTextBox11.UseCustomBackColor = true;
+            this.metroTextBox11.UseSelectable = true;
+            this.metroTextBox11.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox11.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
             // frmMetroClientAdviceRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -1751,6 +1828,7 @@ namespace Finx.App.Forms
             this.metroPanel_Select.ResumeLayout(false);
             this.metroPanel_Select.PerformLayout();
             this.panel.ResumeLayout(false);
+            this.metroPanel_Hospitalisation.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1854,5 +1932,9 @@ namespace Finx.App.Forms
         private MetroTextBox metroTextBox10;
         private MetroLabel metroLabel_MedicalCoverHint;
         private MetroLabel metroLabel_MedicalCover;
+        private MetroLabel metroLabel_hospitalisationHint;
+        private MetroLabel metroLabel_Hospitalisation;
+        private MetroPanel metroPanel_Hospitalisation;
+        private MetroTextBox metroTextBox11;
     }
 }

@@ -425,6 +425,7 @@ namespace Finx.App.Forms
                 lockForm(false);
                 this.xToolBarMenu1.SetCAREdit(true);
             }
+            Console.WriteLine(metroLabel_NeedsAndObj.Location);
         }
 
         //Initialise the form screen for Retirement, Non-retirement, education, and income asset portfolios
@@ -479,13 +480,15 @@ namespace Finx.App.Forms
 
         void initialiseMedicalPortfolio()
         {
+            Point startPoint = this.metroPanel_AdviceRecord.Location;
+
             //Summary (Title)
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
 
             //Product Knowledge and Experience
-            //this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
-            //this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
-            //this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
 
             //Medical Conditions
             //this.metroLabel_MedicalConditions.Location = new System.Drawing.Point(10, 203);
@@ -507,9 +510,9 @@ namespace Finx.App.Forms
 
 
             //Other Information
-            this.metroLabel_OtherInformation.Location = new System.Drawing.Point(10, 507);
-            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(10, 527);
-            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(15, 559);
+            this.metroLabel_OtherInformation.Location = new Point(10-2, 507-101);
+            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(10-2, 527-101);
+            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(15-2, 559-101);
 
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
