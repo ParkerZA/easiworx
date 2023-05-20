@@ -527,6 +527,15 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_HospitalisationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
 
+            //Needs and goals identified table
+            this.metroPanel_AdviceRecord.Initialise<ClientAdviceRecord>(selectedNote, cntr =>
+            {
+                //cntr.For("Heading", "Another heading");
+                cntr.For(x => x.InvestmentType,"Needs and Objectives", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_needAndObj.Width - 4, Height: this.metroPanel_needAndObj.Height - 30).ReadOnly(ReadOnly));
+
+
+            }, left: 10, top: 700, labelWidth: 300, PropertyChangedHandler: AdviceRecord_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+
 
             //this.metroPanel_AdviceRecord.PerformLayout();
         }
