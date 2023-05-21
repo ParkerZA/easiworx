@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="metroLabel_ChronicConditionsHint.Text" xml:space="preserve">
+    <value>(Where the client or any dependent sufferes from any chronic conditions, whether the condition is a PMB or not, prefered provider for ongoing treatment,
+provider for medication, estimated annual out of hospital costs in relation to the chronic condition etc.)</value>
+  </data>
   <data name="metroLabel_MotivationHint.Text" xml:space="preserve">
     <value>(State why the product recommended will suit the client. When noting reasons, make reference to relevant information
 above to make your case why the product is suitable. Where this is a replacement, provide an overview of the reasons why
