@@ -15,6 +15,7 @@ namespace easiplan.domain.Entities
         private string _venue;
         private string _date;
         private string _generalNotes;
+
         private string _productKnowledge;
         private string _financialSolution;
         private string _riskProfile;
@@ -24,6 +25,16 @@ namespace easiplan.domain.Entities
         private string _financialSituation;
         private string _investmentHorizen;
         private string _accessToCapital;
+
+        private string _medicalConditions;
+        private string _medicalCover;
+        private string _hospitalisation;
+        private string _chronicConditions;
+        private string _waitingPeriods;
+        private string _lateJoynerPenalty;
+        private string _coPayments;
+
+
         private string _additionalInfo;
         private string _recommendedProduct;
         private string _motivation;
@@ -252,6 +263,97 @@ namespace easiplan.domain.Entities
             {
                 _accessToCapital = value;
                 InvokePropertyChanged("AccessToCapital");
+            }
+        }
+
+        public virtual string MedicalConditions
+        {
+            get
+            {
+                return _medicalConditions;
+            }
+            set
+            {
+                _medicalConditions = value;
+                InvokePropertyChanged("MedicalConditions");
+            }
+        }
+
+        public virtual string MedicalCover
+        {
+            get
+            {
+                return _medicalCover;
+            }
+            set
+            {
+                _medicalCover = value;
+                InvokePropertyChanged("MedicalCover");
+            }
+        }
+
+        public virtual string Hospitalisation
+        {
+            get
+            {
+                return _hospitalisation;
+            }
+            set
+            {
+                _hospitalisation = value;
+                InvokePropertyChanged("Hospitalisation");
+            }
+        }
+
+        public virtual string ChronicConditions
+        {
+            get
+            {
+                return _chronicConditions;
+            }
+            set
+            {
+                _chronicConditions = value;
+                InvokePropertyChanged("ChronicConditions");
+            }
+        }
+
+        public virtual string WaitingPeriods
+        {
+            get
+            {
+                return _waitingPeriods;
+            }
+            set
+            {
+                _waitingPeriods = value;
+                InvokePropertyChanged("WaitingPeriods");
+            }
+        }
+
+        public virtual string LateJoynerPenalty
+        {
+            get
+            {
+                return _lateJoynerPenalty;
+            }
+            set
+            {
+                _lateJoynerPenalty = value;
+                InvokePropertyChanged("LateJoynerPenalty");
+            }
+        }
+
+        public virtual string CoPayments
+        {
+            get
+            {
+                return _coPayments;
+            }
+            set
+            {
+                _coPayments = value;
+                InvokePropertyChanged("CoPayments");
             }
         }
 

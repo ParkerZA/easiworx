@@ -755,7 +755,7 @@ namespace Finx.App.Forms
 
                 selectedNote = new ClientAdviceRecord();
 
-                clearSelection();
+                clearAllElements();
 
                 if (mostRecentRecord != null)
                 {
@@ -1856,6 +1856,7 @@ namespace Finx.App.Forms
             }
         }
         #endregion
+        
         private void populateInvestmentHorizon(ClientAdviceRecord record)
         {
             Console.WriteLine(record.InvestmentHorizen);
@@ -1911,7 +1912,8 @@ namespace Finx.App.Forms
             }
         }
 
-        
+        #region Populate generic form text boxes
+
         private void populateNeedsAndObjectives(ClientAdviceRecord record)
         {
             if (record.NeedsAndObjectives != null)
@@ -1928,9 +1930,71 @@ namespace Finx.App.Forms
             }
         }
 
+        #endregion
+
+        #region Populate medical form text boxes
+
+        private void populateMedicalConditions(ClientAdviceRecord record)
+        {
+            if (record.MedicalConditions != null)
+            {
+                this.metroTextBox_MedicalConditions.Text = record.MedicalConditions;
+            }
+        }
+
+        private void populateMedicalCover(ClientAdviceRecord record)
+        {
+            if (record.MedicalCover != null)
+            {
+                this.metroTextBox_CurrentMedicalCover.Text = record.MedicalCover;
+            }
+        }
+
+        private void populateHospitalisation(ClientAdviceRecord record)
+        {
+            if (record.Hospitalisation != null)
+            {
+                this.metroTextBox_Hospitalisation.Text = record.Hospitalisation;
+            }
+        }
+
+        private void populateChronicConditions(ClientAdviceRecord record)
+        {
+            if (record.ChronicConditions != null)
+            {
+                this.metroTextBox_ChronicConditions.Text = record.ChronicConditions;
+            }
+        }
+
+        private void populateWaitingPeriods(ClientAdviceRecord record)
+        {
+            if (record.WaitingPeriods != null)
+            {
+                this.metroTextBox_WaitingPeriods.Text = record.WaitingPeriods;
+            }
+        }
+
+        private void populateLateJoyner(ClientAdviceRecord record)
+        {
+            if (record.LateJoynerPenalty != null)
+            {
+                this.metroTextBox_LateJoiner.Text = record.LateJoynerPenalty;
+            }
+        }
+
+        private void populateCoPayments(ClientAdviceRecord record)
+        {
+            if (record.CoPayments != null)
+            {
+                this.metroTextBox_Copayment.Text = record.CoPayments;
+            }
+        }
+
+        #endregion
+
         private void populateRetirement(ClientAdviceRecord advRecord)
         {
-            clearSelection();
+            clearGenericForm();
             populateProductAndExperience(advRecord);
             populateInvestmentHorizon(advRecord);
             populateAccessToCapital(advRecord);
@@ -1940,8 +2004,15 @@ namespace Finx.App.Forms
 
         private void populateMedical(ClientAdviceRecord advRecord)
         {
-            clearSelection();
+            clearMedicalForm();
             populateProductAndExperience(advRecord);
+            populateMedicalConditions(advRecord);
+            populateMedicalCover(advRecord);
+            populateHospitalisation(advRecord);
+            populateChronicConditions(advRecord);
+            populateWaitingPeriods(advRecord);
+            populateLateJoyner(advRecord);
+            populateCoPayments(advRecord);
         }
 
         #endregion
@@ -2013,49 +2084,77 @@ namespace Finx.App.Forms
 
         private void clearMedicalConditions()
         {
-            this.metroTextBox_MedicalConditions.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_MedicalConditions.Text = selectedNote.MedicalConditions;
         }
 
         private void clearMedicalCover()
         {
-            this.metroTextBox_CurrentMedicalCover.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_CurrentMedicalCover.Text = selectedNote.MedicalCover;
         }
 
         private void clearHospitalisation()
         {
-            this.metroTextBox_Hospitalisation.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_Hospitalisation.Text = selectedNote.Hospitalisation;
         }
 
         private void clearChronicConditions()
         {
-            this.metroTextBox_ChronicConditions.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_ChronicConditions.Text = selectedNote.ChronicConditions;
         }
 
         private void clearWaitingPeriods()
         {
-            this.metroTextBox_WaitingPeriods.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_WaitingPeriods.Text = selectedNote.WaitingPeriods;
         }
 
         private void clearLateJoinerPenalty()
         {
-            this.metroTextBox_LateJoiner.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_LateJoiner.Text = selectedNote.LateJoynerPenalty;
         }
 
         private void clearCoPayment()
         {
-            this.metroTextBox_Copayment.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_Copayment.Text = selectedNote.CoPayments;
         }
 
         #endregion
 
         #endregion
-        private void clearSelection()
+        private void clearAllElements()
         {
             clearProductKnlgeAndExperience();
             clearInvestmentHorizon();
             clearAccessToCapital();
             clearNeedsAndObj();
             clearFinancialSolution();
+
+            clearMedicalConditions();
+            clearMedicalCover();
+            clearHospitalisation();
+            clearChronicConditions();
+            clearWaitingPeriods();
+            clearLateJoinerPenalty();
+            clearCoPayment();
+        }
+
+        private void clearGenericForm()
+        {
+            clearProductKnlgeAndExperience();
+            clearInvestmentHorizon();
+            clearAccessToCapital();
+            clearNeedsAndObj();
+            clearFinancialSolution();
+        }
+
+        private void clearMedicalForm()
+        {
+            clearMedicalConditions();
+            clearMedicalCover();
+            clearHospitalisation();
+            clearChronicConditions();
+            clearWaitingPeriods();
+            clearLateJoinerPenalty();
+            clearCoPayment();
         }
 
 
