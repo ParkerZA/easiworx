@@ -1816,7 +1816,7 @@ namespace Finx.App.Forms
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.Size = new System.Drawing.Size(972, 268);
+            this.tblPanel_NeedsAndGoals.Size = new System.Drawing.Size(972, 421);
             this.tblPanel_NeedsAndGoals.TabIndex = 39;
             // 
             // frmMetroClientAdviceRecord

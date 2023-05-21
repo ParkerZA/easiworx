@@ -1075,113 +1075,112 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
         #region Labels
         private void GenerateTable_NeedsAndGoals()
         {
+            List<Label> vTableLbls = new List<Label>();
+            List<Label> hTableLbls = new List<Label>();
+            
+
+            /*Horizontal Labels*/
+
             //Cover
             Label ng_Cover = new Label();
             ng_Cover.Text = "Cover";
-            ng_Cover.AutoSize = false;
-            ng_Cover.Dock = DockStyle.Fill;
-            ng_Cover.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
-            ng_Cover.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Cover, 0, 0);
+            hTableLbls.Add(ng_Cover);
 
             //Cover Discussed
             Label ng_CoverDiscussed = new Label();
-            ng_CoverDiscussed.Text = "Cover Discussed";
-            ng_CoverDiscussed.AutoSize = false;
-            ng_CoverDiscussed.Dock = DockStyle.Fill;
-            ng_CoverDiscussed.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
-            ng_CoverDiscussed.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_CoverDiscussed, 1, 0);
-
-            //Hospitalisation Cover
-            Label ng_HospitalCover = new Label();
-            ng_HospitalCover.Text = "Hospitalisation Cover";
-            ng_HospitalCover.AutoSize = false;
-            ng_HospitalCover.Dock = DockStyle.Fill;
-            ng_HospitalCover.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_HospitalCover.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_HospitalCover, 0, 1);
-
-            //Day To Day Benefit
-            Label ng_DayToDay = new Label();
-            ng_DayToDay.Text = "Day-to-Day Benefit";
-            ng_DayToDay.AutoSize = false;
-            ng_DayToDay.Dock = DockStyle.Fill;
-            ng_DayToDay.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_DayToDay.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_DayToDay, 0, 2);
-
-            //Threshold Benefit
-            Label ng_Threshold = new Label();
-            ng_Threshold.Text = "Threshold Benefit";
-            ng_Threshold.AutoSize = false;
-            ng_Threshold.Dock = DockStyle.Fill;
-            ng_Threshold.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_Threshold.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Threshold, 0, 3);
-
-            //Chronic Benefit
-            Label ng_ChronicBenefit = new Label();
-            ng_ChronicBenefit.Text = "Chronic Benefit";
-            ng_ChronicBenefit.AutoSize = false;
-            ng_ChronicBenefit.Dock = DockStyle.Fill;
-            ng_ChronicBenefit.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_ChronicBenefit.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_ChronicBenefit, 0, 4);
-
-            //Savings Account
-            Label ng_SavingsAccount = new Label();
-            ng_SavingsAccount.Text = "Savings Account";
-            ng_SavingsAccount.AutoSize = false;
-            ng_SavingsAccount.Dock = DockStyle.Fill;
-            ng_SavingsAccount.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_SavingsAccount.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_SavingsAccount, 0, 5);
-
-            //Hospital Preference
-            Label ng_Preference = new Label();
-            ng_Preference.Text = "Hospital Preference";
-            ng_Preference.AutoSize = false;
-            ng_Preference.Dock = DockStyle.Fill;
-            ng_Preference.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_Preference.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Preference, 0, 6);
-
-            //Gap Cover
-            Label ng_GapCover = new Label();
-            ng_GapCover.Text = "Gap Cover";
-            ng_GapCover.AutoSize = false;
-            ng_GapCover.Dock = DockStyle.Fill;
-            ng_GapCover.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_GapCover.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_GapCover, 0, 7);
-
-            //Other
-            Label ng_Other = new Label();
-            ng_Other.Text = "Other";
-            ng_Other.AutoSize = false;
-            ng_Other.Dock = DockStyle.Fill;
-            ng_Other.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-            ng_Other.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Other, 0, 8);
+            ng_CoverDiscussed.Text = "Cover\n Discussed";
+            hTableLbls.Add(ng_CoverDiscussed);
 
             //Cover Taken
             Label ng_CoverTaken = new Label();
-            ng_CoverTaken.Text = "Cover Taken";
-            ng_CoverTaken.AutoSize = false;
-            ng_CoverTaken.Dock = DockStyle.Fill;
-            ng_CoverTaken.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
-            ng_CoverTaken.TextAlign = ContentAlignment.MiddleCenter;
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_CoverTaken, 2, 0);
+            ng_CoverTaken.Text = "Cover\n Taken";
+            hTableLbls.Add(ng_CoverTaken);
 
             //Comments
             Label ng_Comment = new Label();
             ng_Comment.Text = "Comments:";
-            ng_Comment.AutoSize = false;
-            ng_Comment.Dock = DockStyle.Fill;
-            ng_Comment.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
-            ng_Comment.TextAlign = ContentAlignment.MiddleCenter;
+            hTableLbls.Add(ng_Comment);
+
+
+            /*Vertical Labels*/
+
+            //Hospitalisation Cover
+            Label ng_HospitalCover = new Label();
+            ng_HospitalCover.Text = "Hospitalisation Cover";
+            vTableLbls.Add(ng_HospitalCover);
+
+            //Day To Day Benefit
+            Label ng_DayToDay = new Label();
+            ng_DayToDay.Text = "Day-to-Day Benefit";
+            vTableLbls.Add(ng_DayToDay);
+
+            //Threshold Benefit
+            Label ng_Threshold = new Label();
+            ng_Threshold.Text = "Threshold Benefit";
+            vTableLbls.Add(ng_Threshold);
+            
+            //Chronic Benefit
+            Label ng_ChronicBenefit = new Label();
+            ng_ChronicBenefit.Text = "Chronic Benefit";
+            vTableLbls.Add(ng_ChronicBenefit);
+
+            //Savings Account
+            Label ng_SavingsAccount = new Label();
+            ng_SavingsAccount.Text = "Savings Account";
+            vTableLbls.Add(ng_SavingsAccount );
+
+            //Hospital Preference
+            Label ng_Preference = new Label();
+            ng_Preference.Text = "Hospital Preference";
+            vTableLbls.Add(ng_Preference);
+
+            //Gap Cover
+            Label ng_GapCover = new Label();
+            ng_GapCover.Text = "Gap Cover";
+            vTableLbls.Add(ng_GapCover );
+
+            //Other
+            Label ng_Other = new Label();
+            ng_Other.Text = "Other";
+            vTableLbls.Add(ng_Other);
+
+            
+            //Format Horizontal headings
+            foreach (Label lbl in hTableLbls)
+            {
+                lbl.AutoSize = false;
+                lbl.Dock = DockStyle.Fill;
+                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+            }
+            ng_Comment.TextAlign = ContentAlignment.MiddleLeft;
+
+            //Format Vertical headings
+            foreach (Label lbl in vTableLbls)
+            {
+                lbl.AutoSize = false;
+                lbl.Dock = DockStyle.Fill;
+                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+            }
+
+            //Add labels to table
+
+            //Horizontal labels
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Cover, 0, 0);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_CoverDiscussed, 1, 0);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_CoverTaken, 2, 0);
             this.tblPanel_NeedsAndGoals.Controls.Add(ng_Comment, 3, 0);
+
+            //Vertical labels
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_HospitalCover, 0, 1);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_DayToDay, 0, 2);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Threshold, 0, 3);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_ChronicBenefit, 0, 4);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_SavingsAccount, 0, 5);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Preference, 0, 6);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_GapCover, 0, 7);
+            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Other, 0, 8);
         }
         #endregion
 
