@@ -67,7 +67,7 @@ namespace Finx.App.Forms
             this.metroPanel_OtherInformation = new MetroFramework.Controls.MetroPanel();
             this.metroPanel5 = new MetroFramework.Controls.MetroPanel();
             this.metroTextBox4 = new MetroFramework.Controls.MetroTextBox();
-            this.metroTextBox5 = new MetroFramework.Controls.MetroTextBox();
+            this.metroTextBox_OtherInformation = new MetroFramework.Controls.MetroTextBox();
             this.metroPanel_Motivation = new MetroFramework.Controls.MetroPanel();
             this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
             this.metroTextBox2 = new MetroFramework.Controls.MetroTextBox();
@@ -694,7 +694,7 @@ namespace Finx.App.Forms
             // 
             this.metroPanel_OtherInformation.BackColor = System.Drawing.Color.WhiteSmoke;
             this.metroPanel_OtherInformation.Controls.Add(this.metroPanel5);
-            this.metroPanel_OtherInformation.Controls.Add(this.metroTextBox5);
+            this.metroPanel_OtherInformation.Controls.Add(this.metroTextBox_OtherInformation);
             this.metroPanel_OtherInformation.HorizontalScrollbarBarColor = true;
             this.metroPanel_OtherInformation.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_OtherInformation.HorizontalScrollbarSize = 10;
@@ -754,38 +754,38 @@ namespace Finx.App.Forms
             this.metroTextBox4.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.metroTextBox4.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // metroTextBox5
+            // metroTextBox_OtherInformation
             // 
             // 
             // 
             // 
-            this.metroTextBox5.CustomButton.Image = null;
-            this.metroTextBox5.CustomButton.Location = new System.Drawing.Point(890, 2);
-            this.metroTextBox5.CustomButton.Name = "";
-            this.metroTextBox5.CustomButton.Size = new System.Drawing.Size(73, 73);
-            this.metroTextBox5.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox5.CustomButton.TabIndex = 1;
-            this.metroTextBox5.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox5.CustomButton.UseSelectable = true;
-            this.metroTextBox5.CustomButton.Visible = false;
-            this.metroTextBox5.Lines = new string[0];
-            this.metroTextBox5.Location = new System.Drawing.Point(3, 3);
-            this.metroTextBox5.MaxLength = 32767;
-            this.metroTextBox5.Multiline = true;
-            this.metroTextBox5.Name = "metroTextBox5";
-            this.metroTextBox5.PasswordChar = '\0';
-            this.metroTextBox5.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.metroTextBox5.SelectedText = "";
-            this.metroTextBox5.SelectionLength = 0;
-            this.metroTextBox5.SelectionStart = 0;
-            this.metroTextBox5.ShortcutsEnabled = true;
-            this.metroTextBox5.Size = new System.Drawing.Size(966, 78);
-            this.metroTextBox5.TabIndex = 2;
-            this.metroTextBox5.UseCustomBackColor = true;
-            this.metroTextBox5.UseCustomForeColor = true;
-            this.metroTextBox5.UseSelectable = true;
-            this.metroTextBox5.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox5.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.metroTextBox_OtherInformation.CustomButton.Image = null;
+            this.metroTextBox_OtherInformation.CustomButton.Location = new System.Drawing.Point(890, 2);
+            this.metroTextBox_OtherInformation.CustomButton.Name = "";
+            this.metroTextBox_OtherInformation.CustomButton.Size = new System.Drawing.Size(73, 73);
+            this.metroTextBox_OtherInformation.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_OtherInformation.CustomButton.TabIndex = 1;
+            this.metroTextBox_OtherInformation.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_OtherInformation.CustomButton.UseSelectable = true;
+            this.metroTextBox_OtherInformation.CustomButton.Visible = false;
+            this.metroTextBox_OtherInformation.Lines = new string[0];
+            this.metroTextBox_OtherInformation.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox_OtherInformation.MaxLength = 32767;
+            this.metroTextBox_OtherInformation.Multiline = true;
+            this.metroTextBox_OtherInformation.Name = "metroTextBox_OtherInformation";
+            this.metroTextBox_OtherInformation.PasswordChar = '\0';
+            this.metroTextBox_OtherInformation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.metroTextBox_OtherInformation.SelectedText = "";
+            this.metroTextBox_OtherInformation.SelectionLength = 0;
+            this.metroTextBox_OtherInformation.SelectionStart = 0;
+            this.metroTextBox_OtherInformation.ShortcutsEnabled = true;
+            this.metroTextBox_OtherInformation.Size = new System.Drawing.Size(966, 78);
+            this.metroTextBox_OtherInformation.TabIndex = 2;
+            this.metroTextBox_OtherInformation.UseCustomBackColor = true;
+            this.metroTextBox_OtherInformation.UseCustomForeColor = true;
+            this.metroTextBox_OtherInformation.UseSelectable = true;
+            this.metroTextBox_OtherInformation.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_OtherInformation.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // metroPanel_Motivation
             // 
@@ -2249,7 +2249,7 @@ namespace Finx.App.Forms
         private MetroPanel metroPanel_OtherInformation;
         private MetroPanel metroPanel5;
         private MetroTextBox metroTextBox4;
-        private MetroTextBox metroTextBox5;
+        private MetroTextBox metroTextBox_OtherInformation;
         private MetroPanel metroPanel_Motivation;
         private MetroPanel metroPanel3;
         private MetroTextBox metroTextBox2;

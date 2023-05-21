@@ -108,10 +108,28 @@ namespace Finx.App.Forms
             //Form text box methods
             metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler;
             metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler;
+            
+            metroTextBox_MedicalConditions.TextChanged += MedicalConditions_propertyChanged_EventHandler;
+            metroTextBox_CurrentMedicalCover.TextChanged += MedicalCover_propertyChanged_EventHandler;
+            metroTextBox_Hospitalisation.TextChanged += Hospitalisation_propertyChanged_EventHandler;
+            metroTextBox_ChronicConditions.TextChanged += ChronicConditions_propertyChanged_EventHandler;
+            metroTextBox_WaitingPeriods.TextChanged += WaitingPeriod_propertyChanged_EventHandler;
+            metroTextBox_LateJoiner.TextChanged += LateJoyner_propertyChanged_EventHandler;
+            metroTextBox_Copayment.TextChanged += CoPayments_propertyChanged_EventHandler;
 
             //Allowing for adding date to text boxes
             metroTextBox_FinancialSolution.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_NeedAndObjective.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_OtherInformation.KeyDown += textBox_AppendNewLineDate;
+
+            metroTextBox_MedicalConditions.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_CurrentMedicalCover.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_Hospitalisation.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_ChronicConditions.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_WaitingPeriods.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_LateJoiner.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_Copayment.KeyDown += textBox_AppendNewLineDate;
+
 
             xToolBarMenu1.CloseClicked += toolStripButton_Close_Click;
             #endregion
@@ -123,6 +141,8 @@ namespace Finx.App.Forms
             this.xInput_ShowCompletedTasks.Label.Font = new Font(FontFamily.GenericSansSerif, 10F);
             this.xInput_ShowCompletedTasks.chkBox.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
         }
+
+        
 
         public frmMetroClientAdviceRecord(Retirement model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
@@ -1033,6 +1053,143 @@ namespace Finx.App.Forms
             }
 
         }
+
+        #region Medical form event handlers
+
+        private void MedicalConditions_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.MedicalConditions = metroTextBox_MedicalConditions.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void MedicalCover_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.MedicalCover = metroTextBox_CurrentMedicalCover.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Hospitalisation_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.Hospitalisation = metroTextBox_Hospitalisation.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ChronicConditions_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.ChronicConditions = metroTextBox_ChronicConditions.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void WaitingPeriod_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.WaitingPeriods = metroTextBox_WaitingPeriods.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void LateJoyner_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.LateJoynerPenalty = metroTextBox_LateJoiner.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void CoPayments_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.CoPayments = metroTextBox_Copayment.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
 
         private void Notes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
         {
@@ -2120,6 +2277,7 @@ namespace Finx.App.Forms
         #endregion
 
         #endregion
+
         private void clearAllElements()
         {
             clearProductKnlgeAndExperience();
