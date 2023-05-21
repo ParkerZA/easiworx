@@ -139,6 +139,11 @@ namespace Finx.App.Forms
             this.panel = new MetroFramework.Controls.MetroPanel();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             this.tblPanel_NeedsAndGoals = new System.Windows.Forms.TableLayoutPanel();
+            this.metroLabel_NeedsAndGoals = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_ChronicConditions = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_ChronicConditionsHint = new MetroFramework.Controls.MetroLabel();
+            this.metroPanel_ChronicConditions = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox12 = new MetroFramework.Controls.MetroTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -161,6 +166,7 @@ namespace Finx.App.Forms
             this.metroPanel_InvestHorizen.SuspendLayout();
             this.metroPanel_Select.SuspendLayout();
             this.panel.SuspendLayout();
+            this.metroPanel_ChronicConditions.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -227,6 +233,10 @@ namespace Finx.App.Forms
             // 
             this.metroPanel_AdviceRecord.AutoScroll = true;
             this.metroPanel_AdviceRecord.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ChronicConditions);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditionsHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditions);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
             this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_NeedsAndGoals);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_HospitalisationHint);
@@ -1798,13 +1808,14 @@ namespace Finx.App.Forms
             // 
             // tblPanel_NeedsAndGoals
             // 
+            this.tblPanel_NeedsAndGoals.AutoSize = true;
             this.tblPanel_NeedsAndGoals.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tblPanel_NeedsAndGoals.ColumnCount = 4;
             this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tblPanel_NeedsAndGoals.Location = new System.Drawing.Point(15, 863);
+            this.tblPanel_NeedsAndGoals.Location = new System.Drawing.Point(15, 837);
             this.tblPanel_NeedsAndGoals.Name = "tblPanel_NeedsAndGoals";
             this.tblPanel_NeedsAndGoals.RowCount = 9;
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -1816,8 +1827,86 @@ namespace Finx.App.Forms
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.Size = new System.Drawing.Size(972, 421);
+            this.tblPanel_NeedsAndGoals.Size = new System.Drawing.Size(972, 422);
             this.tblPanel_NeedsAndGoals.TabIndex = 39;
+            // 
+            // metroLabel_NeedsAndGoals
+            // 
+            this.metroLabel_NeedsAndGoals.AutoSize = true;
+            this.metroLabel_NeedsAndGoals.Location = new System.Drawing.Point(10, 811);
+            this.metroLabel_NeedsAndGoals.Name = "metroLabel_NeedsAndGoals";
+            this.metroLabel_NeedsAndGoals.Size = new System.Drawing.Size(179, 20);
+            this.metroLabel_NeedsAndGoals.TabIndex = 40;
+            this.metroLabel_NeedsAndGoals.Text = "Needs and Goals identified:";
+            // 
+            // metroLabel_ChronicConditions
+            // 
+            this.metroLabel_ChronicConditions.AutoSize = true;
+            this.metroLabel_ChronicConditions.Location = new System.Drawing.Point(10, 1275);
+            this.metroLabel_ChronicConditions.Name = "metroLabel_ChronicConditions";
+            this.metroLabel_ChronicConditions.Size = new System.Drawing.Size(179, 20);
+            this.metroLabel_ChronicConditions.TabIndex = 41;
+            this.metroLabel_ChronicConditions.Text = "Needs and Goals identified:";
+            // 
+            // metroLabel_ChronicConditionsHint
+            // 
+            this.metroLabel_ChronicConditionsHint.AutoSize = true;
+            this.metroLabel_ChronicConditionsHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_ChronicConditionsHint.Location = new System.Drawing.Point(10, 1295);
+            this.metroLabel_ChronicConditionsHint.Name = "metroLabel_ChronicConditionsHint";
+            this.metroLabel_ChronicConditionsHint.Size = new System.Drawing.Size(746, 20);
+            this.metroLabel_ChronicConditionsHint.TabIndex = 42;
+            this.metroLabel_ChronicConditionsHint.Text = "(Whether the client or any dependant has been admitted to hospital in the last 12" +
+    " months, any planned procedures etc.)";
+            this.metroLabel_ChronicConditionsHint.UseCustomForeColor = true;
+            // 
+            // metroPanel_ChronicConditions
+            // 
+            this.metroPanel_ChronicConditions.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroPanel_ChronicConditions.Controls.Add(this.metroTextBox12);
+            this.metroPanel_ChronicConditions.HorizontalScrollbarBarColor = true;
+            this.metroPanel_ChronicConditions.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ChronicConditions.HorizontalScrollbarSize = 10;
+            this.metroPanel_ChronicConditions.Location = new System.Drawing.Point(15, 1327);
+            this.metroPanel_ChronicConditions.Name = "metroPanel_ChronicConditions";
+            this.metroPanel_ChronicConditions.Size = new System.Drawing.Size(972, 84);
+            this.metroPanel_ChronicConditions.TabIndex = 33;
+            this.metroPanel_ChronicConditions.VerticalScrollbarBarColor = true;
+            this.metroPanel_ChronicConditions.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ChronicConditions.VerticalScrollbarSize = 10;
+            // 
+            // metroTextBox12
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox12.CustomButton.Image = null;
+            this.metroTextBox12.CustomButton.Location = new System.Drawing.Point(890, 2);
+            this.metroTextBox12.CustomButton.Name = "";
+            this.metroTextBox12.CustomButton.Size = new System.Drawing.Size(73, 73);
+            this.metroTextBox12.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox12.CustomButton.TabIndex = 1;
+            this.metroTextBox12.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox12.CustomButton.UseSelectable = true;
+            this.metroTextBox12.CustomButton.Visible = false;
+            this.metroTextBox12.ForeColor = System.Drawing.Color.Firebrick;
+            this.metroTextBox12.Lines = new string[0];
+            this.metroTextBox12.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox12.MaxLength = 32767;
+            this.metroTextBox12.Multiline = true;
+            this.metroTextBox12.Name = "metroTextBox12";
+            this.metroTextBox12.PasswordChar = '\0';
+            this.metroTextBox12.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.metroTextBox12.SelectedText = "";
+            this.metroTextBox12.SelectionLength = 0;
+            this.metroTextBox12.SelectionStart = 0;
+            this.metroTextBox12.ShortcutsEnabled = true;
+            this.metroTextBox12.Size = new System.Drawing.Size(966, 78);
+            this.metroTextBox12.TabIndex = 2;
+            this.metroTextBox12.UseCustomBackColor = true;
+            this.metroTextBox12.UseSelectable = true;
+            this.metroTextBox12.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox12.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // frmMetroClientAdviceRecord
             // 
@@ -1854,6 +1943,7 @@ namespace Finx.App.Forms
             this.metroPanel_Select.ResumeLayout(false);
             this.metroPanel_Select.PerformLayout();
             this.panel.ResumeLayout(false);
+            this.metroPanel_ChronicConditions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1962,5 +2052,10 @@ namespace Finx.App.Forms
         private MetroPanel metroPanel_Hospitalisation;
         private MetroTextBox metroTextBox11;
         private TableLayoutPanel tblPanel_NeedsAndGoals;
+        private MetroLabel metroLabel_NeedsAndGoals;
+        private MetroLabel metroLabel_ChronicConditionsHint;
+        private MetroLabel metroLabel_ChronicConditions;
+        private MetroPanel metroPanel_ChronicConditions;
+        private MetroTextBox metroTextBox12;
     }
 }

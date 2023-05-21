@@ -528,6 +528,7 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
 
             //Needs and goals identified table
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
             GenerateTable_NeedsAndGoals();
             initialiseTableListBoxes();
            
