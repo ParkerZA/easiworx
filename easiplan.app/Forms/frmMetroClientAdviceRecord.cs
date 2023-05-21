@@ -428,8 +428,9 @@ namespace Finx.App.Forms
             Console.WriteLine(metroLabel_NeedsAndObj.Location);
         }
 
+        #region Build Screens
         //Initialise the form screen for Retirement, Non-retirement, education, and income asset portfolios
-         void InitializeStandardPortfolio()
+        void InitializeStandardPortfolio()
         {
             //Summary (Title)
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
@@ -531,15 +532,36 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
             GenerateTable_NeedsAndGoals();
             initialiseTableListBoxes();
-           
-            
+
+            //Chronic Conditions
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditions);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditionsHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ChronicConditions);
+
+            //Waiting periods
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_WaitingPeriod);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_WaitingPeriodHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_WaitingPeriods);
+
+            //Late Joiner Penalty
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_LateJoiner);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_LateJoinerHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_LateJoiner);
+
+            //Co-Payments
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_copayment);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_CopaymentHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Copayment);
+
+
 
             this.metroPanel_AdviceRecord.Controls.Add(tblPanel_NeedsAndGoals);
 
             this.metroPanel_AdviceRecord.PerformLayout();
         }
+        #endregion
 
-
+        #region Lock State controls
         private void lockForm(bool state)
         {
             //Lock Product Knowledge
@@ -576,12 +598,12 @@ namespace Finx.App.Forms
         {
             txtBox.Enabled = !state;
         }
+        #endregion
 
+        #endregion
 
-#endregion
-
-#region toolStripButton Events
-private void toolStripButton_Close_Click(object sender, EventArgs e)
+        #region toolStripButton Events
+        private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -1945,7 +1967,7 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
             }
         }
 
-
+        #region Clear Check boxes
         private void clearProductKnlgeAndExperience()
         {
             this.PKEchk1.Image = null;
@@ -1974,7 +1996,9 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
             this.AtCchk2.Image = null;
             this.AtCchk3.Image = null;
         }
+        #endregion
 
+        #region Clear Text Boxes
         private void clearNeedsAndObj()
         {
             this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
@@ -1985,6 +2009,46 @@ private void toolStripButton_Close_Click(object sender, EventArgs e)
             this.metroTextBox_FinancialSolution.Text = selectedNote.FinancialSolution;
         }
 
+        #region Medical Text Boxes
+
+        private void clearMedicalConditions()
+        {
+            this.metroTextBox_MedicalConditions.Text = selectedNote.FinancialSolution;
+        }
+
+        private void clearMedicalCover()
+        {
+            this.metroTextBox_CurrentMedicalCover.Text = selectedNote.FinancialSolution;
+        }
+
+        private void clearHospitalisation()
+        {
+            this.metroTextBox_Hospitalisation.Text = selectedNote.FinancialSolution;
+        }
+
+        private void clearChronicConditions()
+        {
+            this.metroTextBox_ChronicConditions.Text = selectedNote.FinancialSolution;
+        }
+
+        private void clearWaitingPeriods()
+        {
+            this.metroTextBox_WaitingPeriods.Text = selectedNote.FinancialSolution;
+        }
+
+        private void clearLateJoinerPenalty()
+        {
+            this.metroTextBox_LateJoiner.Text = selectedNote.FinancialSolution;
+        }
+
+        private void clearCoPayment()
+        {
+            this.metroTextBox_Copayment.Text = selectedNote.FinancialSolution;
+        }
+
+        #endregion
+
+        #endregion
         private void clearSelection()
         {
             clearProductKnlgeAndExperience();
