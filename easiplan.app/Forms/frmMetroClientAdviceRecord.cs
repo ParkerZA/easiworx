@@ -1469,26 +1469,7 @@ namespace Finx.App.Forms
             public bool ShowCompletedTask { get; set; }
         }
 
-        private void metroPanel_PolicyNote_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void frmMetroClientAdviceRecord_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void metroLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void metroLabel8_Click(object sender, EventArgs e)
-        {
-
-        }
-
+       
         #region Check buttons
 
         #region Investment Horizen buttons
@@ -2278,6 +2259,8 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region methods to clear entire forms
+
         private void clearAllElements()
         {
             clearProductKnlgeAndExperience();
@@ -2314,14 +2297,11 @@ namespace Finx.App.Forms
             clearLateJoinerPenalty();
             clearCoPayment();
         }
-
+        #endregion
 
         #endregion
 
-        private void label18_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 
 }

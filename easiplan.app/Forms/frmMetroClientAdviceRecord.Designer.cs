@@ -312,7 +312,6 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.VerticalScrollbarBarColor = true;
             this.metroPanel_AdviceRecord.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel_AdviceRecord.VerticalScrollbarSize = 13;
-            this.metroPanel_AdviceRecord.Paint += new System.Windows.Forms.PaintEventHandler(this.metroPanel_PolicyNote_Paint);
             // 
             // metroPanel_Hospitalisation
             // 
@@ -437,9 +436,9 @@ namespace Finx.App.Forms
             this.metroLabel_MedicalCoverHint.ForeColor = System.Drawing.Color.Gray;
             this.metroLabel_MedicalCoverHint.Location = new System.Drawing.Point(10, 375);
             this.metroLabel_MedicalCoverHint.Name = "metroLabel_MedicalCoverHint";
-            this.metroLabel_MedicalCoverHint.Size = new System.Drawing.Size(820, 20);
+            this.metroLabel_MedicalCoverHint.Size = new System.Drawing.Size(825, 20);
             this.metroLabel_MedicalCoverHint.TabIndex = 35;
-            this.metroLabel_MedicalCoverHint.Text = "(Information on the client\'s current medical scheme and benifits, period of unint" +
+            this.metroLabel_MedicalCoverHint.Text = "(Information on the client\'s current medical scheme and benefits, period of unint" +
     "erupted cover, period of any breakage in cover etc.)";
             this.metroLabel_MedicalCoverHint.UseCustomForeColor = true;
             // 
@@ -658,7 +657,6 @@ namespace Finx.App.Forms
             this.label_InitialAdvice.Size = new System.Drawing.Size(279, 25);
             this.label_InitialAdvice.TabIndex = 28;
             this.label_InitialAdvice.Text = "Initial Recommendation/Advice";
-            this.label_InitialAdvice.Click += new System.EventHandler(this.label18_Click);
             // 
             // metroLabel_RecommendedFund
             // 
@@ -1543,7 +1541,6 @@ namespace Finx.App.Forms
             this.metroLabel_NeedsAndObj.Size = new System.Drawing.Size(149, 20);
             this.metroLabel_NeedsAndObj.TabIndex = 13;
             this.metroLabel_NeedsAndObj.Text = "Needs and Objectives:";
-            this.metroLabel_NeedsAndObj.Click += new System.EventHandler(this.metroLabel8_Click);
             // 
             // metroLabel_AccessToCapitalHint
             // 
@@ -1954,9 +1951,9 @@ namespace Finx.App.Forms
             this.metroLabel_LateJoiner.AutoSize = true;
             this.metroLabel_LateJoiner.Location = new System.Drawing.Point(10, 1602);
             this.metroLabel_LateJoiner.Name = "metroLabel_LateJoiner";
-            this.metroLabel_LateJoiner.Size = new System.Drawing.Size(131, 20);
+            this.metroLabel_LateJoiner.Size = new System.Drawing.Size(127, 20);
             this.metroLabel_LateJoiner.TabIndex = 46;
-            this.metroLabel_LateJoiner.Text = "Late Joyner Penalty:";
+            this.metroLabel_LateJoiner.Text = "Late Joiner Penalty:";
             // 
             // metroLabel_WaitingPeriodHint
             // 
