@@ -22,6 +22,7 @@ using easiplan.domain;
 using System.Management;
 using DocumentFormat.OpenXml.EMMA;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
+using Microsoft.Graph;
 
 namespace Finx.App.Forms
 {
@@ -1198,90 +1199,294 @@ namespace Finx.App.Forms
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.hcCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void Cover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.hcCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void DayToDay1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.ddCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void DayToDay2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.ddCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void Threshold1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.tbCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void Threshold2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.tbCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void ChronicBenefit1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.cbCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void ChronicBenefit2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.cbCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
         private void SavingsAccount1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.saComments = comboBox.SelectedItem.ToString();
+            selectedNote.saCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void SavingsAccount2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.saCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void HospitalPreference1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.hpComments = comboBox.SelectedItem.ToString();
+            selectedNote.hpCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void HospitalPreference2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.hpCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void GapCover1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.gcComments = comboBox.SelectedItem.ToString();
+            selectedNote.gcCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void GapCover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.gcCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void Other1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.oComments = comboBox.SelectedItem.ToString();
+            selectedNote.oCoverDiscussed = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
         private void Other2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             selectedNote.oCoverTaken = comboBox.SelectedItem.ToString();
+
+            selectedNote.UpdateBy = Program.User.Username;
+            selectedNote.UpdateDate = DateTime.Now;
         }
 
+
+        #endregion
+
+        #region Medical Table Comment box event handlers
+
+        private void CoverComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.hcComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void DayToDayComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.ddComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ThresholdComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.tbComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ChronicComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.cbComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void SavingsComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.saComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void HospitalPreferenceComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.hpComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void GapCoverComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.gcComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void OtherComment_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                selectedNote.oComments = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
 
         #endregion
 
@@ -1550,6 +1755,30 @@ namespace Finx.App.Forms
             Other1.SelectedIndexChanged += Other1_SelectedIndexChanged;
             Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
 
+            //Initialise Form values
+            Cover1.Text = selectedNote.hcCoverDiscussed;
+            Cover2.Text = selectedNote.hcCoverTaken;
+
+            DayToDay1.Text = selectedNote.ddCoverDiscussed;
+            DayToDay2.Text = selectedNote.ddCoverTaken;
+
+            Threshold1.Text = selectedNote.tbCoverDiscussed;
+            Threshold2.Text = selectedNote.tbCoverTaken;
+
+            ChronicBenefit1.Text = selectedNote.cbCoverDiscussed;
+            ChronicBenefit2.Text = selectedNote.cbCoverTaken;
+
+            Savings1.Text = selectedNote.saCoverDiscussed;
+            Savings2.Text = selectedNote.saCoverTaken;
+
+            HospitalPreference1.Text = selectedNote.hpCoverDiscussed;
+            HospitalPreference2.Text = selectedNote.hpCoverTaken;
+
+            GapCover1.Text = selectedNote.gcCoverDiscussed;
+            GapCover2.Text = selectedNote.gcCoverTaken;
+
+            Other1.Text = selectedNote.oCoverDiscussed;
+            Other2.Text = selectedNote.oCoverTaken;
 
 
             //Add Combo boxes to Table
@@ -1588,29 +1817,61 @@ namespace Finx.App.Forms
         {
             List<MetroTextBox> textBoxes = new List<MetroTextBox>();
 
+            //Hospital Cover
             MetroTextBox tb_hospitalCover = new MetroTextBox();
             textBoxes.Add(tb_hospitalCover);
+            tb_hospitalCover.Text = selectedNote.hcComments;
+            tb_hospitalCover.TextChanged += CoverComment_propertyChanged_EventHandler;
+            
 
+            //Day to Day 
             MetroTextBox tb_dayToDay = new MetroTextBox();
             textBoxes.Add(tb_dayToDay);
+            tb_dayToDay.Text += selectedNote.ddComments;
+            tb_dayToDay.TextChanged += DayToDayComment_propertyChanged_EventHandler;
 
+
+            //Threshold Benefits
             MetroTextBox tb_threshold = new MetroTextBox();
             textBoxes.Add(tb_threshold);
+            tb_threshold.Text = selectedNote.tbComments;
+            tb_threshold.TextChanged += ThresholdComment_propertyChanged_EventHandler;
 
+           
+            //Chronic Benefits
             MetroTextBox tb_chronic = new MetroTextBox();
             textBoxes.Add(tb_chronic);
+            tb_chronic.Text = selectedNote.cbComments;
+            tb_chronic.TextChanged += ChronicComment_propertyChanged_EventHandler;
 
+
+            //Savings Account
             MetroTextBox tb_savingsAccount = new MetroTextBox();
             textBoxes.Add(tb_savingsAccount);
+            tb_savingsAccount.Text = selectedNote.saComments;
+            tb_savingsAccount.TextChanged += SavingsComment_propertyChanged_EventHandler;
 
+
+            //Hospital Preference
             MetroTextBox tb_hospitalPreference = new MetroTextBox();
             textBoxes.Add(tb_hospitalPreference);
+            tb_hospitalPreference.Text = selectedNote.hpComments;
+            tb_hospitalPreference.TextChanged += HospitalPreferenceComment_propertyChanged_EventHandler;
 
+
+            //Gap Cover
             MetroTextBox tb_gapCover = new MetroTextBox();
             textBoxes.Add(tb_gapCover);
+            tb_gapCover.Text = selectedNote.gcComments;
+            tb_gapCover.TextChanged += GapCoverComment_propertyChanged_EventHandler;
 
+
+            //Other
             MetroTextBox tb_other = new MetroTextBox();
             textBoxes.Add(tb_other);
+            tb_other.Text = selectedNote.oComments;
+            tb_other.TextChanged += OtherComment_propertyChanged_EventHandler;
+
 
             foreach (MetroTextBox tb in textBoxes)
             {
@@ -1619,13 +1880,21 @@ namespace Finx.App.Forms
                 tb.ScrollBars = ScrollBars.Vertical;
 
             }
-            
-           
+
+            //Add text boxes to form            
+
             this.tblPanel_NeedsAndGoals.Controls.Add(tb_hospitalCover, 3, 1);
             this.tblPanel_NeedsAndGoals.Controls.Add(tb_dayToDay, 3, 2);
             this.tblPanel_NeedsAndGoals.Controls.Add(tb_threshold, 3, 3);
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_chronic, 3, 4);
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_savingsAccount, 3, 5);
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_hospitalPreference, 3, 6);
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_gapCover, 3, 7);
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_other, 3, 8);
 
         }
+
+    
         #endregion
 
         #endregion
