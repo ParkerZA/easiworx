@@ -365,6 +365,8 @@ namespace Finx.App.Forms
 
             selectedNote.IsLoading = true;
 
+            Console.WriteLine(InvestmentType);
+
             switch (InvestmentType.ToLower())
             {
                 case "retirement":
@@ -372,7 +374,8 @@ namespace Finx.App.Forms
                     mostRecentRecord = Retirement.AdviceRecords.LastOrDefault();
                     InitializeStandardPortfolio();
                     populateRetirement(record);
- 
+                    Console.WriteLine("Error");
+
                     break;
                 case "investment":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Investment Portfolio";
@@ -388,6 +391,7 @@ namespace Finx.App.Forms
 
                     initialiseMedicalPortfolio();
                     populateMedical(record);
+                    Console.WriteLine("No error");
 
                     break;
                 case "education":
