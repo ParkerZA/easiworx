@@ -73,6 +73,12 @@ namespace Finx.App.Forms
         {
             InitializeComponent();
 
+            GenerateTable_NeedsAndGoals();
+            InitialiseMedicalTable();
+            //initialiseTableListBoxes();
+            //tableTextBox();
+
+
             ReadOnly = readOnly;
             Action = action;
 
@@ -117,6 +123,34 @@ namespace Finx.App.Forms
             metroTextBox_WaitingPeriods.TextChanged += WaitingPeriod_propertyChanged_EventHandler;
             metroTextBox_LateJoiner.TextChanged += LateJoyner_propertyChanged_EventHandler;
             metroTextBox_Copayment.TextChanged += CoPayments_propertyChanged_EventHandler;
+
+
+            //SetComboBox event handers
+
+            this.Cover1.SelectedIndexChanged += Cover1_SelectedIndexChanged;
+            this.Cover2.SelectedIndexChanged += Cover2_SelectedIndexChanged;
+
+            this.DayToDay1.SelectedIndexChanged += DayToDay1_SelectedIndexChanged;
+            this.DayToDay2.SelectedIndexChanged += DayToDay2_SelectedIndexChanged;
+
+            this.Threshold1.SelectedIndexChanged += Threshold1_SelectedIndexChanged;
+            this.Threshold2.SelectedIndexChanged += Threshold2_SelectedIndexChanged;
+
+            this.ChronicBenefit1.SelectedIndexChanged += ChronicBenefit1_SelectedIndexChanged;
+            this.ChronicBenefit2.SelectedIndexChanged += ChronicBenefit2_SelectedIndexChanged;
+
+            this.Savings1.SelectedIndexChanged += SavingsAccount1_SelectedIndexChanged;
+            this.Savings2.SelectedIndexChanged += SavingsAccount2_SelectedIndexChanged;
+
+            this.HospitalPreference1.SelectedIndexChanged += HospitalPreference1_SelectedIndexChanged;
+            this.HospitalPreference2.SelectedIndexChanged += HospitalPreference2_SelectedIndexChanged;
+
+            this.GapCover1.SelectedIndexChanged += GapCover1_SelectedIndexChanged;
+            this.GapCover2.SelectedIndexChanged += GapCover2_SelectedIndexChanged;
+
+            this.Other1.SelectedIndexChanged += Other1_SelectedIndexChanged;
+            this.Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
+
 
             //Allowing for adding date to text boxes
             metroTextBox_FinancialSolution.KeyDown += textBox_AppendNewLineDate;
@@ -539,10 +573,19 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalCover);
 
 
+            //Distance calculations to allow for the movement of form elements
+            //Rename these because its confusing
+            int Xdis1 = this.metroLabel_MedicalCover.Location.X; //Distance between a typical title and the left hand margin
+            int Xdis2 = this.metroPanel_MedicalCover.Location.X; //Distance between a typical Panel and the left hand margin
+            int Ydis1 =  (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height)); //Distance between a title and the panel above it
+            int Ydis2 = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y; //Distance between a hint and the title above it
+            int Ydis3 =this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y ; //Distance between a panel and the hint above it
+                
             //Other Information
-            this.metroLabel_OtherInformation.Location = new Point(10-2, 507-101);
-            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(10-2, 527-101);
-            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(15-2, 559-101);
+            //this.metroLabel_OtherInformation.Location = new Point(10-2, 507-101);
+            this.metroLabel_OtherInformation.Location = new Point(Xdis1, this.metroPanel_MedicalCover.Location.Y+ this.metroPanel_MedicalCover.Height + Ydis1);
+            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(Xdis1, this.metroLabel_OtherInformation.Location.Y+Ydis2);
+            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(Xdis2, this.metroLabel_OtherInformationHint.Location.Y + Ydis3);
 
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
@@ -555,9 +598,9 @@ namespace Finx.App.Forms
 
             //Needs and goals identified table
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
-            GenerateTable_NeedsAndGoals();
-            initialiseTableListBoxes();
-            tableTextBox();
+
+            AddComboBoxesToTable();
+            this.metroPanel_AdviceRecord.Controls.Add(tblPanel_NeedsAndGoals);
 
             //Chronic Conditions
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditions);
@@ -581,7 +624,7 @@ namespace Finx.App.Forms
 
 
 
-            this.metroPanel_AdviceRecord.Controls.Add(tblPanel_NeedsAndGoals);
+           
 
             this.metroPanel_AdviceRecord.PerformLayout();
         }
@@ -1668,152 +1711,69 @@ namespace Finx.App.Forms
         #endregion
 
         #region ComboBoxes
-        private void initialiseTableListBoxes()
+        private void PopulateMedicalTableListBoxes()
         {
 
-            List<MetroComboBox> listBoxes = new List<MetroComboBox>();
-
-            //Cover
-            MetroComboBox Cover1 = new MetroComboBox();
-            listBoxes.Add(Cover1);
-            MetroComboBox Cover2 = new MetroComboBox();
-            listBoxes.Add(Cover2);
-
-            //DayToDay
-            MetroComboBox DayToDay1 = new MetroComboBox();
-            listBoxes.Add(DayToDay1);
-            MetroComboBox DayToDay2 = new MetroComboBox();
-            listBoxes.Add(DayToDay2);
-
-            //Threshold Benefit
-            MetroComboBox Threshold1 = new MetroComboBox();
-            listBoxes.Add(Threshold1);
-            MetroComboBox Threshold2 = new MetroComboBox();
-            listBoxes.Add(Threshold2);
-
-
-            //ChronicBenefit
-            MetroComboBox ChronicBenefit1 = new MetroComboBox();
-            listBoxes.Add(ChronicBenefit1);
-            MetroComboBox ChronicBenefit2 = new MetroComboBox();
-            listBoxes.Add(ChronicBenefit2);
-
-            //Savings account
-            MetroComboBox Savings1 = new MetroComboBox();
-            listBoxes.Add(Savings1);
-            MetroComboBox Savings2 = new MetroComboBox();
-            listBoxes.Add(Savings2);
-
-            //HospitalPreference
-            MetroComboBox HospitalPreference1 = new MetroComboBox();
-            listBoxes.Add(HospitalPreference1);
-            MetroComboBox HospitalPreference2 = new MetroComboBox();
-            listBoxes.Add(HospitalPreference2);
-
-            //Gap Cover
-            MetroComboBox GapCover1 = new MetroComboBox();
-            listBoxes.Add(GapCover1);
-            MetroComboBox GapCover2 = new MetroComboBox();
-            listBoxes.Add(GapCover2);
-
-            //Other
-            MetroComboBox Other1 = new MetroComboBox();
-            listBoxes.Add(Other1);
-            MetroComboBox Other2 = new MetroComboBox();
-            listBoxes.Add(Other2);
-
-            foreach (MetroComboBox dropDown in listBoxes)
-            {
-                dropDown.DropDownStyle = ComboBoxStyle.DropDownList;
-                dropDown.Dock = DockStyle.Fill;
-                dropDown.Items.Add("");
-                dropDown.Items.Add("Yes");
-                dropDown.Items.Add("No");
-
-            }
-
-
-            //SetComboBox event handers
-
-            Cover1.SelectedIndexChanged += Cover1_SelectedIndexChanged;
-            Cover2.SelectedIndexChanged += Cover2_SelectedIndexChanged;
-
-            DayToDay1.SelectedIndexChanged += DayToDay1_SelectedIndexChanged;
-            DayToDay2.SelectedIndexChanged += DayToDay2_SelectedIndexChanged;
-
-            Threshold1.SelectedIndexChanged += Threshold1_SelectedIndexChanged;
-            Threshold2.SelectedIndexChanged += Threshold2_SelectedIndexChanged;
-
-            ChronicBenefit1.SelectedIndexChanged += ChronicBenefit1_SelectedIndexChanged;
-            ChronicBenefit2.SelectedIndexChanged += ChronicBenefit2_SelectedIndexChanged;
-
-            Savings1.SelectedIndexChanged += SavingsAccount1_SelectedIndexChanged;
-            Savings2.SelectedIndexChanged += SavingsAccount2_SelectedIndexChanged;
-
-            HospitalPreference1.SelectedIndexChanged += HospitalPreference1_SelectedIndexChanged;
-            HospitalPreference2.SelectedIndexChanged += HospitalPreference2_SelectedIndexChanged;
-
-            GapCover1.SelectedIndexChanged += GapCover1_SelectedIndexChanged;
-            GapCover2.SelectedIndexChanged += GapCover2_SelectedIndexChanged;
-
-            Other1.SelectedIndexChanged += Other1_SelectedIndexChanged;
-            Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
-
             //Initialise Form values
-            Cover1.Text = selectedNote.hcCoverDiscussed;
-            Cover2.Text = selectedNote.hcCoverTaken;
+            this.Cover1.Text = selectedNote.hcCoverDiscussed;
+            this.Cover2.Text = selectedNote.hcCoverTaken;
 
-            DayToDay1.Text = selectedNote.ddCoverDiscussed;
-            DayToDay2.Text = selectedNote.ddCoverTaken;
+            this.DayToDay1.Text = selectedNote.ddCoverDiscussed;
+            this.DayToDay2.Text = selectedNote.ddCoverTaken;
 
-            Threshold1.Text = selectedNote.tbCoverDiscussed;
-            Threshold2.Text = selectedNote.tbCoverTaken;
+            this.Threshold1.Text = selectedNote.tbCoverDiscussed;
+            this.Threshold2.Text = selectedNote.tbCoverTaken;
 
-            ChronicBenefit1.Text = selectedNote.cbCoverDiscussed;
-            ChronicBenefit2.Text = selectedNote.cbCoverTaken;
+            this.ChronicBenefit1.Text = selectedNote.cbCoverDiscussed;
+            this.ChronicBenefit2.Text = selectedNote.cbCoverTaken;
 
-            Savings1.Text = selectedNote.saCoverDiscussed;
-            Savings2.Text = selectedNote.saCoverTaken;
+            this.Savings1.Text = selectedNote.saCoverDiscussed;
+            this.Savings2.Text = selectedNote.saCoverTaken;
 
-            HospitalPreference1.Text = selectedNote.hpCoverDiscussed;
-            HospitalPreference2.Text = selectedNote.hpCoverTaken;
+            this.HospitalPreference1.Text = selectedNote.hpCoverDiscussed;
+            this.HospitalPreference2.Text = selectedNote.hpCoverTaken;
 
-            GapCover1.Text = selectedNote.gcCoverDiscussed;
-            GapCover2.Text = selectedNote.gcCoverTaken;
+            this.GapCover1.Text = selectedNote.gcCoverDiscussed;
+            this.GapCover2.Text = selectedNote.gcCoverTaken;
 
-            Other1.Text = selectedNote.oCoverDiscussed;
-            Other2.Text = selectedNote.oCoverTaken;
-
-
-            //Add Combo boxes to Table
-            this.tblPanel_NeedsAndGoals.Controls.Add(Cover1, 1, 1);
-            this.tblPanel_NeedsAndGoals.Controls.Add(Cover2, 2, 1);
-
-            this.tblPanel_NeedsAndGoals.Controls.Add(DayToDay1, 1, 2);
-            this.tblPanel_NeedsAndGoals.Controls.Add(DayToDay2, 2, 2);
-
-            this.tblPanel_NeedsAndGoals.Controls.Add(Threshold1, 1, 3);
-            this.tblPanel_NeedsAndGoals.Controls.Add(Threshold2, 2, 3);
-
-            this.tblPanel_NeedsAndGoals.Controls.Add(ChronicBenefit1, 1, 4);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ChronicBenefit2, 2, 4);
-
-            this.tblPanel_NeedsAndGoals.Controls.Add(Savings1, 1, 5);
-            this.tblPanel_NeedsAndGoals.Controls.Add(Savings2, 2, 5);
-
-            this.tblPanel_NeedsAndGoals.Controls.Add(HospitalPreference1, 1, 6);
-            this.tblPanel_NeedsAndGoals.Controls.Add(HospitalPreference2, 2, 6);
-
-            this.tblPanel_NeedsAndGoals.Controls.Add(GapCover1, 1, 7);
-            this.tblPanel_NeedsAndGoals.Controls.Add(GapCover2, 2, 7);
-
-            this.tblPanel_NeedsAndGoals.Controls.Add(Other1, 1, 8);
-            this.tblPanel_NeedsAndGoals.Controls.Add(Other2, 2, 8);
+            this.Other1.Text = selectedNote.oCoverDiscussed;
+            this.Other2.Text = selectedNote.oCoverTaken;
 
 
-
+            
 
         }
+
+        private void AddComboBoxesToTable()
+        {
+
+            //Add Combo boxes to Table
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Cover1, 1, 1);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Cover2, 2, 1);
+
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.DayToDay1, 1, 2);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.DayToDay2, 2, 2);
+
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Threshold1, 1, 3);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Threshold2, 2, 3);
+
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.ChronicBenefit1, 1, 4);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.ChronicBenefit2, 2, 4);
+
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Savings1, 1, 5);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Savings2, 2, 5);
+
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.HospitalPreference1, 1, 6);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.HospitalPreference2, 2, 6);
+
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.GapCover1, 1, 7);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.GapCover2, 2, 7);
+
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Other1, 1, 8);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.Other2, 2, 8);
+
+        }
+
         #endregion
 
         #region Text edit
@@ -2590,6 +2550,8 @@ namespace Finx.App.Forms
             populateWaitingPeriods(advRecord);
             populateLateJoyner(advRecord);
             populateCoPayments(advRecord);
+
+            PopulateMedicalTableListBoxes();
         }
 
         #endregion

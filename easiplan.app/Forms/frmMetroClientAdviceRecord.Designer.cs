@@ -1,6 +1,7 @@
 ﻿using MetroFramework;
 using MetroFramework.Controls;
 using MetroFramework.Controls.Ext;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Management.Instrumentation;
 using System.Windows.Forms;
@@ -2174,6 +2175,111 @@ namespace Finx.App.Forms
             this.ResumeLayout(false);
 
         }
+
+        #endregion
+
+
+        #region Additional form elements
+
+        private void InitialiseMedicalTable()
+        {
+            List<MetroComboBox> listBoxes = new List<MetroComboBox>();
+
+            //Cover
+            //MetroComboBox Cover1 = new MetroComboBox();
+            listBoxes.Add(this.Cover1);
+            //MetroComboBox Cover2 = new MetroComboBox();
+            listBoxes.Add(this.Cover2);
+
+            //DayToDay
+            //MetroComboBox DayToDay1 = new MetroComboBox();
+            listBoxes.Add(this.DayToDay1);
+            //MetroComboBox DayToDay2 = new MetroComboBox();
+            listBoxes.Add(this.DayToDay2);
+
+            //Threshold Benefit
+            //MetroComboBox Threshold1 = new MetroComboBox();
+            listBoxes.Add(this.Threshold1);
+            //MetroComboBox Threshold2 = new MetroComboBox();
+            listBoxes.Add(this.Threshold2);
+
+
+            //ChronicBenefit
+            //MetroComboBox ChronicBenefit1 = new MetroComboBox();
+            listBoxes.Add(this.ChronicBenefit1);
+            //MetroComboBox ChronicBenefit2 = new MetroComboBox();
+            listBoxes.Add(this.ChronicBenefit2);
+
+            //Savings account
+            //MetroComboBox Savings1 = new MetroComboBox();
+            listBoxes.Add(this.Savings1);
+            //MetroComboBox Savings2 = new MetroComboBox();
+            listBoxes.Add(this.Savings2);
+
+            //HospitalPreference
+            //MetroComboBox HospitalPreference1 = new MetroComboBox();
+            listBoxes.Add(this.HospitalPreference1);
+            //MetroComboBox HospitalPreference2 = new MetroComboBox();
+            listBoxes.Add(this.HospitalPreference2);
+
+            //Gap Cover
+            //MetroComboBox GapCover1 = new MetroComboBox();
+            listBoxes.Add(this.GapCover1);
+            //MetroComboBox GapCover2 = new MetroComboBox();
+            listBoxes.Add(this.GapCover2);
+
+            //Other
+            //MetroComboBox Other1 = new MetroComboBox();
+            listBoxes.Add(this.Other1);
+            //MetroComboBox Other2 = new MetroComboBox();
+            listBoxes.Add(this.Other2);
+
+
+            foreach (MetroComboBox dropDown in listBoxes)
+            {
+                dropDown.DropDownStyle = ComboBoxStyle.DropDownList;
+                dropDown.Dock = DockStyle.Fill;
+                dropDown.Items.Add("");
+                dropDown.Items.Add("Yes");
+                dropDown.Items.Add("No");
+
+            }
+
+        }
+
+        //Cover
+       private MetroComboBox Cover1 = new MetroComboBox();
+        private MetroComboBox Cover2 = new MetroComboBox();
+
+        //DayToDay
+        private MetroComboBox DayToDay1 = new MetroComboBox();
+        private MetroComboBox DayToDay2 = new MetroComboBox();
+
+        //Threshold Benefit
+        private MetroComboBox Threshold1 = new MetroComboBox();
+        private MetroComboBox Threshold2 = new MetroComboBox();
+
+
+        //ChronicBenefit
+        private MetroComboBox ChronicBenefit1 = new MetroComboBox();
+        private MetroComboBox ChronicBenefit2 = new MetroComboBox();
+
+        //Savings account
+        private MetroComboBox Savings1 = new MetroComboBox();
+        private MetroComboBox Savings2 = new MetroComboBox();
+
+        //HospitalPreference
+        private MetroComboBox HospitalPreference1 = new MetroComboBox();
+        private MetroComboBox HospitalPreference2 = new MetroComboBox();
+
+        //Gap Cover
+        private MetroComboBox GapCover1 = new MetroComboBox();
+        private MetroComboBox GapCover2 = new MetroComboBox();
+
+        //Other
+        private MetroComboBox Other1 = new MetroComboBox();
+        private MetroComboBox Other2 = new MetroComboBox();
+        
 
         #endregion
 
