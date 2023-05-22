@@ -552,6 +552,7 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
             GenerateTable_NeedsAndGoals();
             initialiseTableListBoxes();
+            tableTextBox();
 
             //Chronic Conditions
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditions);
@@ -1191,6 +1192,99 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region Medical Table Combobox change handlers
+
+        private void Cover1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.hcCoverDiscussed = comboBox.SelectedItem.ToString();
+        }
+        private void Cover2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.hcCoverTaken = comboBox.SelectedItem.ToString();
+        }
+        private void DayToDay1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.ddCoverDiscussed = comboBox.SelectedItem.ToString();
+        }
+        private void DayToDay2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.ddCoverTaken = comboBox.SelectedItem.ToString();
+        }
+        private void Threshold1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.tbCoverDiscussed = comboBox.SelectedItem.ToString();
+        }
+        private void Threshold2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.tbCoverTaken = comboBox.SelectedItem.ToString();
+        }
+        private void ChronicBenefit1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.cbCoverDiscussed = comboBox.SelectedItem.ToString();
+        }
+        private void ChronicBenefit2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.cbCoverTaken = comboBox.SelectedItem.ToString();
+        }
+        private void SavingsAccount1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.saComments = comboBox.SelectedItem.ToString();
+        }
+
+        private void SavingsAccount2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.saCoverTaken = comboBox.SelectedItem.ToString();
+        }
+
+        private void HospitalPreference1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.hpComments = comboBox.SelectedItem.ToString();
+        }
+
+        private void HospitalPreference2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.hpCoverTaken = comboBox.SelectedItem.ToString();
+        }
+
+        private void GapCover1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.gcComments = comboBox.SelectedItem.ToString();
+        }
+
+        private void GapCover2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.gcCoverTaken = comboBox.SelectedItem.ToString();
+        }
+
+        private void Other1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.oComments = comboBox.SelectedItem.ToString();
+        }
+
+        private void Other2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            selectedNote.oCoverTaken = comboBox.SelectedItem.ToString();
+        }
+
+
+        #endregion
+
         private void Notes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
         {
 
@@ -1364,7 +1458,7 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #region CheckBoxes
+        #region ComboBoxes
         private void initialiseTableListBoxes()
         {
 
@@ -1429,9 +1523,36 @@ namespace Finx.App.Forms
 
             }
 
-            
-            
-            //this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+
+            //SetComboBox event handers
+
+            Cover1.SelectedIndexChanged += Cover1_SelectedIndexChanged;
+            Cover2.SelectedIndexChanged += Cover2_SelectedIndexChanged;
+
+            DayToDay1.SelectedIndexChanged += DayToDay1_SelectedIndexChanged;
+            DayToDay2.SelectedIndexChanged += DayToDay2_SelectedIndexChanged;
+
+            Threshold1.SelectedIndexChanged += Threshold1_SelectedIndexChanged;
+            Threshold2.SelectedIndexChanged += Threshold2_SelectedIndexChanged;
+
+            ChronicBenefit1.SelectedIndexChanged += ChronicBenefit1_SelectedIndexChanged;
+            ChronicBenefit2.SelectedIndexChanged += ChronicBenefit2_SelectedIndexChanged;
+
+            Savings1.SelectedIndexChanged += SavingsAccount1_SelectedIndexChanged;
+            Savings2.SelectedIndexChanged += SavingsAccount2_SelectedIndexChanged;
+
+            HospitalPreference1.SelectedIndexChanged += HospitalPreference1_SelectedIndexChanged;
+            HospitalPreference2.SelectedIndexChanged += HospitalPreference2_SelectedIndexChanged;
+
+            GapCover1.SelectedIndexChanged += GapCover1_SelectedIndexChanged;
+            GapCover2.SelectedIndexChanged += GapCover2_SelectedIndexChanged;
+
+            Other1.SelectedIndexChanged += Other1_SelectedIndexChanged;
+            Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
+
+
+
+            //Add Combo boxes to Table
             this.tblPanel_NeedsAndGoals.Controls.Add(Cover1, 1, 1);
             this.tblPanel_NeedsAndGoals.Controls.Add(Cover2, 2, 1);
 
@@ -1458,6 +1579,51 @@ namespace Finx.App.Forms
 
 
 
+
+        }
+        #endregion
+
+        #region Text edit
+        private void tableTextBox()
+        {
+            List<MetroTextBox> textBoxes = new List<MetroTextBox>();
+
+            MetroTextBox tb_hospitalCover = new MetroTextBox();
+            textBoxes.Add(tb_hospitalCover);
+
+            MetroTextBox tb_dayToDay = new MetroTextBox();
+            textBoxes.Add(tb_dayToDay);
+
+            MetroTextBox tb_threshold = new MetroTextBox();
+            textBoxes.Add(tb_threshold);
+
+            MetroTextBox tb_chronic = new MetroTextBox();
+            textBoxes.Add(tb_chronic);
+
+            MetroTextBox tb_savingsAccount = new MetroTextBox();
+            textBoxes.Add(tb_savingsAccount);
+
+            MetroTextBox tb_hospitalPreference = new MetroTextBox();
+            textBoxes.Add(tb_hospitalPreference);
+
+            MetroTextBox tb_gapCover = new MetroTextBox();
+            textBoxes.Add(tb_gapCover);
+
+            MetroTextBox tb_other = new MetroTextBox();
+            textBoxes.Add(tb_other);
+
+            foreach (MetroTextBox tb in textBoxes)
+            {
+                tb.Dock = DockStyle.Fill; ;
+                tb.Multiline= true;
+                tb.ScrollBars = ScrollBars.Vertical;
+
+            }
+            
+           
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_hospitalCover, 3, 1);
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_dayToDay, 3, 2);
+            this.tblPanel_NeedsAndGoals.Controls.Add(tb_threshold, 3, 3);
 
         }
         #endregion

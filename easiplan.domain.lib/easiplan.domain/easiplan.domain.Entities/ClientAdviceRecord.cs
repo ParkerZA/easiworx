@@ -42,6 +42,154 @@ namespace easiplan.domain.Entities
         private bool _IsCompleted;
 
 
+
+        #region Medical Needs and Goals table methods
+        public virtual string hcCoverDiscussed
+        {
+             get; 
+             set;  
+        }
+
+        public virtual string hcCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string hcComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string ddCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string ddCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string ddComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string tbCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string tbCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string tbComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string cbCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string cbCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string cbComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string saCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string saCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string saComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string hpCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string hpCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string hpComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string gcCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string gcCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string gcComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string oCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string oCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string oComments
+        {
+            get;
+            set;
+        }
+
+
+        #endregion
         public virtual bool IsCompleted
         {
             get
