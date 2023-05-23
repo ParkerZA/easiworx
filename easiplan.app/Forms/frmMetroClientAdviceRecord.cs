@@ -111,8 +111,11 @@ namespace Finx.App.Forms
 
             //Form text box handlers
             metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler; //Needs and Objectives text box
-            metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler; //Financial Situation text box
-            
+            metroTextBox_FinancialSituation.TextChanged += FinancialSituation_propertyChanged_EventHandler; //Financial Situation text box
+            metroTextBox_OtherInformation.TextChanged += OtherInformation_propertyChanged_EventHandler; //Financial Situation text box
+            metroTextBox_RecommendedFunds.TextChanged += RecommendedFunds_propertyChanged_EventHandler; //Recommended funds text box
+            metroTextBox_Motivation.TextChanged += Motivation_propertyChanged_EventHandler; //Motivation text box
+
             metroTextBox_MedicalConditions.TextChanged += MedicalConditions_propertyChanged_EventHandler; //Medical Conditions text box
             metroTextBox_CurrentMedicalCover.TextChanged += MedicalCover_propertyChanged_EventHandler; //Current Medical Cover text box
             metroTextBox_Hospitalisation.TextChanged += Hospitalisation_propertyChanged_EventHandler; //Hospitalisation text box
@@ -159,9 +162,11 @@ namespace Finx.App.Forms
 
 
             //Assigning key down methods to allow for adding date to text boxes with cntrl D
-            metroTextBox_FinancialSolution.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_FinancialSituation.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_NeedAndObjective.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_OtherInformation.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_RecommendedFunds.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_Motivation.KeyDown += textBox_AppendNewLineDate;
 
             metroTextBox_MedicalConditions.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_CurrentMedicalCover.KeyDown += textBox_AppendNewLineDate;
@@ -507,7 +512,7 @@ namespace Finx.App.Forms
             //Financial Solution
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_FinancialSolution);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_FinancialSolutionHint);
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_FinancialSolution);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_FinancialSituation);
 
             //Other Information
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
@@ -629,7 +634,7 @@ namespace Finx.App.Forms
             lockText(metroTextBox_NeedAndObjective, state);
 
             //Lock Financial Situation
-            lockText(metroTextBox_FinancialSolution,state);
+            lockText(metroTextBox_FinancialSituation,state);
         }
 
 
@@ -1067,14 +1072,71 @@ namespace Finx.App.Forms
 
         }
 
-        private void FinancialSolution_propertyChanged_EventHandler(object sender, EventArgs e)
+        private void FinancialSituation_propertyChanged_EventHandler(object sender, EventArgs e)
         {
 
             try
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.FinancialSolution = metroTextBox_FinancialSolution.Text;
+                selectedNote.FinancialSituation = metroTextBox_FinancialSituation.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void OtherInformation_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.OtherInformation = metroTextBox_OtherInformation.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void RecommendedFunds_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.RecommendedFunds = metroTextBox_RecommendedFunds.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Motivation_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.Motivation = metroTextBox_Motivation.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2192,7 +2254,9 @@ namespace Finx.App.Forms
             }
         }
         #endregion
-        
+
+        #region Populate Button controls
+
         private void populateInvestmentHorizon(ClientAdviceRecord record)
         {
             Console.WriteLine(record.InvestmentHorizen);
@@ -2248,6 +2312,8 @@ namespace Finx.App.Forms
             }
         }
 
+        #endregion
+
         #region Populate generic form text boxes
 
         private void populateNeedsAndObjectives(ClientAdviceRecord record)
@@ -2260,9 +2326,33 @@ namespace Finx.App.Forms
 
         private void populateFinancialSolution(ClientAdviceRecord record)
         {
-            if (record.FinancialSolution != null)
+            if (record.FinancialSituation != null)
             {
-                this.metroTextBox_FinancialSolution.Text = record.FinancialSolution;
+                this.metroTextBox_FinancialSituation.Text = record.FinancialSituation;
+            }
+        }
+
+        private void populateOtherInformation(ClientAdviceRecord record)
+        {
+            if (record.OtherInformation != null)
+            {
+                this.metroTextBox_OtherInformation.Text = record.OtherInformation;
+            }
+        }
+
+        private void populateRecommendedFunds(ClientAdviceRecord record)
+        {
+            if (record.RecommendedFunds != null)
+            {
+                this.metroTextBox_RecommendedFunds.Text = record.RecommendedFunds;
+            }
+        }
+
+        private void populateMotivation(ClientAdviceRecord record)
+        {
+            if (record.Motivation != null)
+            {
+                this.metroTextBox_Motivation.Text = record.Motivation;
             }
         }
 
@@ -2382,6 +2472,9 @@ namespace Finx.App.Forms
             populateAccessToCapital(advRecord);
             populateNeedsAndObjectives(advRecord);
             populateFinancialSolution(advRecord);
+            populateOtherInformation(advRecord);
+            populateRecommendedFunds(advRecord);
+            populateMotivation(advRecord);
         }
 
         private void populateMedical(ClientAdviceRecord advRecord)
@@ -2390,6 +2483,7 @@ namespace Finx.App.Forms
             populateProductAndExperience(advRecord);
             populateMedicalConditions(advRecord);
             populateMedicalCover(advRecord);
+            populateOtherInformation(advRecord);
             populateHospitalisation(advRecord);
             populateChronicConditions(advRecord);
             populateWaitingPeriods(advRecord);
@@ -2453,15 +2547,30 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #region Clear Text Boxes
+        #region Clear Generic Form Text Boxes
         private void clearNeedsAndObj()
         {
             this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
         }
 
-        private void clearFinancialSolution()
+        private void clearFinancialSituation()
         {
-            this.metroTextBox_FinancialSolution.Text = selectedNote.FinancialSolution;
+            this.metroTextBox_FinancialSituation.Text = selectedNote.FinancialSituation;
+        }
+
+        private void clearOtherInformation()
+        {
+            this.metroTextBox_OtherInformation.Text = selectedNote.OtherInformation;
+        }
+
+        private void clearRecommendedFunds()
+        {
+            this.metroTextBox_RecommendedFunds.Text = selectedNote.RecommendedFunds;
+        }
+
+        private void clearMotivation()
+        {
+            this.metroTextBox_Motivation.Text = selectedNote.Motivation;
         }
 
         #region Medical Text Boxes
@@ -2513,7 +2622,10 @@ namespace Finx.App.Forms
             clearInvestmentHorizon();
             clearAccessToCapital();
             clearNeedsAndObj();
-            clearFinancialSolution();
+            clearFinancialSituation();
+            clearOtherInformation();
+            clearRecommendedFunds();
+            clearMotivation();
 
             clearMedicalConditions();
             clearMedicalCover();
@@ -2530,13 +2642,18 @@ namespace Finx.App.Forms
             clearInvestmentHorizon();
             clearAccessToCapital();
             clearNeedsAndObj();
-            clearFinancialSolution();
+            clearFinancialSituation();
+            clearOtherInformation();
+            clearRecommendedFunds();
+            clearMotivation();
         }
 
         private void clearMedicalForm()
         {
+            clearProductKnlgeAndExperience();
             clearMedicalConditions();
             clearMedicalCover();
+            clearOtherInformation();
             clearHospitalisation();
             clearChronicConditions();
             clearWaitingPeriods();

@@ -17,7 +17,6 @@ namespace easiplan.domain.Entities
         private string _generalNotes;
 
         private string _productKnowledge;
-        private string _financialSolution;
         private string _riskProfile;
         private string _investmentType;
         private string _policyNumber;
@@ -25,6 +24,7 @@ namespace easiplan.domain.Entities
         private string _financialSituation;
         private string _investmentHorizen;
         private string _accessToCapital;
+        private string _otherInformation;
 
         private string _medicalConditions;
         private string _medicalCover;
@@ -252,17 +252,58 @@ namespace easiplan.domain.Entities
             }
         }
 
-
-        public virtual string FinancialSolution
+        //Clients financial Situation
+        public virtual string FinancialSituation
         {
             get
             {
-                return _financialSolution;
+                return _financialSituation;
             }
             set
             {
-                _financialSolution = value;
-                InvokePropertyChanged("FinancialSolution");
+                _financialSituation = value;
+                InvokePropertyChanged("FinancialSituation");
+            }
+        }
+
+        public virtual string OtherInformation
+        {
+            get
+            {
+                return _otherInformation;
+            }
+            set
+            {
+                _otherInformation = value;
+                InvokePropertyChanged("OtherInformation");
+            }
+        }
+
+        //Products recomended to the client
+        public virtual string RecommendedFunds
+        {
+            get
+            {
+                return _recommendedProduct;
+            }
+            set
+            {
+                _recommendedProduct = value;
+                InvokePropertyChanged("RecommendedFunds");
+            }
+        }
+
+        //Motivation for recommendation
+        public virtual string Motivation
+        {
+            get
+            {
+                return _motivation;
+            }
+            set
+            {
+                _motivation = value;
+                InvokePropertyChanged("Motivation");
             }
         }
 
@@ -521,34 +562,7 @@ namespace easiplan.domain.Entities
         }
 
 
-        //Investment product / fund that has been recommended by advisor
-        public virtual string RecommendedProduct
-        {
-            get
-            {
-                return _recommendedProduct;
-            }
-            set
-            {
-                _recommendedProduct = value;
-                InvokePropertyChanged("RecommendedProduct");
-            }
-        }
-
-
-        //Motivation for the investment
-        public virtual string Motivation
-        {
-            get
-            {
-                return _motivation;
-            }
-            set
-            {
-                _motivation = value;
-                InvokePropertyChanged("Motivation");
-            }
-        }
+     
 
 
         //Advisors recommendation to the client
