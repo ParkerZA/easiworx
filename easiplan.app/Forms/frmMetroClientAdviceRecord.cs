@@ -72,8 +72,6 @@ namespace Finx.App.Forms
         public frmMetroClientAdviceRecord(string Title, bool readOnly, PolicyAction action)
         {
             InitializeComponent();
-
-            GenerateTable_NeedsAndGoals();
             InitialiseMedicalTable();
             //initialiseTableListBoxes();
             //tableTextBox();
@@ -106,23 +104,31 @@ namespace Finx.App.Forms
             xToolBarMenu1.tbSave.Visible = !ReadOnly;
             xToolBarMenu1.SaveClicked += toolStripButton_Save_Click;
 
-
-
-
             xToolBarMenu1.tbEdit.Visible = !ReadOnly && Action == PolicyAction.AmendPolicy; xToolBarMenu1.tbEdit.Text = "New Note";
             xToolBarMenu1.EditClicked += toolStripButton_Add_Click;
 
-            //Form text box methods
-            metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler;
-            metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler;
+            //Assign Event Handlers
+
+            //Form text box handlers
+            metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler; //Needs and Objectives text box
+            metroTextBox_FinancialSolution.TextChanged += FinancialSolution_propertyChanged_EventHandler; //Financial Situation text box
             
-            metroTextBox_MedicalConditions.TextChanged += MedicalConditions_propertyChanged_EventHandler;
-            metroTextBox_CurrentMedicalCover.TextChanged += MedicalCover_propertyChanged_EventHandler;
-            metroTextBox_Hospitalisation.TextChanged += Hospitalisation_propertyChanged_EventHandler;
-            metroTextBox_ChronicConditions.TextChanged += ChronicConditions_propertyChanged_EventHandler;
-            metroTextBox_WaitingPeriods.TextChanged += WaitingPeriod_propertyChanged_EventHandler;
-            metroTextBox_LateJoiner.TextChanged += LateJoyner_propertyChanged_EventHandler;
-            metroTextBox_Copayment.TextChanged += CoPayments_propertyChanged_EventHandler;
+            metroTextBox_MedicalConditions.TextChanged += MedicalConditions_propertyChanged_EventHandler; //Medical Conditions text box
+            metroTextBox_CurrentMedicalCover.TextChanged += MedicalCover_propertyChanged_EventHandler; //Current Medical Cover text box
+            metroTextBox_Hospitalisation.TextChanged += Hospitalisation_propertyChanged_EventHandler; //Hospitalisation text box
+            metroTextBox_ChronicConditions.TextChanged += ChronicConditions_propertyChanged_EventHandler; //Chronic Conditions text box
+            metroTextBox_WaitingPeriods.TextChanged += WaitingPeriod_propertyChanged_EventHandler; //Waiting Periods text box
+            metroTextBox_LateJoiner.TextChanged += LateJoyner_propertyChanged_EventHandler; //Late Joiner Penalty text box
+            metroTextBox_Copayment.TextChanged += CoPayments_propertyChanged_EventHandler; //Co-Payment text box
+
+            tb_hospitalCover.TextChanged += CoverComment_propertyChanged_EventHandler; //Hospitalisation Cover comment box
+            tb_dayToDay.TextChanged += DayToDayComment_propertyChanged_EventHandler; //Day To Day comment box
+            tb_threshold.TextChanged += ThresholdComment_propertyChanged_EventHandler; //Threshold Benefit comment box
+            tb_chronic.TextChanged += ChronicComment_propertyChanged_EventHandler; //Chronic Benefit comment box
+            tb_savingsAccount.TextChanged += SavingsComment_propertyChanged_EventHandler; //Savings Account comment box
+            tb_hospitalPreference.TextChanged += HospitalPreferenceComment_propertyChanged_EventHandler; //Hospital Preference comment box
+            tb_gapCover.TextChanged += GapCoverComment_propertyChanged_EventHandler; //Gap Cover comment box
+            tb_other.TextChanged += OtherComment_propertyChanged_EventHandler; //Other comment box
 
 
             //SetComboBox event handers
@@ -152,7 +158,7 @@ namespace Finx.App.Forms
             this.Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
 
 
-            //Allowing for adding date to text boxes
+            //Assigning key down methods to allow for adding date to text boxes with cntrl D
             metroTextBox_FinancialSolution.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_NeedAndObjective.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_OtherInformation.KeyDown += textBox_AppendNewLineDate;
@@ -447,22 +453,6 @@ namespace Finx.App.Forms
             }
 
             
-                       /* this.metroPanel_Select.Initialise(selectedNote, cntr =>
-            {
-                //Put back after cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
-                cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
-            }, left: 100, top: 5, labelWidth: 100, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-
-            /* 
-             this.metroPanel_needAndObj.Initialise<Note>(selectedNote, cntr =>
-             {
-
-                 //cntr.For(x => x.Text,"Needs and Objectives", new MetroMultiLineTextBoxEditor(Width: this.metroPanel_needAndObj.Width - 4, Height: this.metroPanel_needAndObj.Height - 30).ReadOnly(ReadOnly));
-
-
-             }, left: 10, top: 0, labelWidth: 300, PropertyChangedHandler: Note_propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
-             */
-            
             selectedNote.IsLoading = false;
 
             if (selectedNote.IsCompleted)
@@ -555,19 +545,11 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
 
             //Medical Conditions
-            //this.metroLabel_MedicalConditions.Location = new System.Drawing.Point(10, 203);
-            //this.metroLabel_MedicalConditionsHint.Location = new System.Drawing.Point(10, 223);
-            //this.metroPanel_MedicalConditions.Location = new System.Drawing.Point(15, 255);
-
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalConditions);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalConditionsHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalConditions);
 
             //Current Medical Cover
-            //this.metroLabel_MedicalCover.Location = new System.Drawing.Point(10, 355);
-            //this.metroLabel_MedicalCoverHint.Location = new System.Drawing.Point(10, 375);
-            //this.metroPanel_MedicalCover.Location = new System.Drawing.Point(15, 407);
-
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCover);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCoverHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalCover);
@@ -598,8 +580,9 @@ namespace Finx.App.Forms
 
             //Needs and goals identified table
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
-
-            AddComboBoxesToTable();
+            NeedsAndGoalsTable_AddLabels();
+            NeedsAndGoalsTable_AddComboBoxes();
+            NeedsAndGoalsTable_AddTextBoxes();
             this.metroPanel_AdviceRecord.Controls.Add(tblPanel_NeedsAndGoals);
 
             //Chronic Conditions
@@ -1599,152 +1582,34 @@ namespace Finx.App.Forms
         #region Medical Table Elements
 
         #region Labels
-        private void GenerateTable_NeedsAndGoals()
+        private void NeedsAndGoalsTable_AddLabels()
         {
-            List<Label> vTableLbls = new List<Label>();
-            List<Label> hTableLbls = new List<Label>();
             
-
-            /*Horizontal Labels*/
-
-            //Cover
-            Label ng_Cover = new Label();
-            ng_Cover.Text = "Cover";
-            hTableLbls.Add(ng_Cover);
-
-            //Cover Discussed
-            Label ng_CoverDiscussed = new Label();
-            ng_CoverDiscussed.Text = "Cover\n Discussed";
-            hTableLbls.Add(ng_CoverDiscussed);
-
-            //Cover Taken
-            Label ng_CoverTaken = new Label();
-            ng_CoverTaken.Text = "Cover\n Taken";
-            hTableLbls.Add(ng_CoverTaken);
-
-            //Comments
-            Label ng_Comment = new Label();
-            ng_Comment.Text = "Comments:";
-            hTableLbls.Add(ng_Comment);
-
-
-            /*Vertical Labels*/
-
-            //Hospitalisation Cover
-            Label ng_HospitalCover = new Label();
-            ng_HospitalCover.Text = "Hospitalisation Cover";
-            vTableLbls.Add(ng_HospitalCover);
-
-            //Day To Day Benefit
-            Label ng_DayToDay = new Label();
-            ng_DayToDay.Text = "Day-to-Day Benefit";
-            vTableLbls.Add(ng_DayToDay);
-
-            //Threshold Benefit
-            Label ng_Threshold = new Label();
-            ng_Threshold.Text = "Threshold Benefit";
-            vTableLbls.Add(ng_Threshold);
-            
-            //Chronic Benefit
-            Label ng_ChronicBenefit = new Label();
-            ng_ChronicBenefit.Text = "Chronic Benefit";
-            vTableLbls.Add(ng_ChronicBenefit);
-
-            //Savings Account
-            Label ng_SavingsAccount = new Label();
-            ng_SavingsAccount.Text = "Savings Account";
-            vTableLbls.Add(ng_SavingsAccount );
-
-            //Hospital Preference
-            Label ng_Preference = new Label();
-            ng_Preference.Text = "Hospital Preference";
-            vTableLbls.Add(ng_Preference);
-
-            //Gap Cover
-            Label ng_GapCover = new Label();
-            ng_GapCover.Text = "Gap Cover";
-            vTableLbls.Add(ng_GapCover );
-
-            //Other
-            Label ng_Other = new Label();
-            ng_Other.Text = "Other";
-            vTableLbls.Add(ng_Other);
-
-            
-            //Format Horizontal headings
-            foreach (Label lbl in hTableLbls)
-            {
-                lbl.AutoSize = false;
-                lbl.Dock = DockStyle.Fill;
-                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
-                lbl.TextAlign = ContentAlignment.MiddleCenter;
-            }
-            ng_Comment.TextAlign = ContentAlignment.MiddleLeft;
-
-            //Format Vertical headings
-            foreach (Label lbl in vTableLbls)
-            {
-                lbl.AutoSize = false;
-                lbl.Dock = DockStyle.Fill;
-                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
-                lbl.TextAlign = ContentAlignment.MiddleCenter;
-            }
 
             //Add labels to table
 
             //Horizontal labels
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Cover, 0, 0);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_CoverDiscussed, 1, 0);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_CoverTaken, 2, 0);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Comment, 3, 0);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.hl_Cover, 0, 0);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.hl_CoverDiscussed, 1, 0);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.hl_CoverTaken, 2, 0);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.hl_Comment, 3, 0);
 
             //Vertical labels
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_HospitalCover, 0, 1);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_DayToDay, 0, 2);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Threshold, 0, 3);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_ChronicBenefit, 0, 4);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_SavingsAccount, 0, 5);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Preference, 0, 6);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_GapCover, 0, 7);
-            this.tblPanel_NeedsAndGoals.Controls.Add(ng_Other, 0, 8);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_HospitalCover, 0, 1);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_DayToDay, 0, 2);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_Threshold, 0, 3);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_ChronicBenefit, 0, 4);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_SavingsAccount, 0, 5);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_Preference, 0, 6);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_GapCover, 0, 7);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.vl_Other, 0, 8);
         }
         #endregion
 
         #region ComboBoxes
-        private void PopulateMedicalTableListBoxes()
-        {
+      
 
-            //Initialise Form values
-            this.Cover1.Text = selectedNote.hcCoverDiscussed;
-            this.Cover2.Text = selectedNote.hcCoverTaken;
-
-            this.DayToDay1.Text = selectedNote.ddCoverDiscussed;
-            this.DayToDay2.Text = selectedNote.ddCoverTaken;
-
-            this.Threshold1.Text = selectedNote.tbCoverDiscussed;
-            this.Threshold2.Text = selectedNote.tbCoverTaken;
-
-            this.ChronicBenefit1.Text = selectedNote.cbCoverDiscussed;
-            this.ChronicBenefit2.Text = selectedNote.cbCoverTaken;
-
-            this.Savings1.Text = selectedNote.saCoverDiscussed;
-            this.Savings2.Text = selectedNote.saCoverTaken;
-
-            this.HospitalPreference1.Text = selectedNote.hpCoverDiscussed;
-            this.HospitalPreference2.Text = selectedNote.hpCoverTaken;
-
-            this.GapCover1.Text = selectedNote.gcCoverDiscussed;
-            this.GapCover2.Text = selectedNote.gcCoverTaken;
-
-            this.Other1.Text = selectedNote.oCoverDiscussed;
-            this.Other2.Text = selectedNote.oCoverTaken;
-
-
-            
-
-        }
-
-        private void AddComboBoxesToTable()
+        private void NeedsAndGoalsTable_AddComboBoxes()
         {
 
             //Add Combo boxes to Table
@@ -1777,84 +1642,18 @@ namespace Finx.App.Forms
         #endregion
 
         #region Text edit
-        private void tableTextBox()
+        private void NeedsAndGoalsTable_AddTextBoxes()
         {
-            List<MetroTextBox> textBoxes = new List<MetroTextBox>();
-
-            //Hospital Cover
-            MetroTextBox tb_hospitalCover = new MetroTextBox();
-            textBoxes.Add(tb_hospitalCover);
-            tb_hospitalCover.Text = selectedNote.hcComments;
-            tb_hospitalCover.TextChanged += CoverComment_propertyChanged_EventHandler;
-            
-
-            //Day to Day 
-            MetroTextBox tb_dayToDay = new MetroTextBox();
-            textBoxes.Add(tb_dayToDay);
-            tb_dayToDay.Text += selectedNote.ddComments;
-            tb_dayToDay.TextChanged += DayToDayComment_propertyChanged_EventHandler;
-
-
-            //Threshold Benefits
-            MetroTextBox tb_threshold = new MetroTextBox();
-            textBoxes.Add(tb_threshold);
-            tb_threshold.Text = selectedNote.tbComments;
-            tb_threshold.TextChanged += ThresholdComment_propertyChanged_EventHandler;
-
-           
-            //Chronic Benefits
-            MetroTextBox tb_chronic = new MetroTextBox();
-            textBoxes.Add(tb_chronic);
-            tb_chronic.Text = selectedNote.cbComments;
-            tb_chronic.TextChanged += ChronicComment_propertyChanged_EventHandler;
-
-
-            //Savings Account
-            MetroTextBox tb_savingsAccount = new MetroTextBox();
-            textBoxes.Add(tb_savingsAccount);
-            tb_savingsAccount.Text = selectedNote.saComments;
-            tb_savingsAccount.TextChanged += SavingsComment_propertyChanged_EventHandler;
-
-
-            //Hospital Preference
-            MetroTextBox tb_hospitalPreference = new MetroTextBox();
-            textBoxes.Add(tb_hospitalPreference);
-            tb_hospitalPreference.Text = selectedNote.hpComments;
-            tb_hospitalPreference.TextChanged += HospitalPreferenceComment_propertyChanged_EventHandler;
-
-
-            //Gap Cover
-            MetroTextBox tb_gapCover = new MetroTextBox();
-            textBoxes.Add(tb_gapCover);
-            tb_gapCover.Text = selectedNote.gcComments;
-            tb_gapCover.TextChanged += GapCoverComment_propertyChanged_EventHandler;
-
-
-            //Other
-            MetroTextBox tb_other = new MetroTextBox();
-            textBoxes.Add(tb_other);
-            tb_other.Text = selectedNote.oComments;
-            tb_other.TextChanged += OtherComment_propertyChanged_EventHandler;
-
-
-            foreach (MetroTextBox tb in textBoxes)
-            {
-                tb.Dock = DockStyle.Fill; ;
-                tb.Multiline= true;
-                tb.ScrollBars = ScrollBars.Vertical;
-
-            }
-
             //Add text boxes to form            
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_hospitalCover, 3, 1);
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_dayToDay, 3, 2);
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_threshold, 3, 3);
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_chronic, 3, 4);
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_savingsAccount, 3, 5);
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_hospitalPreference, 3, 6);
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_gapCover, 3, 7);
-            this.tblPanel_NeedsAndGoals.Controls.Add(tb_other, 3, 8);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_hospitalCover, 3, 1);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_dayToDay, 3, 2);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_threshold, 3, 3);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_chronic, 3, 4);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_savingsAccount, 3, 5);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_hospitalPreference, 3, 6);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_gapCover, 3, 7);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.tb_other, 3, 8);
 
         }
 
@@ -2529,6 +2328,52 @@ namespace Finx.App.Forms
 
         #endregion
 
+
+        private void PopulateMedicalTable(ClientAdviceRecord record)
+        {
+            //Load Form values from given record
+
+            //Hospital Cover
+            this.Cover1.Text = record.hcCoverDiscussed;
+            this.Cover2.Text = record.hcCoverTaken;
+            this.tb_hospitalCover.Text = record.hcComments;
+
+            //Day to Day 
+            this.DayToDay1.Text = record.ddCoverDiscussed;
+            this.DayToDay2.Text = record.ddCoverTaken;
+            this.tb_dayToDay.Text += record.ddComments;
+
+            //Threshold Benefits
+            this.Threshold1.Text = record.tbCoverDiscussed;
+            this.Threshold2.Text = record.tbCoverTaken;
+            this.tb_threshold.Text = selectedNote.tbComments;
+
+            //Chronic Benefits
+            this.ChronicBenefit1.Text = record.cbCoverDiscussed;
+            this.ChronicBenefit2.Text = record.cbCoverTaken;
+            this.tb_chronic.Text = record.cbComments;
+
+            //Savings Account
+            this.Savings1.Text = record.saCoverDiscussed;
+            this.Savings2.Text = record.saCoverTaken;
+            this.tb_savingsAccount.Text = record.saComments;
+
+            //Hospital Preference
+            this.HospitalPreference1.Text = record.hpCoverDiscussed;
+            this.HospitalPreference2.Text = record.hpCoverTaken;
+            this.tb_hospitalPreference.Text = record.hpComments;
+
+            //Gap Cover
+            this.GapCover1.Text = record.gcCoverDiscussed;
+            this.GapCover2.Text = record.gcCoverTaken;
+            this.tb_gapCover.Text = record.gcComments;
+
+            //Other
+            this.Other1.Text = record.oCoverDiscussed;
+            this.Other2.Text = record.oCoverTaken;
+            this.tb_other.Text = record.oComments;
+        }
+
         private void populateRetirement(ClientAdviceRecord advRecord)
         {
             clearGenericForm();
@@ -2551,7 +2396,7 @@ namespace Finx.App.Forms
             populateLateJoyner(advRecord);
             populateCoPayments(advRecord);
 
-            PopulateMedicalTableListBoxes();
+            PopulateMedicalTable(advRecord);
         }
 
         #endregion
