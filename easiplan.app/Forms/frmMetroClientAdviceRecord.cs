@@ -525,7 +525,7 @@ namespace Finx.App.Forms
 
             //Recommended Product
             this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
-            this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdviceHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedProductHint);
             
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedFund);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_RecomendedFunds);

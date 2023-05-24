@@ -77,7 +77,6 @@ namespace Finx.App.Forms
             this.metroPanel7 = new MetroFramework.Controls.MetroPanel();
             this.metroTextBox6 = new MetroFramework.Controls.MetroTextBox();
             this.metroTextBox_RecommendedFunds = new MetroFramework.Controls.MetroTextBox();
-            this.label_InitialAdviceHint = new System.Windows.Forms.Label();
             this.label_InitialAdvice = new System.Windows.Forms.Label();
             this.metroLabel_RecommendedFund = new MetroFramework.Controls.MetroLabel();
             this.metroLabel_OtherInformationHint = new MetroFramework.Controls.MetroLabel();
@@ -157,6 +156,7 @@ namespace Finx.App.Forms
             this.panel = new MetroFramework.Controls.MetroPanel();
             this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
+            this.metroLabel_RecommendedProductHint = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -225,6 +225,8 @@ namespace Finx.App.Forms
             // 
             this.metroPanel_AdviceRecord.AutoScroll = true;
             this.metroPanel_AdviceRecord.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_NeedsAndGoals);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedProductHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Copayment);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_CopaymentHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_LateJoiner);
@@ -238,7 +240,6 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditionsHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ChronicConditions);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
-            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_NeedsAndGoals);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_HospitalisationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Hospitalisation);
@@ -251,7 +252,6 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MotivationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Motivation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_RecomendedFunds);
-            this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdviceHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedFund);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
@@ -806,7 +806,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_MotivationHint.AutoSize = true;
             this.metroLabel_MotivationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_MotivationHint.Location = new System.Drawing.Point(30, 1167);
+            this.metroLabel_MotivationHint.Location = new System.Drawing.Point(10, 1167);
             this.metroLabel_MotivationHint.Name = "metroLabel_MotivationHint";
             this.metroLabel_MotivationHint.Size = new System.Drawing.Size(769, 60);
             this.metroLabel_MotivationHint.TabIndex = 31;
@@ -816,7 +816,7 @@ namespace Finx.App.Forms
             // metroLabel_Motivation
             // 
             this.metroLabel_Motivation.AutoSize = true;
-            this.metroLabel_Motivation.Location = new System.Drawing.Point(30, 1147);
+            this.metroLabel_Motivation.Location = new System.Drawing.Point(10, 1147);
             this.metroLabel_Motivation.Name = "metroLabel_Motivation";
             this.metroLabel_Motivation.Size = new System.Drawing.Size(216, 20);
             this.metroLabel_Motivation.TabIndex = 30;
@@ -830,9 +830,9 @@ namespace Finx.App.Forms
             this.metroPanel_RecomendedFunds.HorizontalScrollbarBarColor = true;
             this.metroPanel_RecomendedFunds.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_RecomendedFunds.HorizontalScrollbarSize = 10;
-            this.metroPanel_RecomendedFunds.Location = new System.Drawing.Point(35, 1047);
+            this.metroPanel_RecomendedFunds.Location = new System.Drawing.Point(15, 1047);
             this.metroPanel_RecomendedFunds.Name = "metroPanel_RecomendedFunds";
-            this.metroPanel_RecomendedFunds.Size = new System.Drawing.Size(952, 84);
+            this.metroPanel_RecomendedFunds.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_RecomendedFunds.TabIndex = 25;
             this.metroPanel_RecomendedFunds.VerticalScrollbarBarColor = true;
             this.metroPanel_RecomendedFunds.VerticalScrollbarHighlightOnWheel = false;
@@ -892,7 +892,7 @@ namespace Finx.App.Forms
             // 
             // 
             this.metroTextBox_RecommendedFunds.CustomButton.Image = null;
-            this.metroTextBox_RecommendedFunds.CustomButton.Location = new System.Drawing.Point(870, 2);
+            this.metroTextBox_RecommendedFunds.CustomButton.Location = new System.Drawing.Point(890, 2);
             this.metroTextBox_RecommendedFunds.CustomButton.Name = "";
             this.metroTextBox_RecommendedFunds.CustomButton.Size = new System.Drawing.Size(73, 73);
             this.metroTextBox_RecommendedFunds.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -911,24 +911,13 @@ namespace Finx.App.Forms
             this.metroTextBox_RecommendedFunds.SelectionLength = 0;
             this.metroTextBox_RecommendedFunds.SelectionStart = 0;
             this.metroTextBox_RecommendedFunds.ShortcutsEnabled = true;
-            this.metroTextBox_RecommendedFunds.Size = new System.Drawing.Size(946, 78);
+            this.metroTextBox_RecommendedFunds.Size = new System.Drawing.Size(966, 78);
             this.metroTextBox_RecommendedFunds.TabIndex = 2;
             this.metroTextBox_RecommendedFunds.UseCustomBackColor = true;
             this.metroTextBox_RecommendedFunds.UseCustomForeColor = true;
             this.metroTextBox_RecommendedFunds.UseSelectable = true;
             this.metroTextBox_RecommendedFunds.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.metroTextBox_RecommendedFunds.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
-            // label_InitialAdviceHint
-            // 
-            this.label_InitialAdviceHint.AutoSize = true;
-            this.label_InitialAdviceHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_InitialAdviceHint.ForeColor = System.Drawing.Color.Gray;
-            this.label_InitialAdviceHint.Location = new System.Drawing.Point(10, 983);
-            this.label_InitialAdviceHint.Name = "label_InitialAdviceHint";
-            this.label_InitialAdviceHint.Size = new System.Drawing.Size(334, 20);
-            this.label_InitialAdviceHint.TabIndex = 29;
-            this.label_InitialAdviceHint.Text = "(Ensure all needs identified are addressed.)";
             // 
             // label_InitialAdvice
             // 
@@ -943,7 +932,7 @@ namespace Finx.App.Forms
             // metroLabel_RecommendedFund
             // 
             this.metroLabel_RecommendedFund.AutoSize = true;
-            this.metroLabel_RecommendedFund.Location = new System.Drawing.Point(30, 1015);
+            this.metroLabel_RecommendedFund.Location = new System.Drawing.Point(10, 1015);
             this.metroLabel_RecommendedFund.Name = "metroLabel_RecommendedFund";
             this.metroLabel_RecommendedFund.Size = new System.Drawing.Size(198, 20);
             this.metroLabel_RecommendedFund.TabIndex = 27;
@@ -1075,9 +1064,9 @@ namespace Finx.App.Forms
             this.metroPanel_Motivation.HorizontalScrollbarBarColor = true;
             this.metroPanel_Motivation.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_Motivation.HorizontalScrollbarSize = 10;
-            this.metroPanel_Motivation.Location = new System.Drawing.Point(33, 1245);
+            this.metroPanel_Motivation.Location = new System.Drawing.Point(15, 1245);
             this.metroPanel_Motivation.Name = "metroPanel_Motivation";
-            this.metroPanel_Motivation.Size = new System.Drawing.Size(954, 84);
+            this.metroPanel_Motivation.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_Motivation.TabIndex = 23;
             this.metroPanel_Motivation.VerticalScrollbarBarColor = true;
             this.metroPanel_Motivation.VerticalScrollbarHighlightOnWheel = false;
@@ -1137,7 +1126,7 @@ namespace Finx.App.Forms
             // 
             // 
             this.metroTextBox_Motivation.CustomButton.Image = null;
-            this.metroTextBox_Motivation.CustomButton.Location = new System.Drawing.Point(872, 2);
+            this.metroTextBox_Motivation.CustomButton.Location = new System.Drawing.Point(890, 2);
             this.metroTextBox_Motivation.CustomButton.Name = "";
             this.metroTextBox_Motivation.CustomButton.Size = new System.Drawing.Size(73, 73);
             this.metroTextBox_Motivation.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1156,7 +1145,7 @@ namespace Finx.App.Forms
             this.metroTextBox_Motivation.SelectionLength = 0;
             this.metroTextBox_Motivation.SelectionStart = 0;
             this.metroTextBox_Motivation.ShortcutsEnabled = true;
-            this.metroTextBox_Motivation.Size = new System.Drawing.Size(948, 78);
+            this.metroTextBox_Motivation.Size = new System.Drawing.Size(966, 78);
             this.metroTextBox_Motivation.TabIndex = 2;
             this.metroTextBox_Motivation.UseCustomBackColor = true;
             this.metroTextBox_Motivation.UseCustomForeColor = true;
@@ -2133,6 +2122,17 @@ namespace Finx.App.Forms
             this.xToolBarMenu1.Size = new System.Drawing.Size(1685, 57);
             this.xToolBarMenu1.TabIndex = 2;
             // 
+            // metroLabel_RecommendedProductHint
+            // 
+            this.metroLabel_RecommendedProductHint.AutoSize = true;
+            this.metroLabel_RecommendedProductHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_RecommendedProductHint.Location = new System.Drawing.Point(10, 983);
+            this.metroLabel_RecommendedProductHint.Name = "metroLabel_RecommendedProductHint";
+            this.metroLabel_RecommendedProductHint.Size = new System.Drawing.Size(275, 20);
+            this.metroLabel_RecommendedProductHint.TabIndex = 50;
+            this.metroLabel_RecommendedProductHint.Text = "(Ensure all needs identified are addressed.)";
+            this.metroLabel_RecommendedProductHint.UseCustomForeColor = true;
+            // 
             // frmMetroClientAdviceRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -2457,7 +2457,6 @@ namespace Finx.App.Forms
         private MetroPanel metroPanel7;
         private MetroTextBox metroTextBox6;
         private MetroTextBox metroTextBox_RecommendedFunds;
-        private Label label_InitialAdviceHint;
         private Label label_ongoing;
         private Label label_Initial;
         private Label label_Fees;
@@ -2496,5 +2495,6 @@ namespace Finx.App.Forms
         private MetroPanel metroPanel_Copayment;
         private MetroTextBox metroTextBox_Copayment;
         private MetroLabel metroLabel_CopaymentHint;
+        private MetroLabel metroLabel_RecommendedProductHint;
     }
 }
