@@ -1913,7 +1913,7 @@ namespace Finx.App.Forms
             // 
             this.metroCheckBox_completed.AutoSize = true;
             this.metroCheckBox_completed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.metroCheckBox_completed.Location = new System.Drawing.Point(828, 10);
+            this.metroCheckBox_completed.Location = new System.Drawing.Point(995, 15);
             this.metroCheckBox_completed.Name = "metroCheckBox_completed";
             this.metroCheckBox_completed.Size = new System.Drawing.Size(88, 17);
             this.metroCheckBox_completed.TabIndex = 9;
@@ -1925,7 +1925,7 @@ namespace Finx.App.Forms
             this.label_ongoing.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label_ongoing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_ongoing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ongoing.Location = new System.Drawing.Point(522, 7);
+            this.label_ongoing.Location = new System.Drawing.Point(671, 7);
             this.label_ongoing.Name = "label_ongoing";
             this.label_ongoing.Size = new System.Drawing.Size(100, 30);
             this.label_ongoing.TabIndex = 8;
@@ -1937,7 +1937,7 @@ namespace Finx.App.Forms
             this.label_Initial.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label_Initial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Initial.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Initial.Location = new System.Drawing.Point(308, 7);
+            this.label_Initial.Location = new System.Drawing.Point(427, 7);
             this.label_Initial.Name = "label_Initial";
             this.label_Initial.Size = new System.Drawing.Size(100, 30);
             this.label_Initial.TabIndex = 7;
@@ -1946,7 +1946,7 @@ namespace Finx.App.Forms
             // 
             // label_Fees
             // 
-            this.label_Fees.Location = new System.Drawing.Point(260, 15);
+            this.label_Fees.Location = new System.Drawing.Point(354, 15);
             this.label_Fees.Name = "label_Fees";
             this.label_Fees.Size = new System.Drawing.Size(65, 23);
             this.label_Fees.TabIndex = 6;
@@ -1958,7 +1958,7 @@ namespace Finx.App.Forms
             // 
             // 
             this.metroTextBox9.CustomButton.Image = null;
-            this.metroTextBox9.CustomButton.Location = new System.Drawing.Point(99, 2);
+            this.metroTextBox9.CustomButton.Location = new System.Drawing.Point(122, 2);
             this.metroTextBox9.CustomButton.Name = "";
             this.metroTextBox9.CustomButton.Size = new System.Drawing.Size(25, 25);
             this.metroTextBox9.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1967,7 +1967,7 @@ namespace Finx.App.Forms
             this.metroTextBox9.CustomButton.UseSelectable = true;
             this.metroTextBox9.CustomButton.Visible = false;
             this.metroTextBox9.Lines = new string[0];
-            this.metroTextBox9.Location = new System.Drawing.Point(401, 7);
+            this.metroTextBox9.Location = new System.Drawing.Point(523, 7);
             this.metroTextBox9.MaxLength = 32767;
             this.metroTextBox9.Name = "metroTextBox9";
             this.metroTextBox9.PasswordChar = '\0';
@@ -1976,7 +1976,7 @@ namespace Finx.App.Forms
             this.metroTextBox9.SelectionLength = 0;
             this.metroTextBox9.SelectionStart = 0;
             this.metroTextBox9.ShortcutsEnabled = true;
-            this.metroTextBox9.Size = new System.Drawing.Size(127, 30);
+            this.metroTextBox9.Size = new System.Drawing.Size(150, 30);
             this.metroTextBox9.TabIndex = 5;
             this.metroTextBox9.UseSelectable = true;
             this.metroTextBox9.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -1988,7 +1988,7 @@ namespace Finx.App.Forms
             // 
             // 
             this.metroTextBox8.CustomButton.Image = null;
-            this.metroTextBox8.CustomButton.Location = new System.Drawing.Point(99, 2);
+            this.metroTextBox8.CustomButton.Location = new System.Drawing.Point(122, 2);
             this.metroTextBox8.CustomButton.Name = "";
             this.metroTextBox8.CustomButton.Size = new System.Drawing.Size(25, 25);
             this.metroTextBox8.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1997,7 +1997,7 @@ namespace Finx.App.Forms
             this.metroTextBox8.CustomButton.UseSelectable = true;
             this.metroTextBox8.CustomButton.Visible = false;
             this.metroTextBox8.Lines = new string[0];
-            this.metroTextBox8.Location = new System.Drawing.Point(616, 7);
+            this.metroTextBox8.Location = new System.Drawing.Point(770, 7);
             this.metroTextBox8.MaxLength = 32767;
             this.metroTextBox8.Name = "metroTextBox8";
             this.metroTextBox8.PasswordChar = '\0';
@@ -2006,7 +2006,7 @@ namespace Finx.App.Forms
             this.metroTextBox8.SelectionLength = 0;
             this.metroTextBox8.SelectionStart = 0;
             this.metroTextBox8.ShortcutsEnabled = true;
-            this.metroTextBox8.Size = new System.Drawing.Size(127, 30);
+            this.metroTextBox8.Size = new System.Drawing.Size(150, 30);
             this.metroTextBox8.TabIndex = 4;
             this.metroTextBox8.UseSelectable = true;
             this.metroTextBox8.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -2018,7 +2018,7 @@ namespace Finx.App.Forms
             // 
             // 
             this.metroTextBox_NoteDate.CustomButton.Image = null;
-            this.metroTextBox_NoteDate.CustomButton.Location = new System.Drawing.Point(99, 2);
+            this.metroTextBox_NoteDate.CustomButton.Location = new System.Drawing.Point(147, 2);
             this.metroTextBox_NoteDate.CustomButton.Name = "";
             this.metroTextBox_NoteDate.CustomButton.Size = new System.Drawing.Size(25, 25);
             this.metroTextBox_NoteDate.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -2027,7 +2027,7 @@ namespace Finx.App.Forms
             this.metroTextBox_NoteDate.CustomButton.UseSelectable = true;
             this.metroTextBox_NoteDate.CustomButton.Visible = false;
             this.metroTextBox_NoteDate.Lines = new string[0];
-            this.metroTextBox_NoteDate.Location = new System.Drawing.Point(97, 7);
+            this.metroTextBox_NoteDate.Location = new System.Drawing.Point(115, 7);
             this.metroTextBox_NoteDate.MaxLength = 32767;
             this.metroTextBox_NoteDate.Name = "metroTextBox_NoteDate";
             this.metroTextBox_NoteDate.PasswordChar = '\0';
@@ -2036,7 +2036,7 @@ namespace Finx.App.Forms
             this.metroTextBox_NoteDate.SelectionLength = 0;
             this.metroTextBox_NoteDate.SelectionStart = 0;
             this.metroTextBox_NoteDate.ShortcutsEnabled = true;
-            this.metroTextBox_NoteDate.Size = new System.Drawing.Size(127, 30);
+            this.metroTextBox_NoteDate.Size = new System.Drawing.Size(175, 30);
             this.metroTextBox_NoteDate.TabIndex = 3;
             this.metroTextBox_NoteDate.UseSelectable = true;
             this.metroTextBox_NoteDate.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));

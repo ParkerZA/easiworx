@@ -186,6 +186,8 @@ namespace Finx.App.Forms
             this.xInput_ShowCompletedTasks.Model = searchModel;
             this.xInput_ShowCompletedTasks.Label.Font = new Font(FontFamily.GenericSansSerif, 10F);
             this.xInput_ShowCompletedTasks.chkBox.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
+
+            this.metroCheckBox_completed.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
         }
 
         
@@ -389,12 +391,18 @@ namespace Finx.App.Forms
             .Format1(true, fixedCols: 1);
             #endregion
 
+
+           
+
+
             if (Notes.Count > 0)
                 selectedNote = filteredNotes.LastOrDefault();
             else
                 selectedNote = new ClientAdviceRecord();
 
-            //selectedNote.InvestmentType = "Retirement";
+            //Select Bar
+
+            metroTextBox_NoteDate.Text = selectedNote.AdviceDate.ToString("dd-MMM-yyyy hh:mm");
 
 
             Initialise_PolicyNotePanel(selectedNote);
@@ -419,13 +427,11 @@ namespace Finx.App.Forms
                     mostRecentRecord = Retirement.AdviceRecords.LastOrDefault();
                     InitializeStandardPortfolio();
                     populateRetirement(record);
-                    Console.WriteLine("Error");
 
                     break;
                 case "investment":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Investment Portfolio";
                     mostRecentRecord = Investment.AdviceRecords.LastOrDefault();
-
                     InitializeStandardPortfolio();
                     populateRetirement(record);
                     
@@ -433,10 +439,8 @@ namespace Finx.App.Forms
                 case "medical":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Medical Portfolio";
                     mostRecentRecord = Medical.AdviceRecords.LastOrDefault();
-
                     initialiseMedicalPortfolio();
                     populateMedical(record);
-                    Console.WriteLine("No error");
 
                     break;
                 case "education":
@@ -631,10 +635,20 @@ namespace Finx.App.Forms
             lockButtons(metroPanel_AccessCapital, state);
 
             //Lock Needs and Objectives
-            lockText(metroTextBox_NeedAndObjective, state);
+            //lockText(metroTextBox_NeedAndObjective, state);
 
             //Lock Financial Situation
-            lockText(metroTextBox_FinancialSituation,state);
+            //lockText(metroTextBox_FinancialSituation,state);
+
+            foreach (Control control in metroPanel_AdviceRecord.Controls)
+            {
+                if (control is MetroPanel tp)
+                {
+                    // Perform actions with the MetroTextBox
+                    // textBox.Text will give you the text value of the MetroTextBox
+                    lockTextPanel(tp, state);
+                }
+            }
         }
 
 
@@ -647,6 +661,18 @@ namespace Finx.App.Forms
                 {
                     Button button = (Button)control;
                     button.Enabled = !state;
+                }
+            }
+        }
+
+        private void lockTextPanel(MetroPanel txtGroup, bool state)
+        {
+            foreach (Control control in txtGroup.Controls)
+            {
+                if (control is MetroTextBox) // Assuming you want to make textboxes uneditable
+                {
+                    MetroTextBox tb = (MetroTextBox)control;
+                    tb.Enabled = !state;
                 }
             }
         }
@@ -707,6 +733,7 @@ namespace Finx.App.Forms
                     
                     if (this.Medical != null)
                     {
+                        MedicalTable_Save(selectedNote);
                         this.Medical.AdviceRecords.Add(selectedNote);
 
                         instructionType = InstructionType.MEDICAL_POLICY_NOTE;
@@ -797,13 +824,15 @@ namespace Finx.App.Forms
             }
             finally
             {
-                xToolBarMenu1.SetCAREdit(false);
+                //xToolBarMenu1.CarModeDelete(true);
             }
         }
         private void toolStripButton_Add_Click(object sender, EventArgs e)
         {
             try
             {
+                this.metroCheckBox_completed.Checked = false;
+
                 if (selectedNote != null)
                 {
                     if (selectedNote.Id == 0)
@@ -816,6 +845,7 @@ namespace Finx.App.Forms
 
                 if (mostRecentRecord != null)
                 {
+                    Console.WriteLine("theres a recent record");
                     Initialise_PolicyNotePanel(mostRecentRecord);
                 }
                 else 
@@ -1601,7 +1631,9 @@ namespace Finx.App.Forms
         private void XInput_ShowCompletedTask_KeyPressed(object sender, EventArgs e)
         {
             //searchModel.ShowCompletedTask = !searchModel.ShowCompletedTask;
-            this.xToolBarMenu1.SetCAREdit(false);
+            MetroCheckBox cb = (MetroCheckBox)sender;
+            selectedNote.IsCompleted= cb.Checked;
+            this.xToolBarMenu1.SetCAREdit(!cb.Checked);
             Initialise_SelectPanel();
         }
         #endregion
@@ -2190,6 +2222,14 @@ namespace Finx.App.Forms
 
         #region Populate methods
 
+        private void SetIsComplete(ClientAdviceRecord record)
+        {
+            if (record.IsCompleted)
+            {
+                this.metroCheckBox_completed.Checked = record.IsCompleted;
+            }
+        }
+
         #region Product Knowledge and Experience methods
         private void populateProductAndExperience(ClientAdviceRecord record)
         {
@@ -2427,11 +2467,11 @@ namespace Finx.App.Forms
             this.Cover1.Text = record.hcCoverDiscussed;
             this.Cover2.Text = record.hcCoverTaken;
             this.tb_hospitalCover.Text = record.hcComments;
-
+            
             //Day to Day 
             this.DayToDay1.Text = record.ddCoverDiscussed;
             this.DayToDay2.Text = record.ddCoverTaken;
-            this.tb_dayToDay.Text += record.ddComments;
+            this.tb_dayToDay.Text = record.ddComments;
 
             //Threshold Benefits
             this.Threshold1.Text = record.tbCoverDiscussed;
@@ -2463,6 +2503,52 @@ namespace Finx.App.Forms
             this.Other2.Text = record.oCoverTaken;
             this.tb_other.Text = record.oComments;
         }
+
+        private void MedicalTable_Save(ClientAdviceRecord record)
+        {
+            //Load Form values from given record
+
+            //Hospital Cover
+            record.hcCoverDiscussed = this.Cover1.Text;
+            record.hcCoverTaken = this.Cover2.Text;
+            record.hcComments = this.tb_hospitalCover.Text;
+
+            //Day to Day 
+            record.ddCoverDiscussed = this.DayToDay1.Text;
+            record.ddCoverTaken = this.DayToDay2.Text;  
+            record.ddComments = this.tb_dayToDay.Text;
+
+            //Threshold Benefits
+            record.tbCoverDiscussed = this.Threshold1.Text;
+            record.tbCoverTaken = this.Threshold2.Text;
+            selectedNote.tbComments = this.tb_threshold.Text;
+
+            //Chronic Benefits
+            record.cbCoverDiscussed = this.ChronicBenefit1.Text;
+            record.cbCoverTaken = this.ChronicBenefit2.Text;
+            record.cbComments = this.tb_chronic.Text;
+
+            //Savings Account
+            record.saCoverDiscussed = this.Savings1.Text;
+            record.saCoverTaken = this.Savings2.Text;
+            record.saComments = this.tb_savingsAccount.Text;
+
+            //Hospital Preference
+            record.hpCoverDiscussed = this.HospitalPreference1.Text;
+            record.hpCoverTaken = this.HospitalPreference2.Text;
+            record.hpComments = this.tb_hospitalPreference.Text;
+
+            //Gap Cover
+            record.gcCoverDiscussed = this.GapCover1.Text;
+            record.gcCoverTaken = this.GapCover2.Text;
+            record.gcComments = this.tb_gapCover.Text;
+
+            //Other
+            record.oCoverDiscussed = this.Other1.Text;
+            record.oCoverTaken = this.Other2.Text;
+            record.oComments = this.tb_other.Text;
+        }
+
 
         private void populateRetirement(ClientAdviceRecord advRecord)
         {

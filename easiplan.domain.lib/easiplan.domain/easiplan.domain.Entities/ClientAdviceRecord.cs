@@ -13,7 +13,6 @@ namespace easiplan.domain.Entities
         private string _clientName;
         private string _adviserName;
         private string _venue;
-        private string _date;
         private string _generalNotes;
 
         private string _productKnowledge;
@@ -318,21 +317,6 @@ namespace easiplan.domain.Entities
             {
                 _venue = value;
                 InvokePropertyChanged("Venue");
-            }
-        }
-
-
-        //Date that the car is created
-        public virtual string Date
-        {
-            get
-            {
-                return _date;
-            }
-            set
-            {
-                _date = value;
-                InvokePropertyChanged("Date");
             }
         }
 
