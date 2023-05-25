@@ -568,13 +568,13 @@ namespace Finx.App.Forms
             //Rename these because its confusing
             int Xdis1 = this.metroLabel_MedicalCover.Location.X; //Distance between a typical title and the left hand margin
             int Xdis2 = this.metroPanel_MedicalCover.Location.X; //Distance between a typical Panel and the left hand margin
-            int Ydis1 =  (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height)); //Distance between a title and the panel above it
+            int Ydis1 = this.metroPanel_MedicalCover.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height)); //Distance between a title and the panel above it
             int Ydis2 = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y; //Distance between a hint and the title above it
             int Ydis3 =this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y ; //Distance between a panel and the hint above it
                 
             //Other Information
             //this.metroLabel_OtherInformation.Location = new Point(10-2, 507-101);
-            this.metroLabel_OtherInformation.Location = new Point(Xdis1, this.metroPanel_MedicalCover.Location.Y+ this.metroPanel_MedicalCover.Height + Ydis1);
+            this.metroLabel_OtherInformation.Location = new Point(Xdis1, this.metroPanel_MedicalCover.Location.Y+  Ydis1);
             this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(Xdis1, this.metroLabel_OtherInformation.Location.Y+Ydis2);
             this.metroPanel_OtherInformation.Location = new System.Drawing.Point(Xdis2, this.metroLabel_OtherInformationHint.Location.Y + Ydis3);
 
@@ -614,9 +614,32 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_CopaymentHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Copayment);
 
+            //Initial Recommendation Advice
+            this.label_InitialAdvice.Location = new Point(Xdis1, this.metroPanel_Copayment.Location.Y+ Ydis1);
+            this.metroLabel_RecommendedProductHint.Location = new Point(Xdis1, this.label_InitialAdvice.Location.Y+Ydis2);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedProductHint);
+
+            //Recomended product
+            this.metroLabel_RecommendedFund.Location = new Point(Xdis1, this.metroLabel_RecommendedProductHint.Location.Y + Ydis3);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedFund);
+
+            this.metroPanel_RecomendedFunds.Location = new Point(Xdis2, this.metroLabel_RecommendedFund.Location.Y + Ydis3);
+            this.metroPanel_AdviceRecord.Controls.Add(metroPanel_RecomendedFunds);
+
+            //Motivation
+
+            this.metroLabel_Motivation.Location=new Point(Xdis1, this.metroPanel_RecomendedFunds.Location.Y + Ydis1);
+            this.metroLabel_MotivationHint.Location = new Point(Xdis1, this.metroLabel_Motivation.Location.Y + Ydis2);
+            this.metroPanel_Motivation.Location = new Point(Xdis2, this.metroLabel_MotivationHint.Location.Y+this.metroLabel_MotivationHint.Height+Ydis2);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Motivation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MotivationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Motivation);
 
 
-           
+
+
 
             this.metroPanel_AdviceRecord.PerformLayout();
         }
@@ -634,12 +657,7 @@ namespace Finx.App.Forms
             //Lock Access to Capital
             lockButtons(metroPanel_AccessCapital, state);
 
-            //Lock Needs and Objectives
-            //lockText(metroTextBox_NeedAndObjective, state);
-
-            //Lock Financial Situation
-            //lockText(metroTextBox_FinancialSituation,state);
-
+            //Lock metro panel
             foreach (Control control in metroPanel_AdviceRecord.Controls)
             {
                 if (control is MetroPanel tp)
@@ -649,6 +667,9 @@ namespace Finx.App.Forms
                     lockTextPanel(tp, state);
                 }
             }
+
+            this.tblPanel_NeedsAndGoals.Enabled = !state;
+
         }
 
 
@@ -831,7 +852,6 @@ namespace Finx.App.Forms
         {
             try
             {
-                this.metroCheckBox_completed.Checked = false;
 
                 if (selectedNote != null)
                 {
@@ -1633,8 +1653,10 @@ namespace Finx.App.Forms
             //searchModel.ShowCompletedTask = !searchModel.ShowCompletedTask;
             MetroCheckBox cb = (MetroCheckBox)sender;
             selectedNote.IsCompleted= cb.Checked;
-            this.xToolBarMenu1.SetCAREdit(!cb.Checked);
-            Initialise_SelectPanel();
+            //this.xToolBarMenu1.SetCAREdit(!cb.Checked);
+            //Initialise_SelectPanel();
+            
+            
         }
         #endregion
 
@@ -2224,10 +2246,10 @@ namespace Finx.App.Forms
 
         private void SetIsComplete(ClientAdviceRecord record)
         {
-            if (record.IsCompleted)
-            {
+            
                 this.metroCheckBox_completed.Checked = record.IsCompleted;
-            }
+                lockForm(record.IsCompleted);
+
         }
 
         #region Product Knowledge and Experience methods
@@ -2552,6 +2574,7 @@ namespace Finx.App.Forms
 
         private void populateRetirement(ClientAdviceRecord advRecord)
         {
+            SetIsComplete(selectedNote);
             clearGenericForm();
             populateProductAndExperience(advRecord);
             populateInvestmentHorizon(advRecord);
@@ -2565,6 +2588,7 @@ namespace Finx.App.Forms
 
         private void populateMedical(ClientAdviceRecord advRecord)
         {
+            SetIsComplete(selectedNote);
             clearMedicalForm();
             populateProductAndExperience(advRecord);
             populateMedicalConditions(advRecord);
@@ -2575,7 +2599,8 @@ namespace Finx.App.Forms
             populateWaitingPeriods(advRecord);
             populateLateJoyner(advRecord);
             populateCoPayments(advRecord);
-
+            populateRecommendedFunds(advRecord);
+            populateMotivation(advRecord);
             PopulateMedicalTable(advRecord);
         }
 
