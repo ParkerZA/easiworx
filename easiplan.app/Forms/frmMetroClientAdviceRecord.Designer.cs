@@ -1,6 +1,7 @@
 ﻿using MetroFramework;
 using MetroFramework.Controls;
 using MetroFramework.Controls.Ext;
+using mshtml;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Management.Instrumentation;
@@ -165,6 +166,9 @@ namespace Finx.App.Forms
             this.metroLabel_Notes = new MetroFramework.Controls.MetroLabel();
             this.metroPanel_Notes = new MetroFramework.Controls.MetroPanel();
             this.metroTextBox_Notes = new MetroFramework.Controls.MetroTextBox();
+            this.label_ComparisonMedicalScheme = new System.Windows.Forms.Label();
+            this.metroLabel_ComparisonMedicalSchemeHint = new MetroFramework.Controls.MetroLabel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -235,6 +239,9 @@ namespace Finx.App.Forms
             // 
             this.metroPanel_AdviceRecord.AutoScroll = true;
             this.metroPanel_AdviceRecord.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel_AdviceRecord.Controls.Add(this.tableLayoutPanel1);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ComparisonMedicalSchemeHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_ComparisonMedicalScheme);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Notes);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Notes);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherImportantInfo);
@@ -2283,6 +2290,52 @@ namespace Finx.App.Forms
             this.metroTextBox_Notes.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.metroTextBox_Notes.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
+            // label_ComparisonMedicalScheme
+            // 
+            this.label_ComparisonMedicalScheme.AutoSize = true;
+            this.label_ComparisonMedicalScheme.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ComparisonMedicalScheme.Location = new System.Drawing.Point(10, 2192);
+            this.label_ComparisonMedicalScheme.Name = "label_ComparisonMedicalScheme";
+            this.label_ComparisonMedicalScheme.Size = new System.Drawing.Size(429, 25);
+            this.label_ComparisonMedicalScheme.TabIndex = 56;
+            this.label_ComparisonMedicalScheme.Text = "Comparison for replacement of Medical Scheme";
+            // 
+            // metroLabel_ComparisonMedicalSchemeHint
+            // 
+            this.metroLabel_ComparisonMedicalSchemeHint.AutoSize = true;
+            this.metroLabel_ComparisonMedicalSchemeHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_ComparisonMedicalSchemeHint.Location = new System.Drawing.Point(10, 2212);
+            this.metroLabel_ComparisonMedicalSchemeHint.Name = "metroLabel_ComparisonMedicalSchemeHint";
+            this.metroLabel_ComparisonMedicalSchemeHint.Size = new System.Drawing.Size(638, 20);
+            this.metroLabel_ComparisonMedicalSchemeHint.TabIndex = 57;
+            this.metroLabel_ComparisonMedicalSchemeHint.Text = "(Indicate whether a new medical scheme(s) is recommended or an existing scheme is" +
+    " to be replaced.)";
+            this.metroLabel_ComparisonMedicalSchemeHint.UseCustomForeColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.92593F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 2242);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 11;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(972, 515);
+            this.tableLayoutPanel1.TabIndex = 58;
+            // 
             // frmMetroClientAdviceRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -2462,6 +2515,7 @@ namespace Finx.App.Forms
 
         }
 
+        #region Medical Aid Needs and Goals elements
 
         //Cover Type
         private Label hl_Cover = new Label();
@@ -2526,6 +2580,57 @@ namespace Finx.App.Forms
         private Label vl_Other = new Label();
         private MetroTextBox tb_other = new MetroTextBox();
 
+        #endregion
+
+        #region Medical Aid Comparison Table Elements
+
+
+        //Horizontal Labels
+
+        //Detail
+        private Label hl_Detail = new Label();
+
+        //Current Medical schemes or proposed medical schemes
+        private Label hl_CurrentMedScheme = new Label();
+
+        //Replaced medical scheme or proposed medical scheme
+        private Label hl_ReplacedMedScheme = new Label();
+
+
+
+        //Table rows
+
+        //Policy/Application number
+        private Label vl_PolicyNo = new Label();
+
+        //Insurer
+        private Label vl_Insurer = new Label();
+
+        //Product Name
+        private Label vl_ProductName = new Label();
+
+        //Premium
+        private Label vl_Premium= new Label();
+
+        //Benefits
+        private Label vl_Benefits = new Label();
+
+        //Savings Account
+        private Label vl_compSavings= new Label();
+
+        //Chronic Benefits
+        private Label vl_compChronic = new Label();
+
+        //Hospital Cover
+        private Label vl_compHospitalCover = new Label();
+
+        //Limits on Cover
+        private Label vl_LimitsOnCover = new Label();
+
+        //Other
+        private Label vl_compOther = new Label();
+
+        #endregion
 
         #endregion
 
@@ -2656,5 +2761,8 @@ namespace Finx.App.Forms
         private MetroPanel metroPanel_Notes;
         private MetroTextBox metroTextBox_Notes;
         private MetroLabel metroLabel_Notes;
+        private MetroLabel metroLabel_ComparisonMedicalSchemeHint;
+        private Label label_ComparisonMedicalScheme;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }
