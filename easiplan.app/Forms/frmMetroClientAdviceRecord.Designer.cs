@@ -42,6 +42,19 @@ namespace Finx.App.Forms
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGrid_Notes = new SourceGrid.DataGrid();
             this.metroPanel_AdviceRecord = new MetroFramework.Controls.MetroPanel();
+            this.tblPanel_MedicalSchemeComparison = new System.Windows.Forms.TableLayoutPanel();
+            this.metroLabel_ComparisonMedicalSchemeHint = new MetroFramework.Controls.MetroLabel();
+            this.label_ComparisonMedicalScheme = new System.Windows.Forms.Label();
+            this.metroPanel_Notes = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox_Notes = new MetroFramework.Controls.MetroTextBox();
+            this.metroLabel_Notes = new MetroFramework.Controls.MetroLabel();
+            this.metroPanel_OtherImportantInfo = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox_OtherImportantInfo = new MetroFramework.Controls.MetroTextBox();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_OtherImportantInfoHint = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_OtherImportantInfo = new MetroFramework.Controls.MetroLabel();
+            this.tblPanel_NeedsAndGoals = new System.Windows.Forms.TableLayoutPanel();
+            this.metroLabel_RecommendedProductHint = new MetroFramework.Controls.MetroLabel();
             this.metroPanel_Copayment = new MetroFramework.Controls.MetroPanel();
             this.metroTextBox_Copayment = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel_CopaymentHint = new MetroFramework.Controls.MetroLabel();
@@ -59,7 +72,6 @@ namespace Finx.App.Forms
             this.metroLabel_ChronicConditionsHint = new MetroFramework.Controls.MetroLabel();
             this.metroLabel_ChronicConditions = new MetroFramework.Controls.MetroLabel();
             this.metroLabel_NeedsAndGoals = new MetroFramework.Controls.MetroLabel();
-            this.tblPanel_NeedsAndGoals = new System.Windows.Forms.TableLayoutPanel();
             this.metroPanel_Hospitalisation = new MetroFramework.Controls.MetroPanel();
             this.metroTextBox_Hospitalisation = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel_HospitalisationHint = new MetroFramework.Controls.MetroLabel();
@@ -155,25 +167,15 @@ namespace Finx.App.Forms
             this.label_Date = new System.Windows.Forms.Label();
             this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
             this.panel = new MetroFramework.Controls.MetroPanel();
-            this.metroLabel_RecommendedProductHint = new MetroFramework.Controls.MetroLabel();
             this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
-            this.metroLabel_OtherImportantInfo = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel_OtherImportantInfoHint = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.metroPanel_OtherImportantInfo = new MetroFramework.Controls.MetroPanel();
-            this.metroTextBox_OtherImportantInfo = new MetroFramework.Controls.MetroTextBox();
-            this.metroLabel_Notes = new MetroFramework.Controls.MetroLabel();
-            this.metroPanel_Notes = new MetroFramework.Controls.MetroPanel();
-            this.metroTextBox_Notes = new MetroFramework.Controls.MetroTextBox();
-            this.label_ComparisonMedicalScheme = new System.Windows.Forms.Label();
-            this.metroLabel_ComparisonMedicalSchemeHint = new MetroFramework.Controls.MetroLabel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.metroPanel_AdviceRecord.SuspendLayout();
+            this.metroPanel_Notes.SuspendLayout();
+            this.metroPanel_OtherImportantInfo.SuspendLayout();
             this.metroPanel_Copayment.SuspendLayout();
             this.metroPanel_LateJoiner.SuspendLayout();
             this.metroPanel_WaitingPeriods.SuspendLayout();
@@ -195,8 +197,6 @@ namespace Finx.App.Forms
             this.metroPanel_InvestHorizen.SuspendLayout();
             this.metroPanel_Select.SuspendLayout();
             this.panel.SuspendLayout();
-            this.metroPanel_OtherImportantInfo.SuspendLayout();
-            this.metroPanel_Notes.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -239,7 +239,7 @@ namespace Finx.App.Forms
             // 
             this.metroPanel_AdviceRecord.AutoScroll = true;
             this.metroPanel_AdviceRecord.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroPanel_AdviceRecord.Controls.Add(this.tableLayoutPanel1);
+            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_MedicalSchemeComparison);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ComparisonMedicalSchemeHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.label_ComparisonMedicalScheme);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Notes);
@@ -312,6 +312,222 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.VerticalScrollbarBarColor = true;
             this.metroPanel_AdviceRecord.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel_AdviceRecord.VerticalScrollbarSize = 13;
+            // 
+            // tblPanel_MedicalSchemeComparison
+            // 
+            this.tblPanel_MedicalSchemeComparison.AutoSize = true;
+            this.tblPanel_MedicalSchemeComparison.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tblPanel_MedicalSchemeComparison.ColumnCount = 3;
+            this.tblPanel_MedicalSchemeComparison.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.92593F));
+            this.tblPanel_MedicalSchemeComparison.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
+            this.tblPanel_MedicalSchemeComparison.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
+            this.tblPanel_MedicalSchemeComparison.Location = new System.Drawing.Point(15, 2242);
+            this.tblPanel_MedicalSchemeComparison.Name = "tblPanel_MedicalSchemeComparison";
+            this.tblPanel_MedicalSchemeComparison.RowCount = 11;
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_MedicalSchemeComparison.Size = new System.Drawing.Size(972, 527);
+            this.tblPanel_MedicalSchemeComparison.TabIndex = 58;
+            // 
+            // metroLabel_ComparisonMedicalSchemeHint
+            // 
+            this.metroLabel_ComparisonMedicalSchemeHint.AutoSize = true;
+            this.metroLabel_ComparisonMedicalSchemeHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_ComparisonMedicalSchemeHint.Location = new System.Drawing.Point(10, 2212);
+            this.metroLabel_ComparisonMedicalSchemeHint.Name = "metroLabel_ComparisonMedicalSchemeHint";
+            this.metroLabel_ComparisonMedicalSchemeHint.Size = new System.Drawing.Size(638, 20);
+            this.metroLabel_ComparisonMedicalSchemeHint.TabIndex = 57;
+            this.metroLabel_ComparisonMedicalSchemeHint.Text = "(Indicate whether a new medical scheme(s) is recommended or an existing scheme is" +
+    " to be replaced.)";
+            this.metroLabel_ComparisonMedicalSchemeHint.UseCustomForeColor = true;
+            // 
+            // label_ComparisonMedicalScheme
+            // 
+            this.label_ComparisonMedicalScheme.AutoSize = true;
+            this.label_ComparisonMedicalScheme.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ComparisonMedicalScheme.Location = new System.Drawing.Point(10, 2192);
+            this.label_ComparisonMedicalScheme.Name = "label_ComparisonMedicalScheme";
+            this.label_ComparisonMedicalScheme.Size = new System.Drawing.Size(429, 25);
+            this.label_ComparisonMedicalScheme.TabIndex = 56;
+            this.label_ComparisonMedicalScheme.Text = "Comparison for replacement of Medical Scheme";
+            // 
+            // metroPanel_Notes
+            // 
+            this.metroPanel_Notes.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroPanel_Notes.Controls.Add(this.metroTextBox_Notes);
+            this.metroPanel_Notes.HorizontalScrollbarBarColor = true;
+            this.metroPanel_Notes.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_Notes.HorizontalScrollbarSize = 10;
+            this.metroPanel_Notes.Location = new System.Drawing.Point(15, 2092);
+            this.metroPanel_Notes.Name = "metroPanel_Notes";
+            this.metroPanel_Notes.Size = new System.Drawing.Size(972, 84);
+            this.metroPanel_Notes.TabIndex = 55;
+            this.metroPanel_Notes.VerticalScrollbarBarColor = true;
+            this.metroPanel_Notes.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_Notes.VerticalScrollbarSize = 10;
+            // 
+            // metroTextBox_Notes
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox_Notes.CustomButton.Image = null;
+            this.metroTextBox_Notes.CustomButton.Location = new System.Drawing.Point(890, 2);
+            this.metroTextBox_Notes.CustomButton.Name = "";
+            this.metroTextBox_Notes.CustomButton.Size = new System.Drawing.Size(73, 73);
+            this.metroTextBox_Notes.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_Notes.CustomButton.TabIndex = 1;
+            this.metroTextBox_Notes.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_Notes.CustomButton.UseSelectable = true;
+            this.metroTextBox_Notes.CustomButton.Visible = false;
+            this.metroTextBox_Notes.ForeColor = System.Drawing.Color.Firebrick;
+            this.metroTextBox_Notes.Lines = new string[0];
+            this.metroTextBox_Notes.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox_Notes.MaxLength = 32767;
+            this.metroTextBox_Notes.Multiline = true;
+            this.metroTextBox_Notes.Name = "metroTextBox_Notes";
+            this.metroTextBox_Notes.PasswordChar = '\0';
+            this.metroTextBox_Notes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.metroTextBox_Notes.SelectedText = "";
+            this.metroTextBox_Notes.SelectionLength = 0;
+            this.metroTextBox_Notes.SelectionStart = 0;
+            this.metroTextBox_Notes.ShortcutsEnabled = true;
+            this.metroTextBox_Notes.Size = new System.Drawing.Size(966, 78);
+            this.metroTextBox_Notes.TabIndex = 2;
+            this.metroTextBox_Notes.UseCustomBackColor = true;
+            this.metroTextBox_Notes.UseSelectable = true;
+            this.metroTextBox_Notes.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_Notes.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroLabel_Notes
+            // 
+            this.metroLabel_Notes.AutoSize = true;
+            this.metroLabel_Notes.Location = new System.Drawing.Point(10, 2059);
+            this.metroLabel_Notes.Name = "metroLabel_Notes";
+            this.metroLabel_Notes.Size = new System.Drawing.Size(49, 20);
+            this.metroLabel_Notes.TabIndex = 54;
+            this.metroLabel_Notes.Text = "Notes:";
+            // 
+            // metroPanel_OtherImportantInfo
+            // 
+            this.metroPanel_OtherImportantInfo.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroPanel_OtherImportantInfo.Controls.Add(this.metroTextBox_OtherImportantInfo);
+            this.metroPanel_OtherImportantInfo.HorizontalScrollbarBarColor = true;
+            this.metroPanel_OtherImportantInfo.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_OtherImportantInfo.HorizontalScrollbarSize = 10;
+            this.metroPanel_OtherImportantInfo.Location = new System.Drawing.Point(15, 1959);
+            this.metroPanel_OtherImportantInfo.Name = "metroPanel_OtherImportantInfo";
+            this.metroPanel_OtherImportantInfo.Size = new System.Drawing.Size(972, 84);
+            this.metroPanel_OtherImportantInfo.TabIndex = 37;
+            this.metroPanel_OtherImportantInfo.VerticalScrollbarBarColor = true;
+            this.metroPanel_OtherImportantInfo.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_OtherImportantInfo.VerticalScrollbarSize = 10;
+            // 
+            // metroTextBox_OtherImportantInfo
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox_OtherImportantInfo.CustomButton.Image = null;
+            this.metroTextBox_OtherImportantInfo.CustomButton.Location = new System.Drawing.Point(890, 2);
+            this.metroTextBox_OtherImportantInfo.CustomButton.Name = "";
+            this.metroTextBox_OtherImportantInfo.CustomButton.Size = new System.Drawing.Size(73, 73);
+            this.metroTextBox_OtherImportantInfo.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_OtherImportantInfo.CustomButton.TabIndex = 1;
+            this.metroTextBox_OtherImportantInfo.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_OtherImportantInfo.CustomButton.UseSelectable = true;
+            this.metroTextBox_OtherImportantInfo.CustomButton.Visible = false;
+            this.metroTextBox_OtherImportantInfo.ForeColor = System.Drawing.Color.Firebrick;
+            this.metroTextBox_OtherImportantInfo.Lines = new string[0];
+            this.metroTextBox_OtherImportantInfo.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox_OtherImportantInfo.MaxLength = 32767;
+            this.metroTextBox_OtherImportantInfo.Multiline = true;
+            this.metroTextBox_OtherImportantInfo.Name = "metroTextBox_OtherImportantInfo";
+            this.metroTextBox_OtherImportantInfo.PasswordChar = '\0';
+            this.metroTextBox_OtherImportantInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.metroTextBox_OtherImportantInfo.SelectedText = "";
+            this.metroTextBox_OtherImportantInfo.SelectionLength = 0;
+            this.metroTextBox_OtherImportantInfo.SelectionStart = 0;
+            this.metroTextBox_OtherImportantInfo.ShortcutsEnabled = true;
+            this.metroTextBox_OtherImportantInfo.Size = new System.Drawing.Size(966, 78);
+            this.metroTextBox_OtherImportantInfo.TabIndex = 2;
+            this.metroTextBox_OtherImportantInfo.UseCustomBackColor = true;
+            this.metroTextBox_OtherImportantInfo.UseSelectable = true;
+            this.metroTextBox_OtherImportantInfo.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_OtherImportantInfo.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Location = new System.Drawing.Point(539, 3054);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(94, 20);
+            this.metroLabel1.TabIndex = 53;
+            this.metroLabel1.Text = "Co-Payments:";
+            // 
+            // metroLabel_OtherImportantInfoHint
+            // 
+            this.metroLabel_OtherImportantInfoHint.AutoSize = true;
+            this.metroLabel_OtherImportantInfoHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_OtherImportantInfoHint.Location = new System.Drawing.Point(10, 1927);
+            this.metroLabel_OtherImportantInfoHint.Name = "metroLabel_OtherImportantInfoHint";
+            this.metroLabel_OtherImportantInfoHint.Size = new System.Drawing.Size(399, 20);
+            this.metroLabel_OtherImportantInfoHint.TabIndex = 52;
+            this.metroLabel_OtherImportantInfoHint.Text = "(Provide Details of what would not be coverd, annual limits etc.)";
+            this.metroLabel_OtherImportantInfoHint.UseCustomForeColor = true;
+            // 
+            // metroLabel_OtherImportantInfo
+            // 
+            this.metroLabel_OtherImportantInfo.AutoSize = true;
+            this.metroLabel_OtherImportantInfo.Location = new System.Drawing.Point(10, 1907);
+            this.metroLabel_OtherImportantInfo.Name = "metroLabel_OtherImportantInfo";
+            this.metroLabel_OtherImportantInfo.Size = new System.Drawing.Size(186, 20);
+            this.metroLabel_OtherImportantInfo.TabIndex = 51;
+            this.metroLabel_OtherImportantInfo.Text = "Other Important Information:";
+            // 
+            // tblPanel_NeedsAndGoals
+            // 
+            this.tblPanel_NeedsAndGoals.AutoSize = true;
+            this.tblPanel_NeedsAndGoals.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tblPanel_NeedsAndGoals.ColumnCount = 4;
+            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tblPanel_NeedsAndGoals.Location = new System.Drawing.Point(15, 837);
+            this.tblPanel_NeedsAndGoals.Name = "tblPanel_NeedsAndGoals";
+            this.tblPanel_NeedsAndGoals.RowCount = 9;
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_NeedsAndGoals.Size = new System.Drawing.Size(972, 422);
+            this.tblPanel_NeedsAndGoals.TabIndex = 39;
+            // 
+            // metroLabel_RecommendedProductHint
+            // 
+            this.metroLabel_RecommendedProductHint.AutoSize = true;
+            this.metroLabel_RecommendedProductHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_RecommendedProductHint.Location = new System.Drawing.Point(10, 983);
+            this.metroLabel_RecommendedProductHint.Name = "metroLabel_RecommendedProductHint";
+            this.metroLabel_RecommendedProductHint.Size = new System.Drawing.Size(275, 20);
+            this.metroLabel_RecommendedProductHint.TabIndex = 50;
+            this.metroLabel_RecommendedProductHint.Text = "(Ensure all needs identified are addressed.)";
+            this.metroLabel_RecommendedProductHint.UseCustomForeColor = true;
             // 
             // metroPanel_Copayment
             // 
@@ -593,30 +809,6 @@ namespace Finx.App.Forms
             this.metroLabel_NeedsAndGoals.Size = new System.Drawing.Size(179, 20);
             this.metroLabel_NeedsAndGoals.TabIndex = 40;
             this.metroLabel_NeedsAndGoals.Text = "Needs and Goals identified:";
-            // 
-            // tblPanel_NeedsAndGoals
-            // 
-            this.tblPanel_NeedsAndGoals.AutoSize = true;
-            this.tblPanel_NeedsAndGoals.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tblPanel_NeedsAndGoals.ColumnCount = 4;
-            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tblPanel_NeedsAndGoals.Location = new System.Drawing.Point(15, 837);
-            this.tblPanel_NeedsAndGoals.Name = "tblPanel_NeedsAndGoals";
-            this.tblPanel_NeedsAndGoals.RowCount = 9;
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_NeedsAndGoals.Size = new System.Drawing.Size(972, 422);
-            this.tblPanel_NeedsAndGoals.TabIndex = 39;
             // 
             // metroPanel_Hospitalisation
             // 
@@ -2108,17 +2300,6 @@ namespace Finx.App.Forms
             this.panel.VerticalScrollbarHighlightOnWheel = false;
             this.panel.VerticalScrollbarSize = 10;
             // 
-            // metroLabel_RecommendedProductHint
-            // 
-            this.metroLabel_RecommendedProductHint.AutoSize = true;
-            this.metroLabel_RecommendedProductHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_RecommendedProductHint.Location = new System.Drawing.Point(10, 983);
-            this.metroLabel_RecommendedProductHint.Name = "metroLabel_RecommendedProductHint";
-            this.metroLabel_RecommendedProductHint.Size = new System.Drawing.Size(275, 20);
-            this.metroLabel_RecommendedProductHint.TabIndex = 50;
-            this.metroLabel_RecommendedProductHint.Text = "(Ensure all needs identified are addressed.)";
-            this.metroLabel_RecommendedProductHint.UseCustomForeColor = true;
-            // 
             // xInput_ShowCompletedTasks
             // 
             this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -2156,186 +2337,6 @@ namespace Finx.App.Forms
             this.xToolBarMenu1.Size = new System.Drawing.Size(1685, 57);
             this.xToolBarMenu1.TabIndex = 2;
             // 
-            // metroLabel_OtherImportantInfo
-            // 
-            this.metroLabel_OtherImportantInfo.AutoSize = true;
-            this.metroLabel_OtherImportantInfo.Location = new System.Drawing.Point(10, 1907);
-            this.metroLabel_OtherImportantInfo.Name = "metroLabel_OtherImportantInfo";
-            this.metroLabel_OtherImportantInfo.Size = new System.Drawing.Size(186, 20);
-            this.metroLabel_OtherImportantInfo.TabIndex = 51;
-            this.metroLabel_OtherImportantInfo.Text = "Other Important Information:";
-            // 
-            // metroLabel_OtherImportantInfoHint
-            // 
-            this.metroLabel_OtherImportantInfoHint.AutoSize = true;
-            this.metroLabel_OtherImportantInfoHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_OtherImportantInfoHint.Location = new System.Drawing.Point(10, 1927);
-            this.metroLabel_OtherImportantInfoHint.Name = "metroLabel_OtherImportantInfoHint";
-            this.metroLabel_OtherImportantInfoHint.Size = new System.Drawing.Size(399, 20);
-            this.metroLabel_OtherImportantInfoHint.TabIndex = 52;
-            this.metroLabel_OtherImportantInfoHint.Text = "(Provide Details of what would not be coverd, annual limits etc.)";
-            this.metroLabel_OtherImportantInfoHint.UseCustomForeColor = true;
-            // 
-            // metroLabel1
-            // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(539, 3054);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(94, 20);
-            this.metroLabel1.TabIndex = 53;
-            this.metroLabel1.Text = "Co-Payments:";
-            // 
-            // metroPanel_OtherImportantInfo
-            // 
-            this.metroPanel_OtherImportantInfo.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.metroPanel_OtherImportantInfo.Controls.Add(this.metroTextBox_OtherImportantInfo);
-            this.metroPanel_OtherImportantInfo.HorizontalScrollbarBarColor = true;
-            this.metroPanel_OtherImportantInfo.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel_OtherImportantInfo.HorizontalScrollbarSize = 10;
-            this.metroPanel_OtherImportantInfo.Location = new System.Drawing.Point(15, 1959);
-            this.metroPanel_OtherImportantInfo.Name = "metroPanel_OtherImportantInfo";
-            this.metroPanel_OtherImportantInfo.Size = new System.Drawing.Size(972, 84);
-            this.metroPanel_OtherImportantInfo.TabIndex = 37;
-            this.metroPanel_OtherImportantInfo.VerticalScrollbarBarColor = true;
-            this.metroPanel_OtherImportantInfo.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel_OtherImportantInfo.VerticalScrollbarSize = 10;
-            // 
-            // metroTextBox_OtherImportantInfo
-            // 
-            // 
-            // 
-            // 
-            this.metroTextBox_OtherImportantInfo.CustomButton.Image = null;
-            this.metroTextBox_OtherImportantInfo.CustomButton.Location = new System.Drawing.Point(890, 2);
-            this.metroTextBox_OtherImportantInfo.CustomButton.Name = "";
-            this.metroTextBox_OtherImportantInfo.CustomButton.Size = new System.Drawing.Size(73, 73);
-            this.metroTextBox_OtherImportantInfo.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox_OtherImportantInfo.CustomButton.TabIndex = 1;
-            this.metroTextBox_OtherImportantInfo.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox_OtherImportantInfo.CustomButton.UseSelectable = true;
-            this.metroTextBox_OtherImportantInfo.CustomButton.Visible = false;
-            this.metroTextBox_OtherImportantInfo.ForeColor = System.Drawing.Color.Firebrick;
-            this.metroTextBox_OtherImportantInfo.Lines = new string[0];
-            this.metroTextBox_OtherImportantInfo.Location = new System.Drawing.Point(3, 3);
-            this.metroTextBox_OtherImportantInfo.MaxLength = 32767;
-            this.metroTextBox_OtherImportantInfo.Multiline = true;
-            this.metroTextBox_OtherImportantInfo.Name = "metroTextBox_OtherImportantInfo";
-            this.metroTextBox_OtherImportantInfo.PasswordChar = '\0';
-            this.metroTextBox_OtherImportantInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.metroTextBox_OtherImportantInfo.SelectedText = "";
-            this.metroTextBox_OtherImportantInfo.SelectionLength = 0;
-            this.metroTextBox_OtherImportantInfo.SelectionStart = 0;
-            this.metroTextBox_OtherImportantInfo.ShortcutsEnabled = true;
-            this.metroTextBox_OtherImportantInfo.Size = new System.Drawing.Size(966, 78);
-            this.metroTextBox_OtherImportantInfo.TabIndex = 2;
-            this.metroTextBox_OtherImportantInfo.UseCustomBackColor = true;
-            this.metroTextBox_OtherImportantInfo.UseSelectable = true;
-            this.metroTextBox_OtherImportantInfo.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox_OtherImportantInfo.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
-            // metroLabel_Notes
-            // 
-            this.metroLabel_Notes.AutoSize = true;
-            this.metroLabel_Notes.Location = new System.Drawing.Point(10, 2059);
-            this.metroLabel_Notes.Name = "metroLabel_Notes";
-            this.metroLabel_Notes.Size = new System.Drawing.Size(49, 20);
-            this.metroLabel_Notes.TabIndex = 54;
-            this.metroLabel_Notes.Text = "Notes:";
-            // 
-            // metroPanel_Notes
-            // 
-            this.metroPanel_Notes.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.metroPanel_Notes.Controls.Add(this.metroTextBox_Notes);
-            this.metroPanel_Notes.HorizontalScrollbarBarColor = true;
-            this.metroPanel_Notes.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel_Notes.HorizontalScrollbarSize = 10;
-            this.metroPanel_Notes.Location = new System.Drawing.Point(15, 2092);
-            this.metroPanel_Notes.Name = "metroPanel_Notes";
-            this.metroPanel_Notes.Size = new System.Drawing.Size(972, 84);
-            this.metroPanel_Notes.TabIndex = 55;
-            this.metroPanel_Notes.VerticalScrollbarBarColor = true;
-            this.metroPanel_Notes.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel_Notes.VerticalScrollbarSize = 10;
-            // 
-            // metroTextBox_Notes
-            // 
-            // 
-            // 
-            // 
-            this.metroTextBox_Notes.CustomButton.Image = null;
-            this.metroTextBox_Notes.CustomButton.Location = new System.Drawing.Point(890, 2);
-            this.metroTextBox_Notes.CustomButton.Name = "";
-            this.metroTextBox_Notes.CustomButton.Size = new System.Drawing.Size(73, 73);
-            this.metroTextBox_Notes.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox_Notes.CustomButton.TabIndex = 1;
-            this.metroTextBox_Notes.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox_Notes.CustomButton.UseSelectable = true;
-            this.metroTextBox_Notes.CustomButton.Visible = false;
-            this.metroTextBox_Notes.ForeColor = System.Drawing.Color.Firebrick;
-            this.metroTextBox_Notes.Lines = new string[0];
-            this.metroTextBox_Notes.Location = new System.Drawing.Point(3, 3);
-            this.metroTextBox_Notes.MaxLength = 32767;
-            this.metroTextBox_Notes.Multiline = true;
-            this.metroTextBox_Notes.Name = "metroTextBox_Notes";
-            this.metroTextBox_Notes.PasswordChar = '\0';
-            this.metroTextBox_Notes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.metroTextBox_Notes.SelectedText = "";
-            this.metroTextBox_Notes.SelectionLength = 0;
-            this.metroTextBox_Notes.SelectionStart = 0;
-            this.metroTextBox_Notes.ShortcutsEnabled = true;
-            this.metroTextBox_Notes.Size = new System.Drawing.Size(966, 78);
-            this.metroTextBox_Notes.TabIndex = 2;
-            this.metroTextBox_Notes.UseCustomBackColor = true;
-            this.metroTextBox_Notes.UseSelectable = true;
-            this.metroTextBox_Notes.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox_Notes.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
-            // label_ComparisonMedicalScheme
-            // 
-            this.label_ComparisonMedicalScheme.AutoSize = true;
-            this.label_ComparisonMedicalScheme.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ComparisonMedicalScheme.Location = new System.Drawing.Point(10, 2192);
-            this.label_ComparisonMedicalScheme.Name = "label_ComparisonMedicalScheme";
-            this.label_ComparisonMedicalScheme.Size = new System.Drawing.Size(429, 25);
-            this.label_ComparisonMedicalScheme.TabIndex = 56;
-            this.label_ComparisonMedicalScheme.Text = "Comparison for replacement of Medical Scheme";
-            // 
-            // metroLabel_ComparisonMedicalSchemeHint
-            // 
-            this.metroLabel_ComparisonMedicalSchemeHint.AutoSize = true;
-            this.metroLabel_ComparisonMedicalSchemeHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ComparisonMedicalSchemeHint.Location = new System.Drawing.Point(10, 2212);
-            this.metroLabel_ComparisonMedicalSchemeHint.Name = "metroLabel_ComparisonMedicalSchemeHint";
-            this.metroLabel_ComparisonMedicalSchemeHint.Size = new System.Drawing.Size(638, 20);
-            this.metroLabel_ComparisonMedicalSchemeHint.TabIndex = 57;
-            this.metroLabel_ComparisonMedicalSchemeHint.Text = "(Indicate whether a new medical scheme(s) is recommended or an existing scheme is" +
-    " to be replaced.)";
-            this.metroLabel_ComparisonMedicalSchemeHint.UseCustomForeColor = true;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.92593F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 2242);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 11;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(972, 515);
-            this.tableLayoutPanel1.TabIndex = 58;
-            // 
             // frmMetroClientAdviceRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -2353,6 +2354,8 @@ namespace Finx.App.Forms
             this.splitContainer1.ResumeLayout(false);
             this.metroPanel_AdviceRecord.ResumeLayout(false);
             this.metroPanel_AdviceRecord.PerformLayout();
+            this.metroPanel_Notes.ResumeLayout(false);
+            this.metroPanel_OtherImportantInfo.ResumeLayout(false);
             this.metroPanel_Copayment.ResumeLayout(false);
             this.metroPanel_LateJoiner.ResumeLayout(false);
             this.metroPanel_WaitingPeriods.ResumeLayout(false);
@@ -2375,8 +2378,6 @@ namespace Finx.App.Forms
             this.metroPanel_Select.ResumeLayout(false);
             this.metroPanel_Select.PerformLayout();
             this.panel.ResumeLayout(false);
-            this.metroPanel_OtherImportantInfo.ResumeLayout(false);
-            this.metroPanel_Notes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2515,6 +2516,115 @@ namespace Finx.App.Forms
 
         }
 
+        private void InitialiseMedicalAidComparisonTable()
+        {
+            List<Label> vTableLbls = new List<Label>(); //Table horizontal labels
+            List<Label> hTableLbls = new List<Label>(); //Table vertical labels
+            List<MetroTextBox> textBoxes = new List<MetroTextBox>(); //Table text boxes
+
+            //Policy/Application number
+            vl_PolicyNo.Text = "Policy/Application Number";
+            vTableLbls.Add(vl_PolicyNo);
+            textBoxes.Add(tbPolicyNo_Current);
+            textBoxes.Add(tbPolicyNo_Replaced);
+
+            //Insurer
+            vl_Insurer.Text = "Insurer";
+            vTableLbls.Add(vl_Insurer);
+            textBoxes.Add(tbInsurer_Current);
+            textBoxes.Add(tbInsurer_Replaced);
+
+            //Product Name
+            vl_ProductName.Text = "Product Name";
+            vTableLbls.Add(vl_ProductName);
+            textBoxes.Add(tbProductName_Current);
+            textBoxes.Add(tbProductName_Replaced);
+
+            //Premium
+            vl_Premium.Text = "Premium";
+            vTableLbls.Add(vl_Premium);
+            textBoxes.Add(tbPremium_Current);
+            textBoxes.Add(tbPremium_Replaced);
+
+            //Benefits
+            vl_Benefits.Text = "Benefits";
+            vTableLbls.Add(vl_Benefits);
+            textBoxes.Add(tbBenefits_Current);
+            textBoxes.Add(tbBenefits_Replaced);
+
+            //Savings Account
+            vl_compSavings.Text = "Savings Account";
+            vTableLbls.Add(vl_compSavings);
+            textBoxes.Add(tbCompSavings_Current);
+            textBoxes.Add(tbCompSavings_Replaced);
+
+            //Chronic Benefits
+            vl_compChronic.Text = "Chronic Benefits";
+            vTableLbls.Add(vl_compChronic);
+            textBoxes.Add(tbCompChronic_Current);
+            textBoxes.Add(tbCompChronic_Replaced);
+
+            //Hospital Cover
+            vl_compHospitalCover.Text = "Hospital Cover";
+            vTableLbls.Add(vl_compHospitalCover);
+            textBoxes.Add(tbCompHospitalCover_Current);
+            textBoxes.Add(tbCompHospitalCover_Replaced);
+
+            //Limits On Cover
+            vl_LimitsOnCover.Text = "Limits On Cover";
+            vTableLbls.Add(vl_LimitsOnCover);
+            textBoxes.Add(tbLimitsOnCover_Current);
+            textBoxes.Add(tbLimitsOnCover_Replaced);
+
+            //Other
+            vl_compOther.Text = "Other";
+            vTableLbls.Add(vl_compOther);
+            textBoxes.Add(tbCompOther_Current);
+            textBoxes.Add(tbCompOther_Replaced);
+
+            //Format Vertical headings
+            foreach (Label lbl in vTableLbls)
+            {
+                lbl.AutoSize = false;
+                lbl.Dock = DockStyle.Fill;
+                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+            }
+
+            //Format text boxes
+            foreach (MetroTextBox tb in textBoxes)
+            {
+                tb.Dock = DockStyle.Fill; ;
+                tb.Multiline = true;
+                tb.ScrollBars = ScrollBars.Vertical;
+
+            }
+
+            // Horizontal Lables
+
+            //Detail
+            hl_Detail.Text = "Detail";
+            hTableLbls.Add(hl_Detail);
+
+            //Current Medical schemes or proposed medical schemes
+            hl_CurrentMedScheme.Text = "Current Medical Scheme\n OR\n Proposed Medical Scheme";
+            hTableLbls.Add(hl_CurrentMedScheme);
+
+            //Replaced medical scheme or proposed medical scheme
+            hl_ReplacedMedScheme.Text = "Replaced Medical Scheme\n OR\n Proposed Medical Scheme";
+            hTableLbls.Add(hl_ReplacedMedScheme);
+
+            //Format Horizontal headings
+            foreach (Label lbl in hTableLbls)
+            {
+                lbl.AutoSize = false;
+                lbl.Dock = DockStyle.Fill;
+                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+            }
+
+        }
+
         #region Medical Aid Needs and Goals elements
 
         //Cover Type
@@ -2590,6 +2700,7 @@ namespace Finx.App.Forms
         //Detail
         private Label hl_Detail = new Label();
 
+
         //Current Medical schemes or proposed medical schemes
         private Label hl_CurrentMedScheme = new Label();
 
@@ -2602,33 +2713,45 @@ namespace Finx.App.Forms
 
         //Policy/Application number
         private Label vl_PolicyNo = new Label();
+        private MetroTextBox tbPolicyNo_Current = new MetroTextBox();
+        private MetroTextBox tbPolicyNo_Replaced = new MetroTextBox();
 
         //Insurer
         private Label vl_Insurer = new Label();
-
+        private MetroTextBox tbInsurer_Current = new MetroTextBox();
+        private MetroTextBox tbInsurer_Replaced = new MetroTextBox();
         //Product Name
         private Label vl_ProductName = new Label();
-
+        private MetroTextBox tbProductName_Current = new MetroTextBox();
+        private MetroTextBox tbProductName_Replaced = new MetroTextBox();
         //Premium
         private Label vl_Premium= new Label();
-
+        private MetroTextBox tbPremium_Current = new MetroTextBox();
+        private MetroTextBox tbPremium_Replaced = new MetroTextBox();
         //Benefits
         private Label vl_Benefits = new Label();
-
+        private MetroTextBox tbBenefits_Current = new MetroTextBox();
+        private MetroTextBox tbBenefits_Replaced = new MetroTextBox();
         //Savings Account
         private Label vl_compSavings= new Label();
-
+        private MetroTextBox tbCompSavings_Current = new MetroTextBox();
+        private MetroTextBox tbCompSavings_Replaced = new MetroTextBox();
         //Chronic Benefits
         private Label vl_compChronic = new Label();
-
+        private MetroTextBox tbCompChronic_Current = new MetroTextBox();
+        private MetroTextBox tbCompChronic_Replaced = new MetroTextBox();
         //Hospital Cover
         private Label vl_compHospitalCover = new Label();
-
+        private MetroTextBox tbCompHospitalCover_Current = new MetroTextBox();
+        private MetroTextBox tbCompHospitalCover_Replaced = new MetroTextBox();
         //Limits on Cover
         private Label vl_LimitsOnCover = new Label();
-
+        private MetroTextBox tbLimitsOnCover_Current = new MetroTextBox();
+        private MetroTextBox tbLimitsOnCover_Replaced = new MetroTextBox();
         //Other
         private Label vl_compOther = new Label();
+        private MetroTextBox tbCompOther_Current = new MetroTextBox();
+        private MetroTextBox tbCompOther_Replaced = new MetroTextBox();
 
         #endregion
 
@@ -2763,6 +2886,6 @@ namespace Finx.App.Forms
         private MetroLabel metroLabel_Notes;
         private MetroLabel metroLabel_ComparisonMedicalSchemeHint;
         private Label label_ComparisonMedicalScheme;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tblPanel_MedicalSchemeComparison;
     }
 }

@@ -42,153 +42,6 @@ namespace easiplan.domain.Entities
 
 
 
-        #region Medical Needs and Goals table methods
-        public virtual string hcCoverDiscussed
-        {
-             get; 
-             set;  
-        }
-
-        public virtual string hcCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string hcComments
-        {
-            get;
-            set;
-        }
-
-        public virtual string ddCoverDiscussed
-        {
-            get;
-            set;
-        }
-
-        public virtual string ddCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string ddComments
-        {
-            get;
-            set;
-        }
-
-        public virtual string tbCoverDiscussed
-        {
-            get;
-            set;
-        }
-
-        public virtual string tbCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string tbComments
-        {
-            get;
-            set;
-        }
-
-        public virtual string cbCoverDiscussed
-        {
-            get;
-            set;
-        }
-
-        public virtual string cbCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string cbComments
-        {
-            get;
-            set;
-        }
-
-        public virtual string saCoverDiscussed
-        {
-            get;
-            set;
-        }
-
-        public virtual string saCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string saComments
-        {
-            get;
-            set;
-        }
-
-        public virtual string hpCoverDiscussed
-        {
-            get;
-            set;
-        }
-
-        public virtual string hpCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string hpComments
-        {
-            get;
-            set;
-        }
-
-        public virtual string gcCoverDiscussed
-        {
-            get;
-            set;
-        }
-
-        public virtual string gcCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string gcComments
-        {
-            get;
-            set;
-        }
-
-        public virtual string oCoverDiscussed
-        {
-            get;
-            set;
-        }
-
-        public virtual string oCoverTaken
-        {
-            get;
-            set;
-        }
-
-        public virtual string oComments
-        {
-            get;
-            set;
-        }
-
-
-        #endregion
         public virtual bool IsCompleted
         {
             get
@@ -562,6 +415,282 @@ namespace easiplan.domain.Entities
                 InvokePropertyChanged("InitalRecommendation");
             }
         }
+
+
+        #region Medical Aid Needs and Goals table methods
+        public virtual string hcCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string hcCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string hcComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string ddCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string ddCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string ddComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string tbCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string tbCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string tbComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string cbCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string cbCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string cbComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string saCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string saCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string saComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string hpCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string hpCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string hpComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string gcCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string gcCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string gcComments
+        {
+            get;
+            set;
+        }
+
+        public virtual string oCoverDiscussed
+        {
+            get;
+            set;
+        }
+
+        public virtual string oCoverTaken
+        {
+            get;
+            set;
+        }
+
+        public virtual string oComments
+        {
+            get;
+            set;
+        }
+
+
+        #endregion
+
+        #region Medical Aid Medical Scheme comparison table methods
+        //Methods for storage of the string descriptions for the current medical aids, and the replaced medical aids
+        public virtual string policyNumberCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string policyNumberReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string insurerCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string insurerReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string productNameCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string productNameReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string premiumCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string premiumReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string benefitsCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string benefitsReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string savingsAccountCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string savingsAccountReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string chronicBenefitCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string chronicBenefitReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string hospitalCoverCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string hospitalCoverReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string limitsOnCoverCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string limitsOnCoverReplaced
+        {
+            get;
+            set;
+        }
+
+        public virtual string otherCurrent
+        {
+            get;
+            set;
+        }
+
+        public virtual string otherReplaced
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+
+
         public override void Calculate()
         {
             base.Calculate();

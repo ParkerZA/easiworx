@@ -73,8 +73,8 @@ namespace Finx.App.Forms
         {
             InitializeComponent();
             InitialiseMedicalTable();
-            //initialiseTableListBoxes();
-            //tableTextBox();
+            InitialiseMedicalAidComparisonTable();
+            
 
 
             ReadOnly = readOnly;
@@ -392,8 +392,6 @@ namespace Finx.App.Forms
             #endregion
 
 
-           
-
 
             if (Notes.Count > 0)
                 selectedNote = filteredNotes.LastOrDefault();
@@ -408,6 +406,8 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel(selectedNote);
         }
 
+
+
         void Initialise_PolicyNotePanel(ClientAdviceRecord record)
         {
             //this.metroPanel_Select.Controls.Clear();
@@ -418,7 +418,6 @@ namespace Finx.App.Forms
 
             selectedNote.IsLoading = true;
 
-            Console.WriteLine(InvestmentType);
 
             switch (InvestmentType.ToLower())
             {
@@ -571,7 +570,9 @@ namespace Finx.App.Forms
             int Ydis1 = this.metroPanel_MedicalCover.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height)); //Distance between a title and the panel above it
             int Ydis2 = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y; //Distance between a hint and the title above it
             int Ydis3 =this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y ; //Distance between a panel and the hint above it
-                
+
+            int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
+
             //Other Information
             //this.metroLabel_OtherInformation.Location = new Point(10-2, 507-101);
             this.metroLabel_OtherInformation.Location = new Point(Xdis1, this.metroPanel_MedicalCover.Location.Y+  Ydis1);
@@ -614,8 +615,24 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_CopaymentHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Copayment);
 
+            //Other important Information
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherImportantInfo);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherImportantInfoHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherImportantInfo);
+
+            //Notes
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Notes);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Notes);
+
+            //Medical Scheme Comparison Table
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_ComparisonMedicalScheme);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ComparisonMedicalSchemeHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_MedicalSchemeComparison);
+            ComparisonTable_AddLabels();
+            ComparisonTable_AddTextBoxes();
+
             //Initial Recommendation Advice
-            this.label_InitialAdvice.Location = new Point(Xdis1, this.metroPanel_Copayment.Location.Y+ Ydis1);
+            this.label_InitialAdvice.Location = new Point(Xdis1, YInitialRecommendation);
             this.metroLabel_RecommendedProductHint.Location = new Point(Xdis1, this.label_InitialAdvice.Location.Y+Ydis2);
 
             this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
@@ -1695,7 +1712,7 @@ namespace Finx.App.Forms
 
         #endregion
 
-        #region Medical Table Elements
+        #region Medical Aid Needs and Goals Table Elements
 
         #region Labels
         private void NeedsAndGoalsTable_AddLabels()
@@ -1773,8 +1790,67 @@ namespace Finx.App.Forms
 
         }
 
-    
+
         #endregion
+
+        #endregion
+
+        #region Medical Aid Comparison Table
+
+        private void ComparisonTable_AddLabels()
+        {
+            //Add labels to the comparison tabl
+
+            //Horizontal labels
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.hl_Detail, 0, 0);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.hl_CurrentMedScheme, 1, 0);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.hl_ReplacedMedScheme, 2, 0);
+
+            //Vertical labels
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_PolicyNo, 0, 1);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_Insurer, 0, 2);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_ProductName, 0, 3);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_Premium, 0, 4);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_Benefits, 0, 5);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_compSavings, 0, 6);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_compChronic, 0, 7);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_compHospitalCover, 0, 8);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_LimitsOnCover, 0, 9);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.vl_compOther, 0, 10);
+        }
+
+        private void ComparisonTable_AddTextBoxes()
+        {
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbPolicyNo_Current, 1, 1);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbPolicyNo_Replaced, 2, 1);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbInsurer_Current, 1, 2);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbInsurer_Replaced, 2, 2);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbProductName_Current, 1, 3);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbProductName_Replaced, 2, 3);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbPremium_Current, 1, 4);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbPremium_Replaced, 2, 4);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbBenefits_Current, 1, 5);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbBenefits_Replaced, 2, 5);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompSavings_Current, 1, 6);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompSavings_Replaced, 2, 6);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompChronic_Current, 1, 7);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompChronic_Replaced, 2, 7);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompHospitalCover_Current, 1, 8);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompHospitalCover_Replaced, 2, 8);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbLimitsOnCover_Current, 1, 9);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbLimitsOnCover_Replaced, 2, 9);
+
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompOther_Current, 1, 10);
+            this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompOther_Replaced, 2, 10);
+        }
 
         #endregion
 
