@@ -28,8 +28,8 @@ using System.Runtime.InteropServices;
 #else
 [assembly: AssemblyTitle("EasiWorx Dev")]
     [assembly: AssemblyProduct("EasiWorx Dev")]
-    [assembly: AssemblyVersion("1.0.95")]
-    [assembly: AssemblyFileVersion("1.0.95")]
+    [assembly: AssemblyVersion("1.0.109")]
+    [assembly: AssemblyFileVersion("1.0.109")]
 #endif
 
 [assembly: AssemblyDescription("Financial Services Software")]

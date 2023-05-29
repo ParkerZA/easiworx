@@ -57,6 +57,11 @@ namespace Finx.App.Forms
 
         IList<ClientAdviceRecord> Notes = new List<ClientAdviceRecord>();
         IList<ClientAdviceRecord> filteredNotes = new List<ClientAdviceRecord>();
+
+        IList<MedicalAidAdviceRecord> MedicalNotes = new List<MedicalAidAdviceRecord>();
+        IList<MedicalAidAdviceRecord> medicalFilteredNotes = new List<MedicalAidAdviceRecord>();
+
+
         ClientAdviceRecord selectedNote = null;
         ClientAdviceRecord mostRecentRecord = null;
         PolicyAction Action = PolicyAction.AmendPolicy;
@@ -124,6 +129,7 @@ namespace Finx.App.Forms
             metroTextBox_LateJoiner.TextChanged += LateJoyner_propertyChanged_EventHandler; //Late Joiner Penalty text box
             metroTextBox_Copayment.TextChanged += CoPayments_propertyChanged_EventHandler; //Co-Payment text box
 
+            //Needs and Goals Table text box changed handlers
             tb_hospitalCover.TextChanged += CoverComment_propertyChanged_EventHandler; //Hospitalisation Cover comment box
             tb_dayToDay.TextChanged += DayToDayComment_propertyChanged_EventHandler; //Day To Day comment box
             tb_threshold.TextChanged += ThresholdComment_propertyChanged_EventHandler; //Threshold Benefit comment box
@@ -132,6 +138,32 @@ namespace Finx.App.Forms
             tb_hospitalPreference.TextChanged += HospitalPreferenceComment_propertyChanged_EventHandler; //Hospital Preference comment box
             tb_gapCover.TextChanged += GapCoverComment_propertyChanged_EventHandler; //Gap Cover comment box
             tb_other.TextChanged += OtherComment_propertyChanged_EventHandler; //Other comment box
+
+            //Medical Scheme comparison text box changed handlers
+
+            //Current medical schemes
+            tbPolicyNo_Current.TextChanged += PolicyNo_Current_propertyChanged_EventHandler;
+            tbInsurer_Current.TextChanged += Insurer_Current_propertyChanged_EventHandler;
+            tbProductName_Current.TextChanged += ProductName_Current_propertyChanged_EventHandler;
+            tbPremium_Current.TextChanged += Premium_Current_propertyChanged_EventHandler;
+            tbBenefits_Current.TextChanged += Benefits_Current_propertyChanged_EventHandler;
+            tbCompSavings_Current.TextChanged += SavingsAccount_Current_propertyChanged_EventHandler;
+            tbCompChronic_Current.TextChanged += ChronicBenefit_Current_propertyChanged_EventHandler;
+            tbCompHospitalCover_Current.TextChanged += HospitalCover_Current_propertyChanged_EventHandler;
+            tbLimitsOnCover_Current.TextChanged += LimitsOnCover_Current_propertyChanged_EventHandler;
+            tbCompOther_Current.TextChanged += Other_Current_propertyChanged_EventHandler;
+
+            //Replaced medical schemes
+            tbPolicyNo_Replaced.TextChanged += PolicyNo_Replaced_propertyChanged_EventHandler;
+            tbInsurer_Replaced.TextChanged += Insurer_Replaced_propertyChanged_EventHandler;
+            tbProductName_Replaced.TextChanged += ProductName_Replaced_propertyChanged_EventHandler;
+            tbPremium_Replaced.TextChanged += Premium_Replaced_propertyChanged_EventHandler;
+            tbBenefits_Replaced.TextChanged += Benefits_Replaced_propertyChanged_EventHandler;
+            tbCompSavings_Replaced.TextChanged += SavingsAccount_Replaced_propertyChanged_EventHandler;
+            tbCompChronic_Current.TextChanged += ChronicBenefit_Current_propertyChanged_EventHandler;
+            tbCompHospitalCover_Current.TextChanged += HospitalCover_Current_propertyChanged_EventHandler;
+            tbLimitsOnCover_Current.TextChanged += LimitsOnCover_Current_propertyChanged_EventHandler;
+            tbCompOther_Current.TextChanged += Other_Current_propertyChanged_EventHandler;
 
 
             //SetComboBox event handers
@@ -247,7 +279,7 @@ namespace Finx.App.Forms
             Medical = model;
             InvestmentType = "Medical";
 
-            Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_MedicalSelectPanel(model.AdviceRecords);
 
         }
         /*
@@ -408,6 +440,54 @@ namespace Finx.App.Forms
 
 
 
+
+        void Initialise_MedicalSelectPanel(IList<MedicalAidAdviceRecord> notes = null)
+        {
+            if (notes != null)
+                MedicalNotes = notes;
+
+            if (MedicalNotes == null)
+                medicalFilteredNotes = new List<MedicalAidAdviceRecord>();
+            else
+                medicalFilteredNotes = MedicalNotes.Where(x => x.CreateDate != null).ToList();
+            //filteredNotes = Notes.Where(x => x.IsCompleted == searchModel.ShowCompletedTask).ToList();
+
+            #region Notes Grid
+            this.dataGrid_Notes.Initialise1(medicalFilteredNotes, column =>
+            {
+
+                column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
+                //column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
+                //column.For(x => x.pol, "Policy status", new StringEditor());
+                column.For(x => x.UpdateDate, "Last Date", new DateEditor());
+                column.For(x => x.UpdateBy, "Updated By", new StringEditor());
+                column.For(c => c.IsCompleted, "Completed");
+
+            },
+            RowSelectEventHandler: MedicalNotes_RowSelectEventHandlerChanged,
+            ReadOnly: true,
+            AllowDelete: false)
+            .Format1(true, fixedCols: 1);
+            #endregion
+
+
+
+            if (MedicalNotes.Count > 0)
+                selectedNote = medicalFilteredNotes.LastOrDefault();
+            else
+                selectedNote = new MedicalAidAdviceRecord();
+
+            //Select Bar
+
+            metroTextBox_NoteDate.Text = selectedNote.AdviceDate.ToString("dd-MMM-yyyy hh:mm");
+
+
+            Initialise_PolicyNotePanel((ClientAdviceRecord)selectedNote);
+        }
+
+
+
+
         void Initialise_PolicyNotePanel(ClientAdviceRecord record)
         {
             //this.metroPanel_Select.Controls.Clear();
@@ -439,7 +519,7 @@ namespace Finx.App.Forms
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Medical Portfolio";
                     mostRecentRecord = Medical.AdviceRecords.LastOrDefault();
                     initialiseMedicalPortfolio();
-                    populateMedical(record);
+                    populateMedical((MedicalAidAdviceRecord)record);
 
                     break;
                 case "education":
@@ -484,6 +564,8 @@ namespace Finx.App.Forms
             }
             Console.WriteLine(metroLabel_NeedsAndObj.Location);
         }
+
+
 
         #region Build Screens
         //Initialise the form screen for Retirement, Non-retirement, education, and income asset portfolios
@@ -715,10 +797,6 @@ namespace Finx.App.Forms
             }
         }
 
-        private void lockText(MetroTextBox txtBox, bool state)
-        {
-            txtBox.Enabled = !state;
-        }
         #endregion
 
         #endregion
@@ -771,8 +849,9 @@ namespace Finx.App.Forms
                     
                     if (this.Medical != null)
                     {
-                        MedicalTable_Save(selectedNote);
-                        this.Medical.AdviceRecords.Add(selectedNote);
+                        MedicalTable_Save((MedicalAidAdviceRecord)selectedNote);
+                        MedicalSchemeComparisonSave((MedicalAidAdviceRecord)selectedNote);
+                        this.Medical.AdviceRecords.Add((MedicalAidAdviceRecord)selectedNote);
 
                         instructionType = InstructionType.MEDICAL_POLICY_NOTE;
                         referenceId = this.Medical.Id;
@@ -876,8 +955,17 @@ namespace Finx.App.Forms
                         return;
                 }
 
-                selectedNote = new ClientAdviceRecord();
+                if (InvestmentType.ToLower().Contains("medical"))
+                {
+                    selectedNote = new MedicalAidAdviceRecord();
+                    mostRecentRecord = (MedicalAidAdviceRecord)mostRecentRecord;
+                }
+                else
+                {
+                    selectedNote = new ClientAdviceRecord();
 
+
+                }
                 clearAllElements();
 
                 if (mostRecentRecord != null)
@@ -961,11 +1049,11 @@ namespace Finx.App.Forms
                     }
                     if (this.Medical != null)
                     {
-                        this.Medical.AdviceRecords.Remove(selectedNote);
+                        this.Medical.AdviceRecords.Remove((MedicalAidAdviceRecord)selectedNote);
                         Program.Repository.Update<Medical, int>(this.Medical);
 
                         selectedNote = null;
-                        Initialise_SelectPanel(this.Medical.AdviceRecords);
+                        Initialise_MedicalSelectPanel(this.Medical.AdviceRecords);
                     }/*
                     if (this.Life != null)
                     {
@@ -1047,7 +1135,7 @@ namespace Finx.App.Forms
             if (this.Medical != null)
             {
                 Program.Repository.Update<Medical, int>(this.Medical);
-                Initialise_SelectPanel(this.Medical.AdviceRecords);
+                Initialise_MedicalSelectPanel(this.Medical.AdviceRecords);
             }/*
             if (this.Life != null)
             {
@@ -1119,6 +1207,8 @@ namespace Finx.App.Forms
             }
 
         }
+
+        #region Form elements event changed handlers
 
         private void NeedAndObv_propertyChanged_EventHandler(object sender, EventArgs e)
         {
@@ -1214,6 +1304,7 @@ namespace Finx.App.Forms
             }
 
         }
+        #endregion
 
         #region Medical form event handlers
 
@@ -1224,7 +1315,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.MedicalConditions = metroTextBox_MedicalConditions.Text;
+                ((MedicalAidAdviceRecord)selectedNote).MedicalConditions = metroTextBox_MedicalConditions.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1243,7 +1334,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.MedicalCover = metroTextBox_CurrentMedicalCover.Text;
+                ((MedicalAidAdviceRecord)selectedNote).MedicalCover = metroTextBox_CurrentMedicalCover.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1262,7 +1353,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.Hospitalisation = metroTextBox_Hospitalisation.Text;
+                ((MedicalAidAdviceRecord)selectedNote).Hospitalisation = metroTextBox_Hospitalisation.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1281,7 +1372,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.ChronicConditions = metroTextBox_ChronicConditions.Text;
+                ((MedicalAidAdviceRecord)selectedNote).ChronicConditions = metroTextBox_ChronicConditions.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1300,7 +1391,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.WaitingPeriods = metroTextBox_WaitingPeriods.Text;
+                ((MedicalAidAdviceRecord)selectedNote).WaitingPeriods = metroTextBox_WaitingPeriods.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1319,7 +1410,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.LateJoynerPenalty = metroTextBox_LateJoiner.Text;
+                ((MedicalAidAdviceRecord)selectedNote).LateJoynerPenalty = metroTextBox_LateJoiner.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1338,7 +1429,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
 
-                selectedNote.CoPayments = metroTextBox_Copayment.Text;
+                ((MedicalAidAdviceRecord)selectedNote).CoPayments = metroTextBox_Copayment.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1352,12 +1443,12 @@ namespace Finx.App.Forms
 
         #endregion
 
-        #region Medical Table Combobox change handlers
+        #region Medical Aid Needs and Goals Table Combobox change handlers
 
         private void Cover1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.hcCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1365,7 +1456,7 @@ namespace Finx.App.Forms
         private void Cover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.hcCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hcCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1373,7 +1464,7 @@ namespace Finx.App.Forms
         private void DayToDay1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.ddCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).ddCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1381,7 +1472,7 @@ namespace Finx.App.Forms
         private void DayToDay2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.ddCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).ddCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1389,7 +1480,7 @@ namespace Finx.App.Forms
         private void Threshold1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.tbCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).tbCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1397,7 +1488,7 @@ namespace Finx.App.Forms
         private void Threshold2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.tbCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).tbCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1405,7 +1496,7 @@ namespace Finx.App.Forms
         private void ChronicBenefit1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.cbCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).cbCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1413,7 +1504,7 @@ namespace Finx.App.Forms
         private void ChronicBenefit2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.cbCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).cbCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1421,7 +1512,7 @@ namespace Finx.App.Forms
         private void SavingsAccount1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.saCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).saCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1430,7 +1521,7 @@ namespace Finx.App.Forms
         private void SavingsAccount2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.saCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).saCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1439,7 +1530,7 @@ namespace Finx.App.Forms
         private void HospitalPreference1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.hpCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hpCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1448,7 +1539,7 @@ namespace Finx.App.Forms
         private void HospitalPreference2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.hpCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hpCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1457,7 +1548,7 @@ namespace Finx.App.Forms
         private void GapCover1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.gcCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).gcCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1466,7 +1557,7 @@ namespace Finx.App.Forms
         private void GapCover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.gcCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).gcCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1475,7 +1566,7 @@ namespace Finx.App.Forms
         private void Other1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.oCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).oCoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1484,7 +1575,7 @@ namespace Finx.App.Forms
         private void Other2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            selectedNote.oCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).oCoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1493,7 +1584,7 @@ namespace Finx.App.Forms
 
         #endregion
 
-        #region Medical Table Comment box event handlers
+        #region Medical Aid Needs and Goals Table Comment box event handlers
 
         private void CoverComment_propertyChanged_EventHandler(object sender, EventArgs e)
         {
@@ -1502,7 +1593,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.hcComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).hcComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1521,7 +1612,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.ddComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).ddComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1540,7 +1631,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.tbComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).tbComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1559,7 +1650,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.cbComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).cbComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1578,7 +1669,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.saComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).saComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1597,7 +1688,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.hpComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).hpComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1616,7 +1707,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.gcComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).gcComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1635,7 +1726,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                selectedNote.oComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).oComments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -1649,6 +1740,400 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region Medical Scheme Comparison Table event handlers
+
+        #region Current Medical Scheme event handlers
+        private void PolicyNo_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).policyNumberCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Insurer_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).insurerCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ProductName_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).productNameCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Premium_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).premiumCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Benefits_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).benefitsCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void SavingsAccount_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).savingsAccountCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ChronicBenefit_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).chronicBenefitCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void HospitalCover_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).hospitalCoverCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void LimitsOnCover_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).limitsOnCoverCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Other_Current_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).otherCurrent = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #region Replaced Medical Scheme Event Handlers
+
+        private void PolicyNo_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).policyNumberReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Insurer_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).insurerReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ProductName_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).productNameReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Premium_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).premiumReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Benefits_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).benefitsReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void SavingsAccount_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).savingsAccountReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ChronicBenefit_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).chronicBenefitReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void HospitalCover_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).hospitalCoverReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void LimitsOnCover_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).limitsOnCoverReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Other_Replaced_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).otherReplaced = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Notes row select event handlers
+
+        //Hanlder for row selection in standard CAR
         private void Notes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
         {
 
@@ -1665,13 +2150,30 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel(selectedNote);
         }
 
+        //Handler for row selection in medical aid CAR
+        private void MedicalNotes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
+        {
+
+            SourceGrid.Selection.RowSelection selection = sender as SourceGrid.Selection.RowSelection;
+            if (selection == null)
+                return;
+
+            if (medicalFilteredNotes.Count == 0 || e.Row > medicalFilteredNotes.Count)
+                selectedNote = null;
+            else
+                selectedNote = medicalFilteredNotes[e.Row - 1];
+
+
+            Initialise_PolicyNotePanel(selectedNote);
+        }
+
+        #endregion
+
+        //Event handler for when "Completed" check box is clicked
         private void XInput_ShowCompletedTask_KeyPressed(object sender, EventArgs e)
         {
-            //searchModel.ShowCompletedTask = !searchModel.ShowCompletedTask;
             MetroCheckBox cb = (MetroCheckBox)sender;
             selectedNote.IsCompleted= cb.Checked;
-            //this.xToolBarMenu1.SetCAREdit(!cb.Checked);
-            //Initialise_SelectPanel();
             
             
         }
@@ -2498,7 +3000,7 @@ namespace Finx.App.Forms
 
         #region Populate medical form text boxes
 
-        private void populateMedicalConditions(ClientAdviceRecord record)
+        private void populateMedicalConditions(MedicalAidAdviceRecord record)
         {
             if (record.MedicalConditions != null)
             {
@@ -2506,7 +3008,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private void populateMedicalCover(ClientAdviceRecord record)
+        private void populateMedicalCover(MedicalAidAdviceRecord record)
         {
             if (record.MedicalCover != null)
             {
@@ -2514,7 +3016,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private void populateHospitalisation(ClientAdviceRecord record)
+        private void populateHospitalisation(MedicalAidAdviceRecord record)
         {
             if (record.Hospitalisation != null)
             {
@@ -2522,7 +3024,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private void populateChronicConditions(ClientAdviceRecord record)
+        private void populateChronicConditions(MedicalAidAdviceRecord record)
         {
             if (record.ChronicConditions != null)
             {
@@ -2530,7 +3032,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private void populateWaitingPeriods(ClientAdviceRecord record)
+        private void populateWaitingPeriods(MedicalAidAdviceRecord record)
         {
             if (record.WaitingPeriods != null)
             {
@@ -2538,7 +3040,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private void populateLateJoyner(ClientAdviceRecord record)
+        private void populateLateJoyner(MedicalAidAdviceRecord record)
         {
             if (record.LateJoynerPenalty != null)
             {
@@ -2546,7 +3048,7 @@ namespace Finx.App.Forms
             }
         }
 
-        private void populateCoPayments(ClientAdviceRecord record)
+        private void populateCoPayments(MedicalAidAdviceRecord record)
         {
             if (record.CoPayments != null)
             {
@@ -2556,8 +3058,10 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region Populate Table methods
 
-        private void PopulateMedicalTable(ClientAdviceRecord record)
+        //Populate values for Needs and Goals table on Medical CAR
+        private void PopulateMedicalTable(MedicalAidAdviceRecord record)
         {
             //Load Form values from given record
 
@@ -2574,7 +3078,7 @@ namespace Finx.App.Forms
             //Threshold Benefits
             this.Threshold1.Text = record.tbCoverDiscussed;
             this.Threshold2.Text = record.tbCoverTaken;
-            this.tb_threshold.Text = selectedNote.tbComments;
+            this.tb_threshold.Text = record.tbComments;
 
             //Chronic Benefits
             this.ChronicBenefit1.Text = record.cbCoverDiscussed;
@@ -2601,8 +3105,58 @@ namespace Finx.App.Forms
             this.Other2.Text = record.oCoverTaken;
             this.tb_other.Text = record.oComments;
         }
+     
+        //Populate values for Medical Scheme comparison table in medical CAR
+        private void PopulateMedicalSchemeTable(MedicalAidAdviceRecord record)
+        {
+            //Load Form values from given record
 
-        private void MedicalTable_Save(ClientAdviceRecord record)
+            //Policy/Application Number
+            this.tbPolicyNo_Current.Text = record.policyNumberCurrent;
+            this.tbPolicyNo_Replaced.Text = record.policyNumberReplaced;
+
+            //Insurer 
+            this.tbInsurer_Current.Text = record.insurerCurrent;
+            //this.tbInsurer_Replaced.Text = record.insurerReplaced;
+
+            //Product Name
+            this.tbProductName_Current.Text = record.productNameCurrent;
+            this.tbProductName_Replaced.Text = record.productNameReplaced;
+
+            //Premium
+            this.tbPremium_Current.Text = "Bots of note";//record.premiumCurrent;
+            this.tbPremium_Replaced.Text = record.premiumReplaced;
+
+            //Benefits
+            this.tbBenefits_Current.Text = record.benefitsCurrent;
+            this.tbBenefits_Replaced.Text = record.benefitsReplaced;
+            
+            //Savings Account
+            this.tbCompSavings_Current.Text = record.savingsAccountCurrent;
+            this.tbCompSavings_Replaced.Text = record.savingsAccountReplaced;
+
+            //Chronic Benefits
+            this.tbCompChronic_Current.Text = record.chronicBenefitCurrent;
+            this.tbCompChronic_Replaced.Text = record.chronicBenefitReplaced;
+
+            //Hospital Cover
+            this.tbCompHospitalCover_Current.Text = record.hospitalCoverCurrent;
+            this.tbCompHospitalCover_Replaced.Text = record.hospitalCoverReplaced;
+
+            //Limits On Cover
+            this.tbLimitsOnCover_Current.Text = record.limitsOnCoverCurrent;
+            this.tbLimitsOnCover_Replaced.Text = record.limitsOnCoverReplaced;
+
+            //Other
+            this.tbCompOther_Current.Text = record.otherCurrent;
+            this.tbCompOther_Replaced.Text = record.otherReplaced;
+        }
+
+        #endregion
+
+        #region Save table value methods
+
+        private void MedicalTable_Save(MedicalAidAdviceRecord record)
         {
             //Load Form values from given record
 
@@ -2619,7 +3173,7 @@ namespace Finx.App.Forms
             //Threshold Benefits
             record.tbCoverDiscussed = this.Threshold1.Text;
             record.tbCoverTaken = this.Threshold2.Text;
-            selectedNote.tbComments = this.tb_threshold.Text;
+            record.tbComments = this.tb_threshold.Text;
 
             //Chronic Benefits
             record.cbCoverDiscussed = this.ChronicBenefit1.Text;
@@ -2647,7 +3201,52 @@ namespace Finx.App.Forms
             record.oComments = this.tb_other.Text;
         }
 
+        private void MedicalSchemeComparisonSave(MedicalAidAdviceRecord record)
+        {
+            //Policy/Application Number
+            record.policyNumberCurrent = this.tbPolicyNo_Current.Text;
+            record.policyNumberReplaced = this.tbPolicyNo_Replaced.Text;
 
+            //Insurer 
+            record.insurerCurrent = this.tbInsurer_Current.Text;
+            record.insurerReplaced = this.tbInsurer_Replaced.Text;
+
+            //Product Name
+            record.productNameCurrent = this.tbProductName_Current.Text;
+            record.productNameReplaced = this.tbProductName_Replaced.Text;
+
+            //Premium
+            record.premiumCurrent = this.tbPremium_Current.Text;
+            record.premiumReplaced = this.tbPremium_Replaced.Text;
+
+            //Benefits
+            record.benefitsCurrent = this.tbBenefits_Current.Text;
+            record.benefitsReplaced = this.tbBenefits_Replaced.Text;
+            
+            //Savings Account
+            record.savingsAccountCurrent = this.tbCompSavings_Current.Text;
+            record.savingsAccountReplaced = this.tbCompSavings_Replaced.Text;
+
+            //Chronic Benefits
+            record.chronicBenefitCurrent = this.tbCompChronic_Current.Text;
+            record.chronicBenefitReplaced = this.tbCompChronic_Replaced.Text;
+
+            //Hospital Cover
+            record.hospitalCoverCurrent = this.tbCompHospitalCover_Current.Text;
+            record.hospitalCoverReplaced = this.tbCompHospitalCover_Replaced.Text;
+
+            //Limits On Cover
+            record.limitsOnCoverCurrent = this.tbLimitsOnCover_Current.Text;
+            record.limitsOnCoverReplaced = this.tbLimitsOnCover_Replaced.Text;
+
+            //Other
+            record.otherCurrent = this.tbCompOther_Current.Text;
+            record.otherReplaced = this.tbCompOther_Replaced.Text;
+        }
+
+        #endregion
+
+        //Call all methods to populate the standard CAR template
         private void populateRetirement(ClientAdviceRecord advRecord)
         {
             SetIsComplete(selectedNote);
@@ -2662,7 +3261,8 @@ namespace Finx.App.Forms
             populateMotivation(advRecord);
         }
 
-        private void populateMedical(ClientAdviceRecord advRecord)
+        //Call all methods to populate the medical Aid CAR
+        private void populateMedical(MedicalAidAdviceRecord advRecord)
         {
             SetIsComplete(selectedNote);
             clearMedicalForm();
@@ -2678,6 +3278,7 @@ namespace Finx.App.Forms
             populateRecommendedFunds(advRecord);
             populateMotivation(advRecord);
             PopulateMedicalTable(advRecord);
+            PopulateMedicalSchemeTable(advRecord);
         }
 
         #endregion
@@ -2764,37 +3365,37 @@ namespace Finx.App.Forms
 
         private void clearMedicalConditions()
         {
-            this.metroTextBox_MedicalConditions.Text = selectedNote.MedicalConditions;
+            this.metroTextBox_MedicalConditions.Text = ((MedicalAidAdviceRecord)selectedNote).MedicalConditions;
         }
 
         private void clearMedicalCover()
         {
-            this.metroTextBox_CurrentMedicalCover.Text = selectedNote.MedicalCover;
+            this.metroTextBox_CurrentMedicalCover.Text = ((MedicalAidAdviceRecord)selectedNote).MedicalCover;
         }
 
         private void clearHospitalisation()
         {
-            this.metroTextBox_Hospitalisation.Text = selectedNote.Hospitalisation;
+            this.metroTextBox_Hospitalisation.Text = ((MedicalAidAdviceRecord)selectedNote).Hospitalisation;
         }
 
         private void clearChronicConditions()
         {
-            this.metroTextBox_ChronicConditions.Text = selectedNote.ChronicConditions;
+            this.metroTextBox_ChronicConditions.Text = ((MedicalAidAdviceRecord)selectedNote).ChronicConditions;
         }
 
         private void clearWaitingPeriods()
         {
-            this.metroTextBox_WaitingPeriods.Text = selectedNote.WaitingPeriods;
+            this.metroTextBox_WaitingPeriods.Text = ((MedicalAidAdviceRecord)selectedNote).WaitingPeriods;
         }
 
         private void clearLateJoinerPenalty()
         {
-            this.metroTextBox_LateJoiner.Text = selectedNote.LateJoynerPenalty;
+            this.metroTextBox_LateJoiner.Text = ((MedicalAidAdviceRecord)selectedNote).LateJoynerPenalty;
         }
 
         private void clearCoPayment()
         {
-            this.metroTextBox_Copayment.Text = selectedNote.CoPayments;
+            this.metroTextBox_Copayment.Text = ((MedicalAidAdviceRecord)selectedNote).CoPayments;
         }
 
         #endregion

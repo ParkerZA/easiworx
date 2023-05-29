@@ -56,7 +56,7 @@ namespace easiplan.domain.Entities
             set;
         }
 
-        public virtual IList<ClientAdviceRecord> AdviceRecords
+        public virtual IList<MedicalAidAdviceRecord> AdviceRecords
         {
             get;
             set;
