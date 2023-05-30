@@ -99,6 +99,7 @@ namespace Finx.App.Forms
             #endregion
 
             #region xToolBarMenu1
+
             this.xToolBarMenu1.tbCaption.Text = string.Format("{0}", "Client Advice Record");
             this.xToolBarMenu1.tbCaptionImage.Image = easiplan.app.Properties.Resources.notes_32;
 
@@ -112,15 +113,22 @@ namespace Finx.App.Forms
             xToolBarMenu1.tbEdit.Visible = !ReadOnly && Action == PolicyAction.AmendPolicy; xToolBarMenu1.tbEdit.Text = "New Note";
             xToolBarMenu1.EditClicked += toolStripButton_Add_Click;
 
+            xToolBarMenu1.CloseClicked += toolStripButton_Close_Click;
+            
+            #endregion
+
             //Assign Event Handlers
 
-            //Form text box handlers
+            #region Assign event handlers for all form text boxes
+
+            //Standard template text boxes
             metroTextBox_NeedAndObjective.TextChanged += NeedAndObv_propertyChanged_EventHandler; //Needs and Objectives text box
             metroTextBox_FinancialSituation.TextChanged += FinancialSituation_propertyChanged_EventHandler; //Financial Situation text box
             metroTextBox_OtherInformation.TextChanged += OtherInformation_propertyChanged_EventHandler; //Financial Situation text box
             metroTextBox_RecommendedFunds.TextChanged += RecommendedFunds_propertyChanged_EventHandler; //Recommended funds text box
             metroTextBox_Motivation.TextChanged += Motivation_propertyChanged_EventHandler; //Motivation text box
 
+            //Medical Aid Text Boxes
             metroTextBox_MedicalConditions.TextChanged += MedicalConditions_propertyChanged_EventHandler; //Medical Conditions text box
             metroTextBox_CurrentMedicalCover.TextChanged += MedicalCover_propertyChanged_EventHandler; //Current Medical Cover text box
             metroTextBox_Hospitalisation.TextChanged += Hospitalisation_propertyChanged_EventHandler; //Hospitalisation text box
@@ -128,6 +136,11 @@ namespace Finx.App.Forms
             metroTextBox_WaitingPeriods.TextChanged += WaitingPeriod_propertyChanged_EventHandler; //Waiting Periods text box
             metroTextBox_LateJoiner.TextChanged += LateJoyner_propertyChanged_EventHandler; //Late Joiner Penalty text box
             metroTextBox_Copayment.TextChanged += CoPayments_propertyChanged_EventHandler; //Co-Payment text box
+            metroTextBox_OtherImportantInfo.TextChanged += OtherImportantInformation_propertyChanged_EventHandler; //Other important information text box
+            metroTextBox_Notes.TextChanged+= Notes_propertyChanged_EventHandler; //Notes text box
+            #endregion
+
+            #region Event handlers for Medical Aid needs and goals table comment boxes
 
             //Needs and Goals Table text box changed handlers
             tb_hospitalCover.TextChanged += CoverComment_propertyChanged_EventHandler; //Hospitalisation Cover comment box
@@ -139,7 +152,9 @@ namespace Finx.App.Forms
             tb_gapCover.TextChanged += GapCoverComment_propertyChanged_EventHandler; //Gap Cover comment box
             tb_other.TextChanged += OtherComment_propertyChanged_EventHandler; //Other comment box
 
-            //Medical Scheme comparison text box changed handlers
+            #endregion
+
+            #region Event hanlders for Medical scheme comparison table text boxes
 
             //Current medical schemes
             tbPolicyNo_Current.TextChanged += PolicyNo_Current_propertyChanged_EventHandler;
@@ -160,11 +175,14 @@ namespace Finx.App.Forms
             tbPremium_Replaced.TextChanged += Premium_Replaced_propertyChanged_EventHandler;
             tbBenefits_Replaced.TextChanged += Benefits_Replaced_propertyChanged_EventHandler;
             tbCompSavings_Replaced.TextChanged += SavingsAccount_Replaced_propertyChanged_EventHandler;
-            tbCompChronic_Current.TextChanged += ChronicBenefit_Current_propertyChanged_EventHandler;
-            tbCompHospitalCover_Current.TextChanged += HospitalCover_Current_propertyChanged_EventHandler;
-            tbLimitsOnCover_Current.TextChanged += LimitsOnCover_Current_propertyChanged_EventHandler;
-            tbCompOther_Current.TextChanged += Other_Current_propertyChanged_EventHandler;
+            tbCompChronic_Replaced.TextChanged += ChronicBenefit_Replaced_propertyChanged_EventHandler;
+            tbCompHospitalCover_Replaced.TextChanged += HospitalCover_Replaced_propertyChanged_EventHandler;
+            tbLimitsOnCover_Replaced.TextChanged += LimitsOnCover_Replaced_propertyChanged_EventHandler;
+            tbCompOther_Replaced.TextChanged += Other_Replaced_propertyChanged_EventHandler;
 
+            #endregion
+
+            #region Event hanlders for Medical Aid needs and goals combo boxes
 
             //SetComboBox event handers
 
@@ -192,6 +210,9 @@ namespace Finx.App.Forms
             this.Other1.SelectedIndexChanged += Other1_SelectedIndexChanged;
             this.Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
 
+            #endregion
+
+            #region Assign key down event to allow for datestamp in text boxes
 
             //Assigning key down methods to allow for adding date to text boxes with cntrl D
             metroTextBox_FinancialSituation.KeyDown += textBox_AppendNewLineDate;
@@ -207,10 +228,11 @@ namespace Finx.App.Forms
             metroTextBox_WaitingPeriods.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_LateJoiner.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_Copayment.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_OtherImportantInfo.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_Notes.KeyDown += textBox_AppendNewLineDate;
 
-
-            xToolBarMenu1.CloseClicked += toolStripButton_Close_Click;
             #endregion
+
 
             this.xInput_ShowCompletedTasks.ControlTypes = ControlTypes.CheckBox;
             this.xInput_ShowCompletedTasks.MappedField = "ShowCompletedTask";
@@ -234,9 +256,6 @@ namespace Finx.App.Forms
             InvestmentType = "Retirement";
 
             Initialise_SelectPanel(model.AdviceRecords);
-            //selectedNote.PolicyNumber = model.ReferenceNo;
-            
-            
            
 
         }
@@ -744,7 +763,8 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #region Lock State controls
+        #region Lock Form control methods controls
+
         private void lockForm(bool state)
         {
             //Lock Product Knowledge
@@ -768,11 +788,11 @@ namespace Finx.App.Forms
             }
 
             this.tblPanel_NeedsAndGoals.Enabled = !state;
+            this.tblPanel_MedicalSchemeComparison.Enabled = !state;
 
         }
 
-
-
+        //Used to lock a group of buttons
         private void lockButtons(MetroPanel btnGroup, bool state)
         {
             foreach (Control control in btnGroup.Controls)
@@ -785,6 +805,7 @@ namespace Finx.App.Forms
             }
         }
 
+        //Used to lock the text box placed inside a panel
         private void lockTextPanel(MetroPanel txtGroup, bool state)
         {
             foreach (Control control in txtGroup.Controls)
@@ -963,10 +984,10 @@ namespace Finx.App.Forms
                 else
                 {
                     selectedNote = new ClientAdviceRecord();
-
+                    Console.WriteLine("Yes its correct");
 
                 }
-                clearAllElements();
+                //clearAllElements();
 
                 if (mostRecentRecord != null)
                 {
@@ -1306,7 +1327,7 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #region Medical form event handlers
+        #region Medical Aid form event handlers
 
         private void MedicalConditions_propertyChanged_EventHandler(object sender, EventArgs e)
         {
@@ -1430,6 +1451,44 @@ namespace Finx.App.Forms
                 this.xToolBarMenu1.SetCAREdit(true);
 
                 ((MedicalAidAdviceRecord)selectedNote).CoPayments = metroTextBox_Copayment.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void OtherImportantInformation_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                ((MedicalAidAdviceRecord)selectedNote).OtherImportantInformation = metroTextBox_OtherImportantInfo.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Notes_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                ((MedicalAidAdviceRecord)selectedNote).Notes = metroTextBox_Notes.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3056,6 +3115,22 @@ namespace Finx.App.Forms
             }
         }
 
+        private void populateOtherImportantInformation(MedicalAidAdviceRecord record)
+        {
+            if (record.OtherImportantInformation != null)
+            {
+                this.metroTextBox_OtherImportantInfo.Text = record.OtherImportantInformation;
+            }
+        }
+
+        private void populateNotes(MedicalAidAdviceRecord record)
+        {
+            if (record.Notes != null)
+            {
+                this.metroTextBox_Notes.Text = record.Notes;
+            }
+        }
+
         #endregion
 
         #region Populate Table methods
@@ -3275,6 +3350,8 @@ namespace Finx.App.Forms
             populateWaitingPeriods(advRecord);
             populateLateJoyner(advRecord);
             populateCoPayments(advRecord);
+            populateOtherImportantInformation(advRecord);
+            populateNotes(advRecord);
             populateRecommendedFunds(advRecord);
             populateMotivation(advRecord);
             PopulateMedicalTable(advRecord);
@@ -3338,12 +3415,14 @@ namespace Finx.App.Forms
         #region Clear Generic Form Text Boxes
         private void clearNeedsAndObj()
         {
-            this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
+            //this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
+            this.metroTextBox_NeedAndObjective.Clear();
         }
 
         private void clearFinancialSituation()
         {
-            this.metroTextBox_FinancialSituation.Text = selectedNote.FinancialSituation;
+            //this.metroTextBox_FinancialSituation.Text = selectedNote.FinancialSituation;
+            this.metroTextBox_FinancialSituation.Clear();
         }
 
         private void clearOtherInformation()
@@ -3398,6 +3477,16 @@ namespace Finx.App.Forms
             this.metroTextBox_Copayment.Text = ((MedicalAidAdviceRecord)selectedNote).CoPayments;
         }
 
+        private void clearOtherImportantInformation()
+        {
+            this.metroTextBox_OtherImportantInfo.Clear(); 
+        }
+
+        private void clearNotes()
+        {
+            this.metroTextBox_Notes.Clear();
+        }
+
         #endregion
 
         #endregion
@@ -3422,6 +3511,8 @@ namespace Finx.App.Forms
             clearWaitingPeriods();
             clearLateJoinerPenalty();
             clearCoPayment();
+            clearOtherImportantInformation();
+            clearNotes();
         }
 
         private void clearGenericForm()
@@ -3429,8 +3520,8 @@ namespace Finx.App.Forms
             clearProductKnlgeAndExperience();
             clearInvestmentHorizon();
             clearAccessToCapital();
-            clearNeedsAndObj();
-            clearFinancialSituation();
+           // clearNeedsAndObj();
+           // clearFinancialSituation();
             clearOtherInformation();
             clearRecommendedFunds();
             clearMotivation();
@@ -3447,6 +3538,8 @@ namespace Finx.App.Forms
             clearWaitingPeriods();
             clearLateJoinerPenalty();
             clearCoPayment();
+           // clearOtherImportantInformation();
+            //clearNotes();
         }
         #endregion
 

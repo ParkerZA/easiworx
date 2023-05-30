@@ -41,6 +41,7 @@ namespace Finx.App.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetroClientAdviceRecord));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGrid_Notes = new SourceGrid.DataGrid();
+            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.metroPanel_AdviceRecord = new MetroFramework.Controls.MetroPanel();
             this.tblPanel_MedicalSchemeComparison = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel_ComparisonMedicalSchemeHint = new MetroFramework.Controls.MetroLabel();
@@ -167,7 +168,6 @@ namespace Finx.App.Forms
             this.label_Date = new System.Windows.Forms.Label();
             this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
             this.panel = new MetroFramework.Controls.MetroPanel();
-            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -234,6 +234,30 @@ namespace Finx.App.Forms
             this.dataGrid_Notes.TabIndex = 7;
             this.dataGrid_Notes.TabStop = true;
             this.dataGrid_Notes.ToolTipText = "";
+            // 
+            // xInput_ShowCompletedTasks
+            // 
+            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
+            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
+            this.xInput_ShowCompletedTasks.ControlWidth = 40;
+            this.xInput_ShowCompletedTasks.DataSource = null;
+            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
+            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
+            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
+            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
+            this.xInput_ShowCompletedTasks.MappedField = null;
+            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
+            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
+            this.xInput_ShowCompletedTasks.Model = null;
+            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
+            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
+            this.xInput_ShowCompletedTasks.ReadOnly = false;
+            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
+            this.xInput_ShowCompletedTasks.TabIndex = 6;
+            this.xInput_ShowCompletedTasks.Value = null;
+            this.xInput_ShowCompletedTasks.ValueMember = "Value";
             // 
             // metroPanel_AdviceRecord
             // 
@@ -2299,30 +2323,6 @@ namespace Finx.App.Forms
             this.panel.VerticalScrollbarBarColor = true;
             this.panel.VerticalScrollbarHighlightOnWheel = false;
             this.panel.VerticalScrollbarSize = 10;
-            // 
-            // xInput_ShowCompletedTasks
-            // 
-            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
-            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.ControlWidth = 40;
-            this.xInput_ShowCompletedTasks.DataSource = null;
-            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
-            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
-            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
-            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
-            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
-            this.xInput_ShowCompletedTasks.MappedField = null;
-            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
-            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
-            this.xInput_ShowCompletedTasks.Model = null;
-            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
-            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
-            this.xInput_ShowCompletedTasks.ReadOnly = false;
-            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
-            this.xInput_ShowCompletedTasks.TabIndex = 6;
-            this.xInput_ShowCompletedTasks.Value = null;
-            this.xInput_ShowCompletedTasks.ValueMember = "Value";
             // 
             // xToolBarMenu1
             // 

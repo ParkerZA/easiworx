@@ -18,6 +18,7 @@ namespace easiplan.domain.Entities
         private string _lateJoynerPenalty;
         private string _coPayments;
         private string _otherImportantInformation;
+        private string _notes;
 
         public virtual string MedicalConditions
         {
@@ -107,6 +108,32 @@ namespace easiplan.domain.Entities
             {
                 _coPayments = value;
                 InvokePropertyChanged("CoPayments");
+            }
+        }
+
+        public virtual string OtherImportantInformation
+        {
+            get
+            {
+                return _otherImportantInformation;
+            }
+            set
+            {
+                _otherImportantInformation = value;
+                InvokePropertyChanged("OtherImportantInformation");
+            }
+        }
+
+        public virtual string Notes
+        {
+            get
+            {
+                return _notes;
+            }
+            set
+            {
+                _notes = value;
+                InvokePropertyChanged("Notes");
             }
         }
 

@@ -178,6 +178,9 @@
   <data name="person_b_42" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FontAwesome_f007(0)_421.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="checkmark_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\checkmark_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="tick_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tick_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -225,6 +228,9 @@
   </data>
   <data name="Tasks" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow_l_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-l-128.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="report_b_42" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\document_b_42.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -316,9 +322,6 @@
   <data name="menu_482" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\menu_482.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UserNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\add-friend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="background1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rdrr-min.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -337,8 +340,8 @@
   <data name="progress_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\progress-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow_l_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow-l-128.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="UserNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add-friend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="binoc" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\binoc.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -376,7 +379,7 @@
   <data name="youtube_b_42" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\youtube_b_42.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="checkmark_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\checkmark_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="checkmark1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\checkmark1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
