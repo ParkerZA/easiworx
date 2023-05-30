@@ -24,17 +24,6 @@ namespace easiplan.domain.Entities
         private string _investmentHorizen;
         private string _accessToCapital;
         private string _otherInformation;
-
-        private string _medicalConditions;
-        private string _medicalCover;
-        private string _hospitalisation;
-        private string _chronicConditions;
-        private string _waitingPeriods;
-        private string _lateJoynerPenalty;
-        private string _coPayments;
-        private string _otherImportantInformation;
-
-
         private string _additionalInfo;
         private string _recommendedProduct;
         private string _motivation;

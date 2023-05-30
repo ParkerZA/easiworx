@@ -1330,6 +1330,7 @@
     <None Include="Resources\checkmark %281%29 %281%29 %281%29 %281%29 %281%29.png" />
     <None Include="Resources\checkmark_1.png" />
     <None Include="Resources\checkmark1.png" />
+    <None Include="Resources\checkmark_small.png" />
     <Content Include="Resources\Easiworx landing Page 3.jpg" />
     <None Include="Resources\Easiworx Landing Page 3.png" />
     <None Include="Resources\EWLogon.png" />
