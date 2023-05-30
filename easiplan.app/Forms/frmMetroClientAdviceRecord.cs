@@ -2432,7 +2432,7 @@ namespace Finx.App.Forms
             }
             else
             {
-                this.IHchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk1.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.IHchk2.Image = null;
                 this.IHchk3.Image = null;
                 this.IHchk4.Image = null;
@@ -2455,7 +2455,7 @@ namespace Finx.App.Forms
             else
             {
                 this.IHchk1.Image = null;
-                this.IHchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk2.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.IHchk3.Image = null;
                 this.IHchk4.Image = null;
                 selectedNote.InvestmentHorizen = "2-5";
@@ -2477,7 +2477,7 @@ namespace Finx.App.Forms
             {
                 this.IHchk1.Image = null;
                 this.IHchk2.Image = null;
-                this.IHchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk3.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.IHchk4.Image = null;
                 selectedNote.InvestmentHorizen = "5-9";
             }
@@ -2499,7 +2499,7 @@ namespace Finx.App.Forms
                 this.IHchk1.Image = null;
                 this.IHchk2.Image = null;
                 this.IHchk3.Image = null;
-                this.IHchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk4.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 selectedNote.InvestmentHorizen = "10+";
             }
 
@@ -2521,7 +2521,7 @@ namespace Finx.App.Forms
             }
             else
             {
-                this.PKEchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk1.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk2.Image = null;
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
@@ -2553,7 +2553,7 @@ namespace Finx.App.Forms
             else
             {
                 this.PKEchk1.Image = null;
-                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
@@ -2584,7 +2584,7 @@ namespace Finx.App.Forms
             {
                 this.PKEchk1.Image = null;
                 this.PKEchk2.Image = null;
-                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
@@ -2615,7 +2615,7 @@ namespace Finx.App.Forms
                 this.PKEchk1.Image = null;
                 this.PKEchk2.Image = null;
                 this.PKEchk3.Image = null;
-                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
@@ -2646,7 +2646,7 @@ namespace Finx.App.Forms
                 this.PKEchk2.Image = null;
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
-                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
@@ -2677,7 +2677,7 @@ namespace Finx.App.Forms
                 this.PKEchk3.Image = null;
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
-                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
@@ -2708,7 +2708,7 @@ namespace Finx.App.Forms
                 this.PKEchk4.Image = null;
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
-                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
@@ -2739,7 +2739,7 @@ namespace Finx.App.Forms
                 this.PKEchk5.Image = null;
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
-                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk9.Image = null;
                 this.PKEchk10.Image = null;
 
@@ -2770,7 +2770,7 @@ namespace Finx.App.Forms
                 this.PKEchk6.Image = null;
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
-                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.PKEchk10.Image = null;
 
                 selectedNote.ProductKnowledge = "9";
@@ -2801,7 +2801,7 @@ namespace Finx.App.Forms
                 this.PKEchk7.Image = null;
                 this.PKEchk8.Image = null;
                 this.PKEchk9.Image = null;
-                this.PKEchk10.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk10.Image = global::easiplan.app.Properties.Resources.checkmark1;
 
                 selectedNote.ProductKnowledge = "10";
             }
@@ -2823,7 +2823,7 @@ namespace Finx.App.Forms
             }
             else
             {
-                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.AtCchk2.Image = null;
                 this.AtCchk3.Image = null;
                 selectedNote.AccessToCapital = "Need to draw an Income";
@@ -2844,7 +2844,7 @@ namespace Finx.App.Forms
             else
             {
                 this.AtCchk1.Image = null;
-                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 this.AtCchk3.Image = null;
                 selectedNote.AccessToCapital = "Always require access to capital";
             }
@@ -2865,7 +2865,7 @@ namespace Finx.App.Forms
             {
                 this.AtCchk1.Image = null;
                 this.AtCchk2.Image = null;
-                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 selectedNote.AccessToCapital = "Do not require access to capital for 5 years";
             }
 
@@ -2902,54 +2902,54 @@ namespace Finx.App.Forms
                 if (record.ProductKnowledge.Contains("0"))
                 {
                     PKEchk10.PerformClick();
-                    this.PKEchk10.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                    this.PKEchk10.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 }
                 else
                 {
                     PKEchk1.PerformClick();
-                    this.PKEchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                    this.PKEchk1.Image = global::easiplan.app.Properties.Resources.checkmark1;
                 }
             }
             else if (record.ProductKnowledge.Contains("2"))
             {
                 PKEchk2.PerformClick();
-                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk2.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.ProductKnowledge.Contains("3"))
             {
                 PKEchk3.PerformClick();
-                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk3.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.ProductKnowledge.Contains("4"))
             {
                 
                 PKEchk4.PerformClick();
-                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk4.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.ProductKnowledge.Contains("5"))
             {
                 PKEchk5.PerformClick();
-                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk5.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.ProductKnowledge.Contains("6"))
             {
                 PKEchk6.PerformClick();
-                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk6.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.ProductKnowledge.Contains("7"))
             {
                 PKEchk7.PerformClick();
-                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk7.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.ProductKnowledge.Contains("8"))
             {
                 PKEchk8.PerformClick();
-                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk8.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.ProductKnowledge.Contains("9"))
             {
                 PKEchk9.PerformClick();
-                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.PKEchk9.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
         }
         #endregion
@@ -2967,22 +2967,22 @@ namespace Finx.App.Forms
             if (record.InvestmentHorizen.Contains("0-2"))
             {
                 IHchk1.PerformClick();
-                this.IHchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk1.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.InvestmentHorizen.Contains("2-5"))
             {
                 IHchk2.PerformClick();
-                this.IHchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk2.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.InvestmentHorizen.Contains("5-9"))
             {
                 IHchk3.PerformClick();
-                this.IHchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk3.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.InvestmentHorizen.Contains("10"))
             {
                 IHchk4.PerformClick();
-                this.IHchk4.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.IHchk4.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
         }
 
@@ -2997,17 +2997,17 @@ namespace Finx.App.Forms
             if (record.AccessToCapital.ToLower().Contains("income"))
             {
                 AtCchk1.PerformClick();
-                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.AtCchk1.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.AccessToCapital.ToLower().Contains("always"))
             {
                 AtCchk2.PerformClick();
-                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.AtCchk2.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
             else if (record.AccessToCapital.ToLower().Contains("5"))
             {
                 AtCchk3.PerformClick();
-                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.checkmark_1;
+                this.AtCchk3.Image = global::easiplan.app.Properties.Resources.checkmark1;
             }
         }
 
