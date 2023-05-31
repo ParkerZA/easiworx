@@ -138,6 +138,9 @@ namespace Finx.App.Forms
             metroTextBox_Copayment.TextChanged += CoPayments_propertyChanged_EventHandler; //Co-Payment text box
             metroTextBox_OtherImportantInfo.TextChanged += OtherImportantInformation_propertyChanged_EventHandler; //Other important information text box
             metroTextBox_Notes.TextChanged+= Notes_propertyChanged_EventHandler; //Notes text box
+            metroTextBox_ProductImplemented.TextChanged += ImplementedProduct_propertyChanged_EventHandler; // Implemented product text box
+            metroTextBox_ImplementationMotivation.TextChanged += ImplementedMotivation_propertyChanged_EventHandler; // Implemented motivaion text box
+
             #endregion
 
             #region Event handlers for Medical Aid needs and goals table comment boxes
@@ -220,6 +223,8 @@ namespace Finx.App.Forms
             metroTextBox_OtherInformation.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_RecommendedFunds.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_Motivation.KeyDown += textBox_AppendNewLineDate;
+            metroTextBox_ProductImplemented.KeyDown += textBox_AppendNewLineDate; 
+            metroTextBox_ImplementationMotivation.KeyDown += textBox_AppendNewLineDate;
 
             metroTextBox_MedicalConditions.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_CurrentMedicalCover.KeyDown += textBox_AppendNewLineDate;
@@ -590,6 +595,28 @@ namespace Finx.App.Forms
         //Initialise the form screen for Retirement, Non-retirement, education, and income asset portfolios
         void InitializeStandardPortfolio()
         {
+
+            //Distance calculations to allow for the placement of form elements
+
+            //X value distance between a heading or hint and the left hand margin
+            int xTextMarginLeft = this.metroLabel_MedicalCover.Location.X;
+
+            //X value Distance between a Panel and the left hand margin
+            int xPanelMarginLeft = this.metroPanel_MedicalCover.Location.X;
+
+            //Y value distance between a panel and the next heading beneath it
+            int ySpaceAfterPanel = this.metroPanel_MedicalCover.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
+
+            //Y value distance between a heading and the hint beneath it
+            int ySpaceAfterHeading = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y;
+
+            //Y value distance between a hint and the panel beneath it
+            int ySpaceAfterHint = this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y;
+
+            //Location of Initial Recomendation heading on medical aid panel
+            int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
+
+
             //Summary (Title)
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
 
@@ -637,6 +664,32 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Motivation);
 
             //this.metroPanel_PolicyNote.Controls.Add(new MetroScrollBar );
+
+
+            //Implemented Recommendation Advice
+            this.label_ImplementationAdvice.Location = new Point(xTextMarginLeft, metroPanel_Motivation.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_ImplementationAdviceHint.Location = new Point(xTextMarginLeft, this.label_ImplementationAdvice.Location.Y + ySpaceAfterHeading);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_ImplementationAdvice);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationAdviceHint);
+
+            // Implemented Recomended product
+            this.metroLabel_productImplemented.Location = new Point(xTextMarginLeft, this.metroLabel_ImplementationAdviceHint.Location.Y + ySpaceAfterHint);
+            this.metroPanel_ProductImplemented.Location = new Point(xPanelMarginLeft, metroLabel_productImplemented.Location.Y + ySpaceAfterHint);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_productImplemented);
+            this.metroPanel_AdviceRecord.Controls.Add(metroPanel_ProductImplemented);
+
+            // Implemented Motivation
+            this.metroLabel_ImplementationMotivation.Location = new Point(xTextMarginLeft, metroPanel_ProductImplemented.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_ImplementationMotivationHint.Location = new Point(xTextMarginLeft, this.metroLabel_ImplementationMotivation.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_ImplementationMotivation.Location = new Point(xPanelMarginLeft, this.metroLabel_ImplementationMotivationHint.Location.Y + this.metroLabel_ImplementationMotivationHint.Height + ySpaceAfterHeading);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ImplementationMotivation);
+
+
 
             this.metroPanel_AdviceRecord.PerformLayout();
         }
@@ -1011,24 +1064,40 @@ namespace Finx.App.Forms
                 {
                     selectedNote = new MedicalAidAdviceRecord();
                     mostRecentRecord = (MedicalAidAdviceRecord)mostRecentRecord;
+
+                    if (mostRecentRecord != null)
+                    {
+                        //Console.WriteLine("theres a recent record");
+
+                        selectedNote = new MedicalAidAdviceRecord((MedicalAidAdviceRecord)mostRecentRecord);
+                        Initialise_PolicyNotePanel(selectedNote);
+                    }
+                    else
+                    {
+                        Initialise_PolicyNotePanel(selectedNote);
+                    }
+
                 }
                 else
                 {
                     selectedNote = new ClientAdviceRecord();
-                    Console.WriteLine("Yes its correct");
+
+                    if (mostRecentRecord != null)
+                    {
+                        //Console.WriteLine("theres a recent record");
+
+                        selectedNote = new ClientAdviceRecord(mostRecentRecord);
+                        Initialise_PolicyNotePanel(selectedNote);
+                    }
+                    else
+                    {
+                        Initialise_PolicyNotePanel(selectedNote);
+                    }
 
                 }
                 //clearAllElements();
 
-                if (mostRecentRecord != null)
-                {
-                    Console.WriteLine("theres a recent record");
-                    Initialise_PolicyNotePanel(mostRecentRecord);
-                }
-                else 
-                {
-                    Initialise_PolicyNotePanel(selectedNote);
-                }
+                
 
             }
             catch (Exception x)
@@ -1531,15 +1600,53 @@ namespace Finx.App.Forms
 
         }
 
+        private void ImplementedProduct_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.ImplementedProduct = metroTextBox_ProductImplemented.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void ImplementedMotivation_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+
+                selectedNote.ImplementedMotivation = metroTextBox_ImplementationMotivation.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
         #endregion
 
         #region Medical Aid Needs and Goals Table Combobox change handlers
 
         private void Cover1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = comboBox.SelectedItem.ToString();
-
+            //ComboBox comboBox = (ComboBox)sender;
+            //((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = Cover1.SelectedItem.ToString();
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
@@ -1682,8 +1789,9 @@ namespace Finx.App.Forms
             try
             {
                 this.xToolBarMenu1.SetCAREdit(true);
-                MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).hcComments = tb.Text;
+                //MetroTextBox tb = (MetroTextBox)sender;
+                //((MedicalAidAdviceRecord)selectedNote).hcComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).hcComments = this.tb_hospitalCover.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3078,6 +3186,22 @@ namespace Finx.App.Forms
             }
         }
 
+        private void populateImplementedMotivation(ClientAdviceRecord record)
+        {
+            if (record.ImplementedMotivation != null)
+            {
+                this.metroTextBox_ImplementationMotivation.Text = record.ImplementedMotivation;
+            }
+        }
+
+        private void populateImplementedRecommendedFunds(ClientAdviceRecord record)
+        {
+            if (record.ImplementedProduct != null)
+            {
+                this.metroTextBox_ProductImplemented.Text = record.ImplementedProduct;
+            }
+        }
+
         private void populateMotivation(ClientAdviceRecord record)
         {
             if (record.Motivation != null)
@@ -3095,6 +3219,7 @@ namespace Finx.App.Forms
             if (record.MedicalConditions != null)
             {
                 this.metroTextBox_MedicalConditions.Text = record.MedicalConditions;
+                
             }
         }
 
@@ -3387,6 +3512,8 @@ namespace Finx.App.Forms
             populateMotivation(advRecord);
             PopulateMedicalTable(advRecord);
             PopulateMedicalSchemeTable(advRecord);
+            populateImplementedRecommendedFunds(advRecord);
+            populateImplementedMotivation(advRecord);
         }
 
         #endregion
@@ -3553,22 +3680,22 @@ namespace Finx.App.Forms
             clearAccessToCapital();
            // clearNeedsAndObj();
            // clearFinancialSituation();
-            clearOtherInformation();
-            clearRecommendedFunds();
-            clearMotivation();
+            //clearOtherInformation();
+            //clearRecommendedFunds();
+            //clearMotivation();
         }
 
         private void clearMedicalForm()
         {
             clearProductKnlgeAndExperience();
-            clearMedicalConditions();
-            clearMedicalCover();
-            clearOtherInformation();
-            clearHospitalisation();
-            clearChronicConditions();
-            clearWaitingPeriods();
-            clearLateJoinerPenalty();
-            clearCoPayment();
+            //clearMedicalConditions();
+            //clearMedicalCover();
+            //clearOtherInformation();
+            //clearHospitalisation();
+            //clearChronicConditions();
+            //clearWaitingPeriods();
+            //clearLateJoinerPenalty();
+            //clearCoPayment();
            // clearOtherImportantInformation();
             //clearNotes();
         }

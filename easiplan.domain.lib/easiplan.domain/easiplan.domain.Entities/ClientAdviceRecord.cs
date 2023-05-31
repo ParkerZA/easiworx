@@ -32,7 +32,39 @@ namespace easiplan.domain.Entities
         private string _implementedMotivation;
 
         private bool _IsCompleted;
+
+        public ClientAdviceRecord()
+        { 
+            //_IsCompleted= false;
+        }
         
+        public ClientAdviceRecord(ClientAdviceRecord copy)
+        { 
+            this._clientName= copy._clientName;
+            this._adviserName= copy._adviserName;
+            this._venue= copy._venue;
+            this._generalNotes= copy._generalNotes;
+            this._productKnowledge= copy._productKnowledge;
+            this._riskProfile= copy._riskProfile;
+            this._investmentType= copy._investmentType;
+            this._policyNumber= copy._policyNumber;
+            this._needsAndObjectives= copy._needsAndObjectives;
+            this._financialSituation= copy._financialSituation;
+            this._investmentHorizen= copy._investmentHorizen;
+            this._accessToCapital= copy._accessToCapital;
+            this._otherInformation= copy._otherInformation;
+            this._additionalInfo= copy._additionalInfo;
+            this._recommendedProduct= copy._recommendedProduct;
+            this._motivation= copy._motivation;
+            this._initialRecommendation= copy._initialRecommendation;
+            this._implementedProduct= copy._implementedProduct;
+            this._implementedMotivation= copy._implementedMotivation;
+
+            this._IsCompleted = false;
+            
+
+        
+        }
 
 
         public virtual bool IsCompleted

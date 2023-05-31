@@ -41,7 +41,16 @@ namespace Finx.App.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetroClientAdviceRecord));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGrid_Notes = new SourceGrid.DataGrid();
+            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.metroPanel_AdviceRecord = new MetroFramework.Controls.MetroPanel();
+            this.metroLabel_ImplementationMotivation = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel_ImplementationMotivationHint = new MetroFramework.Controls.MetroLabel();
+            this.metroPanel_ImplementationMotivation = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox_ImplementationMotivation = new MetroFramework.Controls.MetroTextBox();
+            this.metroPanel_ProductImplemented = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox_ProductImplemented = new MetroFramework.Controls.MetroTextBox();
+            this.metroLabel_ImplementationAdviceHint = new MetroFramework.Controls.MetroLabel();
+            this.label_ImplementationAdvice = new System.Windows.Forms.Label();
             this.tblPanel_MedicalSchemeComparison = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel_ComparisonMedicalSchemeHint = new MetroFramework.Controls.MetroLabel();
             this.label_ComparisonMedicalScheme = new System.Windows.Forms.Label();
@@ -167,21 +176,14 @@ namespace Finx.App.Forms
             this.label_Date = new System.Windows.Forms.Label();
             this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
             this.panel = new MetroFramework.Controls.MetroPanel();
-            this.label_ImplementationAdvice = new System.Windows.Forms.Label();
-            this.metroLabel_ImplementationAdviceHint = new MetroFramework.Controls.MetroLabel();
-            this.metroPanel_ProductImplemented = new MetroFramework.Controls.MetroPanel();
-            this.metroTextBox_ProductImplemented = new MetroFramework.Controls.MetroTextBox();
-            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
-            this.metroPanel_ImplementationMotivation = new MetroFramework.Controls.MetroPanel();
-            this.metroTextBox_ImplementationMotivation = new MetroFramework.Controls.MetroTextBox();
-            this.metroLabel_ImplementationMotivationHint = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel_ImplementationMotivation = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.metroPanel_AdviceRecord.SuspendLayout();
+            this.metroPanel_ImplementationMotivation.SuspendLayout();
+            this.metroPanel_ProductImplemented.SuspendLayout();
             this.metroPanel_Notes.SuspendLayout();
             this.metroPanel_OtherImportantInfo.SuspendLayout();
             this.metroPanel_Copayment.SuspendLayout();
@@ -205,8 +207,6 @@ namespace Finx.App.Forms
             this.metroPanel_InvestHorizen.SuspendLayout();
             this.metroPanel_Select.SuspendLayout();
             this.panel.SuspendLayout();
-            this.metroPanel_ProductImplemented.SuspendLayout();
-            this.metroPanel_ImplementationMotivation.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -244,6 +244,30 @@ namespace Finx.App.Forms
             this.dataGrid_Notes.TabIndex = 7;
             this.dataGrid_Notes.TabStop = true;
             this.dataGrid_Notes.ToolTipText = "";
+            // 
+            // xInput_ShowCompletedTasks
+            // 
+            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
+            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
+            this.xInput_ShowCompletedTasks.ControlWidth = 40;
+            this.xInput_ShowCompletedTasks.DataSource = null;
+            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
+            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
+            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
+            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
+            this.xInput_ShowCompletedTasks.MappedField = null;
+            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
+            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
+            this.xInput_ShowCompletedTasks.Model = null;
+            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
+            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
+            this.xInput_ShowCompletedTasks.ReadOnly = false;
+            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
+            this.xInput_ShowCompletedTasks.TabIndex = 6;
+            this.xInput_ShowCompletedTasks.Value = null;
+            this.xInput_ShowCompletedTasks.ValueMember = "Value";
             // 
             // metroPanel_AdviceRecord
             // 
@@ -328,6 +352,143 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.VerticalScrollbarBarColor = true;
             this.metroPanel_AdviceRecord.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel_AdviceRecord.VerticalScrollbarSize = 13;
+            // 
+            // metroLabel_ImplementationMotivation
+            // 
+            this.metroLabel_ImplementationMotivation.AutoSize = true;
+            this.metroLabel_ImplementationMotivation.Location = new System.Drawing.Point(30, 3017);
+            this.metroLabel_ImplementationMotivation.Name = "metroLabel_ImplementationMotivation";
+            this.metroLabel_ImplementationMotivation.Size = new System.Drawing.Size(216, 20);
+            this.metroLabel_ImplementationMotivation.TabIndex = 64;
+            this.metroLabel_ImplementationMotivation.Text = "Motivation for Recommendations:";
+            // 
+            // metroLabel_ImplementationMotivationHint
+            // 
+            this.metroLabel_ImplementationMotivationHint.AutoSize = true;
+            this.metroLabel_ImplementationMotivationHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_ImplementationMotivationHint.Location = new System.Drawing.Point(30, 3037);
+            this.metroLabel_ImplementationMotivationHint.Name = "metroLabel_ImplementationMotivationHint";
+            this.metroLabel_ImplementationMotivationHint.Size = new System.Drawing.Size(820, 60);
+            this.metroLabel_ImplementationMotivationHint.TabIndex = 63;
+            this.metroLabel_ImplementationMotivationHint.Text = resources.GetString("metroLabel_ImplementationMotivationHint.Text");
+            this.metroLabel_ImplementationMotivationHint.UseCustomForeColor = true;
+            // 
+            // metroPanel_ImplementationMotivation
+            // 
+            this.metroPanel_ImplementationMotivation.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroPanel_ImplementationMotivation.Controls.Add(this.metroTextBox_ImplementationMotivation);
+            this.metroPanel_ImplementationMotivation.HorizontalScrollbarBarColor = true;
+            this.metroPanel_ImplementationMotivation.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ImplementationMotivation.HorizontalScrollbarSize = 10;
+            this.metroPanel_ImplementationMotivation.Location = new System.Drawing.Point(18, 3087);
+            this.metroPanel_ImplementationMotivation.Name = "metroPanel_ImplementationMotivation";
+            this.metroPanel_ImplementationMotivation.Size = new System.Drawing.Size(972, 84);
+            this.metroPanel_ImplementationMotivation.TabIndex = 62;
+            this.metroPanel_ImplementationMotivation.VerticalScrollbarBarColor = true;
+            this.metroPanel_ImplementationMotivation.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ImplementationMotivation.VerticalScrollbarSize = 10;
+            // 
+            // metroTextBox_ImplementationMotivation
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox_ImplementationMotivation.CustomButton.Image = null;
+            this.metroTextBox_ImplementationMotivation.CustomButton.Location = new System.Drawing.Point(890, 2);
+            this.metroTextBox_ImplementationMotivation.CustomButton.Name = "";
+            this.metroTextBox_ImplementationMotivation.CustomButton.Size = new System.Drawing.Size(73, 73);
+            this.metroTextBox_ImplementationMotivation.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_ImplementationMotivation.CustomButton.TabIndex = 1;
+            this.metroTextBox_ImplementationMotivation.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_ImplementationMotivation.CustomButton.UseSelectable = true;
+            this.metroTextBox_ImplementationMotivation.CustomButton.Visible = false;
+            this.metroTextBox_ImplementationMotivation.ForeColor = System.Drawing.Color.Firebrick;
+            this.metroTextBox_ImplementationMotivation.Lines = new string[0];
+            this.metroTextBox_ImplementationMotivation.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox_ImplementationMotivation.MaxLength = 32767;
+            this.metroTextBox_ImplementationMotivation.Multiline = true;
+            this.metroTextBox_ImplementationMotivation.Name = "metroTextBox_ImplementationMotivation";
+            this.metroTextBox_ImplementationMotivation.PasswordChar = '\0';
+            this.metroTextBox_ImplementationMotivation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.metroTextBox_ImplementationMotivation.SelectedText = "";
+            this.metroTextBox_ImplementationMotivation.SelectionLength = 0;
+            this.metroTextBox_ImplementationMotivation.SelectionStart = 0;
+            this.metroTextBox_ImplementationMotivation.ShortcutsEnabled = true;
+            this.metroTextBox_ImplementationMotivation.Size = new System.Drawing.Size(966, 78);
+            this.metroTextBox_ImplementationMotivation.TabIndex = 2;
+            this.metroTextBox_ImplementationMotivation.UseCustomBackColor = true;
+            this.metroTextBox_ImplementationMotivation.UseSelectable = true;
+            this.metroTextBox_ImplementationMotivation.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_ImplementationMotivation.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroPanel_ProductImplemented
+            // 
+            this.metroPanel_ProductImplemented.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroPanel_ProductImplemented.Controls.Add(this.metroTextBox_ProductImplemented);
+            this.metroPanel_ProductImplemented.HorizontalScrollbarBarColor = true;
+            this.metroPanel_ProductImplemented.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ProductImplemented.HorizontalScrollbarSize = 10;
+            this.metroPanel_ProductImplemented.Location = new System.Drawing.Point(18, 2912);
+            this.metroPanel_ProductImplemented.Name = "metroPanel_ProductImplemented";
+            this.metroPanel_ProductImplemented.Size = new System.Drawing.Size(972, 84);
+            this.metroPanel_ProductImplemented.TabIndex = 61;
+            this.metroPanel_ProductImplemented.VerticalScrollbarBarColor = true;
+            this.metroPanel_ProductImplemented.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ProductImplemented.VerticalScrollbarSize = 10;
+            // 
+            // metroTextBox_ProductImplemented
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox_ProductImplemented.CustomButton.Image = null;
+            this.metroTextBox_ProductImplemented.CustomButton.Location = new System.Drawing.Point(890, 2);
+            this.metroTextBox_ProductImplemented.CustomButton.Name = "";
+            this.metroTextBox_ProductImplemented.CustomButton.Size = new System.Drawing.Size(73, 73);
+            this.metroTextBox_ProductImplemented.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_ProductImplemented.CustomButton.TabIndex = 1;
+            this.metroTextBox_ProductImplemented.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_ProductImplemented.CustomButton.UseSelectable = true;
+            this.metroTextBox_ProductImplemented.CustomButton.Visible = false;
+            this.metroTextBox_ProductImplemented.ForeColor = System.Drawing.Color.Firebrick;
+            this.metroTextBox_ProductImplemented.Lines = new string[0];
+            this.metroTextBox_ProductImplemented.Location = new System.Drawing.Point(3, 3);
+            this.metroTextBox_ProductImplemented.MaxLength = 32767;
+            this.metroTextBox_ProductImplemented.Multiline = true;
+            this.metroTextBox_ProductImplemented.Name = "metroTextBox_ProductImplemented";
+            this.metroTextBox_ProductImplemented.PasswordChar = '\0';
+            this.metroTextBox_ProductImplemented.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.metroTextBox_ProductImplemented.SelectedText = "";
+            this.metroTextBox_ProductImplemented.SelectionLength = 0;
+            this.metroTextBox_ProductImplemented.SelectionStart = 0;
+            this.metroTextBox_ProductImplemented.ShortcutsEnabled = true;
+            this.metroTextBox_ProductImplemented.Size = new System.Drawing.Size(966, 78);
+            this.metroTextBox_ProductImplemented.TabIndex = 2;
+            this.metroTextBox_ProductImplemented.UseCustomBackColor = true;
+            this.metroTextBox_ProductImplemented.UseSelectable = true;
+            this.metroTextBox_ProductImplemented.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_ProductImplemented.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroLabel_ImplementationAdviceHint
+            // 
+            this.metroLabel_ImplementationAdviceHint.AutoSize = true;
+            this.metroLabel_ImplementationAdviceHint.ForeColor = System.Drawing.Color.Gray;
+            this.metroLabel_ImplementationAdviceHint.Location = new System.Drawing.Point(18, 2853);
+            this.metroLabel_ImplementationAdviceHint.Name = "metroLabel_ImplementationAdviceHint";
+            this.metroLabel_ImplementationAdviceHint.Size = new System.Drawing.Size(375, 20);
+            this.metroLabel_ImplementationAdviceHint.TabIndex = 60;
+            this.metroLabel_ImplementationAdviceHint.Text = "(Explain what was finally implemented and reasons thereof.)";
+            this.metroLabel_ImplementationAdviceHint.UseCustomForeColor = true;
+            // 
+            // label_ImplementationAdvice
+            // 
+            this.label_ImplementationAdvice.AutoSize = true;
+            this.label_ImplementationAdvice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ImplementationAdvice.Location = new System.Drawing.Point(13, 2808);
+            this.label_ImplementationAdvice.Name = "label_ImplementationAdvice";
+            this.label_ImplementationAdvice.Size = new System.Drawing.Size(367, 25);
+            this.label_ImplementationAdvice.TabIndex = 59;
+            this.label_ImplementationAdvice.Text = "Implementation Recommendation/Advice";
             // 
             // tblPanel_MedicalSchemeComparison
             // 
@@ -2316,99 +2477,6 @@ namespace Finx.App.Forms
             this.panel.VerticalScrollbarHighlightOnWheel = false;
             this.panel.VerticalScrollbarSize = 10;
             // 
-            // label_ImplementationAdvice
-            // 
-            this.label_ImplementationAdvice.AutoSize = true;
-            this.label_ImplementationAdvice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ImplementationAdvice.Location = new System.Drawing.Point(13, 2808);
-            this.label_ImplementationAdvice.Name = "label_ImplementationAdvice";
-            this.label_ImplementationAdvice.Size = new System.Drawing.Size(367, 25);
-            this.label_ImplementationAdvice.TabIndex = 59;
-            this.label_ImplementationAdvice.Text = "Implementation Recommendation/Advice";
-            // 
-            // metroLabel_ImplementationAdviceHint
-            // 
-            this.metroLabel_ImplementationAdviceHint.AutoSize = true;
-            this.metroLabel_ImplementationAdviceHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ImplementationAdviceHint.Location = new System.Drawing.Point(18, 2853);
-            this.metroLabel_ImplementationAdviceHint.Name = "metroLabel_ImplementationAdviceHint";
-            this.metroLabel_ImplementationAdviceHint.Size = new System.Drawing.Size(375, 20);
-            this.metroLabel_ImplementationAdviceHint.TabIndex = 60;
-            this.metroLabel_ImplementationAdviceHint.Text = "(Explain what was finally implemented and reasons thereof.)";
-            this.metroLabel_ImplementationAdviceHint.UseCustomForeColor = true;
-            // 
-            // metroPanel_ProductImplemented
-            // 
-            this.metroPanel_ProductImplemented.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.metroPanel_ProductImplemented.Controls.Add(this.metroTextBox_ProductImplemented);
-            this.metroPanel_ProductImplemented.HorizontalScrollbarBarColor = true;
-            this.metroPanel_ProductImplemented.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel_ProductImplemented.HorizontalScrollbarSize = 10;
-            this.metroPanel_ProductImplemented.Location = new System.Drawing.Point(18, 2912);
-            this.metroPanel_ProductImplemented.Name = "metroPanel_ProductImplemented";
-            this.metroPanel_ProductImplemented.Size = new System.Drawing.Size(972, 84);
-            this.metroPanel_ProductImplemented.TabIndex = 61;
-            this.metroPanel_ProductImplemented.VerticalScrollbarBarColor = true;
-            this.metroPanel_ProductImplemented.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel_ProductImplemented.VerticalScrollbarSize = 10;
-            // 
-            // metroTextBox_ProductImplemented
-            // 
-            // 
-            // 
-            // 
-            this.metroTextBox_ProductImplemented.CustomButton.Image = null;
-            this.metroTextBox_ProductImplemented.CustomButton.Location = new System.Drawing.Point(890, 2);
-            this.metroTextBox_ProductImplemented.CustomButton.Name = "";
-            this.metroTextBox_ProductImplemented.CustomButton.Size = new System.Drawing.Size(73, 73);
-            this.metroTextBox_ProductImplemented.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox_ProductImplemented.CustomButton.TabIndex = 1;
-            this.metroTextBox_ProductImplemented.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox_ProductImplemented.CustomButton.UseSelectable = true;
-            this.metroTextBox_ProductImplemented.CustomButton.Visible = false;
-            this.metroTextBox_ProductImplemented.ForeColor = System.Drawing.Color.Firebrick;
-            this.metroTextBox_ProductImplemented.Lines = new string[0];
-            this.metroTextBox_ProductImplemented.Location = new System.Drawing.Point(3, 3);
-            this.metroTextBox_ProductImplemented.MaxLength = 32767;
-            this.metroTextBox_ProductImplemented.Multiline = true;
-            this.metroTextBox_ProductImplemented.Name = "metroTextBox_ProductImplemented";
-            this.metroTextBox_ProductImplemented.PasswordChar = '\0';
-            this.metroTextBox_ProductImplemented.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.metroTextBox_ProductImplemented.SelectedText = "";
-            this.metroTextBox_ProductImplemented.SelectionLength = 0;
-            this.metroTextBox_ProductImplemented.SelectionStart = 0;
-            this.metroTextBox_ProductImplemented.ShortcutsEnabled = true;
-            this.metroTextBox_ProductImplemented.Size = new System.Drawing.Size(966, 78);
-            this.metroTextBox_ProductImplemented.TabIndex = 2;
-            this.metroTextBox_ProductImplemented.UseCustomBackColor = true;
-            this.metroTextBox_ProductImplemented.UseSelectable = true;
-            this.metroTextBox_ProductImplemented.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox_ProductImplemented.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
-            // xInput_ShowCompletedTasks
-            // 
-            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
-            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.ControlWidth = 40;
-            this.xInput_ShowCompletedTasks.DataSource = null;
-            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
-            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
-            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
-            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
-            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
-            this.xInput_ShowCompletedTasks.MappedField = null;
-            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
-            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
-            this.xInput_ShowCompletedTasks.Model = null;
-            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
-            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
-            this.xInput_ShowCompletedTasks.ReadOnly = false;
-            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
-            this.xInput_ShowCompletedTasks.TabIndex = 6;
-            this.xInput_ShowCompletedTasks.Value = null;
-            this.xInput_ShowCompletedTasks.ValueMember = "Value";
-            // 
             // xToolBarMenu1
             // 
             this.xToolBarMenu1.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
@@ -2421,74 +2489,6 @@ namespace Finx.App.Forms
             this.xToolBarMenu1.Name = "xToolBarMenu1";
             this.xToolBarMenu1.Size = new System.Drawing.Size(1685, 57);
             this.xToolBarMenu1.TabIndex = 2;
-            // 
-            // metroPanel_ImplementationMotivation
-            // 
-            this.metroPanel_ImplementationMotivation.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.metroPanel_ImplementationMotivation.Controls.Add(this.metroTextBox_ImplementationMotivation);
-            this.metroPanel_ImplementationMotivation.HorizontalScrollbarBarColor = true;
-            this.metroPanel_ImplementationMotivation.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel_ImplementationMotivation.HorizontalScrollbarSize = 10;
-            this.metroPanel_ImplementationMotivation.Location = new System.Drawing.Point(18, 3087);
-            this.metroPanel_ImplementationMotivation.Name = "metroPanel_ImplementationMotivation";
-            this.metroPanel_ImplementationMotivation.Size = new System.Drawing.Size(972, 84);
-            this.metroPanel_ImplementationMotivation.TabIndex = 62;
-            this.metroPanel_ImplementationMotivation.VerticalScrollbarBarColor = true;
-            this.metroPanel_ImplementationMotivation.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel_ImplementationMotivation.VerticalScrollbarSize = 10;
-            // 
-            // metroTextBox_ImplementationMotivation
-            // 
-            // 
-            // 
-            // 
-            this.metroTextBox_ImplementationMotivation.CustomButton.Image = null;
-            this.metroTextBox_ImplementationMotivation.CustomButton.Location = new System.Drawing.Point(890, 2);
-            this.metroTextBox_ImplementationMotivation.CustomButton.Name = "";
-            this.metroTextBox_ImplementationMotivation.CustomButton.Size = new System.Drawing.Size(73, 73);
-            this.metroTextBox_ImplementationMotivation.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox_ImplementationMotivation.CustomButton.TabIndex = 1;
-            this.metroTextBox_ImplementationMotivation.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox_ImplementationMotivation.CustomButton.UseSelectable = true;
-            this.metroTextBox_ImplementationMotivation.CustomButton.Visible = false;
-            this.metroTextBox_ImplementationMotivation.ForeColor = System.Drawing.Color.Firebrick;
-            this.metroTextBox_ImplementationMotivation.Lines = new string[0];
-            this.metroTextBox_ImplementationMotivation.Location = new System.Drawing.Point(3, 3);
-            this.metroTextBox_ImplementationMotivation.MaxLength = 32767;
-            this.metroTextBox_ImplementationMotivation.Multiline = true;
-            this.metroTextBox_ImplementationMotivation.Name = "metroTextBox_ImplementationMotivation";
-            this.metroTextBox_ImplementationMotivation.PasswordChar = '\0';
-            this.metroTextBox_ImplementationMotivation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.metroTextBox_ImplementationMotivation.SelectedText = "";
-            this.metroTextBox_ImplementationMotivation.SelectionLength = 0;
-            this.metroTextBox_ImplementationMotivation.SelectionStart = 0;
-            this.metroTextBox_ImplementationMotivation.ShortcutsEnabled = true;
-            this.metroTextBox_ImplementationMotivation.Size = new System.Drawing.Size(966, 78);
-            this.metroTextBox_ImplementationMotivation.TabIndex = 2;
-            this.metroTextBox_ImplementationMotivation.UseCustomBackColor = true;
-            this.metroTextBox_ImplementationMotivation.UseSelectable = true;
-            this.metroTextBox_ImplementationMotivation.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox_ImplementationMotivation.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
-            // metroLabel_ImplementationMotivationHint
-            // 
-            this.metroLabel_ImplementationMotivationHint.AutoSize = true;
-            this.metroLabel_ImplementationMotivationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ImplementationMotivationHint.Location = new System.Drawing.Point(30, 3037);
-            this.metroLabel_ImplementationMotivationHint.Name = "metroLabel_ImplementationMotivationHint";
-            this.metroLabel_ImplementationMotivationHint.Size = new System.Drawing.Size(927, 40);
-            this.metroLabel_ImplementationMotivationHint.TabIndex = 63;
-            this.metroLabel_ImplementationMotivationHint.Text = resources.GetString("metroLabel_ImplementationMotivationHint.Text");
-            this.metroLabel_ImplementationMotivationHint.UseCustomForeColor = true;
-            // 
-            // metroLabel_ImplementationMotivation
-            // 
-            this.metroLabel_ImplementationMotivation.AutoSize = true;
-            this.metroLabel_ImplementationMotivation.Location = new System.Drawing.Point(30, 3017);
-            this.metroLabel_ImplementationMotivation.Name = "metroLabel_ImplementationMotivation";
-            this.metroLabel_ImplementationMotivation.Size = new System.Drawing.Size(216, 20);
-            this.metroLabel_ImplementationMotivation.TabIndex = 64;
-            this.metroLabel_ImplementationMotivation.Text = "Motivation for Recommendations:";
             // 
             // frmMetroClientAdviceRecord
             // 
@@ -2507,6 +2507,8 @@ namespace Finx.App.Forms
             this.splitContainer1.ResumeLayout(false);
             this.metroPanel_AdviceRecord.ResumeLayout(false);
             this.metroPanel_AdviceRecord.PerformLayout();
+            this.metroPanel_ImplementationMotivation.ResumeLayout(false);
+            this.metroPanel_ProductImplemented.ResumeLayout(false);
             this.metroPanel_Notes.ResumeLayout(false);
             this.metroPanel_OtherImportantInfo.ResumeLayout(false);
             this.metroPanel_Copayment.ResumeLayout(false);
@@ -2531,8 +2533,6 @@ namespace Finx.App.Forms
             this.metroPanel_Select.ResumeLayout(false);
             this.metroPanel_Select.PerformLayout();
             this.panel.ResumeLayout(false);
-            this.metroPanel_ProductImplemented.ResumeLayout(false);
-            this.metroPanel_ImplementationMotivation.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

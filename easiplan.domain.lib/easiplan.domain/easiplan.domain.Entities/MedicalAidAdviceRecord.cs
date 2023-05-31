@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 
 namespace easiplan.domain.Entities
 {
-    public class MedicalAidAdviceRecord : ClientAdviceRecord 
+    public class MedicalAidAdviceRecord : ClientAdviceRecord
     {
         private string _medicalConditions;
         private string _medicalCover;
@@ -19,6 +19,99 @@ namespace easiplan.domain.Entities
         private string _coPayments;
         private string _otherImportantInformation;
         private string _notes;
+
+        #region Needs and Goals table private variables
+
+        private string _hospitalCoverDiscussed;
+        private string _hospitalCoverTaken;
+        private string _hospitalCoverComment;
+
+        private string _dayToDayBenefitDiscussed;
+        private string _dayToDayBenefitTaken;
+        private string _dayToDayBenefitComment;
+
+
+        private string _thresholdBenefitDiscussed;
+        private string _thresholdBenefitTaken;
+        private string _thresholdBenefitComment;
+
+
+        private string _chronicBenefitDiscussed;
+        private string _chronicBenefitTaken;
+        private string _chronicBenefitComment;
+
+        private string _savingsAccountDiscussed;
+        private string _savingsAccountTaken;
+        private string _savingsAccountComment;
+        
+        private string _hospitalisationPreferenceDiscussed;
+        private string _hospitalisationPreferenceTaken;
+        private string _hospitalisationPreferenceComment;
+
+
+        private string _gapCoverDiscussed;
+        private string _gapCoverTaken;
+        private string _gapCoverComment;
+
+        private string _otherDiscussed;
+        private string _otherTaken;
+        private string _otherComment;
+        
+        #endregion
+
+        public MedicalAidAdviceRecord()
+        {
+           
+
+        }
+
+        public MedicalAidAdviceRecord (MedicalAidAdviceRecord copy): base(copy)
+        {
+            this._medicalConditions = copy._medicalConditions;
+            this._medicalCover = copy._medicalCover;
+            this._hospitalisation= copy._hospitalisation;
+            this._chronicConditions=copy._chronicConditions;
+            this._waitingPeriods= copy._waitingPeriods;
+            this._lateJoynerPenalty=copy._lateJoynerPenalty;
+            this._coPayments=copy._coPayments;
+            this._otherImportantInformation=copy._otherImportantInformation;
+            this._notes=copy._notes;
+
+
+
+            this._hospitalCoverDiscussed = copy._hospitalCoverDiscussed;
+            this._hospitalCoverTaken = copy._hospitalCoverTaken;
+            this._hospitalCoverComment = copy._hospitalCoverComment;
+
+            this._dayToDayBenefitDiscussed = copy._dayToDayBenefitDiscussed;
+            this._dayToDayBenefitTaken = copy._dayToDayBenefitTaken;
+            this._dayToDayBenefitComment = copy._dayToDayBenefitComment;
+
+            this._thresholdBenefitDiscussed=copy._thresholdBenefitDiscussed;
+            this._thresholdBenefitTaken = copy._thresholdBenefitTaken;
+            this._thresholdBenefitComment = copy._thresholdBenefitComment;
+
+            this._chronicBenefitDiscussed = copy._chronicBenefitDiscussed;
+            this._chronicBenefitTaken = copy._chronicBenefitTaken;
+            this._chronicBenefitComment = copy._chronicBenefitComment;
+
+            this._savingsAccountDiscussed = copy._savingsAccountDiscussed;
+            this._savingsAccountTaken = copy._savingsAccountTaken;
+            this._savingsAccountComment = copy._savingsAccountComment;
+
+            this._hospitalisationPreferenceDiscussed = copy._hospitalisationPreferenceDiscussed;
+            this._hospitalisationPreferenceTaken = copy._hospitalisationPreferenceTaken;
+            this._hospitalisationPreferenceComment = copy._hospitalisationPreferenceComment;
+
+            this._gapCoverDiscussed= copy._gapCoverDiscussed;
+            this._gapCoverTaken = copy._gapCoverTaken;
+            this._gapCoverComment = copy._gapCoverComment;
+
+            this._otherDiscussed= copy._otherDiscussed;
+            this._otherTaken= copy._otherTaken;
+            this._otherComment= copy._otherComment;
+        }
+
 
         public virtual string MedicalConditions
         {
@@ -141,146 +234,314 @@ namespace easiplan.domain.Entities
         #region Medical Aid Needs and Goals table methods
         public virtual string hcCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalCoverDiscussed;
+            }
+            set
+            {
+                _hospitalCoverDiscussed = value;
+                InvokePropertyChanged("hcCoverDiscussed");
+            }
         }
 
         public virtual string hcCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalCoverTaken;
+            }
+            set
+            {
+                _hospitalCoverTaken = value;
+                InvokePropertyChanged("hcCoverTaken");
+            }
         }
 
         public virtual string hcComments
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalCoverComment;
+            }
+            set
+            {
+                _hospitalCoverComment = value;
+                InvokePropertyChanged("hcComments");
+            }
         }
 
         public virtual string ddCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _dayToDayBenefitDiscussed;
+            }
+            set
+            {
+                _dayToDayBenefitDiscussed = value;
+                InvokePropertyChanged("ddCoverDiscussed");
+            }
         }
 
         public virtual string ddCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _dayToDayBenefitTaken;
+            }
+            set
+            {
+                _dayToDayBenefitTaken = value;
+                InvokePropertyChanged("ddCoverTaken");
+            }
         }
 
         public virtual string ddComments
         {
-            get;
-            set;
+            get
+            {
+                return _dayToDayBenefitComment;
+            }
+            set
+            {
+                _dayToDayBenefitComment = value;
+                InvokePropertyChanged("ddComments");
+            }
         }
 
         public virtual string tbCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _thresholdBenefitDiscussed;
+            }
+            set
+            {
+                _thresholdBenefitDiscussed = value;
+                InvokePropertyChanged("tbCoverDiscussed");
+            }
         }
 
         public virtual string tbCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _thresholdBenefitTaken;
+            }
+            set
+            {
+                _thresholdBenefitTaken = value;
+                InvokePropertyChanged("tbCoverTaken");
+            }
         }
 
         public virtual string tbComments
         {
-            get;
-            set;
+            get
+            {
+                return _thresholdBenefitComment;
+            }
+            set
+            {
+                _thresholdBenefitComment = value;
+                InvokePropertyChanged("tbComments");
+            }
         }
 
         public virtual string cbCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _chronicBenefitDiscussed;
+            }
+            set
+            {
+                _chronicBenefitDiscussed = value;
+                InvokePropertyChanged("cbCoverDiscussed");
+            }
         }
 
         public virtual string cbCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _chronicBenefitTaken;
+            }
+            set
+            {
+                _chronicBenefitTaken = value;
+                InvokePropertyChanged("cbCoverTaken");
+            }
         }
 
         public virtual string cbComments
         {
-            get;
-            set;
+            get
+            {
+                return _chronicBenefitComment;
+            }
+            set
+            {
+                _chronicBenefitComment = value;
+                InvokePropertyChanged("cbComments");
+            }
         }
 
         public virtual string saCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _savingsAccountDiscussed;
+            }
+            set
+            {
+                _savingsAccountDiscussed = value;
+                InvokePropertyChanged("saCoverDiscussed");
+            }
         }
 
         public virtual string saCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _savingsAccountTaken;
+            }
+            set
+            {
+                _savingsAccountTaken = value;
+                InvokePropertyChanged("saCoverTaken");
+            }
         }
 
         public virtual string saComments
         {
-            get;
-            set;
+            get
+            {
+                return _savingsAccountComment;
+            }
+            set
+            {
+                _savingsAccountComment = value;
+                InvokePropertyChanged("saComments");
+            }
         }
 
         public virtual string hpCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalisationPreferenceDiscussed;
+            }
+            set
+            {
+                _hospitalisationPreferenceDiscussed = value;
+                InvokePropertyChanged("hpCoverDiscussed");
+            }
         }
 
         public virtual string hpCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalisationPreferenceTaken;
+            }
+            set
+            {
+                _hospitalisationPreferenceTaken = value;
+                InvokePropertyChanged("hpCoverTaken");
+            }
         }
 
         public virtual string hpComments
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalisationPreferenceComment;
+            }
+            set
+            {
+                _hospitalisationPreferenceComment = value;
+                InvokePropertyChanged("hpComments");
+            }
         }
 
         public virtual string gcCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _gapCoverDiscussed;
+            }
+            set
+            {
+                _gapCoverDiscussed = value;
+                InvokePropertyChanged("gcCoverDiscussed");
+            }
         }
 
         public virtual string gcCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _gapCoverTaken;
+            }
+            set
+            {
+                _gapCoverTaken = value;
+                InvokePropertyChanged("gcCoverTaken");
+            }
         }
 
         public virtual string gcComments
         {
-            get;
-            set;
+            get
+            {
+                return _gapCoverComment;
+            }
+            set
+            {
+                _gapCoverComment = value;
+                InvokePropertyChanged("gcComments");
+            }
         }
 
         public virtual string oCoverDiscussed
         {
-            get;
-            set;
+            get
+            {
+                return _otherDiscussed;
+            }
+            set
+            {
+                _otherDiscussed = value;
+                InvokePropertyChanged("oCoverDiscussed");
+            }
         }
 
         public virtual string oCoverTaken
         {
-            get;
-            set;
+            get
+            {
+                return _otherTaken;
+            }
+            set
+            {
+                _otherTaken = value;
+                InvokePropertyChanged("oCoverTaken");
+            }
         }
 
         public virtual string oComments
         {
-            get;
-            set;
+            get
+            {
+                return _otherComment;
+            }
+            set
+            {
+                _otherComment = value;
+                InvokePropertyChanged("oComments");
+            }
         }
 
 
