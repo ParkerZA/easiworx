@@ -28,7 +28,11 @@ namespace easiplan.domain.Entities
         private string _recommendedProduct;
         private string _motivation;
         private string _initialRecommendation;
+        private string _implementedProduct;
+        private string _implementedMotivation;
+
         private bool _IsCompleted;
+        
 
 
         public virtual bool IsCompleted
@@ -41,6 +45,33 @@ namespace easiplan.domain.Entities
             {
                 _IsCompleted = value;
                 InvokePropertyChanged("IsCompleted");
+            }
+        }
+
+        
+        public virtual string ImplementedProduct
+        {
+            get
+            { 
+                return this._implementedProduct;
+            }
+            set 
+            { 
+                this._implementedProduct = value;
+                InvokePropertyChanged("ImplementedProduct");
+            }
+        }
+
+        public virtual string ImplementedMotivation
+        {
+            get
+            {
+                return this._implementedMotivation;
+            }
+            set
+            {
+                this._implementedMotivation = value;
+                InvokePropertyChanged("ImplementedMotivation");
             }
         }
 

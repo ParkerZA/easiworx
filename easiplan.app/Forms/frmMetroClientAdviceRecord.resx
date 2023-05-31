@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="metroLabel_ImplementationMotivationHint.Text" xml:space="preserve">
+    <value>(State what product was purchased, contribution patterns, and whether the need or requirement was fully or partially implemented. Where the client 
+elected not to follow the recommendations above, ensure that this is documented together with the risks and warnings addressed with the client.)</value>
+  </data>
   <data name="metroLabel_ChronicConditionsHint.Text" xml:space="preserve">
     <value>(Where the client or any dependent sufferes from any chronic conditions, whether the condition is a PMB or not, prefered provider
 for ongoing treatment, provider for medication, estimated annual out of hospital costs in relation to the chronic condition etc.)</value>

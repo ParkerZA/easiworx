@@ -643,7 +643,28 @@ namespace Finx.App.Forms
 
         void initialiseMedicalPortfolio()
         {
-            Point startPoint = this.metroPanel_AdviceRecord.Location;
+            //Distance calculations to allow for the placement of form elements
+
+            //X value distance between a heading or hint and the left hand margin
+            int xTextMarginLeft = this.metroLabel_MedicalCover.Location.X;
+
+            //X value Distance between a Panel and the left hand margin
+            int xPanelMarginLeft = this.metroPanel_MedicalCover.Location.X; 
+
+            //Y value distance between a panel and the next heading beneath it
+            int ySpaceAfterPanel = this.metroPanel_MedicalCover.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height)); 
+
+            //Y value distance between a heading and the hint beneath it
+            int ySpaceAfterHeading = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y; 
+
+            //Y value distance between a hint and the panel beneath it
+            int ySpaceAfterHint = this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y; 
+            
+            //Location of Initial Recomendation heading on medical aid panel
+            int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
+
+
+            //Adding controls into correct positions
 
             //Summary (Title)
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
@@ -662,23 +683,11 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCover);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MedicalCoverHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_MedicalCover);
-
-
-            //Distance calculations to allow for the movement of form elements
-            //Rename these because its confusing
-            int Xdis1 = this.metroLabel_MedicalCover.Location.X; //Distance between a typical title and the left hand margin
-            int Xdis2 = this.metroPanel_MedicalCover.Location.X; //Distance between a typical Panel and the left hand margin
-            int Ydis1 = this.metroPanel_MedicalCover.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height)); //Distance between a title and the panel above it
-            int Ydis2 = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y; //Distance between a hint and the title above it
-            int Ydis3 =this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y ; //Distance between a panel and the hint above it
-
-            int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
-
+            
             //Other Information
-            //this.metroLabel_OtherInformation.Location = new Point(10-2, 507-101);
-            this.metroLabel_OtherInformation.Location = new Point(Xdis1, this.metroPanel_MedicalCover.Location.Y+  Ydis1);
-            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(Xdis1, this.metroLabel_OtherInformation.Location.Y+Ydis2);
-            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(Xdis2, this.metroLabel_OtherInformationHint.Location.Y + Ydis3);
+            this.metroLabel_OtherInformation.Location = new Point(xTextMarginLeft, this.metroPanel_MedicalCover.Location.Y+ ySpaceAfterPanel);
+            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(xTextMarginLeft, this.metroLabel_OtherInformation.Location.Y+ ySpaceAfterHeading);
+            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(xPanelMarginLeft, this.metroLabel_OtherInformationHint.Location.Y + ySpaceAfterHint);
 
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
@@ -690,10 +699,11 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Hospitalisation);
 
             //Needs and goals identified table
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
             NeedsAndGoalsTable_AddLabels();
             NeedsAndGoalsTable_AddComboBoxes();
             NeedsAndGoalsTable_AddTextBoxes();
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
             this.metroPanel_AdviceRecord.Controls.Add(tblPanel_NeedsAndGoals);
 
             //Chronic Conditions
@@ -726,38 +736,59 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Notes);
 
             //Medical Scheme Comparison Table
-            this.metroPanel_AdviceRecord.Controls.Add(this.label_ComparisonMedicalScheme);
-            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ComparisonMedicalSchemeHint);
-            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_MedicalSchemeComparison);
             ComparisonTable_AddLabels();
             ComparisonTable_AddTextBoxes();
 
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_ComparisonMedicalScheme);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ComparisonMedicalSchemeHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_MedicalSchemeComparison);
+
             //Initial Recommendation Advice
-            this.label_InitialAdvice.Location = new Point(Xdis1, YInitialRecommendation);
-            this.metroLabel_RecommendedProductHint.Location = new Point(Xdis1, this.label_InitialAdvice.Location.Y+Ydis2);
+            this.label_InitialAdvice.Location = new Point(xTextMarginLeft, YInitialRecommendation);
+            this.metroLabel_RecommendedProductHint.Location = new Point(xTextMarginLeft, this.label_InitialAdvice.Location.Y+ ySpaceAfterHeading);
 
             this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedProductHint);
 
-            //Recomended product
-            this.metroLabel_RecommendedFund.Location = new Point(Xdis1, this.metroLabel_RecommendedProductHint.Location.Y + Ydis3);
+            // Initial Recomended product
+            this.metroLabel_RecommendedFund.Location = new Point(xTextMarginLeft, this.metroLabel_RecommendedProductHint.Location.Y + ySpaceAfterHint);
+            this.metroPanel_RecomendedFunds.Location = new Point(xPanelMarginLeft, this.metroLabel_RecommendedFund.Location.Y + ySpaceAfterHint);
+            
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedFund);
-
-            this.metroPanel_RecomendedFunds.Location = new Point(Xdis2, this.metroLabel_RecommendedFund.Location.Y + Ydis3);
             this.metroPanel_AdviceRecord.Controls.Add(metroPanel_RecomendedFunds);
 
-            //Motivation
+            // Initial Motivation
 
-            this.metroLabel_Motivation.Location=new Point(Xdis1, this.metroPanel_RecomendedFunds.Location.Y + Ydis1);
-            this.metroLabel_MotivationHint.Location = new Point(Xdis1, this.metroLabel_Motivation.Location.Y + Ydis2);
-            this.metroPanel_Motivation.Location = new Point(Xdis2, this.metroLabel_MotivationHint.Location.Y+this.metroLabel_MotivationHint.Height+Ydis2);
+            this.metroLabel_Motivation.Location=new Point(xTextMarginLeft, this.metroPanel_RecomendedFunds.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_MotivationHint.Location = new Point(xTextMarginLeft, this.metroLabel_Motivation.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_Motivation.Location = new Point(xPanelMarginLeft, this.metroLabel_MotivationHint.Location.Y+this.metroLabel_MotivationHint.Height+ ySpaceAfterHeading);
+            
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Motivation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MotivationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Motivation);
 
+            //Implemented Recommendation Advice
+            this.label_ImplementationAdvice.Location = new Point(xTextMarginLeft, metroPanel_Motivation.Location.Y+ ySpaceAfterPanel);
+            this.metroLabel_ImplementationAdviceHint.Location = new Point(xTextMarginLeft, this.label_ImplementationAdvice.Location.Y + ySpaceAfterHeading);
 
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_ImplementationAdvice);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationAdviceHint);
 
+            // Implemented Recomended product
+            this.metroLabel_productImplemented.Location = new Point(xTextMarginLeft, this.metroLabel_ImplementationAdviceHint.Location.Y + ySpaceAfterHint);
+            this.metroPanel_ProductImplemented.Location = new Point(xPanelMarginLeft, metroLabel_productImplemented.Location.Y + ySpaceAfterHint);
 
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_productImplemented);
+            this.metroPanel_AdviceRecord.Controls.Add(metroPanel_ProductImplemented);
+
+            // Implemented Motivation
+            this.metroLabel_ImplementationMotivation.Location = new Point(xTextMarginLeft, metroPanel_ProductImplemented.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_ImplementationMotivationHint.Location = new Point(xTextMarginLeft, this.metroLabel_ImplementationMotivation.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_ImplementationMotivation.Location = new Point(xPanelMarginLeft, this.metroLabel_ImplementationMotivationHint.Location.Y + this.metroLabel_ImplementationMotivationHint.Height + ySpaceAfterHeading);
+            
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ImplementationMotivation);
 
             this.metroPanel_AdviceRecord.PerformLayout();
         }
