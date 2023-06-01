@@ -56,8 +56,34 @@ namespace easiplan.domain.Entities
         private string _otherDiscussed;
         private string _otherTaken;
         private string _otherComment;
-        
+
         #endregion
+
+        #region Medical Scheme Comparison table private variables
+
+        private string _policyNumberCurrent;
+        private string _policyNumberReplaced;
+        private string _insurerCurrent;
+        private string _insurerReplaced;
+        private string _productNameCurrent;
+        private string _productNameReplaced;
+        private string _premiumCurrent;
+        private string _premiumReplaced;
+        private string _benefitsCurrent;
+        private string _benefitsReplaced;
+        private string _savingsAccountCurrent;
+        private string _savingsAccountReplaced;
+        private string _chronicBenefitCurrent;
+        private string _chronicBenefitReplaced;
+        private string _hospitalCoverCurrent;
+        private string _hospitalCoverReplaced;
+        private string _limitsOnCoverCurrent;
+        private string _limitsOnCoverReplaced;
+        private string _otherCurrent;
+        private string _otherReplaced;
+
+        #endregion
+
 
         public MedicalAidAdviceRecord()
         {
@@ -76,8 +102,6 @@ namespace easiplan.domain.Entities
             this._coPayments=copy._coPayments;
             this._otherImportantInformation=copy._otherImportantInformation;
             this._notes=copy._notes;
-
-
 
             this._hospitalCoverDiscussed = copy._hospitalCoverDiscussed;
             this._hospitalCoverTaken = copy._hospitalCoverTaken;
@@ -110,7 +134,29 @@ namespace easiplan.domain.Entities
             this._otherDiscussed= copy._otherDiscussed;
             this._otherTaken= copy._otherTaken;
             this._otherComment= copy._otherComment;
-        }
+
+
+            this._policyNumberCurrent = copy._policyNumberCurrent;
+            this._policyNumberReplaced = copy._policyNumberReplaced;
+            this._insurerCurrent = copy._insurerCurrent;
+            this._insurerReplaced = copy._insurerReplaced;
+            this._productNameCurrent = copy._productNameCurrent;
+            this._productNameReplaced = copy._productNameReplaced;
+            this._premiumCurrent = copy._premiumCurrent;
+            this._premiumReplaced = copy._premiumReplaced;
+            this._benefitsCurrent = copy._benefitsCurrent;
+            this._benefitsReplaced = copy._benefitsReplaced;
+            this._savingsAccountCurrent = copy._savingsAccountCurrent;
+            this._savingsAccountReplaced = copy._savingsAccountReplaced;
+            this._chronicBenefitCurrent = copy._chronicBenefitCurrent;
+            this._chronicBenefitReplaced = copy._chronicBenefitReplaced;
+            this._hospitalCoverCurrent = copy._hospitalCoverCurrent;
+            this._hospitalCoverReplaced = copy._hospitalCoverReplaced;
+            this._limitsOnCoverCurrent = copy._limitsOnCoverCurrent;
+            this._limitsOnCoverReplaced = copy._limitsOnCoverReplaced;
+            this._otherCurrent = copy._otherCurrent;
+            this._otherReplaced = copy._otherReplaced;
+    }
 
 
         public virtual string MedicalConditions
@@ -549,124 +595,264 @@ namespace easiplan.domain.Entities
 
         #region Medical Aid Medical Scheme comparison table methods
         //Methods for storage of the string descriptions for the current medical aids, and the replaced medical aids
-        public virtual string policyNumberCurrent
+        public virtual string PolicyNumberCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _policyNumberCurrent;
+            }
+            set
+            {
+                _policyNumberCurrent = value;
+                InvokePropertyChanged("PolicyNumberCurrent");
+            }
         }
 
-        public virtual string policyNumberReplaced
+        public virtual string PolicyNumberReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _policyNumberReplaced;
+            }
+            set
+            {
+                _policyNumberReplaced = value;
+                InvokePropertyChanged("PolicyNumberReplaced");
+            }
         }
 
-        public virtual string insurerCurrent
+        public virtual string InsurerCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _insurerCurrent;
+            }
+            set
+            {
+                _insurerCurrent = value;
+                InvokePropertyChanged("InsurerCurrent");
+            }
         }
         
-        public virtual string insurerReplaced
+        public virtual string InsurerReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _insurerReplaced;
+            }
+            set
+            {
+                _insurerReplaced = value;
+                InvokePropertyChanged("InsurerReplaced");
+            }
         }
 
-        public virtual string productNameCurrent
+        public virtual string ProductNameCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _productNameCurrent;
+            }
+            set
+            {
+                _productNameCurrent = value;
+                InvokePropertyChanged("ProductNameCurrent");
+            }
         }
 
-        public virtual string productNameReplaced
+        public virtual string ProductNameReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _productNameReplaced;
+            }
+            set
+            {
+                _productNameReplaced = value;
+                InvokePropertyChanged("ProductNameReplaced");
+            }
         }
 
-        public virtual string premiumCurrent
+        public virtual string PremiumCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _premiumCurrent;
+            }
+            set
+            {
+                _premiumCurrent = value;
+                InvokePropertyChanged("PremiumCurrent");
+            }
         }
 
-        public virtual string premiumReplaced
+        public virtual string PremiumReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _premiumReplaced;
+            }
+            set
+            {
+                _premiumReplaced = value;
+                InvokePropertyChanged("PremiumReplaced");
+            }
         }
 
-        public virtual string benefitsCurrent
+        public virtual string BenefitsCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _benefitsCurrent;
+            }
+            set
+            {
+                _benefitsCurrent = value;
+                InvokePropertyChanged("BenefitsCurrent");
+            }
         }
 
-        public virtual string benefitsReplaced
+        public virtual string BenefitsReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _benefitsReplaced;
+            }
+            set
+            {
+                _benefitsReplaced = value;
+                InvokePropertyChanged("BenefitsReplaced");
+            }
         }
         
-        public virtual string savingsAccountCurrent
+        public virtual string SavingsAccountCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _savingsAccountCurrent;
+            }
+            set
+            {
+                _savingsAccountCurrent = value;
+                InvokePropertyChanged("SavingsAccountCurrent");
+            }
         }
 
-        public virtual string savingsAccountReplaced
+        public virtual string SavingsAccountReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _savingsAccountReplaced;
+            }
+            set
+            {
+                _savingsAccountReplaced = value;
+                InvokePropertyChanged("SavingsAccountReplaced");
+            }
         }
 
-        public virtual string chronicBenefitCurrent
+        public virtual string ChronicBenefitCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _chronicBenefitCurrent;
+            }
+            set
+            {
+                _chronicBenefitCurrent = value;
+                InvokePropertyChanged("ChronicBenefitCurrent");
+            }
         }
 
-        public virtual string chronicBenefitReplaced
+        public virtual string ChronicBenefitReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _chronicBenefitReplaced;
+            }
+            set
+            {
+                _chronicBenefitReplaced = value;
+                InvokePropertyChanged("ChronicBenefitReplaced");
+            }
         }
 
-        public virtual string hospitalCoverCurrent
+        public virtual string HospitalCoverCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalCoverCurrent;
+            }
+            set
+            {
+                _hospitalCoverCurrent = value;
+                InvokePropertyChanged("HospitalCoverCurrent");
+            }
         }
 
-        public virtual string hospitalCoverReplaced
+        public virtual string HospitalCoverReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _hospitalCoverReplaced;
+            }
+            set
+            {
+                _hospitalCoverReplaced = value;
+                InvokePropertyChanged("HospitalCoverReplaced");
+            }
         }
 
-        public virtual string limitsOnCoverCurrent
+        public virtual string LimitsOnCoverCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _limitsOnCoverCurrent;
+            }
+            set
+            {
+                _limitsOnCoverCurrent = value;
+                InvokePropertyChanged("LimitsOnCoverCurrent");
+            }
         }
 
-        public virtual string limitsOnCoverReplaced
+        public virtual string LimitsOnCoverReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _limitsOnCoverReplaced;
+            }
+            set
+            {
+                _limitsOnCoverReplaced = value;
+                InvokePropertyChanged("LimitsOnCoverReplaced");
+            }
         }
 
-        public virtual string otherCurrent
+        public virtual string OtherCurrent
         {
-            get;
-            set;
+            get
+            {
+                return _otherCurrent;
+            }
+            set
+            {
+                _otherCurrent = value;
+                InvokePropertyChanged("OtherCurrent");
+            }
         }
 
-        public virtual string otherReplaced
+        public virtual string OtherReplaced
         {
-            get;
-            set;
+            get
+            {
+                return _otherReplaced;
+            }
+            set
+            {
+                _otherReplaced = value;
+                InvokePropertyChanged("OtherReplaced");
+            }
         }
         
         #endregion
