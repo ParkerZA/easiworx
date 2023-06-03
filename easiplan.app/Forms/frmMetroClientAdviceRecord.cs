@@ -811,7 +811,6 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(metroPanel_RecomendedFunds);
 
             // Initial Motivation
-
             this.metroLabel_Motivation.Location=new Point(xTextMarginLeft, this.metroPanel_RecomendedFunds.Location.Y + ySpaceAfterPanel);
             this.metroLabel_MotivationHint.Location = new Point(xTextMarginLeft, this.metroLabel_Motivation.Location.Y + ySpaceAfterHeading);
             this.metroPanel_Motivation.Location = new Point(xPanelMarginLeft, this.metroLabel_MotivationHint.Location.Y+this.metroLabel_MotivationHint.Height+ ySpaceAfterHeading);
@@ -1241,8 +1240,6 @@ namespace Finx.App.Forms
                 Program.Repository.Update<Retirement, int>(this.Retirement);
                 Initialise_SelectPanel(this.Retirement.AdviceRecords);
             }
-
-            
             if (this.Investment != null)
             {
                 Program.Repository.Update<Investment, int>(this.Investment);
