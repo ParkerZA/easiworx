@@ -10,5 +10,26 @@ namespace easiplan.domain.Entities
 {
     public class RiskAdviceRecord : ClientAdviceRecord
     {
+
+
+
+
+
+
+
+
+
+
+
+        public RiskAdviceRecord()
+        {
+
+
+        }
+
+        public RiskAdviceRecord(RiskAdviceRecord copy) : base(copy)
+        {
+
+        }
     }
 }

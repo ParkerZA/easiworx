@@ -1,4 +1,5 @@
-﻿using MetroFramework;
+﻿using Finx.App.UserControls;
+using MetroFramework;
 using MetroFramework.Controls;
 using MetroFramework.Controls.Ext;
 using mshtml;
@@ -2780,6 +2781,8 @@ namespace Finx.App.Forms
 
         }
 
+        #endregion
+
         #region Medical Aid Needs and Goals elements
 
         //Cover Type
@@ -2910,7 +2913,49 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region Risk Needs and Goals Identified Elements
+        //Horizontal labels
+
+        //Financial planning need
+        private Label hl_FinancialPlannningNeed= new Label();
+
+        //Needs Qualified
+        private Label hl_NeedsQualified = new Label();
+
+        //Priority of needs to be addressed
+        private Label hl_PriorityOfNeeds = new Label();
+
+        //Was the need fully addressed
+        private Label hl_NeedFullyAddressed = new Label();
+
+        //Shortfall
+        private Label hl_Shortfall = new Label();
+
+        //Review date if the need was addressed
+        //partially or is to be addressed later
+        private Label hl_ReviewDate = new Label();
+
+        //Table rows
+
+        //Life
+        private Label vl_Life = new Label();
+        private MetroComboBox cmb_Life = new MetroComboBox();
+
+        //Permanent Disability (Income Protection)
+        private Label vl_PDIncomeProtection = new Label();
+        private MetroComboBox cmb_PDIncomeProtection = new MetroComboBox();
+
+        //Permanent Disability (Lump Sum)
+        private Label vl_PDLumpSum = new Label();
+        private MetroComboBox cmb_PDLumpSum = new MetroComboBox();
+
+        //Temporary Disability
+        private Label vl_TemporaryDisability= new Label();
+        private MetroComboBox cmb_TemporaryDisability = new MetroComboBox();
+
         #endregion
+
+
 
         private UserControls.xToolBarMenu xToolBarMenu1;
         private System.Windows.Forms.SplitContainer splitContainer1;

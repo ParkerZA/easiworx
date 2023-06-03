@@ -61,6 +61,10 @@ namespace Finx.App.Forms
         IList<MedicalAidAdviceRecord> MedicalNotes = new List<MedicalAidAdviceRecord>();
         IList<MedicalAidAdviceRecord> medicalFilteredNotes = new List<MedicalAidAdviceRecord>();
 
+        IList<RiskAdviceRecord> RiskNotes = new List<RiskAdviceRecord>();
+
+        IList<RiskAdviceRecord> riskFilteredNotes = new List<RiskAdviceRecord>();
+
 
         ClientAdviceRecord selectedNote = null;
         ClientAdviceRecord mostRecentRecord = null;
@@ -306,7 +310,7 @@ namespace Finx.App.Forms
             Initialise_MedicalSelectPanel(model.AdviceRecords);
 
         }
-        /*
+        
         public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -314,10 +318,11 @@ namespace Finx.App.Forms
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             Life = model;
+            InvestmentType = "risk";
 
-            Initialise_SelectPanel(model.Notes);
+            Initialise_RiskSelectPanel(model.AdviceRecords);
 
-        }*/
+        }
 
         public frmMetroClientAdviceRecord(IncomeAsset model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
@@ -463,8 +468,6 @@ namespace Finx.App.Forms
         }
 
 
-
-
         void Initialise_MedicalSelectPanel(IList<MedicalAidAdviceRecord> notes = null)
         {
             if (notes != null)
@@ -500,6 +503,51 @@ namespace Finx.App.Forms
                 selectedNote = medicalFilteredNotes.LastOrDefault();
             else
                 selectedNote = new MedicalAidAdviceRecord();
+
+            //Select Bar
+
+            metroTextBox_NoteDate.Text = selectedNote.AdviceDate.ToString("dd-MMM-yyyy hh:mm");
+
+
+            Initialise_PolicyNotePanel((ClientAdviceRecord)selectedNote);
+        }
+
+
+        void Initialise_RiskSelectPanel(IList<RiskAdviceRecord> notes = null)
+        {
+            if (notes != null)
+                RiskNotes = notes;
+
+            if (RiskNotes == null)
+                riskFilteredNotes = new List<RiskAdviceRecord>();
+            else
+                riskFilteredNotes = RiskNotes.Where(x => x.CreateDate != null).ToList();
+            //filteredNotes = Notes.Where(x => x.IsCompleted == searchModel.ShowCompletedTask).ToList();
+
+            #region Notes Grid
+            this.dataGrid_Notes.Initialise1(riskFilteredNotes, column =>
+            {
+
+                column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
+                //column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
+                //column.For(x => x.pol, "Policy status", new StringEditor());
+                column.For(x => x.UpdateDate, "Last Date", new DateEditor());
+                column.For(x => x.UpdateBy, "Updated By", new StringEditor());
+                column.For(c => c.IsCompleted, "Completed");
+
+            },
+            RowSelectEventHandler: RiskNotes_RowSelectEventHandlerChanged,
+            ReadOnly: true,
+            AllowDelete: false)
+            .Format1(true, fixedCols: 1);
+            #endregion
+
+
+
+            if (MedicalNotes.Count > 0)
+                selectedNote = medicalFilteredNotes.LastOrDefault();
+            else
+                selectedNote = new RiskAdviceRecord();
 
             //Select Bar
 
@@ -554,6 +602,16 @@ namespace Finx.App.Forms
                     populateRetirement(record);
                     
                     break;
+                case "risk":
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Risk Portfolio";
+                    mostRecentRecord = Life.AdviceRecords.LastOrDefault();
+
+                    InitializeStandardPortfolio();
+                    //populateRetirement(record);
+                    //COme back here to populate Risk
+
+
+                    break;
                 case "incomeasset":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
                     mostRecentRecord = IncomeAsset.AdviceRecords.LastOrDefault();
@@ -605,16 +663,13 @@ namespace Finx.App.Forms
             int xPanelMarginLeft = this.metroPanel_MedicalCover.Location.X;
 
             //Y value distance between a panel and the next heading beneath it
-            int ySpaceAfterPanel = this.metroPanel_MedicalCover.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
+            int ySpaceAfterPanel = this.metroPanel_MedicalCover.Height + (this.metroLabel_NeedsAndObj.Location.Y - (this.metroPanel_AccessCapital.Location.Y + this.metroPanel_AccessCapital.Height));
 
             //Y value distance between a heading and the hint beneath it
-            int ySpaceAfterHeading = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y;
+            int ySpaceAfterHeading = this.metroLabel_NeedsAndObjHint.Location.Y - this.metroLabel_NeedsAndObj.Location.Y;
 
             //Y value distance between a hint and the panel beneath it
-            int ySpaceAfterHint = this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y;
-
-            //Location of Initial Recomendation heading on medical aid panel
-            int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
+            int ySpaceAfterHint = this.metroPanel_needAndObj.Location.Y - this.metroLabel_NeedsAndObjHint.Location.Y;
 
 
             //Summary (Title)
@@ -961,17 +1016,17 @@ namespace Finx.App.Forms
                         referenceId = this.Medical.Id;
                         referenceNumber = this.Medical.ReferenceNo;
                         comment = this.Medical.Description;
-                    }/*
+                    }
                     if (this.Life != null)
                     {
-                        this.Life.Notes.Add(selectedNote);
-
+                        this.Life.AdviceRecords.Add((RiskAdviceRecord)selectedNote);
+                        //Add risk save here
                         instructionType = InstructionType.LIFE_POLICY_NOTE;
                         referenceId = this.Life.Id;
                         referenceNumber = this.Life.ReferenceNo;
                         comment = this.Life.Description;
 
-                    }*/
+                    }
                     if (this.IncomeAsset != null)
                     {
                         this.IncomeAsset.AdviceRecords.Add(selectedNote);
@@ -1077,6 +1132,24 @@ namespace Finx.App.Forms
                     }
 
                 }
+                else if (InvestmentType.ToLower().Contains("risk"))
+                {
+                    selectedNote = new RiskAdviceRecord();
+                    //mostRecentRecord = (MedicalAidAdviceRecord)mostRecentRecord;
+
+                    if (mostRecentRecord != null)
+                    {
+                        //Console.WriteLine("theres a recent record");
+
+                        selectedNote = new RiskAdviceRecord((RiskAdviceRecord)mostRecentRecord);
+                        Initialise_PolicyNotePanel(selectedNote);
+                    }
+                    else
+                    {
+                        Initialise_PolicyNotePanel(selectedNote);
+                    }
+
+                }
                 else
                 {
                     selectedNote = new ClientAdviceRecord();
@@ -1174,16 +1247,16 @@ namespace Finx.App.Forms
 
                         selectedNote = null;
                         Initialise_MedicalSelectPanel(this.Medical.AdviceRecords);
-                    }/*
+                    }
                     if (this.Life != null)
                     {
-                        this.Life.Notes.Remove(selectedNote);
+                        this.Life.AdviceRecords.Remove((RiskAdviceRecord)selectedNote);
                         Program.Repository.Update<Life, int>(this.Life);
 
                         selectedNote = null;
-                        Initialise_SelectPanel(this.Life.Notes);
+                        Initialise_RiskSelectPanel(this.Life.AdviceRecords);
 
-                    }*/
+                    }
                     if (this.IncomeAsset != null)
                     {
                         this.IncomeAsset.AdviceRecords.Remove(selectedNote);
@@ -1254,12 +1327,12 @@ namespace Finx.App.Forms
             {
                 Program.Repository.Update<Medical, int>(this.Medical);
                 Initialise_MedicalSelectPanel(this.Medical.AdviceRecords);
-            }/*
+            }
             if (this.Life != null)
             {
                 Program.Repository.Update<Life, int>(this.Life);
-                Initialise_SelectPanel(this.Life.Notes);
-            }*/
+                Initialise_RiskSelectPanel(this.Life.AdviceRecords);
+            }
             if (this.IncomeAsset != null)
             {
                 Program.Repository.Update<IncomeAsset, int>(this.IncomeAsset);
@@ -2357,6 +2430,22 @@ namespace Finx.App.Forms
                 selectedNote = null;
             else
                 selectedNote = medicalFilteredNotes[e.Row - 1];
+
+
+            Initialise_PolicyNotePanel(selectedNote);
+        }
+
+        private void RiskNotes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
+        {
+
+            SourceGrid.Selection.RowSelection selection = sender as SourceGrid.Selection.RowSelection;
+            if (selection == null)
+                return;
+
+            if (riskFilteredNotes.Count == 0 || e.Row > riskFilteredNotes.Count)
+                selectedNote = null;
+            else
+                selectedNote = riskFilteredNotes[e.Row - 1];
 
 
             Initialise_PolicyNotePanel(selectedNote);
