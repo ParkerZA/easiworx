@@ -606,7 +606,8 @@ namespace Finx.App.Forms
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Risk Portfolio";
                     mostRecentRecord = Life.AdviceRecords.LastOrDefault();
 
-                    InitializeStandardPortfolio();
+
+                    initialiseRiskPortfolio();
                     //populateRetirement(record);
                     //COme back here to populate Risk
 
@@ -898,6 +899,19 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ImplementationMotivation);
 
             this.metroPanel_AdviceRecord.PerformLayout();
+        }
+
+        void initialiseRiskPortfolio()
+        {
+            //Adding controls into correct positions
+
+            //Summary (Title)
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
+
+            //Product Knowledge and Experience
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
         }
         #endregion
 
