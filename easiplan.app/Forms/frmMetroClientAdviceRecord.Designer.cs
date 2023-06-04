@@ -44,6 +44,7 @@ namespace Finx.App.Forms
             this.dataGrid_Notes = new SourceGrid.DataGrid();
             this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.metroPanel_AdviceRecord = new MetroFramework.Controls.MetroPanel();
+            this.tblPanel_RiskNeedsAndGoals = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel_ImplementationMotivation = new MetroFramework.Controls.MetroLabel();
             this.metroLabel_ImplementationMotivationHint = new MetroFramework.Controls.MetroLabel();
             this.metroPanel_ImplementationMotivation = new MetroFramework.Controls.MetroPanel();
@@ -274,6 +275,7 @@ namespace Finx.App.Forms
             // 
             this.metroPanel_AdviceRecord.AutoScroll = true;
             this.metroPanel_AdviceRecord.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_RiskNeedsAndGoals);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ImplementationMotivation);
@@ -354,6 +356,31 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel_AdviceRecord.VerticalScrollbarSize = 13;
             // 
+            // tblPanel_RiskNeedsAndGoals
+            // 
+            this.tblPanel_RiskNeedsAndGoals.AutoSize = true;
+            this.tblPanel_RiskNeedsAndGoals.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tblPanel_RiskNeedsAndGoals.ColumnCount = 6;
+            this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.77918F));
+            this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.68411F));
+            this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.68411F));
+            this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.68411F));
+            this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.68411F));
+            this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.48437F));
+            this.tblPanel_RiskNeedsAndGoals.Location = new System.Drawing.Point(33, 3308);
+            this.tblPanel_RiskNeedsAndGoals.Name = "tblPanel_RiskNeedsAndGoals";
+            this.tblPanel_RiskNeedsAndGoals.RowCount = 8;
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tblPanel_RiskNeedsAndGoals.Size = new System.Drawing.Size(972, 392);
+            this.tblPanel_RiskNeedsAndGoals.TabIndex = 65;
+            // 
             // metroLabel_ImplementationMotivation
             // 
             this.metroLabel_ImplementationMotivation.AutoSize = true;
@@ -367,7 +394,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_ImplementationMotivationHint.AutoSize = true;
             this.metroLabel_ImplementationMotivationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ImplementationMotivationHint.Location = new System.Drawing.Point(30, 3037);
+            this.metroLabel_ImplementationMotivationHint.Location = new System.Drawing.Point(33, 3217);
             this.metroLabel_ImplementationMotivationHint.Name = "metroLabel_ImplementationMotivationHint";
             this.metroLabel_ImplementationMotivationHint.Size = new System.Drawing.Size(820, 60);
             this.metroLabel_ImplementationMotivationHint.TabIndex = 63;
@@ -2781,11 +2808,100 @@ namespace Finx.App.Forms
 
         }
 
+        private void InitialiseRiskNeedsAndGoalsTable()
+        {
+            List<Label> vTableLbls = new List<Label>(); //Table horizontal labels
+            List<Label> hTableLbls = new List<Label>(); //Table vertical labels
+            List<MetroTextBox> textBoxes = new List<MetroTextBox>(); //Table text boxes
+
+            //Vertical Labels
+
+            //Life
+            this.vl_Life.Text = "Life";
+            vTableLbls.Add(vl_Life);
+
+
+            //Permanent Disability
+            this.vl_PDIncomeProtection.Text = "Permanent Disability (Income Protection)";
+            vTableLbls.Add(vl_PDIncomeProtection);
+
+
+            //Permanent Disability Lump Sum
+            this.vl_PDLumpSum.Text = "Permanent Disability (Lump Sum)";
+            vTableLbls.Add(vl_PDLumpSum);
+
+
+            //Temporary Disability
+            this.vl_TemporaryDisability.Text = "Temporary Disability";
+            vTableLbls.Add(vl_TemporaryDisability);
+
+
+            //Trauma
+            this.vl_Trauma.Text = "Trauma/Illness";
+            vTableLbls.Add(vl_Trauma);
+
+
+            //Funeral Cover
+            this.vl_FuneralCover.Text = "Funeral Cover/Immediate Expenses";
+            vTableLbls.Add(vl_FuneralCover);
+
+
+            //Other
+            this.vl_RiskOther.Text = "Other";
+            vTableLbls.Add(vl_RiskOther);
+
+            //Format Vertical headings
+            foreach (Label lbl in vTableLbls)
+            {
+                lbl.AutoSize = false;
+                lbl.Dock = DockStyle.Fill;
+                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+            }
+
+
+            //Horizontal headings
+
+            //Financial planning need
+            this.hl_FinancialPlannningNeed.Text = "Financial planning need";
+            hTableLbls.Add(this.hl_FinancialPlannningNeed);
+
+            //Needs Qualified
+            this.hl_NeedsQualified.Text = "Needs Qualified";
+            hTableLbls.Add(this.hl_NeedsQualified);
+
+            //Priority of needs to be addressed
+            this.hl_PriorityOfNeeds.Text = "Priority of needs to be addressed";
+            hTableLbls.Add(hl_PriorityOfNeeds);
+
+            //Was the need fully addressd
+            this.hl_NeedFullyAddressed.Text = "Was the need fully addressed";
+            hTableLbls.Add(hl_NeedFullyAddressed);
+
+            //Shortfall
+            this.hl_Shortfall.Text = "Shortfall";
+            hTableLbls.Add(hl_Shortfall);
+
+            //Review date if the need was addressed
+            //partially or is to be addressed later
+            this.hl_ReviewDate.Text = "Review date if the need was \n addressed partially or is to \n be addressed later";
+            hTableLbls.Add(hl_ReviewDate);
+
+            //Format Horizontal headings
+            foreach (Label lbl in hTableLbls)
+            {
+                lbl.AutoSize = false;
+                lbl.Dock = DockStyle.Fill;
+                lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Bold);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+            }
+        }
+
         #endregion
 
         #region Medical Aid Needs and Goals elements
 
-        //Cover Type
+            //Cover Type
         private Label hl_Cover = new Label();
 
         //Cover Discussed
@@ -2953,6 +3069,18 @@ namespace Finx.App.Forms
         private Label vl_TemporaryDisability= new Label();
         private MetroComboBox cmb_TemporaryDisability = new MetroComboBox();
 
+        //Trauma/Illness
+        private Label vl_Trauma = new Label();
+        private MetroComboBox cmb_Trauma = new MetroComboBox();
+
+        //Funeral Cover
+        private Label vl_FuneralCover = new Label();
+        private MetroComboBox cmb_FuneralCover = new MetroComboBox();
+
+        //Other
+        private Label vl_RiskOther = new Label();
+        private MetroComboBox cmb_RiskOther = new MetroComboBox();
+
         #endregion
 
 
@@ -3095,5 +3223,6 @@ namespace Finx.App.Forms
         private MetroPanel metroPanel_ImplementationMotivation;
         private MetroTextBox metroTextBox_ImplementationMotivation;
         private MetroLabel metroLabel_ImplementationMotivation;
+        private TableLayoutPanel tblPanel_RiskNeedsAndGoals;
     }
 }

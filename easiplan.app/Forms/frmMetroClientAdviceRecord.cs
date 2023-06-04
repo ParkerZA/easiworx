@@ -69,11 +69,17 @@ namespace Finx.App.Forms
         ClientAdviceRecord selectedNote = null;
         ClientAdviceRecord mostRecentRecord = null;
         PolicyAction Action = PolicyAction.AmendPolicy;
+
+
         #endregion
 
         #region Public Variables
         public Client Client { get; set; }
         public object SelectedItem { get; set; }
+
+
+
+
         #endregion
 
         #region Constructors
@@ -81,8 +87,6 @@ namespace Finx.App.Forms
         public frmMetroClientAdviceRecord(string Title, bool readOnly, PolicyAction action)
         {
             InitializeComponent();
-            InitialiseMedicalTable();
-            InitialiseMedicalAidComparisonTable();
             
 
 
@@ -242,7 +246,6 @@ namespace Finx.App.Forms
 
             #endregion
 
-
             this.xInput_ShowCompletedTasks.ControlTypes = ControlTypes.CheckBox;
             this.xInput_ShowCompletedTasks.MappedField = "ShowCompletedTask";
             this.xInput_ShowCompletedTasks.LableText = "Show Completed notes";
@@ -307,6 +310,8 @@ namespace Finx.App.Forms
             Medical = model;
             InvestmentType = "Medical";
 
+            InitialiseMedicalTable();
+            InitialiseMedicalAidComparisonTable();
             Initialise_MedicalSelectPanel(model.AdviceRecords);
 
         }
@@ -319,7 +324,7 @@ namespace Finx.App.Forms
 
             Life = model;
             InvestmentType = "risk";
-
+            InitialiseRiskNeedsAndGoalsTable();
             Initialise_RiskSelectPanel(model.AdviceRecords);
 
         }
@@ -903,6 +908,34 @@ namespace Finx.App.Forms
 
         void initialiseRiskPortfolio()
         {
+
+            #region Distance calculations for form setup
+
+            //Distance calculations to allow for the placement of form elements
+
+            //X value distance between a heading or hint and the left hand margin
+            int xTextMarginLeft = this.metroLabel_MedicalCover.Location.X;
+
+            //X value Distance between a Panel and the left hand margin
+            int xPanelMarginLeft = this.metroPanel_MedicalCover.Location.X;
+
+            //Y value distance between a panel and the next heading beneath it
+            int ySpaceAfterPanel = this.metroPanel_PKE.Height + (this.metroLabel_PKE.Location.Y - (this.metroLabel_Summary.Location.Y + this.metroLabel_Summary.Height));
+
+            //Y value distance between a heading and the hint beneath it
+            int ySpaceAfterHeading = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y;
+
+            //Y value distance between a hint and the panel beneath it
+            int ySpaceAfterHint = this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y;
+
+
+
+            //Location of Initial Recomendation heading on medical aid panel
+            int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
+
+
+            #endregion
+
             //Adding controls into correct positions
 
             //Summary (Title)
@@ -912,7 +945,95 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_PKE);
+
+            //Needs and Objectives
+            this.metroLabel_NeedsAndObj.Location = new Point(xTextMarginLeft, this.metroPanel_PKE.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_NeedsAndObjHint.Location = new Point(xTextMarginLeft, this.metroLabel_NeedsAndObj.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_needAndObj.Location = new Point(xPanelMarginLeft, this.metroLabel_NeedsAndObjHint.Location.Y + ySpaceAfterHint);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndObj);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndObjHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_needAndObj);
+
+            //Financial Solution
+            this.metroLabel_FinancialSolution.Location = new Point(xTextMarginLeft, this.metroPanel_needAndObj.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_FinancialSolutionHint.Location = new Point(xTextMarginLeft, this.metroLabel_FinancialSolution.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_FinancialSituation.Location = new Point(xPanelMarginLeft, this.metroLabel_FinancialSolutionHint.Location.Y + ySpaceAfterHint);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_FinancialSolution);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_FinancialSolutionHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_FinancialSituation);
+
+            //Other Information
+            this.metroLabel_OtherInformation.Location = new Point(xTextMarginLeft, this.metroPanel_FinancialSituation.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_OtherInformationHint.Location = new Point(xTextMarginLeft, this.metroLabel_OtherInformation.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_OtherInformation.Location = new Point(xPanelMarginLeft, this.metroLabel_OtherInformationHint.Location.Y + ySpaceAfterHint);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_OtherInformationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_OtherInformation);
+
+            //Financial Needs and goals
+            this.metroLabel_NeedsAndGoals.Location = new Point(xTextMarginLeft, this.metroPanel_OtherInformation.Location.Y + ySpaceAfterPanel);
+            this.tblPanel_RiskNeedsAndGoals.Location = new Point(xPanelMarginLeft, this.metroLabel_NeedsAndGoals.Location.Y + ySpaceAfterHint);
+
+            RiskNeedsAndGoalsAddLabels();
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
+            this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_RiskNeedsAndGoals);
+
+            //Initial Recommendation Advice
+            this.label_InitialAdvice.Location = new Point(xTextMarginLeft, tblPanel_RiskNeedsAndGoals.Location.Y+ tblPanel_RiskNeedsAndGoals.Height+ ySpaceAfterPanel);
+            this.metroLabel_RecommendedProductHint.Location = new Point(xTextMarginLeft, this.label_InitialAdvice.Location.Y + ySpaceAfterHeading);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedProductHint);
+
+            // Initial Recomended product
+            this.metroLabel_RecommendedFund.Location = new Point(xTextMarginLeft, this.metroLabel_RecommendedProductHint.Location.Y + ySpaceAfterHint);
+            this.metroPanel_RecomendedFunds.Location = new Point(xPanelMarginLeft, this.metroLabel_RecommendedFund.Location.Y + ySpaceAfterHint);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_RecommendedFund);
+            this.metroPanel_AdviceRecord.Controls.Add(metroPanel_RecomendedFunds);
+
+            // Initial Motivation
+            this.metroLabel_Motivation.Location = new Point(xTextMarginLeft, this.metroPanel_RecomendedFunds.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_MotivationHint.Location = new Point(xTextMarginLeft, this.metroLabel_Motivation.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_Motivation.Location = new Point(xPanelMarginLeft, this.metroLabel_MotivationHint.Location.Y + this.metroLabel_MotivationHint.Height + ySpaceAfterHeading);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Motivation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MotivationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Motivation);
+
+            //Implemented Recommendation Advice
+            this.label_ImplementationAdvice.Location = new Point(xTextMarginLeft, metroPanel_Motivation.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_ImplementationAdviceHint.Location = new Point(xTextMarginLeft, this.label_ImplementationAdvice.Location.Y + ySpaceAfterHeading);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.label_ImplementationAdvice);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationAdviceHint);
+
+            // Implemented Recomended product
+            this.metroLabel_productImplemented.Location = new Point(xTextMarginLeft, this.metroLabel_ImplementationAdviceHint.Location.Y + ySpaceAfterHint);
+            this.metroPanel_ProductImplemented.Location = new Point(xPanelMarginLeft, metroLabel_productImplemented.Location.Y + ySpaceAfterHint);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_productImplemented);
+            this.metroPanel_AdviceRecord.Controls.Add(metroPanel_ProductImplemented);
+
+            // Implemented Motivation
+            this.metroLabel_ImplementationMotivation.Location = new Point(xTextMarginLeft, metroPanel_ProductImplemented.Location.Y + ySpaceAfterPanel);
+            this.metroLabel_ImplementationMotivationHint.Location = new Point(xTextMarginLeft, this.metroLabel_ImplementationMotivation.Location.Y + ySpaceAfterHeading);
+            this.metroPanel_ImplementationMotivation.Location = new Point(xPanelMarginLeft, this.metroLabel_ImplementationMotivationHint.Location.Y + this.metroLabel_ImplementationMotivationHint.Height + ySpaceAfterHeading);
+
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivation);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivationHint);
+            this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ImplementationMotivation);
+
+            this.metroPanel_AdviceRecord.PerformLayout();
+
         }
+
+
+
         #endregion
 
         #region Lock Form control methods controls
@@ -2650,6 +2771,30 @@ namespace Finx.App.Forms
 
             this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompOther_Current, 1, 10);
             this.tblPanel_MedicalSchemeComparison.Controls.Add(this.tbCompOther_Replaced, 2, 10);
+        }
+
+        #endregion
+
+        #region Risk Needs and Goals table setup
+
+        private void RiskNeedsAndGoalsAddLabels()
+        {
+            //Horizontal Labels
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.hl_FinancialPlannningNeed, 0, 0);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.hl_NeedsQualified, 1, 0);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.hl_PriorityOfNeeds, 2, 0);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.hl_NeedFullyAddressed, 3, 0);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.hl_Shortfall, 4, 0);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.hl_ReviewDate, 5, 0);
+
+            //Vertical Labels
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_Life, 0, 1);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_PDIncomeProtection, 0, 2);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_PDLumpSum, 0, 3);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_TemporaryDisability, 0 ,4);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_Trauma, 0, 5);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_FuneralCover, 0, 6);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_RiskOther, 0, 7);
         }
 
         #endregion
