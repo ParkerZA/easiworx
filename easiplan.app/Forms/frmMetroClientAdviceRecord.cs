@@ -930,9 +930,7 @@ namespace Finx.App.Forms
 
 
 
-            //Location of Initial Recomendation heading on medical aid panel
-            int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
-
+            
 
             #endregion
 
@@ -983,7 +981,11 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_RiskNeedsAndGoals);
 
             //Initial Recommendation Advice
-            this.label_InitialAdvice.Location = new Point(xTextMarginLeft, tblPanel_RiskNeedsAndGoals.Location.Y+ tblPanel_RiskNeedsAndGoals.Height+ ySpaceAfterPanel);
+            //Location of Initial Recomendation heading on medical aid panel
+            int YInitialRecommendation = tblPanel_RiskNeedsAndGoals.Location.Y + tblPanel_RiskNeedsAndGoals.Height + (this.metroLabel_PKE.Location.Y - (this.metroLabel_Summary.Location.Y + this.metroLabel_Summary.Height));
+
+
+            this.label_InitialAdvice.Location = new Point(xTextMarginLeft, YInitialRecommendation);//+ ySpaceAfterPanel);
             this.metroLabel_RecommendedProductHint.Location = new Point(xTextMarginLeft, this.label_InitialAdvice.Location.Y + ySpaceAfterHeading);
 
             this.metroPanel_AdviceRecord.Controls.Add(this.label_InitialAdvice);
