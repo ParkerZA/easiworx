@@ -3,6 +3,7 @@ using MetroFramework;
 using MetroFramework.Controls;
 using MetroFramework.Controls.Ext;
 using mshtml;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Management.Instrumentation;
@@ -2783,6 +2784,9 @@ namespace Finx.App.Forms
 
             }
 
+           
+
+
             // Horizontal Lables
 
             //Detail
@@ -2812,43 +2816,73 @@ namespace Finx.App.Forms
         {
             List<Label> vTableLbls = new List<Label>(); //Table horizontal labels
             List<Label> hTableLbls = new List<Label>(); //Table vertical labels
+            List<MetroTextBox> numBoxes = new List<MetroTextBox>(); //Table text boxes meant for numbers
             List<MetroTextBox> textBoxes = new List<MetroTextBox>(); //Table text boxes
+            List<MetroComboBox> cmbBoxes = new List<MetroComboBox>(); //Table Combo boxes
 
             //Vertical Labels
 
             //Life
             this.vl_Life.Text = "Life";
             vTableLbls.Add(vl_Life);
+            numBoxes.Add(tb_LifeNeedsQuantified);
+            textBoxes.Add(tb_LifeNeedsPriority);
+            textBoxes.Add(tb_LifeShortfall);
+            cmbBoxes.Add(cmb_Life);
 
 
             //Permanent Disability
             this.vl_PDIncomeProtection.Text = "Permanent Disability (Income Protection)";
             vTableLbls.Add(vl_PDIncomeProtection);
+            numBoxes.Add(tb_PDIncomeProtectionNeedsQuantified);
+            textBoxes.Add(tb_PDIncomeProtectionNeedsPriority);
+            textBoxes.Add(tb_PDIncomeProtectionShortfall);
+            cmbBoxes.Add(cmb_PDIncomeProtection);
 
 
             //Permanent Disability Lump Sum
             this.vl_PDLumpSum.Text = "Permanent Disability (Lump Sum)";
             vTableLbls.Add(vl_PDLumpSum);
+            numBoxes.Add(tb_PDLumpSumNeedsQuantified);
+            textBoxes.Add(tb_PDLumpSumNeedsPriority);
+            textBoxes.Add(tb_PDLumpSumShortfall);
+            cmbBoxes.Add(cmb_PDLumpSum);
 
 
             //Temporary Disability
             this.vl_TemporaryDisability.Text = "Temporary Disability";
             vTableLbls.Add(vl_TemporaryDisability);
+            numBoxes.Add(tb_TemporaryDisabilityNeedsQuantified);
+            textBoxes.Add(tb_TemporaryDisabilityNeedsPriority);
+            textBoxes.Add(tb_TemporaryDisabilityShortfall);
+            cmbBoxes.Add(cmb_TemporaryDisability);
 
 
             //Trauma
             this.vl_Trauma.Text = "Trauma/Illness";
             vTableLbls.Add(vl_Trauma);
+            numBoxes.Add(tb_TraumaNeedsQuantified);
+            textBoxes.Add(tb_TraumaNeedsPriority);
+            textBoxes.Add(tb_TraumaShortfall);
+            cmbBoxes.Add(cmb_Trauma);
 
 
             //Funeral Cover
             this.vl_FuneralCover.Text = "Funeral Cover/Immediate Expenses";
             vTableLbls.Add(vl_FuneralCover);
+            numBoxes.Add(tb_FuneralCoverNeedsQuantified);
+            textBoxes.Add(tb_FuneralCoverNeedsPriority);
+            textBoxes.Add(tb_FuneralCoverShortfall);
+            cmbBoxes.Add(cmb_FuneralCover);
 
 
             //Other
             this.vl_RiskOther.Text = "Other";
             vTableLbls.Add(vl_RiskOther);
+            numBoxes.Add(tb_RiskOtherNeedsQuantified);
+            textBoxes.Add(tb_RiskOtherNeedsPriority);
+            textBoxes.Add(tb_RiskOtherShortfall);
+            cmbBoxes.Add(cmb_RiskOther);
 
             //Format Vertical headings
             foreach (Label lbl in vTableLbls)
@@ -2857,6 +2891,34 @@ namespace Finx.App.Forms
                 lbl.Dock = DockStyle.Fill;
                 lbl.Font = new Font("Microsoft Sans Serif", 7.8f, FontStyle.Regular);
                 lbl.TextAlign = ContentAlignment.MiddleCenter;
+            }
+
+            //Format TextBoxes
+            foreach (MetroTextBox tb in textBoxes)
+            {
+                tb.Dock = DockStyle.Fill; ;
+                tb.Multiline = false;
+            }
+
+            //Format TextBoxes
+            foreach (MetroTextBox tb in textBoxes)
+            {
+                tb.Dock = DockStyle.Fill; ;
+                tb.Multiline = true;
+                tb.ScrollBars = ScrollBars.Vertical;
+            }
+
+            //Format combo boxes
+            foreach (MetroComboBox dropDown in cmbBoxes)
+            {
+                dropDown.DropDownStyle = ComboBoxStyle.DropDownList;
+                dropDown.Dock = DockStyle.Fill;
+                dropDown.Items.Add("");
+                dropDown.Items.Add("Yes");
+                dropDown.Items.Add("No");
+                dropDown.Items.Add("Partially");
+                dropDown.Items.Add("Later");
+
             }
 
 
@@ -3033,7 +3095,7 @@ namespace Finx.App.Forms
         //Horizontal labels
 
         //Financial planning need
-        private Label hl_FinancialPlannningNeed= new Label();
+        private Label hl_FinancialPlannningNeed= new Label(); 
 
         //Needs Qualified
         private Label hl_NeedsQualified = new Label();
@@ -3055,31 +3117,52 @@ namespace Finx.App.Forms
 
         //Life
         private Label vl_Life = new Label();
+        private MetroTextBox tb_LifeNeedsQuantified = new MetroTextBox();
+        private MetroTextBox tb_LifeNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_Life = new MetroComboBox();
+        private MetroTextBox tb_LifeShortfall = new MetroTextBox();
 
         //Permanent Disability (Income Protection)
         private Label vl_PDIncomeProtection = new Label();
+        private MetroTextBox tb_PDIncomeProtectionNeedsQuantified = new MetroTextBox();
+        private MetroTextBox tb_PDIncomeProtectionNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_PDIncomeProtection = new MetroComboBox();
+        private MetroTextBox tb_PDIncomeProtectionShortfall = new MetroTextBox();
 
         //Permanent Disability (Lump Sum)
         private Label vl_PDLumpSum = new Label();
+        private MetroTextBox tb_PDLumpSumNeedsQuantified = new MetroTextBox();
+        private MetroTextBox tb_PDLumpSumNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_PDLumpSum = new MetroComboBox();
+        private MetroTextBox tb_PDLumpSumShortfall = new MetroTextBox();
 
         //Temporary Disability
         private Label vl_TemporaryDisability= new Label();
+        private MetroTextBox tb_TemporaryDisabilityNeedsQuantified = new MetroTextBox();
+        private MetroTextBox tb_TemporaryDisabilityNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_TemporaryDisability = new MetroComboBox();
+        private MetroTextBox tb_TemporaryDisabilityShortfall = new MetroTextBox();
 
         //Trauma/Illness
         private Label vl_Trauma = new Label();
+        private MetroTextBox tb_TraumaNeedsQuantified = new MetroTextBox();
+        private MetroTextBox tb_TraumaNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_Trauma = new MetroComboBox();
+        private MetroTextBox tb_TraumaShortfall = new MetroTextBox();
 
         //Funeral Cover
         private Label vl_FuneralCover = new Label();
+        private MetroTextBox tb_FuneralCoverNeedsQuantified = new MetroTextBox();
+        private MetroTextBox tb_FuneralCoverNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_FuneralCover = new MetroComboBox();
+        private MetroTextBox tb_FuneralCoverShortfall = new MetroTextBox();
 
         //Other
         private Label vl_RiskOther = new Label();
+        private MetroTextBox tb_RiskOtherNeedsQuantified = new MetroTextBox();
+        private MetroTextBox tb_RiskOtherNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_RiskOther = new MetroComboBox();
+        private MetroTextBox tb_RiskOtherShortfall = new MetroTextBox();
 
         #endregion
 

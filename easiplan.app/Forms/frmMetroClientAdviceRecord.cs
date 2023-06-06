@@ -976,6 +976,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Location = new Point(xPanelMarginLeft, this.metroLabel_NeedsAndGoals.Location.Y + ySpaceAfterHint);
 
             RiskNeedsAndGoalsAddLabels();
+            RiskNeedsAndGoalsAddControls();
 
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_NeedsAndGoals);
             this.metroPanel_AdviceRecord.Controls.Add(this.tblPanel_RiskNeedsAndGoals);
@@ -1145,8 +1146,8 @@ namespace Finx.App.Forms
                     
                     if (this.Medical != null)
                     {
-                        MedicalTable_Save((MedicalAidAdviceRecord)selectedNote);
-                        MedicalSchemeComparisonSave((MedicalAidAdviceRecord)selectedNote);
+                        //MedicalTable_Save((MedicalAidAdviceRecord)selectedNote);
+                        //MedicalSchemeComparisonSave((MedicalAidAdviceRecord)selectedNote);
                         this.Medical.AdviceRecords.Add((MedicalAidAdviceRecord)selectedNote);
 
                         instructionType = InstructionType.MEDICAL_POLICY_NOTE;
@@ -1253,7 +1254,7 @@ namespace Finx.App.Forms
 
                 if (InvestmentType.ToLower().Contains("medical"))
                 {
-                    selectedNote = new MedicalAidAdviceRecord();
+                    
                     //mostRecentRecord = (MedicalAidAdviceRecord)mostRecentRecord;
 
                     if (mostRecentRecord != null)
@@ -1265,13 +1266,14 @@ namespace Finx.App.Forms
                     }
                     else
                     {
+                        selectedNote = new MedicalAidAdviceRecord();
                         Initialise_PolicyNotePanel(selectedNote);
                     }
 
                 }
                 else if (InvestmentType.ToLower().Contains("risk"))
                 {
-                    selectedNote = new RiskAdviceRecord();
+                    
                     //mostRecentRecord = (MedicalAidAdviceRecord)mostRecentRecord;
 
                     if (mostRecentRecord != null)
@@ -1283,13 +1285,14 @@ namespace Finx.App.Forms
                     }
                     else
                     {
+                        selectedNote = new RiskAdviceRecord();
                         Initialise_PolicyNotePanel(selectedNote);
                     }
 
                 }
                 else
                 {
-                    selectedNote = new ClientAdviceRecord();
+                    
 
                     if (mostRecentRecord != null)
                     {
@@ -1300,6 +1303,7 @@ namespace Finx.App.Forms
                     }
                     else
                     {
+                        selectedNote = new ClientAdviceRecord();
                         Initialise_PolicyNotePanel(selectedNote);
                     }
 
@@ -2799,6 +2803,60 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.vl_RiskOther, 0, 7);
         }
 
+        private void RiskNeedsAndGoalsAddControls()
+        {
+            //Add Controls
+
+            //Life
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_LifeNeedsQuantified, 1, 1);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_LifeNeedsPriority, 2, 1);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_Life, 3, 1);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_LifeShortfall, 4, 1);
+
+
+            //Permanent Disability
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDIncomeProtectionNeedsQuantified, 1, 2);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDIncomeProtectionNeedsPriority, 2, 2);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_PDIncomeProtection, 3, 2);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDIncomeProtectionShortfall, 4, 2);
+
+
+            //Permanent Disability Lump Sum
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDLumpSumNeedsQuantified, 1, 3);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDLumpSumNeedsPriority, 2, 3);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_PDLumpSum, 3, 3);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDLumpSumShortfall, 4, 3);
+
+
+            //Temporary Disability
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TemporaryDisabilityNeedsQuantified, 1, 4);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TemporaryDisabilityNeedsPriority, 2, 4);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_TemporaryDisability, 3, 4);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TemporaryDisabilityShortfall, 4, 4);
+
+
+            //Trauma
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TraumaNeedsQuantified, 1, 5);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TraumaNeedsPriority, 2, 5);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_Trauma, 3, 5);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TraumaShortfall, 4, 5);
+
+
+            //Funeral Cover
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_FuneralCoverNeedsQuantified, 1, 6);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_FuneralCoverNeedsPriority, 2, 6);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_FuneralCover, 3, 6);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_FuneralCoverShortfall, 4, 6);
+
+
+            //Other
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_RiskOtherNeedsQuantified, 1, 7);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_RiskOtherNeedsPriority, 2, 7);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_RiskOther, 3, 7);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_RiskOtherShortfall, 4, 7);
+
+        }
+
         #endregion
 
         public class ClientSearchModel : BaseEntity<int>
@@ -3630,10 +3688,32 @@ namespace Finx.App.Forms
             this.tbCompOther_Replaced.Text = record.OtherReplaced;
         }
 
+
+        //Populate values for Needs and Goals table in Risk CAR
+        private void PopulateRiskNeedsAndGoals(RiskAdviceRecord record)
+        { 
+            //Life
+
+            //Income Protection
+
+            //Lump Sum
+
+            //Temporary Disability
+
+            //Trauma/Illness
+
+            //Funeral Cover/Immediate Expenses
+
+            //Other
+        }
+
+
         #endregion
 
         #region Save table value methods
 
+        //Possibly redundant code, delete if you find no errors
+        /*
         private void MedicalTable_Save(MedicalAidAdviceRecord record)
         {
             //Load Form values from given record
@@ -3720,7 +3800,7 @@ namespace Finx.App.Forms
             //Other
             record.OtherCurrent = this.tbCompOther_Current.Text;
             record.OtherReplaced = this.tbCompOther_Replaced.Text;
-        }
+        }*/
 
         #endregion
 
@@ -3728,7 +3808,7 @@ namespace Finx.App.Forms
         private void populateRetirement(ClientAdviceRecord advRecord)
         {
             SetIsComplete(selectedNote);
-            clearGenericForm();
+            clearCheckBoxControls();
             populateProductAndExperience(advRecord);
             populateInvestmentHorizon(advRecord);
             populateAccessToCapital(advRecord);
@@ -3743,7 +3823,7 @@ namespace Finx.App.Forms
         private void populateMedical(MedicalAidAdviceRecord advRecord)
         {
             SetIsComplete(selectedNote);
-            clearMedicalForm();
+            clearProductKnlgeAndExperience();
             populateProductAndExperience(advRecord);
             populateMedicalConditions(advRecord);
             populateMedicalCover(advRecord);
@@ -3898,53 +3978,16 @@ namespace Finx.App.Forms
 
         #region methods to clear entire forms
 
-        private void clearAllElements()
+        private void clearCheckBoxControls()
         {
             clearProductKnlgeAndExperience();
             clearInvestmentHorizon();
             clearAccessToCapital();
-            clearNeedsAndObj();
-            clearFinancialSituation();
-            clearOtherInformation();
-            clearRecommendedFunds();
-            clearMotivation();
-
-            clearMedicalConditions();
-            clearMedicalCover();
-            clearHospitalisation();
-            clearChronicConditions();
-            clearWaitingPeriods();
-            clearLateJoinerPenalty();
-            clearCoPayment();
-            clearOtherImportantInformation();
-            clearNotes();
-        }
-
-        private void clearGenericForm()
-        {
-            clearProductKnlgeAndExperience();
-            clearInvestmentHorizon();
-            clearAccessToCapital();
-           // clearNeedsAndObj();
-           // clearFinancialSituation();
-            //clearOtherInformation();
-            //clearRecommendedFunds();
-            //clearMotivation();
         }
 
         private void clearMedicalForm()
         {
             clearProductKnlgeAndExperience();
-            //clearMedicalConditions();
-            //clearMedicalCover();
-            //clearOtherInformation();
-            //clearHospitalisation();
-            //clearChronicConditions();
-            //clearWaitingPeriods();
-            //clearLateJoinerPenalty();
-            //clearCoPayment();
-           // clearOtherImportantInformation();
-            //clearNotes();
         }
         #endregion
 
