@@ -142,11 +142,13 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _lifeNeedsQuantified;
+                { 
+                    return _lifeNeedsQuantified;
+                }
             }
             set
             {
-                _lifeNeedsQuantified = value;
+                _lifeNeedsQuantified = value.Replace("R", string.Empty).Trim();
                 InvokePropertyChanged("LifeNeedsQuantified");
             }
         }
@@ -211,11 +213,13 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _incomeProtectionNeedsQuantified;
+                {
+                    return _incomeProtectionNeedsQuantified;
+                }           
             }
             set
             {
-                _incomeProtectionNeedsQuantified = value;
+                _incomeProtectionNeedsQuantified = value.Replace("R", string.Empty).Trim();
                 InvokePropertyChanged("IncomeProtectionNeedsQuantified");
             }
         }
@@ -280,11 +284,13 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _lumpSumNeedsQuantified;
+                {
+                    return _lumpSumNeedsQuantified;
+                }
             }
             set
             {
-                _lumpSumNeedsQuantified = value;
+                _lumpSumNeedsQuantified = value.Replace("R", string.Empty).Trim();
                 InvokePropertyChanged("LumpSumNeedsQuantified");
             }
         }
@@ -349,11 +355,13 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _temporaryDisabilityNeedsQuantified;
+                {
+                    return _temporaryDisabilityNeedsQuantified;
+                }
             }
             set
             {
-                _temporaryDisabilityNeedsQuantified = value;
+                _temporaryDisabilityNeedsQuantified = value.Replace("R", string.Empty).Trim();
                 InvokePropertyChanged("TemporaryDisabilityNeedsQuantified");
             }
         }
@@ -418,11 +426,13 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _traumaAndIllnessNeedsQuantified;
+                {
+                    return _traumaAndIllnessNeedsQuantified;
+                }
             }
             set
             {
-                _traumaAndIllnessNeedsQuantified = value;
+                _traumaAndIllnessNeedsQuantified = value.Replace("R", string.Empty).Trim();
                 InvokePropertyChanged("TraumaAndIllnessNeedsQuantified");
             }
         }
@@ -487,11 +497,13 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _funeralCoverNeedsQuantified;
+                {
+                    return _funeralCoverNeedsQuantified;
+                }
             }
             set
             {
-                _funeralCoverNeedsQuantified = value;
+                _funeralCoverNeedsQuantified = value.Replace("R", string.Empty).Trim();
                 InvokePropertyChanged("FuneralCoverNeedsQuantified");
             }
         }
@@ -556,11 +568,13 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _otherNeedsQuantified;
+                {
+                    return _otherNeedsQuantified;
+                }
             }
             set
             {
-                _otherNeedsQuantified = value;
+                _otherNeedsQuantified = value.Replace("R", string.Empty).Trim();
                 InvokePropertyChanged("OtherNeedsQuantified");
             }
         }

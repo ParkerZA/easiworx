@@ -1,4 +1,5 @@
-﻿using Finx.App.UserControls;
+﻿using Finx.App.Extensions;
+using Finx.App.UserControls;
 using MetroFramework;
 using MetroFramework.Controls;
 using MetroFramework.Controls.Ext;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Management.Instrumentation;
 using System.Windows.Forms;
+using WindowsFormsCalendar;
 
 namespace Finx.App.Forms
 {
@@ -335,7 +337,6 @@ namespace Finx.App.Forms
             // 
             // tblPanel_RiskNeedsAndGoals
             // 
-            this.tblPanel_RiskNeedsAndGoals.AutoSize = true;
             this.tblPanel_RiskNeedsAndGoals.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tblPanel_RiskNeedsAndGoals.ColumnCount = 6;
             this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.77918F));
@@ -355,7 +356,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tblPanel_RiskNeedsAndGoals.Size = new System.Drawing.Size(972, 392);
+            this.tblPanel_RiskNeedsAndGoals.Size = new System.Drawing.Size(1139, 392);
             this.tblPanel_RiskNeedsAndGoals.TabIndex = 65;
             // 
             // metroLabel_ImplementationMotivation
@@ -2819,6 +2820,7 @@ namespace Finx.App.Forms
             List<MetroTextBox> numBoxes = new List<MetroTextBox>(); //Table text boxes meant for numbers
             List<MetroTextBox> textBoxes = new List<MetroTextBox>(); //Table text boxes
             List<MetroComboBox> cmbBoxes = new List<MetroComboBox>(); //Table Combo boxes
+            List<MetroDateTime> dateEditors = new List<MetroDateTime>(); //Table date editors
 
             //Vertical Labels
 
@@ -2829,7 +2831,7 @@ namespace Finx.App.Forms
             textBoxes.Add(tb_LifeNeedsPriority);
             textBoxes.Add(tb_LifeShortfall);
             cmbBoxes.Add(cmb_Life);
-
+            dateEditors.Add(dtp_LifeReviewDate);
 
             //Permanent Disability
             this.vl_PDIncomeProtection.Text = "Permanent Disability (Income Protection)";
@@ -2838,6 +2840,7 @@ namespace Finx.App.Forms
             textBoxes.Add(tb_PDIncomeProtectionNeedsPriority);
             textBoxes.Add(tb_PDIncomeProtectionShortfall);
             cmbBoxes.Add(cmb_PDIncomeProtection);
+            dateEditors.Add(dtp_PDIncomeProtectionReviewDate);
 
 
             //Permanent Disability Lump Sum
@@ -2847,6 +2850,7 @@ namespace Finx.App.Forms
             textBoxes.Add(tb_PDLumpSumNeedsPriority);
             textBoxes.Add(tb_PDLumpSumShortfall);
             cmbBoxes.Add(cmb_PDLumpSum);
+            dateEditors.Add(dtp_PDLumpSumReviewDate);
 
 
             //Temporary Disability
@@ -2856,6 +2860,7 @@ namespace Finx.App.Forms
             textBoxes.Add(tb_TemporaryDisabilityNeedsPriority);
             textBoxes.Add(tb_TemporaryDisabilityShortfall);
             cmbBoxes.Add(cmb_TemporaryDisability);
+            dateEditors.Add(dtp_TemporaryDisabilityReviewDate);
 
 
             //Trauma
@@ -2865,6 +2870,7 @@ namespace Finx.App.Forms
             textBoxes.Add(tb_TraumaNeedsPriority);
             textBoxes.Add(tb_TraumaShortfall);
             cmbBoxes.Add(cmb_Trauma);
+            dateEditors.Add(dtp_TraumaReviewDate);
 
 
             //Funeral Cover
@@ -2874,6 +2880,7 @@ namespace Finx.App.Forms
             textBoxes.Add(tb_FuneralCoverNeedsPriority);
             textBoxes.Add(tb_FuneralCoverShortfall);
             cmbBoxes.Add(cmb_FuneralCover);
+            dateEditors.Add(dtp_FuneralCoverReviewDate);
 
 
             //Other
@@ -2883,6 +2890,7 @@ namespace Finx.App.Forms
             textBoxes.Add(tb_RiskOtherNeedsPriority);
             textBoxes.Add(tb_RiskOtherShortfall);
             cmbBoxes.Add(cmb_RiskOther);
+            dateEditors.Add(dtp_RiskOtherReviewDate);
 
             //Format Vertical headings
             foreach (Label lbl in vTableLbls)
@@ -2893,8 +2901,8 @@ namespace Finx.App.Forms
                 lbl.TextAlign = ContentAlignment.MiddleCenter;
             }
 
-            //Format TextBoxes
-            foreach (MetroTextBox tb in textBoxes)
+            //Format numBoxes
+            foreach (MetroTextBox tb in numBoxes)
             {
                 tb.Dock = DockStyle.Fill; ;
                 tb.Multiline = false;
@@ -2920,6 +2928,18 @@ namespace Finx.App.Forms
                 dropDown.Items.Add("Later");
 
             }
+
+            foreach (MetroDateTime dateEditor in dateEditors)
+            { 
+                dateEditor.Dock = DockStyle.Fill;
+                dateEditor.Theme = MetroThemeStyle.Light;
+                dateEditor.CustomFormat = " ";
+                dateEditor.Format = DateTimePickerFormat.Custom;
+            }
+
+            //dtp_LifeReviewDate.Checked = false;
+            //dtp_LifeReviewDate.Height = 42;
+            //dtp_LifeReviewDate.CalendarForeColor = Color.Red;
 
 
             //Horizontal headings
@@ -3121,6 +3141,11 @@ namespace Finx.App.Forms
         private MetroTextBox tb_LifeNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_Life = new MetroComboBox();
         private MetroTextBox tb_LifeShortfall = new MetroTextBox();
+        private MetroDateTime dtp_LifeReviewDate = new MetroDateTime();
+
+        
+       
+        //MetroDateTimeEditor
 
         //Permanent Disability (Income Protection)
         private Label vl_PDIncomeProtection = new Label();
@@ -3128,6 +3153,7 @@ namespace Finx.App.Forms
         private MetroTextBox tb_PDIncomeProtectionNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_PDIncomeProtection = new MetroComboBox();
         private MetroTextBox tb_PDIncomeProtectionShortfall = new MetroTextBox();
+        private MetroDateTime dtp_PDIncomeProtectionReviewDate = new MetroDateTime();
 
         //Permanent Disability (Lump Sum)
         private Label vl_PDLumpSum = new Label();
@@ -3135,6 +3161,7 @@ namespace Finx.App.Forms
         private MetroTextBox tb_PDLumpSumNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_PDLumpSum = new MetroComboBox();
         private MetroTextBox tb_PDLumpSumShortfall = new MetroTextBox();
+        private MetroDateTime dtp_PDLumpSumReviewDate = new MetroDateTime();
 
         //Temporary Disability
         private Label vl_TemporaryDisability= new Label();
@@ -3142,6 +3169,7 @@ namespace Finx.App.Forms
         private MetroTextBox tb_TemporaryDisabilityNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_TemporaryDisability = new MetroComboBox();
         private MetroTextBox tb_TemporaryDisabilityShortfall = new MetroTextBox();
+        private MetroDateTime dtp_TemporaryDisabilityReviewDate = new MetroDateTime();
 
         //Trauma/Illness
         private Label vl_Trauma = new Label();
@@ -3149,6 +3177,7 @@ namespace Finx.App.Forms
         private MetroTextBox tb_TraumaNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_Trauma = new MetroComboBox();
         private MetroTextBox tb_TraumaShortfall = new MetroTextBox();
+        private MetroDateTime dtp_TraumaReviewDate = new MetroDateTime();
 
         //Funeral Cover
         private Label vl_FuneralCover = new Label();
@@ -3156,6 +3185,7 @@ namespace Finx.App.Forms
         private MetroTextBox tb_FuneralCoverNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_FuneralCover = new MetroComboBox();
         private MetroTextBox tb_FuneralCoverShortfall = new MetroTextBox();
+        private MetroDateTime dtp_FuneralCoverReviewDate = new MetroDateTime();
 
         //Other
         private Label vl_RiskOther = new Label();
@@ -3163,6 +3193,7 @@ namespace Finx.App.Forms
         private MetroTextBox tb_RiskOtherNeedsPriority = new MetroTextBox();
         private MetroComboBox cmb_RiskOther = new MetroComboBox();
         private MetroTextBox tb_RiskOtherShortfall = new MetroTextBox();
+        private MetroDateTime dtp_RiskOtherReviewDate = new MetroDateTime();
 
         #endregion
 

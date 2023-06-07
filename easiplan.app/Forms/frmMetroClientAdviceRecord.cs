@@ -23,6 +23,8 @@ using System.Management;
 using DocumentFormat.OpenXml.EMMA;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
 using Microsoft.Graph;
+using Google.Protobuf.WellKnownTypes;
+using System.Globalization;
 
 namespace Finx.App.Forms
 {
@@ -221,6 +223,58 @@ namespace Finx.App.Forms
             this.Other1.SelectedIndexChanged += Other1_SelectedIndexChanged;
             this.Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
 
+            #endregion
+
+            #region Event handlers for risk needs and goals table
+
+            //Life row
+            this.tb_LifeNeedsQuantified.TextChanged += Life_NeedsQuantified_propertyChanged_EventHandler;
+            this.tb_LifeNeedsPriority.TextChanged += Life_NeedsPriority_propertyChanged_EventHandler;
+            this.cmb_Life.SelectedIndexChanged += Life_NeedAddressed_propertyChanged_EventHandler;
+            this.tb_LifeShortfall.TextChanged += Life_Shortfall_propertyChanged_EventHandler;
+            this.dtp_LifeReviewDate.ValueChanged += Life_ReviewDate_propertyChanged_EventHandler;
+
+            //Income Protection row
+            this.tb_PDIncomeProtectionNeedsQuantified.TextChanged += PDIncomeProtection_NeedsQuantified_propertyChanged_EventHandler;
+            this.tb_PDIncomeProtectionNeedsPriority.TextChanged += PDIncomeProtection_NeedsPriority_propertyChanged_EventHandler;
+            this.cmb_PDIncomeProtection.SelectedIndexChanged += PDIncomeProtection_NeedAddressed_propertyChanged_EventHandler;
+            this.tb_PDIncomeProtectionShortfall.TextChanged += PDIncomeProtection_Shortfall_propertyChanged_EventHandler;
+            this.dtp_PDIncomeProtectionReviewDate.ValueChanged += PDIncomeProtection_ReviewDate_propertyChanged_EventHandler;
+
+            //Lump sum row
+            this.tb_PDLumpSumNeedsQuantified.TextChanged += PDLumpSum_NeedsQuantified_propertyChanged_EventHandler;
+            this.tb_PDLumpSumNeedsPriority.TextChanged += PDLumpSum_NeedsPriority_propertyChanged_EventHandler;
+            this.cmb_PDLumpSum.SelectedIndexChanged += PDLumpSum_NeedAddressed_propertyChanged_EventHandler;
+            this.tb_PDLumpSumShortfall.TextChanged += PDLumpSum_Shortfall_propertyChanged_EventHandler;
+            this.dtp_PDLumpSumReviewDate.ValueChanged += PDLumpSum_ReviewDate_propertyChanged_EventHandler;
+
+            //Temporary Disability
+            this.tb_TemporaryDisabilityNeedsQuantified.TextChanged += TemporaryDisability_NeedsQuantified_propertyChanged_EventHandler;
+            this.tb_TemporaryDisabilityNeedsPriority.TextChanged += TemporaryDisability_NeedsPriority_propertyChanged_EventHandler;
+            this.cmb_TemporaryDisability.SelectedIndexChanged += TemporaryDisability_NeedAddressed_propertyChanged_EventHandler;
+            this.tb_TemporaryDisabilityShortfall.TextChanged += TemporaryDisability_Shortfall_propertyChanged_EventHandler;
+            this.dtp_TemporaryDisabilityReviewDate.ValueChanged += TemporaryDisability_ReviewDate_propertyChanged_EventHandler;
+
+            //Trauma
+            this.tb_TraumaNeedsQuantified.TextChanged += TraumaAndIllness_NeedsQuantified_propertyChanged_EventHandler;
+            this.tb_TraumaNeedsPriority.TextChanged += TraumaAndIllness_NeedsPriority_propertyChanged_EventHandler;
+            this.cmb_Trauma.SelectedIndexChanged += TraumaAndIllness_NeedAddressed_propertyChanged_EventHandler;
+            this.tb_TraumaShortfall.TextChanged += TraumaAndIllness_Shortfall_propertyChanged_EventHandler;
+            this.dtp_TraumaReviewDate.ValueChanged += TraumaAndIllness_ReviewDate_propertyChanged_EventHandler;
+
+            //Funeral Cover
+            this.tb_FuneralCoverNeedsQuantified.TextChanged += FuneralCover_NeedsQuantified_propertyChanged_EventHandler;
+            this.tb_FuneralCoverNeedsPriority.TextChanged += FuneralCover_NeedsPriority_propertyChanged_EventHandler;
+            this.cmb_FuneralCover.SelectedIndexChanged += FuneralCover_NeedAddressed_propertyChanged_EventHandler;
+            this.tb_FuneralCoverShortfall.TextChanged += FuneralCover_Shortfall_propertyChanged_EventHandler;
+            this.dtp_FuneralCoverReviewDate.ValueChanged += FuneralCover_ReviewDate_propertyChanged_EventHandler;
+
+            //Other
+            this.tb_RiskOtherNeedsQuantified.TextChanged += Other_NeedsQuantified_propertyChanged_EventHandler;
+            this.tb_RiskOtherNeedsPriority.TextChanged += Other_NeedsPriority_propertyChanged_EventHandler;
+            this.cmb_RiskOther.SelectedIndexChanged += Other_NeedAddressed_propertyChanged_EventHandler;
+            this.tb_RiskOtherShortfall.TextChanged += Other_Shortfall_propertyChanged_EventHandler;
+            this.dtp_RiskOtherReviewDate.ValueChanged += Other_ReviewDate_propertyChanged_EventHandler;
             #endregion
 
             #region Assign key down event to allow for datestamp in text boxes
@@ -549,8 +603,8 @@ namespace Finx.App.Forms
 
 
 
-            if (MedicalNotes.Count > 0)
-                selectedNote = medicalFilteredNotes.LastOrDefault();
+            if (RiskNotes.Count > 0)
+                selectedNote = riskFilteredNotes.LastOrDefault();
             else
                 selectedNote = new RiskAdviceRecord();
 
@@ -613,7 +667,7 @@ namespace Finx.App.Forms
 
 
                     initialiseRiskPortfolio();
-                    //populateRetirement(record);
+                    populateRisk((RiskAdviceRecord)record);
                     //COme back here to populate Risk
 
 
@@ -659,7 +713,7 @@ namespace Finx.App.Forms
         //Initialise the form screen for Retirement, Non-retirement, education, and income asset portfolios
         void InitializeStandardPortfolio()
         {
-
+            #region Distance calculations for form element placement
             //Distance calculations to allow for the placement of form elements
 
             //X value distance between a heading or hint and the left hand margin
@@ -676,7 +730,7 @@ namespace Finx.App.Forms
 
             //Y value distance between a hint and the panel beneath it
             int ySpaceAfterHint = this.metroPanel_needAndObj.Location.Y - this.metroLabel_NeedsAndObjHint.Location.Y;
-
+            #endregion
 
             //Summary (Title)
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_Summary);
@@ -926,11 +980,7 @@ namespace Finx.App.Forms
             int ySpaceAfterHeading = this.metroLabel_MedicalCoverHint.Location.Y - this.metroLabel_MedicalCover.Location.Y;
 
             //Y value distance between a hint and the panel beneath it
-            int ySpaceAfterHint = this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y;
-
-
-
-            
+            int ySpaceAfterHint = this.metroPanel_MedicalCover.Location.Y - this.metroLabel_MedicalCoverHint.Location.Y; 
 
             #endregion
 
@@ -2540,6 +2590,719 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region Risk Needs and Goals Table event handlers
+
+        #region Life row event handlers
+
+        private void Life_NeedsQuantified_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).LifeNeedsQuantified = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Life_NeedsPriority_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).LifeNeedsPriority = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Life_NeedAddressed_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroComboBox cmb = (MetroComboBox)sender;
+                ((RiskAdviceRecord)selectedNote).LifeNeedAddressed = cmb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Life_Shortfall_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).LifeShortfall = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Life_ReviewDate_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroDateTime dt = (MetroDateTime)sender;
+                dt.CustomFormat = "dd MMM yyyy";
+
+                ((RiskAdviceRecord)selectedNote).LifeReviewDate = dt.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #region Income Protection row event handlers
+
+        private void PDIncomeProtection_NeedsQuantified_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionNeedsQuantified = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void PDIncomeProtection_NeedsPriority_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionNeedsPriority = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void PDIncomeProtection_NeedAddressed_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroComboBox cmb = (MetroComboBox)sender;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionNeedAddressed = cmb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void PDIncomeProtection_Shortfall_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionShortfall = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+
+        private void PDIncomeProtection_ReviewDate_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroDateTime dt = (MetroDateTime)sender;
+                dt.CustomFormat = "dd MMM yyyy";
+
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionReviewDate = dt.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #region Lump sum row event handlers
+
+        private void PDLumpSum_NeedsQuantified_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).LumpSumNeedsQuantified = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void PDLumpSum_NeedsPriority_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).LumpSumNeedsPriority = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void PDLumpSum_NeedAddressed_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroComboBox cmb = (MetroComboBox)sender;
+                ((RiskAdviceRecord)selectedNote).LumpSumNeedAddressed = cmb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void PDLumpSum_Shortfall_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).LumpSumShortfall = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void PDLumpSum_ReviewDate_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroDateTime dt = (MetroDateTime)sender;
+                dt.CustomFormat = "dd MMM yyyy";
+
+                ((RiskAdviceRecord)selectedNote).LumpSumReviewDate = dt.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #region Temporary Disability row event handlers
+
+        private void TemporaryDisability_NeedsQuantified_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityNeedsQuantified = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TemporaryDisability_NeedsPriority_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityNeedsPriority = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TemporaryDisability_NeedAddressed_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroComboBox cmb = (MetroComboBox)sender;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityNeedAddressed = cmb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TemporaryDisability_Shortfall_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityShortfall = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TemporaryDisability_ReviewDate_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroDateTime dt = (MetroDateTime)sender;
+                dt.CustomFormat = "dd MMM yyyy";
+
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityReviewDate = dt.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #region Trauma/illness row event handlers
+
+        private void TraumaAndIllness_NeedsQuantified_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessNeedsQuantified = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TraumaAndIllness_NeedsPriority_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessNeedsPriority = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TraumaAndIllness_NeedAddressed_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroComboBox cmb = (MetroComboBox)sender;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessNeedAddressed = cmb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TraumaAndIllness_Shortfall_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessShortfall = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void TraumaAndIllness_ReviewDate_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroDateTime dt = (MetroDateTime)sender;
+                dt.CustomFormat = "dd MMM yyyy";
+
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessReviewDate = dt.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #region Funeral Cover/Immediate expenses row event handlers
+
+        private void FuneralCover_NeedsQuantified_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverNeedsQuantified = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void FuneralCover_NeedsPriority_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverNeedsPriority = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void FuneralCover_NeedAddressed_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroComboBox cmb = (MetroComboBox)sender;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverNeedAddressed = cmb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void FuneralCover_Shortfall_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverShortfall = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void FuneralCover_ReviewDate_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroDateTime dt = (MetroDateTime)sender;
+                dt.CustomFormat = "dd MMM yyyy";
+
+                ((RiskAdviceRecord)selectedNote).FuneralCoverReviewDate = dt.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #region Other row event handlers
+
+        private void Other_NeedsQuantified_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).OtherNeedsQuantified = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Other_NeedsPriority_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).OtherNeedsPriority = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Other_NeedAddressed_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroComboBox cmb = (MetroComboBox)sender;
+                ((RiskAdviceRecord)selectedNote).OtherNeedAddressed = cmb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+
+        private void Other_Shortfall_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((RiskAdviceRecord)selectedNote).OtherShortfall = tb.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        private void Other_ReviewDate_propertyChanged_EventHandler(object sender, EventArgs e)
+        {
+
+            try
+            {
+                this.xToolBarMenu1.SetCAREdit(true);
+                MetroDateTime dt = (MetroDateTime)sender;
+                dt.CustomFormat = "dd MMM yyyy";
+
+                ((RiskAdviceRecord)selectedNote).OtherReviewDate = dt.Text;
+                selectedNote.UpdateBy = Program.User.Username;
+                selectedNote.UpdateDate = DateTime.Now;
+
+            }
+            catch (Exception x)
+            {
+                Program.Logger.Error(x);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region Notes row select event handlers
 
         //Hanlder for row selection in standard CAR
@@ -2812,13 +3575,14 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_LifeNeedsPriority, 2, 1);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_Life, 3, 1);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_LifeShortfall, 4, 1);
-
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.dtp_LifeReviewDate, 5, 1);
 
             //Permanent Disability
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDIncomeProtectionNeedsQuantified, 1, 2);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDIncomeProtectionNeedsPriority, 2, 2);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_PDIncomeProtection, 3, 2);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDIncomeProtectionShortfall, 4, 2);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.dtp_PDIncomeProtectionReviewDate, 5, 2);
 
 
             //Permanent Disability Lump Sum
@@ -2826,6 +3590,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDLumpSumNeedsPriority, 2, 3);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_PDLumpSum, 3, 3);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_PDLumpSumShortfall, 4, 3);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.dtp_PDLumpSumReviewDate, 5, 3);
 
 
             //Temporary Disability
@@ -2833,6 +3598,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TemporaryDisabilityNeedsPriority, 2, 4);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_TemporaryDisability, 3, 4);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TemporaryDisabilityShortfall, 4, 4);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.dtp_TemporaryDisabilityReviewDate, 5, 4);
 
 
             //Trauma
@@ -2840,6 +3606,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TraumaNeedsPriority, 2, 5);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_Trauma, 3, 5);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_TraumaShortfall, 4, 5);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.dtp_TraumaReviewDate, 5, 5);
 
 
             //Funeral Cover
@@ -2847,6 +3614,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_FuneralCoverNeedsPriority, 2, 6);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_FuneralCover, 3, 6);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_FuneralCoverShortfall, 4, 6);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.dtp_FuneralCoverReviewDate, 5, 6);
 
 
             //Other
@@ -2854,6 +3622,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_RiskOtherNeedsPriority, 2, 7);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.cmb_RiskOther, 3, 7);
             this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.tb_RiskOtherShortfall, 4, 7);
+            this.tblPanel_RiskNeedsAndGoals.Controls.Add(this.dtp_RiskOtherReviewDate, 5, 7);
 
         }
 
@@ -3691,20 +4460,120 @@ namespace Finx.App.Forms
 
         //Populate values for Needs and Goals table in Risk CAR
         private void PopulateRiskNeedsAndGoals(RiskAdviceRecord record)
-        { 
+        {
+            DateTime rvDate;
+
             //Life
+            this.tb_LifeNeedsQuantified.Text = "R " +record.LifeNeedsQuantified;
+            this.tb_LifeNeedsPriority.Text = record.LifeNeedsPriority;
+            this.cmb_Life.Text = record.LifeNeedAddressed;
+            this.tb_LifeShortfall.Text = record.LifeShortfall;
+
+            if (DateTime.TryParseExact(record.LifeReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+            {
+                this.dtp_LifeReviewDate.Value = rvDate;
+                this.dtp_LifeReviewDate.CustomFormat = "dd MMM yyyy";
+            }
+            else
+            {
+                this.dtp_LifeReviewDate.CustomFormat = " ";
+            }
 
             //Income Protection
+            this.tb_PDIncomeProtectionNeedsQuantified.Text = "R " + record.IncomeProtectionNeedsQuantified;
+            this.tb_PDIncomeProtectionNeedsPriority.Text = record.IncomeProtectionNeedsPriority;
+            this.cmb_PDIncomeProtection.Text = record.IncomeProtectionNeedAddressed;
+            this.tb_PDIncomeProtectionShortfall.Text = record.IncomeProtectionShortfall;
+
+            if (DateTime.TryParseExact(record.IncomeProtectionReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+            {
+                this.dtp_PDIncomeProtectionReviewDate.Value = rvDate;
+                this.dtp_PDIncomeProtectionReviewDate.CustomFormat = "dd MMM yyyy";
+            }
+            else
+            {
+                this.dtp_PDIncomeProtectionReviewDate.CustomFormat = " ";
+            }
 
             //Lump Sum
+            this.tb_PDLumpSumNeedsQuantified.Text = "R " + record.LumpSumNeedsQuantified;
+            this.tb_PDLumpSumNeedsPriority.Text = record.LumpSumNeedsPriority;
+            this.cmb_PDLumpSum.Text = record.LumpSumNeedAddressed;
+            this.tb_PDLumpSumShortfall.Text = record.LumpSumShortfall;
+
+            if (DateTime.TryParseExact(record.LumpSumReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+            {
+                this.dtp_PDLumpSumReviewDate.Value = rvDate;
+                this.dtp_PDLumpSumReviewDate.CustomFormat = "dd MMM yyyy";
+            }
+            else
+            {
+                this.dtp_TraumaReviewDate.CustomFormat = " ";
+            }
 
             //Temporary Disability
+            this.tb_TemporaryDisabilityNeedsQuantified.Text = "R " + record.TemporaryDisabilityNeedsQuantified;
+            this.tb_TemporaryDisabilityNeedsPriority.Text = record.TemporaryDisabilityNeedsPriority;
+            this.cmb_TemporaryDisability.Text = record.TemporaryDisabilityNeedAddressed;
+            this.tb_TemporaryDisabilityShortfall.Text = record.TemporaryDisabilityShortfall;
+
+            if (DateTime.TryParseExact(record.TemporaryDisabilityReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+            {
+                this.dtp_TemporaryDisabilityReviewDate.Value = rvDate;
+                this.dtp_TemporaryDisabilityReviewDate.CustomFormat = "dd MMM yyyy";
+            }
+            else
+            {
+                this.dtp_TraumaReviewDate.CustomFormat = " ";
+            }
 
             //Trauma/Illness
+            this.tb_TraumaNeedsQuantified.Text = "R " + record.TraumaAndIllnessNeedsQuantified;
+            this.tb_TraumaNeedsPriority.Text = record.TraumaAndIllnessNeedsPriority;
+            this.cmb_Trauma.Text = record.TraumaAndIllnessNeedAddressed;
+            this.tb_TraumaShortfall.Text = record.TraumaAndIllnessShortfall;
+
+            if (DateTime.TryParseExact(record.TraumaAndIllnessReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+            {
+                this.dtp_TraumaReviewDate.Value = rvDate;
+                this.dtp_TraumaReviewDate.CustomFormat = "dd MMM yyyy";
+            }
+            else
+            {
+                this.dtp_TraumaReviewDate.CustomFormat = " ";
+            }
 
             //Funeral Cover/Immediate Expenses
+            this.tb_FuneralCoverNeedsQuantified.Text = "R " + record.FuneralCoverNeedsQuantified;
+            this.tb_FuneralCoverNeedsPriority.Text = record.FuneralCoverNeedsPriority;
+            this.cmb_FuneralCover.Text = record.FuneralCoverNeedAddressed;
+            this.tb_FuneralCoverShortfall.Text = record.FuneralCoverShortfall;
+
+            if (DateTime.TryParseExact(record.FuneralCoverReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+            {
+                this.dtp_FuneralCoverReviewDate.Value = rvDate;
+                this.dtp_FuneralCoverReviewDate.CustomFormat = "dd MMM yyyy";
+            }
+            else
+            {
+                this.dtp_FuneralCoverReviewDate.CustomFormat = " ";
+            }
 
             //Other
+            this.tb_RiskOtherNeedsQuantified.Text = "R " + record.OtherNeedsQuantified;
+            this.tb_RiskOtherNeedsPriority.Text = record.OtherNeedsPriority;
+            this.cmb_RiskOther.Text = record.OtherNeedAddressed;
+            this.tb_RiskOtherShortfall.Text = record.OtherShortfall;
+
+            if (DateTime.TryParseExact(record.OtherReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+            {
+                this.dtp_RiskOtherReviewDate.Value = rvDate;
+                this.dtp_RiskOtherReviewDate.CustomFormat = "dd MMM yyyy";
+            }
+            else
+            {
+                this.dtp_RiskOtherReviewDate.CustomFormat = " ";
+            }
         }
 
 
@@ -3815,8 +4684,11 @@ namespace Finx.App.Forms
             populateNeedsAndObjectives(advRecord);
             populateFinancialSolution(advRecord);
             populateOtherInformation(advRecord);
+            
             populateRecommendedFunds(advRecord);
             populateMotivation(advRecord);
+            populateImplementedRecommendedFunds(advRecord);
+            populateImplementedMotivation(advRecord);
         }
 
         //Call all methods to populate the medical Aid CAR
@@ -3825,6 +4697,7 @@ namespace Finx.App.Forms
             SetIsComplete(selectedNote);
             clearProductKnlgeAndExperience();
             populateProductAndExperience(advRecord);
+
             populateMedicalConditions(advRecord);
             populateMedicalCover(advRecord);
             populateOtherInformation(advRecord);
@@ -3837,8 +4710,29 @@ namespace Finx.App.Forms
             populateNotes(advRecord);
             populateRecommendedFunds(advRecord);
             populateMotivation(advRecord);
+
             PopulateMedicalTable(advRecord);
             PopulateMedicalSchemeTable(advRecord);
+
+            populateImplementedRecommendedFunds(advRecord);
+            populateImplementedMotivation(advRecord);
+        }
+
+        private void populateRisk(RiskAdviceRecord advRecord)
+        {
+            SetIsComplete(selectedNote);
+            clearProductKnlgeAndExperience();
+
+            populateProductAndExperience(advRecord);
+            
+            populateNeedsAndObjectives(advRecord);
+            populateFinancialSolution(advRecord);
+            populateOtherInformation(advRecord);
+
+            PopulateRiskNeedsAndGoals(advRecord);
+            
+            populateRecommendedFunds(advRecord);
+            populateMotivation(advRecord);
             populateImplementedRecommendedFunds(advRecord);
             populateImplementedMotivation(advRecord);
         }
@@ -3897,83 +4791,6 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #region Clear Generic Form Text Boxes
-        private void clearNeedsAndObj()
-        {
-            //this.metroTextBox_NeedAndObjective.Text = selectedNote.NeedsAndObjectives;
-            this.metroTextBox_NeedAndObjective.Clear();
-        }
-
-        private void clearFinancialSituation()
-        {
-            //this.metroTextBox_FinancialSituation.Text = selectedNote.FinancialSituation;
-            this.metroTextBox_FinancialSituation.Clear();
-        }
-
-        private void clearOtherInformation()
-        {
-            this.metroTextBox_OtherInformation.Text = selectedNote.OtherInformation;
-        }
-
-        private void clearRecommendedFunds()
-        {
-            this.metroTextBox_RecommendedFunds.Text = selectedNote.RecommendedFunds;
-        }
-
-        private void clearMotivation()
-        {
-            this.metroTextBox_Motivation.Text = selectedNote.Motivation;
-        }
-
-        #region Medical Text Boxes
-
-        private void clearMedicalConditions()
-        {
-            this.metroTextBox_MedicalConditions.Text = ((MedicalAidAdviceRecord)selectedNote).MedicalConditions;
-        }
-
-        private void clearMedicalCover()
-        {
-            this.metroTextBox_CurrentMedicalCover.Text = ((MedicalAidAdviceRecord)selectedNote).MedicalCover;
-        }
-
-        private void clearHospitalisation()
-        {
-            this.metroTextBox_Hospitalisation.Text = ((MedicalAidAdviceRecord)selectedNote).Hospitalisation;
-        }
-
-        private void clearChronicConditions()
-        {
-            this.metroTextBox_ChronicConditions.Text = ((MedicalAidAdviceRecord)selectedNote).ChronicConditions;
-        }
-
-        private void clearWaitingPeriods()
-        {
-            this.metroTextBox_WaitingPeriods.Text = ((MedicalAidAdviceRecord)selectedNote).WaitingPeriods;
-        }
-
-        private void clearLateJoinerPenalty()
-        {
-            this.metroTextBox_LateJoiner.Text = ((MedicalAidAdviceRecord)selectedNote).LateJoynerPenalty;
-        }
-
-        private void clearCoPayment()
-        {
-            this.metroTextBox_Copayment.Text = ((MedicalAidAdviceRecord)selectedNote).CoPayments;
-        }
-
-        private void clearOtherImportantInformation()
-        {
-            this.metroTextBox_OtherImportantInfo.Clear(); 
-        }
-
-        private void clearNotes()
-        {
-            this.metroTextBox_Notes.Clear();
-        }
-
-        #endregion
-
         #endregion
 
         #region methods to clear entire forms
@@ -3991,7 +4808,7 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #endregion
+       
 
 
     }
