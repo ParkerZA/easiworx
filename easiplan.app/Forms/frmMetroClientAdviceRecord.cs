@@ -57,14 +57,16 @@ namespace Finx.App.Forms
         EducationNeed EducationNeed = null;
         InvestmentNeed InvestmentNeed = null;
 
+        //Note lists for standard CAR
         IList<ClientAdviceRecord> Notes = new List<ClientAdviceRecord>();
         IList<ClientAdviceRecord> filteredNotes = new List<ClientAdviceRecord>();
 
+        //Note lists for Medical Aid CAR
         IList<MedicalAidAdviceRecord> MedicalNotes = new List<MedicalAidAdviceRecord>();
         IList<MedicalAidAdviceRecord> medicalFilteredNotes = new List<MedicalAidAdviceRecord>();
 
+        //Note lists for Risk CAR
         IList<RiskAdviceRecord> RiskNotes = new List<RiskAdviceRecord>();
-
         IList<RiskAdviceRecord> riskFilteredNotes = new List<RiskAdviceRecord>();
 
 
@@ -85,6 +87,7 @@ namespace Finx.App.Forms
         #endregion
 
         #region Constructors
+
         //Base Constructor
         public frmMetroClientAdviceRecord(string Title, bool readOnly, PolicyAction action)
         {
@@ -199,6 +202,7 @@ namespace Finx.App.Forms
 
             //SetComboBox event handers
 
+            //Rename these variables when you get a chance so that they are less confusing
             this.Cover1.SelectedIndexChanged += Cover1_SelectedIndexChanged;
             this.Cover2.SelectedIndexChanged += Cover2_SelectedIndexChanged;
 
@@ -248,33 +252,34 @@ namespace Finx.App.Forms
             this.tb_PDLumpSumShortfall.TextChanged += PDLumpSum_Shortfall_propertyChanged_EventHandler;
             this.dtp_PDLumpSumReviewDate.ValueChanged += PDLumpSum_ReviewDate_propertyChanged_EventHandler;
 
-            //Temporary Disability
+            //Temporary Disability row
             this.tb_TemporaryDisabilityNeedsQuantified.TextChanged += TemporaryDisability_NeedsQuantified_propertyChanged_EventHandler;
             this.tb_TemporaryDisabilityNeedsPriority.TextChanged += TemporaryDisability_NeedsPriority_propertyChanged_EventHandler;
             this.cmb_TemporaryDisability.SelectedIndexChanged += TemporaryDisability_NeedAddressed_propertyChanged_EventHandler;
             this.tb_TemporaryDisabilityShortfall.TextChanged += TemporaryDisability_Shortfall_propertyChanged_EventHandler;
             this.dtp_TemporaryDisabilityReviewDate.ValueChanged += TemporaryDisability_ReviewDate_propertyChanged_EventHandler;
 
-            //Trauma
+            //Trauma row
             this.tb_TraumaNeedsQuantified.TextChanged += TraumaAndIllness_NeedsQuantified_propertyChanged_EventHandler;
             this.tb_TraumaNeedsPriority.TextChanged += TraumaAndIllness_NeedsPriority_propertyChanged_EventHandler;
             this.cmb_Trauma.SelectedIndexChanged += TraumaAndIllness_NeedAddressed_propertyChanged_EventHandler;
             this.tb_TraumaShortfall.TextChanged += TraumaAndIllness_Shortfall_propertyChanged_EventHandler;
             this.dtp_TraumaReviewDate.ValueChanged += TraumaAndIllness_ReviewDate_propertyChanged_EventHandler;
 
-            //Funeral Cover
+            //Funeral Cover row
             this.tb_FuneralCoverNeedsQuantified.TextChanged += FuneralCover_NeedsQuantified_propertyChanged_EventHandler;
             this.tb_FuneralCoverNeedsPriority.TextChanged += FuneralCover_NeedsPriority_propertyChanged_EventHandler;
             this.cmb_FuneralCover.SelectedIndexChanged += FuneralCover_NeedAddressed_propertyChanged_EventHandler;
             this.tb_FuneralCoverShortfall.TextChanged += FuneralCover_Shortfall_propertyChanged_EventHandler;
             this.dtp_FuneralCoverReviewDate.ValueChanged += FuneralCover_ReviewDate_propertyChanged_EventHandler;
 
-            //Other
+            //Other row
             this.tb_RiskOtherNeedsQuantified.TextChanged += Other_NeedsQuantified_propertyChanged_EventHandler;
             this.tb_RiskOtherNeedsPriority.TextChanged += Other_NeedsPriority_propertyChanged_EventHandler;
             this.cmb_RiskOther.SelectedIndexChanged += Other_NeedAddressed_propertyChanged_EventHandler;
             this.tb_RiskOtherShortfall.TextChanged += Other_Shortfall_propertyChanged_EventHandler;
             this.dtp_RiskOtherReviewDate.ValueChanged += Other_ReviewDate_propertyChanged_EventHandler;
+
             #endregion
 
             #region Assign key down event to allow for datestamp in text boxes
@@ -311,7 +316,7 @@ namespace Finx.App.Forms
         }
 
         
-
+        //Retirement constructor
         public frmMetroClientAdviceRecord(Retirement model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -326,7 +331,7 @@ namespace Finx.App.Forms
 
         }
 
-        
+        //Non retirement constructor
         public frmMetroClientAdviceRecord(Investment model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -342,6 +347,7 @@ namespace Finx.App.Forms
 
         }
 
+        //Education constructor
         public frmMetroClientAdviceRecord(Education model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -354,7 +360,7 @@ namespace Finx.App.Forms
 
         }
 
-        
+        //Medical Aid constructor
         public frmMetroClientAdviceRecord(Medical model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -370,6 +376,7 @@ namespace Finx.App.Forms
 
         }
         
+        //Risk constructor
         public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -383,6 +390,7 @@ namespace Finx.App.Forms
 
         }
 
+        //Income Asset Constructor
         public frmMetroClientAdviceRecord(IncomeAsset model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -480,8 +488,10 @@ namespace Finx.App.Forms
         }*/
         #endregion
 
-        #region Initialisation
+        //These select panels are coded very mesily.. should refactor to make fewer lines of code repeat
+        #region Initialisation select panels
 
+        //Initialise the select panel for regular CAR template
         void Initialise_SelectPanel(IList<ClientAdviceRecord> notes = null)
         {
             if (notes != null)
@@ -491,27 +501,21 @@ namespace Finx.App.Forms
                 filteredNotes = new List<ClientAdviceRecord>();
             else
                 filteredNotes = Notes.Where(x => x.CreateDate != null).ToList();
-                //filteredNotes = Notes.Where(x => x.IsCompleted == searchModel.ShowCompletedTask).ToList();
 
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(filteredNotes, column =>
             {
 
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
-                //column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
-                //column.For(x => x.pol, "Policy status", new StringEditor());
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
                 column.For(c => c.IsCompleted, "Completed");
-
             },
             RowSelectEventHandler: Notes_RowSelectEventHandlerChanged,
             ReadOnly: true,
             AllowDelete: false)
             .Format1(true, fixedCols: 1);
             #endregion
-
-
 
             if (Notes.Count > 0)
                 selectedNote = filteredNotes.LastOrDefault();
@@ -526,7 +530,7 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel(selectedNote);
         }
 
-
+        //Initialise select panel for medical aid CAR template
         void Initialise_MedicalSelectPanel(IList<MedicalAidAdviceRecord> notes = null)
         {
             if (notes != null)
@@ -536,15 +540,12 @@ namespace Finx.App.Forms
                 medicalFilteredNotes = new List<MedicalAidAdviceRecord>();
             else
                 medicalFilteredNotes = MedicalNotes.Where(x => x.CreateDate != null).ToList();
-            //filteredNotes = Notes.Where(x => x.IsCompleted == searchModel.ShowCompletedTask).ToList();
 
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(medicalFilteredNotes, column =>
             {
 
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
-                //column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
-                //column.For(x => x.pol, "Policy status", new StringEditor());
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
                 column.For(c => c.IsCompleted, "Completed");
@@ -555,7 +556,6 @@ namespace Finx.App.Forms
             AllowDelete: false)
             .Format1(true, fixedCols: 1);
             #endregion
-
 
 
             if (MedicalNotes.Count > 0)
@@ -571,7 +571,7 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel((ClientAdviceRecord)selectedNote);
         }
 
-
+        //Initialise the Risk CAR select panel
         void Initialise_RiskSelectPanel(IList<RiskAdviceRecord> notes = null)
         {
             if (notes != null)
@@ -581,15 +581,12 @@ namespace Finx.App.Forms
                 riskFilteredNotes = new List<RiskAdviceRecord>();
             else
                 riskFilteredNotes = RiskNotes.Where(x => x.CreateDate != null).ToList();
-            //filteredNotes = Notes.Where(x => x.IsCompleted == searchModel.ShowCompletedTask).ToList();
 
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(riskFilteredNotes, column =>
             {
 
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
-                //column.For(x => x.PolicyNumber, "Policy no.", new StringEditor());
-                //column.For(x => x.pol, "Policy status", new StringEditor());
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
                 column.For(c => c.IsCompleted, "Completed");
@@ -600,7 +597,6 @@ namespace Finx.App.Forms
             AllowDelete: false)
             .Format1(true, fixedCols: 1);
             #endregion
-
 
 
             if (RiskNotes.Count > 0)
@@ -616,9 +612,7 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel((ClientAdviceRecord)selectedNote);
         }
 
-
-
-
+        //Initialise the policynote panel
         void Initialise_PolicyNotePanel(ClientAdviceRecord record)
         {
             //this.metroPanel_Select.Controls.Clear();
@@ -668,7 +662,6 @@ namespace Finx.App.Forms
 
                     initialiseRiskPortfolio();
                     populateRisk((RiskAdviceRecord)record);
-                    //COme back here to populate Risk
 
 
                     break;
@@ -685,6 +678,8 @@ namespace Finx.App.Forms
             
             selectedNote.IsLoading = false;
 
+
+            //Check set the Tool Bar options depending on completetion status of the CAR 
             if (selectedNote.IsCompleted)
             {
                 //Lock the form if note is completed
@@ -704,15 +699,23 @@ namespace Finx.App.Forms
                 lockForm(false);
                 this.xToolBarMenu1.SetCAREdit(true);
             }
-            Console.WriteLine(metroLabel_NeedsAndObj.Location);
         }
 
-
+        #endregion
 
         #region Build Screens
         //Initialise the form screen for Retirement, Non-retirement, education, and income asset portfolios
+
+        //Build the regular CAR template
         void InitializeStandardPortfolio()
         {
+            //When comparing the form designer to the actual form in the running application, the pixel distance
+            //between elements on the CAR screen ended up being different from each other. This meant when I specified
+            //pixel locations to place a control on the screen, it would not go where I placed it. I created the variables
+            //below to programically determine the correct locations for the controls
+
+            //Messy code though... should refactor
+
             #region Distance calculations for form element placement
             //Distance calculations to allow for the placement of form elements
 
@@ -809,9 +812,12 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.PerformLayout();
         }
 
+        //Build the Medical Aid CAR template
         void initialiseMedicalPortfolio()
         {
             //Distance calculations to allow for the placement of form elements
+
+            #region Distance calculations
 
             //X value distance between a heading or hint and the left hand margin
             int xTextMarginLeft = this.metroLabel_MedicalCover.Location.X;
@@ -831,6 +837,7 @@ namespace Finx.App.Forms
             //Location of Initial Recomendation heading on medical aid panel
             int YInitialRecommendation = this.tblPanel_MedicalSchemeComparison.Location.Y + this.tblPanel_MedicalSchemeComparison.Height + (this.metroLabel_MedicalConditions.Location.Y - (this.metroPanel_PKE.Location.Y + this.metroPanel_PKE.Height));
 
+            #endregion
 
             //Adding controls into correct positions
 
@@ -960,6 +967,7 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.PerformLayout();
         }
 
+        //Build Risk CAR template
         void initialiseRiskPortfolio()
         {
 
@@ -1146,8 +1154,7 @@ namespace Finx.App.Forms
 
         #endregion
 
-        #endregion
-
+       
         #region toolStripButton Events
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
@@ -4756,7 +4763,6 @@ namespace Finx.App.Forms
             foreach (Control control in controlsToRemove)
             {
                 metroPanel.Controls.Remove(control);
-                //control.Dispose(); // Optional, if needed
             }
         }
 
