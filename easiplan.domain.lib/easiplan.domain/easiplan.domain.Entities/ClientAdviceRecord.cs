@@ -13,8 +13,9 @@ namespace easiplan.domain.Entities
         private string _clientName;
         private string _adviserName;
         private string _venue;
-        private string _date;
         private string _generalNotes;
+
+        private string _productKnowledge;
         private string _riskProfile;
         private string _investmentType;
         private string _policyNumber;
@@ -22,11 +23,94 @@ namespace easiplan.domain.Entities
         private string _financialSituation;
         private string _investmentHorizen;
         private string _accessToCapital;
+        private string _otherInformation;
         private string _additionalInfo;
         private string _recommendedProduct;
         private string _motivation;
         private string _initialRecommendation;
+        private string _implementedProduct;
+        private string _implementedMotivation;
 
+        private bool _IsCompleted;
+
+        public ClientAdviceRecord()
+        { 
+            //_IsCompleted= false;
+        }
+        
+        public ClientAdviceRecord(ClientAdviceRecord copy)
+        { 
+            this._clientName= copy._clientName;
+            this._adviserName= copy._adviserName;
+            this._venue= copy._venue;
+            this._generalNotes= copy._generalNotes;
+            this._productKnowledge= copy._productKnowledge;
+            this._riskProfile= copy._riskProfile;
+            this._investmentType= copy._investmentType;
+            this._policyNumber= copy._policyNumber;
+            this._needsAndObjectives= copy._needsAndObjectives;
+            this._financialSituation= copy._financialSituation;
+            this._investmentHorizen= copy._investmentHorizen;
+            this._accessToCapital= copy._accessToCapital;
+            this._otherInformation= copy._otherInformation;
+            this._additionalInfo= copy._additionalInfo;
+            this._recommendedProduct= copy._recommendedProduct;
+            this._motivation= copy._motivation;
+            this._initialRecommendation= copy._initialRecommendation;
+            this._implementedProduct= copy._implementedProduct;
+            this._implementedMotivation= copy._implementedMotivation;
+
+            this._IsCompleted = false;
+            
+
+        
+        }
+
+
+        public virtual bool IsCompleted
+        {
+            get
+            {
+                return _IsCompleted;
+            }
+            set
+            {
+                _IsCompleted = value;
+                InvokePropertyChanged("IsCompleted");
+            }
+        }
+
+        
+        public virtual string ImplementedProduct
+        {
+            get
+            { 
+                return this._implementedProduct;
+            }
+            set 
+            { 
+                this._implementedProduct = value;
+                InvokePropertyChanged("ImplementedProduct");
+            }
+        }
+
+        public virtual string ImplementedMotivation
+        {
+            get
+            {
+                return this._implementedMotivation;
+            }
+            set
+            {
+                this._implementedMotivation = value;
+                InvokePropertyChanged("ImplementedMotivation");
+            }
+        }
+
+        public virtual DateTime AdviceDate
+        {
+            get => base.CreateDate; set => base.CreateDate = value;
+        }
 
         //Name of the client that owns the policy
         public virtual string ClientName
@@ -58,6 +142,75 @@ namespace easiplan.domain.Entities
         }
 
 
+        //Product knowlege and Experience
+        public virtual string ProductKnowledge
+        {
+            get
+            {
+                return _productKnowledge;
+            }
+            set
+            {
+                _productKnowledge = value;
+                InvokePropertyChanged("ProductKnowledge");
+            }
+        }
+
+        //Clients financial Situation
+        public virtual string FinancialSituation
+        {
+            get
+            {
+                return _financialSituation;
+            }
+            set
+            {
+                _financialSituation = value;
+                InvokePropertyChanged("FinancialSituation");
+            }
+        }
+
+        public virtual string OtherInformation
+        {
+            get
+            {
+                return _otherInformation;
+            }
+            set
+            {
+                _otherInformation = value;
+                InvokePropertyChanged("OtherInformation");
+            }
+        }
+
+        //Products recomended to the client
+        public virtual string RecommendedFunds
+        {
+            get
+            {
+                return _recommendedProduct;
+            }
+            set
+            {
+                _recommendedProduct = value;
+                InvokePropertyChanged("RecommendedFunds");
+            }
+        }
+
+        //Motivation for recommendation
+        public virtual string Motivation
+        {
+            get
+            {
+                return _motivation;
+            }
+            set
+            {
+                _motivation = value;
+                InvokePropertyChanged("Motivation");
+            }
+        }
+
         //Venue
         public virtual string Venue
         {
@@ -69,21 +222,6 @@ namespace easiplan.domain.Entities
             {
                 _venue = value;
                 InvokePropertyChanged("Venue");
-            }
-        }
-
-
-        //Date that the car is created
-        public virtual string Date
-        {
-            get
-            {
-                return _date;
-            }
-            set
-            {
-                _date = value;
-                InvokePropertyChanged("Date");
             }
         }
 
@@ -221,37 +359,6 @@ namespace easiplan.domain.Entities
             }
         }
 
-
-        //Investment product / fund that has been recommended by advisor
-        public virtual string RecommendedProduct
-        {
-            get
-            {
-                return _recommendedProduct;
-            }
-            set
-            {
-                _recommendedProduct = value;
-                InvokePropertyChanged("RecommendedProduct");
-            }
-        }
-
-
-        //Motivation for the investment
-        public virtual string Motivation
-        {
-            get
-            {
-                return _motivation;
-            }
-            set
-            {
-                _motivation = value;
-                InvokePropertyChanged("Motivation");
-            }
-        }
-
-
         //Advisors recommendation to the client
         public virtual string InitialRecommendation
         {
@@ -265,6 +372,8 @@ namespace easiplan.domain.Entities
                 InvokePropertyChanged("InitalRecommendation");
             }
         }
+
+
         public override void Calculate()
         {
             base.Calculate();

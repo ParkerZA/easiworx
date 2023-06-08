@@ -74,6 +74,12 @@ namespace easiplan.domain.Entities
             set;
         }
 
+        public virtual IList<ClientAdviceRecord> AdviceRecords
+        {
+            get;
+            set;
+        }
+
         [IgnoreAutoMap]
         public virtual IList<Need> Amendments
         {

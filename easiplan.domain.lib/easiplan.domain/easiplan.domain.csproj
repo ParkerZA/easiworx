@@ -119,7 +119,9 @@
   <ItemGroup>
     <Compile Include="easiplan.domain.Entities\ClientAdviceRecord.cs" />
     <Compile Include="easiplan.domain.Entities\ClientFnaRisk.cs" />
+    <Compile Include="easiplan.domain.Entities\MedicalAidAdviceRecord.cs" />
     <Compile Include="easiplan.domain.Entities\MeetingStatus.cs" />
+    <Compile Include="easiplan.domain.Entities\RiskAdviceRecord.cs" />
     <Compile Include="easiplan.domain.Entities\RiskCoverNeed.cs" />
     <Compile Include="easiplan.domain.Model\FinDataPoint.cs" />
     <Compile Include="easiplan.domain.Entities\AdditionalInfo.cs" />
