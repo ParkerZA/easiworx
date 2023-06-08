@@ -264,6 +264,9 @@ namespace Finx.App.Forms
                 EstateAnalysis.Initialise(true);
                 #endregion
 
+                #region TabControl_Checklist
+                #endregion
+
                 #region ClientFnaRisk
                 ClientFnaRisk = Program.Repository.List<ClientFnaRisk, int>(x => x.ClientId == this.client.Id).FirstOrDefault();
                 //RiskCover

@@ -629,48 +629,53 @@ namespace Finx.App.Forms
                 case "retirement":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Retirement Portfolio";
                     mostRecentRecord = Retirement.AdviceRecords.LastOrDefault();
-                    InitializeStandardPortfolio();
                     populateRetirement(record);
+                    InitializeStandardPortfolio();
+                    
 
                     break;
                 case "investment":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Investment Portfolio";
                     mostRecentRecord = Investment.AdviceRecords.LastOrDefault();
-                    InitializeStandardPortfolio();
-                    populateRetirement(record);
                     
+                    populateRetirement(record);
+                    InitializeStandardPortfolio();
+
                     break;
                 case "medical":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Medical Portfolio";
                     mostRecentRecord = Medical.AdviceRecords.LastOrDefault();
-                    initialiseMedicalPortfolio();
+                    
                     populateMedical((MedicalAidAdviceRecord)record);
+                    initialiseMedicalPortfolio();
 
                     break;
                 case "education":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Education Portfolio";
                     mostRecentRecord = Education.AdviceRecords.LastOrDefault();
-
-                    InitializeStandardPortfolio();
+                    
                     populateRetirement(record);
+                    InitializeStandardPortfolio();
+                    
                     
                     break;
                 case "risk":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Risk Portfolio";
                     mostRecentRecord = Life.AdviceRecords.LastOrDefault();
 
-
-                    initialiseRiskPortfolio();
                     populateRisk((RiskAdviceRecord)record);
+                    initialiseRiskPortfolio();
+                    
 
 
                     break;
                 case "incomeasset":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
                     mostRecentRecord = IncomeAsset.AdviceRecords.LastOrDefault();
-                    
-                    InitializeStandardPortfolio();
+
                     populateRetirement(record);
+                    InitializeStandardPortfolio();
+                    
                     
                     break;
             }
