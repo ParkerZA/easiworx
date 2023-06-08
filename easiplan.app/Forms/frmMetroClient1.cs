@@ -1297,6 +1297,11 @@ namespace Finx.App.Forms
                             cntr.For(x => x.StatusComments, "Comments", new MetroMultiLineTextBoxEditor(320, 150).ReadOnly(_readOnly));
                         }, left: 5, top: 85, labelWidth: 150, PropertyChangedHandler: propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical).Format();
 
+
+
+                        //this.dataGrid_CARRetirement.Initialise1<ClientAdviceRecord>(client.ClientPortfolio.Medicals.medical)
+
+
                         #endregion
                         break;
                     case 8:
