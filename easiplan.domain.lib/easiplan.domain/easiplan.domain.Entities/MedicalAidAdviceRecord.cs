@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using easiplan.domain.Entities;
+using FluentValidation;
 using my.domain.lib.core.Attributes;
 using my.domain.lib.core.Domain;
 using my.domain.lib.core.Extensions;
@@ -278,44 +279,48 @@ namespace easiplan.domain.Entities
 
 
         #region Medical Aid Needs and Goals table methods
-        public virtual string hcCoverDiscussed
-        {
-            get
-            {
-                return _hospitalCoverDiscussed;
-            }
-            set
-            {
-                _hospitalCoverDiscussed = value;
-                InvokePropertyChanged("hcCoverDiscussed");
-            }
-        }
 
-        public virtual string hcCoverTaken
-        {
-            get
-            {
-                return _hospitalCoverTaken;
-            }
-            set
-            {
-                _hospitalCoverTaken = value;
-                InvokePropertyChanged("hcCoverTaken");
-            }
-        }
+        public virtual CARInfo hcInfo{ get; set; }
 
-        public virtual string hcComments
-        {
-            get
-            {
-                return _hospitalCoverComment;
-            }
-            set
-            {
-                _hospitalCoverComment = value;
-                InvokePropertyChanged("hcComments");
-            }
-        }
+
+        //public virtual string hcCoverDiscussed
+        //{
+        //    get
+        //    {
+        //        return _hospitalCoverDiscussed;
+        //    }
+        //    set
+        //    {
+        //        _hospitalCoverDiscussed = value;
+        //        InvokePropertyChanged("hcCoverDiscussed");
+        //    }
+        //}
+
+        //public virtual string hcCoverTaken
+        //{
+        //    get
+        //    {
+        //        return _hospitalCoverTaken;
+        //    }
+        //    set
+        //    {
+        //        _hospitalCoverTaken = value;
+        //        InvokePropertyChanged("hcCoverTaken");
+        //    }
+        //}
+
+        //public virtual string hcComments
+        //{
+        //    get
+        //    {
+        //        return _hospitalCoverComment;
+        //    }
+        //    set
+        //    {
+        //        _hospitalCoverComment = value;
+        //        InvokePropertyChanged("hcComments");
+        //    }
+        //}
 
         public virtual string ddCoverDiscussed
         {

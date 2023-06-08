@@ -1907,14 +1907,14 @@ namespace Finx.App.Forms
         {
             //ComboBox comboBox = (ComboBox)sender;
             //((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = comboBox.SelectedItem.ToString();
-            ((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = Cover1.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hcInfo.CoverDiscussed = Cover1.SelectedItem.ToString();
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
         private void Cover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).hcCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hcInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2052,7 +2052,7 @@ namespace Finx.App.Forms
                 this.xToolBarMenu1.SetCAREdit(true);
                 //MetroTextBox tb = (MetroTextBox)sender;
                 //((MedicalAidAdviceRecord)selectedNote).hcComments = tb.Text;
-                ((MedicalAidAdviceRecord)selectedNote).hcComments = this.tb_hospitalCover.Text;
+                ((MedicalAidAdviceRecord)selectedNote).hcInfo.Comments = this.tb_hospitalCover.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -4371,9 +4371,9 @@ namespace Finx.App.Forms
             //Load Form values from given record
 
             //Hospital Cover
-            this.Cover1.Text = record.hcCoverDiscussed;
-            this.Cover2.Text = record.hcCoverTaken;
-            this.tb_hospitalCover.Text = record.hcComments;
+            this.Cover1.Text = record.hcInfo.CoverDiscussed;
+            this.Cover2.Text = record.hcInfo.CoverTaken;
+            this.tb_hospitalCover.Text = record.hcInfo.Comments;
             
             //Day to Day 
             this.DayToDay1.Text = record.ddCoverDiscussed;

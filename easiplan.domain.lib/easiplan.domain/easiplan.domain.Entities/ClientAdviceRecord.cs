@@ -242,6 +242,7 @@ namespace easiplan.domain.Entities
 
 
         //Clients risk profile
+      
         public virtual string RiskProfile
         {
             get
@@ -317,6 +318,7 @@ namespace easiplan.domain.Entities
 
 
         //The spot where the sun comes out and the money glistens
+      
         public virtual string InvestmentHorizen
         {
             get
@@ -329,7 +331,6 @@ namespace easiplan.domain.Entities
                 InvokePropertyChanged("InvestmentHorizen");
             }
         }
-
 
         public virtual string AccessToCapital
         {
