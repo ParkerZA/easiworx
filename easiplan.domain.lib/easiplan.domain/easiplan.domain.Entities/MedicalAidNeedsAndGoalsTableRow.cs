@@ -9,19 +9,19 @@ namespace easiplan.domain.Entities
 
     public class MedicalAidNeedsAndGoalsTableRow : BaseEntity<int>
     {
-        private string _CoverDiscussed;
-        private string _CoverTaken;
-        private string _CoverComment;
+        private string _coverDiscussed;
+        private string _coverTaken;
+        private string _coverComment;
 
         public virtual string CoverDiscussed
         {
             get
             {
-                return _CoverDiscussed;
+                return _coverDiscussed;
             }
             set
             {
-                _CoverDiscussed = value;
+                _coverDiscussed = value;
                 InvokePropertyChanged("CoverDiscussed");
             }
         }
@@ -30,11 +30,11 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _CoverTaken;
+                return _coverTaken;
             }
             set
             {
-                _CoverTaken = value;
+                _coverTaken = value;
                 InvokePropertyChanged("CoverTaken");
             }
         }
@@ -43,11 +43,11 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                return _CoverComment;
+                return _coverComment;
             }
             set
             {
-                _CoverComment = value;
+                _coverComment = value;
                 InvokePropertyChanged("Comments");
             }
         }

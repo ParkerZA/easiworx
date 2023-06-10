@@ -1,4 +1,5 @@
-﻿using easiplan.domain.Entities;
+﻿using easiplan.domain.easiplan.domain.Entities;
+using easiplan.domain.Entities;
 using FluentValidation;
 using my.domain.lib.core.Attributes;
 using my.domain.lib.core.Domain;
@@ -157,6 +158,8 @@ namespace easiplan.domain.Entities
             this._limitsOnCoverReplaced = copy._limitsOnCoverReplaced;
             this._otherCurrent = copy._otherCurrent;
             this._otherReplaced = copy._otherReplaced;
+
+            //this.ProductNameComparison = copy.ProductNameComparison;
     }
 
 
@@ -277,294 +280,50 @@ namespace easiplan.domain.Entities
             }
         }
 
-
         #region Medical Aid Needs and Goals table methods
+        //Methods to get and set the infomations for each row of the Needs and Goals table in Medical Aid CAR
 
-        public virtual MedicalAidNeedsAndGoalsTableRow hospitalCoverInfo{ get; set; }
+        public virtual MedicalAidNeedsAndGoalsTableRow HospitalCoverInfo{ get; set; }
 
-        public virtual MedicalAidNeedsAndGoalsTableRow dayToDayBenefitInfo { get; set; }
+        public virtual MedicalAidNeedsAndGoalsTableRow DayToDayBenefitInfo { get; set; }
         
-        public virtual MedicalAidNeedsAndGoalsTableRow thresholdBenefitInfo { get; set;}
+        public virtual MedicalAidNeedsAndGoalsTableRow ThresholdBenefitInfo { get; set;}
 
-        public virtual MedicalAidNeedsAndGoalsTableRow chronicBenefitInfo { get; set; }
+        public virtual MedicalAidNeedsAndGoalsTableRow ChronicBenefitInfo { get; set; }
 
-        public virtual MedicalAidNeedsAndGoalsTableRow savingsAccountInfo { get; set; }
+        public virtual MedicalAidNeedsAndGoalsTableRow SavingsAccountInfo { get; set; }
 
-        public virtual MedicalAidNeedsAndGoalsTableRow hospitalPreferenceInfo { get; set; }
+        public virtual MedicalAidNeedsAndGoalsTableRow HospitalPreferenceInfo { get; set; }
 
-        public virtual MedicalAidNeedsAndGoalsTableRow gapCoverInfo { get; set; }
+        public virtual MedicalAidNeedsAndGoalsTableRow GapCoverInfo { get; set; }
 
-        public virtual MedicalAidNeedsAndGoalsTableRow otherInfo { get; set; }
+        public virtual MedicalAidNeedsAndGoalsTableRow OtherInfo { get; set; }
 
         #endregion
 
         #region Medical Aid Medical Scheme comparison table methods
-        //Methods for storage of the string descriptions for the current medical aids, and the replaced medical aids
-        public virtual string PolicyNumberCurrent
-        {
-            get
-            {
-                return _policyNumberCurrent;
-            }
-            set
-            {
-                _policyNumberCurrent = value;
-                InvokePropertyChanged("PolicyNumberCurrent");
-            }
-        }
+        //Methods for storage of the string descriptions for the current medical aids, and the replaced medical aid
 
-        public virtual string PolicyNumberReplaced
-        {
-            get
-            {
-                return _policyNumberReplaced;
-            }
-            set
-            {
-                _policyNumberReplaced = value;
-                InvokePropertyChanged("PolicyNumberReplaced");
-            }
-        }
+        public virtual MedicalSchemeComparison PolicyNumberComparison { get; set; }
+        public virtual MedicalSchemeComparison InsurerComparison { get; set; }
 
-        public virtual string InsurerCurrent
-        {
-            get
-            {
-                return _insurerCurrent;
-            }
-            set
-            {
-                _insurerCurrent = value;
-                InvokePropertyChanged("InsurerCurrent");
-            }
-        }
-        
-        public virtual string InsurerReplaced
-        {
-            get
-            {
-                return _insurerReplaced;
-            }
-            set
-            {
-                _insurerReplaced = value;
-                InvokePropertyChanged("InsurerReplaced");
-            }
-        }
+        public virtual MedicalSchemeComparison ProductNameComparison { get; set; }
 
-        public virtual string ProductNameCurrent
-        {
-            get
-            {
-                return _productNameCurrent;
-            }
-            set
-            {
-                _productNameCurrent = value;
-                InvokePropertyChanged("ProductNameCurrent");
-            }
-        }
+        public virtual MedicalSchemeComparison PremiumComparison { get; set; }
 
-        public virtual string ProductNameReplaced
-        {
-            get
-            {
-                return _productNameReplaced;
-            }
-            set
-            {
-                _productNameReplaced = value;
-                InvokePropertyChanged("ProductNameReplaced");
-            }
-        }
+        public virtual MedicalSchemeComparison BenefitsComparison { get; set; }
 
-        public virtual string PremiumCurrent
-        {
-            get
-            {
-                return _premiumCurrent;
-            }
-            set
-            {
-                _premiumCurrent = value;
-                InvokePropertyChanged("PremiumCurrent");
-            }
-        }
+        public virtual MedicalSchemeComparison SavingsAccountComparison { get; set; }
 
-        public virtual string PremiumReplaced
-        {
-            get
-            {
-                return _premiumReplaced;
-            }
-            set
-            {
-                _premiumReplaced = value;
-                InvokePropertyChanged("PremiumReplaced");
-            }
-        }
+        public virtual MedicalSchemeComparison ChronicBenefitComparison { get; set; }
 
-        public virtual string BenefitsCurrent
-        {
-            get
-            {
-                return _benefitsCurrent;
-            }
-            set
-            {
-                _benefitsCurrent = value;
-                InvokePropertyChanged("BenefitsCurrent");
-            }
-        }
+        public virtual MedicalSchemeComparison HospitalCoverComparison { get; set; }
 
-        public virtual string BenefitsReplaced
-        {
-            get
-            {
-                return _benefitsReplaced;
-            }
-            set
-            {
-                _benefitsReplaced = value;
-                InvokePropertyChanged("BenefitsReplaced");
-            }
-        }
-        
-        public virtual string SavingsAccountCurrent
-        {
-            get
-            {
-                return _savingsAccountCurrent;
-            }
-            set
-            {
-                _savingsAccountCurrent = value;
-                InvokePropertyChanged("SavingsAccountCurrent");
-            }
-        }
+        public virtual MedicalSchemeComparison LimitsOnCoverComparison { get; set; }
 
-        public virtual string SavingsAccountReplaced
-        {
-            get
-            {
-                return _savingsAccountReplaced;
-            }
-            set
-            {
-                _savingsAccountReplaced = value;
-                InvokePropertyChanged("SavingsAccountReplaced");
-            }
-        }
-
-        public virtual string ChronicBenefitCurrent
-        {
-            get
-            {
-                return _chronicBenefitCurrent;
-            }
-            set
-            {
-                _chronicBenefitCurrent = value;
-                InvokePropertyChanged("ChronicBenefitCurrent");
-            }
-        }
-
-        public virtual string ChronicBenefitReplaced
-        {
-            get
-            {
-                return _chronicBenefitReplaced;
-            }
-            set
-            {
-                _chronicBenefitReplaced = value;
-                InvokePropertyChanged("ChronicBenefitReplaced");
-            }
-        }
-
-        public virtual string HospitalCoverCurrent
-        {
-            get
-            {
-                return _hospitalCoverCurrent;
-            }
-            set
-            {
-                _hospitalCoverCurrent = value;
-                InvokePropertyChanged("HospitalCoverCurrent");
-            }
-        }
-
-        public virtual string HospitalCoverReplaced
-        {
-            get
-            {
-                return _hospitalCoverReplaced;
-            }
-            set
-            {
-                _hospitalCoverReplaced = value;
-                InvokePropertyChanged("HospitalCoverReplaced");
-            }
-        }
-
-        public virtual string LimitsOnCoverCurrent
-        {
-            get
-            {
-                return _limitsOnCoverCurrent;
-            }
-            set
-            {
-                _limitsOnCoverCurrent = value;
-                InvokePropertyChanged("LimitsOnCoverCurrent");
-            }
-        }
-
-        public virtual string LimitsOnCoverReplaced
-        {
-            get
-            {
-                return _limitsOnCoverReplaced;
-            }
-            set
-            {
-                _limitsOnCoverReplaced = value;
-                InvokePropertyChanged("LimitsOnCoverReplaced");
-            }
-        }
-
-        public virtual string OtherCurrent
-        {
-            get
-            {
-                return _otherCurrent;
-            }
-            set
-            {
-                _otherCurrent = value;
-                InvokePropertyChanged("OtherCurrent");
-            }
-        }
-
-        public virtual string OtherReplaced
-        {
-            get
-            {
-                return _otherReplaced;
-            }
-            set
-            {
-                _otherReplaced = value;
-                InvokePropertyChanged("OtherReplaced");
-            }
-        }
+        public virtual MedicalSchemeComparison OtherComparison { get; set; }
         
         #endregion
-
-
-
-
 
     }
 }
