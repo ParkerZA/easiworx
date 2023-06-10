@@ -16,6 +16,16 @@ namespace easiplan.domain.Entities
 
 		#region NonPersisted Properties
 		[IgnoreAutoMap]
+		public virtual ClientAdviceRecord CurrentAdviceRecord 
+		{
+			get
+			{
+				return this.AdviceRecords.LastOrDefault();
+			}
+		}
+
+
+		[IgnoreAutoMap]
 		public virtual int CurrentAge
 		{
 			get;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace easiplan.domain.Entities
 {
 
-    public class CARInfo : BaseEntity<int>
+    public class MedicalAidNeedsAndGoalsTableRow : BaseEntity<int>
     {
         private string _CoverDiscussed;
         private string _CoverTaken;

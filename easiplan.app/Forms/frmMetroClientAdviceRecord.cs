@@ -1919,14 +1919,14 @@ namespace Finx.App.Forms
         {
             //ComboBox comboBox = (ComboBox)sender;
             //((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = comboBox.SelectedItem.ToString();
-            ((MedicalAidAdviceRecord)selectedNote).hcInfo.CoverDiscussed = Cover1.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hospitalCoverInfo.CoverDiscussed = Cover1.SelectedItem.ToString();
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
         private void Cover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).hcInfo.CoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hospitalCoverInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1934,7 +1934,7 @@ namespace Finx.App.Forms
         private void DayToDay1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).ddCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).dayToDayBenefitInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1942,7 +1942,7 @@ namespace Finx.App.Forms
         private void DayToDay2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).ddCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).dayToDayBenefitInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1950,7 +1950,7 @@ namespace Finx.App.Forms
         private void Threshold1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).tbCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).thresholdBenefitInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1958,7 +1958,7 @@ namespace Finx.App.Forms
         private void Threshold2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).tbCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).thresholdBenefitInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1966,7 +1966,7 @@ namespace Finx.App.Forms
         private void ChronicBenefit1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).cbCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).chronicBenefitInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1974,7 +1974,7 @@ namespace Finx.App.Forms
         private void ChronicBenefit2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).cbCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).chronicBenefitInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1982,7 +1982,7 @@ namespace Finx.App.Forms
         private void SavingsAccount1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).saCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).savingsAccountInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -1991,7 +1991,7 @@ namespace Finx.App.Forms
         private void SavingsAccount2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).saCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).savingsAccountInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2000,7 +2000,7 @@ namespace Finx.App.Forms
         private void HospitalPreference1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).hpCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hospitalCoverInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2009,7 +2009,7 @@ namespace Finx.App.Forms
         private void HospitalPreference2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).hpCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).hospitalPreferenceInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2018,7 +2018,7 @@ namespace Finx.App.Forms
         private void GapCover1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).gcCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).gapCoverInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2027,7 +2027,7 @@ namespace Finx.App.Forms
         private void GapCover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).gcCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).gapCoverInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2036,7 +2036,7 @@ namespace Finx.App.Forms
         private void Other1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).oCoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).otherInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2045,7 +2045,7 @@ namespace Finx.App.Forms
         private void Other2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).oCoverTaken = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).otherInfo.CoverTaken = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -2064,7 +2064,7 @@ namespace Finx.App.Forms
                 this.xToolBarMenu1.SetCAREdit(true);
                 //MetroTextBox tb = (MetroTextBox)sender;
                 //((MedicalAidAdviceRecord)selectedNote).hcComments = tb.Text;
-                ((MedicalAidAdviceRecord)selectedNote).hcInfo.Comments = this.tb_hospitalCover.Text;
+                ((MedicalAidAdviceRecord)selectedNote).hospitalCoverInfo.Comments = this.tb_hospitalCover.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2083,7 +2083,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).ddComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).dayToDayBenefitInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2102,7 +2102,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).tbComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).thresholdBenefitInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2121,7 +2121,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).cbComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).chronicBenefitInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2140,7 +2140,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).saComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).savingsAccountInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2159,7 +2159,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).hpComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).hospitalPreferenceInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2178,7 +2178,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).gcComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).gapCoverInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2197,7 +2197,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((MedicalAidAdviceRecord)selectedNote).oComments = tb.Text;
+                ((MedicalAidAdviceRecord)selectedNote).otherInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -4383,44 +4383,44 @@ namespace Finx.App.Forms
             //Load Form values from given record
 
             //Hospital Cover
-            this.Cover1.Text = record.hcInfo.CoverDiscussed;
-            this.Cover2.Text = record.hcInfo.CoverTaken;
-            this.tb_hospitalCover.Text = record.hcInfo.Comments;
+            this.Cover1.Text = record.hospitalCoverInfo.CoverDiscussed;
+            this.Cover2.Text = record.hospitalCoverInfo.CoverTaken;
+            this.tb_hospitalCover.Text = record.hospitalCoverInfo.Comments;
             
             //Day to Day 
-            this.DayToDay1.Text = record.ddCoverDiscussed;
-            this.DayToDay2.Text = record.ddCoverTaken;
-            this.tb_dayToDay.Text = record.ddComments;
+            this.DayToDay1.Text = record.dayToDayBenefitInfo.CoverDiscussed;
+            this.DayToDay2.Text = record.dayToDayBenefitInfo.CoverTaken;
+            this.tb_dayToDay.Text = record.dayToDayBenefitInfo.Comments;
 
             //Threshold Benefits
-            this.Threshold1.Text = record.tbCoverDiscussed;
-            this.Threshold2.Text = record.tbCoverTaken;
-            this.tb_threshold.Text = record.tbComments;
+            this.Threshold1.Text = record.thresholdBenefitInfo.CoverDiscussed;
+            this.Threshold2.Text = record.thresholdBenefitInfo.CoverTaken;
+            this.tb_threshold.Text = record.thresholdBenefitInfo.Comments;
 
             //Chronic Benefits
-            this.ChronicBenefit1.Text = record.cbCoverDiscussed;
-            this.ChronicBenefit2.Text = record.cbCoverTaken;
-            this.tb_chronic.Text = record.cbComments;
+            this.ChronicBenefit1.Text = record.chronicBenefitInfo.CoverDiscussed;
+            this.ChronicBenefit2.Text = record.chronicBenefitInfo.CoverTaken;
+            this.tb_chronic.Text = record.chronicBenefitInfo.Comments;
 
             //Savings Account
-            this.Savings1.Text = record.saCoverDiscussed;
-            this.Savings2.Text = record.saCoverTaken;
-            this.tb_savingsAccount.Text = record.saComments;
+            this.Savings1.Text = record.savingsAccountInfo.CoverDiscussed;
+            this.Savings2.Text = record.savingsAccountInfo.CoverTaken;
+            this.tb_savingsAccount.Text = record.savingsAccountInfo.Comments;
 
             //Hospital Preference
-            this.HospitalPreference1.Text = record.hpCoverDiscussed;
-            this.HospitalPreference2.Text = record.hpCoverTaken;
-            this.tb_hospitalPreference.Text = record.hpComments;
+            this.HospitalPreference1.Text = record.hospitalPreferenceInfo.CoverDiscussed;
+            this.HospitalPreference2.Text = record.hospitalPreferenceInfo.CoverTaken;
+            this.tb_hospitalPreference.Text = record.hospitalPreferenceInfo.Comments;
 
             //Gap Cover
-            this.GapCover1.Text = record.gcCoverDiscussed;
-            this.GapCover2.Text = record.gcCoverTaken;
-            this.tb_gapCover.Text = record.gcComments;
+            this.GapCover1.Text = record.gapCoverInfo.CoverDiscussed;
+            this.GapCover2.Text = record.gapCoverInfo.CoverTaken;
+            this.tb_gapCover.Text = record.gapCoverInfo.Comments;
 
             //Other
-            this.Other1.Text = record.oCoverDiscussed;
-            this.Other2.Text = record.oCoverTaken;
-            this.tb_other.Text = record.oComments;
+            this.Other1.Text = record.otherInfo.CoverDiscussed;
+            this.Other2.Text = record.otherInfo.CoverTaken;
+            this.tb_other.Text = record.otherInfo.Comments;
         }
      
         //Populate values for Medical Scheme comparison table in medical CAR

@@ -1298,9 +1298,35 @@ namespace Finx.App.Forms
                         }, left: 5, top: 85, labelWidth: 150, PropertyChangedHandler: propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical).Format();
 
 
+                        //
 
-                        //this.dataGrid_CARRetirement.Initialise1<ClientAdviceRecord>(client.ClientPortfolio.Medicals.medical)
 
+                        this.dataGrid_CARRetirement.Initialise1<Retirement>(client.ClientPortfolio.RetirementsBindingList, column =>
+                        {
+                            //column.For(x => x.CurrentAdviceRecord., "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            //column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new StringEditor());
+                            //column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            //column.For(c => c.InitialAmount, "Lump Sum", new MetroCurrencyEditor());
+                            //column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
+                            //column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
+                            //column.For(c => c.EscalationPercentage, "Escalation", new DecimalEditor());
+                            //column.For(c => c.GrowthPercentage, "Growth", new DecimalEditor());
+                            //column.For(c => c.CurrentAmount, "Current Value", new CurrencyEditor(true));
+                            //column.For(c => c.FutureAmount, "Retirement Value", new CurrencyEditor(true));
+                            //column.For(c => c.Status, "Policy Status", new StringEditor(true));
+                        },
+                        PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                        RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.RetirementPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: _readOnlyForAdminAdvisor,
+                        AllowDelete: false)
+                        .Format1(_readOnlyForAdminAdvisor, fixedCols: 3);
+
+
+
+                        //
 
                         #endregion
                         break;
