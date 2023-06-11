@@ -125,6 +125,7 @@
     <Compile Include="easiplan.domain.Entities\MeetingStatus.cs" />
     <Compile Include="easiplan.domain.Entities\RiskAdviceRecord.cs" />
     <Compile Include="easiplan.domain.Entities\RiskCoverNeed.cs" />
+    <Compile Include="easiplan.domain.Entities\RiskNeedsAndGoalsTableRow.cs" />
     <Compile Include="easiplan.domain.Model\FinDataPoint.cs" />
     <Compile Include="easiplan.domain.Entities\AdditionalInfo.cs" />
     <Compile Include="easiplan.domain.Entities\AddressDetail.cs" />

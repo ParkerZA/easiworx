@@ -1917,9 +1917,16 @@ namespace Finx.App.Forms
 
         private void Cover1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //ComboBox comboBox = (ComboBox)sender;
-            //((MedicalAidAdviceRecord)selectedNote).hcCoverDiscussed = comboBox.SelectedItem.ToString();
-            ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.CoverDiscussed = Cover1.SelectedItem.ToString();
+            //MedicalAidNeedsAndGoalsTableRow target = ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo;
+
+            if (((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo != null)
+            {
+                ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.CoverDiscussed = Cover1.SelectedItem.ToString();
+            }
+            else
+            {
+                ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo = new MedicalAidNeedsAndGoalsTableRow();
+            }
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
@@ -2613,7 +2620,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).LifeNeedsQuantified = tb.Text;
+                ((RiskAdviceRecord)selectedNote).LifeInfo.NeedsQuantified = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2632,7 +2639,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).LifeNeedsPriority = tb.Text;
+                ((RiskAdviceRecord)selectedNote).LifeInfo.NeedsPriority = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2651,7 +2658,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroComboBox cmb = (MetroComboBox)sender;
-                ((RiskAdviceRecord)selectedNote).LifeNeedAddressed = cmb.Text;
+                ((RiskAdviceRecord)selectedNote).LifeInfo.NeedAddressed = cmb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2670,7 +2677,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).LifeShortfall = tb.Text;
+                ((RiskAdviceRecord)selectedNote).LifeInfo.Shortfall = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2691,7 +2698,7 @@ namespace Finx.App.Forms
                 MetroDateTime dt = (MetroDateTime)sender;
                 dt.CustomFormat = "dd MMM yyyy";
 
-                ((RiskAdviceRecord)selectedNote).LifeReviewDate = dt.Text;
+                ((RiskAdviceRecord)selectedNote).LifeInfo.ReviewDate = dt.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2714,7 +2721,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).IncomeProtectionNeedsQuantified = tb.Text;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionInfo.NeedsQuantified = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2733,7 +2740,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).IncomeProtectionNeedsPriority = tb.Text;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionInfo.NeedsPriority = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2752,7 +2759,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroComboBox cmb = (MetroComboBox)sender;
-                ((RiskAdviceRecord)selectedNote).IncomeProtectionNeedAddressed = cmb.Text;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionInfo.NeedAddressed = cmb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2771,7 +2778,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).IncomeProtectionShortfall = tb.Text;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionInfo.Shortfall = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2793,7 +2800,7 @@ namespace Finx.App.Forms
                 MetroDateTime dt = (MetroDateTime)sender;
                 dt.CustomFormat = "dd MMM yyyy";
 
-                ((RiskAdviceRecord)selectedNote).IncomeProtectionReviewDate = dt.Text;
+                ((RiskAdviceRecord)selectedNote).IncomeProtectionInfo.ReviewDate = dt.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2816,7 +2823,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).LumpSumNeedsQuantified = tb.Text;
+                ((RiskAdviceRecord)selectedNote).LumpSumInfo.NeedsQuantified = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2835,7 +2842,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).LumpSumNeedsPriority = tb.Text;
+                ((RiskAdviceRecord)selectedNote).LumpSumInfo.NeedsPriority = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2854,7 +2861,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroComboBox cmb = (MetroComboBox)sender;
-                ((RiskAdviceRecord)selectedNote).LumpSumNeedAddressed = cmb.Text;
+                ((RiskAdviceRecord)selectedNote).LumpSumInfo.NeedAddressed = cmb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2873,7 +2880,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).LumpSumShortfall = tb.Text;
+                ((RiskAdviceRecord)selectedNote).LumpSumInfo.Shortfall = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2894,7 +2901,7 @@ namespace Finx.App.Forms
                 MetroDateTime dt = (MetroDateTime)sender;
                 dt.CustomFormat = "dd MMM yyyy";
 
-                ((RiskAdviceRecord)selectedNote).LumpSumReviewDate = dt.Text;
+                ((RiskAdviceRecord)selectedNote).LumpSumInfo.ReviewDate = dt.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2917,7 +2924,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityNeedsQuantified = tb.Text;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityInfo.NeedsQuantified = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2936,7 +2943,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityNeedsPriority = tb.Text;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityInfo.NeedsPriority = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2955,7 +2962,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroComboBox cmb = (MetroComboBox)sender;
-                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityNeedAddressed = cmb.Text;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityInfo.NeedAddressed = cmb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2974,7 +2981,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityShortfall = tb.Text;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityInfo.Shortfall = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -2995,7 +3002,7 @@ namespace Finx.App.Forms
                 MetroDateTime dt = (MetroDateTime)sender;
                 dt.CustomFormat = "dd MMM yyyy";
 
-                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityReviewDate = dt.Text;
+                ((RiskAdviceRecord)selectedNote).TemporaryDisabilityInfo.ReviewDate = dt.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3018,7 +3025,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessNeedsQuantified = tb.Text;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessInfo.NeedsQuantified = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3037,7 +3044,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessNeedsPriority = tb.Text;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessInfo.NeedsPriority = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3056,7 +3063,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroComboBox cmb = (MetroComboBox)sender;
-                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessNeedAddressed = cmb.Text;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessInfo.NeedAddressed = cmb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3075,7 +3082,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessShortfall = tb.Text;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessInfo.Shortfall = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3096,7 +3103,7 @@ namespace Finx.App.Forms
                 MetroDateTime dt = (MetroDateTime)sender;
                 dt.CustomFormat = "dd MMM yyyy";
 
-                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessReviewDate = dt.Text;
+                ((RiskAdviceRecord)selectedNote).TraumaAndIllnessInfo.ReviewDate = dt.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3119,7 +3126,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).FuneralCoverNeedsQuantified = tb.Text;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverInfo.NeedsQuantified = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3138,7 +3145,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).FuneralCoverNeedsPriority = tb.Text;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverInfo.NeedsPriority = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3157,7 +3164,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroComboBox cmb = (MetroComboBox)sender;
-                ((RiskAdviceRecord)selectedNote).FuneralCoverNeedAddressed = cmb.Text;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverInfo.NeedAddressed = cmb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3176,7 +3183,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).FuneralCoverShortfall = tb.Text;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverInfo.Shortfall = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3197,7 +3204,7 @@ namespace Finx.App.Forms
                 MetroDateTime dt = (MetroDateTime)sender;
                 dt.CustomFormat = "dd MMM yyyy";
 
-                ((RiskAdviceRecord)selectedNote).FuneralCoverReviewDate = dt.Text;
+                ((RiskAdviceRecord)selectedNote).FuneralCoverInfo.ReviewDate = dt.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3220,7 +3227,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).OtherNeedsQuantified = tb.Text;
+                ((RiskAdviceRecord)selectedNote).OtherInfo.NeedsQuantified = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3239,7 +3246,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).OtherNeedsPriority = tb.Text;
+                ((RiskAdviceRecord)selectedNote).OtherInfo.NeedsPriority = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3258,7 +3265,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroComboBox cmb = (MetroComboBox)sender;
-                ((RiskAdviceRecord)selectedNote).OtherNeedAddressed = cmb.Text;
+                ((RiskAdviceRecord)selectedNote).OtherInfo.NeedAddressed = cmb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3278,7 +3285,7 @@ namespace Finx.App.Forms
             {
                 this.xToolBarMenu1.SetCAREdit(true);
                 MetroTextBox tb = (MetroTextBox)sender;
-                ((RiskAdviceRecord)selectedNote).OtherShortfall = tb.Text;
+                ((RiskAdviceRecord)selectedNote).OtherInfo.Shortfall = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3299,7 +3306,7 @@ namespace Finx.App.Forms
                 MetroDateTime dt = (MetroDateTime)sender;
                 dt.CustomFormat = "dd MMM yyyy";
 
-                ((RiskAdviceRecord)selectedNote).OtherReviewDate = dt.Text;
+                ((RiskAdviceRecord)selectedNote).OtherInfo.ReviewDate = dt.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -4382,91 +4389,148 @@ namespace Finx.App.Forms
         {
             //Load Form values from given record
 
-            //Hospital Cover
-            this.Cover1.Text = record.HospitalCoverInfo.CoverDiscussed;
-            this.Cover2.Text = record.HospitalCoverInfo.CoverTaken;
-            this.tb_hospitalCover.Text = record.HospitalCoverInfo.Comments;
-            
-            //Day to Day 
-            this.DayToDay1.Text = record.DayToDayBenefitInfo.CoverDiscussed;
-            this.DayToDay2.Text = record.DayToDayBenefitInfo.CoverTaken;
-            this.tb_dayToDay.Text = record.DayToDayBenefitInfo.Comments;
+            if (record.HospitalCoverInfo != null)
+            {
+                //Hospital Cover
+                this.Cover1.Text = record.HospitalCoverInfo.CoverDiscussed;
+                this.Cover2.Text = record.HospitalCoverInfo.CoverTaken;
+                this.tb_hospitalCover.Text = record.HospitalCoverInfo.Comments;
+            }
+            else
+            {
+                Console.WriteLine("Bot L");
+            }
+
+            //Day to Day
+            if (record.DayToDayBenefitInfo != null)
+            {
+                this.DayToDay1.Text = record.DayToDayBenefitInfo.CoverDiscussed;
+                this.DayToDay2.Text = record.DayToDayBenefitInfo.CoverTaken;
+                this.tb_dayToDay.Text = record.DayToDayBenefitInfo.Comments;
+            }
 
             //Threshold Benefits
-            this.Threshold1.Text = record.ThresholdBenefitInfo.CoverDiscussed;
-            this.Threshold2.Text = record.ThresholdBenefitInfo.CoverTaken;
-            this.tb_threshold.Text = record.ThresholdBenefitInfo.Comments;
+            if (record.ThresholdBenefitInfo != null)
+            {
+                this.Threshold1.Text = record.ThresholdBenefitInfo.CoverDiscussed;
+                this.Threshold2.Text = record.ThresholdBenefitInfo.CoverTaken;
+                this.tb_threshold.Text = record.ThresholdBenefitInfo.Comments;
+            }
 
             //Chronic Benefits
-            this.ChronicBenefit1.Text = record.ChronicBenefitInfo.CoverDiscussed;
-            this.ChronicBenefit2.Text = record.ChronicBenefitInfo.CoverTaken;
-            this.tb_chronic.Text = record.ChronicBenefitInfo.Comments;
+            if (record.ChronicBenefitInfo != null)
+            {
+                this.ChronicBenefit1.Text = record.ChronicBenefitInfo.CoverDiscussed;
+                this.ChronicBenefit2.Text = record.ChronicBenefitInfo.CoverTaken;
+                this.tb_chronic.Text = record.ChronicBenefitInfo.Comments;
+            }
 
             //Savings Account
-            this.Savings1.Text = record.SavingsAccountInfo.CoverDiscussed;
-            this.Savings2.Text = record.SavingsAccountInfo.CoverTaken;
-            this.tb_savingsAccount.Text = record.SavingsAccountInfo.Comments;
+            if (record.SavingsAccountInfo != null)
+            {
+                this.Savings1.Text = record.SavingsAccountInfo.CoverDiscussed;
+                this.Savings2.Text = record.SavingsAccountInfo.CoverTaken;
+                this.tb_savingsAccount.Text = record.SavingsAccountInfo.Comments;
+            }
 
             //Hospital Preference
-            this.HospitalPreference1.Text = record.HospitalPreferenceInfo.CoverDiscussed;
-            this.HospitalPreference2.Text = record.HospitalPreferenceInfo.CoverTaken;
-            this.tb_hospitalPreference.Text = record.HospitalPreferenceInfo.Comments;
+            if (record.HospitalPreferenceInfo != null)
+            {
+                this.HospitalPreference1.Text = record.HospitalPreferenceInfo.CoverDiscussed;
+                this.HospitalPreference2.Text = record.HospitalPreferenceInfo.CoverTaken;
+                this.tb_hospitalPreference.Text = record.HospitalPreferenceInfo.Comments;
+            }
 
             //Gap Cover
-            this.GapCover1.Text = record.GapCoverInfo.CoverDiscussed;
-            this.GapCover2.Text = record.GapCoverInfo.CoverTaken;
-            this.tb_gapCover.Text = record.GapCoverInfo.Comments;
-
+            if (record.GapCoverInfo != null)
+            {
+                this.GapCover1.Text = record.GapCoverInfo.CoverDiscussed;
+                this.GapCover2.Text = record.GapCoverInfo.CoverTaken;
+                this.tb_gapCover.Text = record.GapCoverInfo.Comments;
+            }
             //Other
-            this.Other1.Text = record.OtherInfo.CoverDiscussed;
-            this.Other2.Text = record.OtherInfo.CoverTaken;
-            this.tb_other.Text = record.OtherInfo.Comments;
+            if (record.OtherInfo != null)
+            {
+                this.Other1.Text = record.OtherInfo.CoverDiscussed;
+                this.Other2.Text = record.OtherInfo.CoverTaken;
+                this.tb_other.Text = record.OtherInfo.Comments;
+            }
         }
-     
+
         //Populate values for Medical Scheme comparison table in medical CAR
         private void PopulateMedicalSchemeTable(MedicalAidAdviceRecord record)
         {
             //Load Form values from given record
 
             //Policy/Application Number
-            this.tbPolicyNo_Current.Text = record.PolicyNumberComparison.CurrentMedicalScheme;
-            this.tbPolicyNo_Replaced.Text = record.PolicyNumberComparison.ReplacedMedicalScheme;
+            if (record.PolicyNumberComparison != null)
+            {
+                this.tbPolicyNo_Current.Text = record.PolicyNumberComparison.CurrentMedicalScheme;
+                this.tbPolicyNo_Replaced.Text = record.PolicyNumberComparison.ReplacedMedicalScheme;
+            }
 
-            //Insurer 
-            this.tbInsurer_Current.Text = record.InsurerComparison.CurrentMedicalScheme;
-            this.tbInsurer_Replaced.Text = record.InsurerComparison.ReplacedMedicalScheme;
+            //Insurer
+            if (record.InsurerComparison != null)
+            {
+                this.tbInsurer_Current.Text = record.InsurerComparison.CurrentMedicalScheme;
+                this.tbInsurer_Replaced.Text = record.InsurerComparison.ReplacedMedicalScheme;
+            }
 
             //Product Name
-            this.tbProductName_Current.Text = record.ProductNameComparison.CurrentMedicalScheme;
-            this.tbProductName_Replaced.Text = record.ProductNameComparison.ReplacedMedicalScheme;
+            if (record.ProductNameComparison != null)
+            {
+                this.tbProductName_Current.Text = record.ProductNameComparison.CurrentMedicalScheme;
+                this.tbProductName_Replaced.Text = record.ProductNameComparison.ReplacedMedicalScheme;
+            }
 
             //Premium
-            this.tbPremium_Current.Text = record.ProductNameComparison.CurrentMedicalScheme;
-            this.tbPremium_Replaced.Text = record.ProductNameComparison.ReplacedMedicalScheme;
+            if (record.PremiumComparison != null)
+            {
+                this.tbPremium_Current.Text = record.ProductNameComparison.CurrentMedicalScheme;
+                this.tbPremium_Replaced.Text = record.ProductNameComparison.ReplacedMedicalScheme;
+            }
 
             //Benefits
-            this.tbBenefits_Current.Text = record.BenefitsComparison.CurrentMedicalScheme;
-            this.tbBenefits_Replaced.Text = record.BenefitsComparison.ReplacedMedicalScheme;
-            
+            if (record.BenefitsComparison != null)
+            {
+                this.tbBenefits_Current.Text = record.BenefitsComparison.CurrentMedicalScheme;
+                this.tbBenefits_Replaced.Text = record.BenefitsComparison.ReplacedMedicalScheme;
+            }
+
             //Savings Account
-            this.tbCompSavings_Current.Text = record.SavingsAccountComparison.CurrentMedicalScheme;
-            this.tbCompSavings_Replaced.Text = record.SavingsAccountComparison.ReplacedMedicalScheme;
+            if (record.SavingsAccountComparison != null)
+            {
+                this.tbCompSavings_Current.Text = record.SavingsAccountComparison.CurrentMedicalScheme;
+                this.tbCompSavings_Replaced.Text = record.SavingsAccountComparison.ReplacedMedicalScheme;
+            }
 
             //Chronic Benefits
-            this.tbCompChronic_Current.Text = record.ChronicBenefitComparison.CurrentMedicalScheme;
-            this.tbCompChronic_Replaced.Text = record.ChronicBenefitComparison.ReplacedMedicalScheme;
+            if (record.ChronicBenefitComparison != null)
+            {
+                this.tbCompChronic_Current.Text = record.ChronicBenefitComparison.CurrentMedicalScheme;
+                this.tbCompChronic_Replaced.Text = record.ChronicBenefitComparison.ReplacedMedicalScheme;
+            }
 
             //Hospital Cover
-            this.tbCompHospitalCover_Current.Text = record.HospitalCoverComparison.CurrentMedicalScheme;
-            this.tbCompHospitalCover_Replaced.Text = record.HospitalCoverComparison.ReplacedMedicalScheme;
+            if (record.HospitalCoverComparison != null)
+            {
+                this.tbCompHospitalCover_Current.Text = record.HospitalCoverComparison.CurrentMedicalScheme;
+                this.tbCompHospitalCover_Replaced.Text = record.HospitalCoverComparison.ReplacedMedicalScheme;
+            }
 
             //Limits On Cover
-            this.tbLimitsOnCover_Current.Text = record.LimitsOnCoverComparison.CurrentMedicalScheme;
-            this.tbLimitsOnCover_Replaced.Text = record.LimitsOnCoverComparison.ReplacedMedicalScheme;
+            if (record.LimitsOnCoverComparison != null)
+            {
+                this.tbLimitsOnCover_Current.Text = record.LimitsOnCoverComparison.CurrentMedicalScheme;
+                this.tbLimitsOnCover_Replaced.Text = record.LimitsOnCoverComparison.ReplacedMedicalScheme;
+            }
 
             //Other
-            this.tbCompOther_Current.Text = record.OtherComparison.CurrentMedicalScheme;
-            this.tbCompOther_Replaced.Text = record.OtherComparison.ReplacedMedicalScheme;
+            if (record.OtherComparison != null)
+            {
+                this.tbCompOther_Current.Text = record.OtherComparison.CurrentMedicalScheme;
+                this.tbCompOther_Replaced.Text = record.OtherComparison.ReplacedMedicalScheme;
+            }
         }
 
 
@@ -4476,115 +4540,136 @@ namespace Finx.App.Forms
             DateTime rvDate;
 
             //Life
-            this.tb_LifeNeedsQuantified.Text = "R " +record.LifeNeedsQuantified;
-            this.tb_LifeNeedsPriority.Text = record.LifeNeedsPriority;
-            this.cmb_Life.Text = record.LifeNeedAddressed;
-            this.tb_LifeShortfall.Text = record.LifeShortfall;
+            if (record.LifeInfo != null)
+            {
+                this.tb_LifeNeedsQuantified.Text = "R " + record.LifeInfo.NeedsQuantified;
+                this.tb_LifeNeedsPriority.Text = record.LifeInfo.NeedsPriority;
+                this.cmb_Life.Text = record.LifeInfo.NeedAddressed;
+                this.tb_LifeShortfall.Text = record.LifeInfo.Shortfall;
 
-            if (DateTime.TryParseExact(record.LifeReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
-            {
-                this.dtp_LifeReviewDate.Value = rvDate;
-                this.dtp_LifeReviewDate.CustomFormat = "dd MMM yyyy";
-            }
-            else
-            {
-                this.dtp_LifeReviewDate.CustomFormat = " ";
+                if (DateTime.TryParseExact(record.LifeInfo.ReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+                {
+                    this.dtp_LifeReviewDate.Value = rvDate;
+                    this.dtp_LifeReviewDate.CustomFormat = "dd MMM yyyy";
+                }
+                else
+                {
+                    this.dtp_LifeReviewDate.CustomFormat = " ";
+                }
             }
 
             //Income Protection
-            this.tb_PDIncomeProtectionNeedsQuantified.Text = "R " + record.IncomeProtectionNeedsQuantified;
-            this.tb_PDIncomeProtectionNeedsPriority.Text = record.IncomeProtectionNeedsPriority;
-            this.cmb_PDIncomeProtection.Text = record.IncomeProtectionNeedAddressed;
-            this.tb_PDIncomeProtectionShortfall.Text = record.IncomeProtectionShortfall;
+            if (record.IncomeProtectionInfo != null)
+            {
+                this.tb_PDIncomeProtectionNeedsQuantified.Text = "R " + record.IncomeProtectionInfo.NeedsQuantified;
+                this.tb_PDIncomeProtectionNeedsPriority.Text = record.IncomeProtectionInfo.NeedsPriority;
+                this.cmb_PDIncomeProtection.Text = record.IncomeProtectionInfo.NeedAddressed;
+                this.tb_PDIncomeProtectionShortfall.Text = record.IncomeProtectionInfo.Shortfall;
 
-            if (DateTime.TryParseExact(record.IncomeProtectionReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
-            {
-                this.dtp_PDIncomeProtectionReviewDate.Value = rvDate;
-                this.dtp_PDIncomeProtectionReviewDate.CustomFormat = "dd MMM yyyy";
-            }
-            else
-            {
-                this.dtp_PDIncomeProtectionReviewDate.CustomFormat = " ";
+                if (DateTime.TryParseExact(record.IncomeProtectionInfo.ReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+                {
+                    this.dtp_PDIncomeProtectionReviewDate.Value = rvDate;
+                    this.dtp_PDIncomeProtectionReviewDate.CustomFormat = "dd MMM yyyy";
+                }
+                else
+                {
+                    this.dtp_PDIncomeProtectionReviewDate.CustomFormat = " ";
+                }
             }
 
             //Lump Sum
-            this.tb_PDLumpSumNeedsQuantified.Text = "R " + record.LumpSumNeedsQuantified;
-            this.tb_PDLumpSumNeedsPriority.Text = record.LumpSumNeedsPriority;
-            this.cmb_PDLumpSum.Text = record.LumpSumNeedAddressed;
-            this.tb_PDLumpSumShortfall.Text = record.LumpSumShortfall;
+            if (record.LumpSumInfo != null)
+            {
+                this.tb_PDLumpSumNeedsQuantified.Text = "R " + record.LumpSumInfo.NeedsQuantified;
+                this.tb_PDLumpSumNeedsPriority.Text = record.LumpSumInfo.NeedsPriority;
+                this.cmb_PDLumpSum.Text = record.LumpSumInfo.NeedAddressed;
+                this.tb_PDLumpSumShortfall.Text = record.LumpSumInfo.Shortfall;
 
-            if (DateTime.TryParseExact(record.LumpSumReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
-            {
-                this.dtp_PDLumpSumReviewDate.Value = rvDate;
-                this.dtp_PDLumpSumReviewDate.CustomFormat = "dd MMM yyyy";
-            }
-            else
-            {
-                this.dtp_TraumaReviewDate.CustomFormat = " ";
+                if (DateTime.TryParseExact(record.LumpSumInfo.ReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+                {
+                    this.dtp_PDLumpSumReviewDate.Value = rvDate;
+                    this.dtp_PDLumpSumReviewDate.CustomFormat = "dd MMM yyyy";
+                }
+                else
+                {
+                    this.dtp_TraumaReviewDate.CustomFormat = " ";
+                }
             }
 
             //Temporary Disability
-            this.tb_TemporaryDisabilityNeedsQuantified.Text = "R " + record.TemporaryDisabilityNeedsQuantified;
-            this.tb_TemporaryDisabilityNeedsPriority.Text = record.TemporaryDisabilityNeedsPriority;
-            this.cmb_TemporaryDisability.Text = record.TemporaryDisabilityNeedAddressed;
-            this.tb_TemporaryDisabilityShortfall.Text = record.TemporaryDisabilityShortfall;
+            if (record.TemporaryDisabilityInfo != null)
+            {
+                this.tb_TemporaryDisabilityNeedsQuantified.Text = "R " + record.TemporaryDisabilityInfo.NeedsQuantified;
+                this.tb_TemporaryDisabilityNeedsPriority.Text = record.TemporaryDisabilityInfo.NeedsPriority;
+                this.cmb_TemporaryDisability.Text = record.TemporaryDisabilityInfo.NeedAddressed;
+                this.tb_TemporaryDisabilityShortfall.Text = record.TemporaryDisabilityInfo.Shortfall;
 
-            if (DateTime.TryParseExact(record.TemporaryDisabilityReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
-            {
-                this.dtp_TemporaryDisabilityReviewDate.Value = rvDate;
-                this.dtp_TemporaryDisabilityReviewDate.CustomFormat = "dd MMM yyyy";
-            }
-            else
-            {
-                this.dtp_TraumaReviewDate.CustomFormat = " ";
+                if (DateTime.TryParseExact(record.TemporaryDisabilityInfo.ReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+                {
+                    this.dtp_TemporaryDisabilityReviewDate.Value = rvDate;
+                    this.dtp_TemporaryDisabilityReviewDate.CustomFormat = "dd MMM yyyy";
+                }
+                else
+                {
+                    this.dtp_TraumaReviewDate.CustomFormat = " ";
+                }
             }
 
             //Trauma/Illness
-            this.tb_TraumaNeedsQuantified.Text = "R " + record.TraumaAndIllnessNeedsQuantified;
-            this.tb_TraumaNeedsPriority.Text = record.TraumaAndIllnessNeedsPriority;
-            this.cmb_Trauma.Text = record.TraumaAndIllnessNeedAddressed;
-            this.tb_TraumaShortfall.Text = record.TraumaAndIllnessShortfall;
+            if (record.TraumaAndIllnessInfo != null)
+            {
+                this.tb_TraumaNeedsQuantified.Text = "R " + record.TraumaAndIllnessInfo.NeedsQuantified;
+                this.tb_TraumaNeedsPriority.Text = record.TraumaAndIllnessInfo.NeedsPriority;
+                this.cmb_Trauma.Text = record.TraumaAndIllnessInfo.NeedAddressed;
+                this.tb_TraumaShortfall.Text = record.TraumaAndIllnessInfo.Shortfall;
 
-            if (DateTime.TryParseExact(record.TraumaAndIllnessReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
-            {
-                this.dtp_TraumaReviewDate.Value = rvDate;
-                this.dtp_TraumaReviewDate.CustomFormat = "dd MMM yyyy";
-            }
-            else
-            {
-                this.dtp_TraumaReviewDate.CustomFormat = " ";
+                if (DateTime.TryParseExact(record.TraumaAndIllnessInfo.ReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+                {
+                    this.dtp_TraumaReviewDate.Value = rvDate;
+                    this.dtp_TraumaReviewDate.CustomFormat = "dd MMM yyyy";
+                }
+                else
+                {
+                    this.dtp_TraumaReviewDate.CustomFormat = " ";
+                }
             }
 
             //Funeral Cover/Immediate Expenses
-            this.tb_FuneralCoverNeedsQuantified.Text = "R " + record.FuneralCoverNeedsQuantified;
-            this.tb_FuneralCoverNeedsPriority.Text = record.FuneralCoverNeedsPriority;
-            this.cmb_FuneralCover.Text = record.FuneralCoverNeedAddressed;
-            this.tb_FuneralCoverShortfall.Text = record.FuneralCoverShortfall;
+            if (record.FuneralCoverInfo != null)
+            {
+                this.tb_FuneralCoverNeedsQuantified.Text = "R " + record.FuneralCoverInfo.NeedsQuantified;
+                this.tb_FuneralCoverNeedsPriority.Text = record.FuneralCoverInfo.NeedsPriority;
+                this.cmb_FuneralCover.Text = record.FuneralCoverInfo.NeedAddressed;
+                this.tb_FuneralCoverShortfall.Text = record.FuneralCoverInfo.Shortfall;
 
-            if (DateTime.TryParseExact(record.FuneralCoverReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
-            {
-                this.dtp_FuneralCoverReviewDate.Value = rvDate;
-                this.dtp_FuneralCoverReviewDate.CustomFormat = "dd MMM yyyy";
-            }
-            else
-            {
-                this.dtp_FuneralCoverReviewDate.CustomFormat = " ";
+                if (DateTime.TryParseExact(record.FuneralCoverInfo.ReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+                {
+                    this.dtp_FuneralCoverReviewDate.Value = rvDate;
+                    this.dtp_FuneralCoverReviewDate.CustomFormat = "dd MMM yyyy";
+                }
+                else
+                {
+                    this.dtp_FuneralCoverReviewDate.CustomFormat = " ";
+                }
             }
 
             //Other
-            this.tb_RiskOtherNeedsQuantified.Text = "R " + record.OtherNeedsQuantified;
-            this.tb_RiskOtherNeedsPriority.Text = record.OtherNeedsPriority;
-            this.cmb_RiskOther.Text = record.OtherNeedAddressed;
-            this.tb_RiskOtherShortfall.Text = record.OtherShortfall;
+            if (record.OtherInfo != null)
+            {
+                this.tb_RiskOtherNeedsQuantified.Text = "R " + record.OtherInfo.NeedsQuantified;
+                this.tb_RiskOtherNeedsPriority.Text = record.OtherInfo.NeedsPriority;
+                this.cmb_RiskOther.Text = record.OtherInfo.NeedAddressed;
+                this.tb_RiskOtherShortfall.Text = record.OtherInfo.Shortfall;
 
-            if (DateTime.TryParseExact(record.OtherReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
-            {
-                this.dtp_RiskOtherReviewDate.Value = rvDate;
-                this.dtp_RiskOtherReviewDate.CustomFormat = "dd MMM yyyy";
-            }
-            else
-            {
-                this.dtp_RiskOtherReviewDate.CustomFormat = " ";
+                if (DateTime.TryParseExact(record.OtherInfo.ReviewDate, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out rvDate))
+                {
+                    this.dtp_RiskOtherReviewDate.Value = rvDate;
+                    this.dtp_RiskOtherReviewDate.CustomFormat = "dd MMM yyyy";
+                }
+                else
+                {
+                    this.dtp_RiskOtherReviewDate.CustomFormat = " ";
+                }
             }
         }
 
@@ -4725,7 +4810,7 @@ namespace Finx.App.Forms
 
             PopulateMedicalTable(advRecord);
             PopulateMedicalSchemeTable(advRecord);
-
+            
             populateImplementedRecommendedFunds(advRecord);
             populateImplementedMotivation(advRecord);
         }

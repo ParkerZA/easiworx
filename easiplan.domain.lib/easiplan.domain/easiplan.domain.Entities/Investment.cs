@@ -64,6 +64,8 @@ namespace easiplan.domain.Entities
             set;
         }
 
+
+
         public virtual IList<ClientAdviceRecord> AdviceRecords
         {
             get;
@@ -99,6 +101,17 @@ namespace easiplan.domain.Entities
         #endregion
 
         #region NonPersisted Properties
+
+
+        [IgnoreAutoMap]
+        public virtual ClientAdviceRecord CurrentAdviceRecord
+        {
+            get
+            {
+                return this.AdviceRecords.LastOrDefault();
+            }
+        }
+
         [IgnoreAutoMap]
         public virtual int CurrentAge
         {

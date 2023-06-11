@@ -1,5 +1,4 @@
-﻿using easiplan.domain.easiplan.domain.Entities;
-using easiplan.domain.Entities;
+﻿using easiplan.domain.Entities;
 using FluentValidation;
 using my.domain.lib.core.Attributes;
 using my.domain.lib.core.Domain;
@@ -22,79 +21,20 @@ namespace easiplan.domain.Entities
         private string _otherImportantInformation;
         private string _notes;
 
-        #region Needs and Goals table private variables
-
-        private string _hospitalCoverDiscussed;
-        private string _hospitalCoverTaken;
-        private string _hospitalCoverComment;
-
-        private string _dayToDayBenefitDiscussed;
-        private string _dayToDayBenefitTaken;
-        private string _dayToDayBenefitComment;
-
-
-        private string _thresholdBenefitDiscussed;
-        private string _thresholdBenefitTaken;
-        private string _thresholdBenefitComment;
-
-
-        private string _chronicBenefitDiscussed;
-        private string _chronicBenefitTaken;
-        private string _chronicBenefitComment;
-
-        private string _savingsAccountDiscussed;
-        private string _savingsAccountTaken;
-        private string _savingsAccountComment;
+        #region Constructors
         
-        private string _hospitalisationPreferenceDiscussed;
-        private string _hospitalisationPreferenceTaken;
-        private string _hospitalisationPreferenceComment;
-
-
-        private string _gapCoverDiscussed;
-        private string _gapCoverTaken;
-        private string _gapCoverComment;
-
-        private string _otherDiscussed;
-        private string _otherTaken;
-        private string _otherComment;
-
-        #endregion
-
-        #region Medical Scheme Comparison table private variables
-
-        private string _policyNumberCurrent;
-        private string _policyNumberReplaced;
-        private string _insurerCurrent;
-        private string _insurerReplaced;
-        private string _productNameCurrent;
-        private string _productNameReplaced;
-        private string _premiumCurrent;
-        private string _premiumReplaced;
-        private string _benefitsCurrent;
-        private string _benefitsReplaced;
-        private string _savingsAccountCurrent;
-        private string _savingsAccountReplaced;
-        private string _chronicBenefitCurrent;
-        private string _chronicBenefitReplaced;
-        private string _hospitalCoverCurrent;
-        private string _hospitalCoverReplaced;
-        private string _limitsOnCoverCurrent;
-        private string _limitsOnCoverReplaced;
-        private string _otherCurrent;
-        private string _otherReplaced;
-
-        #endregion
-
-
+        //Standard constructor
         public MedicalAidAdviceRecord()
         {
            
 
         }
 
+        //Copy Constructor
         public MedicalAidAdviceRecord (MedicalAidAdviceRecord copy): base(copy)
         {
+            #region Instance Variables
+
             this._medicalConditions = copy._medicalConditions;
             this._medicalCover = copy._medicalCover;
             this._hospitalisation= copy._hospitalisation;
@@ -105,63 +45,38 @@ namespace easiplan.domain.Entities
             this._otherImportantInformation=copy._otherImportantInformation;
             this._notes=copy._notes;
 
-            this._hospitalCoverDiscussed = copy._hospitalCoverDiscussed;
-            this._hospitalCoverTaken = copy._hospitalCoverTaken;
-            this._hospitalCoverComment = copy._hospitalCoverComment;
+            #endregion
 
-            this._dayToDayBenefitDiscussed = copy._dayToDayBenefitDiscussed;
-            this._dayToDayBenefitTaken = copy._dayToDayBenefitTaken;
-            this._dayToDayBenefitComment = copy._dayToDayBenefitComment;
+            #region Needs And Goals Table
 
-            this._thresholdBenefitDiscussed=copy._thresholdBenefitDiscussed;
-            this._thresholdBenefitTaken = copy._thresholdBenefitTaken;
-            this._thresholdBenefitComment = copy._thresholdBenefitComment;
+            this.HospitalCoverInfo = new MedicalAidNeedsAndGoalsTableRow(copy.HospitalCoverInfo);
+            this.DayToDayBenefitInfo = new MedicalAidNeedsAndGoalsTableRow(copy.DayToDayBenefitInfo);
+            this.ThresholdBenefitInfo = new MedicalAidNeedsAndGoalsTableRow(copy.ThresholdBenefitInfo);
+            this.ChronicBenefitInfo = new MedicalAidNeedsAndGoalsTableRow(copy.ChronicBenefitInfo);
+            this.SavingsAccountInfo = new MedicalAidNeedsAndGoalsTableRow(copy.SavingsAccountInfo);
+            this.HospitalPreferenceInfo = new MedicalAidNeedsAndGoalsTableRow(copy.HospitalPreferenceInfo);
+            this.GapCoverInfo = new MedicalAidNeedsAndGoalsTableRow(copy.GapCoverInfo);
+            this.OtherInfo = new MedicalAidNeedsAndGoalsTableRow(copy.OtherInfo);
 
-            this._chronicBenefitDiscussed = copy._chronicBenefitDiscussed;
-            this._chronicBenefitTaken = copy._chronicBenefitTaken;
-            this._chronicBenefitComment = copy._chronicBenefitComment;
+            #endregion
 
-            this._savingsAccountDiscussed = copy._savingsAccountDiscussed;
-            this._savingsAccountTaken = copy._savingsAccountTaken;
-            this._savingsAccountComment = copy._savingsAccountComment;
+            #region Comparison Table
 
-            this._hospitalisationPreferenceDiscussed = copy._hospitalisationPreferenceDiscussed;
-            this._hospitalisationPreferenceTaken = copy._hospitalisationPreferenceTaken;
-            this._hospitalisationPreferenceComment = copy._hospitalisationPreferenceComment;
+            this.PolicyNumberComparison = new MedicalSchemeComparison(copy.PolicyNumberComparison);
+            this.InsurerComparison = new MedicalSchemeComparison(copy.InsurerComparison);
+            this.ProductNameComparison = new MedicalSchemeComparison(copy.ProductNameComparison);
+            this.PremiumComparison = new MedicalSchemeComparison(copy.PremiumComparison);
+            this.BenefitsComparison = new MedicalSchemeComparison(copy.BenefitsComparison);
+            this.SavingsAccountComparison = new MedicalSchemeComparison(copy.SavingsAccountComparison);
+            this.ChronicBenefitComparison = new MedicalSchemeComparison(copy.ChronicBenefitComparison);
+            this.HospitalCoverComparison = new MedicalSchemeComparison(copy.HospitalCoverComparison);
+            this.LimitsOnCoverComparison = new MedicalSchemeComparison(copy.LimitsOnCoverComparison);
+            this.OtherComparison = new MedicalSchemeComparison(copy.OtherComparison);
 
-            this._gapCoverDiscussed= copy._gapCoverDiscussed;
-            this._gapCoverTaken = copy._gapCoverTaken;
-            this._gapCoverComment = copy._gapCoverComment;
+            #endregion
+        }
 
-            this._otherDiscussed= copy._otherDiscussed;
-            this._otherTaken= copy._otherTaken;
-            this._otherComment= copy._otherComment;
-
-
-            this._policyNumberCurrent = copy._policyNumberCurrent;
-            this._policyNumberReplaced = copy._policyNumberReplaced;
-            this._insurerCurrent = copy._insurerCurrent;
-            this._insurerReplaced = copy._insurerReplaced;
-            this._productNameCurrent = copy._productNameCurrent;
-            this._productNameReplaced = copy._productNameReplaced;
-            this._premiumCurrent = copy._premiumCurrent;
-            this._premiumReplaced = copy._premiumReplaced;
-            this._benefitsCurrent = copy._benefitsCurrent;
-            this._benefitsReplaced = copy._benefitsReplaced;
-            this._savingsAccountCurrent = copy._savingsAccountCurrent;
-            this._savingsAccountReplaced = copy._savingsAccountReplaced;
-            this._chronicBenefitCurrent = copy._chronicBenefitCurrent;
-            this._chronicBenefitReplaced = copy._chronicBenefitReplaced;
-            this._hospitalCoverCurrent = copy._hospitalCoverCurrent;
-            this._hospitalCoverReplaced = copy._hospitalCoverReplaced;
-            this._limitsOnCoverCurrent = copy._limitsOnCoverCurrent;
-            this._limitsOnCoverReplaced = copy._limitsOnCoverReplaced;
-            this._otherCurrent = copy._otherCurrent;
-            this._otherReplaced = copy._otherReplaced;
-
-            //this.ProductNameComparison = copy.ProductNameComparison;
-    }
-
+        #endregion
 
         public virtual string MedicalConditions
         {
@@ -305,10 +220,11 @@ namespace easiplan.domain.Entities
         //Methods for storage of the string descriptions for the current medical aids, and the replaced medical aid
 
         public virtual MedicalSchemeComparison PolicyNumberComparison { get; set; }
+        
         public virtual MedicalSchemeComparison InsurerComparison { get; set; }
 
         public virtual MedicalSchemeComparison ProductNameComparison { get; set; }
-
+        
         public virtual MedicalSchemeComparison PremiumComparison { get; set; }
 
         public virtual MedicalSchemeComparison BenefitsComparison { get; set; }
