@@ -17,8 +17,17 @@ namespace easiplan.domain.Entities
         //Standard constructor
         public RiskAdviceRecord()
         {
+            #region Needs and Goals Table
 
+            this.LifeInfo = new RiskNeedsAndGoalsTableRow();
+            this.IncomeProtectionInfo = new RiskNeedsAndGoalsTableRow();
+            this.LumpSumInfo = new RiskNeedsAndGoalsTableRow();
+            this.TemporaryDisabilityInfo = new RiskNeedsAndGoalsTableRow();
+            this.TraumaAndIllnessInfo = new RiskNeedsAndGoalsTableRow();
+            this.FuneralCoverInfo = new RiskNeedsAndGoalsTableRow();
+            this.OtherInfo = new RiskNeedsAndGoalsTableRow();
 
+            #endregion
         }
 
         //Copy Constructor

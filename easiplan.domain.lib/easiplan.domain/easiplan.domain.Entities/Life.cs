@@ -103,7 +103,7 @@ namespace easiplan.domain.Entities
 
 
         [IgnoreAutoMap]
-        public virtual ClientAdviceRecord CurrentAdviceRecord
+        public virtual RiskAdviceRecord CurrentAdviceRecord
         {
             get
             {

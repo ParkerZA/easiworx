@@ -1915,21 +1915,18 @@ namespace Finx.App.Forms
 
         #region Medical Aid Needs and Goals Table Combobox change handlers
 
+        #region Hospital Cover
+
         private void Cover1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //MedicalAidNeedsAndGoalsTableRow target = ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo;
 
-            if (((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo != null)
-            {
-                ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.CoverDiscussed = Cover1.SelectedItem.ToString();
-            }
-            else
-            {
-                ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo = new MedicalAidNeedsAndGoalsTableRow();
-            }
+            ComboBox comboBox = (ComboBox)sender;
+            ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
+
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
         private void Cover2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -1938,6 +1935,11 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
+        #endregion
+
+        #region Day To Day Benefit
+
         private void DayToDay1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -1946,6 +1948,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
         private void DayToDay2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -1954,6 +1957,11 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
+        #endregion
+
+        #region Threshold Benefit
+
         private void Threshold1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -1962,6 +1970,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
         private void Threshold2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -1970,6 +1979,11 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
+        #endregion
+
+        #region Chronic Benefit
+
         private void ChronicBenefit1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -1978,6 +1992,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
         private void ChronicBenefit2_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -1986,6 +2001,11 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
+        #endregion
+
+        #region Savings Account
+
         private void SavingsAccount1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -2003,6 +2023,10 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
+        #endregion
+
+        #region Hospital Preference
 
         private void HospitalPreference1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -2022,6 +2046,10 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
+        #endregion
+
+        #region Gap Cover
+
         private void GapCover1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -2039,6 +2067,10 @@ namespace Finx.App.Forms
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
+
+        #endregion
+
+        #region Other
 
         private void Other1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -2058,6 +2090,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
+        #endregion
 
         #endregion
 
@@ -4673,102 +4706,8 @@ namespace Finx.App.Forms
             }
         }
 
-
         #endregion
 
-        #region Save table value methods
-
-        //Possibly redundant code, delete if you find no errors
-        /*
-        private void MedicalTable_Save(MedicalAidAdviceRecord record)
-        {
-            //Load Form values from given record
-
-            //Hospital Cover
-            record.hcCoverDiscussed = this.Cover1.Text;
-            record.hcCoverTaken = this.Cover2.Text;
-            record.hcComments = this.tb_hospitalCover.Text;
-
-            //Day to Day 
-            record.ddCoverDiscussed = this.DayToDay1.Text;
-            record.ddCoverTaken = this.DayToDay2.Text;  
-            record.ddComments = this.tb_dayToDay.Text;
-
-            //Threshold Benefits
-            record.tbCoverDiscussed = this.Threshold1.Text;
-            record.tbCoverTaken = this.Threshold2.Text;
-            record.tbComments = this.tb_threshold.Text;
-
-            //Chronic Benefits
-            record.cbCoverDiscussed = this.ChronicBenefit1.Text;
-            record.cbCoverTaken = this.ChronicBenefit2.Text;
-            record.cbComments = this.tb_chronic.Text;
-
-            //Savings Account
-            record.saCoverDiscussed = this.Savings1.Text;
-            record.saCoverTaken = this.Savings2.Text;
-            record.saComments = this.tb_savingsAccount.Text;
-
-            //Hospital Preference
-            record.hpCoverDiscussed = this.HospitalPreference1.Text;
-            record.hpCoverTaken = this.HospitalPreference2.Text;
-            record.hpComments = this.tb_hospitalPreference.Text;
-
-            //Gap Cover
-            record.gcCoverDiscussed = this.GapCover1.Text;
-            record.gcCoverTaken = this.GapCover2.Text;
-            record.gcComments = this.tb_gapCover.Text;
-
-            //Other
-            record.oCoverDiscussed = this.Other1.Text;
-            record.oCoverTaken = this.Other2.Text;
-            record.oComments = this.tb_other.Text;
-        }
-
-        private void MedicalSchemeComparisonSave(MedicalAidAdviceRecord record)
-        {
-            //Policy/Application Number
-            record.PolicyNumberCurrent = this.tbPolicyNo_Current.Text;
-            record.PolicyNumberReplaced = this.tbPolicyNo_Replaced.Text;
-
-            //Insurer 
-            record.InsurerCurrent = this.tbInsurer_Current.Text;
-            record.InsurerReplaced = this.tbInsurer_Replaced.Text;
-
-            //Product Name
-            record.ProductNameCurrent = this.tbProductName_Current.Text;
-            record.ProductNameReplaced = this.tbProductName_Replaced.Text;
-
-            //Premium
-            record.PremiumCurrent = this.tbPremium_Current.Text;
-            record.PremiumReplaced = this.tbPremium_Replaced.Text;
-
-            //Benefits
-            record.BenefitsCurrent = this.tbBenefits_Current.Text;
-            record.BenefitsReplaced = this.tbBenefits_Replaced.Text;
-            
-            //Savings Account
-            record.SavingsAccountCurrent = this.tbCompSavings_Current.Text;
-            record.SavingsAccountReplaced = this.tbCompSavings_Replaced.Text;
-
-            //Chronic Benefits
-            record.ChronicBenefitCurrent = this.tbCompChronic_Current.Text;
-            record.ChronicBenefitReplaced = this.tbCompChronic_Replaced.Text;
-
-            //Hospital Cover
-            record.HospitalCoverCurrent = this.tbCompHospitalCover_Current.Text;
-            record.HospitalCoverReplaced = this.tbCompHospitalCover_Replaced.Text;
-
-            //Limits On Cover
-            record.LimitsOnCoverCurrent = this.tbLimitsOnCover_Current.Text;
-            record.LimitsOnCoverReplaced = this.tbLimitsOnCover_Replaced.Text;
-
-            //Other
-            record.OtherCurrent = this.tbCompOther_Current.Text;
-            record.OtherReplaced = this.tbCompOther_Replaced.Text;
-        }*/
-
-        #endregion
 
         //Call all methods to populate the standard CAR template
         private void populateRetirement(ClientAdviceRecord advRecord)

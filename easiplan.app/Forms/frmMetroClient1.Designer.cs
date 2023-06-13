@@ -28,21 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Person = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -221,6 +221,15 @@
             this.metroPanel_CheckListNotes = new MetroFramework.Controls.MetroPanel();
             this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
             this.metroTabPage_CarReview = new System.Windows.Forms.TabPage();
+            this.label_EducationPortfolio = new System.Windows.Forms.Label();
+            this.label_MedicalAidPortfolio = new System.Windows.Forms.Label();
+            this.label_NonRetirementPortfolio = new System.Windows.Forms.Label();
+            this.label_RetirementPortfolio = new System.Windows.Forms.Label();
+            this.label_RiskPortfolio = new System.Windows.Forms.Label();
+            this.dataGrid_CARRisk = new SourceGrid.DataGrid();
+            this.dataGrid_CARMedicalAid = new SourceGrid.DataGrid();
+            this.dataGrid_CAREducation = new SourceGrid.DataGrid();
+            this.dataGrid_CARNonRetirement = new SourceGrid.DataGrid();
             this.dataGrid_CARRetirement = new SourceGrid.DataGrid();
             this.metroTabPage8 = new MetroFramework.Controls.MetroTabPage();
             this.dataGrid_ClientAdminTasks = new SourceGrid.DataGrid();
@@ -231,10 +240,8 @@
             this.dataGrid_ClientMeetings = new SourceGrid.DataGrid();
             this.metroPanel18 = new MetroFramework.Controls.MetroPanel();
             this.metroCheckBox2 = new MetroFramework.Controls.MetroCheckBox();
-            this.dataGrid_CARNonRetirement = new SourceGrid.DataGrid();
-            this.dataGrid_CAREducation = new SourceGrid.DataGrid();
-            this.dataGrid_CARMedicalAid = new SourceGrid.DataGrid();
-            this.dataGrid_CARRisk = new SourceGrid.DataGrid();
+            this.label_IncomeAssetPortfolio = new System.Windows.Forms.Label();
+            this.dataGrid_CARIncomeAsset = new SourceGrid.DataGrid();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -1367,23 +1374,23 @@
             this.metroGrid_AssetLiabilitiesSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.metroGrid_AssetLiabilitiesSummary.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid_AssetLiabilitiesSummary.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.metroGrid_AssetLiabilitiesSummary.DefaultCellStyle = dataGridViewCellStyle11;
             this.metroGrid_AssetLiabilitiesSummary.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroGrid_AssetLiabilitiesSummary.EnableHeadersVisualStyles = false;
             this.metroGrid_AssetLiabilitiesSummary.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -1392,14 +1399,14 @@
             this.metroGrid_AssetLiabilitiesSummary.Margin = new System.Windows.Forms.Padding(4);
             this.metroGrid_AssetLiabilitiesSummary.Name = "metroGrid_AssetLiabilitiesSummary";
             this.metroGrid_AssetLiabilitiesSummary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_AssetLiabilitiesSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_AssetLiabilitiesSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.metroGrid_AssetLiabilitiesSummary.RowHeadersWidth = 51;
             this.metroGrid_AssetLiabilitiesSummary.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid_AssetLiabilitiesSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1502,23 +1509,23 @@
             this.metroGrid_IncomeExpenseSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.metroGrid_IncomeExpenseSummary.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGrid_IncomeExpenseSummary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_IncomeExpenseSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_IncomeExpenseSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.metroGrid_IncomeExpenseSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid_IncomeExpenseSummary.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.metroGrid_IncomeExpenseSummary.DefaultCellStyle = dataGridViewCellStyle14;
             this.metroGrid_IncomeExpenseSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroGrid_IncomeExpenseSummary.EnableHeadersVisualStyles = false;
             this.metroGrid_IncomeExpenseSummary.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -1527,14 +1534,14 @@
             this.metroGrid_IncomeExpenseSummary.Margin = new System.Windows.Forms.Padding(4);
             this.metroGrid_IncomeExpenseSummary.Name = "metroGrid_IncomeExpenseSummary";
             this.metroGrid_IncomeExpenseSummary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_IncomeExpenseSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_IncomeExpenseSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.metroGrid_IncomeExpenseSummary.RowHeadersWidth = 51;
             this.metroGrid_IncomeExpenseSummary.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid_IncomeExpenseSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1823,23 +1830,23 @@
             this.metroGrid_PortfolioSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.metroGrid_PortfolioSummary.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGrid_PortfolioSummary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_PortfolioSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_PortfolioSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.metroGrid_PortfolioSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid_PortfolioSummary.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.metroGrid_PortfolioSummary.DefaultCellStyle = dataGridViewCellStyle17;
             this.metroGrid_PortfolioSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroGrid_PortfolioSummary.EnableHeadersVisualStyles = false;
             this.metroGrid_PortfolioSummary.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -1849,14 +1856,14 @@
             this.metroGrid_PortfolioSummary.Name = "metroGrid_PortfolioSummary";
             this.metroGrid_PortfolioSummary.ReadOnly = true;
             this.metroGrid_PortfolioSummary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_PortfolioSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_PortfolioSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.metroGrid_PortfolioSummary.RowHeadersWidth = 51;
             this.metroGrid_PortfolioSummary.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid_PortfolioSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1959,25 +1966,25 @@
             // 
             // chart_Fna
             // 
-            chartArea1.AxisX.Title = "Years";
-            chartArea1.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea1.AxisY.Title = "Rands";
-            chartArea1.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea1.Name = "ChartArea1";
-            this.chart_Fna.ChartAreas.Add(chartArea1);
+            chartArea3.AxisX.Title = "Years";
+            chartArea3.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea3.AxisY.Title = "Rands";
+            chartArea3.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea3.Name = "ChartArea1";
+            this.chart_Fna.ChartAreas.Add(chartArea3);
             this.chart_Fna.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend1.MaximumAutoSize = 100F;
-            legend1.Name = "Legend1";
-            this.chart_Fna.Legends.Add(legend1);
+            legend3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend3.MaximumAutoSize = 100F;
+            legend3.Name = "Legend1";
+            this.chart_Fna.Legends.Add(legend3);
             this.chart_Fna.Location = new System.Drawing.Point(0, 0);
             this.chart_Fna.Margin = new System.Windows.Forms.Padding(4);
             this.chart_Fna.Name = "chart_Fna";
             this.chart_Fna.Size = new System.Drawing.Size(727, 282);
             this.chart_Fna.TabIndex = 24;
             this.chart_Fna.Text = "Pre-Retirement Graph";
-            title1.Name = "Pre-Retirement Graph";
-            this.chart_Fna.Titles.Add(title1);
+            title3.Name = "Pre-Retirement Graph";
+            this.chart_Fna.Titles.Add(title3);
             // 
             // metroPanel19
             // 
@@ -2285,25 +2292,25 @@
             // 
             // chart_NonRetirementFna
             // 
-            chartArea2.AxisX.Title = "Years";
-            chartArea2.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea2.AxisY.Title = "Rands";
-            chartArea2.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea2.Name = "ChartArea1";
-            this.chart_NonRetirementFna.ChartAreas.Add(chartArea2);
+            chartArea4.AxisX.Title = "Years";
+            chartArea4.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea4.AxisY.Title = "Rands";
+            chartArea4.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea4.Name = "ChartArea1";
+            this.chart_NonRetirementFna.ChartAreas.Add(chartArea4);
             this.chart_NonRetirementFna.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend2.MaximumAutoSize = 100F;
-            legend2.Name = "Legend1";
-            this.chart_NonRetirementFna.Legends.Add(legend2);
+            legend4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend4.MaximumAutoSize = 100F;
+            legend4.Name = "Legend1";
+            this.chart_NonRetirementFna.Legends.Add(legend4);
             this.chart_NonRetirementFna.Location = new System.Drawing.Point(3, 2);
             this.chart_NonRetirementFna.Margin = new System.Windows.Forms.Padding(4);
             this.chart_NonRetirementFna.Name = "chart_NonRetirementFna";
             this.chart_NonRetirementFna.Size = new System.Drawing.Size(956, 247);
             this.chart_NonRetirementFna.TabIndex = 14;
             this.chart_NonRetirementFna.Text = "Pre-Retirement Graph";
-            title2.Name = "Pre-Retirement Graph";
-            this.chart_NonRetirementFna.Titles.Add(title2);
+            title4.Name = "Pre-Retirement Graph";
+            this.chart_NonRetirementFna.Titles.Add(title4);
             // 
             // metroPanel_NonRetirementFnaParams
             // 
@@ -3049,10 +3056,11 @@
             // 
             this.metroTabControl_Checklist.Controls.Add(this.metroTabPage_Checklist);
             this.metroTabControl_Checklist.Controls.Add(this.metroTabPage_CarReview);
-            this.metroTabControl_Checklist.Location = new System.Drawing.Point(3, 0);
+            this.metroTabControl_Checklist.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabControl_Checklist.Location = new System.Drawing.Point(0, 0);
             this.metroTabControl_Checklist.Name = "metroTabControl_Checklist";
             this.metroTabControl_Checklist.SelectedIndex = 1;
-            this.metroTabControl_Checklist.Size = new System.Drawing.Size(1243, 621);
+            this.metroTabControl_Checklist.Size = new System.Drawing.Size(1325, 634);
             this.metroTabControl_Checklist.TabIndex = 7;
             this.metroTabControl_Checklist.UseSelectable = true;
             // 
@@ -3067,7 +3075,7 @@
             this.metroTabPage_Checklist.Controls.Add(this.metroPanel_CheckListNotes);
             this.metroTabPage_Checklist.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage_Checklist.Name = "metroTabPage_Checklist";
-            this.metroTabPage_Checklist.Size = new System.Drawing.Size(1235, 579);
+            this.metroTabPage_Checklist.Size = new System.Drawing.Size(1317, 592);
             this.metroTabPage_Checklist.TabIndex = 0;
             this.metroTabPage_Checklist.Text = "Checklist";
             // 
@@ -3229,7 +3237,15 @@
             // 
             // metroTabPage_CarReview
             // 
+            this.metroTabPage_CarReview.AutoScroll = true;
             this.metroTabPage_CarReview.BackColor = System.Drawing.Color.White;
+            this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARIncomeAsset);
+            this.metroTabPage_CarReview.Controls.Add(this.label_IncomeAssetPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_EducationPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_MedicalAidPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_NonRetirementPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_RetirementPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_RiskPortfolio);
             this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARRisk);
             this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARMedicalAid);
             this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CAREducation);
@@ -3237,27 +3253,155 @@
             this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARRetirement);
             this.metroTabPage_CarReview.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage_CarReview.Name = "metroTabPage_CarReview";
-            this.metroTabPage_CarReview.Size = new System.Drawing.Size(1235, 579);
+            this.metroTabPage_CarReview.Size = new System.Drawing.Size(1317, 592);
             this.metroTabPage_CarReview.TabIndex = 1;
             this.metroTabPage_CarReview.Text = "CAR Overview";
             // 
+            // label_EducationPortfolio
+            // 
+            this.label_EducationPortfolio.AutoSize = true;
+            this.label_EducationPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_EducationPortfolio.Location = new System.Drawing.Point(5, 250);
+            this.label_EducationPortfolio.Name = "label_EducationPortfolio";
+            this.label_EducationPortfolio.Size = new System.Drawing.Size(274, 32);
+            this.label_EducationPortfolio.TabIndex = 24;
+            this.label_EducationPortfolio.Text = "Education Portfolio";
+            // 
+            // label_MedicalAidPortfolio
+            // 
+            this.label_MedicalAidPortfolio.AutoSize = true;
+            this.label_MedicalAidPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_MedicalAidPortfolio.Location = new System.Drawing.Point(5, 369);
+            this.label_MedicalAidPortfolio.Name = "label_MedicalAidPortfolio";
+            this.label_MedicalAidPortfolio.Size = new System.Drawing.Size(368, 32);
+            this.label_MedicalAidPortfolio.TabIndex = 23;
+            this.label_MedicalAidPortfolio.Text = "Medical Aid/GAP Portfolio";
+            // 
+            // label_NonRetirementPortfolio
+            // 
+            this.label_NonRetirementPortfolio.AutoSize = true;
+            this.label_NonRetirementPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_NonRetirementPortfolio.Location = new System.Drawing.Point(5, 131);
+            this.label_NonRetirementPortfolio.Name = "label_NonRetirementPortfolio";
+            this.label_NonRetirementPortfolio.Size = new System.Drawing.Size(351, 32);
+            this.label_NonRetirementPortfolio.TabIndex = 22;
+            this.label_NonRetirementPortfolio.Text = "Non-Retirement Portfolio";
+            // 
+            // label_RetirementPortfolio
+            // 
+            this.label_RetirementPortfolio.AutoSize = true;
+            this.label_RetirementPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_RetirementPortfolio.Location = new System.Drawing.Point(5, 8);
+            this.label_RetirementPortfolio.Name = "label_RetirementPortfolio";
+            this.label_RetirementPortfolio.Size = new System.Drawing.Size(286, 32);
+            this.label_RetirementPortfolio.TabIndex = 21;
+            this.label_RetirementPortfolio.Text = "Retirement Portfolio";
+            // 
+            // label_RiskPortfolio
+            // 
+            this.label_RiskPortfolio.AutoSize = true;
+            this.label_RiskPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_RiskPortfolio.Location = new System.Drawing.Point(5, 488);
+            this.label_RiskPortfolio.Name = "label_RiskPortfolio";
+            this.label_RiskPortfolio.Size = new System.Drawing.Size(196, 32);
+            this.label_RiskPortfolio.TabIndex = 20;
+            this.label_RiskPortfolio.Text = "Risk Portfolio";
+            // 
+            // dataGrid_CARRisk
+            // 
+            this.dataGrid_CARRisk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARRisk.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARRisk.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARRisk.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARRisk.EnableSort = false;
+            this.dataGrid_CARRisk.FixedColumns = 1;
+            this.dataGrid_CARRisk.FixedRows = 1;
+            this.dataGrid_CARRisk.Location = new System.Drawing.Point(12, 524);
+            this.dataGrid_CARRisk.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARRisk.Name = "dataGrid_CARRisk";
+            this.dataGrid_CARRisk.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARRisk.Size = new System.Drawing.Size(1260, 75);
+            this.dataGrid_CARRisk.TabIndex = 11;
+            this.dataGrid_CARRisk.TabStop = true;
+            this.dataGrid_CARRisk.ToolTipText = "";
+            // 
+            // dataGrid_CARMedicalAid
+            // 
+            this.dataGrid_CARMedicalAid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARMedicalAid.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARMedicalAid.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARMedicalAid.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARMedicalAid.EnableSort = false;
+            this.dataGrid_CARMedicalAid.FixedColumns = 1;
+            this.dataGrid_CARMedicalAid.FixedRows = 1;
+            this.dataGrid_CARMedicalAid.Location = new System.Drawing.Point(12, 405);
+            this.dataGrid_CARMedicalAid.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARMedicalAid.Name = "dataGrid_CARMedicalAid";
+            this.dataGrid_CARMedicalAid.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARMedicalAid.Size = new System.Drawing.Size(1260, 75);
+            this.dataGrid_CARMedicalAid.TabIndex = 10;
+            this.dataGrid_CARMedicalAid.TabStop = true;
+            this.dataGrid_CARMedicalAid.ToolTipText = "";
+            // 
+            // dataGrid_CAREducation
+            // 
+            this.dataGrid_CAREducation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CAREducation.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CAREducation.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CAREducation.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CAREducation.EnableSort = false;
+            this.dataGrid_CAREducation.FixedColumns = 1;
+            this.dataGrid_CAREducation.FixedRows = 1;
+            this.dataGrid_CAREducation.Location = new System.Drawing.Point(12, 286);
+            this.dataGrid_CAREducation.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CAREducation.Name = "dataGrid_CAREducation";
+            this.dataGrid_CAREducation.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CAREducation.Size = new System.Drawing.Size(1260, 75);
+            this.dataGrid_CAREducation.TabIndex = 9;
+            this.dataGrid_CAREducation.TabStop = true;
+            this.dataGrid_CAREducation.ToolTipText = "";
+            // 
+            // dataGrid_CARNonRetirement
+            // 
+            this.dataGrid_CARNonRetirement.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARNonRetirement.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARNonRetirement.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARNonRetirement.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARNonRetirement.EnableSort = false;
+            this.dataGrid_CARNonRetirement.FixedColumns = 1;
+            this.dataGrid_CARNonRetirement.FixedRows = 1;
+            this.dataGrid_CARNonRetirement.Location = new System.Drawing.Point(12, 167);
+            this.dataGrid_CARNonRetirement.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARNonRetirement.Name = "dataGrid_CARNonRetirement";
+            this.dataGrid_CARNonRetirement.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARNonRetirement.Size = new System.Drawing.Size(1260, 75);
+            this.dataGrid_CARNonRetirement.TabIndex = 8;
+            this.dataGrid_CARNonRetirement.TabStop = true;
+            this.dataGrid_CARNonRetirement.ToolTipText = "";
+            // 
             // dataGrid_CARRetirement
             // 
+            this.dataGrid_CARRetirement.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid_CARRetirement.BackColor = System.Drawing.Color.White;
             this.dataGrid_CARRetirement.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
             this.dataGrid_CARRetirement.DeleteRowsWithDeleteKey = false;
-            this.dataGrid_CARRetirement.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGrid_CARRetirement.EnableSort = false;
             this.dataGrid_CARRetirement.FixedColumns = 1;
             this.dataGrid_CARRetirement.FixedRows = 1;
-            this.dataGrid_CARRetirement.Location = new System.Drawing.Point(0, 0);
+            this.dataGrid_CARRetirement.Location = new System.Drawing.Point(12, 48);
             this.dataGrid_CARRetirement.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_CARRetirement.Name = "dataGrid_CARRetirement";
             this.dataGrid_CARRetirement.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CARRetirement.Size = new System.Drawing.Size(1235, 115);
+            this.dataGrid_CARRetirement.Size = new System.Drawing.Size(1260, 75);
             this.dataGrid_CARRetirement.TabIndex = 7;
             this.dataGrid_CARRetirement.TabStop = true;
             this.dataGrid_CARRetirement.ToolTipText = "";
+            this.dataGrid_CARRetirement.Paint += new System.Windows.Forms.PaintEventHandler(this.dataGrid_CARRetirement_Paint);
             // 
             // metroTabPage8
             // 
@@ -3401,77 +3545,34 @@
             this.metroCheckBox2.UseSelectable = true;
             this.metroCheckBox2.CheckedChanged += new System.EventHandler(this.metroCheckBox2_CheckedChanged);
             // 
-            // dataGrid_CARNonRetirement
+            // label_IncomeAssetPortfolio
             // 
-            this.dataGrid_CARNonRetirement.BackColor = System.Drawing.Color.White;
-            this.dataGrid_CARNonRetirement.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
-            this.dataGrid_CARNonRetirement.DeleteRowsWithDeleteKey = false;
-            this.dataGrid_CARNonRetirement.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataGrid_CARNonRetirement.EnableSort = false;
-            this.dataGrid_CARNonRetirement.FixedColumns = 1;
-            this.dataGrid_CARNonRetirement.FixedRows = 1;
-            this.dataGrid_CARNonRetirement.Location = new System.Drawing.Point(0, 115);
-            this.dataGrid_CARNonRetirement.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGrid_CARNonRetirement.Name = "dataGrid_CARNonRetirement";
-            this.dataGrid_CARNonRetirement.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CARNonRetirement.Size = new System.Drawing.Size(1235, 115);
-            this.dataGrid_CARNonRetirement.TabIndex = 8;
-            this.dataGrid_CARNonRetirement.TabStop = true;
-            this.dataGrid_CARNonRetirement.ToolTipText = "";
+            this.label_IncomeAssetPortfolio.AutoSize = true;
+            this.label_IncomeAssetPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_IncomeAssetPortfolio.Location = new System.Drawing.Point(5, 607);
+            this.label_IncomeAssetPortfolio.Name = "label_IncomeAssetPortfolio";
+            this.label_IncomeAssetPortfolio.Size = new System.Drawing.Size(334, 32);
+            this.label_IncomeAssetPortfolio.TabIndex = 25;
+            this.label_IncomeAssetPortfolio.Text = "Income Assets Portfolio";
             // 
-            // dataGrid_CAREducation
+            // dataGrid_CARIncomeAsset
             // 
-            this.dataGrid_CAREducation.BackColor = System.Drawing.Color.White;
-            this.dataGrid_CAREducation.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
-            this.dataGrid_CAREducation.DeleteRowsWithDeleteKey = false;
-            this.dataGrid_CAREducation.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataGrid_CAREducation.EnableSort = false;
-            this.dataGrid_CAREducation.FixedColumns = 1;
-            this.dataGrid_CAREducation.FixedRows = 1;
-            this.dataGrid_CAREducation.Location = new System.Drawing.Point(0, 230);
-            this.dataGrid_CAREducation.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGrid_CAREducation.Name = "dataGrid_CAREducation";
-            this.dataGrid_CAREducation.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CAREducation.Size = new System.Drawing.Size(1235, 115);
-            this.dataGrid_CAREducation.TabIndex = 9;
-            this.dataGrid_CAREducation.TabStop = true;
-            this.dataGrid_CAREducation.ToolTipText = "";
-            // 
-            // dataGrid_CARMedicalAid
-            // 
-            this.dataGrid_CARMedicalAid.BackColor = System.Drawing.Color.White;
-            this.dataGrid_CARMedicalAid.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
-            this.dataGrid_CARMedicalAid.DeleteRowsWithDeleteKey = false;
-            this.dataGrid_CARMedicalAid.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataGrid_CARMedicalAid.EnableSort = false;
-            this.dataGrid_CARMedicalAid.FixedColumns = 1;
-            this.dataGrid_CARMedicalAid.FixedRows = 1;
-            this.dataGrid_CARMedicalAid.Location = new System.Drawing.Point(0, 345);
-            this.dataGrid_CARMedicalAid.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGrid_CARMedicalAid.Name = "dataGrid_CARMedicalAid";
-            this.dataGrid_CARMedicalAid.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CARMedicalAid.Size = new System.Drawing.Size(1235, 115);
-            this.dataGrid_CARMedicalAid.TabIndex = 10;
-            this.dataGrid_CARMedicalAid.TabStop = true;
-            this.dataGrid_CARMedicalAid.ToolTipText = "";
-            // 
-            // dataGrid_CARRisk
-            // 
-            this.dataGrid_CARRisk.BackColor = System.Drawing.Color.White;
-            this.dataGrid_CARRisk.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
-            this.dataGrid_CARRisk.DeleteRowsWithDeleteKey = false;
-            this.dataGrid_CARRisk.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataGrid_CARRisk.EnableSort = false;
-            this.dataGrid_CARRisk.FixedColumns = 1;
-            this.dataGrid_CARRisk.FixedRows = 1;
-            this.dataGrid_CARRisk.Location = new System.Drawing.Point(0, 460);
-            this.dataGrid_CARRisk.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGrid_CARRisk.Name = "dataGrid_CARRisk";
-            this.dataGrid_CARRisk.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CARRisk.Size = new System.Drawing.Size(1235, 115);
-            this.dataGrid_CARRisk.TabIndex = 11;
-            this.dataGrid_CARRisk.TabStop = true;
-            this.dataGrid_CARRisk.ToolTipText = "";
+            this.dataGrid_CARIncomeAsset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARIncomeAsset.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARIncomeAsset.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARIncomeAsset.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARIncomeAsset.EnableSort = false;
+            this.dataGrid_CARIncomeAsset.FixedColumns = 1;
+            this.dataGrid_CARIncomeAsset.FixedRows = 1;
+            this.dataGrid_CARIncomeAsset.Location = new System.Drawing.Point(12, 643);
+            this.dataGrid_CARIncomeAsset.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARIncomeAsset.Name = "dataGrid_CARIncomeAsset";
+            this.dataGrid_CARIncomeAsset.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARIncomeAsset.Size = new System.Drawing.Size(1260, 75);
+            this.dataGrid_CARIncomeAsset.TabIndex = 26;
+            this.dataGrid_CARIncomeAsset.TabStop = true;
+            this.dataGrid_CARIncomeAsset.ToolTipText = "";
             // 
             // frmMetroClient1
             // 
@@ -3656,6 +3757,7 @@
             this.metroPanel_CheckListFica.ResumeLayout(false);
             this.metroPanel_CheckListNotes.ResumeLayout(false);
             this.metroTabPage_CarReview.ResumeLayout(false);
+            this.metroTabPage_CarReview.PerformLayout();
             this.metroTabPage8.ResumeLayout(false);
             this.metroPanel17.ResumeLayout(false);
             this.metroPanel17.PerformLayout();
@@ -3861,5 +3963,12 @@
         private SourceGrid.DataGrid dataGrid_CARMedicalAid;
         private SourceGrid.DataGrid dataGrid_CAREducation;
         private SourceGrid.DataGrid dataGrid_CARNonRetirement;
+        private System.Windows.Forms.Label label_EducationPortfolio;
+        private System.Windows.Forms.Label label_MedicalAidPortfolio;
+        private System.Windows.Forms.Label label_NonRetirementPortfolio;
+        private System.Windows.Forms.Label label_RetirementPortfolio;
+        private System.Windows.Forms.Label label_RiskPortfolio;
+        private SourceGrid.DataGrid dataGrid_CARIncomeAsset;
+        private System.Windows.Forms.Label label_IncomeAssetPortfolio;
     }
 }

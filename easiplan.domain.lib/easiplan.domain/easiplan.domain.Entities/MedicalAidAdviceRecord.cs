@@ -26,8 +26,33 @@ namespace easiplan.domain.Entities
         //Standard constructor
         public MedicalAidAdviceRecord()
         {
-           
+            #region Needs And Goals Table
 
+            this.HospitalCoverInfo = new MedicalAidNeedsAndGoalsTableRow();
+            this.DayToDayBenefitInfo = new MedicalAidNeedsAndGoalsTableRow();
+            this.ThresholdBenefitInfo = new MedicalAidNeedsAndGoalsTableRow();
+            this.ChronicBenefitInfo = new MedicalAidNeedsAndGoalsTableRow();
+            this.SavingsAccountInfo = new MedicalAidNeedsAndGoalsTableRow();
+            this.HospitalPreferenceInfo = new MedicalAidNeedsAndGoalsTableRow();
+            this.GapCoverInfo = new MedicalAidNeedsAndGoalsTableRow();
+            this.OtherInfo = new MedicalAidNeedsAndGoalsTableRow();
+
+            #endregion
+
+            #region Comparison Table
+
+            this.PolicyNumberComparison = new MedicalSchemeComparison();
+            this.InsurerComparison = new MedicalSchemeComparison();
+            this.ProductNameComparison = new MedicalSchemeComparison();
+            this.PremiumComparison = new MedicalSchemeComparison();
+            this.BenefitsComparison = new MedicalSchemeComparison();
+            this.SavingsAccountComparison = new MedicalSchemeComparison();
+            this.ChronicBenefitComparison = new MedicalSchemeComparison();
+            this.HospitalCoverComparison = new MedicalSchemeComparison();
+            this.LimitsOnCoverComparison = new MedicalSchemeComparison();
+            this.OtherComparison = new MedicalSchemeComparison();
+
+            #endregion
         }
 
         //Copy Constructor

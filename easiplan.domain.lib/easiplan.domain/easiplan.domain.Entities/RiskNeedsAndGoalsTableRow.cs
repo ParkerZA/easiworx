@@ -14,6 +14,9 @@ namespace easiplan.domain.Entities
         private string _shortfall;
         private string _reviewDate;
 
+        #region Constructors
+
+        //Standard Constructor
         public RiskNeedsAndGoalsTableRow() 
         {
             this._needsQuantified = string.Empty;
@@ -23,6 +26,7 @@ namespace easiplan.domain.Entities
             this._reviewDate = string.Empty;
         }
 
+        //Copy Constructor
         public RiskNeedsAndGoalsTableRow( RiskNeedsAndGoalsTableRow copy)
         {
             this._needsQuantified= copy._needsQuantified;
@@ -32,6 +36,7 @@ namespace easiplan.domain.Entities
             this._reviewDate= copy._reviewDate;
         }
 
+        #endregion
 
         public virtual string NeedsQuantified
         {
