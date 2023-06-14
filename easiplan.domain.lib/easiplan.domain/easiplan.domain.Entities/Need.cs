@@ -91,6 +91,12 @@ namespace easiplan.domain.Entities
         [IgnoreAutoMap]
         public virtual BindingList<Benefit> BenefitsBindingList { get; set; }
 
+        public virtual IList<ClientAdviceRecord> AdviceRecords
+        {
+            get;
+            set;
+        }
+
         public virtual IList<Note> Notes
 		{
 			get;

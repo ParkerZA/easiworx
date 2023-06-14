@@ -56,6 +56,7 @@ namespace Finx.App.Forms
         Need Need = null;
         EducationNeed EducationNeed = null;
         InvestmentNeed InvestmentNeed = null;
+        RiskCoverNeed RiskCoverNeed = null;
 
         //Note lists for standard CAR
         IList<ClientAdviceRecord> Notes = new List<ClientAdviceRecord>();
@@ -402,16 +403,17 @@ namespace Finx.App.Forms
             Initialise_SelectPanel(model.AdviceRecords);
 
         }
-        /*
+        
         public frmMetroClientAdviceRecord(Need model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
             if (model.Id == 0)
-                throw new MyValidationException("Advice has not yet been saved. Please Update advice");
+                throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             Need = model;
+            InvestmentType = "Need";
 
-            Initialise_SelectPanel(model.Notes);
+            Initialise_SelectPanel(model.AdviceRecords);
 
         }
 
@@ -419,26 +421,41 @@ namespace Finx.App.Forms
         {
 
             if (model.Id == 0)
-                throw new MyValidationException("Advice has not yet been saved. Please Update advice");
+                throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             EducationNeed = model;
+            InvestmentType = "EducationNeed";
 
-            Initialise_SelectPanel(model.Notes);
+            Initialise_SelectPanel(model.AdviceRecords);
 
         }
 
         public frmMetroClientAdviceRecord(InvestmentNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
-
             if (model.Id == 0)
-                throw new MyValidationException("Advice has not yet been saved. Please Update advice");
+                throw new MyValidationException("Policy has not yet been saved. Please Update policy");
 
             InvestmentNeed = model;
+            InvestmentType = "InvestmentNeed";
 
-            Initialise_SelectPanel(model.Notes);
+            Initialise_SelectPanel(model.AdviceRecords);
 
         }
-        
+
+        public frmMetroClientAdviceRecord(RiskCoverNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        {
+            if (model.Id == 0)
+                throw new MyValidationException("Policy has not yet been saved. Please Update policy");
+
+            RiskCoverNeed = model;
+            InvestmentType = "RiskCoverNeed";
+
+            InitialiseRiskNeedsAndGoalsTable();
+            Initialise_RiskSelectPanel(model.RiskAdviceRecords);
+
+        }
+
+        /*
         public frmMetroClientAdviceRecord(Instruction model, bool readOnly, PolicyAction action) : this(model.Name, readOnly, action)
         {
 
@@ -666,8 +683,6 @@ namespace Finx.App.Forms
                     populateRisk((RiskAdviceRecord)record);
                     initialiseRiskPortfolio();
                     
-
-
                     break;
                 case "incomeasset":
                     this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
@@ -676,7 +691,38 @@ namespace Finx.App.Forms
                     populateRetirement(record);
                     InitializeStandardPortfolio();
                     
-                    
+                    break;
+                case "need":
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Need";
+                    mostRecentRecord = Need.AdviceRecords.LastOrDefault();
+
+                    populateRetirement(record);
+                    InitializeStandardPortfolio();
+
+                    break;
+                case "investmentneed":
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Inventment Need";
+                    mostRecentRecord = InvestmentNeed.AdviceRecords.LastOrDefault();
+
+                    populateRetirement(record);
+                    InitializeStandardPortfolio();
+
+                    break;
+                case "educationneed":
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Education Need";
+                    mostRecentRecord = EducationNeed.AdviceRecords.LastOrDefault();
+
+                    populateRetirement(record);
+                    InitializeStandardPortfolio();
+
+                    break;
+                case "riskcoverneed":
+                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Risk Cover Need";
+                    mostRecentRecord = RiskCoverNeed.RiskAdviceRecords.LastOrDefault();
+
+                    populateRisk((RiskAdviceRecord)record);
+                    initialiseRiskPortfolio();
+
                     break;
             }
 
@@ -1237,10 +1283,10 @@ namespace Finx.App.Forms
                         comment = this.IncomeAsset.Description;
 
                     }
-                    /*
+                    
                     if (this.Need != null)
                     {
-                        this.Need.Notes.Add(selectedNote);
+                        this.Need.AdviceRecords.Add(selectedNote);
 
                         instructionType = InstructionType.RETIRE_POLICY_NOTE;
                         referenceId = this.Need.Id;
@@ -1250,7 +1296,7 @@ namespace Finx.App.Forms
 
                     if (this.EducationNeed != null)
                     {
-                        this.EducationNeed.Notes.Add(selectedNote);
+                        this.EducationNeed.AdviceRecords.Add(selectedNote);
 
                         instructionType = InstructionType.EDU_POLICY_NOTE;
                         referenceId = this.EducationNeed.Id;
@@ -1260,14 +1306,24 @@ namespace Finx.App.Forms
 
                     if (this.InvestmentNeed != null)
                     {
-                        this.InvestmentNeed.Notes.Add(selectedNote);
+                        this.InvestmentNeed.AdviceRecords.Add(selectedNote);
 
                         instructionType = InstructionType.INVEST_POLICY_NOTE;
                         referenceId = this.InvestmentNeed.Id;
                         referenceNumber = this.InvestmentNeed.ReferenceNo;
                         comment = this.InvestmentNeed.Description;
                     }
-                    */
+
+                    if (this.RiskCoverNeed != null)
+                    {
+                        this.RiskCoverNeed.RiskAdviceRecords.Add((RiskAdviceRecord)selectedNote);
+
+                        //instructionType = InstructionType.;
+                        referenceId = this.RiskCoverNeed.Id;
+                        referenceNumber = this.RiskCoverNeed.ReferenceNo;
+                        comment = this.RiskCoverNeed.Description;
+                    }
+
                     /*
                     if (MessageBoxExt.ShowQuestion("Do you wish to create a Task for this note?"))
                     {
@@ -1467,31 +1523,39 @@ namespace Finx.App.Forms
 
                         selectedNote = null;
                         Initialise_SelectPanel(this.IncomeAsset.AdviceRecords);
-                    }/*
+                    }
                     if (this.Need != null)
                     {
-                        this.Need.Notes.Remove(selectedNote);
+                        this.Need.AdviceRecords.Remove(selectedNote);
                         Program.Repository.Update<Need, int>(this.Need);
 
                         selectedNote = null;
-                        Initialise_SelectPanel(this.Need.Notes);
+                        Initialise_SelectPanel(this.Need.AdviceRecords);
                     }
                     if (this.EducationNeed != null)
                     {
-                        this.EducationNeed.Notes.Remove(selectedNote);
+                        this.EducationNeed.AdviceRecords.Remove(selectedNote);
                         Program.Repository.Update<EducationNeed, int>(this.EducationNeed);
 
                         selectedNote = null;
-                        Initialise_SelectPanel(this.EducationNeed.Notes);
+                        Initialise_SelectPanel(this.EducationNeed.AdviceRecords);
                     }
                     if (this.InvestmentNeed != null)
                     {
-                        this.InvestmentNeed.Notes.Remove(selectedNote);
+                        this.InvestmentNeed.AdviceRecords.Remove(selectedNote);
                         Program.Repository.Update<InvestmentNeed, int>(this.InvestmentNeed);
 
                         selectedNote = null;
-                        Initialise_SelectPanel(this.InvestmentNeed.Notes);
-                    }*/
+                        Initialise_SelectPanel(this.InvestmentNeed.AdviceRecords);
+                    }
+                    if (this.RiskCoverNeed != null)
+                    {
+                        this.RiskCoverNeed.RiskAdviceRecords.Remove((RiskAdviceRecord)selectedNote);
+                        Program.Repository.Update<RiskCoverNeed, int>(this.RiskCoverNeed);
+
+                        selectedNote = null;
+                        Initialise_RiskSelectPanel(this.RiskCoverNeed.RiskAdviceRecords);
+                    }
                 }
 
 
@@ -1540,23 +1604,28 @@ namespace Finx.App.Forms
             {
                 Program.Repository.Update<IncomeAsset, int>(this.IncomeAsset);
                 Initialise_SelectPanel(this.IncomeAsset.AdviceRecords);
-            }/*
+            }
             if (this.Need != null)
             {
                 Program.Repository.Update<Need, int>(this.Need);
-                Initialise_SelectPanel(this.Need.Notes);
+                Initialise_SelectPanel(this.Need.AdviceRecords);
             }
             if (this.EducationNeed != null)
             {
                 Program.Repository.Update<EducationNeed, int>(this.EducationNeed);
-                Initialise_SelectPanel(this.EducationNeed.Notes);
+                Initialise_SelectPanel(this.EducationNeed.AdviceRecords);
             }
             if (this.InvestmentNeed != null)
             {
                 Program.Repository.Update<InvestmentNeed, int>(this.InvestmentNeed);
-                Initialise_SelectPanel(this.InvestmentNeed.Notes);
+                Initialise_SelectPanel(this.InvestmentNeed.AdviceRecords);
             }
-
+            if (this.RiskCoverNeed != null)
+            {
+                Program.Repository.Update<RiskCoverNeed, int>(this.RiskCoverNeed);
+                Initialise_RiskSelectPanel(this.RiskCoverNeed.RiskAdviceRecords);
+            }
+            /*
             //Update the Admin Task
             if (Instruction != null)
             {

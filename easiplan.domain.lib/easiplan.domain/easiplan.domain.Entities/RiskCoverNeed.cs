@@ -50,6 +50,13 @@ namespace easiplan.domain.Entities
                 InvokePropertyChanged("RequiredAmount");
 			}
 		}
+
+        public virtual IList<RiskAdviceRecord> RiskAdviceRecords 
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         [IgnoreAutoMap]
