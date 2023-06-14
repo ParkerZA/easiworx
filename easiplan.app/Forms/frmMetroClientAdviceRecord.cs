@@ -404,6 +404,7 @@ namespace Finx.App.Forms
 
         }
         
+        //Retirement FNA What I need constructor
         public frmMetroClientAdviceRecord(Need model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -417,6 +418,7 @@ namespace Finx.App.Forms
 
         }
 
+        //NonRetirement FNA Education Need
         public frmMetroClientAdviceRecord(EducationNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
 
@@ -430,6 +432,7 @@ namespace Finx.App.Forms
 
         }
 
+        //NonRetirement FNA Investment Need
         public frmMetroClientAdviceRecord(InvestmentNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
             if (model.Id == 0)
@@ -442,6 +445,7 @@ namespace Finx.App.Forms
 
         }
 
+        //NonRetirement FNA Risk Need
         public frmMetroClientAdviceRecord(RiskCoverNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
         {
             if (model.Id == 0)
@@ -1144,8 +1148,6 @@ namespace Finx.App.Forms
 
         }
 
-
-
         #endregion
 
         #region Lock Form control methods controls
@@ -1211,6 +1213,8 @@ namespace Finx.App.Forms
         {
             this.Close();
         }
+
+
         private void toolStripButton_Save_Click(object sender, EventArgs e)
         {
             try
@@ -1441,7 +1445,7 @@ namespace Finx.App.Forms
             }
         }
 
-        
+        #region Delete click Methods
 
         private void toolStripButton_Delete_Click(object sender, EventArgs e)
         {
@@ -1650,26 +1654,12 @@ namespace Finx.App.Forms
             }*/
 
         }
+
+        #endregion
+
         #endregion
 
         #region Event handlers
-        private void AdviceRecord_propertyChanged_EventHandler(object sender, EventArgs e)
-        {
-
-            try
-            {
-                this.xToolBarMenu1.SetCAREdit(true);
-
-                selectedNote.UpdateBy = Program.User.Username;
-                selectedNote.UpdateDate = DateTime.Now;
-
-            }
-            catch (Exception x)
-            {
-                Program.Logger.Error(x);
-            }
-
-        }
 
         #region Form elements event changed handlers
 
@@ -3478,6 +3468,8 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region Completed Check Box Event Handler
+
         //Event handler for when "Completed" check box is clicked
         private void XInput_ShowCompletedTask_KeyPressed(object sender, EventArgs e)
         {
@@ -3486,6 +3478,9 @@ namespace Finx.App.Forms
             
             
         }
+
+        #endregion
+
         #endregion
 
         #region Form Events
@@ -4777,6 +4772,7 @@ namespace Finx.App.Forms
 
         #endregion
 
+        #region Populate CAR forms
 
         //Call all methods to populate the standard CAR template
         private void populateRetirement(ClientAdviceRecord advRecord)
@@ -4841,6 +4837,8 @@ namespace Finx.App.Forms
             populateImplementedRecommendedFunds(advRecord);
             populateImplementedMotivation(advRecord);
         }
+
+        #endregion
 
         #endregion
 
