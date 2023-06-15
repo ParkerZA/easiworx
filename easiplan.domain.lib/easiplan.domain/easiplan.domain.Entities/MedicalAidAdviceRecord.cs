@@ -282,7 +282,6 @@ namespace easiplan.domain.Entities
 
         public virtual CARInfo hcInfo{ get; set; }
 
-
         //public virtual string hcCoverDiscussed
         //{
         //    get
