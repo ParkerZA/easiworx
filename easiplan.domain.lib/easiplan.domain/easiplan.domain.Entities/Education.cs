@@ -122,8 +122,26 @@ namespace easiplan.domain.Entities
         {
             get
             {
+                if (this.AdviceRecords.Count == 0)
+                    return null;
+
                 return this.AdviceRecords.LastOrDefault();
             }
+            set { }
+        }
+
+        [IgnoreAutoMap]
+        public virtual DateTime AdviceDate
+        {
+            get { return CurrentAdviceRecord == null ? DateTime.Now : CurrentAdviceRecord.AdviceDate; }
+
+        }
+        [IgnoreAutoMap]
+        public virtual bool IsCompleted
+        {
+            get { return CurrentAdviceRecord == null ? false : CurrentAdviceRecord.IsCompleted; }
+            set { }
+
         }
 
         [IgnoreAutoMap]

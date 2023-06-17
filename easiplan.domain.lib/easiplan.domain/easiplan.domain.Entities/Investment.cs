@@ -1,6 +1,7 @@
 using my.domain.lib.core.Attributes;
 using my.domain.lib.core.Domain;
 using my.domain.lib.core.Formula;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -102,14 +103,31 @@ namespace easiplan.domain.Entities
 
         #region NonPersisted Properties
 
-
         [IgnoreAutoMap]
         public virtual ClientAdviceRecord CurrentAdviceRecord
         {
             get
             {
+                if (this.AdviceRecords.Count == 0)
+                    return new ClientAdviceRecord();
+
                 return this.AdviceRecords.LastOrDefault();
             }
+            set { }
+        }
+
+        [IgnoreAutoMap]
+        public virtual DateTime AdviceDate
+        {
+            get { return CurrentAdviceRecord == null ? DateTime.Now : CurrentAdviceRecord.AdviceDate; }
+
+        }
+        [IgnoreAutoMap]
+        public virtual bool IsCompleted
+        {
+            get { return CurrentAdviceRecord == null ? false : CurrentAdviceRecord.IsCompleted; }
+            set { }
+
         }
 
         [IgnoreAutoMap]

@@ -99,7 +99,7 @@ namespace Finx.App.Forms
             ReadOnly = readOnly;
             Action = action;
 
-            this.Text = Title;// string.Empty;
+            //this.Text = string.Empty;
             //this.SubTitle = string.Format("{0}", "Policy Notes");
 
             #region Form Format
@@ -114,7 +114,7 @@ namespace Finx.App.Forms
 
             #region xToolBarMenu1
 
-            this.xToolBarMenu1.tbCaption.Text = string.Format("{0}", "Client Advice Record");
+            this.xToolBarMenu1.tbCaption.Text = string.Format("{0}", Title);
             this.xToolBarMenu1.tbCaptionImage.Image = easiplan.app.Properties.Resources.notes_32;
 
             xToolBarMenu1.tbRefresh.Visible = !ReadOnly && Action == PolicyAction.AmendPolicy; xToolBarMenu1.tbRefresh.Text = "Delete";
@@ -648,7 +648,8 @@ namespace Finx.App.Forms
             switch (InvestmentType.ToLower())
             {
                 case "retirement":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Retirement Portfolio";
+                    this.Text = "Client Advice Record [CAR] - Retirement Portfolio";
+                    
                     mostRecentRecord = Retirement.AdviceRecords.LastOrDefault();
                     populateRetirement(record);
                     InitializeStandardPortfolio();
@@ -656,7 +657,7 @@ namespace Finx.App.Forms
 
                     break;
                 case "investment":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Investment Portfolio";
+                    this.Text = "Client Advice Record [CAR] - Non-retirement Portfolio";
                     mostRecentRecord = Investment.AdviceRecords.LastOrDefault();
                     
                     populateRetirement(record);
@@ -664,7 +665,7 @@ namespace Finx.App.Forms
 
                     break;
                 case "medical":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Medical Portfolio";
+                    this.Text = "Client Advice Record [CAR] - Medical Portfolio";
                     mostRecentRecord = Medical.AdviceRecords.LastOrDefault();
                     
                     populateMedical((MedicalAidAdviceRecord)record);
@@ -672,7 +673,7 @@ namespace Finx.App.Forms
 
                     break;
                 case "education":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Education Portfolio";
+                    this.Text = "Client Advice Record [CAR] - Education Portfolio";
                     mostRecentRecord = Education.AdviceRecords.LastOrDefault();
                     
                     populateRetirement(record);
@@ -681,7 +682,7 @@ namespace Finx.App.Forms
                     
                     break;
                 case "risk":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Risk Portfolio";
+                    this.Text = "Client Advice Record [CAR] - Risk Portfolio";
                     mostRecentRecord = Life.AdviceRecords.LastOrDefault();
 
                     populateRisk((RiskAdviceRecord)record);
@@ -689,7 +690,7 @@ namespace Finx.App.Forms
                     
                     break;
                 case "incomeasset":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
+                    this.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
                     mostRecentRecord = IncomeAsset.AdviceRecords.LastOrDefault();
 
                     populateRetirement(record);
@@ -697,7 +698,7 @@ namespace Finx.App.Forms
                     
                     break;
                 case "need":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Need";
+                    this.Text = "Client Advice Record [CAR] - Need";
                     mostRecentRecord = Need.AdviceRecords.LastOrDefault();
 
                     populateRetirement(record);
@@ -705,7 +706,7 @@ namespace Finx.App.Forms
 
                     break;
                 case "investmentneed":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Inventment Need";
+                    this.Text = "Client Advice Record [CAR] - Inventment Need";
                     mostRecentRecord = InvestmentNeed.AdviceRecords.LastOrDefault();
 
                     populateRetirement(record);
@@ -713,7 +714,7 @@ namespace Finx.App.Forms
 
                     break;
                 case "educationneed":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Education Need";
+                    this.Text = "Client Advice Record [CAR] - Education Need";
                     mostRecentRecord = EducationNeed.AdviceRecords.LastOrDefault();
 
                     populateRetirement(record);
@@ -721,7 +722,7 @@ namespace Finx.App.Forms
 
                     break;
                 case "riskcoverneed":
-                    this.xToolBarMenu1.tbCaption.Text = "Client Advice Record [CAR] - Risk Cover Need";
+                    this.Text = "Client Advice Record [CAR] - Risk Cover Need";
                     mostRecentRecord = RiskCoverNeed.RiskAdviceRecords.LastOrDefault();
 
                     populateRisk((RiskAdviceRecord)record);
@@ -3473,8 +3474,8 @@ namespace Finx.App.Forms
         //Event handler for when "Completed" check box is clicked
         private void XInput_ShowCompletedTask_KeyPressed(object sender, EventArgs e)
         {
-            MetroCheckBox cb = (MetroCheckBox)sender;
-            selectedNote.IsCompleted= cb.Checked;
+            //MetroCheckBox cb = (MetroCheckBox)sender;
+            //selectedNote.IsCompleted= cb.Checked;
             
             
         }

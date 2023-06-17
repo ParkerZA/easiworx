@@ -349,7 +349,8 @@ namespace easiplan.domain.Entities
 		}
 
 		[IgnoreAutoMap]
-		public virtual byte[] ClientImage
+        [IgnoreDataMember]
+        public virtual byte[] ClientImage
 		{
 			get;
 			set;

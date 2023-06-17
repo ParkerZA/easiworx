@@ -1297,136 +1297,148 @@ namespace Finx.App.Forms
                             cntr.For(x => x.StatusComments, "Comments", new MetroMultiLineTextBoxEditor(320, 150).ReadOnly(_readOnly));
                         }, left: 5, top: 85, labelWidth: 150, PropertyChangedHandler: propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical).Format();
 
+                        #endregion
+
+                        #region Client Advise Records
+
+                        client.ClientPortfolio.Initialise();
+                        client.ClientPortfolio.Calculate();
 
                         //Retirement Portfolio CAR data grid
                         this.dataGrid_CARRetirement.Initialise1<Retirement>(client.ClientPortfolio.RetirementsBindingList, column =>
                         {
                             column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
-                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());                            
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
-                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Policy Status", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new StringEditor());
-                            column.For(c => c.UpdateDate, "Last Date", new DateEditor(true));
-                            column.For(c => c.UpdateBy, "Updated By", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Completed", new StringEditor());
+                            column.For(c => c.Status, "Policy Status", new StringEditor());                            
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
+                            
                         },
-                        PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
                         //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
                         ContextMenu: new DataGridContextMenu(this, ContextMenuType.RetirementPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
-                        ReadOnly: _readOnlyForAdminAdvisor,
+                        ReadOnly: true,
                         AllowDelete: false,
                         AllowAddNew: false)
-                        .Format1(_readOnlyForAdminAdvisor, fixedCols: 3);
+                        .Format1(true, fixedCols: 3);
 
                         //Non Retirement Portfolio CAR data grid
                         this.dataGrid_CARNonRetirement.Initialise1<Investment>(client.ClientPortfolio.InvestmentsBindingList, column =>
                         {
                             column.For(x => x.Type, "Product Type", new ComboBoxEditor(ListDataItemType.InvestmentClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps));
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
-                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Policy Status", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new StringEditor());
-                            column.For(c => c.UpdateDate, "Last Date", new DateEditor(true));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.UpdateBy, "Updated By", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Completed", new StringEditor());
+                            
                         },
-                        PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                        //PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
                         //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
-                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.RetirementPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
-                        ReadOnly: _readOnlyForAdminAdvisor,
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.InvestmentPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
                         AllowDelete: false,
                         AllowAddNew: false)
-                        .Format1(_readOnlyForAdminAdvisor, fixedCols: 3);
+                        .Format1(true, fixedCols: 3);
 
 
                         //Education Portfolio CAR data grid
                         this.dataGrid_CAREducation.Initialise1<Education>(client.ClientPortfolio.EducationsBindingList, column =>
                         {
-                            column.For(x => x.Type, "Product Type", new ComboBoxEditor(ListDataItemType.InvestmentClass));
-                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps));
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
-                            column.For(x => x.DependentName, "Policy Owner", new ComboListEditor(client.ClientDependents.Dependents.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
-                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Policy Status", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new StringEditor());
-                            column.For(c => c.UpdateDate, "Last Date", new DateEditor(true));
-                            column.For(c => c.UpdateBy, "Updated By", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Completed", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
-                        PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                       // PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
                         //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
-                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.RetirementPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
-                        ReadOnly: _readOnlyForAdminAdvisor,
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.EducationPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
                         AllowDelete: false,
                         AllowAddNew: false)
-                        .Format1(_readOnlyForAdminAdvisor, fixedCols: 3);
+                        .Format1(true, fixedCols: 3);
 
 
                         //Medical Aid Portfolio CAR data grid
                         this.dataGrid_CARMedicalAid.Initialise1<Medical>(client.ClientPortfolio.MedicalsBindingList, column =>
                         {
-                            column.For(x => x.Type, "Provider", new ComboListEditor(MedicalAids));
-                            column.For(x => x.Insured, "Principal Member", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
-                            column.For(x => x.Description, "Plan", new ComboBoxEditor(MedicalAidPlans));
-                            column.For(c => c.ReferenceNo, "MedicalAid/GAP No.", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new StringEditor());
-                            column.For(c => c.UpdateDate, "Last Date", new DateEditor(true));
-                            column.For(c => c.UpdateBy, "Updated By", new StringEditor());
-                            column.For(c => c.CurrentAdviceRecord.NeedsAndObjectives, "Completed", new StringEditor());
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
-                        PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                       // PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
                         //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
-                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.RetirementPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
-                        ReadOnly: _readOnlyForAdminAdvisor,
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.MedicalPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
                         AllowDelete: false,
                         AllowAddNew: false)
-                        .Format1(_readOnlyForAdminAdvisor, fixedCols: 3);
+                        .Format1(true, fixedCols: 3);
 
                         
 
                         //Risk Portfolio CAR data grid
                         this.dataGrid_CARRisk.Initialise1<Life>(client.ClientPortfolio.LifesBindingList, column =>
                         {
-                            column.For(c => c.Type, "Cover Type", new ComboListEditor(ListDataItemType.RiskPolicyType)); //new MetroComboListEditor().DataSourceList(LifeInsurers));
-                            column.For(c => c.Description, "Insurer", new ComboListEditor(LifeInsurers));// new MetroComboBoxEditor().DataSourceList(LifeInsurersPlans)); ;
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
-                            column.For(c => c.Insured, "Insured", new ComboBoxEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
-                            column.For(c => c.MonthlyContribution, "Premium", new CurrencyEditor());
-                            column.For(c => c.AdviceRecords.LastOrDefault().AdviceDate, "Note Date", new DateEditor(true));
-                            column.For(c => c.UpdateDate, "Last Date", new DateEditor(true));
-                            column.For(c => c.UpdateBy, "Updated By", new StringEditor());
-                            //column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
-                        PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                        //PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
                         //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
-                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.RetirementPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
-                        ReadOnly: _readOnlyForAdminAdvisor,
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.LifePortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
                         AllowDelete: false, 
                         AllowAddNew: false)
-                        .Format1(_readOnlyForAdminAdvisor, fixedCols: 3);
+                        .Format1(true, fixedCols: 3);
 
 
 
                         //Income Assets Portfolio CAR data grid
                         this.dataGrid_CARIncomeAsset.Initialise1<IncomeAsset>(client.ClientPortfolio.IncomeAssetsBindingList, column =>
                         {
-                            column.For(c => c.Type, "Asset Type", new ComboListEditor(ListDataItemType.InvestmentClass));
-                            column.For(c => c.Description, "Description", new StringEditor());
-                            column.For(c => c.AdviceRecords.LastOrDefault().AdviceDate, "Note Date", new DateEditor(true));
-                            column.For(c => c.UpdateDate, "Last Date", new DateEditor(true));
-                            column.For(c => c.UpdateBy, "Updated By", new StringEditor());
-                            //column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
 
                         },
-                        PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler,
+                        //PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler,
                         //RowHeaderSelectEventHandler: AssetsPortfolio_RowHeaderSelectEventHandler, //no funds
                         ContextMenu: new DataGridContextMenu(this, ContextMenuType.AssetPortfolio, _readOnly, client),
-                        ReadOnly: _readOnlyForAdminAdvisor,
+                        ReadOnly: true,
                         AllowDelete: false)
-                        .Format1(_readOnlyForAdminAdvisor, fixedCols: 3);
+                        .Format1(true, fixedCols: 3);
 
                         #endregion
+
                         break;
                     case 8:
                         #region Admin Tasks

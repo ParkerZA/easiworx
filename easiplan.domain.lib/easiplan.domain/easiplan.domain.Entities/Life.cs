@@ -1,6 +1,7 @@
 using my.domain.lib.core.Attributes;
 using my.domain.lib.core.Domain;
 using my.domain.lib.core.Formula;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -48,6 +49,7 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Benefit> BenefitsBindingList { get; set; }
 
 
@@ -57,7 +59,7 @@ namespace easiplan.domain.Entities
             set;
         }
 
-
+        [IgnoreDataMember]
         public virtual IList<RiskAdviceRecord> AdviceRecords
         {
             get;
@@ -72,6 +74,7 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Need> AmendmentsBindingList { get; set; }
 
         public virtual IList<ClientDependent> Beneficiaries
@@ -80,10 +83,10 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<ClientDependent> BeneficiariesBindingList { get; set; }
 
-        private string _bequethTo;
-        //[IgnoreAutoMap]
+        private string _bequethTo;        
         public virtual string BequethTo
         {
             get
@@ -100,15 +103,31 @@ namespace easiplan.domain.Entities
         #endregion
 
         #region NonPersisted Properties
-
-
         [IgnoreAutoMap]
         public virtual RiskAdviceRecord CurrentAdviceRecord
         {
             get
             {
+                if (this.AdviceRecords.Count == 0)
+                    return null;
+
                 return this.AdviceRecords.LastOrDefault();
             }
+            set { }
+        }
+
+        [IgnoreAutoMap]
+        public virtual DateTime AdviceDate
+        {
+            get { return CurrentAdviceRecord == null ? DateTime.Now : CurrentAdviceRecord.AdviceDate; }
+
+        }
+        [IgnoreAutoMap]
+        public virtual bool IsCompleted
+        {
+            get { return CurrentAdviceRecord == null ? false : CurrentAdviceRecord.IsCompleted; }
+            set { }
+
         }
 
         [IgnoreAutoMap]

@@ -14,6 +14,7 @@ namespace easiplan.domain
 		private bool _IsCalculating = false;
 
 		[IgnoreAutoMap]
+		[IgnoreDataMember]
 		public virtual bool RecalcNewMonthlyPremium { get; set; }
 
         #region Private Variables
