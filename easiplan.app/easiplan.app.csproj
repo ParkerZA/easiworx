@@ -941,15 +941,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientManagement.resx">
       <DependentUpon>frmClientManagement.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientCommunication.resx">
       <DependentUpon>frmClientCommunication.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageManualsTemplates.resx">
       <DependentUpon>frmManageManualsTemplates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageManualTemplatesAdd.resx">
       <DependentUpon>frmManageManualTemplatesAdd.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroClientAdviceRecord.resx">
       <DependentUpon>frmMetroClientAdviceRecord.cs</DependentUpon>
@@ -974,6 +978,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCsvImportProgressWindow.resx">
       <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroPopUpWindow1.resx">
       <DependentUpon>frmMetroPopUpWindow1.cs</DependentUpon>
@@ -990,9 +995,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageTemplates.resx">
       <DependentUpon>frmManageTemplates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageTemplatesAdd.resx">
       <DependentUpon>frmManageTemplatesAdd.cs</DependentUpon>

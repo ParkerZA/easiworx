@@ -28,21 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend13 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title13 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title14 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Person = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -221,6 +221,18 @@
             this.metroPanel_CheckListNotes = new MetroFramework.Controls.MetroPanel();
             this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
             this.metroTabPage_CarReview = new System.Windows.Forms.TabPage();
+            this.dataGrid_CARIncomeAsset = new SourceGrid.DataGrid();
+            this.label_IncomeAssetPortfolio = new System.Windows.Forms.Label();
+            this.label_EducationPortfolio = new System.Windows.Forms.Label();
+            this.label_MedicalAidPortfolio = new System.Windows.Forms.Label();
+            this.label_NonRetirementPortfolio = new System.Windows.Forms.Label();
+            this.label_RetirementPortfolio = new System.Windows.Forms.Label();
+            this.label_RiskPortfolio = new System.Windows.Forms.Label();
+            this.dataGrid_CARRisk = new SourceGrid.DataGrid();
+            this.dataGrid_CARMedicalAid = new SourceGrid.DataGrid();
+            this.dataGrid_CAREducation = new SourceGrid.DataGrid();
+            this.dataGrid_CARNonRetirement = new SourceGrid.DataGrid();
+            this.dataGrid_CARRetirement = new SourceGrid.DataGrid();
             this.metroTabPage8 = new MetroFramework.Controls.MetroTabPage();
             this.dataGrid_ClientAdminTasks = new SourceGrid.DataGrid();
             this.metroPanel17 = new MetroFramework.Controls.MetroPanel();
@@ -230,7 +242,6 @@
             this.dataGrid_ClientMeetings = new SourceGrid.DataGrid();
             this.metroPanel18 = new MetroFramework.Controls.MetroPanel();
             this.metroCheckBox2 = new MetroFramework.Controls.MetroCheckBox();
-            this.dataGrid_CARRetirement = new SourceGrid.DataGrid();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -723,6 +734,7 @@
             this.kgbSpouseDetails.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbSpouseDetails.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbSpouseDetails.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbSpouseDetails.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbSpouseDetails.Location = new System.Drawing.Point(624, 0);
             this.kgbSpouseDetails.Margin = new System.Windows.Forms.Padding(4);
             this.kgbSpouseDetails.Name = "kgbSpouseDetails";
@@ -751,6 +763,7 @@
             this.kgbMemberDetails.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbMemberDetails.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbMemberDetails.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbMemberDetails.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbMemberDetails.Location = new System.Drawing.Point(0, 0);
             this.kgbMemberDetails.Margin = new System.Windows.Forms.Padding(4);
             this.kgbMemberDetails.Name = "kgbMemberDetails";
@@ -767,7 +780,7 @@
             this.metroTabPage10.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage10.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage10.Name = "metroTabPage10";
-            this.metroTabPage10.Size = new System.Drawing.Size(1309, 547);
+            this.metroTabPage10.Size = new System.Drawing.Size(1309, 584);
             this.metroTabPage10.TabIndex = 1;
             this.metroTabPage10.Text = "metroTabPage10";
             this.metroTabPage10.VerticalScrollbarBarColor = true;
@@ -787,7 +800,7 @@
             this.dataGrid_Dependents.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_Dependents.Name = "dataGrid_Dependents";
             this.dataGrid_Dependents.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_Dependents.Size = new System.Drawing.Size(1309, 547);
+            this.dataGrid_Dependents.Size = new System.Drawing.Size(1309, 584);
             this.dataGrid_Dependents.TabIndex = 6;
             this.dataGrid_Dependents.TabStop = true;
             this.dataGrid_Dependents.ToolTipText = "";
@@ -801,7 +814,7 @@
             this.metroTabPage11.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage11.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage11.Name = "metroTabPage11";
-            this.metroTabPage11.Size = new System.Drawing.Size(1309, 547);
+            this.metroTabPage11.Size = new System.Drawing.Size(1309, 584);
             this.metroTabPage11.TabIndex = 2;
             this.metroTabPage11.Text = "metroTabPage11";
             this.metroTabPage11.VerticalScrollbarBarColor = true;
@@ -834,6 +847,7 @@
             this.kgbPostalAddress.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbPostalAddress.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbPostalAddress.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbPostalAddress.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbPostalAddress.Location = new System.Drawing.Point(611, 0);
             this.kgbPostalAddress.Margin = new System.Windows.Forms.Padding(4);
             this.kgbPostalAddress.Name = "kgbPostalAddress";
@@ -873,6 +887,7 @@
             this.kgbResidentialAddress.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbResidentialAddress.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbResidentialAddress.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbResidentialAddress.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbResidentialAddress.Location = new System.Drawing.Point(0, 0);
             this.kgbResidentialAddress.Margin = new System.Windows.Forms.Padding(4);
             this.kgbResidentialAddress.Name = "kgbResidentialAddress";
@@ -889,7 +904,7 @@
             this.metroTabPage12.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage12.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage12.Name = "metroTabPage12";
-            this.metroTabPage12.Size = new System.Drawing.Size(1309, 547);
+            this.metroTabPage12.Size = new System.Drawing.Size(1309, 584);
             this.metroTabPage12.TabIndex = 3;
             this.metroTabPage12.Text = "metroTabPage12";
             this.metroTabPage12.VerticalScrollbarBarColor = true;
@@ -910,7 +925,7 @@
             this.metroPanel7.Location = new System.Drawing.Point(0, 0);
             this.metroPanel7.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel7.Name = "metroPanel7";
-            this.metroPanel7.Size = new System.Drawing.Size(1309, 547);
+            this.metroPanel7.Size = new System.Drawing.Size(1309, 584);
             this.metroPanel7.TabIndex = 6;
             this.metroPanel7.VerticalScrollbar = true;
             this.metroPanel7.VerticalScrollbarBarColor = true;
@@ -922,6 +937,7 @@
             this.kryptonGroupBox1.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kryptonGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonGroupBox1.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kryptonGroupBox1.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kryptonGroupBox1.Location = new System.Drawing.Point(0, 225);
             this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
@@ -929,7 +945,7 @@
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.dataGrid_AdditionalContacts);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(1309, 322);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(1309, 359);
             this.kryptonGroupBox1.TabIndex = 13;
             this.kryptonGroupBox1.Values.Heading = "Other Contact Details";
             // 
@@ -946,7 +962,7 @@
             this.dataGrid_AdditionalContacts.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_AdditionalContacts.Name = "dataGrid_AdditionalContacts";
             this.dataGrid_AdditionalContacts.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_AdditionalContacts.Size = new System.Drawing.Size(1305, 285);
+            this.dataGrid_AdditionalContacts.Size = new System.Drawing.Size(1305, 322);
             this.dataGrid_AdditionalContacts.TabIndex = 11;
             this.dataGrid_AdditionalContacts.TabStop = true;
             this.dataGrid_AdditionalContacts.ToolTipText = "";
@@ -974,6 +990,7 @@
             this.kgbSpouseContact.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbSpouseContact.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbSpouseContact.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbSpouseContact.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbSpouseContact.Location = new System.Drawing.Point(618, 0);
             this.kgbSpouseContact.Margin = new System.Windows.Forms.Padding(4);
             this.kgbSpouseContact.Name = "kgbSpouseContact";
@@ -1047,6 +1064,7 @@
             this.kgbMemberContact.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbMemberContact.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbMemberContact.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbMemberContact.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbMemberContact.Location = new System.Drawing.Point(0, 0);
             this.kgbMemberContact.Margin = new System.Windows.Forms.Padding(4);
             this.kgbMemberContact.Name = "kgbMemberContact";
@@ -1109,7 +1127,7 @@
             this.metroTabPage13.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage13.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage13.Name = "metroTabPage13";
-            this.metroTabPage13.Size = new System.Drawing.Size(1309, 547);
+            this.metroTabPage13.Size = new System.Drawing.Size(1309, 584);
             this.metroTabPage13.TabIndex = 4;
             this.metroTabPage13.Text = "metroTabPage13";
             this.metroTabPage13.VerticalScrollbarBarColor = true;
@@ -1139,6 +1157,7 @@
             this.kgbAccountVerification.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbAccountVerification.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbAccountVerification.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbAccountVerification.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbAccountVerification.Location = new System.Drawing.Point(618, 0);
             this.kgbAccountVerification.Margin = new System.Windows.Forms.Padding(4);
             this.kgbAccountVerification.Name = "kgbAccountVerification";
@@ -1199,6 +1218,7 @@
             this.kgbBankingDetails.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
             this.kgbBankingDetails.Dock = System.Windows.Forms.DockStyle.Left;
             this.kgbBankingDetails.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kgbBankingDetails.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kgbBankingDetails.Location = new System.Drawing.Point(0, 0);
             this.kgbBankingDetails.Margin = new System.Windows.Forms.Padding(4);
             this.kgbBankingDetails.Name = "kgbBankingDetails";
@@ -1215,7 +1235,7 @@
             this.metroTabPage15.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage15.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage15.Name = "metroTabPage15";
-            this.metroTabPage15.Size = new System.Drawing.Size(1309, 547);
+            this.metroTabPage15.Size = new System.Drawing.Size(1309, 584);
             this.metroTabPage15.TabIndex = 5;
             this.metroTabPage15.Text = "metroTabPage15";
             this.metroTabPage15.VerticalScrollbarBarColor = true;
@@ -1235,7 +1255,7 @@
             this.dataGrid_AdditionalInfo.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_AdditionalInfo.Name = "dataGrid_AdditionalInfo";
             this.dataGrid_AdditionalInfo.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_AdditionalInfo.Size = new System.Drawing.Size(1309, 547);
+            this.dataGrid_AdditionalInfo.Size = new System.Drawing.Size(1309, 584);
             this.dataGrid_AdditionalInfo.TabIndex = 11;
             this.dataGrid_AdditionalInfo.TabStop = true;
             this.dataGrid_AdditionalInfo.ToolTipText = "";
@@ -1249,7 +1269,7 @@
             this.metroTabPage16.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage16.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage16.Name = "metroTabPage16";
-            this.metroTabPage16.Size = new System.Drawing.Size(1309, 547);
+            this.metroTabPage16.Size = new System.Drawing.Size(1309, 584);
             this.metroTabPage16.TabIndex = 6;
             this.metroTabPage16.Text = "metroTabPage16";
             this.metroTabPage16.VerticalScrollbarBarColor = true;
@@ -1269,7 +1289,7 @@
             this.dataGrid_ClientFees.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_ClientFees.Name = "dataGrid_ClientFees";
             this.dataGrid_ClientFees.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_ClientFees.Size = new System.Drawing.Size(1309, 547);
+            this.dataGrid_ClientFees.Size = new System.Drawing.Size(1309, 584);
             this.dataGrid_ClientFees.TabIndex = 11;
             this.dataGrid_ClientFees.TabStop = true;
             this.dataGrid_ClientFees.ToolTipText = "";
@@ -1354,23 +1374,23 @@
             this.metroGrid_AssetLiabilitiesSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.metroGrid_AssetLiabilitiesSummary.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle55.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle55.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle55.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle55.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle55.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle55.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle55;
             this.metroGrid_AssetLiabilitiesSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid_AssetLiabilitiesSummary.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle56.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle56.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle56.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle56.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle56.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle56.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.metroGrid_AssetLiabilitiesSummary.DefaultCellStyle = dataGridViewCellStyle56;
             this.metroGrid_AssetLiabilitiesSummary.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroGrid_AssetLiabilitiesSummary.EnableHeadersVisualStyles = false;
             this.metroGrid_AssetLiabilitiesSummary.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -1379,14 +1399,14 @@
             this.metroGrid_AssetLiabilitiesSummary.Margin = new System.Windows.Forms.Padding(4);
             this.metroGrid_AssetLiabilitiesSummary.Name = "metroGrid_AssetLiabilitiesSummary";
             this.metroGrid_AssetLiabilitiesSummary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_AssetLiabilitiesSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle57.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle57.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle57.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle57.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle57.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle57.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_AssetLiabilitiesSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle57;
             this.metroGrid_AssetLiabilitiesSummary.RowHeadersWidth = 51;
             this.metroGrid_AssetLiabilitiesSummary.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid_AssetLiabilitiesSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1489,23 +1509,23 @@
             this.metroGrid_IncomeExpenseSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.metroGrid_IncomeExpenseSummary.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGrid_IncomeExpenseSummary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_IncomeExpenseSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle58.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle58.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle58.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle58.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle58.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle58.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_IncomeExpenseSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle58;
             this.metroGrid_IncomeExpenseSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid_IncomeExpenseSummary.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle59.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle59.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle59.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle59.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle59.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle59.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.metroGrid_IncomeExpenseSummary.DefaultCellStyle = dataGridViewCellStyle59;
             this.metroGrid_IncomeExpenseSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroGrid_IncomeExpenseSummary.EnableHeadersVisualStyles = false;
             this.metroGrid_IncomeExpenseSummary.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -1514,14 +1534,14 @@
             this.metroGrid_IncomeExpenseSummary.Margin = new System.Windows.Forms.Padding(4);
             this.metroGrid_IncomeExpenseSummary.Name = "metroGrid_IncomeExpenseSummary";
             this.metroGrid_IncomeExpenseSummary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_IncomeExpenseSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle60.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle60.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle60.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle60.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle60.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle60.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_IncomeExpenseSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle60;
             this.metroGrid_IncomeExpenseSummary.RowHeadersWidth = 51;
             this.metroGrid_IncomeExpenseSummary.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid_IncomeExpenseSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1655,7 +1675,7 @@
             this.metroTabPage19.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage19.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage19.Name = "metroTabPage19";
-            this.metroTabPage19.Size = new System.Drawing.Size(1317, 437);
+            this.metroTabPage19.Size = new System.Drawing.Size(1317, 447);
             this.metroTabPage19.TabIndex = 2;
             this.metroTabPage19.Text = "metroTabPage19";
             this.metroTabPage19.VerticalScrollbarBarColor = true;
@@ -1675,7 +1695,7 @@
             this.dataGrid_EducationPortfolio.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_EducationPortfolio.Name = "dataGrid_EducationPortfolio";
             this.dataGrid_EducationPortfolio.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_EducationPortfolio.Size = new System.Drawing.Size(1317, 437);
+            this.dataGrid_EducationPortfolio.Size = new System.Drawing.Size(1317, 447);
             this.dataGrid_EducationPortfolio.TabIndex = 6;
             this.dataGrid_EducationPortfolio.TabStop = true;
             this.dataGrid_EducationPortfolio.ToolTipText = "";
@@ -1689,7 +1709,7 @@
             this.metroTabPage20.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage20.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage20.Name = "metroTabPage20";
-            this.metroTabPage20.Size = new System.Drawing.Size(1317, 437);
+            this.metroTabPage20.Size = new System.Drawing.Size(1317, 447);
             this.metroTabPage20.TabIndex = 3;
             this.metroTabPage20.Text = "metroTabPage20";
             this.metroTabPage20.VerticalScrollbarBarColor = true;
@@ -1709,7 +1729,7 @@
             this.dataGrid_MedicalPortfolio.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_MedicalPortfolio.Name = "dataGrid_MedicalPortfolio";
             this.dataGrid_MedicalPortfolio.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_MedicalPortfolio.Size = new System.Drawing.Size(1317, 437);
+            this.dataGrid_MedicalPortfolio.Size = new System.Drawing.Size(1317, 447);
             this.dataGrid_MedicalPortfolio.TabIndex = 6;
             this.dataGrid_MedicalPortfolio.TabStop = true;
             this.dataGrid_MedicalPortfolio.ToolTipText = "";
@@ -1723,7 +1743,7 @@
             this.metroTabPage21.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage21.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage21.Name = "metroTabPage21";
-            this.metroTabPage21.Size = new System.Drawing.Size(1317, 437);
+            this.metroTabPage21.Size = new System.Drawing.Size(1317, 447);
             this.metroTabPage21.TabIndex = 4;
             this.metroTabPage21.Text = "metroTabPage21";
             this.metroTabPage21.VerticalScrollbarBarColor = true;
@@ -1743,7 +1763,7 @@
             this.dataGrid_LifePortfolio.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_LifePortfolio.Name = "dataGrid_LifePortfolio";
             this.dataGrid_LifePortfolio.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_LifePortfolio.Size = new System.Drawing.Size(1317, 437);
+            this.dataGrid_LifePortfolio.Size = new System.Drawing.Size(1317, 447);
             this.dataGrid_LifePortfolio.TabIndex = 6;
             this.dataGrid_LifePortfolio.TabStop = true;
             this.dataGrid_LifePortfolio.ToolTipText = "";
@@ -1757,7 +1777,7 @@
             this.metroTabPage22.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage22.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage22.Name = "metroTabPage22";
-            this.metroTabPage22.Size = new System.Drawing.Size(1317, 437);
+            this.metroTabPage22.Size = new System.Drawing.Size(1317, 447);
             this.metroTabPage22.TabIndex = 5;
             this.metroTabPage22.Text = "metroTabPage22";
             this.metroTabPage22.VerticalScrollbarBarColor = true;
@@ -1777,7 +1797,7 @@
             this.dataGrid_AssetsPortfolio.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_AssetsPortfolio.Name = "dataGrid_AssetsPortfolio";
             this.dataGrid_AssetsPortfolio.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_AssetsPortfolio.Size = new System.Drawing.Size(1317, 437);
+            this.dataGrid_AssetsPortfolio.Size = new System.Drawing.Size(1317, 447);
             this.dataGrid_AssetsPortfolio.TabIndex = 6;
             this.dataGrid_AssetsPortfolio.TabStop = true;
             this.dataGrid_AssetsPortfolio.ToolTipText = "";
@@ -1810,23 +1830,23 @@
             this.metroGrid_PortfolioSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.metroGrid_PortfolioSummary.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGrid_PortfolioSummary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_PortfolioSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle61.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle61.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle61.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle61.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle61.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle61.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_PortfolioSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle61;
             this.metroGrid_PortfolioSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid_PortfolioSummary.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle62.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle62.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle62.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle62.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle62.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle62.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.metroGrid_PortfolioSummary.DefaultCellStyle = dataGridViewCellStyle62;
             this.metroGrid_PortfolioSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroGrid_PortfolioSummary.EnableHeadersVisualStyles = false;
             this.metroGrid_PortfolioSummary.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -1836,14 +1856,14 @@
             this.metroGrid_PortfolioSummary.Name = "metroGrid_PortfolioSummary";
             this.metroGrid_PortfolioSummary.ReadOnly = true;
             this.metroGrid_PortfolioSummary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid_PortfolioSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle63.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle63.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle63.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle63.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle63.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle63.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.metroGrid_PortfolioSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle63;
             this.metroGrid_PortfolioSummary.RowHeadersWidth = 51;
             this.metroGrid_PortfolioSummary.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGrid_PortfolioSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1946,25 +1966,25 @@
             // 
             // chart_Fna
             // 
-            chartArea1.AxisX.Title = "Years";
-            chartArea1.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea1.AxisY.Title = "Rands";
-            chartArea1.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea1.Name = "ChartArea1";
-            this.chart_Fna.ChartAreas.Add(chartArea1);
+            chartArea13.AxisX.Title = "Years";
+            chartArea13.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea13.AxisY.Title = "Rands";
+            chartArea13.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea13.Name = "ChartArea1";
+            this.chart_Fna.ChartAreas.Add(chartArea13);
             this.chart_Fna.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend1.MaximumAutoSize = 100F;
-            legend1.Name = "Legend1";
-            this.chart_Fna.Legends.Add(legend1);
+            legend13.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend13.MaximumAutoSize = 100F;
+            legend13.Name = "Legend1";
+            this.chart_Fna.Legends.Add(legend13);
             this.chart_Fna.Location = new System.Drawing.Point(0, 0);
             this.chart_Fna.Margin = new System.Windows.Forms.Padding(4);
             this.chart_Fna.Name = "chart_Fna";
             this.chart_Fna.Size = new System.Drawing.Size(727, 282);
             this.chart_Fna.TabIndex = 24;
             this.chart_Fna.Text = "Pre-Retirement Graph";
-            title1.Name = "Pre-Retirement Graph";
-            this.chart_Fna.Titles.Add(title1);
+            title13.Name = "Pre-Retirement Graph";
+            this.chart_Fna.Titles.Add(title13);
             // 
             // metroPanel19
             // 
@@ -2131,7 +2151,7 @@
             this.metroTabPage24.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage24.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage24.Name = "metroTabPage24";
-            this.metroTabPage24.Size = new System.Drawing.Size(1317, 237);
+            this.metroTabPage24.Size = new System.Drawing.Size(1317, 256);
             this.metroTabPage24.TabIndex = 1;
             this.metroTabPage24.Text = "What I have ...";
             this.metroTabPage24.VerticalScrollbarBarColor = true;
@@ -2151,7 +2171,7 @@
             this.dataGrid_RetireFNA_Have.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_RetireFNA_Have.Name = "dataGrid_RetireFNA_Have";
             this.dataGrid_RetireFNA_Have.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_RetireFNA_Have.Size = new System.Drawing.Size(1317, 237);
+            this.dataGrid_RetireFNA_Have.Size = new System.Drawing.Size(1317, 256);
             this.dataGrid_RetireFNA_Have.TabIndex = 6;
             this.dataGrid_RetireFNA_Have.TabStop = true;
             this.dataGrid_RetireFNA_Have.ToolTipText = "";
@@ -2165,7 +2185,7 @@
             this.metroTabPage25.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage25.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage25.Name = "metroTabPage25";
-            this.metroTabPage25.Size = new System.Drawing.Size(1317, 237);
+            this.metroTabPage25.Size = new System.Drawing.Size(1317, 256);
             this.metroTabPage25.TabIndex = 2;
             this.metroTabPage25.Text = "What I need ...";
             this.metroTabPage25.VerticalScrollbarBarColor = true;
@@ -2185,7 +2205,7 @@
             this.dataGrid_RetireFNA_Need.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_RetireFNA_Need.Name = "dataGrid_RetireFNA_Need";
             this.dataGrid_RetireFNA_Need.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_RetireFNA_Need.Size = new System.Drawing.Size(1317, 237);
+            this.dataGrid_RetireFNA_Need.Size = new System.Drawing.Size(1317, 256);
             this.dataGrid_RetireFNA_Need.TabIndex = 6;
             this.dataGrid_RetireFNA_Need.TabStop = true;
             this.dataGrid_RetireFNA_Need.ToolTipText = "";
@@ -2272,25 +2292,25 @@
             // 
             // chart_NonRetirementFna
             // 
-            chartArea2.AxisX.Title = "Years";
-            chartArea2.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea2.AxisY.Title = "Rands";
-            chartArea2.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartArea2.Name = "ChartArea1";
-            this.chart_NonRetirementFna.ChartAreas.Add(chartArea2);
+            chartArea14.AxisX.Title = "Years";
+            chartArea14.AxisX2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea14.AxisY.Title = "Rands";
+            chartArea14.AxisY2.LineColor = System.Drawing.Color.WhiteSmoke;
+            chartArea14.Name = "ChartArea1";
+            this.chart_NonRetirementFna.ChartAreas.Add(chartArea14);
             this.chart_NonRetirementFna.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend2.MaximumAutoSize = 100F;
-            legend2.Name = "Legend1";
-            this.chart_NonRetirementFna.Legends.Add(legend2);
+            legend14.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend14.MaximumAutoSize = 100F;
+            legend14.Name = "Legend1";
+            this.chart_NonRetirementFna.Legends.Add(legend14);
             this.chart_NonRetirementFna.Location = new System.Drawing.Point(3, 2);
             this.chart_NonRetirementFna.Margin = new System.Windows.Forms.Padding(4);
             this.chart_NonRetirementFna.Name = "chart_NonRetirementFna";
             this.chart_NonRetirementFna.Size = new System.Drawing.Size(956, 247);
             this.chart_NonRetirementFna.TabIndex = 14;
             this.chart_NonRetirementFna.Text = "Pre-Retirement Graph";
-            title2.Name = "Pre-Retirement Graph";
-            this.chart_NonRetirementFna.Titles.Add(title2);
+            title14.Name = "Pre-Retirement Graph";
+            this.chart_NonRetirementFna.Titles.Add(title14);
             // 
             // metroPanel_NonRetirementFnaParams
             // 
@@ -2367,7 +2387,7 @@
             this.metroTabPage26.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage26.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage26.Name = "metroTabPage26";
-            this.metroTabPage26.Size = new System.Drawing.Size(1317, 306);
+            this.metroTabPage26.Size = new System.Drawing.Size(1317, 329);
             this.metroTabPage26.TabIndex = 0;
             this.metroTabPage26.Text = "Investments";
             this.metroTabPage26.VerticalScrollbarBarColor = true;
@@ -2387,7 +2407,7 @@
             this.dataGrid_InvestmentFna.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_InvestmentFna.Name = "dataGrid_InvestmentFna";
             this.dataGrid_InvestmentFna.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_InvestmentFna.Size = new System.Drawing.Size(1317, 306);
+            this.dataGrid_InvestmentFna.Size = new System.Drawing.Size(1317, 329);
             this.dataGrid_InvestmentFna.TabIndex = 6;
             this.dataGrid_InvestmentFna.TabStop = true;
             this.dataGrid_InvestmentFna.ToolTipText = "";
@@ -2401,7 +2421,7 @@
             this.metroTabPage27.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage27.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabPage27.Name = "metroTabPage27";
-            this.metroTabPage27.Size = new System.Drawing.Size(1317, 306);
+            this.metroTabPage27.Size = new System.Drawing.Size(1317, 329);
             this.metroTabPage27.TabIndex = 1;
             this.metroTabPage27.Text = "Education";
             this.metroTabPage27.VerticalScrollbarBarColor = true;
@@ -2421,7 +2441,7 @@
             this.dataGrid_EducationFna.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_EducationFna.Name = "dataGrid_EducationFna";
             this.dataGrid_EducationFna.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_EducationFna.Size = new System.Drawing.Size(1317, 306);
+            this.dataGrid_EducationFna.Size = new System.Drawing.Size(1317, 329);
             this.dataGrid_EducationFna.TabIndex = 6;
             this.dataGrid_EducationFna.TabStop = true;
             this.dataGrid_EducationFna.ToolTipText = "";
@@ -2529,8 +2549,10 @@
             // 
             // kryptonGroupBox2
             // 
+            this.kryptonGroupBox2.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.GroupBoxCaption;
             this.kryptonGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonGroupBox2.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kryptonGroupBox2.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kryptonGroupBox2.Location = new System.Drawing.Point(0, 0);
             this.kryptonGroupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonGroupBox2.Name = "kryptonGroupBox2";
@@ -2559,8 +2581,10 @@
             // 
             // kryptonGroupBox4
             // 
+            this.kryptonGroupBox4.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.GroupBoxCaption;
             this.kryptonGroupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonGroupBox4.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kryptonGroupBox4.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kryptonGroupBox4.Location = new System.Drawing.Point(0, 0);
             this.kryptonGroupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonGroupBox4.Name = "kryptonGroupBox4";
@@ -2655,7 +2679,7 @@
             this.AL_tabPage5.Location = new System.Drawing.Point(4, 38);
             this.AL_tabPage5.Margin = new System.Windows.Forms.Padding(4);
             this.AL_tabPage5.Name = "AL_tabPage5";
-            this.AL_tabPage5.Size = new System.Drawing.Size(822, 273);
+            this.AL_tabPage5.Size = new System.Drawing.Size(822, 298);
             this.AL_tabPage5.TabIndex = 4;
             this.AL_tabPage5.Text = "Deemed Property";
             // 
@@ -2672,7 +2696,7 @@
             this.dGrid_AL_DeemedProperty.Margin = new System.Windows.Forms.Padding(4);
             this.dGrid_AL_DeemedProperty.Name = "dGrid_AL_DeemedProperty";
             this.dGrid_AL_DeemedProperty.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dGrid_AL_DeemedProperty.Size = new System.Drawing.Size(822, 273);
+            this.dGrid_AL_DeemedProperty.Size = new System.Drawing.Size(822, 298);
             this.dGrid_AL_DeemedProperty.TabIndex = 14;
             this.dGrid_AL_DeemedProperty.TabStop = true;
             this.dGrid_AL_DeemedProperty.ToolTipText = "";
@@ -2683,7 +2707,7 @@
             this.AL_tabPage7.Location = new System.Drawing.Point(4, 38);
             this.AL_tabPage7.Margin = new System.Windows.Forms.Padding(4);
             this.AL_tabPage7.Name = "AL_tabPage7";
-            this.AL_tabPage7.Size = new System.Drawing.Size(822, 273);
+            this.AL_tabPage7.Size = new System.Drawing.Size(822, 298);
             this.AL_tabPage7.TabIndex = 6;
             this.AL_tabPage7.Text = "Risk Policies";
             // 
@@ -2700,7 +2724,7 @@
             this.dGrid_AL_RiskPolicies.Margin = new System.Windows.Forms.Padding(4);
             this.dGrid_AL_RiskPolicies.Name = "dGrid_AL_RiskPolicies";
             this.dGrid_AL_RiskPolicies.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dGrid_AL_RiskPolicies.Size = new System.Drawing.Size(822, 273);
+            this.dGrid_AL_RiskPolicies.Size = new System.Drawing.Size(822, 298);
             this.dGrid_AL_RiskPolicies.TabIndex = 14;
             this.dGrid_AL_RiskPolicies.TabStop = true;
             this.dGrid_AL_RiskPolicies.ToolTipText = "";
@@ -2711,7 +2735,7 @@
             this.AL_tabPage3.Location = new System.Drawing.Point(4, 38);
             this.AL_tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.AL_tabPage3.Name = "AL_tabPage3";
-            this.AL_tabPage3.Size = new System.Drawing.Size(822, 273);
+            this.AL_tabPage3.Size = new System.Drawing.Size(822, 298);
             this.AL_tabPage3.TabIndex = 2;
             this.AL_tabPage3.Text = "Other Assets";
             // 
@@ -2728,7 +2752,7 @@
             this.dGrid_AL_OtherAssets.Margin = new System.Windows.Forms.Padding(4);
             this.dGrid_AL_OtherAssets.Name = "dGrid_AL_OtherAssets";
             this.dGrid_AL_OtherAssets.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dGrid_AL_OtherAssets.Size = new System.Drawing.Size(822, 273);
+            this.dGrid_AL_OtherAssets.Size = new System.Drawing.Size(822, 298);
             this.dGrid_AL_OtherAssets.TabIndex = 14;
             this.dGrid_AL_OtherAssets.TabStop = true;
             this.dGrid_AL_OtherAssets.ToolTipText = "";
@@ -2739,7 +2763,7 @@
             this.AL_tabPage2.Location = new System.Drawing.Point(4, 38);
             this.AL_tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.AL_tabPage2.Name = "AL_tabPage2";
-            this.AL_tabPage2.Size = new System.Drawing.Size(822, 273);
+            this.AL_tabPage2.Size = new System.Drawing.Size(822, 298);
             this.AL_tabPage2.TabIndex = 1;
             this.AL_tabPage2.Text = "Investments";
             // 
@@ -2756,7 +2780,7 @@
             this.dGrid_AL_Investments.Margin = new System.Windows.Forms.Padding(4);
             this.dGrid_AL_Investments.Name = "dGrid_AL_Investments";
             this.dGrid_AL_Investments.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dGrid_AL_Investments.Size = new System.Drawing.Size(822, 273);
+            this.dGrid_AL_Investments.Size = new System.Drawing.Size(822, 298);
             this.dGrid_AL_Investments.TabIndex = 14;
             this.dGrid_AL_Investments.TabStop = true;
             this.dGrid_AL_Investments.ToolTipText = "";
@@ -2767,7 +2791,7 @@
             this.AL_tabPage4.Location = new System.Drawing.Point(4, 38);
             this.AL_tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.AL_tabPage4.Name = "AL_tabPage4";
-            this.AL_tabPage4.Size = new System.Drawing.Size(822, 273);
+            this.AL_tabPage4.Size = new System.Drawing.Size(822, 298);
             this.AL_tabPage4.TabIndex = 3;
             this.AL_tabPage4.Text = "Liabilities";
             // 
@@ -2784,7 +2808,7 @@
             this.dGrid_AL_Liabilities.Margin = new System.Windows.Forms.Padding(4);
             this.dGrid_AL_Liabilities.Name = "dGrid_AL_Liabilities";
             this.dGrid_AL_Liabilities.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dGrid_AL_Liabilities.Size = new System.Drawing.Size(822, 273);
+            this.dGrid_AL_Liabilities.Size = new System.Drawing.Size(822, 298);
             this.dGrid_AL_Liabilities.TabIndex = 14;
             this.dGrid_AL_Liabilities.TabStop = true;
             this.dGrid_AL_Liabilities.ToolTipText = "";
@@ -2795,7 +2819,7 @@
             this.AL_tabPage6.Location = new System.Drawing.Point(4, 38);
             this.AL_tabPage6.Margin = new System.Windows.Forms.Padding(4);
             this.AL_tabPage6.Name = "AL_tabPage6";
-            this.AL_tabPage6.Size = new System.Drawing.Size(822, 273);
+            this.AL_tabPage6.Size = new System.Drawing.Size(822, 298);
             this.AL_tabPage6.TabIndex = 5;
             this.AL_tabPage6.Text = "Other Deductions";
             // 
@@ -2814,7 +2838,7 @@
             this.dGrid_OtherDeductions.Margin = new System.Windows.Forms.Padding(4);
             this.dGrid_OtherDeductions.Name = "dGrid_OtherDeductions";
             this.dGrid_OtherDeductions.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dGrid_OtherDeductions.Size = new System.Drawing.Size(822, 273);
+            this.dGrid_OtherDeductions.Size = new System.Drawing.Size(822, 298);
             this.dGrid_OtherDeductions.TabIndex = 15;
             this.dGrid_OtherDeductions.TabStop = true;
             this.dGrid_OtherDeductions.ToolTipText = "";
@@ -2828,7 +2852,7 @@
             this.EstDutyTabPage2.Location = new System.Drawing.Point(4, 38);
             this.EstDutyTabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.EstDutyTabPage2.Name = "EstDutyTabPage2";
-            this.EstDutyTabPage2.Size = new System.Drawing.Size(830, 315);
+            this.EstDutyTabPage2.Size = new System.Drawing.Size(830, 340);
             this.EstDutyTabPage2.TabIndex = 1;
             this.EstDutyTabPage2.Text = "Calculation Analysis |";
             this.EstDutyTabPage2.VerticalScrollbarBarColor = false;
@@ -2844,7 +2868,7 @@
             this.metroTabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.metroTabControl1.Name = "metroTabControl1";
             this.metroTabControl1.SelectedIndex = 0;
-            this.metroTabControl1.Size = new System.Drawing.Size(830, 315);
+            this.metroTabControl1.Size = new System.Drawing.Size(830, 340);
             this.metroTabControl1.TabIndex = 15;
             this.metroTabControl1.UseSelectable = true;
             // 
@@ -2855,7 +2879,7 @@
             this.tabPage_CGT.Location = new System.Drawing.Point(4, 38);
             this.tabPage_CGT.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage_CGT.Name = "tabPage_CGT";
-            this.tabPage_CGT.Size = new System.Drawing.Size(822, 273);
+            this.tabPage_CGT.Size = new System.Drawing.Size(822, 298);
             this.tabPage_CGT.TabIndex = 0;
             this.tabPage_CGT.Text = "Capital GainsTax";
             // 
@@ -2872,7 +2896,7 @@
             this.dataGrid_CalculationAnalysis.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_CalculationAnalysis.Name = "dataGrid_CalculationAnalysis";
             this.dataGrid_CalculationAnalysis.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CalculationAnalysis.Size = new System.Drawing.Size(822, 273);
+            this.dataGrid_CalculationAnalysis.Size = new System.Drawing.Size(822, 298);
             this.dataGrid_CalculationAnalysis.TabIndex = 15;
             this.dataGrid_CalculationAnalysis.TabStop = true;
             this.dataGrid_CalculationAnalysis.ToolTipText = "";
@@ -2884,7 +2908,7 @@
             this.tabPage_ExecFees.Location = new System.Drawing.Point(4, 38);
             this.tabPage_ExecFees.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage_ExecFees.Name = "tabPage_ExecFees";
-            this.tabPage_ExecFees.Size = new System.Drawing.Size(822, 272);
+            this.tabPage_ExecFees.Size = new System.Drawing.Size(822, 297);
             this.tabPage_ExecFees.TabIndex = 1;
             this.tabPage_ExecFees.Text = "Executors fees";
             // 
@@ -2901,7 +2925,7 @@
             this.dataGrid_CalcExecFeesAnalysis.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_CalcExecFeesAnalysis.Name = "dataGrid_CalcExecFeesAnalysis";
             this.dataGrid_CalcExecFeesAnalysis.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CalcExecFeesAnalysis.Size = new System.Drawing.Size(822, 272);
+            this.dataGrid_CalcExecFeesAnalysis.Size = new System.Drawing.Size(822, 297);
             this.dataGrid_CalcExecFeesAnalysis.TabIndex = 16;
             this.dataGrid_CalcExecFeesAnalysis.TabStop = true;
             this.dataGrid_CalcExecFeesAnalysis.ToolTipText = "";
@@ -2915,7 +2939,7 @@
             this.EstDutyTabPage3.Location = new System.Drawing.Point(4, 38);
             this.EstDutyTabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.EstDutyTabPage3.Name = "EstDutyTabPage3";
-            this.EstDutyTabPage3.Size = new System.Drawing.Size(830, 315);
+            this.EstDutyTabPage3.Size = new System.Drawing.Size(830, 340);
             this.EstDutyTabPage3.TabIndex = 2;
             this.EstDutyTabPage3.Text = "Liquidity Analysis |";
             this.EstDutyTabPage3.VerticalScrollbarBarColor = false;
@@ -2935,7 +2959,7 @@
             this.dataGrid_LiquidityAnalysis.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_LiquidityAnalysis.Name = "dataGrid_LiquidityAnalysis";
             this.dataGrid_LiquidityAnalysis.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_LiquidityAnalysis.Size = new System.Drawing.Size(830, 315);
+            this.dataGrid_LiquidityAnalysis.Size = new System.Drawing.Size(830, 340);
             this.dataGrid_LiquidityAnalysis.TabIndex = 15;
             this.dataGrid_LiquidityAnalysis.TabStop = true;
             this.dataGrid_LiquidityAnalysis.ToolTipText = "";
@@ -2949,7 +2973,7 @@
             this.EstDutyTabPage4.Location = new System.Drawing.Point(4, 38);
             this.EstDutyTabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.EstDutyTabPage4.Name = "EstDutyTabPage4";
-            this.EstDutyTabPage4.Size = new System.Drawing.Size(830, 315);
+            this.EstDutyTabPage4.Size = new System.Drawing.Size(830, 340);
             this.EstDutyTabPage4.TabIndex = 3;
             this.EstDutyTabPage4.Text = "Risk Cover Analysis |";
             this.EstDutyTabPage4.VerticalScrollbarBarColor = false;
@@ -2969,15 +2993,17 @@
             this.dataGrid_RiskCoverAnalysis.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_RiskCoverAnalysis.Name = "dataGrid_RiskCoverAnalysis";
             this.dataGrid_RiskCoverAnalysis.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_RiskCoverAnalysis.Size = new System.Drawing.Size(830, 315);
+            this.dataGrid_RiskCoverAnalysis.Size = new System.Drawing.Size(830, 340);
             this.dataGrid_RiskCoverAnalysis.TabIndex = 16;
             this.dataGrid_RiskCoverAnalysis.TabStop = true;
             this.dataGrid_RiskCoverAnalysis.ToolTipText = "";
             // 
             // kryptonGroupBox3
             // 
+            this.kryptonGroupBox3.CaptionStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.GroupBoxCaption;
             this.kryptonGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonGroupBox3.GroupBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.ButtonForm;
+            this.kryptonGroupBox3.GroupBorderStyle = ComponentFactory.Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
             this.kryptonGroupBox3.Location = new System.Drawing.Point(0, 0);
             this.kryptonGroupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonGroupBox3.Name = "kryptonGroupBox3";
@@ -3011,6 +3037,7 @@
             // 
             this.metroTabPage7.AutoScroll = true;
             this.metroTabPage7.Controls.Add(this.metroTabControl_Checklist);
+            this.metroTabPage7.HorizontalScrollbar = true;
             this.metroTabPage7.HorizontalScrollbarBarColor = false;
             this.metroTabPage7.HorizontalScrollbarHighlightOnWheel = false;
             this.metroTabPage7.HorizontalScrollbarSize = 12;
@@ -3029,15 +3056,17 @@
             // 
             this.metroTabControl_Checklist.Controls.Add(this.metroTabPage_Checklist);
             this.metroTabControl_Checklist.Controls.Add(this.metroTabPage_CarReview);
-            this.metroTabControl_Checklist.Location = new System.Drawing.Point(3, 0);
+            this.metroTabControl_Checklist.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabControl_Checklist.Location = new System.Drawing.Point(0, 0);
             this.metroTabControl_Checklist.Name = "metroTabControl_Checklist";
-            this.metroTabControl_Checklist.SelectedIndex = 1;
-            this.metroTabControl_Checklist.Size = new System.Drawing.Size(1243, 621);
+            this.metroTabControl_Checklist.SelectedIndex = 0;
+            this.metroTabControl_Checklist.Size = new System.Drawing.Size(1325, 634);
             this.metroTabControl_Checklist.TabIndex = 7;
             this.metroTabControl_Checklist.UseSelectable = true;
             // 
             // metroTabPage_Checklist
             // 
+            this.metroTabPage_Checklist.AutoScroll = true;
             this.metroTabPage_Checklist.BackColor = System.Drawing.Color.White;
             this.metroTabPage_Checklist.Controls.Add(this.metroPanel_CheckListProfile);
             this.metroTabPage_Checklist.Controls.Add(this.metroPanel_CheckListClientStatus);
@@ -3047,7 +3076,7 @@
             this.metroTabPage_Checklist.Controls.Add(this.metroPanel_CheckListNotes);
             this.metroTabPage_Checklist.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage_Checklist.Name = "metroTabPage_Checklist";
-            this.metroTabPage_Checklist.Size = new System.Drawing.Size(1235, 579);
+            this.metroTabPage_Checklist.Size = new System.Drawing.Size(1317, 592);
             this.metroTabPage_Checklist.TabIndex = 0;
             this.metroTabPage_Checklist.Text = "Checklist";
             // 
@@ -3209,13 +3238,201 @@
             // 
             // metroTabPage_CarReview
             // 
+            this.metroTabPage_CarReview.AutoScroll = true;
             this.metroTabPage_CarReview.BackColor = System.Drawing.Color.White;
+            this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARIncomeAsset);
+            this.metroTabPage_CarReview.Controls.Add(this.label_IncomeAssetPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_EducationPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_MedicalAidPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_NonRetirementPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_RetirementPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.label_RiskPortfolio);
+            this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARRisk);
+            this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARMedicalAid);
+            this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CAREducation);
+            this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARNonRetirement);
             this.metroTabPage_CarReview.Controls.Add(this.dataGrid_CARRetirement);
             this.metroTabPage_CarReview.Location = new System.Drawing.Point(4, 38);
             this.metroTabPage_CarReview.Name = "metroTabPage_CarReview";
-            this.metroTabPage_CarReview.Size = new System.Drawing.Size(1235, 579);
+            this.metroTabPage_CarReview.Size = new System.Drawing.Size(1317, 592);
             this.metroTabPage_CarReview.TabIndex = 1;
             this.metroTabPage_CarReview.Text = "CAR Overview";
+            // 
+            // dataGrid_CARIncomeAsset
+            // 
+            this.dataGrid_CARIncomeAsset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARIncomeAsset.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARIncomeAsset.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARIncomeAsset.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARIncomeAsset.EnableSort = false;
+            this.dataGrid_CARIncomeAsset.FixedColumns = 1;
+            this.dataGrid_CARIncomeAsset.FixedRows = 1;
+            this.dataGrid_CARIncomeAsset.Location = new System.Drawing.Point(12, 883);
+            this.dataGrid_CARIncomeAsset.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARIncomeAsset.Name = "dataGrid_CARIncomeAsset";
+            this.dataGrid_CARIncomeAsset.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARIncomeAsset.Size = new System.Drawing.Size(1260, 123);
+            this.dataGrid_CARIncomeAsset.TabIndex = 26;
+            this.dataGrid_CARIncomeAsset.TabStop = true;
+            this.dataGrid_CARIncomeAsset.ToolTipText = "";
+            // 
+            // label_IncomeAssetPortfolio
+            // 
+            this.label_IncomeAssetPortfolio.AutoSize = true;
+            this.label_IncomeAssetPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_IncomeAssetPortfolio.Location = new System.Drawing.Point(5, 847);
+            this.label_IncomeAssetPortfolio.Name = "label_IncomeAssetPortfolio";
+            this.label_IncomeAssetPortfolio.Size = new System.Drawing.Size(334, 32);
+            this.label_IncomeAssetPortfolio.TabIndex = 25;
+            this.label_IncomeAssetPortfolio.Text = "Income Assets Portfolio";
+            // 
+            // label_EducationPortfolio
+            // 
+            this.label_EducationPortfolio.AutoSize = true;
+            this.label_EducationPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_EducationPortfolio.Location = new System.Drawing.Point(5, 346);
+            this.label_EducationPortfolio.Name = "label_EducationPortfolio";
+            this.label_EducationPortfolio.Size = new System.Drawing.Size(274, 32);
+            this.label_EducationPortfolio.TabIndex = 24;
+            this.label_EducationPortfolio.Text = "Education Portfolio";
+            // 
+            // label_MedicalAidPortfolio
+            // 
+            this.label_MedicalAidPortfolio.AutoSize = true;
+            this.label_MedicalAidPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_MedicalAidPortfolio.Location = new System.Drawing.Point(5, 515);
+            this.label_MedicalAidPortfolio.Name = "label_MedicalAidPortfolio";
+            this.label_MedicalAidPortfolio.Size = new System.Drawing.Size(368, 32);
+            this.label_MedicalAidPortfolio.TabIndex = 23;
+            this.label_MedicalAidPortfolio.Text = "Medical Aid/GAP Portfolio";
+            // 
+            // label_NonRetirementPortfolio
+            // 
+            this.label_NonRetirementPortfolio.AutoSize = true;
+            this.label_NonRetirementPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_NonRetirementPortfolio.Location = new System.Drawing.Point(5, 179);
+            this.label_NonRetirementPortfolio.Name = "label_NonRetirementPortfolio";
+            this.label_NonRetirementPortfolio.Size = new System.Drawing.Size(351, 32);
+            this.label_NonRetirementPortfolio.TabIndex = 22;
+            this.label_NonRetirementPortfolio.Text = "Non-Retirement Portfolio";
+            // 
+            // label_RetirementPortfolio
+            // 
+            this.label_RetirementPortfolio.AutoSize = true;
+            this.label_RetirementPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_RetirementPortfolio.Location = new System.Drawing.Point(5, 8);
+            this.label_RetirementPortfolio.Name = "label_RetirementPortfolio";
+            this.label_RetirementPortfolio.Size = new System.Drawing.Size(286, 32);
+            this.label_RetirementPortfolio.TabIndex = 21;
+            this.label_RetirementPortfolio.Text = "Retirement Portfolio";
+            // 
+            // label_RiskPortfolio
+            // 
+            this.label_RiskPortfolio.AutoSize = true;
+            this.label_RiskPortfolio.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_RiskPortfolio.Location = new System.Drawing.Point(5, 680);
+            this.label_RiskPortfolio.Name = "label_RiskPortfolio";
+            this.label_RiskPortfolio.Size = new System.Drawing.Size(196, 32);
+            this.label_RiskPortfolio.TabIndex = 20;
+            this.label_RiskPortfolio.Text = "Risk Portfolio";
+            // 
+            // dataGrid_CARRisk
+            // 
+            this.dataGrid_CARRisk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARRisk.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARRisk.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARRisk.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARRisk.EnableSort = false;
+            this.dataGrid_CARRisk.FixedColumns = 1;
+            this.dataGrid_CARRisk.FixedRows = 1;
+            this.dataGrid_CARRisk.Location = new System.Drawing.Point(12, 716);
+            this.dataGrid_CARRisk.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARRisk.Name = "dataGrid_CARRisk";
+            this.dataGrid_CARRisk.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARRisk.Size = new System.Drawing.Size(1260, 123);
+            this.dataGrid_CARRisk.TabIndex = 11;
+            this.dataGrid_CARRisk.TabStop = true;
+            this.dataGrid_CARRisk.ToolTipText = "";
+            // 
+            // dataGrid_CARMedicalAid
+            // 
+            this.dataGrid_CARMedicalAid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARMedicalAid.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARMedicalAid.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARMedicalAid.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARMedicalAid.EnableSort = false;
+            this.dataGrid_CARMedicalAid.FixedColumns = 1;
+            this.dataGrid_CARMedicalAid.FixedRows = 1;
+            this.dataGrid_CARMedicalAid.Location = new System.Drawing.Point(12, 549);
+            this.dataGrid_CARMedicalAid.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARMedicalAid.Name = "dataGrid_CARMedicalAid";
+            this.dataGrid_CARMedicalAid.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARMedicalAid.Size = new System.Drawing.Size(1260, 123);
+            this.dataGrid_CARMedicalAid.TabIndex = 10;
+            this.dataGrid_CARMedicalAid.TabStop = true;
+            this.dataGrid_CARMedicalAid.ToolTipText = "";
+            // 
+            // dataGrid_CAREducation
+            // 
+            this.dataGrid_CAREducation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CAREducation.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CAREducation.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CAREducation.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CAREducation.EnableSort = false;
+            this.dataGrid_CAREducation.FixedColumns = 1;
+            this.dataGrid_CAREducation.FixedRows = 1;
+            this.dataGrid_CAREducation.Location = new System.Drawing.Point(12, 382);
+            this.dataGrid_CAREducation.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CAREducation.Name = "dataGrid_CAREducation";
+            this.dataGrid_CAREducation.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CAREducation.Size = new System.Drawing.Size(1260, 123);
+            this.dataGrid_CAREducation.TabIndex = 9;
+            this.dataGrid_CAREducation.TabStop = true;
+            this.dataGrid_CAREducation.ToolTipText = "";
+            // 
+            // dataGrid_CARNonRetirement
+            // 
+            this.dataGrid_CARNonRetirement.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARNonRetirement.AutoSize = true;
+            this.dataGrid_CARNonRetirement.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARNonRetirement.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARNonRetirement.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARNonRetirement.EnableSort = false;
+            this.dataGrid_CARNonRetirement.FixedColumns = 1;
+            this.dataGrid_CARNonRetirement.FixedRows = 1;
+            this.dataGrid_CARNonRetirement.Location = new System.Drawing.Point(12, 215);
+            this.dataGrid_CARNonRetirement.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARNonRetirement.Name = "dataGrid_CARNonRetirement";
+            this.dataGrid_CARNonRetirement.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARNonRetirement.Size = new System.Drawing.Size(1260, 123);
+            this.dataGrid_CARNonRetirement.TabIndex = 8;
+            this.dataGrid_CARNonRetirement.TabStop = true;
+            this.dataGrid_CARNonRetirement.ToolTipText = "";
+            // 
+            // dataGrid_CARRetirement
+            // 
+            this.dataGrid_CARRetirement.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid_CARRetirement.BackColor = System.Drawing.Color.White;
+            this.dataGrid_CARRetirement.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_CARRetirement.DeleteRowsWithDeleteKey = false;
+            this.dataGrid_CARRetirement.EnableSort = false;
+            this.dataGrid_CARRetirement.FixedColumns = 1;
+            this.dataGrid_CARRetirement.FixedRows = 1;
+            this.dataGrid_CARRetirement.Location = new System.Drawing.Point(12, 48);
+            this.dataGrid_CARRetirement.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_CARRetirement.Name = "dataGrid_CARRetirement";
+            this.dataGrid_CARRetirement.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_CARRetirement.Size = new System.Drawing.Size(1260, 123);
+            this.dataGrid_CARRetirement.TabIndex = 7;
+            this.dataGrid_CARRetirement.TabStop = true;
+            this.dataGrid_CARRetirement.ToolTipText = "";
+            this.dataGrid_CARRetirement.Paint += new System.Windows.Forms.PaintEventHandler(this.dataGrid_CARRetirement_Paint);
             // 
             // metroTabPage8
             // 
@@ -3358,24 +3575,6 @@
             this.metroCheckBox2.Text = "Show Completed Meetings";
             this.metroCheckBox2.UseSelectable = true;
             this.metroCheckBox2.CheckedChanged += new System.EventHandler(this.metroCheckBox2_CheckedChanged);
-            // 
-            // dataGrid_CARRetirement
-            // 
-            this.dataGrid_CARRetirement.BackColor = System.Drawing.Color.White;
-            this.dataGrid_CARRetirement.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
-            this.dataGrid_CARRetirement.DeleteRowsWithDeleteKey = false;
-            this.dataGrid_CARRetirement.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataGrid_CARRetirement.EnableSort = false;
-            this.dataGrid_CARRetirement.FixedColumns = 1;
-            this.dataGrid_CARRetirement.FixedRows = 1;
-            this.dataGrid_CARRetirement.Location = new System.Drawing.Point(0, 0);
-            this.dataGrid_CARRetirement.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGrid_CARRetirement.Name = "dataGrid_CARRetirement";
-            this.dataGrid_CARRetirement.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_CARRetirement.Size = new System.Drawing.Size(1235, 187);
-            this.dataGrid_CARRetirement.TabIndex = 7;
-            this.dataGrid_CARRetirement.TabStop = true;
-            this.dataGrid_CARRetirement.ToolTipText = "";
             // 
             // frmMetroClient1
             // 
@@ -3560,6 +3759,7 @@
             this.metroPanel_CheckListFica.ResumeLayout(false);
             this.metroPanel_CheckListNotes.ResumeLayout(false);
             this.metroTabPage_CarReview.ResumeLayout(false);
+            this.metroTabPage_CarReview.PerformLayout();
             this.metroTabPage8.ResumeLayout(false);
             this.metroPanel17.ResumeLayout(false);
             this.metroPanel17.PerformLayout();
@@ -3761,5 +3961,16 @@
         private System.Windows.Forms.TabPage metroTabPage_Checklist;
         private System.Windows.Forms.TabPage metroTabPage_CarReview;
         private SourceGrid.DataGrid dataGrid_CARRetirement;
+        private SourceGrid.DataGrid dataGrid_CARRisk;
+        private SourceGrid.DataGrid dataGrid_CARMedicalAid;
+        private SourceGrid.DataGrid dataGrid_CAREducation;
+        private SourceGrid.DataGrid dataGrid_CARNonRetirement;
+        private System.Windows.Forms.Label label_EducationPortfolio;
+        private System.Windows.Forms.Label label_MedicalAidPortfolio;
+        private System.Windows.Forms.Label label_NonRetirementPortfolio;
+        private System.Windows.Forms.Label label_RetirementPortfolio;
+        private System.Windows.Forms.Label label_RiskPortfolio;
+        private SourceGrid.DataGrid dataGrid_CARIncomeAsset;
+        private System.Windows.Forms.Label label_IncomeAssetPortfolio;
     }
 }

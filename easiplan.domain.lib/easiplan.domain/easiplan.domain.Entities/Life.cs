@@ -100,6 +100,17 @@ namespace easiplan.domain.Entities
         #endregion
 
         #region NonPersisted Properties
+
+
+        [IgnoreAutoMap]
+        public virtual RiskAdviceRecord CurrentAdviceRecord
+        {
+            get
+            {
+                return this.AdviceRecords.LastOrDefault();
+            }
+        }
+
         [IgnoreAutoMap]
         public virtual int CurrentAge
         {
