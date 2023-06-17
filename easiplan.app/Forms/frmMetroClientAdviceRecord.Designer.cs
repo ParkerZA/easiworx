@@ -2582,57 +2582,57 @@ namespace Finx.App.Forms
             //Hospitilisation Cover
             vl_HospitalCover.Text = "Hospitalisation Cover";
             vTableLbls.Add(this.vl_HospitalCover);
-            listBoxes.Add(this.Cover1);
-            listBoxes.Add(this.Cover2);
+            listBoxes.Add(this.cmb_HospitalDiscussed);
+            listBoxes.Add(this.cmb_HospitalTaken);
             textBoxes.Add(this.tb_hospitalCover);
 
             //DayToDay
             vl_DayToDay.Text = "Day-to-Day Benefit";
             vTableLbls.Add(this.vl_DayToDay);
-            listBoxes.Add(this.DayToDay1);
-            listBoxes.Add(this.DayToDay2);
+            listBoxes.Add(this.cmb_DayToDayDiscussed);
+            listBoxes.Add(this.cmb_DayToDayTaken);
             textBoxes.Add(this.tb_dayToDay);
 
             //Threshold Benefit
             vl_Threshold.Text = "Threshold Benefit";
             vTableLbls.Add(this.vl_Threshold);
-            listBoxes.Add(this.Threshold1);
-            listBoxes.Add(this.Threshold2);
+            listBoxes.Add(this.cmb_ThresholdBenefitDiscussed);
+            listBoxes.Add(this.cmb_ThresholdBenefitTaken);
             textBoxes.Add(this.tb_threshold);
 
             //ChronicBenefit
             vl_ChronicBenefit.Text = "Chronic Benefit";
             vTableLbls.Add(this.vl_ChronicBenefit);
-            listBoxes.Add(this.ChronicBenefit1);
-            listBoxes.Add(this.ChronicBenefit2);
+            listBoxes.Add(this.cmb_ChronicBenefitDiscussed);
+            listBoxes.Add(this.cmb_ChronicBenefitTaken);
             textBoxes.Add(this.tb_chronic);
 
             //Savings account
             vl_SavingsAccount.Text = "Savings Account";
             vTableLbls.Add(this.vl_SavingsAccount);
-            listBoxes.Add(this.Savings1);
-            listBoxes.Add(this.Savings2);
+            listBoxes.Add(this.cmb_SavingsDiscussed);
+            listBoxes.Add(this.cmb_SavingsTaken);
             textBoxes.Add(this.tb_savingsAccount);
 
             //HospitalPreference
             vl_Preference.Text = "Hospital Preference";
             vTableLbls.Add(this.vl_Preference);
-            listBoxes.Add(this.HospitalPreference1);
-            listBoxes.Add(this.HospitalPreference2);
+            listBoxes.Add(this.cmb_HospitalDiscussed);
+            listBoxes.Add(this.cmb_HospitalTaken);
             textBoxes.Add(this.tb_hospitalPreference);
 
             //Gap Cover
             vl_GapCover.Text = "Gap Cover";
             vTableLbls.Add(this.vl_GapCover);
-            listBoxes.Add(this.GapCover1);
-            listBoxes.Add(this.GapCover2);
+            listBoxes.Add(this.cmb_GapCoverDiscussed);
+            listBoxes.Add(this.cmb_GapCoverTaken);
             textBoxes.Add(this.tb_gapCover);
 
             //Other
             vl_Other.Text = "Other";
             vTableLbls.Add(this.vl_Other);
-            listBoxes.Add(this.Other1);
-            listBoxes.Add(this.Other2);
+            listBoxes.Add(this.cmb_OtherDiscussed);
+            listBoxes.Add(this.cmb_OtherTaken);
             textBoxes.Add(this.tb_other);
 
 
@@ -2997,52 +2997,52 @@ namespace Finx.App.Forms
 
 
         //Hospitalisation Cover
-        private MetroComboBox Cover1 = new MetroComboBox();
-        private MetroComboBox Cover2 = new MetroComboBox();
+        private MetroComboBox cmb_HospitalDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_HospitalTaken = new MetroComboBox();
         private Label vl_HospitalCover = new Label();
         private MetroTextBox tb_hospitalCover = new MetroTextBox();
 
 
         //DayToDay
-        private MetroComboBox DayToDay1 = new MetroComboBox();
-        private MetroComboBox DayToDay2 = new MetroComboBox();
+        private MetroComboBox cmb_DayToDayDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_DayToDayTaken = new MetroComboBox();
         private Label vl_DayToDay = new Label();
         private MetroTextBox tb_dayToDay = new MetroTextBox();
 
         //Threshold Benefit
-        private MetroComboBox Threshold1 = new MetroComboBox();
-        private MetroComboBox Threshold2 = new MetroComboBox();
+        private MetroComboBox cmb_ThresholdBenefitDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_ThresholdBenefitTaken= new MetroComboBox();
         private Label vl_Threshold = new Label();
         private MetroTextBox tb_threshold = new MetroTextBox();
 
 
         //ChronicBenefit
-        private MetroComboBox ChronicBenefit1 = new MetroComboBox();
-        private MetroComboBox ChronicBenefit2 = new MetroComboBox();
+        private MetroComboBox cmb_ChronicBenefitDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_ChronicBenefitTaken = new MetroComboBox();
         private Label vl_ChronicBenefit = new Label();
         private MetroTextBox tb_chronic = new MetroTextBox();
 
         //Savings account
-        private MetroComboBox Savings1 = new MetroComboBox();
-        private MetroComboBox Savings2 = new MetroComboBox();
+        private MetroComboBox cmb_SavingsDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_SavingsTaken = new MetroComboBox();
         private Label vl_SavingsAccount = new Label();
         private MetroTextBox tb_savingsAccount = new MetroTextBox();
 
         //HospitalPreference
-        private MetroComboBox HospitalPreference1 = new MetroComboBox();
-        private MetroComboBox HospitalPreference2 = new MetroComboBox();
+        private MetroComboBox cmb_HospitalPreferenceDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_HospitalPreferenceTaken = new MetroComboBox();
         private Label vl_Preference = new Label();
         private MetroTextBox tb_hospitalPreference = new MetroTextBox();
 
         //Gap Cover
-        private MetroComboBox GapCover1 = new MetroComboBox();
-        private MetroComboBox GapCover2 = new MetroComboBox();
+        private MetroComboBox cmb_GapCoverDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_GapCoverTaken = new MetroComboBox();
         private Label vl_GapCover = new Label();
         private MetroTextBox tb_gapCover = new MetroTextBox();
 
         //Other
-        private MetroComboBox Other1 = new MetroComboBox();
-        private MetroComboBox Other2 = new MetroComboBox();
+        private MetroComboBox cmb_OtherDiscussed = new MetroComboBox();
+        private MetroComboBox cmb_OtherTaken = new MetroComboBox();
         private Label vl_Other = new Label();
         private MetroTextBox tb_other = new MetroTextBox();
 
