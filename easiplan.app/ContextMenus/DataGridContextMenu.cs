@@ -81,8 +81,8 @@ namespace easiplan.app.ContextMenus
                     _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Policy Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; 
                     _menu.AddMenuItem("-");
-                    //_menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
-                    //_menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Cancel Policy", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     if (contextMenuType == ContextMenuType.RetirementPortfolio)
                     {
@@ -101,6 +101,8 @@ namespace easiplan.app.ContextMenus
                 case ContextMenuType.AssetPortfolio:
                     _menu.AddMenuItem("Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
                     _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Remove", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     break;
                 case ContextMenuType.RetirementFna:
@@ -109,7 +111,9 @@ namespace easiplan.app.ContextMenus
                 case ContextMenuType.RiskCoverFna:
                     _menu.AddMenuItem("Accept Advice", new EventHandler(UpdateFna_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     _menu.AddMenuItem("-");
-                    _menu.AddMenuItem("Advice Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
+                    _menu.AddMenuItem("Advice Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("-");
+                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly; ;
                     //_menu.MenuItems.Add("-");
                     //_menu.MenuItems.Add("Remove Advice", new EventHandler(RemoveFna_Click)).Enabled = !ReadOnly;
                     break;
@@ -776,10 +780,14 @@ namespace easiplan.app.ContextMenus
                     case ContextMenuType.InvestmentFna:
                         frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as InvestmentNeed, ReadOnly, PolicyAction.AmendPolicy);
                         break;
-                    case ContextMenuType.ClientInstruction:
-                    case ContextMenuType.AdminTask:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Instruction, ReadOnly, PolicyAction.AmendPolicy);
+                    case ContextMenuType.RiskCoverFna:
+                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as RiskCoverNeed, ReadOnly, PolicyAction.AmendPolicy);
                         break;
+                    /*
+                case ContextMenuType.ClientInstruction:
+                case ContextMenuType.AdminTask:
+                    frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Instruction, ReadOnly, PolicyAction.AmendPolicy);
+                    break;*/
                     default:
                         return;
                 }
@@ -874,6 +882,7 @@ namespace easiplan.app.ContextMenus
                                 childForm.MdiParent = mdiForm1;
                                 childForm.Text = FormText1;
                                 childForm.Show();
+                                
                             }
                             else
                             {

@@ -74,6 +74,12 @@ namespace easiplan.domain.Entities
             set;
         }
 
+        public virtual IList<ClientAdviceRecord> AdviceRecords
+        {
+            get;
+            set;
+        }
+
         [IgnoreAutoMap]
         public virtual IList<Need> Amendments
         {
@@ -110,6 +116,34 @@ namespace easiplan.domain.Entities
         #endregion
 
         #region NonPersisted Properties
+
+        [IgnoreAutoMap]
+        public virtual ClientAdviceRecord CurrentAdviceRecord
+        {
+            get
+            {
+                if (this.AdviceRecords.Count == 0)
+                    return null;
+
+                return this.AdviceRecords.LastOrDefault();
+            }
+            set { }
+        }
+
+        [IgnoreAutoMap]
+        public virtual DateTime AdviceDate
+        {
+            get { return CurrentAdviceRecord == null ? DateTime.Now : CurrentAdviceRecord.AdviceDate; }
+
+        }
+        [IgnoreAutoMap]
+        public virtual bool IsCompleted
+        {
+            get { return CurrentAdviceRecord == null ? false : CurrentAdviceRecord.IsCompleted; }
+            set { }
+
+        }
+
         [IgnoreAutoMap]
         public virtual int CurrentAge
         {

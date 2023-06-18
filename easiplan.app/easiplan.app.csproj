@@ -941,15 +941,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientManagement.resx">
       <DependentUpon>frmClientManagement.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientCommunication.resx">
       <DependentUpon>frmClientCommunication.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageManualsTemplates.resx">
       <DependentUpon>frmManageManualsTemplates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageManualTemplatesAdd.resx">
       <DependentUpon>frmManageManualTemplatesAdd.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroClientAdviceRecord.resx">
       <DependentUpon>frmMetroClientAdviceRecord.cs</DependentUpon>
@@ -974,6 +978,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCsvImportProgressWindow.resx">
       <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroPopUpWindow1.resx">
       <DependentUpon>frmMetroPopUpWindow1.cs</DependentUpon>
@@ -986,12 +991,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientDocuments.resx">
       <DependentUpon>frmClientDocuments.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageTemplates.resx">
       <DependentUpon>frmManageTemplates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageTemplatesAdd.resx">
       <DependentUpon>frmManageTemplatesAdd.cs</DependentUpon>
@@ -1322,7 +1330,14 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="Resources\out.png" />
+    <None Include="Resources\tick_30.png" />
     <EmbeddedResource Include="DBMigrations\clientretirementportfolio_view.sql" />
+    <None Include="Resources\checkmark.png" />
+    <None Include="Resources\checkmark %281%29 %281%29 %281%29 %281%29 %281%29.png" />
+    <None Include="Resources\checkmark_1.png" />
+    <None Include="Resources\checkmark1.png" />
+    <None Include="Resources\checkmark_small.png" />
     <Content Include="Resources\Easiworx landing Page 3.jpg" />
     <None Include="Resources\Easiworx Landing Page 3.png" />
     <None Include="Resources\EWLogon.png" />

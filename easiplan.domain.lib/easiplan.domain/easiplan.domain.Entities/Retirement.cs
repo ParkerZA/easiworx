@@ -16,6 +16,34 @@ namespace easiplan.domain.Entities
 
 		#region NonPersisted Properties
 		[IgnoreAutoMap]
+		public virtual ClientAdviceRecord CurrentAdviceRecord
+		{
+			get
+			{
+				if (this.AdviceRecords.Count == 0)
+					return new ClientAdviceRecord();
+
+				return this.AdviceRecords.LastOrDefault();
+			} set { }
+		}
+
+		[IgnoreAutoMap]
+        [IgnoreDataMember]
+        public virtual DateTime AdviceDate
+		{
+			get { return CurrentAdviceRecord == null ? DateTime.Now : CurrentAdviceRecord.AdviceDate; }
+
+		}
+		[IgnoreAutoMap]
+        [IgnoreDataMember]
+        public virtual bool IsCompleted
+		{
+			get { return CurrentAdviceRecord == null ? false : CurrentAdviceRecord.IsCompleted; }
+			set { }
+
+		}
+
+		[IgnoreAutoMap]
 		public virtual int CurrentAge
 		{
 			get;
@@ -86,6 +114,7 @@ namespace easiplan.domain.Entities
 			set;
 		}
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Fund> FundsBindingList { get; set; }
 
 
@@ -95,6 +124,13 @@ namespace easiplan.domain.Entities
 			set;
 		}
 
+        [IgnoreDataMember]
+        public virtual IList<ClientAdviceRecord> AdviceRecords 
+		{ 
+			get;
+			set; 
+		}
+
         [IgnoreAutoMap]
         public virtual IList<Need> Amendments
 		{
@@ -102,6 +138,7 @@ namespace easiplan.domain.Entities
 			set;
 		}
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Need> AmendmentsBindingList { get; set; }
 
         public virtual IList<ClientDependent> Beneficiaries
@@ -110,10 +147,10 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<ClientDependent> BeneficiariesBindingList { get; set; }
 
-		private string _bequethTo;
-		//[IgnoreAutoMap]
+		private string _bequethTo;		
 		public virtual string BequethTo
 		{
 			get

@@ -1551,7 +1551,7 @@ namespace Finx.App.Forms
                                     {
                                         Program.Repository.Update<Retirement, int>(Retirement);
                                     }
-
+                                   
                                     break;
                                 case NeedTypes.InvestmentNeed:
 
@@ -2387,7 +2387,7 @@ namespace Finx.App.Forms
                     mObj.UpdateDate = DateTime.Now;
                 }
                 
-
+                
                 HasChanges = true;
             }
             catch (Exception x)

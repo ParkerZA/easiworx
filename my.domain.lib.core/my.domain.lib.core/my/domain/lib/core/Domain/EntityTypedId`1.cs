@@ -38,7 +38,8 @@ namespace my.domain.lib.core.Domain
 
         [Key]
         [XmlIgnore]
-        [DataMember]
+        //[DataMember]
+        [IgnoreDataMember]
         public virtual TId Id
         {
             get
@@ -53,9 +54,10 @@ namespace my.domain.lib.core.Domain
             }
         }
 
-        [DataMember]
+        //[DataMember]
         [XmlIgnore]
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual string Name
         {
             get
@@ -75,6 +77,7 @@ namespace my.domain.lib.core.Domain
         [Browsable(false)]
         [XmlIgnore]
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual bool IsModified
         {
             get

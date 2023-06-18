@@ -91,6 +91,12 @@ namespace easiplan.domain.Entities
         [IgnoreAutoMap]
         public virtual BindingList<Benefit> BenefitsBindingList { get; set; }
 
+        public virtual IList<ClientAdviceRecord> AdviceRecords
+        {
+            get;
+            set;
+        }
+
         public virtual IList<Note> Notes
 		{
 			get;
@@ -281,13 +287,18 @@ namespace easiplan.domain.Entities
 
 				//if(InitialAmount==0)
 				//	InitialAmount = Funds.Sum((Fund x) => x.InitialAmount)- Funds.Sum((Fund x) => x.WithdrawalAmount);
+                //CurrentAmount = Funds.Sum((Fund x) => x.CurrentAmount);
 
-				//NewPolicyValue = CurrentAmount + InitialAmount;
+                //if(InitialAmount==0)
+                //	InitialAmount = Funds.Sum((Fund x) => x.InitialAmount)- Funds.Sum((Fund x) => x.WithdrawalAmount);
 
-				//YJ 04/05/2023
-				double sumInitialAmt = Funds.Sum((Fund x) => x.InitialAmount);
+                //NewPolicyValue = CurrentAmount + InitialAmount;
+
+				//YJ 04/05/2023 - Sum the withdrawals and deposits
+                double sumInitialAmt = Funds.Sum((Fund x) => x.InitialAmount);
                 double sumWithdrawals = Funds.Sum((Fund x) => x.WithdrawalAmount);
-				InitialAmount= sumInitialAmt- sumWithdrawals;
+                InitialAmount = sumInitialAmt - sumWithdrawals;
+
             }
 		}
 		protected virtual void SetCompletedStatus()
@@ -331,8 +342,9 @@ namespace easiplan.domain.Entities
 
 					double sumInitialAmt = Funds.Sum((Fund x) => x.InitialAmount);
 					double sumWithdrawals = Funds.Sum((Fund x) => x.WithdrawalAmount);
-                    double totalInitialAmt = sumInitialAmt - sumWithdrawals;
-                    if (totalInitialAmt != InitialAmount)
+					double totalInitialAmt = sumInitialAmt - sumWithdrawals;
+
+					if (totalInitialAmt != InitialAmount)
 					{
 						throw new MyValidationException($"{Name} :Incorrect or missing Deposit/Withdrawal allocation.");
 					}

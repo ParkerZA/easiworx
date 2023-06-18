@@ -92,8 +92,9 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _GrowthPercentage;
-			}
+                return _GrowthPercentage;
+               
+            }
 			set
 			{
 				if (_GrowthPercentage == value) return;
@@ -108,8 +109,9 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _EscalationPercentage;
-			}
+                return _EscalationPercentage;
+                
+            }
 			set
 			{
 				if (_EscalationPercentage == value) return;

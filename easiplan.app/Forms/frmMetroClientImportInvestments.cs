@@ -1014,7 +1014,6 @@ namespace Finx.App.Forms
             
             try
             {
-                Console.WriteLine(Environment.ProcessorCount - 1);
                 //get client, if client portfolio exists on easiworx, return it otherwise create new client & return it
                 var clientPortfolio = await GetClientPortfolio(ClientUniqueId);
 
