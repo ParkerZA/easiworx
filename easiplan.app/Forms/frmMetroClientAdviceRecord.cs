@@ -543,11 +543,6 @@ namespace Finx.App.Forms
             else
                 selectedNote = new ClientAdviceRecord();
 
-            //Select Bar
-
-            metroTextBox_NoteDate.Text = selectedNote.AdviceDate.ToString("dd-MMM-yyyy hh:mm");
-
-
             Initialise_PolicyNotePanel(selectedNote);
         }
 
@@ -651,6 +646,9 @@ namespace Finx.App.Forms
                     this.Text = "Client Advice Record [CAR] - Retirement Portfolio";
                     
                     mostRecentRecord = Retirement.AdviceRecords.LastOrDefault();
+                    record.InitialFee = Retirement.InitialFee;
+                    record.OngoingFee = Retirement.OngoingFee;
+
                     populateRetirement(record);
                     InitializeStandardPortfolio();
                     
@@ -658,24 +656,33 @@ namespace Finx.App.Forms
                     break;
                 case "investment":
                     this.Text = "Client Advice Record [CAR] - Non-retirement Portfolio";
+
                     mostRecentRecord = Investment.AdviceRecords.LastOrDefault();
-                    
+                    record.InitialFee = Investment.InitialFee;
+                    record.OngoingFee = Investment.OngoingFee;
+
                     populateRetirement(record);
                     InitializeStandardPortfolio();
 
                     break;
                 case "medical":
                     this.Text = "Client Advice Record [CAR] - Medical Portfolio";
+
                     mostRecentRecord = Medical.AdviceRecords.LastOrDefault();
-                    
+                    record.InitialFee = Medical.InitialFee;
+                    record.OngoingFee = Medical.OngoingFee;
+
                     populateMedical((MedicalAidAdviceRecord)record);
                     initialiseMedicalPortfolio();
 
                     break;
                 case "education":
                     this.Text = "Client Advice Record [CAR] - Education Portfolio";
+
                     mostRecentRecord = Education.AdviceRecords.LastOrDefault();
-                    
+                    record.InitialFee = Education.InitialFee;
+                    record.OngoingFee = Education.OngoingFee;
+
                     populateRetirement(record);
                     InitializeStandardPortfolio();
                     
@@ -683,7 +690,10 @@ namespace Finx.App.Forms
                     break;
                 case "risk":
                     this.Text = "Client Advice Record [CAR] - Risk Portfolio";
+
                     mostRecentRecord = Life.AdviceRecords.LastOrDefault();
+                    record.InitialFee = Life.InitialFee;
+                    record.OngoingFee = Life.OngoingFee;
 
                     populateRisk((RiskAdviceRecord)record);
                     initialiseRiskPortfolio();
@@ -691,7 +701,10 @@ namespace Finx.App.Forms
                     break;
                 case "incomeasset":
                     this.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
+
                     mostRecentRecord = IncomeAsset.AdviceRecords.LastOrDefault();
+                    record.InitialFee = IncomeAsset.InitialFee;
+                    record.OngoingFee = IncomeAsset.OngoingFee;
 
                     populateRetirement(record);
                     InitializeStandardPortfolio();
@@ -733,6 +746,9 @@ namespace Finx.App.Forms
 
             
             selectedNote.IsLoading = false;
+            metroTextBox_NoteDate.Text = selectedNote.AdviceDate.ToString("dd-MMM-yyyy hh:mm");
+            metroTextBox_InitialFee.Text = selectedNote.InitialFee.ToString();
+            metroTextBox_InitialFee.Text = selectedNote.OngoingFee.ToString();
 
 
             //Check set the Tool Bar options depending on completetion status of the CAR 
@@ -746,7 +762,7 @@ namespace Finx.App.Forms
                 }
                 else 
                 {
-                    this.xToolBarMenu1.CarModeDelete(true);
+                    this.xToolBarMenu1.SetCAREdit(true);
                 }
             }
             else
@@ -1358,7 +1374,7 @@ namespace Finx.App.Forms
             }
             finally
             {
-                //xToolBarMenu1.CarModeDelete(true);
+                xToolBarMenu1.SetCAREditAfterSave(true);
             }
         }
         private void toolStripButton_Add_Click(object sender, EventArgs e)
@@ -1379,7 +1395,6 @@ namespace Finx.App.Forms
 
                     if (mostRecentRecord != null)
                     {
-                        //Console.WriteLine("theres a recent record");
 
                         selectedNote = new MedicalAidAdviceRecord((MedicalAidAdviceRecord)mostRecentRecord);
                         Initialise_PolicyNotePanel(selectedNote);
@@ -1416,8 +1431,6 @@ namespace Finx.App.Forms
 
                     if (mostRecentRecord != null)
                     {
-                        //Console.WriteLine("theres a recent record");
-
                         selectedNote = new ClientAdviceRecord(mostRecentRecord);
                         Initialise_PolicyNotePanel(selectedNote);
                     }
@@ -2087,7 +2100,7 @@ namespace Finx.App.Forms
         private void HospitalPreferenceDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).HospitalPreferenceInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
@@ -3469,8 +3482,8 @@ namespace Finx.App.Forms
         //Event handler for when "Completed" check box is clicked
         private void XInput_ShowCompletedTask_KeyPressed(object sender, EventArgs e)
         {
-            //MetroCheckBox cb = (MetroCheckBox)sender;
-            //selectedNote.IsCompleted= cb.Checked;
+            MetroCheckBox cb = (MetroCheckBox)sender;
+            selectedNote.IsCompleted= cb.Checked;
             
             
         }
@@ -4291,7 +4304,6 @@ namespace Finx.App.Forms
 
         private void populateInvestmentHorizon(ClientAdviceRecord record)
         {
-            Console.WriteLine(record.InvestmentHorizen);
             if (string.IsNullOrEmpty(record.InvestmentHorizen))
             {
                 return;
@@ -4496,10 +4508,6 @@ namespace Finx.App.Forms
                 this.cmb_HospitalDiscussed.Text = record.HospitalCoverInfo.CoverDiscussed;
                 this.cmb_HospitalTaken.Text = record.HospitalCoverInfo.CoverTaken;
                 this.tb_hospitalCover.Text = record.HospitalCoverInfo.Comments;
-            }
-            else
-            {
-                Console.WriteLine("Bot L");
             }
 
             //Day to Day

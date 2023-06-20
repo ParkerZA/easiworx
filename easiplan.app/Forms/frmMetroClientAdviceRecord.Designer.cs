@@ -45,6 +45,7 @@ namespace Finx.App.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetroClientAdviceRecord));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGrid_Notes = new SourceGrid.DataGrid();
+            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.metroPanel_AdviceRecord = new MetroFramework.Controls.MetroPanel();
             this.tblPanel_RiskNeedsAndGoals = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel_ImplementationMotivation = new MetroFramework.Controls.MetroLabel();
@@ -174,13 +175,12 @@ namespace Finx.App.Forms
             this.label_ongoing = new System.Windows.Forms.Label();
             this.label_Initial = new System.Windows.Forms.Label();
             this.label_Fees = new System.Windows.Forms.Label();
-            this.metroTextBox9 = new MetroFramework.Controls.MetroTextBox();
-            this.metroTextBox8 = new MetroFramework.Controls.MetroTextBox();
+            this.metroTextBox_InitialFee = new MetroFramework.Controls.MetroTextBox();
+            this.metroTextBox_OngoingFee = new MetroFramework.Controls.MetroTextBox();
             this.metroTextBox_NoteDate = new MetroFramework.Controls.MetroTextBox();
             this.label_Date = new System.Windows.Forms.Label();
             this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
             this.panel = new MetroFramework.Controls.MetroPanel();
-            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -249,6 +249,30 @@ namespace Finx.App.Forms
             this.dataGrid_Notes.TabIndex = 7;
             this.dataGrid_Notes.TabStop = true;
             this.dataGrid_Notes.ToolTipText = "";
+            // 
+            // xInput_ShowCompletedTasks
+            // 
+            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
+            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
+            this.xInput_ShowCompletedTasks.ControlWidth = 40;
+            this.xInput_ShowCompletedTasks.DataSource = null;
+            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
+            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
+            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
+            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
+            this.xInput_ShowCompletedTasks.MappedField = null;
+            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
+            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
+            this.xInput_ShowCompletedTasks.Model = null;
+            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
+            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
+            this.xInput_ShowCompletedTasks.ReadOnly = false;
+            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
+            this.xInput_ShowCompletedTasks.TabIndex = 6;
+            this.xInput_ShowCompletedTasks.Value = null;
+            this.xInput_ShowCompletedTasks.ValueMember = "Value";
             // 
             // metroPanel_AdviceRecord
             // 
@@ -2279,8 +2303,8 @@ namespace Finx.App.Forms
             this.metroPanel_Select.Controls.Add(this.label_ongoing);
             this.metroPanel_Select.Controls.Add(this.label_Initial);
             this.metroPanel_Select.Controls.Add(this.label_Fees);
-            this.metroPanel_Select.Controls.Add(this.metroTextBox9);
-            this.metroPanel_Select.Controls.Add(this.metroTextBox8);
+            this.metroPanel_Select.Controls.Add(this.metroTextBox_InitialFee);
+            this.metroPanel_Select.Controls.Add(this.metroTextBox_OngoingFee);
             this.metroPanel_Select.Controls.Add(this.metroTextBox_NoteDate);
             this.metroPanel_Select.Controls.Add(this.label_Date);
             this.metroPanel_Select.Dock = System.Windows.Forms.DockStyle.Top;
@@ -2324,7 +2348,7 @@ namespace Finx.App.Forms
             this.label_Initial.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label_Initial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_Initial.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Initial.Location = new System.Drawing.Point(427, 7);
+            this.label_Initial.Location = new System.Drawing.Point(424, 7);
             this.label_Initial.Name = "label_Initial";
             this.label_Initial.Size = new System.Drawing.Size(100, 30);
             this.label_Initial.TabIndex = 7;
@@ -2339,65 +2363,65 @@ namespace Finx.App.Forms
             this.label_Fees.TabIndex = 6;
             this.label_Fees.Text = "Fees";
             // 
-            // metroTextBox9
+            // metroTextBox_InitialFee
             // 
             // 
             // 
             // 
-            this.metroTextBox9.CustomButton.Image = null;
-            this.metroTextBox9.CustomButton.Location = new System.Drawing.Point(122, 2);
-            this.metroTextBox9.CustomButton.Name = "";
-            this.metroTextBox9.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.metroTextBox9.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox9.CustomButton.TabIndex = 1;
-            this.metroTextBox9.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox9.CustomButton.UseSelectable = true;
-            this.metroTextBox9.CustomButton.Visible = false;
-            this.metroTextBox9.Lines = new string[0];
-            this.metroTextBox9.Location = new System.Drawing.Point(523, 7);
-            this.metroTextBox9.MaxLength = 32767;
-            this.metroTextBox9.Name = "metroTextBox9";
-            this.metroTextBox9.PasswordChar = '\0';
-            this.metroTextBox9.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox9.SelectedText = "";
-            this.metroTextBox9.SelectionLength = 0;
-            this.metroTextBox9.SelectionStart = 0;
-            this.metroTextBox9.ShortcutsEnabled = true;
-            this.metroTextBox9.Size = new System.Drawing.Size(150, 30);
-            this.metroTextBox9.TabIndex = 5;
-            this.metroTextBox9.UseSelectable = true;
-            this.metroTextBox9.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox9.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.metroTextBox_InitialFee.CustomButton.Image = null;
+            this.metroTextBox_InitialFee.CustomButton.Location = new System.Drawing.Point(122, 2);
+            this.metroTextBox_InitialFee.CustomButton.Name = "";
+            this.metroTextBox_InitialFee.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.metroTextBox_InitialFee.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_InitialFee.CustomButton.TabIndex = 1;
+            this.metroTextBox_InitialFee.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_InitialFee.CustomButton.UseSelectable = true;
+            this.metroTextBox_InitialFee.CustomButton.Visible = false;
+            this.metroTextBox_InitialFee.Lines = new string[0];
+            this.metroTextBox_InitialFee.Location = new System.Drawing.Point(523, 7);
+            this.metroTextBox_InitialFee.MaxLength = 32767;
+            this.metroTextBox_InitialFee.Name = "metroTextBox_InitialFee";
+            this.metroTextBox_InitialFee.PasswordChar = '\0';
+            this.metroTextBox_InitialFee.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox_InitialFee.SelectedText = "";
+            this.metroTextBox_InitialFee.SelectionLength = 0;
+            this.metroTextBox_InitialFee.SelectionStart = 0;
+            this.metroTextBox_InitialFee.ShortcutsEnabled = true;
+            this.metroTextBox_InitialFee.Size = new System.Drawing.Size(150, 30);
+            this.metroTextBox_InitialFee.TabIndex = 5;
+            this.metroTextBox_InitialFee.UseSelectable = true;
+            this.metroTextBox_InitialFee.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_InitialFee.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // metroTextBox8
-            // 
-            // 
+            // metroTextBox_OngoingFee
             // 
             // 
-            this.metroTextBox8.CustomButton.Image = null;
-            this.metroTextBox8.CustomButton.Location = new System.Drawing.Point(122, 2);
-            this.metroTextBox8.CustomButton.Name = "";
-            this.metroTextBox8.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.metroTextBox8.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox8.CustomButton.TabIndex = 1;
-            this.metroTextBox8.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox8.CustomButton.UseSelectable = true;
-            this.metroTextBox8.CustomButton.Visible = false;
-            this.metroTextBox8.Lines = new string[0];
-            this.metroTextBox8.Location = new System.Drawing.Point(770, 7);
-            this.metroTextBox8.MaxLength = 32767;
-            this.metroTextBox8.Name = "metroTextBox8";
-            this.metroTextBox8.PasswordChar = '\0';
-            this.metroTextBox8.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox8.SelectedText = "";
-            this.metroTextBox8.SelectionLength = 0;
-            this.metroTextBox8.SelectionStart = 0;
-            this.metroTextBox8.ShortcutsEnabled = true;
-            this.metroTextBox8.Size = new System.Drawing.Size(150, 30);
-            this.metroTextBox8.TabIndex = 4;
-            this.metroTextBox8.UseSelectable = true;
-            this.metroTextBox8.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox8.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // 
+            this.metroTextBox_OngoingFee.CustomButton.Image = null;
+            this.metroTextBox_OngoingFee.CustomButton.Location = new System.Drawing.Point(122, 2);
+            this.metroTextBox_OngoingFee.CustomButton.Name = "";
+            this.metroTextBox_OngoingFee.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.metroTextBox_OngoingFee.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_OngoingFee.CustomButton.TabIndex = 1;
+            this.metroTextBox_OngoingFee.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_OngoingFee.CustomButton.UseSelectable = true;
+            this.metroTextBox_OngoingFee.CustomButton.Visible = false;
+            this.metroTextBox_OngoingFee.Lines = new string[0];
+            this.metroTextBox_OngoingFee.Location = new System.Drawing.Point(770, 7);
+            this.metroTextBox_OngoingFee.MaxLength = 32767;
+            this.metroTextBox_OngoingFee.Name = "metroTextBox_OngoingFee";
+            this.metroTextBox_OngoingFee.PasswordChar = '\0';
+            this.metroTextBox_OngoingFee.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox_OngoingFee.SelectedText = "";
+            this.metroTextBox_OngoingFee.SelectionLength = 0;
+            this.metroTextBox_OngoingFee.SelectionStart = 0;
+            this.metroTextBox_OngoingFee.ShortcutsEnabled = true;
+            this.metroTextBox_OngoingFee.Size = new System.Drawing.Size(150, 30);
+            this.metroTextBox_OngoingFee.TabIndex = 4;
+            this.metroTextBox_OngoingFee.UseSelectable = true;
+            this.metroTextBox_OngoingFee.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_OngoingFee.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // metroTextBox_NoteDate
             // 
@@ -2482,30 +2506,6 @@ namespace Finx.App.Forms
             this.panel.VerticalScrollbarBarColor = true;
             this.panel.VerticalScrollbarHighlightOnWheel = false;
             this.panel.VerticalScrollbarSize = 10;
-            // 
-            // xInput_ShowCompletedTasks
-            // 
-            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
-            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.ControlWidth = 40;
-            this.xInput_ShowCompletedTasks.DataSource = null;
-            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
-            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
-            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
-            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
-            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
-            this.xInput_ShowCompletedTasks.MappedField = null;
-            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
-            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
-            this.xInput_ShowCompletedTasks.Model = null;
-            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
-            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
-            this.xInput_ShowCompletedTasks.ReadOnly = false;
-            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
-            this.xInput_ShowCompletedTasks.TabIndex = 6;
-            this.xInput_ShowCompletedTasks.Value = null;
-            this.xInput_ShowCompletedTasks.ValueMember = "Value";
             // 
             // xToolBarMenu1
             // 
@@ -3282,8 +3282,8 @@ namespace Finx.App.Forms
         private Label label_ongoing;
         private Label label_Initial;
         private Label label_Fees;
-        private MetroTextBox metroTextBox9;
-        private MetroTextBox metroTextBox8;
+        private MetroTextBox metroTextBox_InitialFee;
+        private MetroTextBox metroTextBox_OngoingFee;
         private MetroTextBox metroTextBox_NoteDate;
         private Label label_Date;
         private MetroCheckBox metroCheckBox_completed;

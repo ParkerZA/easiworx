@@ -98,6 +98,15 @@ namespace Finx.App.UserControls
             this.tbSave.Enabled = IsInEditMode;
         }
 
+        public void SetCAREditAfterSave(bool Value)
+        {
+            IsInEditMode = !Value;
+
+            this.tbRefresh.Enabled = !IsInEditMode;
+            this.tbEdit.Enabled = IsInEditMode;
+            this.tbSave.Enabled = IsInEditMode;
+        }
+
         public void SetCAREdit(bool Value)
         {
             IsInEditMode = Value;
@@ -111,19 +120,11 @@ namespace Finx.App.UserControls
         {
             IsInEditMode = Value;
 
-            this.tbRefresh.Enabled = !IsInEditMode;
-            this.tbEdit.Enabled = IsInEditMode;
-            this.tbSave.Enabled = IsInEditMode;
-        }
-
-        public void CarModeDelete(bool Value)
-        {
-            IsInEditMode = Value;
-
             this.tbRefresh.Enabled = IsInEditMode;
-            this.tbEdit.Enabled = !IsInEditMode;
+            this.tbEdit.Enabled = IsInEditMode;
             this.tbSave.Enabled = !IsInEditMode;
         }
+
         #endregion
 
         private void tbNotes_Click(object sender, EventArgs e)
