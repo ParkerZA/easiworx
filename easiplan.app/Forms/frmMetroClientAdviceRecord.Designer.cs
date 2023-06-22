@@ -45,7 +45,6 @@ namespace Finx.App.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetroClientAdviceRecord));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGrid_Notes = new SourceGrid.DataGrid();
-            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.metroPanel_AdviceRecord = new MetroFramework.Controls.MetroPanel();
             this.tblPanel_RiskNeedsAndGoals = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel_ImplementationMotivation = new MetroFramework.Controls.MetroLabel();
@@ -181,6 +180,7 @@ namespace Finx.App.Forms
             this.label_Date = new System.Windows.Forms.Label();
             this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
             this.panel = new MetroFramework.Controls.MetroPanel();
+            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -249,30 +249,6 @@ namespace Finx.App.Forms
             this.dataGrid_Notes.TabIndex = 7;
             this.dataGrid_Notes.TabStop = true;
             this.dataGrid_Notes.ToolTipText = "";
-            // 
-            // xInput_ShowCompletedTasks
-            // 
-            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
-            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.ControlWidth = 40;
-            this.xInput_ShowCompletedTasks.DataSource = null;
-            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
-            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
-            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
-            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
-            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
-            this.xInput_ShowCompletedTasks.MappedField = null;
-            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
-            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
-            this.xInput_ShowCompletedTasks.Model = null;
-            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
-            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
-            this.xInput_ShowCompletedTasks.ReadOnly = false;
-            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
-            this.xInput_ShowCompletedTasks.TabIndex = 6;
-            this.xInput_ShowCompletedTasks.Value = null;
-            this.xInput_ShowCompletedTasks.ValueMember = "Value";
             // 
             // metroPanel_AdviceRecord
             // 
@@ -1806,10 +1782,10 @@ namespace Finx.App.Forms
             // 
             this.label16.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.Location = new System.Drawing.Point(400, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(203, 40);
+            this.label16.Size = new System.Drawing.Size(202, 40);
             this.label16.TabIndex = 23;
             this.label16.Text = "Do not require access to\r\ncapital for 5 years";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1818,7 +1794,7 @@ namespace Finx.App.Forms
             // 
             this.label17.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.Location = new System.Drawing.Point(200, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(203, 40);
@@ -1830,7 +1806,7 @@ namespace Finx.App.Forms
             // 
             this.label15.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(0, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(203, 40);
@@ -2159,7 +2135,7 @@ namespace Finx.App.Forms
             // 
             this.label14.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(247, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(85, 40);
@@ -2182,7 +2158,7 @@ namespace Finx.App.Forms
             // 
             this.label12.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(81, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(85, 40);
@@ -2194,7 +2170,7 @@ namespace Finx.App.Forms
             // 
             this.label13.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(163, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(85, 40);
@@ -2206,7 +2182,7 @@ namespace Finx.App.Forms
             // 
             this.label11.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(0, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(85, 40);
@@ -2506,6 +2482,30 @@ namespace Finx.App.Forms
             this.panel.VerticalScrollbarBarColor = true;
             this.panel.VerticalScrollbarHighlightOnWheel = false;
             this.panel.VerticalScrollbarSize = 10;
+            // 
+            // xInput_ShowCompletedTasks
+            // 
+            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
+            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
+            this.xInput_ShowCompletedTasks.ControlWidth = 40;
+            this.xInput_ShowCompletedTasks.DataSource = null;
+            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
+            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
+            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
+            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
+            this.xInput_ShowCompletedTasks.MappedField = null;
+            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
+            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
+            this.xInput_ShowCompletedTasks.Model = null;
+            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
+            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
+            this.xInput_ShowCompletedTasks.ReadOnly = false;
+            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
+            this.xInput_ShowCompletedTasks.TabIndex = 6;
+            this.xInput_ShowCompletedTasks.Value = null;
+            this.xInput_ShowCompletedTasks.ValueMember = "Value";
             // 
             // xToolBarMenu1
             // 
