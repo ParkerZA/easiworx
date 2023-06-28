@@ -25,6 +25,7 @@ using FluentNHibernate.Conventions.AcceptanceCriteria;
 using Microsoft.Graph;
 using Google.Protobuf.WellKnownTypes;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Finx.App.Forms
 {
@@ -70,11 +71,16 @@ namespace Finx.App.Forms
         IList<RiskAdviceRecord> RiskNotes = new List<RiskAdviceRecord>();
         IList<RiskAdviceRecord> riskFilteredNotes = new List<RiskAdviceRecord>();
 
+        //Note lists for Archived Notes
+        IList<Note> ArchiveNotes = new List<Note>();
+        IList<Note> filteredArchiveNotes = new List<Note>();
 
+        Note selectedArchiveNote = null;
         ClientAdviceRecord selectedNote = null;
         ClientAdviceRecord mostRecentRecord = null;
         PolicyAction Action = PolicyAction.AmendPolicy;
 
+        int initialSplitterDistance;
 
         #endregion
 
@@ -197,6 +203,27 @@ namespace Finx.App.Forms
             tbLimitsOnCover_Replaced.TextChanged += LimitsOnCover_Replaced_propertyChanged_EventHandler;
             tbCompOther_Replaced.TextChanged += Other_Replaced_propertyChanged_EventHandler;
 
+
+            //Set currency Columns
+            tbPremium_Current.KeyPress += CurrencyValidation_KeyPress;
+            tbPremium_Replaced.KeyPress += CurrencyValidation_KeyPress;
+
+            tb_LifeNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDIncomeProtectionNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDLumpSumNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_TemporaryDisabilityNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_TraumaNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_FuneralCoverNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_RiskOtherNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+
+            tb_LifeShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDIncomeProtectionShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDLumpSumShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_TemporaryDisabilityShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_TraumaShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_FuneralCoverShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_RiskOtherShortfall.KeyPress += CurrencyValidation_KeyPress;
+
             #endregion
 
             #region Event hanlders for Medical Aid needs and goals combo boxes
@@ -302,21 +329,19 @@ namespace Finx.App.Forms
             metroTextBox_OtherImportantInfo.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_Notes.KeyDown += textBox_AppendNewLineDate;
 
+
             #endregion
 
-            this.xInput_ShowCompletedTasks.ControlTypes = ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.MappedField = "ShowCompletedTask";
-            this.xInput_ShowCompletedTasks.LableText = "Show Completed notes";
-            this.xInput_ShowCompletedTasks.Model = searchModel;
-            this.xInput_ShowCompletedTasks.Label.Font = new Font(FontFamily.GenericSansSerif, 10F);
-            this.xInput_ShowCompletedTasks.chkBox.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
+            initialSplitterDistance = 500;
+            this.splitContainer1.SplitterMoved += splitContainer1_SplitterMoved;
+            //this.splitContainer2.SplitterMoved += splitContainer1_SplitterMoved;
 
             this.metroCheckBox_completed.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
         }
 
         
         //Retirement constructor
-        public frmMetroClientAdviceRecord(Retirement model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Retirement model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -326,12 +351,13 @@ namespace Finx.App.Forms
             InvestmentType = "Retirement";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
            
 
         }
 
         //Non retirement constructor
-        public frmMetroClientAdviceRecord(Investment model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Investment model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -342,12 +368,13 @@ namespace Finx.App.Forms
             InvestmentType = "Investment";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
 
         }
 
         //Education constructor
-        public frmMetroClientAdviceRecord(Education model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Education model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -356,11 +383,12 @@ namespace Finx.App.Forms
             Education = model;
             InvestmentType = "Education";
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
         //Medical Aid constructor
-        public frmMetroClientAdviceRecord(Medical model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Medical model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -372,11 +400,12 @@ namespace Finx.App.Forms
             InitialiseMedicalTable();
             InitialiseMedicalAidComparisonTable();
             Initialise_MedicalSelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
         
         //Risk constructor
-        public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -386,11 +415,12 @@ namespace Finx.App.Forms
             InvestmentType = "risk";
             InitialiseRiskNeedsAndGoalsTable();
             Initialise_RiskSelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
         //Income Asset Constructor
-        public frmMetroClientAdviceRecord(IncomeAsset model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(IncomeAsset model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -399,11 +429,12 @@ namespace Finx.App.Forms
             IncomeAsset = model;
             InvestmentType = "IncomeAsset";
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
         
         //Retirement FNA What I need constructor
-        public frmMetroClientAdviceRecord(Need model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Need model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -413,11 +444,12 @@ namespace Finx.App.Forms
             InvestmentType = "Need";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
         //Non Retirement FNA Education Need
-        public frmMetroClientAdviceRecord(EducationNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(EducationNeed model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -427,11 +459,12 @@ namespace Finx.App.Forms
             InvestmentType = "EducationNeed";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
         //Non Retirement FNA Investment Need
-        public frmMetroClientAdviceRecord(InvestmentNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(InvestmentNeed model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
             if (model.Id == 0)
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
@@ -440,11 +473,12 @@ namespace Finx.App.Forms
             InvestmentType = "InvestmentNeed";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
         //Non Retirement FNA Risk Need
-        public frmMetroClientAdviceRecord(RiskCoverNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(RiskCoverNeed model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
             if (model.Id == 0)
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
@@ -526,11 +560,10 @@ namespace Finx.App.Forms
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(filteredNotes, column =>
             {
-
+                column.For(c => c.IsCompleted, "Completed");
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
-                column.For(c => c.IsCompleted, "Completed");
             },
             RowSelectEventHandler: Notes_RowSelectEventHandlerChanged,
             ReadOnly: true,
@@ -560,11 +593,11 @@ namespace Finx.App.Forms
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(medicalFilteredNotes, column =>
             {
-
+                column.For(c => c.IsCompleted, "Completed");
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
-                column.For(c => c.IsCompleted, "Completed");
+                
 
             },
             RowSelectEventHandler: MedicalNotes_RowSelectEventHandlerChanged,
@@ -601,11 +634,10 @@ namespace Finx.App.Forms
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(riskFilteredNotes, column =>
             {
-
+                column.For(c => c.IsCompleted, "Completed");
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
-                column.For(c => c.IsCompleted, "Completed");
 
             },
             RowSelectEventHandler: RiskNotes_RowSelectEventHandlerChanged,
@@ -627,6 +659,43 @@ namespace Finx.App.Forms
 
             Initialise_PolicyNotePanel((ClientAdviceRecord)selectedNote);
         }
+
+
+        void Initialise_ArchiveNotes(IList<Note> notes = null)
+        {
+            if (notes != null)
+                ArchiveNotes = notes;
+
+            if (ArchiveNotes == null)
+                filteredArchiveNotes = new List<Note>();
+            else
+                filteredArchiveNotes = ArchiveNotes.Where(x => x.CreateDate != null).ToList();
+
+            #region Notes Grid
+            this.dataGrid_ArchiveNotes.Initialise1(filteredArchiveNotes, column =>
+            {
+
+                column.For(c => c.NoteDate, "Note Date", new DateEditor(), MinWidth: 100);
+                column.For(x => x.Text, "Note", new StringEditor());
+                column.For(c => c.IsCompleted, "Completed");
+                column.For(x => x.UpdateDate, "Last Date", new DateEditor());
+                column.For(x => x.UpdateBy, "Updt By", new StringEditor());
+
+            },
+            RowSelectEventHandler: ArchiveNotes_RowSelectEventHandlerChanged,
+            ReadOnly: true,
+            AllowDelete: false)
+            .Format1(true, fixedCols: 1);
+            #endregion
+
+            if (ArchiveNotes.Count > 0)
+                selectedArchiveNote = filteredArchiveNotes.LastOrDefault();
+            else
+                selectedArchiveNote = new Note();
+
+            Initialise_ArchiveNotePanel();
+        }
+
 
         //Initialise the policynote panel
         void Initialise_PolicyNotePanel(ClientAdviceRecord record)
@@ -772,6 +841,29 @@ namespace Finx.App.Forms
                 this.xToolBarMenu1.SetCAREdit(true);
             }
         }
+
+        //Initialise panel for Archived Notes
+        void Initialise_ArchiveNotePanel()
+        {
+            this.metroPanel_ArchiveSelect.Controls.Clear();
+
+
+            if (selectedArchiveNote == null)
+                return;
+
+            selectedArchiveNote.IsLoading = true;
+
+            this.metroPanel_ArchiveSelect.Initialise(selectedArchiveNote, cntr =>
+            {
+                cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
+               // cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
+            }, left: 10, top: 5, labelWidth: 120, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+
+            this.metroTextBox_ArchiveNote.Text = selectedArchiveNote.Text;
+
+            selectedArchiveNote.IsLoading = false;
+        }
+
 
         #endregion
 
@@ -1374,7 +1466,14 @@ namespace Finx.App.Forms
             }
             finally
             {
-                xToolBarMenu1.SetCAREditAfterSave(true);
+                if (mostRecentRecord.IsCompleted)
+                {
+                    this.xToolBarMenu1.CarModeAddRecord(true);
+                }
+                else
+                {
+                    this.xToolBarMenu1.SetCAREdit(true);
+                }
             }
         }
         private void toolStripButton_Add_Click(object sender, EventArgs e)
@@ -3475,6 +3574,22 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel(selectedNote);
         }
 
+        private void ArchiveNotes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
+        {
+
+            SourceGrid.Selection.RowSelection selection = sender as SourceGrid.Selection.RowSelection;
+            if (selection == null)
+                return;
+
+            if (filteredArchiveNotes.Count == 0 || e.Row > filteredArchiveNotes.Count)
+                selectedArchiveNote = null;
+            else
+                selectedArchiveNote = filteredArchiveNotes[e.Row - 1];
+
+
+            Initialise_ArchiveNotePanel();
+        }
+
         #endregion
 
         #region Completed Check Box Event Handler
@@ -3494,15 +3609,6 @@ namespace Finx.App.Forms
 
         #region Form Events
 
-        //This method likely does not work so keep an eye out and delete it if not needed
-        protected override void OnResizeEnd(EventArgs e)
-        {
-            Initialise_PolicyNotePanel(selectedNote);
-
-            base.OnResizeEnd(e);
-        }
-
-
         private void textBox_AppendNewLineDate( object sender, KeyEventArgs e )
         {
             MetroTextBox tb = (MetroTextBox)sender;
@@ -3511,24 +3617,48 @@ namespace Finx.App.Forms
           
                 if (string.IsNullOrEmpty(tb.Text))
                 {
-                    tb.AppendText(DateTime.Today.ToString("dd/MM/yyyy") + " - ");
+                    tb.AppendText(DateTime.Today.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " - ");
                 }
                 else
                 {
-                    tb.AppendText(Environment.NewLine + DateTime.Today.ToString("dd/MM/yyyy") + " - ");
+                    tb.AppendText(Environment.NewLine + DateTime.Today.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " - ");
                 }
               
                 e.SuppressKeyPress = true; // Prevents the 'D' character from being entered into the text box
             }
         }
 
+        private void CurrencyValidation_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // The regular expression pattern to match a currency amount
+            string pattern = @"^\d*\.?\d{0,2}$";
 
+            // Match the input against the pattern
+            if (!Regex.IsMatch(e.KeyChar.ToString(), pattern) && e.KeyChar != (char)Keys.Back)
+            {
+                // Suppress the key press event if the input is invalid
+                e.Handled = true;
+            }
+        }
+
+
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            int barrier = initialSplitterDistance + 20; // Set the barrier position
+
+            if (splitContainer1.SplitterDistance > barrier)
+            {
+                // The splitter has moved beyond the barrier
+                // Set the SplitterDistance to the barrier position
+                splitContainer1.SplitterDistance = barrier;
+            }
+        }
 
 
         #endregion
 
         #region Medical Aid Needs and Goals Table Elements
-        
+
         //These messages populate the blank Medical Aid Needs and Goals table template with the necessary lables and controls
 
         #region Labels

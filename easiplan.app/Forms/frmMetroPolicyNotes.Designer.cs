@@ -51,7 +51,7 @@ namespace Finx.App.Forms
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.dataGrid_Notes);
-            this.splitContainer1.Panel1.Controls.Add(this.xInput_ShowCompletedTasks);
+            //this.splitContainer1.Panel1.Controls.Add(this.xInput_ShowCompletedTasks);
             // 
             // splitContainer1.Panel2
             // 

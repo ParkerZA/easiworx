@@ -18,7 +18,7 @@ namespace easiplan.domain.Entities
         }
 
         public MedicalSchemeComparison(MedicalSchemeComparison copy)
-        { 
+        {
             this._currentMedicalScheme= copy._currentMedicalScheme;
             this._replacedMedicalScheme= copy._replacedMedicalScheme;
         }

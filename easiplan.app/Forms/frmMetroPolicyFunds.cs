@@ -1042,7 +1042,7 @@ namespace Finx.App.Forms
                         column.For(c => c.CurrentAmount, "Policy Value", new MetroCurrencyEditor(130).ReadOnly(true));
                         column.For(c => c.NewPolicyValue, "New Policy Value", new MetroCurrencyEditor().ReadOnly(true));
                         column.For(c => c.InitialFee, "Initial Fee", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
-                        column.For(c => c.OngoingFee, "Ongoing Fee", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
+                        column.For(x => x.OngoingFee, "Ongoing Fee", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
                         //column.For(c => c.FutureAmount, "Future Value", new MetroCurrencyEditor().ReadOnly(true));
                         column.For(c => c.Status, "Task Status", new MetroComboBoxEditor(100).DataSourceList(Program.listData.List(ListDataItemType.InstructionStatus)).ReadOnly(ReadOnly));//
                         column.For(x => x.UpdateDate, "Update Dt", new MetroDateEditor(100).ReadOnly(true));
