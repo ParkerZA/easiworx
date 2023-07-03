@@ -666,7 +666,6 @@ namespace Finx.App.Models
                     String temp = value.Replace("/", string.Empty);
                     //temp.Replace(" ", string.Empty);
                     temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
-
                     var strdt = "";
 
 
@@ -688,7 +687,10 @@ namespace Finx.App.Models
                 {
                     _fundValueDate = "-";
                 }
-
+                catch (Exception)
+                {
+                    _fundValueDate = "-";
+                }
                
             }
 
