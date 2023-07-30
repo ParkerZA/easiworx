@@ -1,3 +1,5 @@
+using System.Runtime.Serialization;
+
 namespace easiplan.domain.Entities
 {
 	public class ClientChecklist : BaseEntity<int>
@@ -48,6 +50,7 @@ namespace easiplan.domain.Entities
 
 		private bool _FullAnalysis;
 
+		[IgnoreDataMember]
 		public virtual int ClientId
 		{
 			get;

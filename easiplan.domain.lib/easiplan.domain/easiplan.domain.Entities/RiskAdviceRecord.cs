@@ -34,7 +34,7 @@ namespace easiplan.domain.Entities
         public RiskAdviceRecord(RiskAdviceRecord copy) : base(copy)
         {
             #region Needs and Goals Table
-            
+
             this.LifeInfo = new RiskNeedsAndGoalsTableRow(copy.LifeInfo);
             this.IncomeProtectionInfo = new RiskNeedsAndGoalsTableRow(copy.IncomeProtectionInfo);
             this.LumpSumInfo = new RiskNeedsAndGoalsTableRow(copy.LumpSumInfo);
@@ -42,7 +42,7 @@ namespace easiplan.domain.Entities
             this.TraumaAndIllnessInfo = new RiskNeedsAndGoalsTableRow(copy.TraumaAndIllnessInfo);
             this.FuneralCoverInfo = new RiskNeedsAndGoalsTableRow(copy.FuneralCoverInfo);
             this.OtherInfo = new RiskNeedsAndGoalsTableRow(copy.OtherInfo);
-            
+
             #endregion
         }
 
@@ -94,5 +94,16 @@ namespace easiplan.domain.Entities
         }
 
         #endregion
+
+        public virtual void Initialise_Names()
+        {
+            this.LifeInfo.Name="Life";
+            this.IncomeProtectionInfo.Name = "Permanent Disability\r\n(Income Protection)";
+            this.LumpSumInfo.Name = "Permanent Disability\r\n(Lump Sum)";
+            this.TemporaryDisabilityInfo.Name = "Temporary Disability";
+            this.TraumaAndIllnessInfo.Name = "Trauma/Illness";
+            this.FuneralCoverInfo.Name = "Funeral Cover /\r\nImmediate Expenses";
+            this.OtherInfo.Name = "Other";
+        }
     }
 }

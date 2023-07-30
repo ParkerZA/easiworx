@@ -7,7 +7,8 @@ namespace easiplan.domain.Entities
 {
 	public class ClientFees : BaseEntity<int>
 	{
-		public virtual int ClientId
+        [IgnoreDataMember]
+        public virtual int ClientId
 		{
 			get;
 			set;

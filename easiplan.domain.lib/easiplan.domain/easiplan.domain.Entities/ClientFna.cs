@@ -52,6 +52,7 @@ namespace easiplan.domain.Entities
             }
         }
         [IgnoreAutoMap]
+       // [IgnoreDataMember]
         public virtual double _HavesTotalPremium
         {
             get
@@ -87,6 +88,7 @@ namespace easiplan.domain.Entities
         }
 
         [IgnoreAutoMap]
+        //[IgnoreDataMember]
         public virtual double _NeedsTotalPremium
         {
             get
@@ -119,6 +121,7 @@ namespace easiplan.domain.Entities
         }
 
         [IgnoreAutoMap]
+        //[IgnoreDataMember]
         public virtual double _WantsTotalPremium
         {
             get

@@ -44,7 +44,18 @@ namespace Finx.App.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetroClientAdviceRecord));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.metroPanel_PolicyType = new MetroFramework.Controls.MetroPanel();
+            this.label_PolicyType = new System.Windows.Forms.Label();
             this.dataGrid_Notes = new SourceGrid.DataGrid();
+            this.metroPanel_Select = new MetroFramework.Controls.MetroPanel();
+            this.metroCheckBox_completed = new MetroFramework.Controls.MetroCheckBox();
+            this.label_ongoing = new System.Windows.Forms.Label();
+            this.label_Initial = new System.Windows.Forms.Label();
+            this.label_Fees = new System.Windows.Forms.Label();
+            this.metroTextBox_InitialFee = new MetroFramework.Controls.MetroTextBox();
+            this.metroTextBox_OngoingFee = new MetroFramework.Controls.MetroTextBox();
+            this.metroTextBox_NoteDate = new MetroFramework.Controls.MetroTextBox();
+            this.label_Date = new System.Windows.Forms.Label();
             this.metroPanel_AdviceRecord = new MetroFramework.Controls.MetroPanel();
             this.tblPanel_RiskNeedsAndGoals = new System.Windows.Forms.TableLayoutPanel();
             this.metroLabel_ImplementationMotivation = new MetroFramework.Controls.MetroLabel();
@@ -169,23 +180,25 @@ namespace Finx.App.Forms
             this.metroLabel_InvestHorizen = new MetroFramework.Controls.MetroLabel();
             this.metroLabel_PKEHint = new MetroFramework.Controls.MetroLabel();
             this.metroLabel_PKE = new MetroFramework.Controls.MetroLabel();
-            this.metroPanel_Select = new MetroFramework.Controls.MetroPanel();
-            this.metroCheckBox_completed = new MetroFramework.Controls.MetroCheckBox();
-            this.label_ongoing = new System.Windows.Forms.Label();
-            this.label_Initial = new System.Windows.Forms.Label();
-            this.label_Fees = new System.Windows.Forms.Label();
-            this.metroTextBox9 = new MetroFramework.Controls.MetroTextBox();
-            this.metroTextBox8 = new MetroFramework.Controls.MetroTextBox();
-            this.metroTextBox_NoteDate = new MetroFramework.Controls.MetroTextBox();
-            this.label_Date = new System.Windows.Forms.Label();
+            this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.label_ArchiveNotes = new System.Windows.Forms.Label();
+            this.dataGrid_ArchiveNotes = new SourceGrid.DataGrid();
+            this.metroPanel_ArchiveNote = new MetroFramework.Controls.MetroPanel();
+            this.metroTextBox_ArchiveNote = new MetroFramework.Controls.MetroTextBox();
+            this.metroPanel_ArchiveSelect = new MetroFramework.Controls.MetroPanel();
             this.multiLineTextEditor = new MetroFramework.Controls.MetroTextBox();
             this.panel = new MetroFramework.Controls.MetroPanel();
-            this.xInput_ShowCompletedTasks = new Finx.App.UserControls.xInput();
             this.xToolBarMenu1 = new Finx.App.UserControls.xToolBarMenu();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.metroPanel_PolicyType.SuspendLayout();
+            this.metroPanel_Select.SuspendLayout();
             this.metroPanel_AdviceRecord.SuspendLayout();
             this.metroPanel_ImplementationMotivation.SuspendLayout();
             this.metroPanel_ProductImplemented.SuspendLayout();
@@ -210,45 +223,246 @@ namespace Finx.App.Forms
             this.metroPanel_AccessCapital.SuspendLayout();
             this.metroPanel_PKE.SuspendLayout();
             this.metroPanel_InvestHorizen.SuspendLayout();
-            this.metroPanel_Select.SuspendLayout();
+            this.metroTabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.metroPanel2.SuspendLayout();
+            this.metroPanel_ArchiveNote.SuspendLayout();
             this.panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(27, 131);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.metroPanel_PolicyType);
             this.splitContainer1.Panel1.Controls.Add(this.dataGrid_Notes);
-            this.splitContainer1.Panel1.Controls.Add(this.xInput_ShowCompletedTasks);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.metroPanel_AdviceRecord);
             this.splitContainer1.Panel2.Controls.Add(this.metroPanel_Select);
-            this.splitContainer1.Size = new System.Drawing.Size(1685, 946);
+            this.splitContainer1.Panel2.Controls.Add(this.metroPanel_AdviceRecord);
+            this.splitContainer1.Size = new System.Drawing.Size(1677, 904);
             this.splitContainer1.SplitterDistance = 500;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 7;
             // 
+            // metroPanel_PolicyType
+            // 
+            this.metroPanel_PolicyType.Controls.Add(this.label_PolicyType);
+            this.metroPanel_PolicyType.Dock = System.Windows.Forms.DockStyle.Top;
+            this.metroPanel_PolicyType.HorizontalScrollbarBarColor = true;
+            this.metroPanel_PolicyType.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_PolicyType.HorizontalScrollbarSize = 10;
+            this.metroPanel_PolicyType.Location = new System.Drawing.Point(0, 0);
+            this.metroPanel_PolicyType.Name = "metroPanel_PolicyType";
+            this.metroPanel_PolicyType.Size = new System.Drawing.Size(500, 58);
+            this.metroPanel_PolicyType.TabIndex = 8;
+            this.metroPanel_PolicyType.VerticalScrollbarBarColor = true;
+            this.metroPanel_PolicyType.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_PolicyType.VerticalScrollbarSize = 10;
+            // 
+            // label_PolicyType
+            // 
+            this.label_PolicyType.BackColor = System.Drawing.Color.White;
+            this.label_PolicyType.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_PolicyType.Location = new System.Drawing.Point(198, 15);
+            this.label_PolicyType.Name = "label_PolicyType";
+            this.label_PolicyType.Size = new System.Drawing.Size(100, 23);
+            this.label_PolicyType.TabIndex = 3;
+            this.label_PolicyType.Text = "CAR History";
+            this.label_PolicyType.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // dataGrid_Notes
             // 
             this.dataGrid_Notes.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
-            this.dataGrid_Notes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGrid_Notes.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dataGrid_Notes.EnableSort = false;
             this.dataGrid_Notes.FixedRows = 1;
-            this.dataGrid_Notes.Location = new System.Drawing.Point(0, 37);
+            this.dataGrid_Notes.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGrid_Notes.Location = new System.Drawing.Point(0, 57);
             this.dataGrid_Notes.Margin = new System.Windows.Forms.Padding(4);
             this.dataGrid_Notes.Name = "dataGrid_Notes";
             this.dataGrid_Notes.SelectionMode = SourceGrid.GridSelectionMode.Row;
-            this.dataGrid_Notes.Size = new System.Drawing.Size(500, 909);
+            this.dataGrid_Notes.Size = new System.Drawing.Size(500, 847);
             this.dataGrid_Notes.TabIndex = 7;
             this.dataGrid_Notes.TabStop = true;
             this.dataGrid_Notes.ToolTipText = "";
+            // 
+            // metroPanel_Select
+            // 
+            this.metroPanel_Select.Controls.Add(this.metroCheckBox_completed);
+            this.metroPanel_Select.Controls.Add(this.label_ongoing);
+            this.metroPanel_Select.Controls.Add(this.label_Initial);
+            this.metroPanel_Select.Controls.Add(this.label_Fees);
+            this.metroPanel_Select.Controls.Add(this.metroTextBox_InitialFee);
+            this.metroPanel_Select.Controls.Add(this.metroTextBox_OngoingFee);
+            this.metroPanel_Select.Controls.Add(this.metroTextBox_NoteDate);
+            this.metroPanel_Select.Controls.Add(this.label_Date);
+            this.metroPanel_Select.Dock = System.Windows.Forms.DockStyle.Top;
+            this.metroPanel_Select.HorizontalScrollbarBarColor = true;
+            this.metroPanel_Select.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_Select.HorizontalScrollbarSize = 12;
+            this.metroPanel_Select.Location = new System.Drawing.Point(0, 0);
+            this.metroPanel_Select.Margin = new System.Windows.Forms.Padding(4);
+            this.metroPanel_Select.Name = "metroPanel_Select";
+            this.metroPanel_Select.Size = new System.Drawing.Size(1172, 58);
+            this.metroPanel_Select.TabIndex = 8;
+            this.metroPanel_Select.VerticalScrollbarBarColor = true;
+            this.metroPanel_Select.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_Select.VerticalScrollbarSize = 13;
+            // 
+            // metroCheckBox_completed
+            // 
+            this.metroCheckBox_completed.AutoSize = true;
+            this.metroCheckBox_completed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.metroCheckBox_completed.Location = new System.Drawing.Point(995, 15);
+            this.metroCheckBox_completed.Name = "metroCheckBox_completed";
+            this.metroCheckBox_completed.Size = new System.Drawing.Size(88, 17);
+            this.metroCheckBox_completed.TabIndex = 9;
+            this.metroCheckBox_completed.Text = "Completed";
+            this.metroCheckBox_completed.UseSelectable = true;
+            // 
+            // label_ongoing
+            // 
+            this.label_ongoing.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label_ongoing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_ongoing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ongoing.Location = new System.Drawing.Point(671, 7);
+            this.label_ongoing.Name = "label_ongoing";
+            this.label_ongoing.Size = new System.Drawing.Size(100, 30);
+            this.label_ongoing.TabIndex = 8;
+            this.label_ongoing.Text = "Ongoing";
+            this.label_ongoing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Initial
+            // 
+            this.label_Initial.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label_Initial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Initial.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Initial.Location = new System.Drawing.Point(424, 7);
+            this.label_Initial.Name = "label_Initial";
+            this.label_Initial.Size = new System.Drawing.Size(100, 30);
+            this.label_Initial.TabIndex = 7;
+            this.label_Initial.Text = "Initial";
+            this.label_Initial.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Fees
+            // 
+            this.label_Fees.BackColor = System.Drawing.Color.White;
+            this.label_Fees.Location = new System.Drawing.Point(354, 15);
+            this.label_Fees.Name = "label_Fees";
+            this.label_Fees.Size = new System.Drawing.Size(65, 23);
+            this.label_Fees.TabIndex = 6;
+            this.label_Fees.Text = "Fees";
+            // 
+            // metroTextBox_InitialFee
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox_InitialFee.CustomButton.Image = null;
+            this.metroTextBox_InitialFee.CustomButton.Location = new System.Drawing.Point(122, 2);
+            this.metroTextBox_InitialFee.CustomButton.Name = "";
+            this.metroTextBox_InitialFee.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.metroTextBox_InitialFee.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_InitialFee.CustomButton.TabIndex = 1;
+            this.metroTextBox_InitialFee.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_InitialFee.CustomButton.UseSelectable = true;
+            this.metroTextBox_InitialFee.CustomButton.Visible = false;
+            this.metroTextBox_InitialFee.Lines = new string[0];
+            this.metroTextBox_InitialFee.Location = new System.Drawing.Point(523, 7);
+            this.metroTextBox_InitialFee.MaxLength = 32767;
+            this.metroTextBox_InitialFee.Name = "metroTextBox_InitialFee";
+            this.metroTextBox_InitialFee.PasswordChar = '\0';
+            this.metroTextBox_InitialFee.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox_InitialFee.SelectedText = "";
+            this.metroTextBox_InitialFee.SelectionLength = 0;
+            this.metroTextBox_InitialFee.SelectionStart = 0;
+            this.metroTextBox_InitialFee.ShortcutsEnabled = true;
+            this.metroTextBox_InitialFee.Size = new System.Drawing.Size(150, 30);
+            this.metroTextBox_InitialFee.TabIndex = 5;
+            this.metroTextBox_InitialFee.UseSelectable = true;
+            this.metroTextBox_InitialFee.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_InitialFee.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroTextBox_OngoingFee
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox_OngoingFee.CustomButton.Image = null;
+            this.metroTextBox_OngoingFee.CustomButton.Location = new System.Drawing.Point(122, 2);
+            this.metroTextBox_OngoingFee.CustomButton.Name = "";
+            this.metroTextBox_OngoingFee.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.metroTextBox_OngoingFee.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_OngoingFee.CustomButton.TabIndex = 1;
+            this.metroTextBox_OngoingFee.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_OngoingFee.CustomButton.UseSelectable = true;
+            this.metroTextBox_OngoingFee.CustomButton.Visible = false;
+            this.metroTextBox_OngoingFee.Lines = new string[0];
+            this.metroTextBox_OngoingFee.Location = new System.Drawing.Point(770, 7);
+            this.metroTextBox_OngoingFee.MaxLength = 32767;
+            this.metroTextBox_OngoingFee.Name = "metroTextBox_OngoingFee";
+            this.metroTextBox_OngoingFee.PasswordChar = '\0';
+            this.metroTextBox_OngoingFee.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox_OngoingFee.SelectedText = "";
+            this.metroTextBox_OngoingFee.SelectionLength = 0;
+            this.metroTextBox_OngoingFee.SelectionStart = 0;
+            this.metroTextBox_OngoingFee.ShortcutsEnabled = true;
+            this.metroTextBox_OngoingFee.Size = new System.Drawing.Size(150, 30);
+            this.metroTextBox_OngoingFee.TabIndex = 4;
+            this.metroTextBox_OngoingFee.UseSelectable = true;
+            this.metroTextBox_OngoingFee.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_OngoingFee.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroTextBox_NoteDate
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox_NoteDate.CustomButton.Image = null;
+            this.metroTextBox_NoteDate.CustomButton.Location = new System.Drawing.Point(147, 2);
+            this.metroTextBox_NoteDate.CustomButton.Name = "";
+            this.metroTextBox_NoteDate.CustomButton.Size = new System.Drawing.Size(25, 25);
+            this.metroTextBox_NoteDate.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_NoteDate.CustomButton.TabIndex = 1;
+            this.metroTextBox_NoteDate.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_NoteDate.CustomButton.UseSelectable = true;
+            this.metroTextBox_NoteDate.CustomButton.Visible = false;
+            this.metroTextBox_NoteDate.Lines = new string[0];
+            this.metroTextBox_NoteDate.Location = new System.Drawing.Point(115, 7);
+            this.metroTextBox_NoteDate.MaxLength = 32767;
+            this.metroTextBox_NoteDate.Name = "metroTextBox_NoteDate";
+            this.metroTextBox_NoteDate.PasswordChar = '\0';
+            this.metroTextBox_NoteDate.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox_NoteDate.SelectedText = "";
+            this.metroTextBox_NoteDate.SelectionLength = 0;
+            this.metroTextBox_NoteDate.SelectionStart = 0;
+            this.metroTextBox_NoteDate.ShortcutsEnabled = true;
+            this.metroTextBox_NoteDate.Size = new System.Drawing.Size(175, 30);
+            this.metroTextBox_NoteDate.TabIndex = 3;
+            this.metroTextBox_NoteDate.UseSelectable = true;
+            this.metroTextBox_NoteDate.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_NoteDate.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // label_Date
+            // 
+            this.label_Date.BackColor = System.Drawing.Color.White;
+            this.label_Date.Location = new System.Drawing.Point(16, 15);
+            this.label_Date.Name = "label_Date";
+            this.label_Date.Size = new System.Drawing.Size(100, 23);
+            this.label_Date.TabIndex = 2;
+            this.label_Date.Text = "Note Date...";
             // 
             // metroPanel_AdviceRecord
             // 
@@ -319,16 +533,16 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_InvestHorizen);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKEHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_PKE);
-            this.metroPanel_AdviceRecord.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroPanel_AdviceRecord.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.metroPanel_AdviceRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.metroPanel_AdviceRecord.HorizontalScrollbar = true;
             this.metroPanel_AdviceRecord.HorizontalScrollbarBarColor = true;
             this.metroPanel_AdviceRecord.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_AdviceRecord.HorizontalScrollbarSize = 12;
-            this.metroPanel_AdviceRecord.Location = new System.Drawing.Point(0, 74);
+            this.metroPanel_AdviceRecord.Location = new System.Drawing.Point(0, 57);
             this.metroPanel_AdviceRecord.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel_AdviceRecord.Name = "metroPanel_AdviceRecord";
-            this.metroPanel_AdviceRecord.Size = new System.Drawing.Size(1180, 872);
+            this.metroPanel_AdviceRecord.Size = new System.Drawing.Size(1172, 847);
             this.metroPanel_AdviceRecord.TabIndex = 9;
             this.metroPanel_AdviceRecord.VerticalScrollbar = true;
             this.metroPanel_AdviceRecord.VerticalScrollbarBarColor = true;
@@ -345,7 +559,7 @@ namespace Finx.App.Forms
             this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.68411F));
             this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.68411F));
             this.tblPanel_RiskNeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.48437F));
-            this.tblPanel_RiskNeedsAndGoals.Location = new System.Drawing.Point(15, 3308);
+            this.tblPanel_RiskNeedsAndGoals.Location = new System.Drawing.Point(25, 3308);
             this.tblPanel_RiskNeedsAndGoals.Name = "tblPanel_RiskNeedsAndGoals";
             this.tblPanel_RiskNeedsAndGoals.RowCount = 8;
             this.tblPanel_RiskNeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
@@ -362,7 +576,7 @@ namespace Finx.App.Forms
             // metroLabel_ImplementationMotivation
             // 
             this.metroLabel_ImplementationMotivation.AutoSize = true;
-            this.metroLabel_ImplementationMotivation.Location = new System.Drawing.Point(30, 3017);
+            this.metroLabel_ImplementationMotivation.Location = new System.Drawing.Point(40, 3017);
             this.metroLabel_ImplementationMotivation.Name = "metroLabel_ImplementationMotivation";
             this.metroLabel_ImplementationMotivation.Size = new System.Drawing.Size(216, 20);
             this.metroLabel_ImplementationMotivation.TabIndex = 64;
@@ -372,7 +586,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_ImplementationMotivationHint.AutoSize = true;
             this.metroLabel_ImplementationMotivationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ImplementationMotivationHint.Location = new System.Drawing.Point(33, 3217);
+            this.metroLabel_ImplementationMotivationHint.Location = new System.Drawing.Point(43, 3217);
             this.metroLabel_ImplementationMotivationHint.Name = "metroLabel_ImplementationMotivationHint";
             this.metroLabel_ImplementationMotivationHint.Size = new System.Drawing.Size(820, 60);
             this.metroLabel_ImplementationMotivationHint.TabIndex = 63;
@@ -386,7 +600,7 @@ namespace Finx.App.Forms
             this.metroPanel_ImplementationMotivation.HorizontalScrollbarBarColor = true;
             this.metroPanel_ImplementationMotivation.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_ImplementationMotivation.HorizontalScrollbarSize = 10;
-            this.metroPanel_ImplementationMotivation.Location = new System.Drawing.Point(18, 3087);
+            this.metroPanel_ImplementationMotivation.Location = new System.Drawing.Point(28, 3087);
             this.metroPanel_ImplementationMotivation.Name = "metroPanel_ImplementationMotivation";
             this.metroPanel_ImplementationMotivation.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_ImplementationMotivation.TabIndex = 62;
@@ -434,7 +648,7 @@ namespace Finx.App.Forms
             this.metroPanel_ProductImplemented.HorizontalScrollbarBarColor = true;
             this.metroPanel_ProductImplemented.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_ProductImplemented.HorizontalScrollbarSize = 10;
-            this.metroPanel_ProductImplemented.Location = new System.Drawing.Point(18, 2912);
+            this.metroPanel_ProductImplemented.Location = new System.Drawing.Point(28, 2912);
             this.metroPanel_ProductImplemented.Name = "metroPanel_ProductImplemented";
             this.metroPanel_ProductImplemented.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_ProductImplemented.TabIndex = 61;
@@ -479,7 +693,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_ImplementationAdviceHint.AutoSize = true;
             this.metroLabel_ImplementationAdviceHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ImplementationAdviceHint.Location = new System.Drawing.Point(18, 2853);
+            this.metroLabel_ImplementationAdviceHint.Location = new System.Drawing.Point(28, 2853);
             this.metroLabel_ImplementationAdviceHint.Name = "metroLabel_ImplementationAdviceHint";
             this.metroLabel_ImplementationAdviceHint.Size = new System.Drawing.Size(375, 20);
             this.metroLabel_ImplementationAdviceHint.TabIndex = 60;
@@ -489,8 +703,9 @@ namespace Finx.App.Forms
             // label_ImplementationAdvice
             // 
             this.label_ImplementationAdvice.AutoSize = true;
+            this.label_ImplementationAdvice.BackColor = System.Drawing.Color.White;
             this.label_ImplementationAdvice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ImplementationAdvice.Location = new System.Drawing.Point(13, 2808);
+            this.label_ImplementationAdvice.Location = new System.Drawing.Point(23, 2808);
             this.label_ImplementationAdvice.Name = "label_ImplementationAdvice";
             this.label_ImplementationAdvice.Size = new System.Drawing.Size(367, 25);
             this.label_ImplementationAdvice.TabIndex = 59;
@@ -504,7 +719,7 @@ namespace Finx.App.Forms
             this.tblPanel_MedicalSchemeComparison.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.92593F));
             this.tblPanel_MedicalSchemeComparison.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
             this.tblPanel_MedicalSchemeComparison.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.03704F));
-            this.tblPanel_MedicalSchemeComparison.Location = new System.Drawing.Point(15, 2242);
+            this.tblPanel_MedicalSchemeComparison.Location = new System.Drawing.Point(25, 2242);
             this.tblPanel_MedicalSchemeComparison.Name = "tblPanel_MedicalSchemeComparison";
             this.tblPanel_MedicalSchemeComparison.RowCount = 11;
             this.tblPanel_MedicalSchemeComparison.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
@@ -525,7 +740,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_ComparisonMedicalSchemeHint.AutoSize = true;
             this.metroLabel_ComparisonMedicalSchemeHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ComparisonMedicalSchemeHint.Location = new System.Drawing.Point(10, 2212);
+            this.metroLabel_ComparisonMedicalSchemeHint.Location = new System.Drawing.Point(20, 2212);
             this.metroLabel_ComparisonMedicalSchemeHint.Name = "metroLabel_ComparisonMedicalSchemeHint";
             this.metroLabel_ComparisonMedicalSchemeHint.Size = new System.Drawing.Size(638, 20);
             this.metroLabel_ComparisonMedicalSchemeHint.TabIndex = 57;
@@ -536,8 +751,9 @@ namespace Finx.App.Forms
             // label_ComparisonMedicalScheme
             // 
             this.label_ComparisonMedicalScheme.AutoSize = true;
+            this.label_ComparisonMedicalScheme.BackColor = System.Drawing.Color.White;
             this.label_ComparisonMedicalScheme.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ComparisonMedicalScheme.Location = new System.Drawing.Point(10, 2192);
+            this.label_ComparisonMedicalScheme.Location = new System.Drawing.Point(20, 2192);
             this.label_ComparisonMedicalScheme.Name = "label_ComparisonMedicalScheme";
             this.label_ComparisonMedicalScheme.Size = new System.Drawing.Size(429, 25);
             this.label_ComparisonMedicalScheme.TabIndex = 56;
@@ -550,7 +766,7 @@ namespace Finx.App.Forms
             this.metroPanel_Notes.HorizontalScrollbarBarColor = true;
             this.metroPanel_Notes.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_Notes.HorizontalScrollbarSize = 10;
-            this.metroPanel_Notes.Location = new System.Drawing.Point(15, 2092);
+            this.metroPanel_Notes.Location = new System.Drawing.Point(25, 2092);
             this.metroPanel_Notes.Name = "metroPanel_Notes";
             this.metroPanel_Notes.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_Notes.TabIndex = 55;
@@ -594,7 +810,7 @@ namespace Finx.App.Forms
             // metroLabel_Notes
             // 
             this.metroLabel_Notes.AutoSize = true;
-            this.metroLabel_Notes.Location = new System.Drawing.Point(10, 2059);
+            this.metroLabel_Notes.Location = new System.Drawing.Point(20, 2059);
             this.metroLabel_Notes.Name = "metroLabel_Notes";
             this.metroLabel_Notes.Size = new System.Drawing.Size(49, 20);
             this.metroLabel_Notes.TabIndex = 54;
@@ -607,7 +823,7 @@ namespace Finx.App.Forms
             this.metroPanel_OtherImportantInfo.HorizontalScrollbarBarColor = true;
             this.metroPanel_OtherImportantInfo.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_OtherImportantInfo.HorizontalScrollbarSize = 10;
-            this.metroPanel_OtherImportantInfo.Location = new System.Drawing.Point(15, 1959);
+            this.metroPanel_OtherImportantInfo.Location = new System.Drawing.Point(25, 1959);
             this.metroPanel_OtherImportantInfo.Name = "metroPanel_OtherImportantInfo";
             this.metroPanel_OtherImportantInfo.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_OtherImportantInfo.TabIndex = 37;
@@ -651,7 +867,7 @@ namespace Finx.App.Forms
             // metroLabel_productImplemented
             // 
             this.metroLabel_productImplemented.AutoSize = true;
-            this.metroLabel_productImplemented.Location = new System.Drawing.Point(18, 2889);
+            this.metroLabel_productImplemented.Location = new System.Drawing.Point(28, 2889);
             this.metroLabel_productImplemented.Name = "metroLabel_productImplemented";
             this.metroLabel_productImplemented.Size = new System.Drawing.Size(204, 20);
             this.metroLabel_productImplemented.TabIndex = 53;
@@ -661,7 +877,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_OtherImportantInfoHint.AutoSize = true;
             this.metroLabel_OtherImportantInfoHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_OtherImportantInfoHint.Location = new System.Drawing.Point(10, 1927);
+            this.metroLabel_OtherImportantInfoHint.Location = new System.Drawing.Point(20, 1927);
             this.metroLabel_OtherImportantInfoHint.Name = "metroLabel_OtherImportantInfoHint";
             this.metroLabel_OtherImportantInfoHint.Size = new System.Drawing.Size(399, 20);
             this.metroLabel_OtherImportantInfoHint.TabIndex = 52;
@@ -671,7 +887,7 @@ namespace Finx.App.Forms
             // metroLabel_OtherImportantInfo
             // 
             this.metroLabel_OtherImportantInfo.AutoSize = true;
-            this.metroLabel_OtherImportantInfo.Location = new System.Drawing.Point(10, 1907);
+            this.metroLabel_OtherImportantInfo.Location = new System.Drawing.Point(20, 1907);
             this.metroLabel_OtherImportantInfo.Name = "metroLabel_OtherImportantInfo";
             this.metroLabel_OtherImportantInfo.Size = new System.Drawing.Size(186, 20);
             this.metroLabel_OtherImportantInfo.TabIndex = 51;
@@ -686,7 +902,7 @@ namespace Finx.App.Forms
             this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tblPanel_NeedsAndGoals.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tblPanel_NeedsAndGoals.Location = new System.Drawing.Point(15, 837);
+            this.tblPanel_NeedsAndGoals.Location = new System.Drawing.Point(25, 837);
             this.tblPanel_NeedsAndGoals.Name = "tblPanel_NeedsAndGoals";
             this.tblPanel_NeedsAndGoals.RowCount = 9;
             this.tblPanel_NeedsAndGoals.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -705,7 +921,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_RecommendedProductHint.AutoSize = true;
             this.metroLabel_RecommendedProductHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_RecommendedProductHint.Location = new System.Drawing.Point(10, 983);
+            this.metroLabel_RecommendedProductHint.Location = new System.Drawing.Point(20, 983);
             this.metroLabel_RecommendedProductHint.Name = "metroLabel_RecommendedProductHint";
             this.metroLabel_RecommendedProductHint.Size = new System.Drawing.Size(275, 20);
             this.metroLabel_RecommendedProductHint.TabIndex = 50;
@@ -719,7 +935,7 @@ namespace Finx.App.Forms
             this.metroPanel_Copayment.HorizontalScrollbarBarColor = true;
             this.metroPanel_Copayment.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_Copayment.HorizontalScrollbarSize = 10;
-            this.metroPanel_Copayment.Location = new System.Drawing.Point(15, 1807);
+            this.metroPanel_Copayment.Location = new System.Drawing.Point(25, 1807);
             this.metroPanel_Copayment.Name = "metroPanel_Copayment";
             this.metroPanel_Copayment.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_Copayment.TabIndex = 36;
@@ -764,7 +980,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_CopaymentHint.AutoSize = true;
             this.metroLabel_CopaymentHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_CopaymentHint.Location = new System.Drawing.Point(10, 1775);
+            this.metroLabel_CopaymentHint.Location = new System.Drawing.Point(20, 1775);
             this.metroLabel_CopaymentHint.Name = "metroLabel_CopaymentHint";
             this.metroLabel_CopaymentHint.Size = new System.Drawing.Size(333, 20);
             this.metroLabel_CopaymentHint.TabIndex = 49;
@@ -778,7 +994,7 @@ namespace Finx.App.Forms
             this.metroPanel_LateJoiner.HorizontalScrollbarBarColor = true;
             this.metroPanel_LateJoiner.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_LateJoiner.HorizontalScrollbarSize = 10;
-            this.metroPanel_LateJoiner.Location = new System.Drawing.Point(15, 1655);
+            this.metroPanel_LateJoiner.Location = new System.Drawing.Point(25, 1655);
             this.metroPanel_LateJoiner.Name = "metroPanel_LateJoiner";
             this.metroPanel_LateJoiner.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_LateJoiner.TabIndex = 35;
@@ -823,7 +1039,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_LateJoinerHint.AutoSize = true;
             this.metroLabel_LateJoinerHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_LateJoinerHint.Location = new System.Drawing.Point(10, 1622);
+            this.metroLabel_LateJoinerHint.Location = new System.Drawing.Point(20, 1622);
             this.metroLabel_LateJoinerHint.Name = "metroLabel_LateJoinerHint";
             this.metroLabel_LateJoinerHint.Size = new System.Drawing.Size(341, 20);
             this.metroLabel_LateJoinerHint.TabIndex = 48;
@@ -837,7 +1053,7 @@ namespace Finx.App.Forms
             this.metroPanel_WaitingPeriods.HorizontalScrollbarBarColor = true;
             this.metroPanel_WaitingPeriods.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_WaitingPeriods.HorizontalScrollbarSize = 10;
-            this.metroPanel_WaitingPeriods.Location = new System.Drawing.Point(15, 1502);
+            this.metroPanel_WaitingPeriods.Location = new System.Drawing.Point(25, 1502);
             this.metroPanel_WaitingPeriods.Name = "metroPanel_WaitingPeriods";
             this.metroPanel_WaitingPeriods.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_WaitingPeriods.TabIndex = 34;
@@ -882,7 +1098,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_WaitingPeriodHint.AutoSize = true;
             this.metroLabel_WaitingPeriodHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_WaitingPeriodHint.Location = new System.Drawing.Point(10, 1470);
+            this.metroLabel_WaitingPeriodHint.Location = new System.Drawing.Point(20, 1470);
             this.metroLabel_WaitingPeriodHint.Name = "metroLabel_WaitingPeriodHint";
             this.metroLabel_WaitingPeriodHint.Size = new System.Drawing.Size(337, 20);
             this.metroLabel_WaitingPeriodHint.TabIndex = 47;
@@ -892,7 +1108,7 @@ namespace Finx.App.Forms
             // metroLabel_LateJoiner
             // 
             this.metroLabel_LateJoiner.AutoSize = true;
-            this.metroLabel_LateJoiner.Location = new System.Drawing.Point(10, 1602);
+            this.metroLabel_LateJoiner.Location = new System.Drawing.Point(20, 1602);
             this.metroLabel_LateJoiner.Name = "metroLabel_LateJoiner";
             this.metroLabel_LateJoiner.Size = new System.Drawing.Size(127, 20);
             this.metroLabel_LateJoiner.TabIndex = 46;
@@ -901,7 +1117,7 @@ namespace Finx.App.Forms
             // metroLabel_copayment
             // 
             this.metroLabel_copayment.AutoSize = true;
-            this.metroLabel_copayment.Location = new System.Drawing.Point(10, 1755);
+            this.metroLabel_copayment.Location = new System.Drawing.Point(20, 1755);
             this.metroLabel_copayment.Name = "metroLabel_copayment";
             this.metroLabel_copayment.Size = new System.Drawing.Size(94, 20);
             this.metroLabel_copayment.TabIndex = 45;
@@ -910,7 +1126,7 @@ namespace Finx.App.Forms
             // metroLabel_WaitingPeriod
             // 
             this.metroLabel_WaitingPeriod.AutoSize = true;
-            this.metroLabel_WaitingPeriod.Location = new System.Drawing.Point(10, 1450);
+            this.metroLabel_WaitingPeriod.Location = new System.Drawing.Point(20, 1450);
             this.metroLabel_WaitingPeriod.Name = "metroLabel_WaitingPeriod";
             this.metroLabel_WaitingPeriod.Size = new System.Drawing.Size(106, 20);
             this.metroLabel_WaitingPeriod.TabIndex = 44;
@@ -923,7 +1139,7 @@ namespace Finx.App.Forms
             this.metroPanel_ChronicConditions.HorizontalScrollbarBarColor = true;
             this.metroPanel_ChronicConditions.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_ChronicConditions.HorizontalScrollbarSize = 10;
-            this.metroPanel_ChronicConditions.Location = new System.Drawing.Point(15, 1350);
+            this.metroPanel_ChronicConditions.Location = new System.Drawing.Point(25, 1350);
             this.metroPanel_ChronicConditions.Name = "metroPanel_ChronicConditions";
             this.metroPanel_ChronicConditions.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_ChronicConditions.TabIndex = 33;
@@ -968,7 +1184,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_ChronicConditionsHint.AutoSize = true;
             this.metroLabel_ChronicConditionsHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_ChronicConditionsHint.Location = new System.Drawing.Point(10, 1295);
+            this.metroLabel_ChronicConditionsHint.Location = new System.Drawing.Point(20, 1295);
             this.metroLabel_ChronicConditionsHint.Name = "metroLabel_ChronicConditionsHint";
             this.metroLabel_ChronicConditionsHint.Size = new System.Drawing.Size(817, 40);
             this.metroLabel_ChronicConditionsHint.TabIndex = 42;
@@ -978,7 +1194,7 @@ namespace Finx.App.Forms
             // metroLabel_ChronicConditions
             // 
             this.metroLabel_ChronicConditions.AutoSize = true;
-            this.metroLabel_ChronicConditions.Location = new System.Drawing.Point(10, 1275);
+            this.metroLabel_ChronicConditions.Location = new System.Drawing.Point(20, 1275);
             this.metroLabel_ChronicConditions.Name = "metroLabel_ChronicConditions";
             this.metroLabel_ChronicConditions.Size = new System.Drawing.Size(129, 20);
             this.metroLabel_ChronicConditions.TabIndex = 41;
@@ -987,7 +1203,7 @@ namespace Finx.App.Forms
             // metroLabel_NeedsAndGoals
             // 
             this.metroLabel_NeedsAndGoals.AutoSize = true;
-            this.metroLabel_NeedsAndGoals.Location = new System.Drawing.Point(10, 811);
+            this.metroLabel_NeedsAndGoals.Location = new System.Drawing.Point(20, 811);
             this.metroLabel_NeedsAndGoals.Name = "metroLabel_NeedsAndGoals";
             this.metroLabel_NeedsAndGoals.Size = new System.Drawing.Size(179, 20);
             this.metroLabel_NeedsAndGoals.TabIndex = 40;
@@ -1000,7 +1216,7 @@ namespace Finx.App.Forms
             this.metroPanel_Hospitalisation.HorizontalScrollbarBarColor = true;
             this.metroPanel_Hospitalisation.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_Hospitalisation.HorizontalScrollbarSize = 10;
-            this.metroPanel_Hospitalisation.Location = new System.Drawing.Point(15, 711);
+            this.metroPanel_Hospitalisation.Location = new System.Drawing.Point(25, 711);
             this.metroPanel_Hospitalisation.Name = "metroPanel_Hospitalisation";
             this.metroPanel_Hospitalisation.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_Hospitalisation.TabIndex = 38;
@@ -1045,7 +1261,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_HospitalisationHint.AutoSize = true;
             this.metroLabel_HospitalisationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_HospitalisationHint.Location = new System.Drawing.Point(10, 679);
+            this.metroLabel_HospitalisationHint.Location = new System.Drawing.Point(20, 679);
             this.metroLabel_HospitalisationHint.Name = "metroLabel_HospitalisationHint";
             this.metroLabel_HospitalisationHint.Size = new System.Drawing.Size(746, 20);
             this.metroLabel_HospitalisationHint.TabIndex = 37;
@@ -1056,7 +1272,7 @@ namespace Finx.App.Forms
             // metroLabel_Hospitalisation
             // 
             this.metroLabel_Hospitalisation.AutoSize = true;
-            this.metroLabel_Hospitalisation.Location = new System.Drawing.Point(10, 659);
+            this.metroLabel_Hospitalisation.Location = new System.Drawing.Point(20, 659);
             this.metroLabel_Hospitalisation.Name = "metroLabel_Hospitalisation";
             this.metroLabel_Hospitalisation.Size = new System.Drawing.Size(100, 20);
             this.metroLabel_Hospitalisation.TabIndex = 36;
@@ -1069,7 +1285,7 @@ namespace Finx.App.Forms
             this.metroPanel_MedicalCover.HorizontalScrollbarBarColor = true;
             this.metroPanel_MedicalCover.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_MedicalCover.HorizontalScrollbarSize = 10;
-            this.metroPanel_MedicalCover.Location = new System.Drawing.Point(15, 407);
+            this.metroPanel_MedicalCover.Location = new System.Drawing.Point(25, 407);
             this.metroPanel_MedicalCover.Name = "metroPanel_MedicalCover";
             this.metroPanel_MedicalCover.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_MedicalCover.TabIndex = 33;
@@ -1114,7 +1330,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_MedicalCoverHint.AutoSize = true;
             this.metroLabel_MedicalCoverHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_MedicalCoverHint.Location = new System.Drawing.Point(10, 375);
+            this.metroLabel_MedicalCoverHint.Location = new System.Drawing.Point(20, 375);
             this.metroLabel_MedicalCoverHint.Name = "metroLabel_MedicalCoverHint";
             this.metroLabel_MedicalCoverHint.Size = new System.Drawing.Size(825, 20);
             this.metroLabel_MedicalCoverHint.TabIndex = 35;
@@ -1125,7 +1341,7 @@ namespace Finx.App.Forms
             // metroLabel_MedicalCover
             // 
             this.metroLabel_MedicalCover.AutoSize = true;
-            this.metroLabel_MedicalCover.Location = new System.Drawing.Point(10, 355);
+            this.metroLabel_MedicalCover.Location = new System.Drawing.Point(20, 355);
             this.metroLabel_MedicalCover.Name = "metroLabel_MedicalCover";
             this.metroLabel_MedicalCover.Size = new System.Drawing.Size(153, 20);
             this.metroLabel_MedicalCover.TabIndex = 34;
@@ -1138,7 +1354,7 @@ namespace Finx.App.Forms
             this.metroPanel_MedicalConditions.HorizontalScrollbarBarColor = true;
             this.metroPanel_MedicalConditions.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_MedicalConditions.HorizontalScrollbarSize = 10;
-            this.metroPanel_MedicalConditions.Location = new System.Drawing.Point(15, 255);
+            this.metroPanel_MedicalConditions.Location = new System.Drawing.Point(25, 255);
             this.metroPanel_MedicalConditions.Name = "metroPanel_MedicalConditions";
             this.metroPanel_MedicalConditions.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_MedicalConditions.TabIndex = 32;
@@ -1182,7 +1398,7 @@ namespace Finx.App.Forms
             // metroLabel_MedicalConditions
             // 
             this.metroLabel_MedicalConditions.AutoSize = true;
-            this.metroLabel_MedicalConditions.Location = new System.Drawing.Point(10, 203);
+            this.metroLabel_MedicalConditions.Location = new System.Drawing.Point(20, 203);
             this.metroLabel_MedicalConditions.Name = "metroLabel_MedicalConditions";
             this.metroLabel_MedicalConditions.Size = new System.Drawing.Size(129, 20);
             this.metroLabel_MedicalConditions.TabIndex = 33;
@@ -1192,7 +1408,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_MedicalConditionsHint.AutoSize = true;
             this.metroLabel_MedicalConditionsHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_MedicalConditionsHint.Location = new System.Drawing.Point(10, 223);
+            this.metroLabel_MedicalConditionsHint.Location = new System.Drawing.Point(20, 223);
             this.metroLabel_MedicalConditionsHint.Name = "metroLabel_MedicalConditionsHint";
             this.metroLabel_MedicalConditionsHint.Size = new System.Drawing.Size(547, 20);
             this.metroLabel_MedicalConditionsHint.TabIndex = 32;
@@ -1204,7 +1420,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_MotivationHint.AutoSize = true;
             this.metroLabel_MotivationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_MotivationHint.Location = new System.Drawing.Point(10, 1167);
+            this.metroLabel_MotivationHint.Location = new System.Drawing.Point(20, 1167);
             this.metroLabel_MotivationHint.Name = "metroLabel_MotivationHint";
             this.metroLabel_MotivationHint.Size = new System.Drawing.Size(769, 60);
             this.metroLabel_MotivationHint.TabIndex = 31;
@@ -1214,7 +1430,7 @@ namespace Finx.App.Forms
             // metroLabel_Motivation
             // 
             this.metroLabel_Motivation.AutoSize = true;
-            this.metroLabel_Motivation.Location = new System.Drawing.Point(10, 1147);
+            this.metroLabel_Motivation.Location = new System.Drawing.Point(20, 1147);
             this.metroLabel_Motivation.Name = "metroLabel_Motivation";
             this.metroLabel_Motivation.Size = new System.Drawing.Size(216, 20);
             this.metroLabel_Motivation.TabIndex = 30;
@@ -1228,7 +1444,7 @@ namespace Finx.App.Forms
             this.metroPanel_RecomendedFunds.HorizontalScrollbarBarColor = true;
             this.metroPanel_RecomendedFunds.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_RecomendedFunds.HorizontalScrollbarSize = 10;
-            this.metroPanel_RecomendedFunds.Location = new System.Drawing.Point(15, 1047);
+            this.metroPanel_RecomendedFunds.Location = new System.Drawing.Point(25, 1047);
             this.metroPanel_RecomendedFunds.Name = "metroPanel_RecomendedFunds";
             this.metroPanel_RecomendedFunds.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_RecomendedFunds.TabIndex = 25;
@@ -1320,8 +1536,9 @@ namespace Finx.App.Forms
             // label_InitialAdvice
             // 
             this.label_InitialAdvice.AutoSize = true;
+            this.label_InitialAdvice.BackColor = System.Drawing.Color.White;
             this.label_InitialAdvice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_InitialAdvice.Location = new System.Drawing.Point(10, 963);
+            this.label_InitialAdvice.Location = new System.Drawing.Point(20, 963);
             this.label_InitialAdvice.Name = "label_InitialAdvice";
             this.label_InitialAdvice.Size = new System.Drawing.Size(279, 25);
             this.label_InitialAdvice.TabIndex = 28;
@@ -1330,7 +1547,7 @@ namespace Finx.App.Forms
             // metroLabel_RecommendedFund
             // 
             this.metroLabel_RecommendedFund.AutoSize = true;
-            this.metroLabel_RecommendedFund.Location = new System.Drawing.Point(10, 1015);
+            this.metroLabel_RecommendedFund.Location = new System.Drawing.Point(20, 1015);
             this.metroLabel_RecommendedFund.Name = "metroLabel_RecommendedFund";
             this.metroLabel_RecommendedFund.Size = new System.Drawing.Size(198, 20);
             this.metroLabel_RecommendedFund.TabIndex = 27;
@@ -1340,7 +1557,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_OtherInformationHint.AutoSize = true;
             this.metroLabel_OtherInformationHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(10, 831);
+            this.metroLabel_OtherInformationHint.Location = new System.Drawing.Point(20, 831);
             this.metroLabel_OtherInformationHint.Name = "metroLabel_OtherInformationHint";
             this.metroLabel_OtherInformationHint.Size = new System.Drawing.Size(684, 20);
             this.metroLabel_OtherInformationHint.TabIndex = 26;
@@ -1351,7 +1568,7 @@ namespace Finx.App.Forms
             // metroLabel_OtherInformation
             // 
             this.metroLabel_OtherInformation.AutoSize = true;
-            this.metroLabel_OtherInformation.Location = new System.Drawing.Point(10, 811);
+            this.metroLabel_OtherInformation.Location = new System.Drawing.Point(20, 811);
             this.metroLabel_OtherInformation.Name = "metroLabel_OtherInformation";
             this.metroLabel_OtherInformation.Size = new System.Drawing.Size(122, 20);
             this.metroLabel_OtherInformation.TabIndex = 25;
@@ -1365,7 +1582,7 @@ namespace Finx.App.Forms
             this.metroPanel_OtherInformation.HorizontalScrollbarBarColor = true;
             this.metroPanel_OtherInformation.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_OtherInformation.HorizontalScrollbarSize = 10;
-            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(15, 863);
+            this.metroPanel_OtherInformation.Location = new System.Drawing.Point(25, 863);
             this.metroPanel_OtherInformation.Name = "metroPanel_OtherInformation";
             this.metroPanel_OtherInformation.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_OtherInformation.TabIndex = 24;
@@ -1462,7 +1679,7 @@ namespace Finx.App.Forms
             this.metroPanel_Motivation.HorizontalScrollbarBarColor = true;
             this.metroPanel_Motivation.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_Motivation.HorizontalScrollbarSize = 10;
-            this.metroPanel_Motivation.Location = new System.Drawing.Point(15, 1245);
+            this.metroPanel_Motivation.Location = new System.Drawing.Point(25, 1245);
             this.metroPanel_Motivation.Name = "metroPanel_Motivation";
             this.metroPanel_Motivation.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_Motivation.TabIndex = 23;
@@ -1559,7 +1776,7 @@ namespace Finx.App.Forms
             this.metroPanel_FinancialSituation.HorizontalScrollbarBarColor = true;
             this.metroPanel_FinancialSituation.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_FinancialSituation.HorizontalScrollbarSize = 10;
-            this.metroPanel_FinancialSituation.Location = new System.Drawing.Point(15, 711);
+            this.metroPanel_FinancialSituation.Location = new System.Drawing.Point(25, 711);
             this.metroPanel_FinancialSituation.Name = "metroPanel_FinancialSituation";
             this.metroPanel_FinancialSituation.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_FinancialSituation.TabIndex = 20;
@@ -1652,7 +1869,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_FinancialSolutionHint.AutoSize = true;
             this.metroLabel_FinancialSolutionHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_FinancialSolutionHint.Location = new System.Drawing.Point(10, 679);
+            this.metroLabel_FinancialSolutionHint.Location = new System.Drawing.Point(20, 679);
             this.metroLabel_FinancialSolutionHint.Name = "metroLabel_FinancialSolutionHint";
             this.metroLabel_FinancialSolutionHint.Size = new System.Drawing.Size(368, 20);
             this.metroLabel_FinancialSolutionHint.TabIndex = 21;
@@ -1662,7 +1879,7 @@ namespace Finx.App.Forms
             // metroLabel_FinancialSolution
             // 
             this.metroLabel_FinancialSolution.AutoSize = true;
-            this.metroLabel_FinancialSolution.Location = new System.Drawing.Point(10, 659);
+            this.metroLabel_FinancialSolution.Location = new System.Drawing.Point(20, 659);
             this.metroLabel_FinancialSolution.Name = "metroLabel_FinancialSolution";
             this.metroLabel_FinancialSolution.Size = new System.Drawing.Size(121, 20);
             this.metroLabel_FinancialSolution.TabIndex = 20;
@@ -1675,7 +1892,7 @@ namespace Finx.App.Forms
             this.metroPanel_needAndObj.HorizontalScrollbarBarColor = true;
             this.metroPanel_needAndObj.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_needAndObj.HorizontalScrollbarSize = 10;
-            this.metroPanel_needAndObj.Location = new System.Drawing.Point(15, 559);
+            this.metroPanel_needAndObj.Location = new System.Drawing.Point(25, 559);
             this.metroPanel_needAndObj.Name = "metroPanel_needAndObj";
             this.metroPanel_needAndObj.Size = new System.Drawing.Size(972, 84);
             this.metroPanel_needAndObj.TabIndex = 19;
@@ -1718,13 +1935,17 @@ namespace Finx.App.Forms
             // 
             // metroLabel_Summary
             // 
+            this.metroLabel_Summary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.metroLabel_Summary.AutoSize = true;
+            this.metroLabel_Summary.BackColor = System.Drawing.Color.White;
             this.metroLabel_Summary.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.metroLabel_Summary.Location = new System.Drawing.Point(316, 3);
+            this.metroLabel_Summary.Location = new System.Drawing.Point(365, 4);
             this.metroLabel_Summary.Name = "metroLabel_Summary";
             this.metroLabel_Summary.Size = new System.Drawing.Size(439, 32);
             this.metroLabel_Summary.TabIndex = 18;
             this.metroLabel_Summary.Text = "Summary of Clients Information";
+            this.metroLabel_Summary.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // metroPanel_AccessCapital
             // 
@@ -1737,7 +1958,7 @@ namespace Finx.App.Forms
             this.metroPanel_AccessCapital.HorizontalScrollbarBarColor = true;
             this.metroPanel_AccessCapital.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_AccessCapital.HorizontalScrollbarSize = 10;
-            this.metroPanel_AccessCapital.Location = new System.Drawing.Point(15, 407);
+            this.metroPanel_AccessCapital.Location = new System.Drawing.Point(25, 407);
             this.metroPanel_AccessCapital.Name = "metroPanel_AccessCapital";
             this.metroPanel_AccessCapital.Size = new System.Drawing.Size(606, 84);
             this.metroPanel_AccessCapital.TabIndex = 17;
@@ -1782,10 +2003,10 @@ namespace Finx.App.Forms
             // 
             this.label16.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.Location = new System.Drawing.Point(400, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(203, 40);
+            this.label16.Size = new System.Drawing.Size(202, 40);
             this.label16.TabIndex = 23;
             this.label16.Text = "Do not require access to\r\ncapital for 5 years";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1794,7 +2015,7 @@ namespace Finx.App.Forms
             // 
             this.label17.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.Location = new System.Drawing.Point(200, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(203, 40);
@@ -1806,7 +2027,7 @@ namespace Finx.App.Forms
             // 
             this.label15.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(0, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(203, 40);
@@ -1839,7 +2060,7 @@ namespace Finx.App.Forms
             this.metroPanel_PKE.HorizontalScrollbarBarColor = true;
             this.metroPanel_PKE.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_PKE.HorizontalScrollbarSize = 10;
-            this.metroPanel_PKE.Location = new System.Drawing.Point(15, 103);
+            this.metroPanel_PKE.Location = new System.Drawing.Point(25, 103);
             this.metroPanel_PKE.Name = "metroPanel_PKE";
             this.metroPanel_PKE.Size = new System.Drawing.Size(825, 84);
             this.metroPanel_PKE.TabIndex = 16;
@@ -2090,7 +2311,7 @@ namespace Finx.App.Forms
             this.metroPanel_InvestHorizen.HorizontalScrollbarBarColor = true;
             this.metroPanel_InvestHorizen.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel_InvestHorizen.HorizontalScrollbarSize = 10;
-            this.metroPanel_InvestHorizen.Location = new System.Drawing.Point(15, 255);
+            this.metroPanel_InvestHorizen.Location = new System.Drawing.Point(25, 255);
             this.metroPanel_InvestHorizen.Name = "metroPanel_InvestHorizen";
             this.metroPanel_InvestHorizen.Size = new System.Drawing.Size(334, 84);
             this.metroPanel_InvestHorizen.TabIndex = 15;
@@ -2135,7 +2356,7 @@ namespace Finx.App.Forms
             // 
             this.label14.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(247, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(85, 40);
@@ -2158,7 +2379,7 @@ namespace Finx.App.Forms
             // 
             this.label12.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(81, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(85, 40);
@@ -2170,7 +2391,7 @@ namespace Finx.App.Forms
             // 
             this.label13.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(163, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(85, 40);
@@ -2182,7 +2403,7 @@ namespace Finx.App.Forms
             // 
             this.label11.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(0, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(85, 40);
@@ -2194,7 +2415,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_NeedsAndObjHint.AutoSize = true;
             this.metroLabel_NeedsAndObjHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_NeedsAndObjHint.Location = new System.Drawing.Point(10, 527);
+            this.metroLabel_NeedsAndObjHint.Location = new System.Drawing.Point(20, 527);
             this.metroLabel_NeedsAndObjHint.Name = "metroLabel_NeedsAndObjHint";
             this.metroLabel_NeedsAndObjHint.Size = new System.Drawing.Size(665, 20);
             this.metroLabel_NeedsAndObjHint.TabIndex = 14;
@@ -2205,7 +2426,7 @@ namespace Finx.App.Forms
             // metroLabel_NeedsAndObj
             // 
             this.metroLabel_NeedsAndObj.AutoSize = true;
-            this.metroLabel_NeedsAndObj.Location = new System.Drawing.Point(10, 507);
+            this.metroLabel_NeedsAndObj.Location = new System.Drawing.Point(20, 507);
             this.metroLabel_NeedsAndObj.Name = "metroLabel_NeedsAndObj";
             this.metroLabel_NeedsAndObj.Size = new System.Drawing.Size(149, 20);
             this.metroLabel_NeedsAndObj.TabIndex = 13;
@@ -2215,7 +2436,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_AccessToCapitalHint.AutoSize = true;
             this.metroLabel_AccessToCapitalHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_AccessToCapitalHint.Location = new System.Drawing.Point(10, 375);
+            this.metroLabel_AccessToCapitalHint.Location = new System.Drawing.Point(20, 375);
             this.metroLabel_AccessToCapitalHint.Name = "metroLabel_AccessToCapitalHint";
             this.metroLabel_AccessToCapitalHint.Size = new System.Drawing.Size(314, 20);
             this.metroLabel_AccessToCapitalHint.TabIndex = 12;
@@ -2225,7 +2446,7 @@ namespace Finx.App.Forms
             // metroLabel_AccessToCapital
             // 
             this.metroLabel_AccessToCapital.AutoSize = true;
-            this.metroLabel_AccessToCapital.Location = new System.Drawing.Point(10, 355);
+            this.metroLabel_AccessToCapital.Location = new System.Drawing.Point(20, 355);
             this.metroLabel_AccessToCapital.Name = "metroLabel_AccessToCapital";
             this.metroLabel_AccessToCapital.Size = new System.Drawing.Size(116, 20);
             this.metroLabel_AccessToCapital.TabIndex = 11;
@@ -2235,7 +2456,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_InvestHorizonHint.AutoSize = true;
             this.metroLabel_InvestHorizonHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_InvestHorizonHint.Location = new System.Drawing.Point(10, 223);
+            this.metroLabel_InvestHorizonHint.Location = new System.Drawing.Point(20, 223);
             this.metroLabel_InvestHorizonHint.Name = "metroLabel_InvestHorizonHint";
             this.metroLabel_InvestHorizonHint.Size = new System.Drawing.Size(634, 20);
             this.metroLabel_InvestHorizonHint.TabIndex = 10;
@@ -2246,7 +2467,7 @@ namespace Finx.App.Forms
             // metroLabel_InvestHorizen
             // 
             this.metroLabel_InvestHorizen.AutoSize = true;
-            this.metroLabel_InvestHorizen.Location = new System.Drawing.Point(10, 203);
+            this.metroLabel_InvestHorizen.Location = new System.Drawing.Point(20, 203);
             this.metroLabel_InvestHorizen.Name = "metroLabel_InvestHorizen";
             this.metroLabel_InvestHorizen.Size = new System.Drawing.Size(133, 20);
             this.metroLabel_InvestHorizen.TabIndex = 9;
@@ -2256,7 +2477,7 @@ namespace Finx.App.Forms
             // 
             this.metroLabel_PKEHint.AutoSize = true;
             this.metroLabel_PKEHint.ForeColor = System.Drawing.Color.Gray;
-            this.metroLabel_PKEHint.Location = new System.Drawing.Point(10, 71);
+            this.metroLabel_PKEHint.Location = new System.Drawing.Point(20, 71);
             this.metroLabel_PKEHint.Name = "metroLabel_PKEHint";
             this.metroLabel_PKEHint.Size = new System.Drawing.Size(526, 20);
             this.metroLabel_PKEHint.TabIndex = 8;
@@ -2267,175 +2488,171 @@ namespace Finx.App.Forms
             // metroLabel_PKE
             // 
             this.metroLabel_PKE.AutoSize = true;
-            this.metroLabel_PKE.Location = new System.Drawing.Point(10, 51);
+            this.metroLabel_PKE.Location = new System.Drawing.Point(20, 51);
             this.metroLabel_PKE.Name = "metroLabel_PKE";
             this.metroLabel_PKE.Size = new System.Drawing.Size(233, 20);
             this.metroLabel_PKE.TabIndex = 7;
             this.metroLabel_PKE.Text = "Product Knowledge and Experience:";
             // 
-            // metroPanel_Select
+            // metroTabControl1
             // 
-            this.metroPanel_Select.Controls.Add(this.metroCheckBox_completed);
-            this.metroPanel_Select.Controls.Add(this.label_ongoing);
-            this.metroPanel_Select.Controls.Add(this.label_Initial);
-            this.metroPanel_Select.Controls.Add(this.label_Fees);
-            this.metroPanel_Select.Controls.Add(this.metroTextBox9);
-            this.metroPanel_Select.Controls.Add(this.metroTextBox8);
-            this.metroPanel_Select.Controls.Add(this.metroTextBox_NoteDate);
-            this.metroPanel_Select.Controls.Add(this.label_Date);
-            this.metroPanel_Select.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metroPanel_Select.HorizontalScrollbarBarColor = true;
-            this.metroPanel_Select.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel_Select.HorizontalScrollbarSize = 12;
-            this.metroPanel_Select.Location = new System.Drawing.Point(0, 0);
-            this.metroPanel_Select.Margin = new System.Windows.Forms.Padding(4);
-            this.metroPanel_Select.Name = "metroPanel_Select";
-            this.metroPanel_Select.Size = new System.Drawing.Size(1180, 74);
-            this.metroPanel_Select.TabIndex = 8;
-            this.metroPanel_Select.VerticalScrollbarBarColor = true;
-            this.metroPanel_Select.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel_Select.VerticalScrollbarSize = 13;
+            this.metroTabControl1.Controls.Add(this.tabPage1);
+            this.metroTabControl1.Controls.Add(this.tabPage2);
+            this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabControl1.Location = new System.Drawing.Point(27, 131);
+            this.metroTabControl1.Name = "metroTabControl1";
+            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.Size = new System.Drawing.Size(1685, 946);
+            this.metroTabControl1.TabIndex = 10;
+            this.metroTabControl1.UseSelectable = true;
             // 
-            // metroCheckBox_completed
+            // tabPage1
             // 
-            this.metroCheckBox_completed.AutoSize = true;
-            this.metroCheckBox_completed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.metroCheckBox_completed.Location = new System.Drawing.Point(995, 15);
-            this.metroCheckBox_completed.Name = "metroCheckBox_completed";
-            this.metroCheckBox_completed.Size = new System.Drawing.Size(88, 17);
-            this.metroCheckBox_completed.TabIndex = 9;
-            this.metroCheckBox_completed.Text = "Completed";
-            this.metroCheckBox_completed.UseSelectable = true;
+            this.tabPage1.BackColor = System.Drawing.Color.White;
+            this.tabPage1.Controls.Add(this.splitContainer1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 38);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(1677, 904);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "CAR";
             // 
-            // label_ongoing
+            // tabPage2
             // 
-            this.label_ongoing.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label_ongoing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_ongoing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ongoing.Location = new System.Drawing.Point(671, 7);
-            this.label_ongoing.Name = "label_ongoing";
-            this.label_ongoing.Size = new System.Drawing.Size(100, 30);
-            this.label_ongoing.TabIndex = 8;
-            this.label_ongoing.Text = "Ongoing";
-            this.label_ongoing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.splitContainer2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 38);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(1677, 904);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Archive Notes";
             // 
-            // label_Initial
+            // splitContainer2
             // 
-            this.label_Initial.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label_Initial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Initial.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Initial.Location = new System.Drawing.Point(427, 7);
-            this.label_Initial.Name = "label_Initial";
-            this.label_Initial.Size = new System.Drawing.Size(100, 30);
-            this.label_Initial.TabIndex = 7;
-            this.label_Initial.Text = "Initial";
-            this.label_Initial.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4);
+            this.splitContainer2.Name = "splitContainer2";
             // 
-            // label_Fees
+            // splitContainer2.Panel1
             // 
-            this.label_Fees.Location = new System.Drawing.Point(354, 15);
-            this.label_Fees.Name = "label_Fees";
-            this.label_Fees.Size = new System.Drawing.Size(65, 23);
-            this.label_Fees.TabIndex = 6;
-            this.label_Fees.Text = "Fees";
+            this.splitContainer2.Panel1.Controls.Add(this.metroPanel2);
+            this.splitContainer2.Panel1.Controls.Add(this.dataGrid_ArchiveNotes);
             // 
-            // metroTextBox9
+            // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.metroPanel_ArchiveNote);
+            this.splitContainer2.Panel2.Controls.Add(this.metroPanel_ArchiveSelect);
+            this.splitContainer2.Size = new System.Drawing.Size(1677, 904);
+            this.splitContainer2.SplitterDistance = 500;
+            this.splitContainer2.SplitterWidth = 5;
+            this.splitContainer2.TabIndex = 8;
             // 
+            // metroPanel2
             // 
+            this.metroPanel2.Controls.Add(this.label_ArchiveNotes);
+            this.metroPanel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.metroPanel2.HorizontalScrollbarBarColor = true;
+            this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel2.HorizontalScrollbarSize = 10;
+            this.metroPanel2.Location = new System.Drawing.Point(0, 0);
+            this.metroPanel2.Name = "metroPanel2";
+            this.metroPanel2.Size = new System.Drawing.Size(500, 58);
+            this.metroPanel2.TabIndex = 9;
+            this.metroPanel2.VerticalScrollbarBarColor = true;
+            this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel2.VerticalScrollbarSize = 10;
             // 
-            this.metroTextBox9.CustomButton.Image = null;
-            this.metroTextBox9.CustomButton.Location = new System.Drawing.Point(122, 2);
-            this.metroTextBox9.CustomButton.Name = "";
-            this.metroTextBox9.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.metroTextBox9.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox9.CustomButton.TabIndex = 1;
-            this.metroTextBox9.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox9.CustomButton.UseSelectable = true;
-            this.metroTextBox9.CustomButton.Visible = false;
-            this.metroTextBox9.Lines = new string[0];
-            this.metroTextBox9.Location = new System.Drawing.Point(523, 7);
-            this.metroTextBox9.MaxLength = 32767;
-            this.metroTextBox9.Name = "metroTextBox9";
-            this.metroTextBox9.PasswordChar = '\0';
-            this.metroTextBox9.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox9.SelectedText = "";
-            this.metroTextBox9.SelectionLength = 0;
-            this.metroTextBox9.SelectionStart = 0;
-            this.metroTextBox9.ShortcutsEnabled = true;
-            this.metroTextBox9.Size = new System.Drawing.Size(150, 30);
-            this.metroTextBox9.TabIndex = 5;
-            this.metroTextBox9.UseSelectable = true;
-            this.metroTextBox9.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox9.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // label_ArchiveNotes
             // 
-            // metroTextBox8
+            this.label_ArchiveNotes.BackColor = System.Drawing.Color.White;
+            this.label_ArchiveNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ArchiveNotes.Location = new System.Drawing.Point(183, 15);
+            this.label_ArchiveNotes.Name = "label_ArchiveNotes";
+            this.label_ArchiveNotes.Size = new System.Drawing.Size(131, 23);
+            this.label_ArchiveNotes.TabIndex = 3;
+            this.label_ArchiveNotes.Text = "Archived Notes";
             // 
+            // dataGrid_ArchiveNotes
             // 
+            this.dataGrid_ArchiveNotes.DeleteQuestionMessage = "Are you sure to delete all the selected rows?";
+            this.dataGrid_ArchiveNotes.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGrid_ArchiveNotes.EnableSort = false;
+            this.dataGrid_ArchiveNotes.FixedRows = 1;
+            this.dataGrid_ArchiveNotes.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGrid_ArchiveNotes.Location = new System.Drawing.Point(0, 58);
+            this.dataGrid_ArchiveNotes.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGrid_ArchiveNotes.Name = "dataGrid_ArchiveNotes";
+            this.dataGrid_ArchiveNotes.SelectionMode = SourceGrid.GridSelectionMode.Row;
+            this.dataGrid_ArchiveNotes.Size = new System.Drawing.Size(500, 846);
+            this.dataGrid_ArchiveNotes.TabIndex = 7;
+            this.dataGrid_ArchiveNotes.TabStop = true;
+            this.dataGrid_ArchiveNotes.ToolTipText = "";
             // 
+            // metroPanel_ArchiveNote
             // 
-            this.metroTextBox8.CustomButton.Image = null;
-            this.metroTextBox8.CustomButton.Location = new System.Drawing.Point(122, 2);
-            this.metroTextBox8.CustomButton.Name = "";
-            this.metroTextBox8.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.metroTextBox8.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox8.CustomButton.TabIndex = 1;
-            this.metroTextBox8.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox8.CustomButton.UseSelectable = true;
-            this.metroTextBox8.CustomButton.Visible = false;
-            this.metroTextBox8.Lines = new string[0];
-            this.metroTextBox8.Location = new System.Drawing.Point(770, 7);
-            this.metroTextBox8.MaxLength = 32767;
-            this.metroTextBox8.Name = "metroTextBox8";
-            this.metroTextBox8.PasswordChar = '\0';
-            this.metroTextBox8.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox8.SelectedText = "";
-            this.metroTextBox8.SelectionLength = 0;
-            this.metroTextBox8.SelectionStart = 0;
-            this.metroTextBox8.ShortcutsEnabled = true;
-            this.metroTextBox8.Size = new System.Drawing.Size(150, 30);
-            this.metroTextBox8.TabIndex = 4;
-            this.metroTextBox8.UseSelectable = true;
-            this.metroTextBox8.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox8.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.metroPanel_ArchiveNote.BackColor = System.Drawing.Color.White;
+            this.metroPanel_ArchiveNote.Controls.Add(this.metroTextBox_ArchiveNote);
+            this.metroPanel_ArchiveNote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroPanel_ArchiveNote.HorizontalScrollbarBarColor = true;
+            this.metroPanel_ArchiveNote.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ArchiveNote.HorizontalScrollbarSize = 12;
+            this.metroPanel_ArchiveNote.Location = new System.Drawing.Point(0, 58);
+            this.metroPanel_ArchiveNote.Margin = new System.Windows.Forms.Padding(4);
+            this.metroPanel_ArchiveNote.Name = "metroPanel_ArchiveNote";
+            this.metroPanel_ArchiveNote.Size = new System.Drawing.Size(1172, 846);
+            this.metroPanel_ArchiveNote.TabIndex = 9;
+            this.metroPanel_ArchiveNote.UseCustomBackColor = true;
+            this.metroPanel_ArchiveNote.VerticalScrollbarBarColor = true;
+            this.metroPanel_ArchiveNote.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ArchiveNote.VerticalScrollbarSize = 13;
             // 
-            // metroTextBox_NoteDate
+            // metroTextBox_ArchiveNote
             // 
             // 
             // 
             // 
-            this.metroTextBox_NoteDate.CustomButton.Image = null;
-            this.metroTextBox_NoteDate.CustomButton.Location = new System.Drawing.Point(147, 2);
-            this.metroTextBox_NoteDate.CustomButton.Name = "";
-            this.metroTextBox_NoteDate.CustomButton.Size = new System.Drawing.Size(25, 25);
-            this.metroTextBox_NoteDate.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroTextBox_NoteDate.CustomButton.TabIndex = 1;
-            this.metroTextBox_NoteDate.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.metroTextBox_NoteDate.CustomButton.UseSelectable = true;
-            this.metroTextBox_NoteDate.CustomButton.Visible = false;
-            this.metroTextBox_NoteDate.Lines = new string[0];
-            this.metroTextBox_NoteDate.Location = new System.Drawing.Point(115, 7);
-            this.metroTextBox_NoteDate.MaxLength = 32767;
-            this.metroTextBox_NoteDate.Name = "metroTextBox_NoteDate";
-            this.metroTextBox_NoteDate.PasswordChar = '\0';
-            this.metroTextBox_NoteDate.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.metroTextBox_NoteDate.SelectedText = "";
-            this.metroTextBox_NoteDate.SelectionLength = 0;
-            this.metroTextBox_NoteDate.SelectionStart = 0;
-            this.metroTextBox_NoteDate.ShortcutsEnabled = true;
-            this.metroTextBox_NoteDate.Size = new System.Drawing.Size(175, 30);
-            this.metroTextBox_NoteDate.TabIndex = 3;
-            this.metroTextBox_NoteDate.UseSelectable = true;
-            this.metroTextBox_NoteDate.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.metroTextBox_NoteDate.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.metroTextBox_ArchiveNote.CustomButton.Image = null;
+            this.metroTextBox_ArchiveNote.CustomButton.Location = new System.Drawing.Point(328, 2);
+            this.metroTextBox_ArchiveNote.CustomButton.Name = "";
+            this.metroTextBox_ArchiveNote.CustomButton.Size = new System.Drawing.Size(841, 841);
+            this.metroTextBox_ArchiveNote.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox_ArchiveNote.CustomButton.TabIndex = 1;
+            this.metroTextBox_ArchiveNote.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox_ArchiveNote.CustomButton.UseSelectable = true;
+            this.metroTextBox_ArchiveNote.CustomButton.Visible = false;
+            this.metroTextBox_ArchiveNote.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.metroTextBox_ArchiveNote.Enabled = false;
+            this.metroTextBox_ArchiveNote.Lines = new string[0];
+            this.metroTextBox_ArchiveNote.Location = new System.Drawing.Point(0, 0);
+            this.metroTextBox_ArchiveNote.MaxLength = 32767;
+            this.metroTextBox_ArchiveNote.Multiline = true;
+            this.metroTextBox_ArchiveNote.Name = "metroTextBox_ArchiveNote";
+            this.metroTextBox_ArchiveNote.PasswordChar = '\0';
+            this.metroTextBox_ArchiveNote.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox_ArchiveNote.SelectedText = "";
+            this.metroTextBox_ArchiveNote.SelectionLength = 0;
+            this.metroTextBox_ArchiveNote.SelectionStart = 0;
+            this.metroTextBox_ArchiveNote.ShortcutsEnabled = true;
+            this.metroTextBox_ArchiveNote.Size = new System.Drawing.Size(1172, 846);
+            this.metroTextBox_ArchiveNote.TabIndex = 2;
+            this.metroTextBox_ArchiveNote.UseSelectable = true;
+            this.metroTextBox_ArchiveNote.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox_ArchiveNote.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // label_Date
+            // metroPanel_ArchiveSelect
             // 
-            this.label_Date.Location = new System.Drawing.Point(16, 15);
-            this.label_Date.Name = "label_Date";
-            this.label_Date.Size = new System.Drawing.Size(100, 23);
-            this.label_Date.TabIndex = 2;
-            this.label_Date.Text = "Note Date...";
+            this.metroPanel_ArchiveSelect.Dock = System.Windows.Forms.DockStyle.Top;
+            this.metroPanel_ArchiveSelect.HorizontalScrollbarBarColor = true;
+            this.metroPanel_ArchiveSelect.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ArchiveSelect.HorizontalScrollbarSize = 12;
+            this.metroPanel_ArchiveSelect.Location = new System.Drawing.Point(0, 0);
+            this.metroPanel_ArchiveSelect.Margin = new System.Windows.Forms.Padding(4);
+            this.metroPanel_ArchiveSelect.Name = "metroPanel_ArchiveSelect";
+            this.metroPanel_ArchiveSelect.Size = new System.Drawing.Size(1172, 58);
+            this.metroPanel_ArchiveSelect.TabIndex = 8;
+            this.metroPanel_ArchiveSelect.VerticalScrollbarBarColor = true;
+            this.metroPanel_ArchiveSelect.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel_ArchiveSelect.VerticalScrollbarSize = 13;
             // 
             // multiLineTextEditor
             // 
@@ -2483,30 +2700,6 @@ namespace Finx.App.Forms
             this.panel.VerticalScrollbarHighlightOnWheel = false;
             this.panel.VerticalScrollbarSize = 10;
             // 
-            // xInput_ShowCompletedTasks
-            // 
-            this.xInput_ShowCompletedTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.xInput_ShowCompletedTasks.BackColor = System.Drawing.Color.Transparent;
-            this.xInput_ShowCompletedTasks.ControlTypes = Finx.App.UserControls.ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.ControlWidth = 40;
-            this.xInput_ShowCompletedTasks.DataSource = null;
-            this.xInput_ShowCompletedTasks.DisplayMember = "Text";
-            this.xInput_ShowCompletedTasks.Dock = System.Windows.Forms.DockStyle.Top;
-            this.xInput_ShowCompletedTasks.LablePosition = Finx.App.UserControls.LablePosition.Left;
-            this.xInput_ShowCompletedTasks.LableText = "Policy Type:";
-            this.xInput_ShowCompletedTasks.Location = new System.Drawing.Point(0, 0);
-            this.xInput_ShowCompletedTasks.MappedField = null;
-            this.xInput_ShowCompletedTasks.Margin = new System.Windows.Forms.Padding(0);
-            this.xInput_ShowCompletedTasks.MinimumSize = new System.Drawing.Size(67, 37);
-            this.xInput_ShowCompletedTasks.Model = null;
-            this.xInput_ShowCompletedTasks.Name = "xInput_ShowCompletedTasks";
-            this.xInput_ShowCompletedTasks.Padding = new System.Windows.Forms.Padding(1);
-            this.xInput_ShowCompletedTasks.ReadOnly = false;
-            this.xInput_ShowCompletedTasks.Size = new System.Drawing.Size(500, 37);
-            this.xInput_ShowCompletedTasks.TabIndex = 6;
-            this.xInput_ShowCompletedTasks.Value = null;
-            this.xInput_ShowCompletedTasks.ValueMember = "Value";
-            // 
             // xToolBarMenu1
             // 
             this.xToolBarMenu1.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
@@ -2525,7 +2718,7 @@ namespace Finx.App.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1739, 1102);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.metroTabControl1);
             this.Controls.Add(this.xToolBarMenu1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMetroClientAdviceRecord";
@@ -2535,6 +2728,9 @@ namespace Finx.App.Forms
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.metroPanel_PolicyType.ResumeLayout(false);
+            this.metroPanel_Select.ResumeLayout(false);
+            this.metroPanel_Select.PerformLayout();
             this.metroPanel_AdviceRecord.ResumeLayout(false);
             this.metroPanel_AdviceRecord.PerformLayout();
             this.metroPanel_ImplementationMotivation.ResumeLayout(false);
@@ -2560,12 +2756,20 @@ namespace Finx.App.Forms
             this.metroPanel_AccessCapital.ResumeLayout(false);
             this.metroPanel_PKE.ResumeLayout(false);
             this.metroPanel_InvestHorizen.ResumeLayout(false);
-            this.metroPanel_Select.ResumeLayout(false);
-            this.metroPanel_Select.PerformLayout();
+            this.metroTabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.metroPanel2.ResumeLayout(false);
+            this.metroPanel_ArchiveNote.ResumeLayout(false);
             this.panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
+
 
         #endregion
 
@@ -2617,8 +2821,8 @@ namespace Finx.App.Forms
             //HospitalPreference
             vl_Preference.Text = "Hospital Preference";
             vTableLbls.Add(this.vl_Preference);
-            listBoxes.Add(this.cmb_HospitalDiscussed);
-            listBoxes.Add(this.cmb_HospitalTaken);
+            listBoxes.Add(this.cmb_HospitalPreferenceDiscussed);
+            listBoxes.Add(this.cmb_HospitalPreferenceTaken);
             textBoxes.Add(this.tb_hospitalPreference);
 
             //Gap Cover
@@ -2949,7 +3153,7 @@ namespace Finx.App.Forms
             hTableLbls.Add(this.hl_FinancialPlannningNeed);
 
             //Needs Qualified
-            this.hl_NeedsQualified.Text = "Needs Qualified";
+            this.hl_NeedsQualified.Text = "Needs Quantified";
             hTableLbls.Add(this.hl_NeedsQualified);
 
             //Priority of needs to be addressed
@@ -3203,7 +3407,6 @@ namespace Finx.App.Forms
         private System.Windows.Forms.SplitContainer splitContainer1;
         private MetroFramework.Controls.MetroPanel metroPanel_AdviceRecord;
         private MetroFramework.Controls.MetroPanel metroPanel_Select;
-        private UserControls.xInput xInput_ShowCompletedTasks;
         private SourceGrid.DataGrid dataGrid_Notes;
         private MetroFramework.Controls.MetroLabel metroLabel_NeedsAndObj;
         private MetroFramework.Controls.MetroLabel metroLabel_AccessToCapitalHint;
@@ -3282,8 +3485,8 @@ namespace Finx.App.Forms
         private Label label_ongoing;
         private Label label_Initial;
         private Label label_Fees;
-        private MetroTextBox metroTextBox9;
-        private MetroTextBox metroTextBox8;
+        private MetroTextBox metroTextBox_InitialFee;
+        private MetroTextBox metroTextBox_OngoingFee;
         private MetroTextBox metroTextBox_NoteDate;
         private Label label_Date;
         private MetroCheckBox metroCheckBox_completed;
@@ -3338,5 +3541,17 @@ namespace Finx.App.Forms
         private MetroTextBox metroTextBox_ImplementationMotivation;
         private MetroLabel metroLabel_ImplementationMotivation;
         private TableLayoutPanel tblPanel_RiskNeedsAndGoals;
+        private MetroTabControl metroTabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private SplitContainer splitContainer2;
+        private SourceGrid.DataGrid dataGrid_ArchiveNotes;
+        private MetroPanel metroPanel_ArchiveNote;
+        private MetroPanel metroPanel_ArchiveSelect;
+        private MetroPanel metroPanel_PolicyType;
+        private Label label_PolicyType;
+        private MetroPanel metroPanel2;
+        private Label label_ArchiveNotes;
+        private MetroTextBox metroTextBox_ArchiveNote;
     }
 }

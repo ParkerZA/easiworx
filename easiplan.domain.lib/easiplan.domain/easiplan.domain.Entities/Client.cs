@@ -696,20 +696,24 @@ namespace easiplan.domain.Entities
                     Type = retirement.Type
                 });
             }
+            //Add Assets allocated to retirement
             foreach (IncomeAsset incomeAsset in ClientPortfolio.IncomeAssetsBindingList)
             {
-                ClientFna.HavesBindingList.Add(new Have
+                if (incomeAsset.RetirementIncome)
                 {
-                    Description = incomeAsset.Description,
-                    CurrentAmount = incomeAsset.InitialAmount,
-                    FutureAmount = incomeAsset.FutureAmount,
-                    GrowthPercentage = incomeAsset.GrowthPercentage,
-                    EscalationPercentage = incomeAsset.EscalationPercentage,
-                    InvestmentAge = incomeAsset.InvestmentAge,
-                    InvestmentYears = incomeAsset.InvestmentYears,
-                    Status = incomeAsset.Status,
-                    Type = incomeAsset.Type
-                });
+                    ClientFna.HavesBindingList.Add(new Have
+                    {
+                        Description = incomeAsset.Description,
+                        CurrentAmount = incomeAsset.InitialAmount,
+                        FutureAmount = incomeAsset.FutureAmount,
+                        GrowthPercentage = incomeAsset.GrowthPercentage,
+                        EscalationPercentage = incomeAsset.EscalationPercentage,
+                        InvestmentAge = incomeAsset.InvestmentAge,
+                        InvestmentYears = incomeAsset.InvestmentYears,
+                        Status = incomeAsset.Status,
+                        Type = incomeAsset.Type
+                    });
+                }
             }
         }
 

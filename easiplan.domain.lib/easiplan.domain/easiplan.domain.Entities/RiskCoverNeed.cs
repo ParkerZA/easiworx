@@ -12,6 +12,21 @@ namespace easiplan.domain.Entities
 {
 	public class RiskCoverNeed : Need
 	{
+        [IgnoreAutoMap]
+        public virtual new RiskAdviceRecord CurrentAdviceRecord
+        {
+            get
+            {
+                if (this.RiskAdviceRecords == null || this.RiskAdviceRecords.Count == 0)
+                    this.RiskAdviceRecords.Add(new RiskAdviceRecord());
+
+                return this.RiskAdviceRecords.LastOrDefault();
+            }
+            set
+            {
+
+            }
+        }
         #region Properties
         /// <summary>
         /// The Risk Cover type
@@ -93,8 +108,9 @@ namespace easiplan.domain.Entities
 			Funds = new List<Fund>();
 			Notes = new List<Note>();
 			NeedType = NeedTypes.RiskNeed;
+            RiskAdviceRecords = new List<RiskAdviceRecord>();   
 
-			IsLoading = false;
+            IsLoading = false;
 		}
 
 		public override void Calculate()

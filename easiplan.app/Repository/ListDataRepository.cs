@@ -512,10 +512,25 @@ namespace Finx.App
             //Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Disability Cover", "Disability Cover"));
             //Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Dreaded Disease", "Dreaded Disease"));
             //Items.Add(new ListDataItem(ListDataItemType.RiskCoverType, "Income Protection", "Income Protection"));
-           
 
-            Items.Add(new ListDataItem(ListDataItemType.YesNo, false, "No"));
             Items.Add(new ListDataItem(ListDataItemType.YesNo, true, "Yes"));
+            Items.Add(new ListDataItem(ListDataItemType.YesNo, false, "No"));
+
+            Items.Add(new ListDataItem(ListDataItemType.YesNoString, "", ""));
+            Items.Add(new ListDataItem(ListDataItemType.YesNoString, "Yes", "Yes"));
+            Items.Add(new ListDataItem(ListDataItemType.YesNoString, "No", "No"));
+
+            Items.Add(new ListDataItem(ListDataItemType.NeedAdressed, "", ""));
+            Items.Add(new ListDataItem(ListDataItemType.NeedAdressed, "Yes", "Yes"));
+            Items.Add(new ListDataItem(ListDataItemType.NeedAdressed, "No", "No"));
+            Items.Add(new ListDataItem(ListDataItemType.NeedAdressed, "Partially", "Partially"));
+            Items.Add(new ListDataItem(ListDataItemType.NeedAdressed, "Later", "Later"));
+
+            Items.Add(new ListDataItem(ListDataItemType.NeedPriority, "", ""));
+            Items.Add(new ListDataItem(ListDataItemType.NeedPriority, "Low", "Low"));
+            Items.Add(new ListDataItem(ListDataItemType.NeedPriority, "Medium", "Medium"));
+            Items.Add(new ListDataItem(ListDataItemType.NeedPriority, "High", "High"));
+           
 
         }
 
@@ -600,7 +615,10 @@ namespace Finx.App
         RiskNeedsType,
         RiskPolicyType,
         RiskCoverType,
-        YesNo
+        YesNo,
+        YesNoString,
+        NeedAdressed,
+        NeedPriority
 
 
     }

@@ -30,6 +30,8 @@ namespace easiplan.domain.Entities
         private string _initialRecommendation;
         private string _implementedProduct;
         private string _implementedMotivation;
+        private double _initialFee;
+        private double _ongoingFee;
 
         private bool _IsCompleted;
 
@@ -40,6 +42,8 @@ namespace easiplan.domain.Entities
         
         public ClientAdviceRecord(ClientAdviceRecord copy)
         { 
+
+
             this._clientName= copy._clientName;
             this._adviserName= copy._adviserName;
             this._venue= copy._venue;
@@ -107,10 +111,48 @@ namespace easiplan.domain.Entities
             }
         }
 
+        //Date that the CAR form was created
         public virtual DateTime AdviceDate
         {
-            get => base.CreateDate; set => base.CreateDate = value;
+            get
+            {
+                return base.CreateDate;
+            }
+            set
+            {
+                base.CreateDate = value;
+                InvokePropertyChanged("AdviceDate");
+            }
         }
+
+        //Clients initial fee
+        public virtual double InitialFee
+        {
+            get 
+            {
+                return _initialFee;
+            }
+            set
+            {
+                _initialFee = value;
+                InvokePropertyChanged("InitialFee");
+            }
+        }
+
+        //Clients ongoing fee
+        public virtual double OngoingFee
+        {
+            get
+            {
+                return _ongoingFee;
+            }
+            set
+            {
+                _ongoingFee = value;
+                InvokePropertyChanged("OngoingFee");
+            }
+        }
+
 
         //Name of the client that owns the policy
         public virtual string ClientName
@@ -153,6 +195,7 @@ namespace easiplan.domain.Entities
             {
                 _productKnowledge = value;
                 InvokePropertyChanged("ProductKnowledge");
+                
             }
         }
 

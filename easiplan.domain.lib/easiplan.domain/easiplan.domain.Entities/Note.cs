@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using my.domain.lib.core.Attributes;
 
 namespace easiplan.domain.Entities
@@ -9,7 +10,8 @@ namespace easiplan.domain.Entities
 
 		private bool _IsCompleted;
 
-		public virtual string Type
+        [IgnoreDataMember]
+        public virtual string Type
 		{
 			get;
 			set;
@@ -41,8 +43,8 @@ namespace easiplan.domain.Entities
 				InvokePropertyChanged("IsCompleted");
 			}
 		}
-
-		public virtual int InstructionId
+        [IgnoreDataMember]
+        public virtual int InstructionId
 		{
 			get;
 			set;

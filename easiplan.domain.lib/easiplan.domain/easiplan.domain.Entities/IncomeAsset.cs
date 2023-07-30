@@ -39,6 +39,7 @@ namespace easiplan.domain.Entities
             get;
             set;
         }
+        [IgnoreDataMember]
         public virtual int ReferenceId
         {
             get;
@@ -51,15 +52,16 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Fund> FundsBindingList { get; set; }
 
-
+        [IgnoreDataMember]
         public virtual IList<Note> Notes
         {
             get;
             set;
         }
-
+        [IgnoreDataMember]
         public virtual IList<ClientAdviceRecord> AdviceRecords
         {
             get;
@@ -67,12 +69,14 @@ namespace easiplan.domain.Entities
         }
 
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual IList<Need> Amendments
         {
             get;
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Need> AmendmentsBindingList { get; set; }
 
         public virtual IList<ClientDependent> Beneficiaries
@@ -81,6 +85,7 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<ClientDependent> BeneficiariesBindingList { get; set; }
 
         public virtual double FundsSplitPerc
@@ -115,14 +120,28 @@ namespace easiplan.domain.Entities
         {
             get
             {
-                if (this.AdviceRecords.Count == 0)
-                    return null;
+                if (this.AdviceRecords == null || this.AdviceRecords.Count == 0)
+                    this.AdviceRecords.Add(new ClientAdviceRecord());
 
                 return this.AdviceRecords.LastOrDefault();
             }
             set { }
         }
+        [IgnoreAutoMap]
+        public virtual Note CurrentNote
+        {
+            get
+            {
+                if (this.Notes == null || this.Notes.Count == 0)
+                    this.Notes.Add(new Note() { });
 
+                return this.Notes.LastOrDefault();
+            }
+            set
+            {
+
+            }
+        }
         [IgnoreAutoMap]
         public virtual DateTime AdviceDate
         {
@@ -172,6 +191,8 @@ namespace easiplan.domain.Entities
             Notes = new List<Note>();
             Amendments = new List<Need>();
             Beneficiaries = new List<ClientDependent>();
+            AdviceRecords = new List<ClientAdviceRecord>();
+
             Status = "Pending";
         }
 
