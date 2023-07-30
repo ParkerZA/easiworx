@@ -138,6 +138,8 @@ namespace my.domain.lib.core.Domain
             PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if (propertyChanged == null)
                 return;
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
             propertyChanged((object)this, new PropertyChangedEventArgs(propertyName));
         }
 

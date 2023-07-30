@@ -20,15 +20,31 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				if (this.AdviceRecords.Count == 0)
-					return new ClientAdviceRecord();
+				if (this.AdviceRecords==null || this.AdviceRecords.Count == 0)
+                    this.AdviceRecords.Add( new ClientAdviceRecord() { IsLoading=true});
 
 				return this.AdviceRecords.LastOrDefault();
-			} set { }
+			} set { 
+			
+			}
 		}
+        [IgnoreAutoMap]
+        public virtual Note CurrentNote
+        {
+            get
+            {
+                if (this.Notes == null || this.Notes.Count == 0)
+                    this.Notes.Add(new Note() {  });
 
-		[IgnoreAutoMap]
-        [IgnoreDataMember]
+                return this.Notes.LastOrDefault();
+            }
+            set
+            {
+
+            }
+        }
+
+        [IgnoreAutoMap]
         public virtual DateTime AdviceDate
 		{
 			get { return CurrentAdviceRecord == null ? DateTime.Now : CurrentAdviceRecord.AdviceDate; }
@@ -102,6 +118,7 @@ namespace easiplan.domain.Entities
             get;
             set;
         }
+        [IgnoreDataMember]
         public virtual int ReferenceId
 		{
 			get;
@@ -130,8 +147,10 @@ namespace easiplan.domain.Entities
 			get;
 			set; 
 		}
+		
 
-        [IgnoreAutoMap]
+		[IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual IList<Need> Amendments
 		{
 			get;
@@ -170,9 +189,10 @@ namespace easiplan.domain.Entities
             IsLoading = true;
 
             Funds = new List<Fund>();
-            Notes = new List<Note>();
+			Notes = new List<Note>();
 			Amendments = new List<Need>();
             Beneficiaries = new List<ClientDependent>();
+			AdviceRecords = new List<ClientAdviceRecord>();
 
 			Status = "Pending";
 
@@ -194,7 +214,7 @@ namespace easiplan.domain.Entities
             BeneficiariesBindingList.RaiseListChangedEvents = true;
             BeneficiariesBindingList.ListChanged += BindingList_ListChanged;
 
-            base.Initialise(isLoading);
+			base.Initialise(isLoading);
 		}
 
         private void BindingList_ListChanged(object sender, ListChangedEventArgs e)

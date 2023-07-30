@@ -1,4 +1,6 @@
-﻿using System;
+﻿using my.domain.lib.core.Attributes;
+using my.domain.lib.core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -101,6 +103,56 @@ namespace easiplan.domain.Entities
             set
             {
                 _reviewDate = value;
+                InvokePropertyChanged("ReviewDate");
+            }
+        }
+
+        [IgnoreAutoMap]
+        public virtual double? NeedsQuantifiedAsDouble
+        {
+            get
+            {
+                {
+                    return string.IsNullOrEmpty(_needsQuantified) ? null :(double?) double.Parse(_needsQuantified);
+                }
+            }
+            set
+            {
+                _needsQuantified = value.ToString();
+                InvokePropertyChanged("NeedsQuantified");
+            }
+        }
+
+        [IgnoreAutoMap]
+        public virtual double? ShortfallAsDouble
+        {
+            get
+            {
+                {
+                    return string.IsNullOrEmpty(_shortfall) ? null: (double?)double.Parse(_shortfall);
+                }
+            }
+            set
+            {
+                _shortfall = value.ToString();
+                InvokePropertyChanged("Shortfall");
+            }
+        }
+
+        [IgnoreAutoMap]
+        public virtual DateTime? ReviewDateAsDate
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_reviewDate)?null: DateTime.Parse(_reviewDate) as DateTime?;
+            }
+            set
+            {   if(value!=null) {
+                    _reviewDate = value.ToString();
+                    
+                }else{
+                    _reviewDate = "";
+                }
                 InvokePropertyChanged("ReviewDate");
             }
         }

@@ -1,4 +1,5 @@
-﻿using easiplan.app.Models;
+﻿using easiplan.app.Forms;
+using easiplan.app.Models;
 using easiplan.domain.Entities;
 using easiplan.domain.Views;
 using Finx.App;
@@ -32,7 +33,8 @@ namespace easiplan.app.ContextMenus
 
         frmMetroPolicyFunds frmPolicyFunds = null;
         frmMetroPolicyNotes frmPolicyNotes = null;
-        frmMetroClientAdviceRecord frmClientAdviceRecord = null;
+        //frmMetroClientAdviceRecord frmClientAdviceRecord = null;
+        frmClientAdviceRecord frmClientAdviceRecord = null;
 
         EventHandler _OnCompleted;
 
@@ -78,10 +80,10 @@ namespace easiplan.app.ContextMenus
                     _menu.AddMenuItem("Amend Policy", new EventHandler(AmendPortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Policy History", new EventHandler(PolicyHistory_Click)).Enabled = !ReadOnly;
+                    //_menu.AddMenuItem("-");
+                    //_menu.AddMenuItem("Policy Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; 
                     _menu.AddMenuItem("-");
-                    _menu.AddMenuItem("Policy Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; 
-                    _menu.AddMenuItem("-");
-                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("Advice Record / Notes", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
                     _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Cancel Policy", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     if (contextMenuType == ContextMenuType.RetirementPortfolio)
@@ -99,9 +101,9 @@ namespace easiplan.app.ContextMenus
 
                     break;
                 case ContextMenuType.AssetPortfolio:
-                    _menu.AddMenuItem("Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
+                    //_menu.AddMenuItem("Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly; ;
                     _menu.AddMenuItem("-");
-                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("Advice Record / Notes", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly;
                     _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Remove", new EventHandler(RemovePortfolio_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
                     break;
@@ -110,10 +112,10 @@ namespace easiplan.app.ContextMenus
                 case ContextMenuType.InvestmentFna:
                 case ContextMenuType.RiskCoverFna:
                     _menu.AddMenuItem("Accept Advice", new EventHandler(UpdateFna_Click)).Enabled = !ReadOnly && (Program.User.IsAdministrator || Program.User.IsAdvisor);
+                    //_menu.AddMenuItem("-");
+                    //_menu.AddMenuItem("Advice Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly;
                     _menu.AddMenuItem("-");
-                    _menu.AddMenuItem("Advice Notes", new EventHandler(PolicyNotes_Click)).Enabled = !ReadOnly;
-                    _menu.AddMenuItem("-");
-                    _menu.AddMenuItem("Client Advice Record", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly; ;
+                    _menu.AddMenuItem("Advice Record / Notes", new EventHandler(ClientAdviceRecord_Click)).Enabled = !ReadOnly; ;
                     //_menu.MenuItems.Add("-");
                     //_menu.MenuItems.Add("Remove Advice", new EventHandler(RemoveFna_Click)).Enabled = !ReadOnly;
                     break;
@@ -754,34 +756,34 @@ namespace easiplan.app.ContextMenus
                 switch (_contextMenuType)
                 {
                     case ContextMenuType.RetirementPortfolio:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Retirement, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as Retirement, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.InvestmentPortfolio:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Investment, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as Investment, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.EducationPortfolio:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Education, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as Education, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.MedicalPortfolio:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Medical, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as Medical, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.LifePortfolio:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Life, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as Life, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.AssetPortfolio:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as IncomeAsset, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as IncomeAsset, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.RetirementFna:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as Need, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as Need, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.EducationFna:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as EducationNeed, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as EducationNeed, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.InvestmentFna:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as InvestmentNeed, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as InvestmentNeed, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     case ContextMenuType.RiskCoverFna:
-                        frmClientAdviceRecord = new frmMetroClientAdviceRecord(_selectedItem as RiskCoverNeed, ReadOnly, PolicyAction.AmendPolicy);
+                        frmClientAdviceRecord = new frmClientAdviceRecord(_selectedItem as RiskCoverNeed, ReadOnly, PolicyAction.AmendPolicy);
                         break;
                     /*
                 case ContextMenuType.ClientInstruction:
@@ -797,7 +799,7 @@ namespace easiplan.app.ContextMenus
 
                 using (new AppWaitCursor(sender))
                 {
-                    frmClientAdviceRecord.WindowState = FormWindowState.Maximized;
+                    //frmClientAdviceRecord.WindowState = FormWindowState.Maximized;
                     frmClientAdviceRecord.Show();
                 }
 

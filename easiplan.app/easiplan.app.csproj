@@ -627,6 +627,12 @@
     <Compile Include="Forms\baseSlidingForm.Designer.cs">
       <DependentUpon>baseSlidingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmClientAdviceRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmClientAdviceRecord.Designer.cs">
+      <DependentUpon>frmClientAdviceRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmCsvImportProgressWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -881,6 +887,30 @@
     <Compile Include="UserControls\xCalendar.Designer.cs">
       <DependentUpon>xCalendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\xCheckBoxHOption.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxHOption.Designer.cs">
+      <DependentUpon>xCheckBoxHOption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\bBoundUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\bBoundUserControl.Designer.cs">
+      <DependentUpon>bBoundUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xTextBoxH.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xTextBoxH.Designer.cs">
+      <DependentUpon>xTextBoxH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxListH.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxListH.Designer.cs">
+      <DependentUpon>xCheckBoxListH.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\xCheckBoxList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -938,6 +968,9 @@
     <EmbeddedResource Include="Forms\baseSlidingForm.resx">
       <DependentUpon>baseSlidingForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmClientAdviceRecord.resx">
+      <DependentUpon>frmClientAdviceRecord.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientManagement.resx">
       <DependentUpon>frmClientManagement.cs</DependentUpon>
@@ -1058,6 +1091,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\xCalendar.resx">
       <DependentUpon>xCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xCheckBoxHOption.resx">
+      <DependentUpon>xCheckBoxHOption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\bBoundUserControl.resx">
+      <DependentUpon>bBoundUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xTextBoxH.resx">
+      <DependentUpon>xTextBoxH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xCheckBoxListH.resx">
+      <DependentUpon>xCheckBoxListH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\xCheckBoxList.resx">
       <DependentUpon>xCheckBoxList.cs</DependentUpon>

@@ -13,12 +13,12 @@ namespace easiplan.domain.Entities
         private string _coverTaken;
         private string _coverComment;
 
-
         public MedicalAidNeedsAndGoalsTableRow()
         {
             this._coverDiscussed = string.Empty;
-            this.CoverTaken= string.Empty;
-            this._coverComment= string.Empty;
+            this.CoverTaken = string.Empty;
+            this._coverComment = string.Empty;
+
         }
 
         public MedicalAidNeedsAndGoalsTableRow(MedicalAidNeedsAndGoalsTableRow copy)

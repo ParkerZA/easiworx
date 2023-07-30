@@ -44,6 +44,7 @@ namespace Finx.App.Forms
         bool _readOnlyForAdmin = true;
         bool _readOnlyForAdminClerk = true;
         bool _isInitialising = false;
+
         public int clientId = 0;
 
         Client client;
@@ -58,7 +59,6 @@ namespace Finx.App.Forms
         List<ListDataItem> LifeInsurersPlans = new List<ListDataItem>();
 
         //Popup DataGrid for PolicyFunds
-
         SourceGrid.DataGrid dataGrid_PolicyFunds = new SourceGrid.DataGrid() { Name = "dataGrid_PolicyFunds" };
 
         //Keep track of which tab is currently selected
@@ -133,6 +133,8 @@ namespace Finx.App.Forms
                 client.Initialise();
                 client.PropertyChanged -= Client_PropertyChanged;
                 client.PropertyChanged += Client_PropertyChanged;
+
+               
                 #endregion
 
                 #region Load Service Providers
@@ -154,6 +156,12 @@ namespace Finx.App.Forms
                 {
                     foreach (var lisp in Program.ServiceProviders.LifeProviders.LifeInsurers)
                         LifeInsurers.Add(new ListDataItem(ListDataItemType.Lisp, lisp.InsurerName, lisp.InsurerName));
+                }
+
+                if (Program.ServiceProviders != null)
+                {
+                    //Initialise client portfolio so that values are present for graph display
+                    client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
                 }
                 #endregion
 
@@ -304,10 +312,9 @@ namespace Finx.App.Forms
                 //Select the current tab
                 MetroTabControl_Main_Selected(this.metroTabControl_Main, _currentTabControlEventArgs);
 
-                Size _size = new Size(width: 520, height:600);
-                this.kgbMemberDetails.Size=_size;
+                Size _size = new Size(width: 520, height: 600);
+                this.kgbMemberDetails.Size = _size;
                 this.kgbSpouseDetails.Size = _size;
-
 
             }
             catch (Exception x)
@@ -363,10 +370,12 @@ namespace Finx.App.Forms
                 //get the current active tab page 
                 TabPage t = this.metroTabControl_Main.TabPages[e.TabPageIndex];
 
+                client.ClientPortfolio.Initialise();
+                client.ClientPortfolio.Calculate();
+
                 switch (t.Tag)
                 {
                     case 0:
-
 
                         #region Personal Details
                         client.ClientDetails.Initialise(true);
@@ -565,13 +574,6 @@ namespace Finx.App.Forms
                     case 1:
                         #region Assets and Liabilities
 
-                        //Initialise client portfolio so that values are present for graph display
-                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
-
-                        client.ClientPortfolio.Initialise();
-                        client.ClientPortfolio.Calculate();
-
-
                         client.ClientAssets.Initialise();
                         this.dataGrid_ClientAssets.Initialise1<Asset>(client.ClientAssets.AssetsBindingList, column =>
                         {
@@ -602,15 +604,8 @@ namespace Finx.App.Forms
                         break;
                     case 2:
 
-                        //Initialise client portfolio so that values are present income and expense grid
-                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
-
-                        client.ClientPortfolio.Initialise();
-                        client.ClientPortfolio.Calculate();
-
-                        client.ClientIncomes.Initialise();
                         #region Income
-
+                        client.ClientIncomes.Initialise();
                         this.dataGrid_ClientIncomes.Initialise1<Income>(client.ClientIncomes.IncomesBindingList, column =>
                         {
                             column.For(x => x.Type, "Income Type", new ComboBoxEditor(ListDataItemType.IncomeTypes));
@@ -623,8 +618,8 @@ namespace Finx.App.Forms
                         ).Format1(_readOnly);
                         #endregion
 
-                        client.ClientExpenses.Initialise();
                         #region Expenses
+                        client.ClientExpenses.Initialise();
                         this.dataGrid_ClientExpenses.Initialise1<Expense>(client.ClientExpenses.ExpensesBindingList, column =>
                         {
                             column.For(x => x.Type, "Expense Type", new ComboBoxEditor(ListDataItemType.ExpenseTypes));
@@ -644,8 +639,6 @@ namespace Finx.App.Forms
                         break;
                     case 3:
                         #region CurrentPortfolio
-
-                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
 
                         client.ClientPortfolio.Initialise();
                         client.ClientPortfolio.Calculate();
@@ -785,12 +778,6 @@ namespace Finx.App.Forms
                     case 4:
                         #region Retirement FNA
 
-                        //Initialise client portfolio so that values are present for graph display
-                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
-
-                        client.ClientPortfolio.Initialise();
-                        client.ClientPortfolio.Calculate();
-
                         //Initialise Retirement FNA
                         client.ClientFna.ServiceProvider = Program.ServiceProviders;
 
@@ -912,6 +899,7 @@ namespace Finx.App.Forms
                         .Format1(_readOnly, fixedCols: 3);
 
                         #endregion
+
                         RefreshClientFnaSummary();
                         break;
                     case 5:
@@ -1301,9 +1289,6 @@ namespace Finx.App.Forms
 
                         #region Client Advise Records
 
-                        client.ClientPortfolio.Initialise();
-                        client.ClientPortfolio.Calculate();
-
                         //Retirement Portfolio CAR data grid
                         this.dataGrid_CARRetirement.Initialise1<Retirement>(client.ClientPortfolio.RetirementsBindingList, column =>
                         {
@@ -1470,6 +1455,7 @@ namespace Finx.App.Forms
                         this.dataGrid_ClientAdminTasks.Columns[6].DataCell.View = new InstructionsStatusView();
 
                         #endregion
+
                         ShowAdminTasks1(this.metroCheckBox1.Checked);
                         break;
                     case 9:
@@ -1493,6 +1479,7 @@ namespace Finx.App.Forms
                         .Format1(_readOnly);
 
                         #endregion
+
                         ShowReviewMeetings();
                         break;
                 }
@@ -4056,20 +4043,7 @@ namespace Finx.App.Forms
 
         #endregion
 
-        private void toolStripButton_Edit_Click_1(object sender, EventArgs e)
-        {
 
-        }
-
-        private void kgbSpouseDetails_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dataGrid_CARRetirement_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 
 }

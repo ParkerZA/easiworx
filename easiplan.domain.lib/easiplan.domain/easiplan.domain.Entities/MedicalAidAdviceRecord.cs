@@ -266,5 +266,30 @@ namespace easiplan.domain.Entities
         
         #endregion
 
+        public virtual void Initialise_Names(){
+
+            //Cover
+            HospitalCoverInfo.Name = "Hospitilization Cover";
+            DayToDayBenefitInfo.Name = "Day-to-Day Benefit";
+            ThresholdBenefitInfo.Name = "Threshold Benefit";
+            ChronicBenefitInfo.Name = "Chronic Benefit";
+            SavingsAccountInfo.Name = "Savings Account";
+            HospitalPreferenceInfo.Name = "Hospital Preference";
+            GapCoverInfo.Name = "Gap Cover";
+            OtherInfo.Name = "Other";
+
+            //Comparison
+            PolicyNumberComparison.Name = "Policy/Applicaion Number";
+            InsurerComparison.Name = "Insurer";
+            ProductNameComparison.Name = "Product Name";
+            PremiumComparison.Name = "Premium";
+            BenefitsComparison.Name = "Benefits";
+            SavingsAccountComparison.Name = "Savings Account";
+            ChronicBenefitComparison.Name = "Chronic Benefits";
+            HospitalCoverComparison.Name = "Hospital Cover";
+            LimitsOnCoverComparison.Name = "Limits on Cover";
+            OtherComparison.Name = "Other";
+
+        }
     }
 }

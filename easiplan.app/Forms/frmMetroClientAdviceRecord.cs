@@ -25,6 +25,7 @@ using FluentNHibernate.Conventions.AcceptanceCriteria;
 using Microsoft.Graph;
 using Google.Protobuf.WellKnownTypes;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Finx.App.Forms
 {
@@ -70,11 +71,16 @@ namespace Finx.App.Forms
         IList<RiskAdviceRecord> RiskNotes = new List<RiskAdviceRecord>();
         IList<RiskAdviceRecord> riskFilteredNotes = new List<RiskAdviceRecord>();
 
+        //Note lists for Archived Notes
+        IList<Note> ArchiveNotes = new List<Note>();
+        IList<Note> filteredArchiveNotes = new List<Note>();
 
+        Note selectedArchiveNote = null;
         ClientAdviceRecord selectedNote = null;
         ClientAdviceRecord mostRecentRecord = null;
         PolicyAction Action = PolicyAction.AmendPolicy;
 
+        int initialSplitterDistance;
 
         #endregion
 
@@ -197,36 +203,55 @@ namespace Finx.App.Forms
             tbLimitsOnCover_Replaced.TextChanged += LimitsOnCover_Replaced_propertyChanged_EventHandler;
             tbCompOther_Replaced.TextChanged += Other_Replaced_propertyChanged_EventHandler;
 
+
+            //Set currency Columns
+            tbPremium_Current.KeyPress += CurrencyValidation_KeyPress;
+            tbPremium_Replaced.KeyPress += CurrencyValidation_KeyPress;
+
+            tb_LifeNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDIncomeProtectionNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDLumpSumNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_TemporaryDisabilityNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_TraumaNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_FuneralCoverNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+            tb_RiskOtherNeedsQuantified.KeyPress += CurrencyValidation_KeyPress;
+
+            tb_LifeShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDIncomeProtectionShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_PDLumpSumShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_TemporaryDisabilityShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_TraumaShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_FuneralCoverShortfall.KeyPress += CurrencyValidation_KeyPress;
+            tb_RiskOtherShortfall.KeyPress += CurrencyValidation_KeyPress;
+
             #endregion
 
             #region Event hanlders for Medical Aid needs and goals combo boxes
 
-            //SetComboBox event handers
+            //Set ComboBox event handers
+            this.cmb_HospitalDiscussed.SelectedIndexChanged += HospitalDiscussed_SelectedIndexChanged;
+            this.cmb_HospitalTaken.SelectedIndexChanged += HospitalTaken_SelectedIndexChanged;
 
-            //Rename these variables when you get a chance so that they are less confusing
-            this.Cover1.SelectedIndexChanged += Cover1_SelectedIndexChanged;
-            this.Cover2.SelectedIndexChanged += Cover2_SelectedIndexChanged;
+            this.cmb_DayToDayDiscussed.SelectedIndexChanged += DayToDayDiscussed_SelectedIndexChanged;
+            this.cmb_DayToDayTaken.SelectedIndexChanged += DayToDayTaken_SelectedIndexChanged;
 
-            this.DayToDay1.SelectedIndexChanged += DayToDay1_SelectedIndexChanged;
-            this.DayToDay2.SelectedIndexChanged += DayToDay2_SelectedIndexChanged;
+            this.cmb_ThresholdBenefitDiscussed.SelectedIndexChanged += ThresholdBenefitDiscussed_SelectedIndexChanged;
+            this.cmb_ThresholdBenefitTaken.SelectedIndexChanged += ThresholdBenefitTaken_SelectedIndexChanged;
 
-            this.Threshold1.SelectedIndexChanged += Threshold1_SelectedIndexChanged;
-            this.Threshold2.SelectedIndexChanged += Threshold2_SelectedIndexChanged;
+            this.cmb_ChronicBenefitDiscussed.SelectedIndexChanged += ChronicBenefitDiscussed_SelectedIndexChanged;
+            this.cmb_ChronicBenefitTaken.SelectedIndexChanged += ChronicBenefitTaken_SelectedIndexChanged;
 
-            this.ChronicBenefit1.SelectedIndexChanged += ChronicBenefit1_SelectedIndexChanged;
-            this.ChronicBenefit2.SelectedIndexChanged += ChronicBenefit2_SelectedIndexChanged;
+            this.cmb_SavingsDiscussed.SelectedIndexChanged += SavingsAccountDiscussed_SelectedIndexChanged;
+            this.cmb_SavingsTaken.SelectedIndexChanged += SavingsAccountTaken_SelectedIndexChanged;
 
-            this.Savings1.SelectedIndexChanged += SavingsAccount1_SelectedIndexChanged;
-            this.Savings2.SelectedIndexChanged += SavingsAccount2_SelectedIndexChanged;
+            this.cmb_HospitalPreferenceDiscussed.SelectedIndexChanged += HospitalPreferenceDiscussed_SelectedIndexChanged;
+            this.cmb_HospitalPreferenceTaken.SelectedIndexChanged += HospitalPreferenceTaken_SelectedIndexChanged;
 
-            this.HospitalPreference1.SelectedIndexChanged += HospitalPreference1_SelectedIndexChanged;
-            this.HospitalPreference2.SelectedIndexChanged += HospitalPreference2_SelectedIndexChanged;
+            this.cmb_GapCoverDiscussed.SelectedIndexChanged += GapCoverDiscussed_SelectedIndexChanged;
+            this.cmb_GapCoverTaken.SelectedIndexChanged += GapCoverTaken_SelectedIndexChanged;
 
-            this.GapCover1.SelectedIndexChanged += GapCover1_SelectedIndexChanged;
-            this.GapCover2.SelectedIndexChanged += GapCover2_SelectedIndexChanged;
-
-            this.Other1.SelectedIndexChanged += Other1_SelectedIndexChanged;
-            this.Other2.SelectedIndexChanged += Other2_SelectedIndexChanged;
+            this.cmb_OtherDiscussed.SelectedIndexChanged += OtherDiscussed_SelectedIndexChanged;
+            this.cmb_OtherTaken.SelectedIndexChanged += OtherTaken_SelectedIndexChanged;
 
             #endregion
 
@@ -304,21 +329,19 @@ namespace Finx.App.Forms
             metroTextBox_OtherImportantInfo.KeyDown += textBox_AppendNewLineDate;
             metroTextBox_Notes.KeyDown += textBox_AppendNewLineDate;
 
+
             #endregion
 
-            this.xInput_ShowCompletedTasks.ControlTypes = ControlTypes.CheckBox;
-            this.xInput_ShowCompletedTasks.MappedField = "ShowCompletedTask";
-            this.xInput_ShowCompletedTasks.LableText = "Show Completed notes";
-            this.xInput_ShowCompletedTasks.Model = searchModel;
-            this.xInput_ShowCompletedTasks.Label.Font = new Font(FontFamily.GenericSansSerif, 10F);
-            this.xInput_ShowCompletedTasks.chkBox.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
+            initialSplitterDistance = 500;
+            //this.splitContainer1.SplitterMoved += splitContainer1_SplitterMoved;
+            //this.splitContainer2.SplitterMoved += splitContainer1_SplitterMoved;
 
             this.metroCheckBox_completed.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
         }
 
         
         //Retirement constructor
-        public frmMetroClientAdviceRecord(Retirement model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Retirement model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -328,12 +351,13 @@ namespace Finx.App.Forms
             InvestmentType = "Retirement";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
            
 
         }
 
         //Non retirement constructor
-        public frmMetroClientAdviceRecord(Investment model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Investment model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -344,12 +368,13 @@ namespace Finx.App.Forms
             InvestmentType = "Investment";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
 
         }
 
         //Education constructor
-        public frmMetroClientAdviceRecord(Education model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Education model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -358,11 +383,12 @@ namespace Finx.App.Forms
             Education = model;
             InvestmentType = "Education";
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
         //Medical Aid constructor
-        public frmMetroClientAdviceRecord(Medical model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Medical model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -374,11 +400,12 @@ namespace Finx.App.Forms
             InitialiseMedicalTable();
             InitialiseMedicalAidComparisonTable();
             Initialise_MedicalSelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
         
         //Risk constructor
-        public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Life model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -388,11 +415,12 @@ namespace Finx.App.Forms
             InvestmentType = "risk";
             InitialiseRiskNeedsAndGoalsTable();
             Initialise_RiskSelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
         //Income Asset Constructor
-        public frmMetroClientAdviceRecord(IncomeAsset model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(IncomeAsset model, bool readOnly, PolicyAction action) : this($"{model.Description} [{model.ReferenceNo}] - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -401,11 +429,12 @@ namespace Finx.App.Forms
             IncomeAsset = model;
             InvestmentType = "IncomeAsset";
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
         
         //Retirement FNA What I need constructor
-        public frmMetroClientAdviceRecord(Need model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        public frmMetroClientAdviceRecord(Need model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -415,11 +444,12 @@ namespace Finx.App.Forms
             InvestmentType = "Need";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
-        //NonRetirement FNA Education Need
-        public frmMetroClientAdviceRecord(EducationNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        //Non Retirement FNA Education Need
+        public frmMetroClientAdviceRecord(EducationNeed model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
 
             if (model.Id == 0)
@@ -429,11 +459,12 @@ namespace Finx.App.Forms
             InvestmentType = "EducationNeed";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
-        //NonRetirement FNA Investment Need
-        public frmMetroClientAdviceRecord(InvestmentNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        //Non Retirement FNA Investment Need
+        public frmMetroClientAdviceRecord(InvestmentNeed model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
             if (model.Id == 0)
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
@@ -442,11 +473,12 @@ namespace Finx.App.Forms
             InvestmentType = "InvestmentNeed";
 
             Initialise_SelectPanel(model.AdviceRecords);
+            Initialise_ArchiveNotes(model.Notes);
 
         }
 
-        //NonRetirement FNA Risk Need
-        public frmMetroClientAdviceRecord(RiskCoverNeed model, bool readOnly, PolicyAction action) : this($"{model.Description}[{model.ReferenceNo}]", readOnly, action)
+        //Non Retirement FNA Risk Need
+        public frmMetroClientAdviceRecord(RiskCoverNeed model, bool readOnly, PolicyAction action) : this($"{model.Description} - {model.Type}", readOnly, action)
         {
             if (model.Id == 0)
                 throw new MyValidationException("Policy has not yet been saved. Please Update policy");
@@ -509,8 +541,10 @@ namespace Finx.App.Forms
         }*/
         #endregion
 
-        //These select panels are coded very mesily.. should refactor to make fewer lines of code repeat
+
+
         #region Initialisation select panels
+        //These select panels are coded very mesily.. should refactor to make fewer lines of code repeat
 
         //Initialise the select panel for regular CAR template
         void Initialise_SelectPanel(IList<ClientAdviceRecord> notes = null)
@@ -526,11 +560,10 @@ namespace Finx.App.Forms
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(filteredNotes, column =>
             {
-
+                column.For(c => c.IsCompleted, "Completed");
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
-                column.For(c => c.IsCompleted, "Completed");
             },
             RowSelectEventHandler: Notes_RowSelectEventHandlerChanged,
             ReadOnly: true,
@@ -542,11 +575,6 @@ namespace Finx.App.Forms
                 selectedNote = filteredNotes.LastOrDefault();
             else
                 selectedNote = new ClientAdviceRecord();
-
-            //Select Bar
-
-            metroTextBox_NoteDate.Text = selectedNote.AdviceDate.ToString("dd-MMM-yyyy hh:mm");
-
 
             Initialise_PolicyNotePanel(selectedNote);
         }
@@ -565,11 +593,11 @@ namespace Finx.App.Forms
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(medicalFilteredNotes, column =>
             {
-
+                column.For(c => c.IsCompleted, "Completed");
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
-                column.For(c => c.IsCompleted, "Completed");
+                
 
             },
             RowSelectEventHandler: MedicalNotes_RowSelectEventHandlerChanged,
@@ -606,11 +634,10 @@ namespace Finx.App.Forms
             #region Notes Grid
             this.dataGrid_Notes.Initialise1(riskFilteredNotes, column =>
             {
-
+                column.For(c => c.IsCompleted, "Completed");
                 column.For(c => c.AdviceDate, "Note Date", new DateEditor(), MinWidth: 100);
                 column.For(x => x.UpdateDate, "Last Date", new DateEditor());
                 column.For(x => x.UpdateBy, "Updated By", new StringEditor());
-                column.For(c => c.IsCompleted, "Completed");
 
             },
             RowSelectEventHandler: RiskNotes_RowSelectEventHandlerChanged,
@@ -633,6 +660,43 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel((ClientAdviceRecord)selectedNote);
         }
 
+
+        void Initialise_ArchiveNotes(IList<Note> notes = null)
+        {
+            if (notes != null)
+                ArchiveNotes = notes;
+
+            if (ArchiveNotes == null)
+                filteredArchiveNotes = new List<Note>();
+            else
+                filteredArchiveNotes = ArchiveNotes.Where(x => x.CreateDate != null).ToList();
+
+            #region Notes Grid
+            this.dataGrid_ArchiveNotes.Initialise1(filteredArchiveNotes, column =>
+            {
+
+                column.For(c => c.NoteDate, "Note Date", new DateEditor(), MinWidth: 100);
+                column.For(x => x.Text, "Note", new StringEditor());
+                column.For(c => c.IsCompleted, "Completed");
+                column.For(x => x.UpdateDate, "Last Date", new DateEditor());
+                column.For(x => x.UpdateBy, "Updt By", new StringEditor());
+
+            },
+            RowSelectEventHandler: ArchiveNotes_RowSelectEventHandlerChanged,
+            ReadOnly: true,
+            AllowDelete: false)
+            .Format1(true, fixedCols: 1);
+            #endregion
+
+            if (ArchiveNotes.Count > 0)
+                selectedArchiveNote = filteredArchiveNotes.LastOrDefault();
+            else
+                selectedArchiveNote = new Note();
+
+            Initialise_ArchiveNotePanel();
+        }
+
+
         //Initialise the policynote panel
         void Initialise_PolicyNotePanel(ClientAdviceRecord record)
         {
@@ -651,6 +715,9 @@ namespace Finx.App.Forms
                     this.Text = "Client Advice Record [CAR] - Retirement Portfolio";
                     
                     mostRecentRecord = Retirement.AdviceRecords.LastOrDefault();
+                    record.InitialFee = Retirement.InitialFee;
+                    record.OngoingFee = Retirement.OngoingFee;
+
                     populateRetirement(record);
                     InitializeStandardPortfolio();
                     
@@ -658,24 +725,33 @@ namespace Finx.App.Forms
                     break;
                 case "investment":
                     this.Text = "Client Advice Record [CAR] - Non-retirement Portfolio";
+
                     mostRecentRecord = Investment.AdviceRecords.LastOrDefault();
-                    
+                    record.InitialFee = Investment.InitialFee;
+                    record.OngoingFee = Investment.OngoingFee;
+
                     populateRetirement(record);
                     InitializeStandardPortfolio();
 
                     break;
                 case "medical":
                     this.Text = "Client Advice Record [CAR] - Medical Portfolio";
+
                     mostRecentRecord = Medical.AdviceRecords.LastOrDefault();
-                    
+                    record.InitialFee = Medical.InitialFee;
+                    record.OngoingFee = Medical.OngoingFee;
+
                     populateMedical((MedicalAidAdviceRecord)record);
                     initialiseMedicalPortfolio();
 
                     break;
                 case "education":
                     this.Text = "Client Advice Record [CAR] - Education Portfolio";
+
                     mostRecentRecord = Education.AdviceRecords.LastOrDefault();
-                    
+                    record.InitialFee = Education.InitialFee;
+                    record.OngoingFee = Education.OngoingFee;
+
                     populateRetirement(record);
                     InitializeStandardPortfolio();
                     
@@ -683,7 +759,10 @@ namespace Finx.App.Forms
                     break;
                 case "risk":
                     this.Text = "Client Advice Record [CAR] - Risk Portfolio";
+
                     mostRecentRecord = Life.AdviceRecords.LastOrDefault();
+                    record.InitialFee = Life.InitialFee;
+                    record.OngoingFee = Life.OngoingFee;
 
                     populateRisk((RiskAdviceRecord)record);
                     initialiseRiskPortfolio();
@@ -691,7 +770,10 @@ namespace Finx.App.Forms
                     break;
                 case "incomeasset":
                     this.Text = "Client Advice Record [CAR] - Income Assets Portfolio";
+
                     mostRecentRecord = IncomeAsset.AdviceRecords.LastOrDefault();
+                    record.InitialFee = IncomeAsset.InitialFee;
+                    record.OngoingFee = IncomeAsset.OngoingFee;
 
                     populateRetirement(record);
                     InitializeStandardPortfolio();
@@ -733,6 +815,9 @@ namespace Finx.App.Forms
 
             
             selectedNote.IsLoading = false;
+            metroTextBox_NoteDate.Text = selectedNote.AdviceDate.ToString("dd-MMM-yyyy hh:mm");
+            metroTextBox_InitialFee.Text = selectedNote.InitialFee.ToString();
+            metroTextBox_InitialFee.Text = selectedNote.OngoingFee.ToString();
 
 
             //Check set the Tool Bar options depending on completetion status of the CAR 
@@ -746,7 +831,7 @@ namespace Finx.App.Forms
                 }
                 else 
                 {
-                    this.xToolBarMenu1.CarModeDelete(true);
+                    this.xToolBarMenu1.SetCAREdit(true);
                 }
             }
             else
@@ -756,6 +841,29 @@ namespace Finx.App.Forms
                 this.xToolBarMenu1.SetCAREdit(true);
             }
         }
+
+        //Initialise panel for Archived Notes
+        void Initialise_ArchiveNotePanel()
+        {
+            this.metroPanel_ArchiveSelect.Controls.Clear();
+
+
+            if (selectedArchiveNote == null)
+                return;
+
+            selectedArchiveNote.IsLoading = true;
+
+            this.metroPanel_ArchiveSelect.Initialise(selectedArchiveNote, cntr =>
+            {
+                cntr.For(x => x.NoteDate, "Note Date ...", new MetroTextBoxEditor(160).ReadOnly(true));
+               // cntr.For(x => x.IsCompleted, "Completed", new MetroCheckBoxEditor().ReadOnly(ReadOnly));
+            }, left: 10, top: 5, labelWidth: 120, controlsLayout: ControlsLayout.Horizontal, dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged).Format();
+
+            this.metroTextBox_ArchiveNote.Text = selectedArchiveNote.Text;
+
+            selectedArchiveNote.IsLoading = false;
+        }
+
 
         #endregion
 
@@ -837,9 +945,6 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_MotivationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_Motivation);
 
-            //this.metroPanel_PolicyNote.Controls.Add(new MetroScrollBar );
-
-
             //Implemented Recommendation Advice
             this.label_ImplementationAdvice.Location = new Point(xTextMarginLeft, metroPanel_Motivation.Location.Y + ySpaceAfterPanel);
             this.metroLabel_ImplementationAdviceHint.Location = new Point(xTextMarginLeft, this.label_ImplementationAdvice.Location.Y + ySpaceAfterHeading);
@@ -862,8 +967,6 @@ namespace Finx.App.Forms
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivation);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroLabel_ImplementationMotivationHint);
             this.metroPanel_AdviceRecord.Controls.Add(this.metroPanel_ImplementationMotivation);
-
-
 
             this.metroPanel_AdviceRecord.PerformLayout();
         }
@@ -1153,6 +1256,7 @@ namespace Finx.App.Forms
 
         #region Lock Form control methods controls
 
+        //Form lock methods to prevent editing of completed records
         private void lockForm(bool state)
         {
             //Lock Product Knowledge
@@ -1169,14 +1273,14 @@ namespace Finx.App.Forms
             {
                 if (control is MetroPanel tp)
                 {
-                    // Perform actions with the MetroTextBox
-                    // textBox.Text will give you the text value of the MetroTextBox
                     lockTextPanel(tp, state);
                 }
             }
 
+            //Lock Tables
             this.tblPanel_NeedsAndGoals.Enabled = !state;
             this.tblPanel_MedicalSchemeComparison.Enabled = !state;
+            this.tblPanel_RiskNeedsAndGoals.Enabled = !state;
 
         }
 
@@ -1207,8 +1311,9 @@ namespace Finx.App.Forms
         }
 
         #endregion
-
        
+        #region Event handlers
+
         #region toolStripButton Events
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
@@ -1361,7 +1466,14 @@ namespace Finx.App.Forms
             }
             finally
             {
-                //xToolBarMenu1.CarModeDelete(true);
+                if (mostRecentRecord.IsCompleted)
+                {
+                    this.xToolBarMenu1.CarModeAddRecord(true);
+                }
+                else
+                {
+                    this.xToolBarMenu1.SetCAREdit(true);
+                }
             }
         }
         private void toolStripButton_Add_Click(object sender, EventArgs e)
@@ -1382,7 +1494,6 @@ namespace Finx.App.Forms
 
                     if (mostRecentRecord != null)
                     {
-                        //Console.WriteLine("theres a recent record");
 
                         selectedNote = new MedicalAidAdviceRecord((MedicalAidAdviceRecord)mostRecentRecord);
                         Initialise_PolicyNotePanel(selectedNote);
@@ -1419,8 +1530,6 @@ namespace Finx.App.Forms
 
                     if (mostRecentRecord != null)
                     {
-                        //Console.WriteLine("theres a recent record");
-
                         selectedNote = new ClientAdviceRecord(mostRecentRecord);
                         Initialise_PolicyNotePanel(selectedNote);
                     }
@@ -1660,7 +1769,6 @@ namespace Finx.App.Forms
 
         #endregion
 
-        #region Event handlers
 
         #region Form elements event changed handlers
 
@@ -1977,7 +2085,7 @@ namespace Finx.App.Forms
 
         #region Hospital Cover
 
-        private void Cover1_SelectedIndexChanged(object sender, EventArgs e)
+        private void HospitalDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             ComboBox comboBox = (ComboBox)sender;
@@ -1987,7 +2095,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void Cover2_SelectedIndexChanged(object sender, EventArgs e)
+        private void HospitalTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2000,7 +2108,7 @@ namespace Finx.App.Forms
 
         #region Day To Day Benefit
 
-        private void DayToDay1_SelectedIndexChanged(object sender, EventArgs e)
+        private void DayToDayDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).DayToDayBenefitInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
@@ -2009,7 +2117,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void DayToDay2_SelectedIndexChanged(object sender, EventArgs e)
+        private void DayToDayTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).DayToDayBenefitInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2022,7 +2130,7 @@ namespace Finx.App.Forms
 
         #region Threshold Benefit
 
-        private void Threshold1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ThresholdBenefitDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).ThresholdBenefitInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
@@ -2031,7 +2139,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void Threshold2_SelectedIndexChanged(object sender, EventArgs e)
+        private void ThresholdBenefitTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).ThresholdBenefitInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2044,7 +2152,7 @@ namespace Finx.App.Forms
 
         #region Chronic Benefit
 
-        private void ChronicBenefit1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ChronicBenefitDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).ChronicBenefitInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
@@ -2053,7 +2161,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void ChronicBenefit2_SelectedIndexChanged(object sender, EventArgs e)
+        private void ChronicBenefitTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).ChronicBenefitInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2066,7 +2174,7 @@ namespace Finx.App.Forms
 
         #region Savings Account
 
-        private void SavingsAccount1_SelectedIndexChanged(object sender, EventArgs e)
+        private void SavingsAccountDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).SavingsAccountInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
@@ -2075,7 +2183,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void SavingsAccount2_SelectedIndexChanged(object sender, EventArgs e)
+        private void SavingsAccountTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).SavingsAccountInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2088,16 +2196,16 @@ namespace Finx.App.Forms
 
         #region Hospital Preference
 
-        private void HospitalPreference1_SelectedIndexChanged(object sender, EventArgs e)
+        private void HospitalPreferenceDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
-            ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
+            ((MedicalAidAdviceRecord)selectedNote).HospitalPreferenceInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
 
             selectedNote.UpdateBy = Program.User.Username;
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void HospitalPreference2_SelectedIndexChanged(object sender, EventArgs e)
+        private void HospitalPreferenceTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).HospitalPreferenceInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2110,7 +2218,7 @@ namespace Finx.App.Forms
 
         #region Gap Cover
 
-        private void GapCover1_SelectedIndexChanged(object sender, EventArgs e)
+        private void GapCoverDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).GapCoverInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
@@ -2119,7 +2227,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void GapCover2_SelectedIndexChanged(object sender, EventArgs e)
+        private void GapCoverTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).GapCoverInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2132,7 +2240,7 @@ namespace Finx.App.Forms
 
         #region Other
 
-        private void Other1_SelectedIndexChanged(object sender, EventArgs e)
+        private void OtherDiscussed_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).OtherInfo.CoverDiscussed = comboBox.SelectedItem.ToString();
@@ -2141,7 +2249,7 @@ namespace Finx.App.Forms
             selectedNote.UpdateDate = DateTime.Now;
         }
 
-        private void Other2_SelectedIndexChanged(object sender, EventArgs e)
+        private void OtherTaken_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
             ((MedicalAidAdviceRecord)selectedNote).OtherInfo.CoverTaken = comboBox.SelectedItem.ToString();
@@ -2162,9 +2270,8 @@ namespace Finx.App.Forms
             try
             {
                 this.xToolBarMenu1.SetCAREdit(true);
-                //MetroTextBox tb = (MetroTextBox)sender;
-                //((MedicalAidAdviceRecord)selectedNote).hcComments = tb.Text;
-                ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.Comments = this.tb_hospitalCover.Text;
+                MetroTextBox tb = (MetroTextBox)sender;
+                ((MedicalAidAdviceRecord)selectedNote).HospitalCoverInfo.Comments = tb.Text;
                 selectedNote.UpdateBy = Program.User.Username;
                 selectedNote.UpdateDate = DateTime.Now;
 
@@ -3416,7 +3523,7 @@ namespace Finx.App.Forms
         #endregion
 
         #region Notes row select event handlers
-
+        //Possibly refactor to prevent repeating code
         //Hanlder for row selection in standard CAR
         private void Notes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
         {
@@ -3467,6 +3574,22 @@ namespace Finx.App.Forms
             Initialise_PolicyNotePanel(selectedNote);
         }
 
+        private void ArchiveNotes_RowSelectEventHandlerChanged(object sender, SourceGrid.RowEventArgs e)
+        {
+
+            SourceGrid.Selection.RowSelection selection = sender as SourceGrid.Selection.RowSelection;
+            if (selection == null)
+                return;
+
+            if (filteredArchiveNotes.Count == 0 || e.Row > filteredArchiveNotes.Count)
+                selectedArchiveNote = null;
+            else
+                selectedArchiveNote = filteredArchiveNotes[e.Row - 1];
+
+
+            Initialise_ArchiveNotePanel();
+        }
+
         #endregion
 
         #region Completed Check Box Event Handler
@@ -3474,8 +3597,8 @@ namespace Finx.App.Forms
         //Event handler for when "Completed" check box is clicked
         private void XInput_ShowCompletedTask_KeyPressed(object sender, EventArgs e)
         {
-            //MetroCheckBox cb = (MetroCheckBox)sender;
-            //selectedNote.IsCompleted= cb.Checked;
+            MetroCheckBox cb = (MetroCheckBox)sender;
+            selectedNote.IsCompleted= cb.Checked;
             
             
         }
@@ -3486,15 +3609,6 @@ namespace Finx.App.Forms
 
         #region Form Events
 
-        //This method likely does not work so keep an eye out and delete it if not needed
-        protected override void OnResizeEnd(EventArgs e)
-        {
-            Initialise_PolicyNotePanel(selectedNote);
-
-            base.OnResizeEnd(e);
-        }
-
-
         private void textBox_AppendNewLineDate( object sender, KeyEventArgs e )
         {
             MetroTextBox tb = (MetroTextBox)sender;
@@ -3503,23 +3617,49 @@ namespace Finx.App.Forms
           
                 if (string.IsNullOrEmpty(tb.Text))
                 {
-                    tb.AppendText(DateTime.Today.ToString("dd/MM/yyyy") + " - ");
+                    tb.AppendText(DateTime.Today.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " - ");
                 }
                 else
                 {
-                    tb.AppendText(Environment.NewLine + DateTime.Today.ToString("dd/MM/yyyy") + " - ");
+                    tb.AppendText(Environment.NewLine + DateTime.Today.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " - ");
                 }
               
                 e.SuppressKeyPress = true; // Prevents the 'D' character from being entered into the text box
             }
         }
 
+        private void CurrencyValidation_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // The regular expression pattern to match a currency amount
+            string pattern = @"^\d*\.?\d{0,2}$";
 
+            // Match the input against the pattern
+            if (!Regex.IsMatch(e.KeyChar.ToString(), pattern) && e.KeyChar != (char)Keys.Back)
+            {
+                // Suppress the key press event if the input is invalid
+                e.Handled = true;
+            }
+        }
+
+
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            int barrier = initialSplitterDistance + 20; // Set the barrier position
+
+            if (splitContainer1.SplitterDistance > barrier)
+            {
+                // The splitter has moved beyond the barrier
+                // Set the SplitterDistance to the barrier position
+                splitContainer1.SplitterDistance = barrier;
+            }
+        }
 
 
         #endregion
 
         #region Medical Aid Needs and Goals Table Elements
+
+        //These messages populate the blank Medical Aid Needs and Goals table template with the necessary lables and controls
 
         #region Labels
         private void NeedsAndGoalsTable_AddLabels()
@@ -3548,34 +3688,33 @@ namespace Finx.App.Forms
 
         #region ComboBoxes
       
-
         private void NeedsAndGoalsTable_AddComboBoxes()
         {
 
             //Add Combo boxes to Table
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Cover1, 1, 1);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Cover2, 2, 1);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_HospitalDiscussed, 1, 1);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_HospitalTaken, 2, 1);
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.DayToDay1, 1, 2);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.DayToDay2, 2, 2);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_DayToDayDiscussed, 1, 2);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_DayToDayTaken, 2, 2);
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Threshold1, 1, 3);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Threshold2, 2, 3);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_ThresholdBenefitDiscussed, 1, 3);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_ThresholdBenefitTaken, 2, 3);
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.ChronicBenefit1, 1, 4);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.ChronicBenefit2, 2, 4);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_ChronicBenefitDiscussed, 1, 4);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_ChronicBenefitTaken, 2, 4);
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Savings1, 1, 5);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Savings2, 2, 5);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_SavingsDiscussed, 1, 5);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_SavingsTaken, 2, 5);
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.HospitalPreference1, 1, 6);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.HospitalPreference2, 2, 6);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_HospitalPreferenceDiscussed, 1, 6);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_HospitalPreferenceTaken, 2, 6);
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.GapCover1, 1, 7);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.GapCover2, 2, 7);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_GapCoverDiscussed, 1, 7);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_GapCoverTaken, 2, 7);
 
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Other1, 1, 8);
-            this.tblPanel_NeedsAndGoals.Controls.Add(this.Other2, 2, 8);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_OtherDiscussed, 1, 8);
+            this.tblPanel_NeedsAndGoals.Controls.Add(this.cmb_OtherTaken, 2, 8);
 
         }
 
@@ -3603,6 +3742,8 @@ namespace Finx.App.Forms
         #endregion
 
         #region Medical Aid Comparison Table
+
+        //These messages populate the blank Medical scheme comparison table template with the necessary lables and controls
 
         private void ComparisonTable_AddLabels()
         {
@@ -3662,6 +3803,8 @@ namespace Finx.App.Forms
         #endregion
 
         #region Risk Needs and Goals table setup
+
+        //These messages populate the blank Risk Portfolio Needs and Goals table template with the necessary lables and controls
 
         private void RiskNeedsAndGoalsAddLabels()
         {
@@ -4211,6 +4354,9 @@ namespace Finx.App.Forms
 
         #region Populate methods
 
+        //These are the methods used to populate the CAR forms with the information that has been saved in the data base
+
+        //Sets the state of the Completed check box
         private void SetIsComplete(ClientAdviceRecord record)
         {
             
@@ -4288,7 +4434,6 @@ namespace Finx.App.Forms
 
         private void populateInvestmentHorizon(ClientAdviceRecord record)
         {
-            Console.WriteLine(record.InvestmentHorizen);
             if (string.IsNullOrEmpty(record.InvestmentHorizen))
             {
                 return;
@@ -4490,67 +4635,63 @@ namespace Finx.App.Forms
             if (record.HospitalCoverInfo != null)
             {
                 //Hospital Cover
-                this.Cover1.Text = record.HospitalCoverInfo.CoverDiscussed;
-                this.Cover2.Text = record.HospitalCoverInfo.CoverTaken;
+                this.cmb_HospitalDiscussed.Text = record.HospitalCoverInfo.CoverDiscussed;
+                this.cmb_HospitalTaken.Text = record.HospitalCoverInfo.CoverTaken;
                 this.tb_hospitalCover.Text = record.HospitalCoverInfo.Comments;
-            }
-            else
-            {
-                Console.WriteLine("Bot L");
             }
 
             //Day to Day
             if (record.DayToDayBenefitInfo != null)
             {
-                this.DayToDay1.Text = record.DayToDayBenefitInfo.CoverDiscussed;
-                this.DayToDay2.Text = record.DayToDayBenefitInfo.CoverTaken;
+                this.cmb_DayToDayDiscussed.Text = record.DayToDayBenefitInfo.CoverDiscussed;
+                this.cmb_DayToDayTaken.Text = record.DayToDayBenefitInfo.CoverTaken;
                 this.tb_dayToDay.Text = record.DayToDayBenefitInfo.Comments;
             }
 
             //Threshold Benefits
             if (record.ThresholdBenefitInfo != null)
             {
-                this.Threshold1.Text = record.ThresholdBenefitInfo.CoverDiscussed;
-                this.Threshold2.Text = record.ThresholdBenefitInfo.CoverTaken;
+                this.cmb_ThresholdBenefitDiscussed.Text = record.ThresholdBenefitInfo.CoverDiscussed;
+                this.cmb_ThresholdBenefitTaken.Text = record.ThresholdBenefitInfo.CoverTaken;
                 this.tb_threshold.Text = record.ThresholdBenefitInfo.Comments;
             }
 
             //Chronic Benefits
             if (record.ChronicBenefitInfo != null)
             {
-                this.ChronicBenefit1.Text = record.ChronicBenefitInfo.CoverDiscussed;
-                this.ChronicBenefit2.Text = record.ChronicBenefitInfo.CoverTaken;
+                this.cmb_ChronicBenefitDiscussed.Text = record.ChronicBenefitInfo.CoverDiscussed;
+                this.cmb_ChronicBenefitTaken.Text = record.ChronicBenefitInfo.CoverTaken;
                 this.tb_chronic.Text = record.ChronicBenefitInfo.Comments;
             }
 
             //Savings Account
             if (record.SavingsAccountInfo != null)
             {
-                this.Savings1.Text = record.SavingsAccountInfo.CoverDiscussed;
-                this.Savings2.Text = record.SavingsAccountInfo.CoverTaken;
+                this.cmb_SavingsDiscussed.Text = record.SavingsAccountInfo.CoverDiscussed;
+                this.cmb_SavingsTaken.Text = record.SavingsAccountInfo.CoverTaken;
                 this.tb_savingsAccount.Text = record.SavingsAccountInfo.Comments;
             }
 
             //Hospital Preference
             if (record.HospitalPreferenceInfo != null)
             {
-                this.HospitalPreference1.Text = record.HospitalPreferenceInfo.CoverDiscussed;
-                this.HospitalPreference2.Text = record.HospitalPreferenceInfo.CoverTaken;
+                this.cmb_HospitalPreferenceDiscussed.Text = record.HospitalPreferenceInfo.CoverDiscussed;
+                this.cmb_HospitalPreferenceTaken.Text = record.HospitalPreferenceInfo.CoverTaken;
                 this.tb_hospitalPreference.Text = record.HospitalPreferenceInfo.Comments;
             }
 
             //Gap Cover
             if (record.GapCoverInfo != null)
             {
-                this.GapCover1.Text = record.GapCoverInfo.CoverDiscussed;
-                this.GapCover2.Text = record.GapCoverInfo.CoverTaken;
+                this.cmb_GapCoverDiscussed.Text = record.GapCoverInfo.CoverDiscussed;
+                this.cmb_GapCoverTaken.Text = record.GapCoverInfo.CoverTaken;
                 this.tb_gapCover.Text = record.GapCoverInfo.Comments;
             }
             //Other
             if (record.OtherInfo != null)
             {
-                this.Other1.Text = record.OtherInfo.CoverDiscussed;
-                this.Other2.Text = record.OtherInfo.CoverTaken;
+                this.cmb_OtherDiscussed.Text = record.OtherInfo.CoverDiscussed;
+                this.cmb_OtherTaken.Text = record.OtherInfo.CoverTaken;
                 this.tb_other.Text = record.OtherInfo.Comments;
             }
         }
@@ -4845,6 +4986,9 @@ namespace Finx.App.Forms
 
         #region Clear methods
 
+        //This is a method to remove all controls from the metro panel with exception to the scrollbar
+        //(Had an issue where the vertical scrollbar would not reappear after the panel controls were cleared)
+
         private void ClearMetroPanel(MetroPanel metroPanel)
         {
             List<Control> controlsToRemove = new List<Control>();
@@ -4894,10 +5038,7 @@ namespace Finx.App.Forms
         }
         #endregion
 
-        #endregion
-
-        #region methods to clear entire forms
-
+        //Method to reset the values of the custom made check boxes 
         private void clearCheckBoxControls()
         {
             clearProductKnlgeAndExperience();
@@ -4905,15 +5046,15 @@ namespace Finx.App.Forms
             clearAccessToCapital();
         }
 
-        private void clearMedicalForm()
-        {
-            clearProductKnlgeAndExperience();
-        }
+
+
+
         #endregion
 
-       
+        private void metroLabel_PKEHint_Click(object sender, EventArgs e)
+        {
 
-
+        }
     }
 
 }

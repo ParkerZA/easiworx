@@ -17,8 +17,16 @@ namespace easiplan.domain.Entities
             this._replacedMedicalScheme = string.Empty;
         }
 
+        public MedicalSchemeComparison(string name)
+        {
+            this._currentMedicalScheme = string.Empty;
+            this._replacedMedicalScheme = string.Empty;
+
+            this.Name = name;
+        }
+
         public MedicalSchemeComparison(MedicalSchemeComparison copy)
-        { 
+        {
             this._currentMedicalScheme= copy._currentMedicalScheme;
             this._replacedMedicalScheme= copy._replacedMedicalScheme;
         }
