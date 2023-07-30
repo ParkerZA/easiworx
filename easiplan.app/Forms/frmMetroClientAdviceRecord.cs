@@ -333,7 +333,7 @@ namespace Finx.App.Forms
             #endregion
 
             initialSplitterDistance = 500;
-            //this.splitContainer1.SplitterMoved += splitContainer1_SplitterMoved;
+            this.splitContainer1.SplitterMoved += splitContainer1_SplitterMoved;
             //this.splitContainer2.SplitterMoved += splitContainer1_SplitterMoved;
 
             this.metroCheckBox_completed.CheckedChanged += XInput_ShowCompletedTask_KeyPressed;
@@ -5046,15 +5046,11 @@ namespace Finx.App.Forms
             clearAccessToCapital();
         }
 
-
-
-
         #endregion
 
-        private void metroLabel_PKEHint_Click(object sender, EventArgs e)
-        {
+       
 
-        }
+
     }
 
 }
