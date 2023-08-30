@@ -38,13 +38,9 @@ namespace Finx.App.Sms
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
-                    //JsonSerializer serializer = new JsonSerializer();
-                    //serializer.Populate(streamReader, smsToken);
-
+                   
                     var result = streamReader.ReadToEnd();
-                    //const string MATCH_PATTERN = @"""Balance"": ?""(?<Balance>.+)""";
-                    //var balance = Regex.Match(result, MATCH_PATTERN).Groups["Balance"].Value;
-
+                   
                     return result.FromJson<BalanceResult>();
                 }
             }catch(Exception ex) {
@@ -126,13 +122,11 @@ namespace Finx.App.Sms
       
         public bool Authenticate(SmsConfiguration SmsConfig)
         {
-           
-            Token = EncodeTo64(string.Format("{0}:{1}", SmsConfig.ClientKey, SmsConfig.SecretKey));
+			
+			Token = EncodeTo64(string.Format("{0}:{1}", SmsConfig.ClientKey, SmsConfig.SecretKey));
             try
             {
-                
-
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(SmsConfig.baseRestUri + "Authentication");
+				var httpWebRequest = (HttpWebRequest)WebRequest.Create(SmsConfig.baseRestUri + "Authentication");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "GET";
                 httpWebRequest.Accept = "application/json";
@@ -142,12 +136,13 @@ namespace Finx.App.Sms
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
-                    //JsonSerializer serializer = new JsonSerializer();
-                    //serializer.Populate(streamReader, smsToken);
-
+                   
                     var result = streamReader.ReadToEnd();
-                    const string MATCH_PATTERN = @"""token"": ?""(?<token>.+)""";
-                    //Token = Regex.Match(result, MATCH_PATTERN).Groups["token"].Value;
+
+					SmsTokenResult tokenResult = JsonConvert.DeserializeObject<SmsTokenResult>(result);
+
+                    Token = tokenResult.Token;
+
                 }
                 return true;
             }
@@ -243,5 +238,8 @@ namespace Finx.App.Sms
     }
     public class BalanceResult{
         public double Balance { get; set; }
+    }
+    public class SmsTokenResult{
+    public string Token { get; set; }
     }
 }
