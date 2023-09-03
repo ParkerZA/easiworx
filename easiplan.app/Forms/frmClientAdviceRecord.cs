@@ -262,8 +262,8 @@ namespace easiplan.app.Forms
             lblHeading = "Retirement Advice Record";            
             Title = $"{Retirement.Description} [{Retirement.ReferenceNo}]";
 
-            clientAdviceRecords = Retirement.AdviceRecords.Clone();
-            clientAdviceRecord = clientAdviceRecords.LastOrDefault();
+            clientAdviceRecords = Retirement.AdviceRecords;
+            clientAdviceRecord = Retirement.CurrentAdviceRecord;
             bsClientAdviceRecord.DataSource = clientAdviceRecord;
 
             Retirement.Calculate();
@@ -271,8 +271,8 @@ namespace easiplan.app.Forms
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = Retirement.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
+            archiveNotes = Retirement.Notes;
+            archiveNote = Retirement.CurrentNote;
             bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
@@ -288,17 +288,17 @@ namespace easiplan.app.Forms
             lblHeading = "Investment Advice Record";
             Title = $"{Investment.Description} [{Investment.ReferenceNo}]";
 
-            clientAdviceRecords = Investment.AdviceRecords.Clone();
-            clientAdviceRecord = clientAdviceRecords.LastOrDefault();
-            bsClientAdviceRecord.DataSource = clientAdviceRecord;
+            clientAdviceRecords = Investment.AdviceRecords;
+            clientAdviceRecord = Investment.CurrentAdviceRecord;
+			bsClientAdviceRecord.DataSource = clientAdviceRecord;
 
             Investment.Calculate();
             fundsList = Investment.Funds;
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = Investment.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
+            archiveNotes = Investment.Notes;
+            archiveNote = Investment.CurrentNote;
             bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
@@ -313,8 +313,8 @@ namespace easiplan.app.Forms
             lblHeading = "Education Advice Record";
             Title = $"{Education.Description} [{Education.ReferenceNo}]";
 
-            clientAdviceRecords = Education.AdviceRecords.Clone();
-            clientAdviceRecord = clientAdviceRecords.LastOrDefault();
+            clientAdviceRecords = Education.AdviceRecords;
+            clientAdviceRecord = Education.CurrentAdviceRecord;
             bsClientAdviceRecord.DataSource = clientAdviceRecord;
 
             Education.Calculate();
@@ -322,8 +322,8 @@ namespace easiplan.app.Forms
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = Education.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
+            archiveNotes = Education.Notes;
+            archiveNote = Education.CurrentNote;
             bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
@@ -338,15 +338,15 @@ namespace easiplan.app.Forms
             lblHeading = "Medical Advice Record";
             Title = $"{Medical.Description} [{Medical.ReferenceNo}]";
 
-            medicalAidAdviceRecords = Medical.AdviceRecords.Clone();
-            medicalAidAdviceRecord = medicalAidAdviceRecords.LastOrDefault();
+            medicalAidAdviceRecords = Medical.AdviceRecords;
+            medicalAidAdviceRecord = Medical.CurrentAdviceRecord;
             bsMedicalAidAdviceRecord.DataSource = medicalAidAdviceRecord;
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = Medical.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
-            bsArchiveNote.DataSource = archiveNote;
+            archiveNotes = Medical.Notes;
+            archiveNote = Medical.CurrentNote;
+			bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
         }
@@ -360,14 +360,14 @@ namespace easiplan.app.Forms
             lblHeading = "Risk/Life Advice Record";
             Title = $"{Life.Description} [{Life.ReferenceNo}]";
 
-            riskAdviceRecords = Life.AdviceRecords.Clone();
-            riskAdviceRecord = riskAdviceRecords.LastOrDefault();
+            riskAdviceRecords = Life.AdviceRecords;
+            riskAdviceRecord = Life.CurrentAdviceRecord;
             bsRiskAdviceRecord.DataSource = riskAdviceRecord;
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = Life.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
+            archiveNotes = Life.Notes;
+            archiveNote = Life.CurrentNote;
             bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
@@ -382,14 +382,14 @@ namespace easiplan.app.Forms
             lblHeading = "IncomeAsset Advice Record";
             Title = $"{IncomeAsset.Description} [{IncomeAsset.ReferenceNo}]";
 
-            clientAdviceRecords = IncomeAsset.AdviceRecords.Clone();
-            clientAdviceRecord = clientAdviceRecords.LastOrDefault();      
-            bsClientAdviceRecord.DataSource = IncomeAsset.CurrentAdviceRecord;
+            clientAdviceRecords = IncomeAsset.AdviceRecords;
+            clientAdviceRecord = IncomeAsset.CurrentAdviceRecord;    
+            bsClientAdviceRecord.DataSource = clientAdviceRecord;
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = IncomeAsset.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
+            archiveNotes = IncomeAsset.Notes;
+            archiveNote = IncomeAsset.CurrentNote;
             bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
@@ -405,8 +405,8 @@ namespace easiplan.app.Forms
             lblHeading = "Retirement Need Advice Record";
             Title = $"{RetirementNeed.Description} [{RetirementNeed.ReferenceNo}]";
 
-            clientAdviceRecords = RetirementNeed.AdviceRecords.Clone();
-            clientAdviceRecord = clientAdviceRecords.LastOrDefault();
+            clientAdviceRecords = RetirementNeed.AdviceRecords;
+            clientAdviceRecord = RetirementNeed.CurrentAdviceRecord;
             bsClientAdviceRecord.DataSource = clientAdviceRecord;
 
             RetirementNeed.Calculate();
@@ -414,8 +414,8 @@ namespace easiplan.app.Forms
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = RetirementNeed.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
+            archiveNotes = RetirementNeed.Notes;
+            archiveNote = RetirementNeed.CurrentNote;
             bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
@@ -431,18 +431,18 @@ namespace easiplan.app.Forms
             lblHeading = "Education Need Advice Record";
             Title = $"{EducationNeed.Description} [{EducationNeed.ReferenceNo}]";
 
-            clientAdviceRecords = EducationNeed.AdviceRecords.Clone();
-            clientAdviceRecord = clientAdviceRecords.LastOrDefault();
-            bsClientAdviceRecord.DataSource = clientAdviceRecord;
+            clientAdviceRecords = EducationNeed.AdviceRecords;
+            clientAdviceRecord = EducationNeed.CurrentAdviceRecord;
+			bsClientAdviceRecord.DataSource = clientAdviceRecord;
 
             EducationNeed.Calculate();
             fundsList = EducationNeed.Funds;
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = EducationNeed.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
-            bsArchiveNote.DataSource = archiveNote;
+            archiveNotes = EducationNeed.Notes;
+            archiveNote = EducationNeed.CurrentNote;
+			bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
         }
@@ -456,18 +456,18 @@ namespace easiplan.app.Forms
             lblHeading = "Investment Need Advice Record";
             Title = $"{InvestmentNeed.Description} [{InvestmentNeed.ReferenceNo}]";
 
-            clientAdviceRecords = InvestmentNeed.AdviceRecords.Clone();
-            clientAdviceRecord = clientAdviceRecords.LastOrDefault();
-            bsClientAdviceRecord.DataSource = clientAdviceRecord;
+            clientAdviceRecords = InvestmentNeed.AdviceRecords;
+            clientAdviceRecord = InvestmentNeed.CurrentAdviceRecord;
+			bsClientAdviceRecord.DataSource = clientAdviceRecord;
 
             InvestmentNeed.Calculate();
             fundsList = InvestmentNeed.Funds;
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = InvestmentNeed.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
-            bsArchiveNote.DataSource = archiveNote;
+            archiveNotes = InvestmentNeed.Notes;
+            archiveNote = InvestmentNeed.CurrentNote;
+			bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
         }
@@ -481,18 +481,18 @@ namespace easiplan.app.Forms
             lblHeading = "RiskCover Need Advice Record";
             Title = $"{RiskCoverNeed.Description} [{RiskCoverNeed.ReferenceNo}]";
 
-            riskAdviceRecords = RiskCoverNeed.RiskAdviceRecords.Clone();
-            riskAdviceRecord = riskAdviceRecords.LastOrDefault();
-            bsClientAdviceRecord.DataSource = riskAdviceRecord ;
+            riskAdviceRecords = RiskCoverNeed.RiskAdviceRecords;
+            riskAdviceRecord = RiskCoverNeed.CurrentAdviceRecord;
+			bsClientAdviceRecord.DataSource = riskAdviceRecord ;
 
             RiskCoverNeed.Calculate();
             fundsList = RiskCoverNeed.Funds;
 
             Initialise_CarPanel(readOnly);
 
-            archiveNotes = RiskCoverNeed.Notes.Clone();
-            archiveNote = archiveNotes.LastOrDefault();
-            bsArchiveNote.DataSource = archiveNote;
+            archiveNotes = RiskCoverNeed.Notes;
+            archiveNote = RiskCoverNeed.CurrentNote;
+			bsArchiveNote.DataSource = archiveNote;
 
             Initialise_NotesPanel(readOnly);
         }
@@ -931,7 +931,7 @@ namespace easiplan.app.Forms
 
                 medicalAidAdviceRecord.Initialise_Names();
 
-                IList<MedicalAidNeedsAndGoalsTableRow> needs = new List<MedicalAidNeedsAndGoalsTableRow>
+				IList<MedicalAidNeedsAndGoalsTableRow> needs = new List<MedicalAidNeedsAndGoalsTableRow>
                 {
                     medicalAidAdviceRecord.HospitalCoverInfo,
                     medicalAidAdviceRecord.DayToDayBenefitInfo,

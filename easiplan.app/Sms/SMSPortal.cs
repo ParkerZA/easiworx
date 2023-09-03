@@ -240,6 +240,8 @@ namespace Finx.App.Sms
         public double Balance { get; set; }
     }
     public class SmsTokenResult{
-    public string Token { get; set; }
-    }
+        public string Token { get; set; }
+		public string Schema { get; set; }
+		public int ExpiresInMinutes { get; set; }
+	}
 }
