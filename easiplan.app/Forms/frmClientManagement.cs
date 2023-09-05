@@ -29,6 +29,8 @@ using easiplan.app.ContextMenus;
 using easiplan.domain.Views;
 using easiplan.app.Extensions;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Drawing.Drawing2D;
 
 namespace Finx.App.Forms
 {
@@ -317,6 +319,7 @@ namespace Finx.App.Forms
             };
         }
 
+
         private async void tsbDeleteClient_Clicked(object sender, EventArgs e)
         {
             var count= this.clientDetailsViewList.Where(x => x.IsSelected==true).Count();
@@ -335,7 +338,8 @@ namespace Finx.App.Forms
 
                     metroButton_Refresh_Click_1(sender, e);
                 }
-                
+
+
             };
         }
 

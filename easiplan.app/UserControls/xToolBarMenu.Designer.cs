@@ -35,6 +35,11 @@
             this.tbSave = new System.Windows.Forms.ToolStripButton();
             this.tbRefresh = new System.Windows.Forms.ToolStripButton();
             this.tbEdit = new System.Windows.Forms.ToolStripButton();
+
+            //Note dropdown creation 
+            //this.tbNewNote = new System.Windows.Forms.ToolStripDropDownButton();
+
+
             this.tbNotes = new System.Windows.Forms.ToolStripButton();
             this.tbStrip.SuspendLayout();
             this.SuspendLayout();
@@ -53,6 +58,7 @@
             this.tbSave,
             this.tbRefresh,
             this.tbEdit,
+            //this.tbNewNote,
             this.tbNotes});
             this.tbStrip.Location = new System.Drawing.Point(0, 0);
             this.tbStrip.Name = "tbStrip";
@@ -139,6 +145,26 @@
             this.tbEdit.ToolTipText = "Open form for edit.";
             this.tbEdit.Click += new System.EventHandler(this.tbEdit_Click);
             // 
+           
+            /*
+            // tbNewNote //Note button for drop down if required
+            // 
+            this.tbNewNote.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tbNewNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.tbNewNote.Image = global::easiplan.app.Properties.Resources.form_b_42;
+            this.tbNewNote.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tbNewNote.ImageTransparentColor = System.Drawing.Color.Gainsboro;
+            this.tbNewNote.Margin = new System.Windows.Forms.Padding(0);
+            this.tbNewNote.Name = "tbNewNote";
+            this.tbNewNote.Padding = new System.Windows.Forms.Padding(5);
+            this.tbNewNote.Size = new System.Drawing.Size(88, 46);
+            this.tbNewNote.Text = "New Note";
+            this.tbNewNote.ToolTipText = "Add a new note.";
+            this.tbNewNote.Visible= false;
+            //this.tbNewNote.Click += new System.EventHandler(this.tbEdit_Click);
+            //
+            */
+            //
             // tbNotes
             // 
             this.tbNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -179,6 +205,11 @@
         internal System.Windows.Forms.ToolStripButton tbSave;
         internal System.Windows.Forms.ToolStripButton tbRefresh;
         internal System.Windows.Forms.ToolStripButton tbEdit;
+
+        //Note dropdown decleration
+        //internal System.Windows.Forms.ToolStripDropDownButton tbNewNote;
+
+
         internal System.Windows.Forms.ToolStripButton tbCaptionImage;
         internal System.Windows.Forms.ToolStripButton tbNotes;
     }

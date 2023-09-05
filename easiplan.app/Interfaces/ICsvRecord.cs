@@ -22,6 +22,8 @@ namespace Finx.App.Interfaces
         bool HasErrors { get; set; }
         string ValidationErrors { get; set; }
 
+       
+
         void ValidateHeadings(CsvHelper.HeaderValidatedArgs args);
     }
 }

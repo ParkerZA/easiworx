@@ -17,13 +17,14 @@ namespace easiplan.domain.Entities
 
 		private string _FaxNo;
 
-		public virtual int ClientId
+        [IgnoreDataMember]
+        public virtual int ClientId
 		{
 			get;
 			set;
 		}
-
-		public virtual int ClientDetailsId
+        [IgnoreDataMember]
+        public virtual int ClientDetailsId
 		{
 			get;
 			set;

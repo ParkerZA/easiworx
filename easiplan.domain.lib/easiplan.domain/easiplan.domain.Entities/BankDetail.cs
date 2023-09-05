@@ -1,4 +1,5 @@
 using my.domain.lib.core.Attributes;
+using my.domain.lib.core.Extensions;
 
 namespace easiplan.domain.Entities
 {
@@ -37,11 +38,11 @@ namespace easiplan.domain.Entities
 		{
 			get
 			{
-				return _BrnchName;
+				return _BrnchName.InitCaps();
 			}
 			set
 			{
-				_BrnchName = value;
+				_BrnchName = value.InitCaps();
 				InvokePropertyChanged("BrnchName");
 			}
 		}

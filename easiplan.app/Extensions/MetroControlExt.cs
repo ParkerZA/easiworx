@@ -29,6 +29,7 @@ using easiplan.domain;
 using MetroFramework.Forms;
 using ComponentFactory.Krypton.Toolkit;
 using easiplan.app.ContextMenus;
+using my.domain.lib.core.Extensions;
 
 namespace MetroFramework.Controls.Ext
 {
@@ -6898,6 +6899,7 @@ namespace MetroFramework.Controls.Ext
 
             return base.CreateControl();
         }
+            
 
         private void Control_ReadOnlyChanged(object sender, EventArgs e)
         {
@@ -6936,6 +6938,7 @@ namespace MetroFramework.Controls.Ext
             return base.CreateDataGridColumn(name, headerText, grid);
         }
 
+      
     }
     public class MetroMultiLineTextBoxEditor : BaseMetroEditor
     {
@@ -8606,6 +8609,8 @@ namespace MetroFramework.Controls.Ext
                         //  label.FontWeight = MetroLabelWeight.Bold;
 
                         lableHeight += label.Height + 5;
+
+                       label.TextAlign = ContentAlignment.MiddleRight;
 
                         label.Name = "lbl_" + control.Name;
                         panel.Controls.Add(label);

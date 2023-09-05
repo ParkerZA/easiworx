@@ -14,14 +14,45 @@ namespace easiplan.domain.Entities
 	/// </summary>
 	public class Need : baseCalcEntity
 	{
+        [IgnoreAutoMap]
+        public virtual ClientAdviceRecord CurrentAdviceRecord
+        {
+            get
+            {
+                if (this.AdviceRecords == null || this.AdviceRecords.Count == 0)
+                    this.AdviceRecords.Add(new ClientAdviceRecord());
+
+                return this.AdviceRecords.LastOrDefault();
+            }
+            set
+            {
+
+            }
+        }
+
+        [IgnoreAutoMap]
+        public virtual Note CurrentNote
+        {
+            get
+            {
+                if (this.Notes == null || this.Notes.Count == 0)
+                    this.Notes.Add(new Note() { });
+
+                return this.Notes.LastOrDefault();
+            }
+            set
+            {
+
+            }
+        }
         #region Properties
         public virtual NeedTypes NeedType
 		{
 			get;
 			set;
 		}
-
-		public virtual string Type
+       
+        public virtual string Type
 		{
 			get;
 			set;
@@ -38,14 +69,14 @@ namespace easiplan.domain.Entities
 			get;
 			set;
 		}
-
-		public virtual int ReferenceId
+        [IgnoreDataMember]
+        public virtual int ReferenceId
 		{
 			get;
 			set;
 		}
-
-		public virtual int InstructionId
+        [IgnoreDataMember]
+        public virtual int InstructionId
 		{
 			get;
 			set;
@@ -81,6 +112,7 @@ namespace easiplan.domain.Entities
 			set;
 		}
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Fund> FundsBindingList { get; set; }
 
         public virtual IList<Benefit> Benefits
@@ -89,7 +121,15 @@ namespace easiplan.domain.Entities
 			set;
 		}
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Benefit> BenefitsBindingList { get; set; }
+
+        [IgnoreDataMember]
+        public virtual IList<ClientAdviceRecord> AdviceRecords
+        {
+            get;
+            set;
+        }
 
         public virtual IList<Note> Notes
 		{
@@ -103,6 +143,7 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<ClientDependent> BeneficiariesBindingList { get; set; }
 
 
@@ -115,14 +156,14 @@ namespace easiplan.domain.Entities
 		}
 
 		[IgnoreAutoMap]
-		public virtual int CurrentAge
+        [IgnoreDataMember]
+        public virtual int CurrentAge
 		{
 			get;
 			set;
 		}
 
-        [IgnoreAutoMap]
-        [IgnoreDataMember]
+        [IgnoreAutoMap]        
         public virtual double NewPolicyValue
         {
             get;
@@ -169,6 +210,7 @@ namespace easiplan.domain.Entities
 			Notes = new List<Note>();
 			Benefits = new List<Benefit>();
             Beneficiaries = new List<ClientDependent>();
+			AdviceRecords = new List<ClientAdviceRecord>();
 
             IsLoading = false;
 
@@ -278,12 +320,22 @@ namespace easiplan.domain.Entities
 				}
 
 				//CurrentAmount = Funds.Sum((Fund x) => x.CurrentAmount);
-				
+
 				//if(InitialAmount==0)
 				//	InitialAmount = Funds.Sum((Fund x) => x.InitialAmount)- Funds.Sum((Fund x) => x.WithdrawalAmount);
+                //CurrentAmount = Funds.Sum((Fund x) => x.CurrentAmount);
 
-				//NewPolicyValue = CurrentAmount + InitialAmount;
-			}
+                //if(InitialAmount==0)
+                //	InitialAmount = Funds.Sum((Fund x) => x.InitialAmount)- Funds.Sum((Fund x) => x.WithdrawalAmount);
+
+                //NewPolicyValue = CurrentAmount + InitialAmount;
+
+				//YJ 04/05/2023 - Sum the withdrawals and deposits
+                double sumInitialAmt = Funds.Sum((Fund x) => x.InitialAmount);
+                double sumWithdrawals = Funds.Sum((Fund x) => x.WithdrawalAmount);
+                InitialAmount = sumInitialAmt - sumWithdrawals;
+
+            }
 		}
 		protected virtual void SetCompletedStatus()
 		{
@@ -327,6 +379,7 @@ namespace easiplan.domain.Entities
 					double sumInitialAmt = Funds.Sum((Fund x) => x.InitialAmount);
 					double sumWithdrawals = Funds.Sum((Fund x) => x.WithdrawalAmount);
 					double totalInitialAmt = sumInitialAmt - sumWithdrawals;
+
 					if (totalInitialAmt != InitialAmount)
 					{
 						throw new MyValidationException($"{Name} :Incorrect or missing Deposit/Withdrawal allocation.");

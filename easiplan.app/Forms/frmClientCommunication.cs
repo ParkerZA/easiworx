@@ -323,14 +323,15 @@ namespace Finx.App.Forms
                         {
                             DateTime _deliveryDt = DateTime.Parse(grp[0].SendDate);
 
-                            if (_deliveryDt > DateTime.Now && _deliveryDt < DateTime.Now.AddMonths(3))
+                            if (_deliveryDt >= DateTime.Now && _deliveryDt <= DateTime.Now.AddMonths(3))
                             {
                                 SmsSendOptions sendOptions = new SmsSendOptions()
                                 {
                                     checkOptOuts = true,
                                     //duplicateCheck = "true",
-                                    senderId = Program.User.Username,
-                                    startDeliveryUtc = _deliveryDt.ToUTCString()
+                                    senderId = Program.User.Id.ToString(),
+                                    startDeliveryUtc = _deliveryDt.ToUTCString(),
+                                    campaignName=""
 
                                 };
 
@@ -453,7 +454,7 @@ namespace Finx.App.Forms
 
                         if (_mnth < DateTime.Now.Month)
                             _yr += 1;
-                        else if (_day < DateTime.Now.Day)
+                        else if ((_mnth == DateTime.Now.Month)&& (_day < DateTime.Now.Day)) //If you want to revert this just removed the if month = date part
                             _yr += 1;
 
                         DateTime _birthDt = DateTime.Parse(string.Format("{0}-{1}-{2} 08:00:00 AM", _yr, _mnth, _day));
@@ -476,10 +477,10 @@ namespace Finx.App.Forms
                 }
 
                 if (messages.Count <= 0)
-                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid cellphone number.", smsPortal.smsToken.Balance, messages.Count));
-
-                if (Double.Parse(smsPortal.GetBalance()) < messages.Count)
-                    throw new ApplicationException(string.Format("You only have '{0}' credits, not enough to send these '{1}' sms's. \r\n\r\nPlease purchase additional credits or select fewer clients.", smsPortal.smsToken.Balance, messages.Count));
+                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid cellphone number."));
+                var _balance = smsPortal.GetBalance();
+                if (_balance.Balance < messages.Count)
+                    throw new ApplicationException(string.Format("You only have '{0}' credits, not enough to send these '{1}' sms's. \r\n\r\nPlease purchase additional credits or select fewer clients.", _balance.Balance, messages.Count));
 
                 if (!MessageBoxExt.ShowQuestion(string.Format("Are you sure you wish to send these {0} sms's ?", messages.Count)))
                     return false;
@@ -696,12 +697,14 @@ namespace Finx.App.Forms
                         System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(SendEmailAsync), progress);
                         progress.ShowDialog(this);
                         progress.Close();
-
+                       
                         //Update Instruction List
                         UpdateInstructionList();
 
                         //reset checked client list
                         this.objectListView1.CheckedObjects = null;
+
+                        MessageBoxExt.ShowInformation("Emails have been sent");
                     }
 
                 }
@@ -784,7 +787,7 @@ namespace Finx.App.Forms
                 }
 
                 if (messages.Count <= 0)
-                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid email address.", smsPortal.smsToken.Balance, messages.Count));
+                    throw new ApplicationException(string.Format("No valid clients were selected. \r\n\r\nPlease select clients with a valid email address."));
 
 
                 if (!MessageBoxExt.ShowQuestion(string.Format("Are you sure you wish to send these {0} emails ?", messages.Count)))
@@ -805,7 +808,7 @@ namespace Finx.App.Forms
         }
         private void SendEmailAsync(object status)
         {
-            //IProgressCallback callback = status as IProgressCallback;
+           
             IProgressDataObjectCallback callback = status as IProgressDataObjectCallback;
             IList<EmailMessage> messages = callback.DataObject as List<EmailMessage>;
 
@@ -1008,6 +1011,16 @@ namespace Finx.App.Forms
         #region Delete Clients
 
         #endregion
+
+        private void tsbSendEmailNow_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsbSmsSendBday_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

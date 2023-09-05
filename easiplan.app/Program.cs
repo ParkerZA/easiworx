@@ -30,6 +30,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using za.co.easiworx.office365.net;
 
 namespace Finx.App
@@ -138,7 +139,12 @@ namespace Finx.App
                     progress2.ShowDialog();
                     progress2.Close();
 
+
                     //Check Repository initiation successful
+                    /*if (Program.Repository == null)
+                    { 
+                        //Application.Exit(); 
+                    }*/
                     if (Program.Repository.IsInError)
                         Application.Exit();
                     else
@@ -164,7 +170,7 @@ namespace Finx.App
 
                             Program.EstateAnalysisService = new EstateAnalysisService(Program.Repository);
                         }
-
+                        Program.Logger.Info("Initialisation completed. Opening Logon form.");
                         //Show Logon Form
                         Application.Run(new frmMetroLogin());
                        
@@ -496,6 +502,8 @@ namespace Finx.App
 
                 Program.Licensing.Validate().Wait();
 
+                Program.Logger.Info($"MachineKey: {Program.Licensing.MachineKey}");
+
                 callback.SetText(string.Format("Done checking Licensing model ..."));
 
                 //if (callback.IsAborting)
@@ -785,6 +793,7 @@ namespace Finx.App
             Program.Repository.DBMigrateUp(typeof(_20211222_501).Assembly);
 
             Program.Repository.DBMigrateUp(typeof(_20211222_502).Assembly);
+            Program.Repository.DBMigrateUp(typeof(_20230417_505).Assembly);
 
         }  
 

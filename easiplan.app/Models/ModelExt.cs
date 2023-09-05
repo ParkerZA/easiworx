@@ -178,5 +178,21 @@ namespace easiplan.app.Models
             return need;
 
         }
+
+        internal static IList<T> Clone<T>(this IList<T> obj) where T:new()
+        {
+        var list = new List<T>();   
+
+        if (obj == null || obj.Count==0) {
+            list.Add(new T());
+        }else{
+            foreach (var item in obj)
+            {
+                list.Add(item.ToObject<T>());
+            }
+        }
+                
+        return list;
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace Finx.App.Forms
         bool _readOnlyForAdmin = true;
         bool _readOnlyForAdminClerk = true;
         bool _isInitialising = false;
+
         public int clientId = 0;
 
         Client client;
@@ -132,6 +133,8 @@ namespace Finx.App.Forms
                 client.Initialise();
                 client.PropertyChanged -= Client_PropertyChanged;
                 client.PropertyChanged += Client_PropertyChanged;
+
+               
                 #endregion
 
                 #region Load Service Providers
@@ -153,6 +156,12 @@ namespace Finx.App.Forms
                 {
                     foreach (var lisp in Program.ServiceProviders.LifeProviders.LifeInsurers)
                         LifeInsurers.Add(new ListDataItem(ListDataItemType.Lisp, lisp.InsurerName, lisp.InsurerName));
+                }
+
+                if (Program.ServiceProviders != null)
+                {
+                    //Initialise client portfolio so that values are present for graph display
+                    client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
                 }
                 #endregion
 
@@ -263,6 +272,9 @@ namespace Finx.App.Forms
                 EstateAnalysis.Initialise(true);
                 #endregion
 
+                #region TabControl_Checklist
+                #endregion
+
                 #region ClientFnaRisk
                 ClientFnaRisk = Program.Repository.List<ClientFnaRisk, int>(x => x.ClientId == this.client.Id).FirstOrDefault();
                 //RiskCover
@@ -299,6 +311,10 @@ namespace Finx.App.Forms
 
                 //Select the current tab
                 MetroTabControl_Main_Selected(this.metroTabControl_Main, _currentTabControlEventArgs);
+
+                Size _size = new Size(width: 520, height: 600);
+                this.kgbMemberDetails.Size = _size;
+                this.kgbSpouseDetails.Size = _size;
 
             }
             catch (Exception x)
@@ -340,7 +356,7 @@ namespace Finx.App.Forms
             ReleaseClientLock();
         }
         #endregion
-
+       
         #region TabControl Events
         private void MetroTabControl_Main_Selected(object sender, TabControlEventArgs e)
         {
@@ -353,6 +369,9 @@ namespace Finx.App.Forms
 
                 //get the current active tab page 
                 TabPage t = this.metroTabControl_Main.TabPages[e.TabPageIndex];
+
+                client.ClientPortfolio.Initialise();
+                client.ClientPortfolio.Calculate();
 
                 switch (t.Tag)
                 {
@@ -554,6 +573,7 @@ namespace Finx.App.Forms
                         break;
                     case 1:
                         #region Assets and Liabilities
+
                         client.ClientAssets.Initialise();
                         this.dataGrid_ClientAssets.Initialise1<Asset>(client.ClientAssets.AssetsBindingList, column =>
                         {
@@ -583,9 +603,9 @@ namespace Finx.App.Forms
                         RefreshAssetLiabilitiesSummary();
                         break;
                     case 2:
-                        client.ClientIncomes.Initialise();
-                        #region Income
 
+                        #region Income
+                        client.ClientIncomes.Initialise();
                         this.dataGrid_ClientIncomes.Initialise1<Income>(client.ClientIncomes.IncomesBindingList, column =>
                         {
                             column.For(x => x.Type, "Income Type", new ComboBoxEditor(ListDataItemType.IncomeTypes));
@@ -598,8 +618,8 @@ namespace Finx.App.Forms
                         ).Format1(_readOnly);
                         #endregion
 
-                        client.ClientExpenses.Initialise();
                         #region Expenses
+                        client.ClientExpenses.Initialise();
                         this.dataGrid_ClientExpenses.Initialise1<Expense>(client.ClientExpenses.ExpensesBindingList, column =>
                         {
                             column.For(x => x.Type, "Expense Type", new ComboBoxEditor(ListDataItemType.ExpenseTypes));
@@ -619,8 +639,6 @@ namespace Finx.App.Forms
                         break;
                     case 3:
                         #region CurrentPortfolio
-
-                        client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
 
                         client.ClientPortfolio.Initialise();
                         client.ClientPortfolio.Calculate();
@@ -759,6 +777,8 @@ namespace Finx.App.Forms
                         break;
                     case 4:
                         #region Retirement FNA
+
+                        //Initialise Retirement FNA
                         client.ClientFna.ServiceProvider = Program.ServiceProviders;
 
                         client.ClientFna.Initialise();
@@ -879,6 +899,7 @@ namespace Finx.App.Forms
                         .Format1(_readOnly, fixedCols: 3);
 
                         #endregion
+
                         RefreshClientFnaSummary();
                         break;
                     case 5:
@@ -1265,6 +1286,144 @@ namespace Finx.App.Forms
                         }, left: 5, top: 85, labelWidth: 150, PropertyChangedHandler: propertyChanged_EventHandler, controlsLayout: ControlsLayout.Vertical).Format();
 
                         #endregion
+
+                        #region Client Advise Records
+
+                        //Retirement Portfolio CAR data grid
+                        this.dataGrid_CARRetirement.Initialise1<Retirement>(client.ClientPortfolio.RetirementsBindingList, column =>
+                        {
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());                            
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());                            
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
+                            
+                        },
+                        //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.RetirementPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
+                        AllowDelete: false,
+                        AllowAddNew: false)
+                        .Format1(true, fixedCols: 3);
+
+                        //Non Retirement Portfolio CAR data grid
+                        this.dataGrid_CARNonRetirement.Initialise1<Investment>(client.ClientPortfolio.InvestmentsBindingList, column =>
+                        {
+                            column.For(x => x.Type, "Product Type", new ComboBoxEditor(ListDataItemType.InvestmentClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps));
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.UpdateBy, "Updated By", new StringEditor());
+                            
+                        },
+                        //PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                        //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.InvestmentPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
+                        AllowDelete: false,
+                        AllowAddNew: false)
+                        .Format1(true, fixedCols: 3);
+
+
+                        //Education Portfolio CAR data grid
+                        this.dataGrid_CAREducation.Initialise1<Education>(client.ClientPortfolio.EducationsBindingList, column =>
+                        {
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
+                        },
+                       // PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                        //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.EducationPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
+                        AllowDelete: false,
+                        AllowAddNew: false)
+                        .Format1(true, fixedCols: 3);
+
+
+                        //Medical Aid Portfolio CAR data grid
+                        this.dataGrid_CARMedicalAid.Initialise1<Medical>(client.ClientPortfolio.MedicalsBindingList, column =>
+                        {
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
+                        },
+                       // PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                        //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.MedicalPortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
+                        AllowDelete: false,
+                        AllowAddNew: false)
+                        .Format1(true, fixedCols: 3);
+
+                        
+
+                        //Risk Portfolio CAR data grid
+                        this.dataGrid_CARRisk.Initialise1<Life>(client.ClientPortfolio.LifesBindingList, column =>
+                        {
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
+                        },
+                        //PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler, //event handler when a property changes
+                        //RowHeaderSelectEventHandler: RetirementPortfolio_RowHeaderSelectEventHandler,//for the Policy Funds details view
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.LifePortfolio, _readOnly, client, OnCompleted: ClientPortfolio_PolicyChanged_EventHandler),
+                        ReadOnly: true,
+                        AllowDelete: false, 
+                        AllowAddNew: false)
+                        .Format1(true, fixedCols: 3);
+
+
+
+                        //Income Assets Portfolio CAR data grid
+                        this.dataGrid_CARIncomeAsset.Initialise1<IncomeAsset>(client.ClientPortfolio.IncomeAssetsBindingList, column =>
+                        {
+                            column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
+                            column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
+                            column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
+                            column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
+
+                        },
+                        //PropertyChangedHandler: ClientPortfolio_propertyChanged_EventHandler,
+                        //RowHeaderSelectEventHandler: AssetsPortfolio_RowHeaderSelectEventHandler, //no funds
+                        ContextMenu: new DataGridContextMenu(this, ContextMenuType.AssetPortfolio, _readOnly, client),
+                        ReadOnly: true,
+                        AllowDelete: false)
+                        .Format1(true, fixedCols: 3);
+
+                        #endregion
+
                         break;
                     case 8:
                         #region Admin Tasks
@@ -1296,6 +1455,7 @@ namespace Finx.App.Forms
                         this.dataGrid_ClientAdminTasks.Columns[6].DataCell.View = new InstructionsStatusView();
 
                         #endregion
+
                         ShowAdminTasks1(this.metroCheckBox1.Checked);
                         break;
                     case 9:
@@ -1319,6 +1479,7 @@ namespace Finx.App.Forms
                         .Format1(_readOnly);
 
                         #endregion
+
                         ShowReviewMeetings();
                         break;
                 }
@@ -1881,7 +2042,10 @@ namespace Finx.App.Forms
             this.dataGrid_LifeRiskFna.Refresh();
         }
 
+       
+
         #endregion
+
 
         #region DataGrid propertyChanged EventHandlers
         private void propertyChanged_EventHandler(object sender, PropertyChangedEventArgs e)
@@ -2096,7 +2260,9 @@ namespace Finx.App.Forms
             }
             try
             {
-                DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
+                //HasChanges = true;
+
+                 DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 Fund mObj = _bList.EditedObject as Fund;
 
                 mObj.UpdateBy = Program.User.Username;
@@ -2185,6 +2351,8 @@ namespace Finx.App.Forms
             _hasChanges = true;
             try
             {
+                if (!(e.PropertyDescriptor == null))
+                { 
                 if (e.PropertyDescriptor.Name == "DependentName")
                 {
                     DevAge.ComponentModel.BoundList<Education> _bList = sender as DevAge.ComponentModel.BoundList<Education>;
@@ -2206,6 +2374,7 @@ namespace Finx.App.Forms
                         }
 
                     }
+                }
                 }
             }
             catch (Exception x)
@@ -2262,23 +2431,29 @@ namespace Finx.App.Forms
             _hasChanges = true;
             try
             {
-                if (e.PropertyDescriptor.Name == "Type")
+                if (e.PropertyDescriptor!=null)
                 {
-                    //    DevAge.ComponentModel.BoundList<Life> _bList = sender as DevAge.ComponentModel.BoundList<Life>;
-                    //    Life mObj = _bList.EditedObject as Life;
+                    if (e.PropertyDescriptor.Name == "Type")
+                    {
+                        //    DevAge.ComponentModel.BoundList<Life> _bList = sender as DevAge.ComponentModel.BoundList<Life>;
+                        //    Life mObj = _bList.EditedObject as Life;
 
-                    //    dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = new List<LifeProduct>();
+                        //    dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = new List<LifeProduct>();
 
-                    //    IEnumerable<LifeProduct> lifeProducts = (IEnumerable<LifeProduct>)Program.ServiceProviders.LifeProviders.LifeInsurers.Where(x => x.InsurerName == mObj.Type).FirstOrDefault().LifeProducts;
+                        //    IEnumerable<LifeProduct> lifeProducts = (IEnumerable<LifeProduct>)Program.ServiceProviders.LifeProviders.LifeInsurers.Where(x => x.InsurerName == mObj.Type).FirstOrDefault().LifeProducts;
 
-                    //    if (lifeProducts.Where(x => x.ProductName != null).Count() > 0)
-                    //    {
-                    //        dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = lifeProducts.Select(x => x.ProductName).ToList();
+                        //    if (lifeProducts.Where(x => x.ProductName != null).Count() > 0)
+                        //    {
+                        //        dataGrid_LifePortfolio.Columns[2].DataCell.Editor.StandardValues = lifeProducts.Select(x => x.ProductName).ToList();
 
-                    //        // m.Description = "";//reset the policy
-                    //    }
+                        //        // m.Description = "";//reset the policy
+                        //    }
+                    }
                 }
-
+            }
+            catch (NullReferenceException)
+            { 
+                
             }
             catch (Exception x)
             {
@@ -2455,16 +2630,24 @@ namespace Finx.App.Forms
                             columns.For(x => x.StartDate, "Inception Dt", new DateEditor(true));
                             columns.For(x => x.InitialAmount, "Deposit", new CurrencyEditor(true));
                             columns.For(x => x.WithdrawalAmount, "Withdrawal", new CurrencyEditor(true));
-                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(true));
+                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(_readOnly));
                             columns.For(x => x.MonthlyContribution, "Premium", new CurrencyEditor(true));
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));
-                            columns.For(x => x.FundValueDate, "Last Update", new DateEditor(true));
+                            columns.For(x => x.UpdateDate, "Last Update", new DateEditor(true));
+
+                            //remove this
+                            //columns.For(x => x.UpdateDate, "Update", new DateEditor(true));
+
                             //columns.For(x => x.Type, "Type", new MetroTextBoxEditor().ReadOnly(true));
                             columns.For(x => x.Risk, "Risk", new StringEditor(true));
                             //columns.For(x => x.IRR, "IRR", new StringEditor(true));
                         },
                         PropertyChangedHandler: Fund_propertyChanged_EventHandler,
+
+                         //OnCompleted: Fund_propertyChanged_EventHandler),
+                        
+
                         ReadOnly: _readOnlyForAdminAdvisorClerk,
                         AllowAddNew: false,
                         AllowDelete: false
@@ -3072,6 +3255,9 @@ namespace Finx.App.Forms
             }
         }
 
+        
+
+
         private void RetirementNeed_propertyChanged_EventHandler(object sender, EventArgs e)
         {
             this.dataGrid_RetireFNA_Need.Refresh();
@@ -3227,6 +3413,11 @@ namespace Finx.App.Forms
 
         private void DocumentTemplate_OnClick(object sender, EventArgs e)
         {
+
+            //Ensure that all tabs are initialised so that all information pulls to reports
+            initialiseTabs();
+
+
             try
             {
                 ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
@@ -3357,7 +3548,6 @@ namespace Finx.App.Forms
             {
                 try
                 {
-
                     //Check InActive Status
                     if (client.Status == ClientStatus.InActive.ToString())
                         if (!Program.User.IsAdministrator)
@@ -3379,11 +3569,8 @@ namespace Finx.App.Forms
 
                         Program.ClientService.Add(client);
                     }
-
                     client.Calculate();
-
                     Program.ClientService.Update(client);
-
                     if (Program.Licensing.HasFeature("Estate & Risk Planning"))
                     {
                         if (EstateAnalysis.Id == 0)
@@ -3396,9 +3583,7 @@ namespace Finx.App.Forms
                         Program.ClientFnaRiskService.Add(ClientFnaRisk);
                     else
                         Program.ClientFnaRiskService.Update(ClientFnaRisk);
-
                     _hasChanges = false;
-
                 }
                 catch (MyValidationException vx)
                 {
@@ -3750,6 +3935,49 @@ namespace Finx.App.Forms
             }
         }
 
+        //This is a method to initialise all tabs in the client form in order to ensure that no information goes missing when a report is generated. 
+        private void initialiseTabs()
+        {
+            //Initialise Client portfolio
+            client.ClientPortfolio.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+            client.ClientPortfolio.Initialise();
+            client.ClientPortfolio.Calculate();
+            RefreshPortfolioSummary();
+
+            //Initialise Assets and Liabilities
+            client.ClientAssets.Initialise();
+            client.ClientLiabilities.Initialise();
+            RefreshAssetLiabilitiesSummary();
+
+            //Initialise income and expenses
+            client.ClientIncomes.Initialise();
+            client.ClientExpenses.Initialise();
+            RefreshIncomeExpensesSummary();
+
+            //Initialise Retirement FNA
+            client.ClientFna.ServiceProvider = Program.ServiceProviders;
+            client.ClientFna.Initialise();
+            client.UpdateRetirementFNA();
+            RefreshClientFnaSummary();
+
+            //Initialise Non Retirement FNA
+            client.ClientFnaInvestment.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+            client.ClientFnaInvestment.Initialise();
+            client.ClientFnaInvestment.Calculate();
+
+            //Initialise Education needs
+            client.ClientFnaEducation.ServiceProvider = Program.ServiceProviders; // to calculate Fund risk values
+
+            client.ClientFnaEducation.Initialise();
+            client.ClientFnaEducation.Calculate();
+
+            //Initialise Risk cover
+            ClientFnaRisk.Initialise();
+            ClientFnaRisk.Calculate();
+
+            //Initialise Estate Planning
+            EstateAnalysis.Initialise();
+        }
         #endregion
 
         #region EstateDuty Events
@@ -3811,6 +4039,7 @@ namespace Finx.App.Forms
             }
 
         }
+
 
         #endregion
 

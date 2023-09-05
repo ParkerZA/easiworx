@@ -12,6 +12,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using my.domain.lib.core.Validation;
+using System.Linq;
+using System.Windows.Forms;
+using Google.Protobuf.WellKnownTypes;
+using DocumentFormat.OpenXml.EMMA;
+using my.domain.lib.core.Extensions;
 
 namespace Finx.App.Models
 {
@@ -23,46 +28,68 @@ namespace Finx.App.Models
         private string _fundAllocationPercentage;
         private string _startDate;
         private string _firstname;
+        private string _lastname;
+        private string _accountName;
         private string _validationErrors;
         private string _dob = "";
+      
         private string _monthlyPremium;
         private string _productType;
-        
+        private string _modelPortfolio;
+
+        private string _bankName;
+        private string _branchName;
+        private string _branchCode;
+        private string _bankAccNo;
+        private string _bankAccType;
+
+        private string _postalAddressStreetNo;
+        private string _postalAddress;
+        private string _postalAddressSuburb;
+
+        private string _physicalAddressStreetNo;
+        private string _physicalAddress;
+        private string _physicalAddressSuburb;
+
 
         //Sets row number as displayed on import screen
         [Ignore]
-        public int RowNo 
-        { 
-            get; 
+        public int RowNo
+        {
+            get;
             set;
         }
 
 
         //Clients first name
         [Index(0)]
-        public string Firstname 
-        { 
-            get 
-            { 
-                return _firstname; 
-            } 
-            set 
+        public string Firstname
+        {
+            get
+            {
+                return _firstname;
+            }
+            set
             {
                 if (value.Contains(","))
                 {
-                    
+
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim();
-                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim();
+                        _firstname = fullnames[1].Replace("\"", string.Empty);
+                        this.Lastname = fullnames[0].Replace("\"", string.Empty);
+                        this.Lastname = this.Lastname.InitCaps();
                     }
                     else
-                        _firstname = value;
+                        _firstname = value.InitCaps();
                 }
                 else
-                    _firstname = value; 
-            } 
+                    _firstname = value.InitCaps();
+
+                _firstname = _firstname.InitCaps();
+
+            }
         }
 
 
@@ -70,8 +97,15 @@ namespace Finx.App.Models
         [Index(1)]
         public string Lastname
         {
-            get;
-            set;
+            get
+            {
+                return _lastname.InitCaps();
+            }
+            set
+            {
+                _lastname = value.ToLower().Trim();
+                _lastname = _lastname.InitCaps();
+            }
         }
 
 
@@ -80,38 +114,66 @@ namespace Finx.App.Models
         public string DateOfBirth
         {
 
-            get 
-            { 
-                return _dob; 
-            }
-            set 
+            get
             {
-                if (DateTime.TryParse(value, out DateTime dobDt))
-                    _dob = dobDt.ToString("dd MMM yyyy");
-                else
-                    _dob = value;
+                return _dob;
             }
-
-            /*get { return _dob; }
             set
             {
-                //yyyy/mm/dd
-                if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
-                    _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
-                else
-                    _dob = value;
-            }*/
+                try
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp.Replace(" ", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+                    var strdt = "";
+
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+                    strdt = year + "-" + month + "-" + day;
+
+                    DateTime dtDob;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob)
+                        )
+                    {
+                        _dob = dtDob.ToString("dd MMM yyyy");
+                    }
+                }
+                catch (FormatException)
+                {
+                    _dob = "-";
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    _dob = "-";
+                }
+            }
 
         }
 
+       
+
+        /*get { return _dob; }
+        set
+        {
+            //yyyy/mm/dd
+            if (DateTime.TryParseExact(value, "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime fundValDt))
+                _dob = fundValDt.ToString("dd MMM yyyy"); //27 Oct 2022
+            else
+                _dob = value;
+        }*/
+
+
+
 
         //Clients ID number
-        [Index(3)] 
+        [Index(3)]
         public string IDNumber
         {
-            get 
-            { 
-                return _idNo; 
+            get
+            {
+                return _idNo;
             }
             set
             {
@@ -123,30 +185,34 @@ namespace Finx.App.Models
         }
 
 
-        //Clients registration number as provided by LISP 
-        [Index(4)] 
-        public string RegistrationNo
+
+
+
+        //Clients passport number if ID number is absent
+        [Index(4)]
+        public string PassportNo
         {
             get;
             set;
         }
 
 
-        //Clients passport number if ID number is absent
-        [Index(5)]
-        public string PassportNo
-        {
-            get; 
-            set;
-        }
-
-
         //Client number as provided by LISP
-        [Index(6)]
+        [Index(5)]
         public string ClientNo
         {
             get; set;
         }
+
+        //Clients tax number
+        [Index(6)]
+        public string TaxNo
+        {
+            get;
+            set;
+        }
+
+
 
 
         //Street number of clients postal address
@@ -154,8 +220,14 @@ namespace Finx.App.Models
         [Index(7)]
         public string PostalAddressStreetNo
         {
-            get; 
-            set;
+            get
+            {
+                return _postalAddressStreetNo.InitCaps();
+            }
+            set
+            {
+                _postalAddressStreetNo = value.InitCaps();
+            }
         }
 
 
@@ -164,8 +236,14 @@ namespace Finx.App.Models
         [Index(8)]
         public string PostalAddress
         {
-            get;
-            set;
+            get
+            {
+                return _postalAddress.InitCaps();
+            }
+            set 
+            {
+                _postalAddress = value.InitCaps();
+            }
         }
 
 
@@ -174,8 +252,14 @@ namespace Finx.App.Models
         [Index(9)]
         public string PostalSuburb
         {
-            get; 
-            set;
+            get
+            {
+                return _postalAddressSuburb.InitCaps();
+            }
+            set
+            {
+                _postalAddressSuburb = value.InitCaps();
+            }
         }
 
 
@@ -184,7 +268,7 @@ namespace Finx.App.Models
         [Index(10)]
         public string PostalCode
         {
-            get; 
+            get;
             set;
         }
 
@@ -194,18 +278,29 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressStreetNo
         {
-            get; 
-            set;
+            get
+            {
+                return _physicalAddressStreetNo.InitCaps();
+            }
+            set
+            {
+                _physicalAddressStreetNo = value.InitCaps();
+            }
         }
-
 
         //Road name for clients home address
         [Index(12)]
         [Optional]
         public string PhysicalAddress
         {
-            get; 
-            set;
+            get
+            {
+                return _physicalAddress.InitCaps();
+            }
+            set
+            {
+                _physicalAddress = value.InitCaps();
+            }
         }
 
 
@@ -214,8 +309,14 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressSuburb
         {
-            get; 
-            set;
+            get
+            {
+                return _physicalAddressSuburb.InitCaps();
+            }
+            set
+            {
+                _physicalAddressSuburb = value.InitCaps();
+            }
         }
 
 
@@ -224,7 +325,7 @@ namespace Finx.App.Models
         [Optional]
         public string PhysicalAddressPostalCode
         {
-            get; 
+            get;
             set;
         }
 
@@ -234,17 +335,17 @@ namespace Finx.App.Models
         [Index(15)]
         public string CellNo
         {
-            get; 
+            get;
             set;
         }
-        
+
 
         //Clients work telephone number
         [Optional]
         [Index(16)]
         public string OfficeTel
         {
-            get; 
+            get;
             set;
         }
 
@@ -257,7 +358,7 @@ namespace Finx.App.Models
             get;
             set;
         }
-        
+
 
         //Clients Email address
         [Optional]
@@ -268,8 +369,102 @@ namespace Finx.App.Models
         }
 
 
+        //Name of bank client is with
+        [Optional]
+        [Index(19)]
+        public string BankName
+        {
+            get
+            {
+                return _bankName.InitCaps();
+            }
+            set
+            {
+                _bankName = value.InitCaps();
+                //_bankName = CapitalizeSentence(_bankName);
+            }
+        }
+
+
+        //Clients banks branch name
+        [Optional]
+        [Index(20)]
+        public string BranchName
+        {
+            get
+            {
+                return _branchName.InitCaps();
+            }
+            set
+            {
+                _branchName = value.InitCaps();
+                //_branchName = CapitalizeSentence(_branchName);
+            }
+        }
+
+
+        //Clients banks branch code
+        [Optional]
+        [Index(21)]
+        public string BranchCode
+        {
+            get;
+            set;
+        }
+
+
+        //Clients bank account number
+        [Optional]
+        [Index(22)]
+        public string BankAccNo
+        {
+            get;
+            set;
+        }
+
+
+        //Clients bank account type (Check or savings)
+        [Optional]
+        [Index(23)]
+        public string BankAccType
+        {
+            get;
+            set;
+        }
+
+        //Clients surname gets assigned as account name
+        [Optional]
+        [Index(24)]
+        public string AccountName
+        {
+            get
+            {
+                return _accountName;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _accountName = value;
+                }
+                else
+                {
+                    _accountName = Firstname[0] + " " + Lastname;
+                }
+            }
+        }
+
+        //Name of LISP responsible for this policy
+        [Optional]
+        [Index(25)]
+        public string LISP
+        {
+            get;
+            set;
+        }
+
         //Name of policy owned by client
-        [Index(19) ]
+        [Index(26)]
         public string ProductType
         {
             get
@@ -278,9 +473,33 @@ namespace Finx.App.Models
             }
             set
             {
-                if (value.Contains("Retirement Income Option"))
+                if (value.ToLower().Contains("retirement income option") || value.ToLower().Contains("glacier living annuity"))
                 {
-                    _productType = "Living Anuity";
+                    _productType = "Living Annuity";
+                }
+                else if (value.ToLower().Contains("retirement annuity option") || value.ToLower().Contains("retirement annuity fund"))
+                {
+                    _productType = "Retirement Annuities";
+                }
+                else if (value.ToLower().Contains("investment platform unit trust") || value.ToLower().Contains("flexible investment option") || value.ToLower().Contains("investment plan") || value.ToLower().Equals("unit trust"))
+                {
+                    _productType = "Unit Trusts";
+                }
+                else if (value.ToLower().Contains("preservation") && value.ToLower().Contains("provident"))
+                {
+                    _productType = "Provident/Preservation Funds";
+                }
+                else if (value.ToLower().Contains("tax-free"))
+                {
+                    _productType = "Tax Free";
+                }
+                else if (value.ToLower().Contains("pension preservation fund"))
+                {
+                    _productType = "Pension/Preservation Fund";
+                }
+                else if (value.ToLower().Contains("flexible endowment option"))
+                {
+                    _productType = "Endowment";
                 }
                 else
                 {
@@ -289,99 +508,78 @@ namespace Finx.App.Models
             }
         }
 
-
-        //Model portfolio
-        [Index(20)]
-        public string ModelPortfolio
+        //Policy Number
+        [Index(27)]
+        public string AccountNo
         {
-            get; 
+            get;
             set;
         }
 
 
-        //Clients surname gets assigned as account name
-        [Index(21)]
-        public string AccountName 
-        { 
-            get; 
-            set; 
-        }
-
-
-        //Policy Number
-        [Index(22)]  
-        public string AccountNo 
-        { 
-            get;
-            set; 
-        }
-
-
         //Fund code
-        [Index(23)] 
-        public string FundCode 
-        { 
+        [Index(28)]
+        public string FundCode
+        {
             get;
             set;
         }
 
 
         //Name of fund
-        [Index(24)] 
-        public string FundName 
-        { 
+        [Index(29)]
+        public string FundName
+        {
             get;
             set;
         }
 
 
+        //Model portfolio
+        [Index(30)]
+        public string ModelPortfolio
+        {
+            get
+            {
+                return _modelPortfolio; 
+            }
+            
+            set
+            {
+                _modelPortfolio= value.Trim();
+                if (_modelPortfolio.StartsWith("(") && _modelPortfolio.EndsWith(")"))
+                {
+                    _modelPortfolio = _modelPortfolio.Substring(1, _modelPortfolio.Length - 2);
+                }
+            }
+        }
+
+
         //Market value in rands
-        [Index(25)] 
+        [Index(31)]
         public string FundValue
         {
-            get 
-            { 
-                return _fundValue; 
+            get
+            {
+                return _fundValue;
             }
             set
             {
                 _fundValue = value.Replace(" ", string.Empty);
                 _fundValue = _fundValue.Replace(",", ".");
-                
-            }
-        }
 
-
-        //Date at which the fund value is pulled
-        [Index(26)] 
-        public string FundValueDate
-        {
-            get 
-            { 
-                return _fundValueDate; 
-            }
-            set
-            {
-                //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
-                if (DateTime.TryParse(value, out DateTime fundValDt))
-                    _fundValueDate = fundValDt.ToString("dd MMM yyyy");
-                else
-                {
-                    _fundValueDate = value;
-                    Console.WriteLine(value+" : "+this.Lastname);
-                }
             }
         }
 
 
         //Split percentage for fund amounts
         [Optional]
-        [Index(27)] 
+        [Index(32)]
         public string AccountFundAllocation
         {
-            get 
-            { 
-                return _fundAllocationPercentage; 
+            get
+            {
+                return _fundAllocationPercentage;
             }
             set
             {
@@ -391,19 +589,60 @@ namespace Finx.App.Models
         }
 
 
-        //Fund inception date
-        [Index(28)] 
-        public string InceptionDate
+        //Monthly Debit Order Premium
+        [Optional]
+        [Index(33)]
+        public string MonthlyPremium
         {
-            get 
+            get
             {
-                return _startDate; 
+                return _monthlyPremium;
             }
             set
             {
-                //if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
-                if (DateTime.TryParse(value, out DateTime dtStartDt))
-                    _startDate = dtStartDt.ToString("dd MMM yyyy");
+                _monthlyPremium = value.Replace("R", string.Empty);
+                _monthlyPremium = _monthlyPremium.Replace(" ", string.Empty);
+                _monthlyPremium = _monthlyPremium.Replace(",", ".");
+            }
+        }
+
+
+        //Fund inception date
+        [Index(34)]
+        public string InceptionDate
+        {
+            get
+            {
+                return _startDate;
+            }
+            set
+            {
+                if (value.Length > 8)
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+
+                    var strdt = "";
+                    try
+                    {
+                        var day = int.Parse(temp.Substring(0, 2));
+                        var month = int.Parse(temp.Substring(2, 2));
+                        var year = int.Parse(temp.Substring(4, 4));
+
+                        strdt = year + "-" + month + "-" + day;
+                    }
+                    catch (FormatException)
+                    {
+
+                    }
+
+                    DateTime dtSD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtSD))
+                    {
+                        _startDate = dtSD.ToString("dd MMM yyyy");
+                    }
+                }
                 else
                 {
                     _startDate = value;
@@ -412,32 +651,51 @@ namespace Finx.App.Models
         }
 
 
-        //Monthly Debit Order Premium
-        [Optional] 
-        [Index(29)]
-        public string MonthlyPremium
+        //Date at which the fund value is pulled
+        [Index(35)]
+        public string FundValueDate
         {
-            get 
+            get
             {
-                return _monthlyPremium; 
+                return _fundValueDate;
             }
-            set 
+            set
             {
-                //Console.WriteLine("ThE ONE is: " + _monthlyPremium);
-                _monthlyPremium = value.Replace(",",".");  
+                try
+                {
+                    String temp = value.Replace("/", string.Empty);
+                    //temp.Replace(" ", string.Empty);
+                    temp = String.Concat(temp.Where(c => !Char.IsWhiteSpace(c)));
+                    var strdt = "";
+
+
+                    var day = int.Parse(temp.Substring(0, 2));
+                    var month = int.Parse(temp.Substring(2, 2));
+                    var year = int.Parse(temp.Substring(4, 4));
+
+                    strdt = year + "-" + month + "-" + day;
+
+
+                    DateTime dtFVD;
+                    if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD) ||
+                        DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFVD))
+                    {
+                        _fundValueDate = dtFVD.ToString("dd MMM yyyy");
+                    }
+                }
+                catch (FormatException)
+                {
+                    _fundValueDate = "-";
+                }
+                catch (Exception)
+                {
+                    _fundValueDate = "-";
+                }
+               
             }
-        }
 
-       
-        //Name of LISP responsible for this policy
-        [Optional]
-        [Index(30)]
-        public string LISP 
-        { 
-            get;
-            set; 
         }
-
+        
 
         [Optional]
         public string ValidationErrors 
@@ -473,12 +731,11 @@ namespace Finx.App.Models
     {
         public EasiworxRecordMap()
         {
-            //Console.WriteLine("What does this even rite: " +Map(c=>c.Dob));
             Map(c => c.Firstname);
             Map(c => c.Lastname);
             Map(c => c.DateOfBirth);
             Map(c => c.IDNumber);
-            Map(c => c.RegistrationNo);
+            Map(c => c.TaxNo);
             Map(c => c.PassportNo);
             Map(c => c.ClientNo);
 
@@ -496,7 +753,6 @@ namespace Finx.App.Models
             Map(c => c.OfficeTel); 
             Map(c => c.HomeTel);
             Map(c => c.EmailAddress);
-            
 
             Map(c => c.ProductType);
             Map(c => c.ModelPortfolio);
@@ -510,6 +766,11 @@ namespace Finx.App.Models
             Map(c => c.MonthlyPremium);
             Map(c => c.LISP);
 
+            Map(c => c.BankName);
+            Map(c => c.BranchName);
+            Map(c => c.BranchCode);
+            Map(c => c.BankAccNo);
+            Map(c => c.BankAccType);
 
             Task.Run(() =>
             {
@@ -522,6 +783,7 @@ namespace Finx.App.Models
                         var policyNo = r.Row.GetField<string>("AccountNo");
                         var fundName = r.Row.GetField<string>("FundName");
                         var fundValueDate = r.Row.GetField<string>("FundValueDate");
+                        var birthDate = r.Row.GetField<string>("BirthDate");
 
                         if (string.IsNullOrEmpty(idNumber))
                             errors.Append("ID Number is null!");
@@ -543,6 +805,9 @@ namespace Finx.App.Models
 
                         if (string.IsNullOrEmpty(fundValueDate))
                             errors.Append("Fund Value Date is null!");
+
+                        if (string.IsNullOrEmpty(birthDate))
+                            errors.Append("Birthdate is null!");
 
                         return errors.ToString();
 

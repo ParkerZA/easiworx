@@ -16,6 +16,50 @@ namespace easiplan.domain.Entities
 
 		#region NonPersisted Properties
 		[IgnoreAutoMap]
+		public virtual ClientAdviceRecord CurrentAdviceRecord
+		{
+			get
+			{
+				if (this.AdviceRecords==null || this.AdviceRecords.Count == 0)
+                    this.AdviceRecords.Add( new ClientAdviceRecord() { IsLoading=true});
+
+				return this.AdviceRecords.LastOrDefault();
+			} set { 
+			
+			}
+		}
+        [IgnoreAutoMap]
+        public virtual Note CurrentNote
+        {
+            get
+            {
+                if (this.Notes == null || this.Notes.Count == 0)
+                    this.Notes.Add(new Note() {  });
+
+                return this.Notes.LastOrDefault();
+            }
+            set
+            {
+
+            }
+        }
+
+        [IgnoreAutoMap]
+        public virtual DateTime AdviceDate
+		{
+			get { return CurrentAdviceRecord == null ? DateTime.Now : CurrentAdviceRecord.AdviceDate; }
+
+		}
+		[IgnoreAutoMap]
+        [IgnoreDataMember]
+        public virtual bool IsCompleted
+		{
+			get { return CurrentAdviceRecord == null ? false : CurrentAdviceRecord.IsCompleted; }
+			set { }
+
+		}
+
+		[IgnoreAutoMap]
 		public virtual int CurrentAge
 		{
 			get;
@@ -74,6 +118,7 @@ namespace easiplan.domain.Entities
             get;
             set;
         }
+        [IgnoreDataMember]
         public virtual int ReferenceId
 		{
 			get;
@@ -86,6 +131,7 @@ namespace easiplan.domain.Entities
 			set;
 		}
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Fund> FundsBindingList { get; set; }
 
 
@@ -95,13 +141,23 @@ namespace easiplan.domain.Entities
 			set;
 		}
 
-        [IgnoreAutoMap]
+        [IgnoreDataMember]
+        public virtual IList<ClientAdviceRecord> AdviceRecords 
+		{ 
+			get;
+			set; 
+		}
+		
+
+		[IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual IList<Need> Amendments
 		{
 			get;
 			set;
 		}
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<Need> AmendmentsBindingList { get; set; }
 
         public virtual IList<ClientDependent> Beneficiaries
@@ -110,10 +166,10 @@ namespace easiplan.domain.Entities
             set;
         }
         [IgnoreAutoMap]
+        [IgnoreDataMember]
         public virtual BindingList<ClientDependent> BeneficiariesBindingList { get; set; }
 
-		private string _bequethTo;
-		//[IgnoreAutoMap]
+		private string _bequethTo;		
 		public virtual string BequethTo
 		{
 			get
@@ -133,9 +189,10 @@ namespace easiplan.domain.Entities
             IsLoading = true;
 
             Funds = new List<Fund>();
-            Notes = new List<Note>();
+			Notes = new List<Note>();
 			Amendments = new List<Need>();
             Beneficiaries = new List<ClientDependent>();
+			AdviceRecords = new List<ClientAdviceRecord>();
 
 			Status = "Pending";
 
@@ -157,7 +214,7 @@ namespace easiplan.domain.Entities
             BeneficiariesBindingList.RaiseListChangedEvents = true;
             BeneficiariesBindingList.ListChanged += BindingList_ListChanged;
 
-            base.Initialise(isLoading);
+			base.Initialise(isLoading);
 		}
 
         private void BindingList_ListChanged(object sender, ListChangedEventArgs e)

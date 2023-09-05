@@ -1,27 +1,16 @@
-﻿using Microsoft.Win32;
+﻿using easiplan.app.Services;
+using easiplan.domain;
+using my.domain.lib.core.Domain;
+using my.domain.lib.core.Extensions;
+using my.domain.lib.core.License;
+using my.domain.lib.core.Registry;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-using System.Windows.Forms;
-using System.Xml.Serialization;
-using easiplan.app.Services;
-using my.domain.lib.core.License;
-using my.domain.lib.core.Extensions;
-using easiplan.domain;
-using easiplan.domain.Entities;
-using my.domain.lib.core.Domain;
 using System.ComponentModel.DataAnnotations;
-using my.domain.lib.core.Registry;
-using Finx.App.Forms;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace Finx.App.Models
 {
