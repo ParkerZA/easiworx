@@ -2127,7 +2127,7 @@ namespace Finx.App.Extensions
 
             if (grid.DataSource != null)
                 grid.DataSource.AllowNew = AllowAddNew;
-
+            
             #endregion
 
             #region Row Select Event Handler
@@ -2488,6 +2488,177 @@ namespace Finx.App.Extensions
 
             grid.FixedColumns = fixedCols + 1;
 
+            grid.ResumeLayout(true);
+
+            return grid;
+        }
+
+        public static SourceGrid.DataGrid Format2(this SourceGrid.DataGrid grid, bool ReadOnly = false, bool AllowDelete = true, bool AllowAddNew = true, GridFormats format = GridFormats.Default, bool AlternateBackground = false, int fixedCols = 0)
+        {
+            grid.SuspendLayout();
+
+            #region Header Cell Format
+            DevAge.Drawing.VisualElements.ColumnHeader bheader = new DevAge.Drawing.VisualElements.ColumnHeader();
+            bheader.BackColor = Color.White;
+            bheader.Border = DevAge.Drawing.RectangleBorder.CreateInsetBorder(1, Color.Gainsboro, Color.Gainsboro);
+            bheader.BackgroundColorStyle = DevAge.Drawing.BackgroundColorStyle.Solid;
+          
+
+            SourceGrid.Cells.Views.Header header = new SourceGrid.Cells.Views.Header();
+            header.Background = bheader;
+            header.ForeColor = Color.DarkSlateGray;
+            header.Font = new Font("Verdana", 8, FontStyle.Bold);
+           
+            //header.ImageAlignment = DevAge.Drawing.ContentAlignment.TopRight;
+            header.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleCenter;
+            header.TrimmingMode = TrimmingMode.Word;
+            header.WordWrap = true;
+
+            for (int i = 0; i < grid.Columns.Count; i++)
+            {
+                //grid.Columns[i].AutoSizeMode = SourceGrid.AutoSizeMode.EnableAutoSizeView;
+                grid.Columns[i].HeaderCell.View = header;
+                grid.Columns[i].HeaderCell.View.WordWrap = true;
+
+                if (grid.Columns[i].DataCell.Editor != null)
+                {
+                    if (grid.Columns[i].DataCell.Editor.EditableMode != SourceGrid.EditableMode.None)
+                    {
+                        grid.Columns[i].DataCell.Editor.EnableEdit = !ReadOnly;
+
+                    }
+                }
+            }
+            #endregion
+
+            #region Editor Cell Formats
+            SourceGrid.Cells.Views.Cell mView_Amount = new SourceGrid.Cells.Views.Cell();
+            mView_Amount.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
+
+            SourceGrid.Cells.Views.Cell mView_Amountdisabled = new SourceGrid.Cells.Views.Cell();
+            mView_Amountdisabled.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
+            mView_Amountdisabled.BackColor = Color.GhostWhite;
+            mView_Amountdisabled.ForeColor = Color.DarkSlateGray;
+
+            SourceGrid.Cells.Views.Cell mView_Textdisabled = new SourceGrid.Cells.Views.Cell();
+            mView_Textdisabled.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleLeft;
+           // mView_Textdisabled.BackColor = Color.GhostWhite;// Color.WhiteSmoke;
+            mView_Textdisabled.ForeColor = Color.DarkSlateGray;
+
+            //set editor formats/views
+            for (int i = 0; i < grid.Columns.Count; i++)
+            {
+                if (grid.Columns[i].DataCell.Editor != null)
+                {
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(CurrencyEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Amountdisabled;
+                        else
+                            grid.Columns[i].DataCell.View = mView_Amount;
+                    }
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(NumericEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Amountdisabled;
+                        else
+                            grid.Columns[i].DataCell.View = mView_Amount;
+                    }
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(DecimalEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Amountdisabled;
+                        else
+                            grid.Columns[i].DataCell.View = mView_Amount;
+                    }
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(StringEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Textdisabled;
+                    }
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(MultiLineEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Textdisabled;
+
+                        grid.Columns[i].DataCell.View.WordWrap = true;
+
+                    }
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(ComboBoxEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Textdisabled;
+                    }
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(DateEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Textdisabled;
+                    }
+                    if (grid.Columns[i].DataCell.Editor.GetType() == typeof(CheckBoxEditor))
+                    {
+                        if (grid.Columns[i].DataCell.Editor.EditableMode == EditableMode.None)
+                            grid.Columns[i].DataCell.View = mView_Textdisabled;
+                    }
+                }
+                else
+                {
+                    grid.Columns[i].DataCell.View = mView_Textdisabled;
+                }
+
+            }
+            #endregion
+
+            #region Alternate Background View
+            if (AlternateBackground)
+                foreach (SourceGrid.DataGridColumn colu in grid.Columns)
+                {
+                    SourceGrid.Conditions.ICondition condition =
+                        SourceGrid.Conditions.ConditionBuilder.AlternateView(colu.DataCell.View,
+                                                                             Color.WhiteSmoke, Color.Black);
+                    colu.Conditions.Add(condition);
+                }
+            #endregion
+
+            #region Selection Mode
+            //grid.SelectionMode = SourceGrid.GridSelectionMode.Cell;
+            //grid.Selection.EnableMultiSelection = false;
+
+            SourceGrid.Selection.SelectionBase SelectionBase = grid.Selection as SourceGrid.Selection.SelectionBase;
+
+            SelectionBase.BackColor = Color.FromArgb(75, Color.FromKnownColor(KnownColor.LightSteelBlue));
+
+            DevAge.Drawing.RectangleBorder border = SelectionBase.Border;
+            border.SetWidth(1);
+            border.SetColor(Color.DarkGray);
+            SelectionBase.Border = border;
+
+            //SourceGrid.GridSpecialKeys specialKeys = SourceGrid.GridSpecialKeys.None;
+            //specialKeys = specialKeys | SourceGrid.GridSpecialKeys.Tab;
+            //specialKeys = specialKeys | SourceGrid.GridSpecialKeys.Arrows;
+            //specialKeys = specialKeys | SourceGrid.GridSpecialKeys.Enter;
+            //specialKeys = specialKeys | SourceGrid.GridSpecialKeys.Escape;
+
+            //grid.SpecialKeys = specialKeys;
+
+            //grid.Selection.FocusStyle = grid.Selection.FocusStyle | SourceGrid.FocusStyle.FocusFirstCellOnEnter;
+            //grid.Selection.FocusStyle = grid.Selection.FocusStyle | SourceGrid.FocusStyle.RemoveFocusCellOnLeave;
+
+            #endregion
+
+            grid.UserException += dataGrid_UserException;
+
+            FormatGrid(grid, format);
+
+            grid.FixedColumns = fixedCols + 1;
+            //grid.AutoStretchRowsToFitHeight = true;
+            grid.AutoSize = false;
+            grid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowOnly;
+            grid.Rows.AutoSizeMode = SourceGrid.AutoSizeMode.Default;
+            grid.Rows.HeaderHeight = 43;
+            grid.Rows.RowHeight = 40;
+
+
+            grid.Columns[0].DataCell.View.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleCenter;
             grid.ResumeLayout(true);
 
             return grid;
@@ -3396,7 +3567,10 @@ namespace Finx.App.Extensions
                 EditableMode = SourceGrid.EditableMode.None;
             else
                 EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+
+            this.AllowNull = true;
         }
+
     }
     public class MultiLineEditor : SourceGrid.Cells.Editors.TextBox
     {
@@ -3408,10 +3582,9 @@ namespace Finx.App.Extensions
                 EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
 
             Control.Multiline = true;
-            Control.AcceptsReturn = true;
-            Control.WordWrap = true;
             Control.MaxLength = 4000;
             Control.ScrollBars = ScrollBars.Vertical;
+           
         }
     }
     public class DateEditor : SourceGrid.Cells.Editors.DateTimePicker //TextBoxDate
@@ -3423,21 +3596,22 @@ namespace Finx.App.Extensions
                 EditableMode = SourceGrid.EditableMode.None;
             else
                 EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+
+            this.AllowNull = true;
         }
 
         protected override void OnConvertingValueToDisplayString(ConvertingObjectEventArgs e)
         {
             try
             {
-                if (e.Value == null)
-                    return;
-
-                e.Value = DateTime.Parse(e.Value.ToString()).ToString("dd MMM yyyy");
+                if (e.Value != null)  
+                    e.Value = DateTime.Parse(e.Value.ToString()).ToString("dd MMM yyyy");
             }
             catch (Exception x) { };
 
             base.OnConvertingValueToDisplayString(e);
         }
+
     }
     public class TimeEditor : SourceGrid.Cells.Editors.TimePicker
     {
@@ -3458,6 +3632,8 @@ namespace Finx.App.Extensions
                 EditableMode = SourceGrid.EditableMode.None;
             else
                 EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+
+            this.AllowNull = true;
         }
 
         protected override void OnConvertingValueToDisplayString(ConvertingObjectEventArgs e)

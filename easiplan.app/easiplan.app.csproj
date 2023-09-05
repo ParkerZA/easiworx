@@ -34,7 +34,7 @@
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>116</ApplicationRevision>
+    <ApplicationRevision>118</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -194,9 +194,8 @@
       <HintPath>..\packages\CsvHelper.27.2.1\lib\net47\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.11.3.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\DocumentFormat.OpenXml.2.11.3\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\packages\easiplan.deps.1.2.1\lib\net472\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="easiplan.deps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\easiplan.deps.1.2.1\lib\net472\easiplan.deps.dll</HintPath>
@@ -524,6 +523,7 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
@@ -627,11 +627,23 @@
     <Compile Include="Forms\baseSlidingForm.Designer.cs">
       <DependentUpon>baseSlidingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmClientAdviceRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmClientAdviceRecord.Designer.cs">
+      <DependentUpon>frmClientAdviceRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmCsvImportProgressWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmCsvImportProgressWindow.Designer.cs">
       <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientAdviceRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMetroClientAdviceRecord.Designer.cs">
+      <DependentUpon>frmMetroClientAdviceRecord.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMetroPopUpWindow1.cs">
       <SubType>Form</SubType>
@@ -639,6 +651,7 @@
     <Compile Include="Forms\frmMetroPopUpWindow1.Designer.cs">
       <DependentUpon>frmMetroPopUpWindow1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AstuteRecord.cs" />
     <Compile Include="Models\EasiworxRecord.cs" />
     <Compile Include="Models\ClientInvestmentRecordAudit.cs" />
     <Compile Include="Forms\frmClientManagement.cs">
@@ -874,6 +887,30 @@
     <Compile Include="UserControls\xCalendar.Designer.cs">
       <DependentUpon>xCalendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\xCheckBoxHOption.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxHOption.Designer.cs">
+      <DependentUpon>xCheckBoxHOption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\bBoundUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\bBoundUserControl.Designer.cs">
+      <DependentUpon>bBoundUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xTextBoxH.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xTextBoxH.Designer.cs">
+      <DependentUpon>xTextBoxH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxListH.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\xCheckBoxListH.Designer.cs">
+      <DependentUpon>xCheckBoxListH.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\xCheckBoxList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -930,18 +967,29 @@
     </Compile>
     <EmbeddedResource Include="Forms\baseSlidingForm.resx">
       <DependentUpon>baseSlidingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmClientAdviceRecord.resx">
+      <DependentUpon>frmClientAdviceRecord.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientManagement.resx">
       <DependentUpon>frmClientManagement.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientCommunication.resx">
       <DependentUpon>frmClientCommunication.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageManualsTemplates.resx">
       <DependentUpon>frmManageManualsTemplates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageManualTemplatesAdd.resx">
       <DependentUpon>frmManageManualTemplatesAdd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMetroClientAdviceRecord.resx">
+      <DependentUpon>frmMetroClientAdviceRecord.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroClientImportInvestments.resx">
       <DependentUpon>frmMetroClientImportInvestments.cs</DependentUpon>
@@ -963,6 +1011,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCsvImportProgressWindow.resx">
       <DependentUpon>frmCsvImportProgressWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMetroPopUpWindow1.resx">
       <DependentUpon>frmMetroPopUpWindow1.cs</DependentUpon>
@@ -975,12 +1024,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClientDocuments.resx">
       <DependentUpon>frmClientDocuments.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageTemplates.resx">
       <DependentUpon>frmManageTemplates.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmManageTemplatesAdd.resx">
       <DependentUpon>frmManageTemplatesAdd.cs</DependentUpon>
@@ -1039,6 +1091,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\xCalendar.resx">
       <DependentUpon>xCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xCheckBoxHOption.resx">
+      <DependentUpon>xCheckBoxHOption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\bBoundUserControl.resx">
+      <DependentUpon>bBoundUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xTextBoxH.resx">
+      <DependentUpon>xTextBoxH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\xCheckBoxListH.resx">
+      <DependentUpon>xCheckBoxListH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\xCheckBoxList.resx">
       <DependentUpon>xCheckBoxList.cs</DependentUpon>
@@ -1311,6 +1375,16 @@
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
+    <None Include="Resources\out.png" />
+    <None Include="Resources\tick_30.png" />
+    <EmbeddedResource Include="DBMigrations\clientretirementportfolio_view.sql" />
+    <None Include="Resources\checkmark.png" />
+    <None Include="Resources\checkmark %281%29 %281%29 %281%29 %281%29 %281%29.png" />
+    <None Include="Resources\checkmark_1.png" />
+    <None Include="Resources\checkmark1.png" />
+    <None Include="Resources\checkmark_small.png" />
+    <Content Include="Resources\Easiworx landing Page 3.jpg" />
+    <None Include="Resources\Easiworx Landing Page 3.png" />
     <None Include="Resources\EWLogon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

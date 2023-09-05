@@ -10,13 +10,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using my.domain.lib.core.Validation;
+using System.Linq;
 
 namespace Finx.App.Models
 {
     public sealed class AllanGrayRecord : ICsvRecord
     {
         private string _idNo = "";
-        private string _product = "";
+        private string _productType = "";
         private string _fundValue = "";
         private string _fundValueDate = "";
         private string _passportNo = "";
@@ -31,7 +32,21 @@ namespace Finx.App.Models
         [Ignore]
         public int RowNo { get; set; }
 
-
+        public static string CapitalizeSentence(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                if (word.Length > 0)
+                {
+                    char firstLetter = char.ToUpper(word[0]);
+                    string restOfWord = word.Substring(1);
+                    words[i] = firstLetter + restOfWord;
+                }
+            }
+            return string.Join(" ", words);
+        }
 
         [Index(1)]//fullname - Client name e.g. Taurique, Toffie
         public string Firstname 
@@ -45,14 +60,17 @@ namespace Finx.App.Models
                     var fullnames = value.Split(',');
                     if (fullnames.Length > 1)
                     {
-                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim();
-                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim();
+                        _firstname = fullnames[1].Replace("\"",string.Empty).Trim().ToLower();
+                        this.Lastname = fullnames[0].Replace("\"", string.Empty).Trim().ToLower();
+                        this.Lastname = CapitalizeSentence(this.Lastname);
                     }
                     else
-                        _firstname = value;
+                        _firstname = value.ToLower();
                 }
                 else
-                    _firstname = value; 
+                    _firstname = value.ToLower(); 
+
+                _firstname= CapitalizeSentence(this.Firstname);
             } 
         }
 
@@ -85,11 +103,47 @@ namespace Finx.App.Models
         [Index(4)] //Product
         public string ProductType
         {
-            get { return _product; } 
-            set { _product = value; }
-           
-        }
+            get
+            {
+                return _productType;
+            }
+            set
+            {
+                if (value.ToLower().Contains("retirement income option") || value.ToLower().Contains("glacier living annuity"))
+                {
+                    _productType = "Living Annuity";
+                }
+                else if (value.ToLower().Contains("retirement annuity option") || value.ToLower().Contains("retirement annuity fund"))
+                {
+                    _productType = "Retirement Annuities";
+                }
+                else if (value.ToLower().Contains("investment platform unit trust") || value.ToLower().Contains("flexible investment option") || value.ToLower().Contains("investment plan"))
+                {
+                    _productType = "Unit Trust";
+                }
+                else if (value.ToLower().Contains("preservation") && value.ToLower().Contains("provident"))
+                {
+                    _productType = "Provident/Preservation Funds";
+                }
+                else if (value.ToLower().Contains("tax-free"))
+                {
+                    _productType = "Tax Free";
+                }
+                else if (value.ToLower().Contains("pension preservation fund"))
+                {
+                    _productType = "Pension/Preservation Fund";
+                }
+                else if (value.ToLower().Contains("flexible endowment option"))
+                {
+                    _productType = "Endowment";
+                }
+                else
+                {
+                    _productType = value;
+                }
 
+            }
+        }
         [Optional]
         public string PassportNo
         {
@@ -110,7 +164,10 @@ namespace Finx.App.Models
         [Index(8)] //Inception date
         public string StartDate
         {
-            get { return _startDate; }
+            get 
+            { 
+                return _startDate; 
+            }
             set
             {
                 if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtStartDt))
@@ -151,7 +208,10 @@ namespace Finx.App.Models
         [Index(22)] //Price date
         public string FundValueDate
         {
-            get { return _fundValueDate; }
+            get 
+            { 
+                return _fundValueDate; 
+            }
             set
             {
                 if (DateTime.TryParseExact(value, "dd-MMM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fundValDt))
@@ -159,12 +219,16 @@ namespace Finx.App.Models
                 else
                     _fundValueDate = value;
             }
+        
         }
 
         [Index(26)] //Market value in rands
         public string FundValue
         {
-            get { return _fundValue; }
+            get 
+            { 
+                return _fundValue; 
+            }
             set
             {
                 _fundValue = value.Replace(",", string.Empty);

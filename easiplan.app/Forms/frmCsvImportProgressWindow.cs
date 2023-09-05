@@ -12,12 +12,17 @@ using System.Windows.Forms;
 using Finx.App.UserControls;
 using MetroFramework.Controls;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace Finx.App.Forms
 {
     public partial class frmCsvImportProgressWindow : MetroForm, IProgressCallback
     {
         private string titleRoot = "";
+
+        public CancellationTokenSource cancelTokenSc;
+        public CancellationToken cancelToken;
+
         public delegate void SetTextInvoker(string text);
         public delegate void IncrementInvoker(int val);
         public delegate void StepToInvoker(int val);
@@ -25,8 +30,11 @@ namespace Finx.App.Forms
         private ManualResetEvent manualResetEventInit = new ManualResetEvent(false);
         private ManualResetEvent manualResetEventAbort = new ManualResetEvent(false);
         private bool requiresClose = true;
+        private bool allowTextEdit = true;
         public delegate void cancelImportDelegate();
         public event cancelImportDelegate CancelImport = new cancelImportDelegate(cancelImportEventHandler);
+
+        
 
         private static void cancelImportEventHandler()
         {
@@ -37,10 +45,21 @@ namespace Finx.App.Forms
         {
             InitializeComponent();
             InitialiseFormProperties();
+
+            cancelTokenSc = new CancellationTokenSource();
+            cancelToken = cancelTokenSc.Token;
         }
 
         public CancellationTokenSource CancellationTokenSource
         { get; set; }
+
+        public CancellationToken cancelTk
+        {
+            get
+            {
+                return cancelToken;
+            }
+        }
         private void InitialiseFormProperties()
         {
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
@@ -96,16 +115,19 @@ namespace Finx.App.Forms
         /// <param name="text">The progress text to display</param>
         public void SetText(String text)
         {
-            try
+            if (allowTextEdit)
             {
-                if (InvokeRequired)
-                    Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
-                else
-                    DoSetText(text);
-            }
-            catch (ObjectDisposedException)
-            {
-                                
+                try
+                {
+                    if (InvokeRequired)
+                        Invoke(new SetTextInvoker(DoSetText), new object[1] { text });
+                    else
+                        DoSetText(text);
+                }
+                catch (ObjectDisposedException)
+                {
+
+                }
             }
             
         }
@@ -267,13 +289,42 @@ namespace Finx.App.Forms
         private void AbortWork()
         {
             manualResetEventAbort.Set();
-            this.CancellationTokenSource.Cancel();
+            //Console.WriteLine(this.CancellationTokenSource.Token.ToString());
+            cancelTokenSc.Cancel();
+            //this.CancellationTokenSource.Cancel();
+            //this.CancellationTokenSource.t
         }
         #endregion
 
         private void metroButton_Cancel_Click(object sender, EventArgs e)
         {
-            AbortWork();
+
+
+
+            var dialogResult = new DialogResult();
+
+                var win32Parent = new NativeWindow();
+                //win32Parent.AssignHandle(_handle);
+                dialogResult = MessageBox.Show(win32Parent, "Are you sure you want to cancel this import ? Nb! Import batches which have already begun the import process will still be completed", "Cancel CSV import", MessageBoxButtons.YesNo);
+
+
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                this.SetCaption("The import has been Cancelled");
+                this.SetText("Please wait while current import batch finishes importing, no further batches will be imported");
+                this.metroButton_Cancel.Enabled = false;
+                this.allowTextEdit = false;
+                AbortWork();
+            }
+
+
+
+            //this.SetCaption("Please wait while the operation is cancelled");
+            //this.CloseForm();
         }
     }
 

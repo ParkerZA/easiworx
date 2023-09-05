@@ -99,7 +99,7 @@ namespace Finx.App.Forms
                 SmsPortal portal = new SmsPortal(Program.smsConfiguration);
                 var balance = portal.GetBalance();
 
-                MessageBoxExt.ShowInformation(string.Format("Success ...You have {0} credits available",balance ));
+                MessageBoxExt.ShowInformation(string.Format("Success ...You have {0} credits available",balance.Balance ));
 
                 RegistryWrapper.WriteRegistry(Global.RegistryKey, "SmsUri", Program.smsConfiguration.baseRestUri);
                 RegistryWrapper.WriteRegistry(Global.RegistryKey, "ClientKey", Program.smsConfiguration.ClientKey);
@@ -114,5 +114,10 @@ namespace Finx.App.Forms
 
         }
 
+        private void btnClearImage_Click(object sender, EventArgs e)
+        {
+            RegistryWrapper.WriteRegistry(Global.RegistryKey, "BackgroundImage", "");
+            htmlPanel_BackgroundImg.BackgroundImage = null;
+        }
     }
 }

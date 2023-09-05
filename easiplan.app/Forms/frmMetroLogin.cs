@@ -1,6 +1,8 @@
-﻿using easiplan.domain;
+﻿using easiplan.app.Forms;
+using easiplan.domain;
 using easiplan.domain.Entities;
 using easiplan.domain.Services;
+using Finx.App.Enums;
 using Finx.App.Extensions;
 using Finx.App.Models;
 using MetroFramework.Controls.Ext;
@@ -326,6 +328,6 @@ namespace Finx.App.Forms
             Program.ShowLog();
         }
 
-
+       
     }
 }

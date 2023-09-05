@@ -6,7 +6,6 @@
  *              : Add extension to Clone lists
  *              : Add Reset bindings methods
  *              : Checke Equals in reset methods
- *  04-SEPT-2023 : Update constructors to remove Clone methods
  * 
  */
 using DevAge.ComponentModel;

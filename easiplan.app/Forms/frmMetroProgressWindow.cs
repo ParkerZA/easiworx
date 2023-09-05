@@ -14,7 +14,7 @@ using MetroFramework.Controls;
 
 namespace Finx.App.Forms
 {
-    public partial class MetroProgressWindow : MetroForm, IProgressCallback
+    public partial class MetroProgressWindow : MetroForm, IProgressCallback, IProgressDataObjectCallback
     {
 
         /// <summary>
@@ -257,7 +257,12 @@ namespace Finx.App.Forms
             abortEvent.Set();
         }
         #endregion
-             
+
+        private void metroButton_Cancel_Click(object sender, EventArgs e)
+        {
+            this.AbortWork();
+            this.End();
+        }
     }
 
     

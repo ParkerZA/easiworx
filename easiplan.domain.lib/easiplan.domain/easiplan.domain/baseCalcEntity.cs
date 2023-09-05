@@ -14,6 +14,7 @@ namespace easiplan.domain
 		private bool _IsCalculating = false;
 
 		[IgnoreAutoMap]
+		[IgnoreDataMember]
 		public virtual bool RecalcNewMonthlyPremium { get; set; }
 
         #region Private Variables
@@ -36,6 +37,10 @@ namespace easiplan.domain
         private double _FutureAmount;
 
         private double _FutureAmountAdj;
+
+		private double _InitialFee;
+
+		private double _OngoingFee;
         #endregion
 
         #region NonPersisted Properties
@@ -122,10 +127,52 @@ namespace easiplan.domain
 			}
 		}
 
-		/// <summary>
-		/// Current Value
-		/// </summary>
-		public virtual double CurrentAmount
+
+        public virtual double InitialFee
+        {
+            get
+            {
+                return _InitialFee;
+            }
+            set
+            {
+                if (_InitialFee == value) return;
+
+                _InitialFee = value;
+
+                if (IsLoading) return;
+
+                Calculate();
+
+                InvokePropertyChanged("InitialFee");
+            }
+        }
+
+
+        public virtual double OngoingFee
+        {
+            get
+            {
+                return _OngoingFee;
+            }
+            set
+            {
+                if (_OngoingFee == value) return;
+
+                _OngoingFee = value;
+
+                if (IsLoading) return;
+
+                Calculate();
+
+                InvokePropertyChanged("OngoingFee");
+            }
+        }
+
+        /// <summary>
+        /// Current Value
+        /// </summary>
+        public virtual double CurrentAmount
 		{
 			get
 			{
@@ -227,10 +274,10 @@ namespace easiplan.domain
 			}
 			set
 			{
-				if (_InvestmentYears == value) return;
-
+                if (_InvestmentYears == value) return;
+				
 				_InvestmentYears = value;
-
+				
 				if (IsLoading || IsCalculating) return;
 
 				Calculate();

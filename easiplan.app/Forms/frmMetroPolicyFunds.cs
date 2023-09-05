@@ -1041,6 +1041,8 @@ namespace Finx.App.Forms
                         //column.For(c => c.GrowthPercentage, "Growth %", new MetroPercentageEditor().ReadOnly(Action== PolicyAction.UpdateInstruction ? true : ReadOnly));// Action != PolicyAction.AmendPolicy && Action != PolicyAction.UpdateFna ? true :
                         column.For(c => c.CurrentAmount, "Policy Value", new MetroCurrencyEditor(130).ReadOnly(true));
                         column.For(c => c.NewPolicyValue, "New Policy Value", new MetroCurrencyEditor().ReadOnly(true));
+                        column.For(c => c.InitialFee, "Initial Fee", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
+                        column.For(x => x.OngoingFee, "Ongoing Fee", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
                         //column.For(c => c.FutureAmount, "Future Value", new MetroCurrencyEditor().ReadOnly(true));
                         column.For(c => c.Status, "Task Status", new MetroComboBoxEditor(100).DataSourceList(Program.listData.List(ListDataItemType.InstructionStatus)).ReadOnly(ReadOnly));//
                         column.For(x => x.UpdateDate, "Update Dt", new MetroDateEditor(100).ReadOnly(true));
@@ -1065,7 +1067,7 @@ namespace Finx.App.Forms
                         columns.For(x => x.NewFundValue, "New Fund Value", new MetroCurrencyEditor(130).ReadOnly(true));
                         columns.For(x => x.UpdateDate, "Last Update", new MetroDateEditor(100).ReadOnly(true));
                     }, PropertyChangedHandler: Fund_propertyChanged_EventHandler,
-                        ItemDeleteEventHandler: Fund_propertyDelete_EventHandler,
+                        ItemDeleteEventHandler: Fund_propertyDelete_EventHandler, 
                         ReadOnly: ReadOnly,
                         AllowDelete: Action == PolicyAction.UpdateInstruction ? false : true,
                         AllowAddNew: Action == PolicyAction.UpdateInstruction ? false : true)
@@ -1514,11 +1516,11 @@ namespace Finx.App.Forms
                         //if (!Program.User.Designation.Contains("Authoriser"))
                         //    throw new MyValidationException("UnAuthorised . This action can only be performed by a valid Authoriser");
 
-                        if (MessageBoxExt.ShowQuestion("Are you sure you wish to Add this policy to the Client's Portfolio ?"))
+                        if (MessageBoxExt.ShowQuestion("Are you sure you wish to Add this policy to the Client's Portfolio?"))
                         {
                             TempNeed.Validate("ReferenceNo");
                             TempNeed.Validate("startdate");
-
+                           
                             TempNeed.Status = NeedStatus.Implemented.ToText();
                             TempNeed.IsImplemented = true;
                             TempNeed.IsCancelled = false;
@@ -1551,7 +1553,7 @@ namespace Finx.App.Forms
                                     {
                                         Program.Repository.Update<Retirement, int>(Retirement);
                                     }
-
+                                   
                                     break;
                                 case NeedTypes.InvestmentNeed:
 
@@ -2376,6 +2378,18 @@ namespace Finx.App.Forms
                 //DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
                 //Fund mObj = _bList.EditedObject as Fund;
 
+                DevAge.ComponentModel.BoundList<Fund> _bList = sender as DevAge.ComponentModel.BoundList<Fund>;
+                Fund mObj = _bList.EditedObject as Fund;
+
+                if (!(mObj == null))
+                {
+
+                    mObj.UpdateBy = Program.User.Username;
+                    mObj.FundValueDate = DateTime.Now;
+                    mObj.UpdateDate = DateTime.Now;
+                }
+                
+                
                 HasChanges = true;
             }
             catch (Exception x)
@@ -2574,6 +2588,7 @@ namespace Finx.App.Forms
                 column.For(c => c.NewPolicyValue, "New Policy Value", new MetroCurrencyEditor().ReadOnly(ReadOnly));
                 column.For(c => c.FutureAmount, "Future Value", new MetroCurrencyEditor().ReadOnly(true));
                 column.For(c => c.Status, "Status", new MetroComboBoxEditor().DataSourceList(Program.listData.List(ListDataItemType.PolicyStatus)).ReadOnly(true));//Action != PolicyAction.AmendPolicy ? true : ReadOnly
+                column.For(c => c.UpdateBy, "Update By", new MetroTextBoxEditor().ReadOnly(true));
 
             },
             ListChangedEventHandler: Need_ListChanged_Event,
@@ -2657,6 +2672,7 @@ namespace Finx.App.Forms
                     columns.For(x => x.CurrentAmount, "Fund Value", new MetroCurrencyEditor().ReadOnly(_ReadOnly));
                     columns.For(x => x.NewFundValue, "New Fund Value", new MetroCurrencyEditor().ReadOnly(_ReadOnly));
                     columns.For(x => x.UpdateDate, "Last Update", new MetroDateEditor().ReadOnly(true));
+                    columns.For(x => x.UpdateBy, "Update By", new MetroTextBoxEditor().ReadOnly(true));
 
                 }, ReadOnly: _ReadOnly,
                 ItemDeleteEventHandler: Need_Fund_PropertyDelete_Event,
@@ -3568,7 +3584,7 @@ namespace Finx.App.Forms
                 {
                     Fund f = fund.ToObject<Fund>();
                     f.Id = 0;
-                    f.StartDate = DateTime.Now;
+                    f.StartDate = DateTime.Now; //Inception bug
                     f.EndDate = f.MinDateTime;
                     f.InitialAmount = 0;
                     f.WithdrawalAmount = 0;

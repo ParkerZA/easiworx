@@ -95,8 +95,39 @@ namespace Finx.App.Forms
             xToolBarMenu1.tbSave.Visible = !ReadOnly;
             xToolBarMenu1.SaveClicked += toolStripButton_Save_Click;
 
+
+
+            //This is where we are messing
+
             xToolBarMenu1.tbEdit.Visible = !ReadOnly && Action == PolicyAction.AmendPolicy; xToolBarMenu1.tbEdit.Text = "New Note";
             xToolBarMenu1.EditClicked += toolStripButton_Add_Click;
+
+            
+            //Toolstrip menu items to possibly be moved to the repository or something
+            /*
+            ToolStripMenuItem newNote = new ToolStripMenuItem()
+            {
+                Text = "Blank template",
+                //Tag = ,
+            };
+
+            newNote.Click += new EventHandler(toolStripButton_Add_Click);
+
+            ToolStripMenuItem riskNote = new ToolStripMenuItem()
+            {
+                Text = "Risk",
+                //Tag = ,
+            };
+            riskNote.Click += new EventHandler(toolStripButton_InvestmentCompliance_Click);
+            //tM.Click += new EventHandler(DocumentTemplate_OnClick);
+
+            xToolBarMenu1.tbNewNote.DropDownItems.Add(newNote);
+            xToolBarMenu1.tbNewNote.DropDownItems.Add(riskNote);
+
+
+            xToolBarMenu1.tbEdit.Visible = false;
+            xToolBarMenu1.tbNewNote.Visible = !ReadOnly && Action == PolicyAction.AmendPolicy;
+            */
 
             xToolBarMenu1.CloseClicked += toolStripButton_Close_Click;
             #endregion
@@ -494,6 +525,32 @@ namespace Finx.App.Forms
                 xToolBarMenu1.SetEditMode(false);
             }
         }
+
+        //Method to be worked on if we end up doing the new note drop down
+        /*
+        private void toolStripButton_InvestmentCompliance_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedNote.Id == 0)
+                    return;
+
+                selectedNote = new Note();
+                selectedNote.Text = "High I am a selected not";
+                Initialise_PolicyNotePanel();
+
+            }
+            catch (Exception x)
+            {
+                MessageBoxExt.ShowException(x);
+            }
+            finally
+            {
+                xToolBarMenu1.SetEditMode(false);
+            }
+        }
+        */
+
         private void toolStripButton_Delete_Click(object sender, EventArgs e)
         {
             try
@@ -743,6 +800,11 @@ namespace Finx.App.Forms
         public class ClientSearchModel : BaseEntity<int>
         {
             public bool ShowCompletedTask { get; set; }
+        }
+
+        private void metroPanel_PolicyNote_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
    

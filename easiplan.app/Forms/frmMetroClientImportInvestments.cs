@@ -34,12 +34,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using my.domain.lib.core.Validation;
-
+using EnvDTE;
+using HibernatingRhinos.Profiler.Appender.CosmosDB.Integration;
+using Finx.App.UserControls;
 
 namespace Finx.App.Forms
 {
     public partial class frmMetroClientImportInvestments : MetroForm
     {
+        
         #region PrivateVars
 
         private List<ICsvRecord> _csvRecordList = null;
@@ -67,6 +70,7 @@ namespace Finx.App.Forms
         private static object _lockObject = new object();
         //private static int _dgvFileContentsRowCnt = 0;
         private static bool? _importCompleted = null;
+        private static bool? _importCancelled = null;
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken _cancellationToken;
         private string _detectedFileDelimiter;
@@ -149,6 +153,11 @@ namespace Finx.App.Forms
         private void kbtnOpenFile_Click(object sender, EventArgs e)
         {
             //Console.WriteLine($"kbtnOpenFile_Click {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
+
+            chkViewErrorRecords.Checked = false;
+            chkViewNewRecords.Checked = false;
+            chkViewExistingRecords.Checked = false;
+
 
             if (cmbSelectLisp.SelectedIndex == 0 || cmbSelectLisp.SelectedItem.ToString().ToLower() == "please select")
             {
@@ -233,11 +242,18 @@ namespace Finx.App.Forms
                         lblFileDate.Text = _fileProperties.FileDate.ToString("dd MMM yyyy hh:mm");
                         lblFileSize.Text = string.Format("{0} KB", (_fileProperties.FileSize / 1024).ToString());
 
+
+                       
+
+
                         var _loadFileWorker = new BackgroundWorker() { WorkerReportsProgress = false };
                         _loadFileWorker.DoWork += LoadFileWorker_DoWork;
                         var fileSettings = new FileSettings() { FilePath = _filepath, CsvConfiguration = csvHelperConfiguration };
                         _loadFileWorker.RunWorkerCompleted += LoadFileWorker_RunWorkerCompleted;
                         _loadFileWorker.RunWorkerAsync(fileSettings);
+
+                      
+
                     }
                     else
                     {
@@ -289,11 +305,23 @@ namespace Finx.App.Forms
             backgroundWorker_ImportClientInvestmentsFromFile.DoWork += BackgroundWorker_ImportClientInvestmentsFromFile_DoWork;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerCompleted += BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted;
             backgroundWorker_ImportClientInvestmentsFromFile.RunWorkerAsync(_frmCsvImportProgressWindow);
+           
 
             _frmCsvImportProgressWindow.ShowDialog(this);
+            //Close the progress window
+            _frmCsvImportProgressWindow.End();
             //_frmCsvImportProgressWindow.Close();
             MetroPopUpWindow importComplete = new MetroPopUpWindow();
-            importComplete.SetCaption("Import complete");
+            if ((_importCompleted!= null) && (_importCompleted==true))
+            {
+                importComplete.SetCaption("Import concluded");
+            }
+            else if ((_importCancelled != null) && (_importCancelled == true))
+            {
+                importComplete.SetCaption("Import cancelled");
+                _importCancelled= false;
+                lblImportStatus.Text = "Pending";
+            }
             importComplete.ShowDialog();
 
             this.ControlBox = true;
@@ -506,16 +534,25 @@ namespace Finx.App.Forms
                 if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
                     Task.Run(async () => { await GetMatchedEasiworxClientsFromCsv(); });
-                    
+
                     ValidateDataGridRecords();
 
-                    Task.Run(async () => {await GetErrorRecords();});
+                    Task.Run(async () => { await GetErrorRecords(); });
 
-                    Task.Run(async () => {await SetFileImportDetails();});
+                    Task.Run(async () => { await SetFileImportDetails(); });
 
                     //_dataBindingCompleteHasRun = true;
 
                 }
+                else
+                {
+                    ValidateDataGridRecords();
+
+                    Task.Run(async () => { await GetErrorRecords(); });
+
+                    Task.Run(async () => { await SetFileImportDetails(); });
+                }
+                
             }
         }
 
@@ -536,11 +573,11 @@ namespace Finx.App.Forms
             chkViewErrorRecords.Checked = false;
 
             if (dgvFileContents.DataSource == null) return;
-            
+
             if (chkViewNewRecords.Checked)
             {
                 SetDgvFileContentsDataSource(_csvRecordList);
-                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList();
+                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList();
                 var originalListCopy = _csvRecordList;
                 var newRecords = originalListCopy.Where(l => newRecordList.Any(n => n.Cells[0].Value.ToString() == l.RowNo.ToString())).ToList();
                 SetDgvFileContentsDataSource(newRecords); 
@@ -581,9 +618,15 @@ namespace Finx.App.Forms
 
             if (dgvFileContents.DataSource == null) return;
             if (_csvErrorRecords == null) return;
-            
+
             if (chkViewErrorRecords.Checked)
-                SetDgvFileContentsDataSource(_csvErrorRecords);
+            {
+                SetDgvFileContentsDataSource(_csvRecordList);
+                var newRecordList = dgvFileContents.Rows.Cast<DataGridViewRow>().ToList().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230,7,7)).ToList();
+                var originalListCopy = _csvRecordList;
+                var newRecords = originalListCopy.Where(l => newRecordList.Any(n => n.Cells[0].Value.ToString() == l.RowNo.ToString())).ToList();
+                SetDgvFileContentsDataSource(newRecords);
+            }
             else
                 SetDgvFileContentsDataSource(_csvRecordList);
 
@@ -638,6 +681,8 @@ namespace Finx.App.Forms
         {
             try
             {
+                
+
                 if (_csvRecordList == null) return;
 
                 dgvFileContents.DataBindingComplete += dgvFileContents_DataBindingComplete;
@@ -746,9 +791,22 @@ namespace Finx.App.Forms
                     dgvFileContents.Columns["AccountFundAllocation"].Visible = true;
                     dgvFileContents.Columns["ClientNo"].Visible = true;
                     dgvFileContents.Columns["Premium"].Visible = true;
+ 
+                    break;
 
-                    
-                    
+                case "astutetemplate":
+                    dgvFileContents.DataSource = csvRecords.Cast<AstuteRecord>().ToList();
+
+                    dgvFileContents.Columns["PassportNo"].Visible=false;
+                    dgvFileContents.Columns["Product"].Visible = false;
+                    dgvFileContents.Columns["ProductType"].Visible = true;
+                    dgvFileContents.Columns["Title"].Visible = false;
+                    dgvFileContents.Columns["Lastname"].Visible = true;
+                    dgvFileContents.Columns["BirthDate"].Visible = false;
+                    dgvFileContents.Columns["RegistrationNo"].Visible = false;
+                    dgvFileContents.Columns["AccountFundAllocation"].Visible = false;
+                    dgvFileContents.Columns["ClientNo"].Visible = false;
+                    dgvFileContents.Columns["Premium"].Visible = false;
                     break;
                 default:
                     MessageBox.Show(string.Format("Selected Service Provider Not Supported: {0}", _selectedLisp.ToUpper()), "Import Client Investments File", MessageBoxButtons.OK);
@@ -760,14 +818,14 @@ namespace Finx.App.Forms
             var frmCsvImportProgressWindow = e.Argument as frmCsvImportProgressWindow;
             if (frmCsvImportProgressWindow == null)
                 frmCsvImportProgressWindow = _frmCsvImportProgressWindow;
-
             frmCsvImportProgressWindow.CancellationTokenSource = _cancellationTokenSource;
+            
             ImportClientInvestmentsFromFile(frmCsvImportProgressWindow).Wait();
         }
         private void BackgroundWorker_ImportClientInvestmentsFromFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //what to do here?
-           
+            //MessageBox.Show("You clicked cancel");
             
         }
                 
@@ -806,7 +864,7 @@ namespace Finx.App.Forms
             this.FormClosing += FrmMetroClientImportInvestments_FormClosing;
             this.copyCellContentToolStripMenuItem.Click += CopyCellContentToolStripMenuItem_Click;
             _cancellationTokenSource = new CancellationTokenSource();
-
+            //_cancellationToken  = _cancellationTokenSource.Token;
             if (_lockObject == null)
                 _lockObject = new object();
 
@@ -819,8 +877,9 @@ namespace Finx.App.Forms
             {
                 loopResults.Add(Parallel.ForEach(batchedClientInvestment, parallelOptions, async (clientIdentificationNo, loopState) =>
                 {
-                  
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
+
+                    clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
                     //frmCsvImportProgressWindow.CancellationTokenSource = parallelOptions.CancellationToken
                     var progressCallback = frmCsvImportProgressWindow;
                     clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
@@ -829,20 +888,32 @@ namespace Finx.App.Forms
 
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
 
+                        //here
                         if (parallelOptions.CancellationToken.IsCancellationRequested)
                         {
+                            loopState.Stop(); 
                             parallelOptions.CancellationToken.ThrowIfCancellationRequested();
-                            //loopState.Break();
                         }
-
                         await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
                         _recCnt++;
                         _percCompleted = (int)Math.Round((double)(100 * _recCnt) / _fileClientInvestments.Keys.Count);
-                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
-                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
-                        clientInvestmentRecordImportAudit.SetMessage(message);
                         clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
+                       
+                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
+                        
+                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
+                        
+                        clientInvestmentRecordImportAudit.SetMessage(message);
+                        
+                        
                         Progress.Report(clientInvestmentRecordImportAudit);
+                        
+                        //Check if cancel button has been clicked
+                        if (parallelOptions.CancellationToken.IsCancellationRequested)
+                        {
+                            loopState.Stop();
+                            parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                        }
                     }
                     catch (OperationCanceledException ex)
                     {
@@ -850,6 +921,14 @@ namespace Finx.App.Forms
                         clientInvestmentRecordImportAudit.SetMessage(ex.Message);
                         Program.Logger.Error(clientIdentificationNo + ": " + ex);
                         Progress.Report(clientInvestmentRecordImportAudit);
+                        _importCancelled= true;
+                        _importCompleted = false;
+
+
+                        //loopState.Stop();
+                        //frmCsvImportProgressWindow.End();
+
+                        //return;
                     }
                     catch (NullReferenceException ex)
                     {
@@ -875,8 +954,13 @@ namespace Finx.App.Forms
                         clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Error);
                         Progress.Report(clientInvestmentRecordImportAudit);
                     }
-                }));
+                }
+                
+                ));
+                //Close the progress window
+                //frmCsvImportProgressWindow.End();
             });
+           
             return loopResults;
         }
 
@@ -927,25 +1011,43 @@ namespace Finx.App.Forms
 
         private async Task ImportClientInvestments(string ClientUniqueId, List<ICsvRecord> Investments)
         {
-
+            
             try
             {
                 //get client, if client portfolio exists on easiworx, return it otherwise create new client & return it
                 var clientPortfolio = await GetClientPortfolio(ClientUniqueId);
+
+                var matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.IdentificationNo.Trim() == ClientUniqueId).FirstOrDefault());
+
+                if (matchedClientDetails == null) //try passport no
+                    matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
+
+                //Declare empty client
                 Client client = null;
 
+                
                 if (clientPortfolio == null) //create new client & return it
                 {
                     //1st check if client exists
 
+                    //Dont make sense that we check portfolio before client... this is why the update streets isnt firing... check that... also look into using an await
+
+                    /*
                     var matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.IdentificationNo.Trim() == ClientUniqueId).FirstOrDefault());
 
                     if (matchedClientDetails == null) //try passport no
                         matchedClientDetails = await Task.Run(() => _existingClientDetails.Where(cd => cd.PassportNo != string.Empty && cd.PassportNo.Trim() == ClientUniqueId).FirstOrDefault());
 
+                    */
+
+                    //If client does not exist, create new client
                     if (matchedClientDetails == null)
+                    {
+                        
                         client = await Task.Run(() => CreateNewClient(Investments.FirstOrDefault()));
-                    else
+                        
+                    }
+                    else //If client does exist but client portfolio not initialised, then initialise client portfolio and details
                     {
                         await Task.Run(() =>
                         {
@@ -954,12 +1056,35 @@ namespace Finx.App.Forms
                                 lock (_lockObject)
                                 {
                                     client = Program.ClientService.Get(matchedClientDetails.ClientId);
-                                    if (client.ClientPortfolio == null)
+
+                                    if (!(client == null))
                                     {
-                                        client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
-                                        Program.ClientService.Update(client);
+                                        if (client.ClientPortfolio == null)
+                                        {
+                                            client.ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now };
+                                            Program.ClientService.Update(client);
+                                        }
+
+                                        if (client.PhysicalAddress == null)
+                                        {
+                                            client.PhysicalAddress = new AddressDetail() { CreateDate = DateTime.Now };
+                                            Program.ClientService.Update(client);
+                                        }
+
+                                        if (client.PostalAddress == null)
+                                        {
+                                            client.PostalAddress = new AddressDetail() { CreateDate = DateTime.Now };
+                                            Program.ClientService.Update(client);
+                                        }
+
+
+                                        if (client.BankDetails == null)
+                                        {
+                                            client.BankDetails = new BankDetail() { CreateDate = DateTime.Now };
+                                            Program.ClientService.Update(client);
+                                        }
+
                                     }
-                                    
                                 }
                             }
                             catch (AggregateException x)
@@ -985,27 +1110,27 @@ namespace Finx.App.Forms
 
                     if (client == null) return;
                 }
+                else
+                {
+                    //If client does exist then set client
+                    client = Program.ClientService.Get(matchedClientDetails.ClientId);
+                }
 
-                /*  //if csv is easiworx then all the easiwox address and contact details
-                  client.PhysicalAddress = new AddressDetail()
-                  {
-                          Line1 = "Yoh",
-                          Line2 = "Naai",
-                          Line3 = "Nruh",
-                          Line4 = "aight",
-                          Code = 8999
-                  };*/
+                //Fill in client Address and contact details
+                if (!(client == null))
+                {
+                    await Task.Run(() => UpdateClientDetails(client, Investments.FirstOrDefault()));
 
-                UpdateClientDetails(client, Investments.FirstOrDefault());
-                
-
-
+                    lock (_lockObject)
+                    {
+                        Program.ClientService.Update(client);
+                    }
+                }
 
                 //get all distinct policies for this client
                 var distinctRetirementPolicies = await Task.Run(() => Investments.GroupBy(i => i.AccountNo).Select(i => i.FirstOrDefault()).ToList());
 
                 Retirement retirement = null;
-                Retirement tester = null;
                 foreach (var policy in distinctRetirementPolicies)
                 {
 
@@ -1046,8 +1171,10 @@ namespace Finx.App.Forms
                     var policyFunds = await Task.Run(() => Investments.Where(i => i.AccountNo.Trim() == policy.AccountNo.Trim()).ToList());
 
                     //add or update policy funds
+                    
+                    
                     var updatedretirement = await Task.Run(() => AddRetirementFunds(retirement, policyFunds));
-
+                    
                     //get existing client retirements
                     List<Retirement> existingRetirements = null;
 
@@ -1183,31 +1310,10 @@ namespace Finx.App.Forms
                 var title = "";
                 var firstname = "";
                 var lastname = "";
-
-              /*  var physicalAddress1 = "";
-                var physicalAddress2 = "";
-                var physicalAddress3 = "";
-                var physicalAddress4 = "";
-                var physicalAddress5 = "";
-                var physicalAddress6 = "";
-                var physicalAddressCode = 0;
-
-                var postalAddress1 = "";
-                var postalAddress2 = "";
-                var postalAddress3 = "";
-                var postalAddress4 = "";
-                var postalAddress5 = "";
-                var postalAddress6 = "";
-                var postalCode = 0;
-
-                var taxNo = "";
-                var hometel = "";
-                var worktel = "";
-                var faxno = "";
-                var cellno = "";
-                var email = "";*/
                 var dob = "";
-
+                var taxNo = "";
+                var accName = "";
+                //DateTime dtDob = new DateTime(0001, 1, 1);
                 try
                 {
                     //if (csvRecord.PassportNo == "ZP004396")
@@ -1216,16 +1322,34 @@ namespace Finx.App.Forms
                     //dob is a required field
                     if (!string.IsNullOrEmpty(csvRecord.IDNumber) && csvRecord.IDNumber.Length >= 9 && csvRecord.IDNumber.Length <= 13)
                     {
+                        DateTime dtDob;
+                        
+
+                        //These easiworx ids are to be switched out for csvRecord.IDNumber once problem is solved
+                        /*dtDob = DateTime.Parse(string.Format("{0}/{1}/20{2}", (object)csvRecord.IDNumber.Substring(4, 2), (object)csvRecord.IDNumber.Substring(2, 2), (object)csvRecord.IDNumber.Substring(0, 2)));
+                        if (dtDob.CompareTo(DateTime.Now) > 0)
+                        {
+                            dtDob = dtDob.AddYears(-100);
+                        }*/
                         var datePart = csvRecord.IDNumber.Substring(0, 6);
                         var year = int.Parse(datePart.Substring(0, 2));
                         var month = int.Parse(datePart.Substring(2, 2));
                         var day = int.Parse(datePart.Substring(4, 2));
 
+                        if (year > 49)
+                        {
+                            year = year + 1900;
+                        }
+                        else 
+                        {
+                            year = year + 2000;
+                        }
+
                         var strdt = year + "-" + month + "-" + day;
-                        DateTime dtDob;
-                        if (DateTime.TryParseExact(strdt, "yy-mm-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
-                            DateTime.TryParseExact(strdt, "yy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
-                            DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
+                        
+                        if (DateTime.TryParseExact(strdt, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob) ||
+                            DateTime.TryParseExact(strdt, "yyyy-M-d", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
+                            // || DateTime.TryParseExact(strdt, "y-M-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtDob))
                         {
                             if (dtDob > now)
                             {
@@ -1236,9 +1360,8 @@ namespace Finx.App.Forms
                             dob = dtDob.ToString("dd MMM yyyy");
                             //dob = new DateTime(year, month, day).ToString("dd MMM yyyy");
                         }
-                       
-                        //Console.WriteLine("ID: " + csvRecord.IDNumber);
-                        //Console.WriteLine("Birthdate: " + dob);
+
+                        dob = dtDob.ToString("dd MMM yyyy");
 
                     }
 
@@ -1262,53 +1385,7 @@ namespace Finx.App.Forms
                             title = camissaRecord.Title;
                             firstname = camissaRecord.Firstname;
                             lastname = camissaRecord.Lastname;
-/*
-                            //Camissa Physical Address
 
-                            //Below I am splitting the first line of the Camissa address format into a street number and road name
-                            string streetNumber = "";
-                            string roadName = "";
-                            
-                            int spaceIndex = camissaRecord.PhysicalAddress1.IndexOf(' '); //Gets index of first space in address
-
-                            streetNumber = camissaRecord.PhysicalAddress1.Substring(0, spaceIndex); //Sets street number
-                            roadName = camissaRecord.PhysicalAddress1.Substring(spaceIndex).Trim(); //Sets road name
-                            
-                            physicalAddress1 = streetNumber; //Street number
-                            physicalAddress2 = roadName; //Road name
-                            physicalAddress3 = camissaRecord.PhysicalAddress2; // Suburb (Possibly refactor, especially if the other lisps have a very different address structure)
-                            physicalAddress4 = camissaRecord.PhysicalAddress4;
-                            physicalAddress5 = camissaRecord.PhysicalAddress5;
-                            physicalAddress6 = camissaRecord.PhysicalAddress6;
-                            int.TryParse(camissaRecord.PhysicalAddressPostalCode, out physicalAddressCode);
-
-                            //Camissa Postal Address
-
-                            //Splitting postal road number from the street name
-                            string posStreetNumber = "";
-                            string posRoadName = "";
-
-                            int posSpaceIndex = camissaRecord.PostalAddress1.IndexOf(' '); //Gets index of first space in address
-
-                            posStreetNumber = camissaRecord.PhysicalAddress1.Substring(0, posSpaceIndex); //Sets street number
-                            posRoadName = camissaRecord.PhysicalAddress1.Substring(posSpaceIndex).Trim(); //Sets road name
-
-                            postalAddress1 = posStreetNumber; //Street number
-                            postalAddress2 = posRoadName; //Road name
-                            postalAddress3 = camissaRecord.PostalAddress2; //Suburb (This is really dumb... might have to refactor)
-                            postalAddress4 = camissaRecord.PostalAddress4;
-                            postalAddress5 = camissaRecord.PostalAddress5;
-                            postalAddress6 = camissaRecord.PostalAddress6;
-                            int.TryParse(camissaRecord.PostalCode, out postalCode);
-
-                            taxNo = camissaRecord.TaxNo;
-
-                            hometel = camissaRecord.HomeTelephone;
-                            worktel = camissaRecord.WorkTelephone;
-                            cellno = camissaRecord.Cellphone;
-                            faxno = camissaRecord.FaxNumber;
-                            email = camissaRecord.EmailAddress;
-*/
                             break;
 
                         case "momentum":
@@ -1351,45 +1428,37 @@ namespace Finx.App.Forms
   
 
                             break;
+
+                        case "astutetemplate":
+                            //Nb! no dob field provided in csv file, therefor clients with passport nos wont get added to easiworx as dob is a required field
+                            if (string.IsNullOrEmpty(dob))
+                                return null;
+
+                            var astuteRecord = csvRecord as AstuteRecord;
+
+                            firstname = astuteRecord.Firstname.Trim();
+                            lastname = astuteRecord.Lastname.Trim();
+
+
+                            break;
+
                         case "easiworx":
                         case "easiworxtemplate":
                             
                             var easiworxRecord = csvRecord as EasiworxRecord;
                             firstname = easiworxRecord.Firstname.Trim();
                             lastname = easiworxRecord.Lastname.Trim();
+                            accName = easiworxRecord.AccountName.Trim();
+                            
+                            taxNo = easiworxRecord.TaxNo.Trim();
+
 
                             // date format: dd/MM/yyyy
                             DateTime ewx_dtDob;
                             if (DateTime.TryParseExact(easiworxRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ewx_dtDob))
-                                dob = ewx_dtDob.ToString("dd MMM yyyy");
-
-
-/*
-                            //Easiworx Physical Address
-
-                            physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
-                            physicalAddress2 = easiworxRecord.PhysicalAddress;
-                            physicalAddress3 = easiworxRecord.PhysicalAddressSuburb;
-                            //physicalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the physical address city
-                            int.TryParse(easiworxRecord.PhysicalAddressPostalCode, out physicalAddressCode); //Sets the physical address postal code
-
-                            //Easiworx Postal Address
-
-                            postalAddress1 = easiworxRecord.PostalAddressStreetNo;
-                            postalAddress2 = easiworxRecord.PostalAddress;
-                            postalAddress3 = easiworxRecord.PostalSuburb;
-                            //postalAddress4 = easiworxRecord.PhysicalAddress4; //This will be the postal city
-                            int.TryParse(easiworxRecord.PostalCode, out postalCode); //Sets the postal address postal code
-
-                            //Easiworx Contact Details
-
-                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
-                            hometel = easiworxRecord.HomeTel.Replace("'", string.Empty); 
-                            worktel = easiworxRecord.OfficeTel.Replace("'", string.Empty); 
-                            cellno = easiworxRecord.CellNo.Replace("'", string.Empty); 
-                            //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
-                            email = easiworxRecord.EmailAddress;
-                            */
+                            { 
+                                dob = ewx_dtDob.ToString("dd MMM yyyy"); 
+                            }
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
@@ -1405,70 +1474,16 @@ namespace Finx.App.Forms
                             FirstName = firstname,
                             LastName = lastname,
                             IdentificationNo = csvRecord.IDNumber,
+                            //DateOfBirth = new DateTime(01, 01, 0001), //Remove this after testing
                             PassportNo = csvRecord.PassportNo,
+                            TaxNumber = taxNo,
                             UpdateBy = UpdateBy,
                             CreateDate = DateTime.Now
 
                         },
                         ClientPortfolio = new ClientPortfolio() { CreateDate = DateTime.Now }
                     };
-                    /*if (!string.IsNullOrEmpty(physicalAddress1))
-                    {
-                        client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
-                                                 physicalAddress2 + " " +
-                                                 physicalAddress3 + " " +
-                                                 physicalAddress4 + " " +
-                                                 physicalAddress5 + " " +
-                                                 physicalAddress6 + " " +
-                                                 physicalAddressCode;
-                    }
-
-                    if (!string.IsNullOrEmpty(taxNo))
-                        client.ClientDetails.TaxNumber = taxNo;
-
-                    if (!string.IsNullOrEmpty(cellno))
-                        client.ClientDetails.RecipientCell = cellno;
-
-                    if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(faxno) || !string.IsNullOrEmpty(hometel) || !string.IsNullOrEmpty(worktel) || !string.IsNullOrEmpty(cellno))
-                    {
-                        client.ClientContacts = new ClientContacts()
-                        {
-                            EMailAddr = email,
-                            FaxNo = faxno,
-                            HomeTel = hometel,
-                            BussTel = worktel,
-                            CellNo = cellno,
-                            CreateDate = DateTime.Now,
-                            UpdateBy = UpdateBy
-                        };
-                    }
-                    if (!string.IsNullOrEmpty(physicalAddress1))
-                    {
-                        client.PhysicalAddress = new AddressDetail()
-                        {
-                            Line1 = physicalAddress1,
-                            Line2 = physicalAddress2,
-                            Line3 = physicalAddress3,
-                            Line4 = physicalAddress4 + " " +
-                                       physicalAddress5 + " " +
-                                       physicalAddress6,
-                            Code = physicalAddressCode
-                        };
-                    }
-
-                    if (!string.IsNullOrEmpty(postalAddress1))
-                    {
-                        client.PostalAddress = new AddressDetail()
-                        {
-                            Line1 = postalAddress1,
-                            Line2 = postalAddress2,
-                            Line3 = postalAddress3,
-                            Line4 = postalAddress4 + " " +
-                                postalAddress5 + " " +
-                                postalAddress6,
-                            Code = postalCode
-                        };
-                    }*/
+                    
 
                     client.ClientContacts = new ClientContacts()
                     {
@@ -1481,11 +1496,52 @@ namespace Finx.App.Forms
                         UpdateBy = UpdateBy
                     };
 
+                    client.PhysicalAddress = new AddressDetail()
+                    {
+                        Line1 = "",
+                        Line2 = "",
+                        Line3 = "",
+                        Line4 = "",
+                        Code = 0,
+                        CreateDate = DateTime.Now,
+                        UpdateBy = UpdateBy
+                    };
+
+                    client.PostalAddress = new AddressDetail()
+                    {
+                        Line1 = "",
+                        Line2 = "",
+                        Line3 = "",
+                        Line4 = "",
+                        Code = 0,
+                        CreateDate = DateTime.Now,
+                        UpdateBy = UpdateBy
+                    };
+
+                    client.BankDetails = new BankDetail()
+                    {
+                        BnkName = "",
+                        BrnchName = "",
+                        BrnchCode = "",
+                        AcctNumber = "",
+                        AcctType = "",
+                        AcctName = accName,
+                        CreateDate = DateTime.Now,
+                        UpdateBy = UpdateBy
+                    };
+
                     if (!string.IsNullOrEmpty(dob))
                     {
-                        DateTime.TryParse(dob, out DateTime dtDob);
-                        client.ClientDetails.DateOfBirth = dtDob;
+                        if (DateTime.TryParseExact(dob, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dtDob))
+                        {
+                            client.ClientDetails.DateOfBirth = dtDob;
+                        }
                     }
+
+                    /*if ((dtDob != (new DateTime(0001, 1, 1))))
+                    {
+                        client.ClientDetails.DateOfBirth = dtDob;
+                    }*/
                     try
                     {
                         Program.ClientService.Add(client);
@@ -1537,6 +1593,7 @@ namespace Finx.App.Forms
                 lock (_lockObject)
                 {
 
+                    var dob = "";
                     var physicalAddress1 = "";
                     var physicalAddress2 = "";
                     var physicalAddress3 = "";
@@ -1560,14 +1617,24 @@ namespace Finx.App.Forms
                     var cellno = "";
                     var email = "";
 
+                    var bankName = "";
+                    var branchName= "";
+                    var branchCode = "";
+                    var bankAccNo = "";
+                    var bankAccType = "";
+                    //var accName = "";
 
-
-                    //switch (csvRecord.LISP.ToLower())
                     switch (_selectedLisp.ToLower())
                     {
                         case "camissa":
                             var camissaRecord = csvRecord as CamissaRecord;
 
+
+                            //birthdate
+
+                            DateTime cm_dtDob;
+                            if (DateTime.TryParseExact(camissaRecord.DateOfBirth, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out cm_dtDob))
+                                dob = cm_dtDob.ToString("dd MMM yyyy");
 
                             //Camissa Physical Address
 
@@ -1631,6 +1698,12 @@ namespace Finx.App.Forms
                             var momentumTabRecord = csvRecord as MomentumRecord_TabDelimited;
 
                             break;
+                        case "astutetemplate":
+
+
+                            var astuteRecord = csvRecord as AstuteRecord;
+
+                            break;
 
                         case "alangray":
                         case "alan gray":
@@ -1639,19 +1712,15 @@ namespace Finx.App.Forms
 
                             var allanGrayRecord = csvRecord as AllanGrayRecord;
 
-                            //firstname = allanGrayRecord.Firstname.Trim();
-                            //lastname = allanGrayRecord.Lastname.Trim();
-
-
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
 
                             var easiworxRecord = csvRecord as EasiworxRecord;
-                            //firstname = easiworxRecord.Firstname.Trim();
-                            //lastname = easiworxRecord.Lastname.Trim();
 
 
+                            
+                            
                             //Easiworx Physical Address
 
                             physicalAddress1 = easiworxRecord.PhysicalAddressStreetNo;
@@ -1670,21 +1739,101 @@ namespace Finx.App.Forms
 
                             //Easiworx Contact Details
 
-                            //taxNo = easiworxRecord.TaxNo; //No tax number has been specified in easiworx csv
+                            taxNo = easiworxRecord.TaxNo.Trim(); 
                             hometel = easiworxRecord.HomeTel.Replace("'", string.Empty);
                             worktel = easiworxRecord.OfficeTel.Replace("'", string.Empty);
                             cellno = easiworxRecord.CellNo.Replace("'", string.Empty);
                             //faxno = easiworxRecord.FaxNumber; //No fax number has been specified in easiworx csv
                             email = easiworxRecord.EmailAddress;
 
+
+                            //Easiworx Banking Details
+
+                            //Match Bank name
+
+                            string bnkName = easiworxRecord.BankName.ToLower();
+
+                            if (bnkName.Contains("absa"))
+                            {
+                                bankName = "Absa";
+                            }
+                            else if (bnkName.Contains("albaraka"))
+                            {
+                                bankName = "Albaraka";
+                            }
+                            else if (bnkName.Contains("capitec"))
+                            {
+                                bankName = "Capitec";
+                            }
+                            else if (bnkName.Contains("fnb")||bnkName.Contains("first national bank"))
+                            {
+                                bankName = "FNB";
+                            }
+                            else if (bnkName.Contains("nedbank"))
+                            {
+                                bankName = "Nedbank";
+                            }
+                            else if (bnkName.Contains("standard"))
+                            {
+                                bankName = "Standard Bank";
+                            }
+                            else if (bnkName.Contains("discovery"))
+                            {
+                                bankName = "Discovery Bank";
+                            }
+                            else if (bnkName.Contains("bidvest"))
+                            {
+                                bankName = "Bidvest";
+                            }
+                            else if (bnkName.Contains("tyme"))
+                            {
+                                bankName = "TymeBank";
+                            }
+                            else if (bnkName.Contains("mercantile"))
+                            {
+                                bankName = "Mercantile";
+                            }
+                            else if (bnkName.Contains("zero"))
+                            {
+                                bankName = "Bank Zero";
+                            }
+                            else if (bnkName.Contains("investec"))
+                            {
+                                bankName = "Investec";
+                            }
+                            
+                            
+                            branchName = easiworxRecord.BranchName;
+                            branchCode = easiworxRecord.BranchCode;
+                            bankAccNo = easiworxRecord.BankAccNo;
+                            //accName = easiworxRecord.AccountName;
+
+                            //Matching account types
+
+                            string bnkAccType = easiworxRecord.BankAccType.ToLower();
+
+                            if (bnkAccType.Contains("current"))
+                            {
+                                bankAccType = "Current";
+                            }
+                            else if (bnkAccType.Contains("savings"))
+                            {
+                                bankAccType = "Saving";
+                            }
+                            else
+                            {
+                                bankAccType = "Other";
+                            }
+
+                                
+
                             break;
                         default:
                             throw new ApplicationException("Invalid Lisp!");
                     }
 
-
-
-                    if (!string.IsNullOrEmpty(physicalAddress1))
+               
+                    if (!string.IsNullOrEmpty(physicalAddress1) || !string.IsNullOrEmpty(physicalAddress2) || !string.IsNullOrEmpty(physicalAddress3) || !(physicalAddressCode == 0))
                     {
                         client.ClientDetails.RecipientAddress = physicalAddress1 + " " +
                                                  physicalAddress2 + " " +
@@ -1694,14 +1843,21 @@ namespace Finx.App.Forms
                                                  physicalAddress6 + " " +
                                                  physicalAddressCode;
                     }
+                    
+                    //Setting tax number
 
-                    if (!string.IsNullOrEmpty(taxNo))
+                    if (!string.IsNullOrWhiteSpace(taxNo))
                         client.ClientDetails.TaxNumber = taxNo;
 
-                    if (!string.IsNullOrEmpty(cellno))
-                        client.ClientDetails.RecipientCell = cellno;
+                    //Setting recipient cell number
 
-                    if (!string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(faxno) || !string.IsNullOrEmpty(hometel) || !string.IsNullOrEmpty(worktel) || !string.IsNullOrEmpty(cellno))
+                    if (!string.IsNullOrWhiteSpace(cellno))
+                        client.ClientDetails.RecipientCell = cellno;
+                    
+
+                    //Setting contact details
+
+                    if (!string.IsNullOrWhiteSpace(email) || !string.IsNullOrWhiteSpace(faxno) || !string.IsNullOrWhiteSpace(hometel) || !string.IsNullOrWhiteSpace(worktel) || !string.IsNullOrWhiteSpace(cellno))
                     {
 
 
@@ -1713,51 +1869,45 @@ namespace Finx.App.Forms
                         client.ClientContacts.UpdateBy = UpdateBy;
                     }
                     
-                    if (!string.IsNullOrEmpty(physicalAddress1))
+                    
+                    if (!string.IsNullOrWhiteSpace(physicalAddress1) || !string.IsNullOrWhiteSpace(physicalAddress2) || !string.IsNullOrWhiteSpace(physicalAddress3) || !(physicalAddressCode == 0))
                     {
-                        client.PhysicalAddress = new AddressDetail()
-                        {
-                            Line1 = physicalAddress1,
-                            Line2 = physicalAddress2,
-                            Line3 = physicalAddress3,
-                            Line4 = physicalAddress4 + " " +
-                                       physicalAddress5 + " " +
-                                       physicalAddress6,
-                            Code = physicalAddressCode
-                        };
+                        client.PhysicalAddress.Line1 = physicalAddress1;
+                        client.PhysicalAddress.Line2 = physicalAddress2;
+                        client.PhysicalAddress.Line3 = physicalAddress3;
+                        client.PhysicalAddress.Line4 = physicalAddress4 + " " +
+                                   physicalAddress5 + " " +
+                                   physicalAddress6;
+                        client.PhysicalAddress.Code = physicalAddressCode;
+                        client.PhysicalAddress.UpdateBy = UpdateBy;
                     }
 
-                    if (!string.IsNullOrEmpty(postalAddress1))
+                    if (!string.IsNullOrWhiteSpace(postalAddress1)|| !string.IsNullOrWhiteSpace(postalAddress2) || !string.IsNullOrWhiteSpace(postalAddress3) || !(postalCode==0))
                     {
-                        client.PostalAddress = new AddressDetail()
-                        {
-                            Line1 = postalAddress1,
-                            Line2 = postalAddress2,
-                            Line3 = postalAddress3,
-                            Line4 = postalAddress4 + " " +
-                                postalAddress5 + " " +
-                                postalAddress6,
-                            Code = postalCode
-                        };
+                        client.PostalAddress.Line1 = postalAddress1;
+                        client.PostalAddress.Line2 = postalAddress2;
+                        client.PostalAddress.Line3 = postalAddress3;
+                        client.PostalAddress.Line4 = postalAddress4 + " " +
+                            postalAddress5 + " " +
+                            postalAddress6;
+                        client.PostalAddress.Code = postalCode;
+                        client.PostalAddress.UpdateBy = UpdateBy;
                     }
 
-
-
-
-                    if (client.Id > 0)
+                    
+                    if (!string.IsNullOrWhiteSpace(bankName) || !string.IsNullOrWhiteSpace(branchName) || !string.IsNullOrWhiteSpace(branchCode) || !string.IsNullOrWhiteSpace(bankAccType) || !string.IsNullOrWhiteSpace(bankAccNo))
                     {
-                        client.ClientDetails.ClientId = client.Id;
-
-                        if (client.ClientContacts != null)
-                        {
-                            client.ClientContacts.ClientId = client.Id;
-                            client.ClientContacts.ClientDetailsId = client.ClientDetails.Id;
-                        }
-
-                        Program.ClientService.Update(client);
+                        client.BankDetails.BnkName = bankName;
+                        client.BankDetails.BrnchName = branchName;
+                        client.BankDetails.BrnchCode = branchCode;
+                        client.BankDetails.AcctNumber = bankAccNo;
+                        client.BankDetails.AcctType = bankAccType;
+                       //client.BankDetails.AcctName = accName;
+                        
+                       
+                        
                     }
-                    else
-                        client = null;
+
 
                 }
             }
@@ -1795,6 +1945,10 @@ namespace Finx.App.Forms
                 csvHelperConfiguration.Delimiter = _detectedFileDelimiter;
 
 
+                if (_selectedLisp.ToLower().Contains("astute"))
+                {
+                    _csvRecordList = CsvFileHelper.GetRecords<AstuteRecord>(filepath, csvHelperConfiguration);
+                }
                 if (_selectedLisp.ToLower().Contains("camissa"))
                 {
                     _csvRecordList = CsvFileHelper.GetRecords<CamissaRecord>(filepath, csvHelperConfiguration);
@@ -1844,6 +1998,9 @@ namespace Finx.App.Forms
                 }
                 dgvFileContents.AutoGenerateColumns = false;
 
+
+                
+
                 if (_existingClientDetails != null && _existingClientDetails.Count > 0)
                 {
                     _matchedClientsFromCsv = _csvRecordList.Where(csvList => _existingClientDetails.Any(ec => ec.IdentificationNo == csvList.IDNumber &&
@@ -1855,6 +2012,7 @@ namespace Finx.App.Forms
                                                                                                                               csvList2.HasErrors == false &&
                                                                                                                                ec2.ClientId != 0))).ToList();
                 }
+
             }
             catch (IOException) //Catches exception when the CSV file is being used by another program
             {
@@ -1891,8 +2049,8 @@ namespace Finx.App.Forms
 
                 var parallelOptions = new ParallelOptions()
                 {
-                    MaxDegreeOfParallelism = -1,
-                    CancellationToken = _cancellationToken
+                    MaxDegreeOfParallelism = Environment.ProcessorCount - 1, //was -1
+                    CancellationToken = frmCsvImportProgressWindow.cancelTk
                 };
 
                 var recordImportProgress = new Progress<ClientInvestmentRecordImportAudit>();
@@ -1904,8 +2062,11 @@ namespace Finx.App.Forms
 
                     foreach (var batchedClientInvestment in batchedClientInvestments)
                     {
-                        var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow);
+                        
+                            var loopResults = await ImportClientInvestmentsInParallel(parallelOptions, batchedClientInvestment, recordImportProgress, frmCsvImportProgressWindow);
+                        
                     }
+                    //frmCsvImportProgressWindow.End();
                 }
                 else
                 {
@@ -1913,56 +2074,76 @@ namespace Finx.App.Forms
                     var clientInvestmentRecordImportAudit = new ClientInvestmentRecordImportAudit();
                     var progressCallback = frmCsvImportProgressWindow;
                     clientInvestmentRecordImportAudit.SetProgressCallback(progressCallback);
-
-                    foreach (var clientIdentificationNo in clientKeys)
+                    try
                     {
-                        _recCnt++;
-
-                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
-
-                        await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
-
-                        _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
-
-                        clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
-                        var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
-                        clientInvestmentRecordImportAudit.SetMessage(message);
-
-                        ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
-
-                        //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
-
-                        if (_percCompleted == 100)
+                        foreach (var clientIdentificationNo in clientKeys)
                         {
-                            _importCompleted = true;
-                            clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
-                            progressCallback.End();
 
-                            //RecordCsvFileImport();
-
-                            await Task.Run(() =>
+                            //Check if cancel button has been clicked
+                            if (parallelOptions.CancellationToken.IsCancellationRequested)
                             {
-                                //var win32Parent = new NativeWindow();
-                                //win32Parent.AssignHandle(_handle);
-                                //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
-                                ValidateDataGridRecords();
-                            });
+                                parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+                                break;
+                            }
 
-                            await Task.Run(() =>
+                            _recCnt++;
+
+
+                            clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Pending);
+
+                            await ImportClientInvestments(clientIdentificationNo, _fileClientInvestments[clientIdentificationNo]);
+
+                            _percCompleted = (int)Math.Round((double)(100 * _recCnt) / totClients);
+
+                            clientInvestmentRecordImportAudit.SetPercentageCompleted(_percCompleted);
+                            var message = "Records with identification number: " + clientIdentificationNo + " successfully imported!";
+                            clientInvestmentRecordImportAudit.SetMessage(message);
+
+                            ((IProgress<ClientInvestmentRecordImportAudit>)(recordImportProgress)).Report(clientInvestmentRecordImportAudit);
+
+                            //await UpdateProgressBar(_pbImportFile, _percCompleted, _handle);
+
+                            if (_percCompleted == 100)
                             {
-                                kbtnOpenFile.BeginInvoke((Action)delegate
+                                _importCompleted = true;
+                                clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Imported);
+                                progressCallback.End();
+
+                                //RecordCsvFileImport();
+
+                                await Task.Run(() =>
                                 {
-                                    if (!kbtnOpenFile.Enabled)
-                                        kbtnOpenFile.Enabled = true;
+                                    //var win32Parent = new NativeWindow();
+                                    //win32Parent.AssignHandle(_handle);
+                                    //MessageBox.Show(win32Parent, "Client Investment Portfolios successfully imported!", "Import Client Investments File", MessageBoxButtons.OK);
+                                    ValidateDataGridRecords();
                                 });
-                            });
 
+                                await Task.Run(() =>
+                                {
+                                    kbtnOpenFile.BeginInvoke((Action)delegate
+                                    {
+                                        if (!kbtnOpenFile.Enabled)
+                                            kbtnOpenFile.Enabled = true;
+                                    });
+                                });
+
+                            }
                         }
                     }
+                    catch (OperationCanceledException ex)
+                    {
+                        clientInvestmentRecordImportAudit.SetImportStatus(Enums.ClientInvestmentRecordImportStatus.Error);
+                        clientInvestmentRecordImportAudit.SetMessage(ex.Message);
+                        _importCancelled = true;
+                        _importCompleted = false;
 
+                        //Close progress window
+                        frmCsvImportProgressWindow.End();
+                    }
                 }
             }
-            catch (OperationCanceledException)
+            /*catch (OperationCanceledException)
             {
                 await Task.Run(() =>
                 {
@@ -1971,7 +2152,7 @@ namespace Finx.App.Forms
                     MessageBox.Show(win32Parent, "Import operation has been cancelled!", "Easiworx Error", MessageBoxButtons.OK);
                 });
 
-            }
+            }*/
             catch (OperationAbortedException)
             {
                 await Task.Run(() =>
@@ -2036,19 +2217,24 @@ namespace Finx.App.Forms
         {
 
             double fundAllocPerc = 0;
+            string modelPortfolio = "";
+            
+
 
             try
             {
+
 
                 if (retirement.Funds == null)
                     retirement.Funds = new List<Fund>(1);
 
                 Fund newfund = null;
-
-
+                
+                List<ICsvRecord> mpFunds = new List<ICsvRecord>(1); //List of all model portfolio funds assigned to this retirement record
+               
                 foreach (var fund in funds)
                 {
-
+                   
                     //if (fund.IDNumber == "9903145082083")
                     //    Debugger.Break();
 
@@ -2057,40 +2243,46 @@ namespace Finx.App.Forms
                     {
                         case "allan gray":
                         case "allangray":
-                            //Console.WriteLine("Check this one: " + ((AllanGrayRecord)fund).FundAllocationPercentage);
-                           // Double.TryParse(((AllanGrayRecord)fund).FundAllocationPercentage, out fundAllocPerc);
-                            //Console.WriteLine(fundAllocPerc);
                             fundAllocPerc = ((AllanGrayRecord)fund).AccountFundAllocation.AsDouble();
                             break;
                         case "easiworx":
                         case "easiworxtemplate":
-                           // Double.TryParse(((EasiworxRecord)fund).AccountFundAllocation, out fundAllocPerc);
                             fundAllocPerc = ((EasiworxRecord)fund).AccountFundAllocation.AsDouble();
+                            modelPortfolio = ((EasiworxRecord)fund).ModelPortfolio;
                             break;
                         case "momentum":
-                           // Double.TryParse(((MomentumRecord)fund).FundPerc, out fundAllocPerc);
                             fundAllocPerc = ((MomentumRecord)fund).FundPerc.AsDouble();
                             break;
                         case "mtab":
-                           // Double.TryParse(((MomentumRecord_TabDelimited)fund).FundPerc, out fundAllocPerc);
                             fundAllocPerc = ((MomentumRecord_TabDelimited)fund).AccountFundAllocation.AsDouble();
+                            break;
+                        case "astutetemplate":
+                            fundAllocPerc = ((AstuteRecord)fund).AccountFundAllocation.AsDouble();
                             break;
                     }
 
+                    //If this fund belongs to a model portfolio, then add it to the list and skip this loop iteration
+                    if (!string.IsNullOrEmpty(modelPortfolio))
+                    {
+                        mpFunds.Add(fund);
+                        continue;
+                    }
 
 
                     if (retirement.Funds.Count > 0)
                     {
                         //Check if fund codes are the same indicating that the fund is already present in the list
-                        var existingFund = retirement.Funds.Where(f => f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower() || f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower()).FirstOrDefault();
+                        var existingFund = retirement.Funds.Where(f => (f.FundCode.Trim().ToLower() == fund.FundCode.Trim().ToLower() && fund.FundCode!= "N/A" && !(string.IsNullOrWhiteSpace(fund.FundCode))) || (f.Description.Trim().ToLower() == fund.FundName.Trim().ToLower())).FirstOrDefault();
                         if (existingFund == null)
                         {
                             newfund = CreateFund(fund, fundAllocPerc);
                             var retirementFunds = retirement.Funds;
                             retirementFunds.Add(newfund);
                             retirement.Funds = retirementFunds;
+                            addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                             retirement.MonthlyContribution += newfund.PolicyPremium;
                         }
+                        
                         else
                         {
                             //check if new fund value & split perc is diff to original & if so add as new fund else update exist fund
@@ -2105,10 +2297,11 @@ namespace Finx.App.Forms
                                 var retirementFunds = retirement.Funds;
                                 retirementFunds.Add(newfund);
                                 retirement.Funds = retirementFunds;
+                                addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                                 retirement.MonthlyContribution += newfund.PolicyPremium;
                             }
                             else
-                                UpdateFund(existingFund, fund);
+                                UpdateFund(existingFund, fund, fundAllocPerc);
                         }
                     }
                     else
@@ -2117,12 +2310,121 @@ namespace Finx.App.Forms
                         var retirementFunds = retirement.Funds;
                         retirementFunds.Add(newfund);
                         retirement.Funds = retirementFunds;
+                        addFundsToRepository(fund.FundCode, fund.FundName, fund.LISP);
                         retirement.MonthlyContribution += newfund.PolicyPremium;
                     }
                     newfund = null;
                 }
+                
+                if (mpFunds.Count > 0)
+                {
+                    string mpName = "";
+                    double mpFundValue=0;
+                    double mpSplitPerc = 100;
+                    double mpPolicyPremium = 0;
+                    string mpLisp = "";
+                    DateTime mpFundValDate= new DateTime(0001, 1, 1);
+                    DateTime mpStartDate = new DateTime(0001, 1, 1);
+
+                    //Add together the values of the model portfolio
+                    foreach (var fund in mpFunds)
+                    {
+                        EasiworxRecord esFund = ((EasiworxRecord)fund);
+                        mpName = esFund.ModelPortfolio;
+                        mpFundValue += esFund.FundValue.AsDouble();
+                        mpPolicyPremium += esFund.MonthlyPremium.AsDouble();
+                        mpLisp = esFund.LISP;
+
+                        if((mpFundValDate == new DateTime(0001, 1, 1)) || (mpStartDate == new DateTime(0001, 1, 1)))
+                        DateTime.TryParse(esFund.FundValueDate, out mpFundValDate);
+                        DateTime.TryParse(esFund.InceptionDate, out mpStartDate);
+                    }
+
+                    //Create new fund object for the model portfolio
+                    var modelPortfolioFund = new Fund()
+                    {
+                        FundCode = "N/A",
+                        Description = mpName,
+                        CreateDate = DateTime.Now,
+                        CurrentAmount = mpFundValue,
+                        SplitPerc = Math.Round(mpSplitPerc, 2, MidpointRounding.AwayFromZero),
+                        PolicyPremium = mpPolicyPremium,
+                        UpdateBy = "System",
+                        UpdateDate = DateTime.Now
+
+                    };
+
+                    if (mpStartDate != new DateTime(0001, 1, 1))
+                    {
+                        modelPortfolioFund.StartDate = mpStartDate;
+                    }
+                    if (mpFundValDate != new DateTime(0001, 1, 1))
+                    {
+                        modelPortfolioFund.FundValueDate = mpFundValDate;
+                    }
 
 
+
+
+                    //Add model portfolio funds to retirement portfolio
+                 
+                    
+                        if (retirement.Funds.Count > 0)
+                        {
+                        //Check if model portfolio names are the same indicating that the fund is already present in the list
+                            var existingFund = retirement.Funds.Where(f => f.Description.Trim().ToLower() == modelPortfolioFund.Description.Trim().ToLower()).FirstOrDefault();
+                            if (existingFund == null)
+                            {
+                                var retirementFunds = retirement.Funds;
+                                retirementFunds.Add(modelPortfolioFund);
+                                retirement.Funds = retirementFunds;
+                                addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
+                                retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                            }
+
+                            else
+                            {
+                                //check if new fund value & split perc is diff to original & if so add as new fund else update exist fund
+                                //Double.TryParse(fund.FundValue, out double newFundValue);
+
+                                double newFundValue = modelPortfolioFund.CurrentAmount;
+                                //DateTime.TryParse(modelPortfolioFund.FundValueDate, out DateTime newFundValDate);
+                                DateTime newFundValDate = modelPortfolioFund.FundValueDate;
+
+                                if (newFundValue != existingFund.CurrentAmount && newFundValDate == existingFund.FundValueDate && modelPortfolioFund.SplitPerc != 0 && modelPortfolioFund.SplitPerc != existingFund.SplitPerc)
+                                {
+                                    var retirementFunds = retirement.Funds;
+                                    retirementFunds.Add(modelPortfolioFund);
+                                    retirement.Funds = retirementFunds;
+                                    addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
+                                    retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                                }
+                                else
+                                {
+
+                                    existingFund.FundCode = modelPortfolioFund.FundCode;
+                                    existingFund.Description = modelPortfolioFund.Description;
+                                    existingFund.CreateDate = modelPortfolioFund.CreateDate;
+                                    existingFund.CurrentAmount = modelPortfolioFund.CurrentAmount;
+                                    existingFund.SplitPerc = modelPortfolioFund.SplitPerc;
+                                    existingFund.PolicyPremium = modelPortfolioFund.PolicyPremium;
+                                    existingFund.UpdateBy = "System";
+                                    existingFund.UpdateDate = DateTime.Now;
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var retirementFunds = retirement.Funds;
+                            retirementFunds.Add(modelPortfolioFund);
+                            retirement.Funds = retirementFunds;
+                            addFundsToRepository("", modelPortfolioFund.Description, mpLisp);
+                            retirement.MonthlyContribution += modelPortfolioFund.PolicyPremium;
+                            
+                        }
+                    
+                }
                 retirement.Calculate();
                 
 
@@ -2188,8 +2490,12 @@ namespace Finx.App.Forms
                 case "easiworxtemplate":
                     insured = soughtClient is null ? ((EasiworxRecord)csvRecord).Firstname : soughtClient.FirstName;
                     
+                    break;
+                case "astutetemplate":
+                    insured = soughtClient is null ? ((AstuteRecord)csvRecord).Firstname : soughtClient.FirstName;
 
                     break;
+
                 default:
                     throw new ApplicationException("Invalid Lisp!");
             }
@@ -2220,9 +2526,7 @@ namespace Finx.App.Forms
         [MethodImpl(MethodImplOptions.Synchronized)]
         private Fund CreateFund(ICsvRecord csvRecord, double splitPercentage, string updateBy = "System")
         {
-            /*var fundValue = csvRecord.FundValue.Replace(".", ",");
-            Double.TryParse(fundValue, out double dblFundValue);*/
-
+            
             var fundValue = csvRecord.FundValue.Replace(",", ""); //Removes comma if it exists, this is a potential area of contention
 
            // Double.TryParse(csvRecord.FundValue, out double dblFundValue);
@@ -2234,6 +2538,11 @@ namespace Finx.App.Forms
 
             //todo: check csvRecord Type & cast to appropriate type
             Double dblMonthlyPremium=0;
+
+            //Initialise model portfolio for easiworx imports
+            string modelPortfolio="";
+
+
             switch (_selectedLisp.ToUpper())
             {
                 case "ALLANGRAY":
@@ -2245,7 +2554,6 @@ namespace Finx.App.Forms
                     break;
                 case "MOMENTUM":
                     DateTime.TryParse(((MomentumRecord)csvRecord).StartDate, out fundStartDate);
-                    //Console.WriteLine("Wrong one");
                     //Double.TryParse(((MomentumRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium); //Momentum CSV does not provide premiums
                     break;
                 case "MTAB":
@@ -2265,16 +2573,15 @@ namespace Finx.App.Forms
                     //Double.TryParse(((EasiworxRecord)csvRecord).MonthlyPremium, out dblMonthlyPremium);
 
                     dblMonthlyPremium = ((EasiworxRecord)csvRecord).MonthlyPremium.AsDouble();
+                    modelPortfolio = ((EasiworxRecord)csvRecord).ModelPortfolio;
+                    break;
+                case "ASTUTETEMPLATE":
+                    DateTime.TryParse(((AstuteRecord)csvRecord).InceptionDate, out fundStartDate);
                     break;
 
             }
 
-
-            //Program.Logger.Info("TT checking the funds details on Catherines machine Start");
-            //Program.Logger.Info("From Csv Record: " + csvRecord.FundValue + ", After Parsing to double: " + dblFundValue.ToString());
-            //Program.Logger.Info("Fund Alloc Perc: " + splitPercentage.ToString());
-            //Program.Logger.Info("TT checking the funds details on Catherines machine End");
-           
+            
 
             var fund = new Fund()
             {
@@ -2286,10 +2593,16 @@ namespace Finx.App.Forms
                 PolicyPremium = dblMonthlyPremium,
                 UpdateBy = updateBy,
                 UpdateDate = fundValDate
+                
             };
-            //Console.WriteLine(fund.FundCode);
-            //if (fundValDate != new DateTime(0001, 1, 1))
-            //fund.UpdateDate = fundValDate;
+
+            //Set model portfolio if the value is not empty
+            if (!string.IsNullOrEmpty(modelPortfolio))
+            {
+                fund.ModelPortfolio = modelPortfolio;
+            }
+
+            //Set start dates and fund value dates if the values are not empty
             if (fundStartDate != new DateTime(0001,1,1))
             {
                 fund.StartDate = fundStartDate;
@@ -2297,7 +2610,6 @@ namespace Finx.App.Forms
             if (fundValDate != new DateTime(0001, 1, 1))
             {
                 fund.FundValueDate = fundValDate;
-                Console.WriteLine(fundValDate);
             }
 
             return fund;
@@ -2307,7 +2619,7 @@ namespace Finx.App.Forms
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private Fund UpdateFund(Fund fund, ICsvRecord csvRecord, string UpdateBy = "System")
+        private Fund UpdateFund(Fund fund, ICsvRecord csvRecord, double dblSplitPerc, string UpdateBy = "System" )
         {
             try
             {
@@ -2316,7 +2628,7 @@ namespace Finx.App.Forms
               //  var fundValue = csvRecord.FundValue.Replace(".", ",");
 
                 var fundValue = csvRecord.FundValue.Replace(",", "");
-
+                //var splitPerc = csvRecord.
                 //Double.TryParse(fundValue, out double dblFundValue);
 
                 double dblFundValue = fundValue.AsDouble();
@@ -2325,8 +2637,9 @@ namespace Finx.App.Forms
                 if (csvRecord.FundValueDate != null && fundValDate > fund.UpdateDate)
                 {
                     fund.CurrentAmount = dblFundValue;
+                    fund.SplitPerc = dblSplitPerc; 
                     fund.UpdateBy = UpdateBy;
-                    fund.UpdateDate = fundValDate;
+                    fund.UpdateDate = DateTime.Now;
                     fund.FundValueDate = fundValDate;
                 }
             }
@@ -2336,6 +2649,70 @@ namespace Finx.App.Forms
             }
             return fund;
         }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void addFundsToRepository(string fundCode, string fundName, string lispName)
+        {
+
+            //Create lisp object
+            Lisp lispProvider = new Lisp() { LispName = lispName };
+
+            //Extract fund class from the brackets in the fund name
+            string fundClass = Regex.Match(fundName, @"(?<=\()[^)]+(?=\))").Value.Replace("Class", "").Trim();
+
+
+            //Create the fund object using fund code, fund name excluding the class part, and fund class
+            LispFund lispFund = new LispFund()
+            {
+                FundCode = fundCode,
+                FundName = Regex.Replace(fundName, @"\([^)]*\)", ""),
+                //FundClass = fundClass
+
+            };
+
+            if (!string.IsNullOrWhiteSpace(fundClass))
+            {
+                lispFund.FundClass = fundClass;
+            }
+
+
+            //Set repositary
+            Provider ServiceProviders = new Provider();
+            ServiceProviders = (Provider)Program.Repository.List<Provider, int>(null).FirstOrDefault();
+
+
+            //Search repository to see if lisp exists already
+            var existingLisp = ServiceProviders.LispProviders.Lisps.Where(sp => sp.LispName.ToLower().Equals(lispProvider.LispName.ToLower())).FirstOrDefault();
+            
+            //Add lisp to database if it doesnt exist
+            if (existingLisp == null)
+            {
+                existingLisp = lispProvider;
+                ServiceProviders.LispProviders.Lisps.Add(lispProvider);
+            }
+
+            //Search database to see if funds already belong to lisp
+            var existingLispFund = existingLisp.LispFunds.Where(lf => (lf.FundCode.Equals(lispFund.FundCode)&& !(string.IsNullOrEmpty(lispFund.FundCode))) || (string.IsNullOrEmpty(lispFund.FundCode) && lf.FundName.Equals(lispFund.FundName))).FirstOrDefault();
+
+            //Add fund to lisp if it doesnt exist already
+            if (existingLispFund == null)
+            {
+                existingLispFund = lispFund;
+                existingLisp.LispFunds.Add(existingLispFund);
+            }
+
+            //Update repository
+            Program.Repository.Update<Provider, int>(ServiceProviders);
+
+            //Refresh service provider tab
+            Program.SetServiceProviders();
+
+        }
+
+
+
+
         private async Task ExportErrorRecordsToCsvFile()
         {
             string fileName = "";
@@ -2348,6 +2725,9 @@ namespace Finx.App.Forms
 
                 if (_selectedLisp.ToLower().Contains("allan"))
                     fileName += "AllanGray_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
+
+                if (_selectedLisp.ToLower().Contains("astute"))
+                    fileName += "Astute_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
 
                 if (_selectedLisp.ToLower().Contains("atwork"))
                     fileName += "AtWork_ErrorFile_" + DateTime.Now.ToString("ddMMyyyhhmmss") + ".csv";
@@ -2486,6 +2866,7 @@ namespace Finx.App.Forms
                         ValidateSAIDNo(rowIndex, csvRecord);
                         ValidateFundValue(rowIndex, csvRecord);
                         ValidateFundValueDate(rowIndex, csvRecord);
+                        ValidateBirthDate(rowIndex, csvRecord);
                         ColourRow(rowIndex);
 
                         /*await ValidateSAIDNo(datagridViewRow, csvRecord);
@@ -2538,7 +2919,7 @@ namespace Finx.App.Forms
                     {
                         if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                             {
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.White;
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2546,7 +2927,7 @@ namespace Finx.App.Forms
                         }
                         else
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                             {
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                                 dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2555,7 +2936,7 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2571,7 +2952,7 @@ namespace Finx.App.Forms
                 {
                     if (_matchedClientsFromCsv.Any(r => r.IDNumber == idno))
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.White;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2579,7 +2960,7 @@ namespace Finx.App.Forms
                     }
                     else
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2588,7 +2969,7 @@ namespace Finx.App.Forms
                 }
                 else
                 {
-                    if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                    if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                     {
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Chartreuse;
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
@@ -2643,7 +3024,7 @@ namespace Finx.App.Forms
                         idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                         idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255,46,46);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         
                         csvRecord.HasErrors = true;
@@ -2657,7 +3038,7 @@ namespace Finx.App.Forms
                             idNoCell.ErrorText = "Invalid SA ID No!";
                             idNoCell.ToolTipText = "Invalid SA ID No!";
 
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
@@ -2669,8 +3050,10 @@ namespace Finx.App.Forms
                 idno = idNoCell.Value.ToString();
 
                 ppNoCell = dgvFileContents.Rows[RowIndex].Cells["PassportNo"];
-                ppno = ppNoCell.Value.ToString();
-
+                if (ppNoCell.Value!= null)
+                {
+                    ppno = ppNoCell.Value.ToString();
+                }
 
                 if (string.IsNullOrEmpty(idno) && !(string.IsNullOrEmpty(ppno)))
                 {
@@ -2682,7 +3065,7 @@ namespace Finx.App.Forms
                     idNoCell.ErrorText = "Invalid ID No. Length < 13!";
                     idNoCell.ToolTipText = "Invalid ID No. Length < 13!";
 
-                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                     dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     csvRecord.HasErrors = true;
                 }
@@ -2695,7 +3078,7 @@ namespace Finx.App.Forms
                         idNoCell.ErrorText = "Invalid SA ID No!";
                         idNoCell.ToolTipText = "Invalid SA ID No!";
 
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2722,7 +3105,7 @@ namespace Finx.App.Forms
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";
                         fundValueCell.ToolTipText = "Invalid Fund Value!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2734,7 +3117,7 @@ namespace Finx.App.Forms
                         {
                             fundValueCell.ErrorText = "Invalid Fund Value!";
                             fundValueCell.ToolTipText = "Invalid Fund Value!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
@@ -2754,7 +3137,7 @@ namespace Finx.App.Forms
                 {
                     fundValueCell.ErrorText = "Invalid Fund Value!";
                     fundValueCell.ToolTipText = "Invalid Fund Value!";
-                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                     dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     csvRecord.HasErrors = true;
                 }
@@ -2766,7 +3149,7 @@ namespace Finx.App.Forms
                     {
                         fundValueCell.ErrorText = "Invalid Fund Value!";
                         fundValueCell.ToolTipText = "Invalid Fund Value!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2780,6 +3163,58 @@ namespace Finx.App.Forms
 
             //});
         }
+
+
+
+        private void ValidateBirthDate(int RowIndex, ICsvRecord csvRecord)
+        {
+            DataGridViewCell birthDateCell = null;
+            var birthDate = "";
+
+
+                if (dgvFileContents.InvokeRequired == true)
+                    dgvFileContents.BeginInvoke((Action)delegate
+                    {
+                        birthDateCell = dgvFileContents.Rows[RowIndex].Cells["BirthDate"];
+                        birthDate = birthDateCell.Value.ToString();
+
+                        if (birthDate == "-")
+                        {
+                            birthDateCell.ErrorText = "Invalid Birthdate!";
+                            birthDateCell.ToolTipText = "Please ensure that Birthdate is in the format: 'dd/mm/yyyy'";
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                            csvRecord.HasErrors = true;
+                        }
+
+
+                        
+                        
+                    });
+                else
+                {
+                    birthDateCell = dgvFileContents.Rows[RowIndex].Cells["BirthDate"];
+
+                if (birthDateCell.Value != null)
+                {
+                    birthDate = birthDateCell.Value.ToString();
+                }
+
+                    if (birthDate == "-")
+                    {
+                        birthDateCell.ErrorText = "Invalid Birthdate!";
+                        birthDateCell.ToolTipText = "Please ensure that Birthdate is in the format: 'dd/mm/yyyy'";
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                        csvRecord.HasErrors = true;
+                    }   
+                }
+    }
+
+
+
+
+
         private void ValidateFundValueDate(int RowIndex, ICsvRecord csvRecord)
         {
             //Console.WriteLine($"ValidateFundValueDate {Thread.CurrentThread.ManagedThreadId} Backround Thread: {Thread.CurrentThread.IsBackground}");
@@ -2798,18 +3233,27 @@ namespace Finx.App.Forms
                         fundValueDateCell = dgvFileContents.Rows[RowIndex].Cells["FundValueDate"];
                         fundValueDate = fundValueDateCell.Value.ToString();
 
+                        if (fundValueDate == "-")
+                        {
+                            fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                            fundValueDateCell.ToolTipText = "Please ensure that Fund Value Date is in the correct format!";
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                            csvRecord.HasErrors = true;
+                        }
+
                         if (string.IsNullOrEmpty(fundValueDate))
                         {
                             fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                             fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;
                         }
 
                         if (DateTime.TryParse(fundValueDate, out _))
                         {
-                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                            if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                             {
                                 fundValueDateCell.ErrorText = string.Empty;
                                 fundValueDateCell.ToolTipText = string.Empty;
@@ -2820,7 +3264,7 @@ namespace Finx.App.Forms
                         {
                             fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                             fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                            dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                             dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                             csvRecord.HasErrors = true;                        
                         }
@@ -2878,18 +3322,28 @@ namespace Finx.App.Forms
                     fundValueDateCell = dgvFileContents.Rows[RowIndex].Cells["FundValueDate"];
                     fundValueDate = fundValueDateCell.Value.ToString();
 
+
+                    if (fundValueDate == "-")
+                    {
+                        fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
+                        fundValueDateCell.ToolTipText = "Please ensure that Fund Value Date is in the correct format!";
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                        csvRecord.HasErrors = true;
+                    }
+
                     if (string.IsNullOrEmpty(fundValueDate))
                     {
                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
 
                     if (DateTime.TryParse(fundValueDate, out _))
                     {
-                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.Red)
+                        if (dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor != Color.FromArgb(230, 7, 7))
                         {
                             fundValueDateCell.ErrorText = string.Empty;
                             fundValueDateCell.ToolTipText = string.Empty;
@@ -2900,7 +3354,7 @@ namespace Finx.App.Forms
                     {
                         fundValueDateCell.ErrorText = "Invalid Fund Value Date!";
                         fundValueDateCell.ToolTipText = "Invalid Fund Value Date!";
-                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                        dgvFileContents.Rows[RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(230, 7, 7);
                         dgvFileContents.Rows[RowIndex].DefaultCellStyle.ForeColor = Color.White;
                         csvRecord.HasErrors = true;
                     }
@@ -2967,7 +3421,7 @@ namespace Finx.App.Forms
                 if (Program.ClientDetailsService == null)
                     throw new ApplicationException("ClientDetails service is null!");
 
-                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null).ToList());
+                existingClientDetails = await Task.Run(() => _existingClientDetails = Program.ClientDetailsService.List(null).ToList()); //Define existing clients
             }
             catch (Exception)
             {
@@ -2977,22 +3431,44 @@ namespace Finx.App.Forms
         }
         private async Task SetFileImportDetails()
         {
+            
+
             await Task.Run(() =>
             {
+
                 var totRecs = _csvRecordList.Count;
                 var errCnt = _csvErrorRecords == null ? 0 : _csvErrorRecords.Count;
-
-                _noOfExistingClients = _matchedClientsFromCsv.Count;
+                
+                if (_matchedClientsFromCsv != null)
+                {
+                    _noOfExistingClients = _matchedClientsFromCsv.Count;
+                }
+                else
+                {
+                    _noOfExistingClients = 0;
+                }
                 _noOfNewClients = totRecs - _noOfExistingClients;
+                
+                
 
                 if (InvokeRequired)
                     BeginInvoke(new Action(() =>
                     {
-
                         lblRecCnt.Text = totRecs.ToString();
-                        lblTotValErrors.Text = errCnt.ToString();
+
+                        //Set onscreen error count
+                        if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
+                        {
+                            lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString(); ;
+                        }
+                        
                         lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList().Count.ToString(); //_noOfNewClients.ToString();
+
+                        //Set onscreen new client count
+                        if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
+                        {
+                            lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                        }
 
                         lblExistingClientCnt.Visible = true;
                         lblNewClientCnt.Visible = true;
@@ -3004,10 +3480,19 @@ namespace Finx.App.Forms
                 else
                 {
                     lblRecCnt.Text = totRecs.ToString();
-                    lblTotValErrors.Text = errCnt.ToString();
-                    lblExistingClientCnt.Text = _noOfExistingClients.ToString();
-                    lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.LightGreen).ToList().Count.ToString(); //_noOfNewClients.ToString();
 
+                    //Set onscreen new client count
+                    if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
+                    {
+                        lblTotValErrors.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.FromArgb(230, 7, 7)).ToList().Count.ToString();
+                    }
+                    lblExistingClientCnt.Text = _noOfExistingClients.ToString();
+
+                    //Set onscreen new client count
+                    if (!chkViewErrorRecords.Checked && !chkViewNewRecords.Checked && !chkViewExistingRecords.Checked)
+                    {
+                        lblNewClientCnt.Text = dgvFileContents.Rows.Cast<DataGridViewRow>().Where(r => r.DefaultCellStyle.BackColor == Color.Chartreuse).ToList().Count.ToString(); //_noOfNewClients.ToString();
+                    }
                     lblExistingClientCnt.Visible = true;
                     lblNewClientCnt.Visible = true;
                     cmClientRecords.Enabled = true;
@@ -3098,6 +3583,11 @@ namespace Finx.App.Forms
         }
 
         private void dgvFileContents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lblExistingClientCnt_Click(object sender, EventArgs e)
         {
 
         }
