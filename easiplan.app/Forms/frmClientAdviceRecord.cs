@@ -724,8 +724,8 @@ namespace easiplan.app.Forms
                 currentRecordGrid.Initialise1((IList<ClientAdviceRecord>)bsClientAdviceRecord.List, column =>
                 {
                     column.For(c => c.AdviceDate, "Advice Date", new StringEditor(true), Width: 200);
-                    column.For(c => c.InitialFee, "Initial fee", new CurrencyEditor(), Width: 100);
-                    column.For(c => c.OngoingFee, "Ongoing fee", new CurrencyEditor(), Width: 100);
+                    column.For(c => c.InitialFee, "Initial fee", new PercentageEditor(true), Width: 100);
+                    column.For(c => c.OngoingFee, "Ongoing fee", new PercentageEditor(true), Width: 100);
                     column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
                     column.For(c => c.UpdateDate, "Last Update", new DateEditor(true), Width: 115);
                     column.For(c => c.UpdateBy, "Update By", new StringEditor(true), Width: 200);
@@ -853,8 +853,8 @@ namespace easiplan.app.Forms
                 currentRecordGrid.Initialise1((IList<MedicalAidAdviceRecord>)bsMedicalAidAdviceRecord.List, column =>
                 {
                     column.For(c => c.AdviceDate, "Advice Date", new StringEditor(true), Width: 200);
-                    column.For(c => c.InitialFee, "Initial fee", new CurrencyEditor(), Width: 100);
-                    column.For(c => c.OngoingFee, "Ongoing fee", new CurrencyEditor(), Width: 100);
+                    column.For(c => c.InitialFee, "Initial fee", new PercentageEditor(), Width: 100);
+                    column.For(c => c.OngoingFee, "Ongoing fee", new PercentageEditor(), Width: 100);
                     column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
                     column.For(c => c.UpdateDate, "Last Update", new DateEditor(true), Width: 115);
                     column.For(c => c.UpdateBy, "Update By", new StringEditor(true), Width: 200);
@@ -1135,8 +1135,8 @@ namespace easiplan.app.Forms
                 currentRecordGrid.Initialise1((IList<RiskAdviceRecord>)bsRiskAdviceRecord.List, column =>
                 {
                     column.For(c => c.AdviceDate, "Advice Date", new StringEditor(true), Width: 200);
-                    column.For(c => c.InitialFee, "Initial fee", new CurrencyEditor(), Width: 100);
-                    column.For(c => c.OngoingFee, "Ongoing fee", new CurrencyEditor(), Width: 100);
+                    column.For(c => c.InitialFee, "Initial fee", new PercentageEditor(), Width: 100);
+                    column.For(c => c.OngoingFee, "Ongoing fee", new PercentageEditor(), Width: 100);
                     column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
                     column.For(c => c.UpdateDate, "Last Update", new DateEditor(true), Width: 115);
                     column.For(c => c.UpdateBy, "Update By", new StringEditor(true), Width: 200);
@@ -1515,6 +1515,7 @@ namespace easiplan.app.Forms
                         historyGrid.Rebind(clientAdviceRecords);
                         ResetClientAdviceRecordBindings(r);
                         historyGrid.Selection.SelectRow(r, true);
+                       
                     }
 
                     if (medicalAidAdviceRecords != null)

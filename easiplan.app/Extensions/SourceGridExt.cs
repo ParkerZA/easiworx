@@ -46,6 +46,7 @@ using easiplan.app.Extensions;
 using easiplan.app.ContextMenus;
 using SourceGrid.Cells.Controllers;
 using MetroFramework.Controls;
+using DevAge.ComponentModel.Converter;
 
 namespace Finx.App.Extensions
 {
@@ -3557,6 +3558,9 @@ namespace Finx.App.Extensions
                 EditableMode = SourceGrid.EditableMode.None;
             else
                 EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+
+            //base.TypeConverter = new PercentTypeConverter(typeof(double));
+            base.TypeConverter = new NumberTypeConverter(typeof(double),"F2");
         }
     }
     public class CurrencyEditor : SourceGrid.Cells.Editors.TextBoxCurrency
@@ -3569,6 +3573,7 @@ namespace Finx.App.Extensions
                 EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
 
             this.AllowNull = true;
+            base.TypeConverter = new CurrencyTypeConverter(typeof(double),"R### ### ##0.00");
         }
 
     }

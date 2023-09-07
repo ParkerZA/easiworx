@@ -652,8 +652,8 @@ namespace Finx.App.Forms
                             //column.For(c => c.InitialAmount, "Lump Sum", new MetroCurrencyEditor());
                             //column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
                             column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
-                            column.For(c => c.EscalationPercentage, "Escalation", new DecimalEditor());
-                            column.For(c => c.GrowthPercentage, "Growth", new DecimalEditor());
+                            column.For(c => c.EscalationPercentage, "Escalation", new PercentageEditor());
+                            column.For(c => c.GrowthPercentage, "Growth", new PercentageEditor());
                             column.For(c => c.CurrentAmount, "Current Value", new CurrencyEditor(true));
                             column.For(c => c.FutureAmount, "Retirement Value", new CurrencyEditor(true));
                             column.For(c => c.Status, "Policy Status", new StringEditor(true));
@@ -674,8 +674,8 @@ namespace Finx.App.Forms
                             //column.For(c => c.InitialAmount, "Lump Sum", new CurrencyEditor());
                             
                             column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
-                            column.For(c => c.EscalationPercentage, "Escalation", new DecimalEditor());
-                            column.For(c => c.GrowthPercentage, "Growth", new DecimalEditor());
+                            column.For(c => c.EscalationPercentage, "Escalation", new PercentageEditor());
+                            column.For(c => c.GrowthPercentage, "Growth", new PercentageEditor());
                             column.For(c => c.InvestmentAge, "Invest Age", new NumericEditor(), Tooltip: "The age at which you will disinvest.");
                             column.For(c => c.CurrentAmount, "Current Value", new CurrencyEditor(true));
                             column.For(c => c.FutureAmount, "Future  Value", new CurrencyEditor(true));
@@ -1298,7 +1298,9 @@ namespace Finx.App.Forms
                             column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());                            
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
-                            column.For(c => c.Status, "Policy Status", new StringEditor());                            
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                             
@@ -1320,6 +1322,8 @@ namespace Finx.App.Forms
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.UpdateBy, "Updated By", new StringEditor());
                             
@@ -1343,6 +1347,8 @@ namespace Finx.App.Forms
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
@@ -1365,6 +1371,8 @@ namespace Finx.App.Forms
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
@@ -1388,6 +1396,8 @@ namespace Finx.App.Forms
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
@@ -1411,6 +1421,8 @@ namespace Finx.App.Forms
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
 
@@ -2630,7 +2642,7 @@ namespace Finx.App.Forms
                             columns.For(x => x.StartDate, "Inception Dt", new DateEditor(true));
                             columns.For(x => x.InitialAmount, "Deposit", new CurrencyEditor(true));
                             columns.For(x => x.WithdrawalAmount, "Withdrawal", new CurrencyEditor(true));
-                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(_readOnly));
+                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(true));
                             columns.For(x => x.MonthlyContribution, "Premium", new CurrencyEditor(true));
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));

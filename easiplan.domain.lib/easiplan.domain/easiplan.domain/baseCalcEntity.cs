@@ -13,10 +13,6 @@ namespace easiplan.domain
 	{
 		private bool _IsCalculating = false;
 
-		[IgnoreAutoMap]
-		[IgnoreDataMember]
-		public virtual bool RecalcNewMonthlyPremium { get; set; }
-
         #region Private Variables
         private double _InitialAmount;
 
@@ -44,6 +40,10 @@ namespace easiplan.domain
         #endregion
 
         #region NonPersisted Properties
+
+        [IgnoreAutoMap]
+        [IgnoreDataMember]
+        public virtual bool RecalcNewMonthlyPremium { get; set; }
 
         [IgnoreAutoMap]
         public virtual double FutureAmount
@@ -101,12 +101,25 @@ namespace easiplan.domain
             }
         }
 
+        [IgnoreAutoMap]
+        public virtual double InitialFeeAmount
+        {
+			get { return _MonthlyContribution==0?0: _InitialFee * (_MonthlyContribution / 100); }
+        }
+
+        [IgnoreAutoMap]
+        public virtual double OngoingFeeAmount
+        {
+            get { return _CurrentAmount == 0 ? 0 : _OngoingFee * (_CurrentAmount / 100)/12; }
+        }
+
+
         #endregion
 
         #region Persisted Properties
-		/// <summary>
-		/// Lumpsum deposit or starting value
-		/// </summary>
+        /// <summary>
+        /// Lumpsum deposit or starting value
+        /// </summary>
         public virtual double InitialAmount
 		{
 			get

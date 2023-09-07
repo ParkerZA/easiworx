@@ -279,6 +279,7 @@ namespace easiplan.domain.Entities
 				//Status = Amendments.LastOrDefault().Status;
 			}
 			
+			
 			FutureAmount = FinFormula.FutureValue(CurrentAmount, MonthlyContribution, GrowthPercentage, 0.0, EscalationPercentage, InvestmentYears, 0);
 			FutureAmountInflationAdj = FinFormula.FutureValue(CurrentAmount, MonthlyContribution, GrowthPercentage, InflationPercentage, EscalationPercentage, InvestmentYears, 0);
 
