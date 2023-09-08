@@ -191,7 +191,7 @@ namespace Finx.App.Forms
                 this.metroTabControl_Main.TabPages[4].Format(4, "Retirement FNA |");
                 this.metroTabControl_Main.TabPages[5].Format(5, "Non-Retirement FNA |");
                 this.metroTabControl_Main.TabPages[6].Format(6, "Estate Planning |");
-                this.metroTabControl_Main.TabPages[7].Format(7, "Checklist |");
+                this.metroTabControl_Main.TabPages[7].Format(7, "Compliance |");
                 this.metroTabControl_Main.TabPages[8].Format(8, "Admin Tasks |");
                 this.metroTabControl_Main.TabPages[9].Format(9, "Review Meetings");
 
@@ -273,6 +273,9 @@ namespace Finx.App.Forms
                 #endregion
 
                 #region TabControl_Checklist
+                this.metroTabControl_Checklist.TabPages[0].Format(0, "Checklist |");
+                this.metroTabControl_Checklist.TabPages[1].Format(1, "Client Advice Records |");
+                this.metroTabControl_Checklist.SelectedIndex = 0;
                 #endregion
 
                 #region ClientFnaRisk
@@ -652,8 +655,8 @@ namespace Finx.App.Forms
                             //column.For(c => c.InitialAmount, "Lump Sum", new MetroCurrencyEditor());
                             //column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
                             column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
-                            column.For(c => c.EscalationPercentage, "Escalation", new DecimalEditor());
-                            column.For(c => c.GrowthPercentage, "Growth", new DecimalEditor());
+                            column.For(c => c.EscalationPercentage, "Escalation", new PercentageEditor());
+                            column.For(c => c.GrowthPercentage, "Growth", new PercentageEditor());
                             column.For(c => c.CurrentAmount, "Current Value", new CurrencyEditor(true));
                             column.For(c => c.FutureAmount, "Retirement Value", new CurrencyEditor(true));
                             column.For(c => c.Status, "Policy Status", new StringEditor(true));
@@ -674,8 +677,8 @@ namespace Finx.App.Forms
                             //column.For(c => c.InitialAmount, "Lump Sum", new CurrencyEditor());
                             
                             column.For(c => c.MonthlyContribution, "Premium p/m", new CurrencyEditor());
-                            column.For(c => c.EscalationPercentage, "Escalation", new DecimalEditor());
-                            column.For(c => c.GrowthPercentage, "Growth", new DecimalEditor());
+                            column.For(c => c.EscalationPercentage, "Escalation", new PercentageEditor());
+                            column.For(c => c.GrowthPercentage, "Growth", new PercentageEditor());
                             column.For(c => c.InvestmentAge, "Invest Age", new NumericEditor(), Tooltip: "The age at which you will disinvest.");
                             column.For(c => c.CurrentAmount, "Current Value", new CurrencyEditor(true));
                             column.For(c => c.FutureAmount, "Future  Value", new CurrencyEditor(true));
@@ -692,9 +695,9 @@ namespace Finx.App.Forms
                         this.dataGrid_EducationPortfolio.Initialise1<Education>(client.ClientPortfolio.EducationsBindingList, column =>
                         {
                             column.For(x => x.Type, "Product Type", new ComboBoxEditor(ListDataItemType.InvestmentClass));
-                            column.For(x => x.DependentName, "Policy Owner", new ComboListEditor(client.ClientDependents.Dependents.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
+                            column.For(x => x.DependentName, "Policy Owner", new ComboListEditor(client.ClientDependents.Dependents.ToListDataItem<ClientDependent>("DependentName", "DependentName")),Tooltip:"Select one of your dependents as the policy owner");
                             column.For(c => c.CurrentAge, "Age", new NumericEditor(true));
-                            column.For(c => c.InvestmentAge, "University Age", new NumericEditor());
+                            column.For(c => c.InvestmentAge, "University Age", new NumericEditor(),Tooltip:"The age at which the dependent is expected to enter tertiary education");
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps));
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             //column.For(c => c.InitialAmount, "Lump Sum", new CurrencyEditor());
@@ -759,8 +762,8 @@ namespace Finx.App.Forms
                             column.For(c => c.GrowthPercentage, "Growth %pa", new PercentageEditor(), Tooltip: "Annual growth in the value of the Asset.");
                             column.For(c => c.RetirementIncome, "Retirement Income", Tooltip: "Mark if this Asset is to be used as Retirement Income");
                             column.For(c => c.InvestmentAge, "Invest Age", new NumericEditor(), Tooltip: "The age at which you plan to dispose of the Asset if not marked as Retirement Income.");
-                            column.For(c => c.FutureAmount, "Future Value", new CurrencyEditor(true));
-                            column.For(c => c.FutureIncome, "Future Income", new CurrencyEditor(true));
+                            column.For(c => c.FutureAmount, "Future Value", new CurrencyEditor(true),Tooltip:"The expected future value of the asset");
+                            column.For(c => c.FutureIncome, "Future Income", new CurrencyEditor(true),Tooltip:"The expected income from the asset.");
                             // column.For(c => c.Status, "Policy Status", new MetroStringEditor().ReadOnly(true));
 
                         },
@@ -1295,10 +1298,12 @@ namespace Finx.App.Forms
                             column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
                             column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Advice Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());                            
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
-                            column.For(c => c.Status, "Policy Status", new StringEditor());                            
+                            column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                             
@@ -1316,10 +1321,12 @@ namespace Finx.App.Forms
                             column.For(x => x.Type, "Product Type", new ComboBoxEditor(ListDataItemType.InvestmentClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps));
                             column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Advice Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.UpdateBy, "Updated By", new StringEditor());
                             
@@ -1339,10 +1346,12 @@ namespace Finx.App.Forms
                             column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
                             column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Advice Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
@@ -1361,10 +1370,12 @@ namespace Finx.App.Forms
                             column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
                             column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Advice Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
@@ -1384,10 +1395,12 @@ namespace Finx.App.Forms
                             column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
                             column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Advice Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
                         },
@@ -1407,10 +1420,12 @@ namespace Finx.App.Forms
                             column.For(x => x.Type, "Product Type", new ComboListEditor(ListDataItemType.RetirementAssetClass), MinWidth: 150);
                             column.For(x => x.Description, "LISP", new ComboListEditor(Lisps), MinWidth: 150);
                             column.For(c => c.CurrentAdviceRecord.IsCompleted, "Completed");
-                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Note Date", new DateEditor());
+                            column.For(c => c.CurrentAdviceRecord.AdviceDate, "Advice Date", new DateEditor());
                             column.For(c => c.ReferenceNo, "Policy No.", new StringEditor());
                             column.For(x => x.Insured, "Policy Owner", new ComboListEditor(client.PolicyOwners.ToListDataItem<ClientDependent>("DependentName", "DependentName")));
                             column.For(c => c.Status, "Policy Status", new StringEditor());
+                            column.For(c => c.InitialFee, "Initial Fee %", new StringEditor());
+                            column.For(c => c.OngoingFee, "Ongoing Fee %", new StringEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateDate, "Last Date", new DateEditor());
                             column.For(c => c.CurrentAdviceRecord.UpdateBy, "Updated By", new StringEditor());
 
@@ -2046,7 +2061,6 @@ namespace Finx.App.Forms
 
         #endregion
 
-
         #region DataGrid propertyChanged EventHandlers
         private void propertyChanged_EventHandler(object sender, PropertyChangedEventArgs e)
         {
@@ -2630,7 +2644,7 @@ namespace Finx.App.Forms
                             columns.For(x => x.StartDate, "Inception Dt", new DateEditor(true));
                             columns.For(x => x.InitialAmount, "Deposit", new CurrencyEditor(true));
                             columns.For(x => x.WithdrawalAmount, "Withdrawal", new CurrencyEditor(true));
-                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(_readOnly));
+                            columns.For(x => x.SplitPerc, "Split %", new DecimalEditor(true));
                             columns.For(x => x.MonthlyContribution, "Premium", new CurrencyEditor(true));
                             columns.For(x => x.CurrentAmount, "Current Value", new CurrencyEditor(_readOnly));
                             // columns.For(x => x.GrowthPercentage, "Growth", new MetroPercentageEditor().ReadOnly(ReadOnly));

@@ -335,6 +335,8 @@ namespace easiplan.domain.Entities
                 double sumWithdrawals = Funds.Sum((Fund x) => x.WithdrawalAmount);
                 InitialAmount = sumInitialAmt - sumWithdrawals;
 
+                NewPolicyValue = CurrentAmount + InitialAmount;
+
             }
 		}
 		protected virtual void SetCompletedStatus()

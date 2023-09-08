@@ -1041,8 +1041,8 @@ namespace Finx.App.Forms
                         //column.For(c => c.GrowthPercentage, "Growth %", new MetroPercentageEditor().ReadOnly(Action== PolicyAction.UpdateInstruction ? true : ReadOnly));// Action != PolicyAction.AmendPolicy && Action != PolicyAction.UpdateFna ? true :
                         column.For(c => c.CurrentAmount, "Policy Value", new MetroCurrencyEditor(130).ReadOnly(true));
                         column.For(c => c.NewPolicyValue, "New Policy Value", new MetroCurrencyEditor().ReadOnly(true));
-                        column.For(c => c.InitialFee, "Initial Fee", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
-                        column.For(x => x.OngoingFee, "Ongoing Fee", new MetroCurrencyEditor(130).ReadOnly(ReadOnly));
+                        column.For(c => c.InitialFee, "Initial Fee %", new MetroPercentageEditor(130).ReadOnly(ReadOnly));
+                        column.For(x => x.OngoingFee, "Ongoing Fee %", new MetroPercentageEditor(130).ReadOnly(ReadOnly));
                         //column.For(c => c.FutureAmount, "Future Value", new MetroCurrencyEditor().ReadOnly(true));
                         column.For(c => c.Status, "Task Status", new MetroComboBoxEditor(100).DataSourceList(Program.listData.List(ListDataItemType.InstructionStatus)).ReadOnly(ReadOnly));//
                         column.For(x => x.UpdateDate, "Update Dt", new MetroDateEditor(100).ReadOnly(true));
@@ -2585,8 +2585,10 @@ namespace Finx.App.Forms
                 column.For(c => c.NewMonthlyContribution, "New Premium", new MetroCurrencyEditor().ReadOnly(ReadOnly));
                 column.For(c => c.EscalationPercentage, "Esc %", new MetroPercentageEditor().ReadOnly(ReadOnly));
                 column.For(c => c.CurrentAmount, "Policy Value", new MetroCurrencyEditor().ReadOnly(ReadOnly));
-                column.For(c => c.NewPolicyValue, "New Policy Value", new MetroCurrencyEditor().ReadOnly(ReadOnly));
-                column.For(c => c.FutureAmount, "Future Value", new MetroCurrencyEditor().ReadOnly(true));
+                //column.For(c => c.NewPolicyValue, "New Policy Value", new MetroCurrencyEditor().ReadOnly(ReadOnly));
+                column.For(c => c.InitialFee, "Initial Fee %", new MetroPercentageEditor().ReadOnly(ReadOnly));
+                column.For(c => c.OngoingFee, "Ongoing Fee %", new MetroPercentageEditor().ReadOnly(ReadOnly));
+                // column.For(c => c.FutureAmount, "Future Value", new MetroCurrencyEditor().ReadOnly(true));
                 column.For(c => c.Status, "Status", new MetroComboBoxEditor().DataSourceList(Program.listData.List(ListDataItemType.PolicyStatus)).ReadOnly(true));//Action != PolicyAction.AmendPolicy ? true : ReadOnly
                 column.For(c => c.UpdateBy, "Update By", new MetroTextBoxEditor().ReadOnly(true));
 
@@ -2670,7 +2672,7 @@ namespace Finx.App.Forms
                     columns.For(x => x.SplitPerc, "Split %", new MetroPercentageEditor().ReadOnly(_ReadOnly));
                     columns.For(x => x.MonthlyContribution, "Premium", new MetroCurrencyEditor().ReadOnly(true));
                     columns.For(x => x.CurrentAmount, "Fund Value", new MetroCurrencyEditor().ReadOnly(_ReadOnly));
-                    columns.For(x => x.NewFundValue, "New Fund Value", new MetroCurrencyEditor().ReadOnly(_ReadOnly));
+                   // columns.For(x => x.NewFundValue, "New Fund Value", new MetroCurrencyEditor().ReadOnly(_ReadOnly));
                     columns.For(x => x.UpdateDate, "Last Update", new MetroDateEditor().ReadOnly(true));
                     columns.For(x => x.UpdateBy, "Update By", new MetroTextBoxEditor().ReadOnly(true));
 
@@ -3599,6 +3601,8 @@ namespace Finx.App.Forms
                     need.Beneficiaries.Add(f);
                 }
 
+                need.InitialFee = obj.InitialFee;
+                need.OngoingFee = obj.OngoingFee;
             }
             catch (Exception x)
             {
@@ -3667,6 +3671,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     need.Beneficiaries.Add(f);
                 }
+
+                need.InitialFee = obj.InitialFee;
+                need.OngoingFee = obj.OngoingFee;
             }
             catch (Exception x)
             {
@@ -3735,6 +3742,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     need.Beneficiaries.Add(f);
                 }
+
+                need.InitialFee = obj.InitialFee;
+                need.OngoingFee = obj.OngoingFee;
             }
             catch (Exception x)
             {
@@ -3798,6 +3808,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     need.Beneficiaries.Add(f);
                 }
+
+                need.InitialFee = obj.InitialFee;
+                need.OngoingFee = obj.OngoingFee;
             }
             catch (Exception x)
             {
@@ -3862,6 +3875,8 @@ namespace Finx.App.Forms
                     need.Beneficiaries.Add(f);
                 }
 
+                need.InitialFee = obj.InitialFee;
+                need.OngoingFee = obj.OngoingFee;
             }
             catch (Exception x)
             {
@@ -3924,6 +3939,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     need.Beneficiaries.Add(f);
                 }
+
+                need.InitialFee = obj.InitialFee;
+                need.OngoingFee = obj.OngoingFee;
             }
             catch (Exception x)
             {
@@ -3992,6 +4010,8 @@ namespace Finx.App.Forms
         //            need.Beneficiaries.Add(f);
         //        }
 
+        //      need.InitialFee = obj.InitialFee;
+         //      need.OngoingFee = obj.OngoingFee;
         //    }
         //    catch (Exception x)
         //    {
@@ -4197,6 +4217,10 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     obj.Beneficiaries.Add(f);
                 }
+
+                obj.InitialFee = need.InitialFee;
+                obj.OngoingFee = need.OngoingFee;
+
             }
             catch (Exception x)
             {
@@ -4385,6 +4409,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     obj.Beneficiaries.Add(f);
                 }
+
+                obj.InitialFee = need.InitialFee;
+                obj.OngoingFee = need.OngoingFee;
             }
             catch (Exception x)
             {
@@ -4446,6 +4473,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     obj.Beneficiaries.Add(f);
                 }
+
+                obj.InitialFee = need.InitialFee;
+                obj.OngoingFee = need.OngoingFee;
             }
             catch (Exception x)
             {
@@ -4507,6 +4537,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     obj.Beneficiaries.Add(f);
                 }
+
+                obj.InitialFee = need.InitialFee;
+                obj.OngoingFee = need.OngoingFee;
             }
             catch (Exception x)
             {
@@ -4789,6 +4822,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     obj.Beneficiaries.Add(f);
                 }
+
+                obj.InitialFee = need.InitialFee;
+                obj.OngoingFee = need.OngoingFee;
             }
             catch (Exception x)
             {
@@ -4853,6 +4889,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     obj.Beneficiaries.Add(f);
                 }
+
+                obj.InitialFee = need.InitialFee;
+                obj.OngoingFee = need.OngoingFee;
             }
             catch (Exception x)
             {
@@ -4918,6 +4957,9 @@ namespace Finx.App.Forms
                     f.Id = 0;
                     obj.Beneficiaries.Add(f);
                 }
+
+                obj.InitialFee = need.InitialFee;
+                obj.OngoingFee = need.OngoingFee;
             }
             catch (Exception x)
             {
