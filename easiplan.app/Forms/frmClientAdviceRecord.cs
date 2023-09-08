@@ -217,9 +217,10 @@ namespace easiplan.app.Forms
         {
             Top = top,
             Left = left,
-            Width =840,
-            Height=330,
+            Width =780,
+            Height=417,
             Title = "Note",
+             Dock = DockStyle.Fill
            
         };
 
@@ -505,21 +506,20 @@ namespace easiplan.app.Forms
 
             SelectedItem = model;
             Action = action;
-
-            this.Text = "Client Advice Record [CAR]";
+                       
             this.Width =1140;
 
             this.metroTabPage2.Text = "Advice Records |";
             this.splitContainer2.FixedPanel = FixedPanel.Panel1;            
             this.splitContainer2.IsSplitterFixed = true;
-            this.splitContainer2.SplitterDistance = 245;
+            this.splitContainer2.SplitterDistance = 345;
             this.metroPanel_Car_History.BorderStyle = BorderStyle.FixedSingle;
-            this.metroPanel_CAR_header.BorderStyle = BorderStyle.FixedSingle;
+            this.metroPanel_CAR_header.BorderStyle = BorderStyle.None;
             this.metroPanel_CAR_header.BackColor = Color.WhiteSmoke;
-            this.metroPanel_CAR_header.Height = 60;
+            this.metroPanel_CAR_header.Height = 0;
             this.metroPanel_CAR.BorderStyle = BorderStyle.FixedSingle;
 
-            this.metroTabPage1.Text = "Notes";
+            this.metroTabPage1.Text = "Notes |";
             this.splitContainer1.FixedPanel = FixedPanel.Panel1;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.SplitterDistance = 245;
@@ -527,10 +527,10 @@ namespace easiplan.app.Forms
             this.metroTabControl1.SelectedIndex = 0;
 
             this.metroPanel_Notes_History.BorderStyle= BorderStyle.FixedSingle;
-            this.metroPanel_Notes_Header.BorderStyle = BorderStyle.FixedSingle;
+            this.metroPanel_Notes_Header.BorderStyle = BorderStyle.None;
             this.metroPanel_Notes_Header.BackColor = Color.WhiteSmoke;
-            this.metroPanel_Notes_Header.Height = 60;
-            this.metroPanel_Notes.BorderStyle = BorderStyle.FixedSingle;
+            this.metroPanel_Notes_Header.Height = 0;
+            this.metroPanel_Notes.BorderStyle = BorderStyle.None;
 
             #region xToolBarMenu1 Event Handlers
             this.xToolBarMenu1.tbCaption.Font = MetroFonts.DefaultBold(20f);            
@@ -686,6 +686,8 @@ namespace easiplan.app.Forms
             #region Caption
             if (!string.IsNullOrEmpty(lblHeading))
             {
+                this.Text = lblHeading;
+
                 this.metroPanel_CAR.Controls.Add(new Label()
                 {
                     Text = lblHeading,
@@ -708,11 +710,13 @@ namespace easiplan.app.Forms
                 historyGrid.Initialise1(clientAdviceRecords, column =>
                 {
                     column.For(c => c.AdviceDate, "Advice Date", new DateEditor(true), Width: 100);
-                    column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
+                    column.For(c => c.IsCompleted, "Complete", Width: 85);
+                    column.For(c => c.UpdateDate, "last Update", Width: 140,Editable:false);
+                    column.For(c => c.UpdateBy, "Update By", Width: 225, Editable: false);
 
                 },
                  AllowDelete: false, AllowAddNew: false, RowSelectEventHandler: clientAdviceRecords_RowSelectEventHandler)
-                .Format1(true, fixedCols: 1, format: MetroControlExt.GridFormats.Format2);
+                .Format1(false, fixedCols: 1, format: MetroControlExt.GridFormats.Format2);
 
                 this.metroPanel_Car_History.Controls.Add(historyGrid);
 
@@ -721,20 +725,22 @@ namespace easiplan.app.Forms
 
                 #region Current Record
 
-                currentRecordGrid.Initialise1((IList<ClientAdviceRecord>)bsClientAdviceRecord.List, column =>
-                {
-                    column.For(c => c.AdviceDate, "Advice Date", new StringEditor(true), Width: 200);
-                    column.For(c => c.InitialFee, "Initial fee", new PercentageEditor(true), Width: 100);
-                    column.For(c => c.OngoingFee, "Ongoing fee", new PercentageEditor(true), Width: 100);
-                    column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
-                    column.For(c => c.UpdateDate, "Last Update", new DateEditor(true), Width: 115);
-                    column.For(c => c.UpdateBy, "Update By", new StringEditor(true), Width: 200);
+                //currentRecordGrid.Initialise1((IList<ClientAdviceRecord>)bsClientAdviceRecord.List, column =>
+                //{
+                //    column.For(c => c.AdviceDate, "Advice Date", new StringEditor(true), Width: 200);
+                //    column.For(c => c.InitialFee, "Initial fee", new PercentageEditor(true), Width: 100);
+                //    column.For(c => c.OngoingFee, "Ongoing fee", new PercentageEditor(true), Width: 100);
+                //    column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
+                //    column.For(c => c.UpdateDate, "Last Update", new DateEditor(true), Width: 115);
+                //    column.For(c => c.UpdateBy, "Update By", new StringEditor(true), Width: 200);
 
-                },
-                 AllowDelete: false, AllowAddNew: false)
-                .Format1(false, fixedCols: 1, format: MetroControlExt.GridFormats.Format2);
+                //},
+                // AllowDelete: false, AllowAddNew: false)
+                //.Format1(false, fixedCols: 1, format: MetroControlExt.GridFormats.Format2);
 
-                this.metroPanel_CAR_header.Controls.Add(currentRecordGrid);
+
+
+                //this.metroPanel_CAR_header.Controls.Add(currentRecordGrid);
 
                 #endregion
 
@@ -745,6 +751,7 @@ namespace easiplan.app.Forms
                 top += 30;
 
                 //Funds
+               
                 this.metroPanel_CAR.Controls.Add(new MetroLabel() { Text = "Funds", Top = top, Left = left, Width = 660 });
                 top += 30;
                 SourceGrid.DataGrid fundsGrid = new SourceGrid.DataGrid()
@@ -837,7 +844,9 @@ namespace easiplan.app.Forms
                 historyGrid.Initialise1(medicalAidAdviceRecords, column =>
                 {
                     column.For(c => c.AdviceDate, "Advice Date", new DateEditor(true), Width: 100);
-                    column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
+                    column.For(c => c.IsCompleted, "Complete", Width: 85);
+                    column.For(c => c.UpdateDate, "last Update", Width: 140);
+                    column.For(c => c.UpdateBy, "Update By", Width: 225);
 
                 },
                  AllowDelete: false, AllowAddNew: false, RowSelectEventHandler: medicalAdviceRecords_RowSelectEventHandler)
@@ -1119,7 +1128,9 @@ namespace easiplan.app.Forms
                 historyGrid.Initialise1(riskAdviceRecords, column =>
                 {
                     column.For(c => c.AdviceDate, "Advice Date", new DateEditor(true), Width: 100);
-                    column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
+                    column.For(c => c.IsCompleted, "Complete", Width: 85);
+                    column.For(c => c.UpdateDate, "last Update", Width: 140);
+                    column.For(c => c.UpdateBy, "Update By", Width: 225);
 
                 },
                  AllowDelete: false, AllowAddNew: false, RowSelectEventHandler: riskAdviceRecords_RowSelectEventHandler)
@@ -1258,7 +1269,9 @@ namespace easiplan.app.Forms
             historyNotesGrid.Initialise1(archiveNotes, column =>
             {
                 column.For(c => c.NoteDate, "Note Date", new DateEditor(true), Width: 100);
-                column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
+               // column.For(c => c.IsCompleted, "Is Completed ?", Width: 115);
+                column.For(c => c.UpdateDate, "last Update", Width: 140);
+                column.For(c => c.UpdateBy, "Update By", Width: 225);
 
             },
              AllowDelete: false, AllowAddNew: false, RowSelectEventHandler: archiveNotes_RowSelectEventHandler)

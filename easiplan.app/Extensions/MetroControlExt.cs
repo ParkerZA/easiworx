@@ -7288,7 +7288,7 @@ namespace MetroFramework.Controls.Ext
             FormatStyle = new DataGridViewCellStyle()
             {
                 Alignment = DataGridViewContentAlignment.MiddleRight,
-                Format = "c"
+                Format = "R ### ### ##0.#0"
             };
 
             return base.CreateColumn(name, headerText);
