@@ -113,7 +113,8 @@ namespace easiplan.domain.Entities
             get
             {
                 {
-                    return string.IsNullOrEmpty(_needsQuantified) ? null :(double?) double.Parse(_needsQuantified);
+                    double r = 0; double.TryParse(_needsQuantified, out r);
+                    return string.IsNullOrEmpty(_needsQuantified) ? null :(double?) r;
                 }
             }
             set
@@ -129,7 +130,8 @@ namespace easiplan.domain.Entities
             get
             {
                 {
-                    return string.IsNullOrEmpty(_shortfall) ? null: (double?)double.Parse(_shortfall);
+                    double r=0; double.TryParse(_shortfall, out r);
+                    return string.IsNullOrEmpty(_shortfall) ? null: (double?)r;
                 }
             }
             set
