@@ -2090,7 +2090,22 @@ namespace Finx.App.Extensions
             grid.AddRowHeader(RowHeaderSelectEventHandler);
             #endregion
 
-            
+            #region Add Context Menu 
+            if (ContextMenu != null)
+            {
+                DataGridContextMenu dgct = ContextMenu as DataGridContextMenu;
+                if (dgct.Visible)
+                    grid.AddContextMenu(ContextMenu);
+
+                //DO NOT :override the default contextmenu property
+                // grid.ContextMenu = dgct.ContextMenu;
+                grid.Tag = dgct.ContextMenu;
+
+                //Show Context Menu on mouse clieck event
+                grid.MouseClick += SourceGrid_MouseClick;
+            }
+            #endregion
+
             #region Add the Columns
             //Add the delete event handler when not in ReadOnly mode
             if (!ReadOnly && AllowDelete)
@@ -2107,21 +2122,21 @@ namespace Finx.App.Extensions
 
             #endregion
 
-            #region Add Context Menu 
-            if (ContextMenu != null)
-            {
-                DataGridContextMenu dgct = ContextMenu as DataGridContextMenu;
-                if (dgct.Visible)
-                    grid.AddContextMenu(ContextMenu);
+            //#region Add Context Menu 
+            //if (ContextMenu != null)
+            //{
+            //    DataGridContextMenu dgct = ContextMenu as DataGridContextMenu;
+            //    if (dgct.Visible)
+            //        grid.AddContextMenu(ContextMenu);
 
-                //DO NOT :override the default contextmenu property
-                // grid.ContextMenu = dgct.ContextMenu;
-                grid.Tag = dgct.ContextMenu;
+            //    //DO NOT :override the default contextmenu property
+            //    // grid.ContextMenu = dgct.ContextMenu;
+            //    grid.Tag = dgct.ContextMenu;
 
-                //Show Context Menu on mouse clieck event
-                grid.MouseClick += SourceGrid_MouseClick;
-            }
-            #endregion
+            //    //Show Context Menu on mouse clieck event
+            //    grid.MouseClick += SourceGrid_MouseClick;
+            //}
+            //#endregion
 
             #region Bind the Data Source with PropertyChangedhandler
             grid.DataSource<T>(bindingSource, PropertyChangedHandler);

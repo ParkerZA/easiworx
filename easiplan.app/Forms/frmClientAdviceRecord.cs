@@ -484,7 +484,7 @@ namespace easiplan.app.Forms
 
             riskAdviceRecords = RiskCoverNeed.RiskAdviceRecords;
             riskAdviceRecord = RiskCoverNeed.CurrentAdviceRecord;
-			bsClientAdviceRecord.DataSource = riskAdviceRecord ;
+            bsRiskAdviceRecord.DataSource = riskAdviceRecord ;
 
             RiskCoverNeed.Calculate();
             fundsList = RiskCoverNeed.Funds;
@@ -674,7 +674,7 @@ namespace easiplan.app.Forms
             catch { }
         }
 
-        private void Initialise_CarPanel(bool readOnly){
+        private void Initialise_CarPanel(bool readOnly) {
 
             ReadOnly = readOnly;
 
