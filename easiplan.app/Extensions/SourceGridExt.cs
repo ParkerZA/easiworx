@@ -2504,6 +2504,9 @@ namespace Finx.App.Extensions
 
             grid.FixedColumns = fixedCols + 1;
 
+            if (grid.Tag != null)
+                grid.FixedColumns++;
+
             grid.ResumeLayout(true);
 
             return grid;
@@ -2673,6 +2676,8 @@ namespace Finx.App.Extensions
             grid.Rows.HeaderHeight = 43;
             grid.Rows.RowHeight = 40;
 
+            if (grid.Tag != null)
+                grid.FixedColumns++;
 
             grid.Columns[0].DataCell.View.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleCenter;
             grid.ResumeLayout(true);
