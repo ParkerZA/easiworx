@@ -9,6 +9,7 @@
  * 
  */
 using DevAge.ComponentModel;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using easiplan.app.Models;
 using easiplan.domain.Entities;
 using Finx.App;
@@ -134,13 +135,12 @@ namespace easiplan.app.Forms
             Hint = "(The accessibility and liquidity of the investment)",
             Options = new List<CheckBoxHOption>
                 {
-                new CheckBoxHOption() { Label = "Need to draw an income", Value = "1", Width=150 },
-                 new CheckBoxHOption() { Label = "Always require access to capital", Value = "2", Width=150 },
-                  new CheckBoxHOption() { Label = "Do not require access to capital for at least 5 years", Value = "3", Width=150 },
-
+                ////new CheckBoxHOption() { Label = "Need to draw an income", Value = "1", Width=150 },
+                //// new CheckBoxHOption() { Label = "Always require access to capital", Value = "2", Width=150 },
+                ////  new CheckBoxHOption() { Label = "Do not require access to capital for at least 5 years", Value = "3", Width=150 },
                 }
         };
-
+       
         readonly xTextBoxH tbhNeedsAndOjectives = new xTextBoxH
         {
             Top = top,
@@ -738,8 +738,6 @@ namespace easiplan.app.Forms
                 // AllowDelete: false, AllowAddNew: false)
                 //.Format1(false, fixedCols: 1, format: MetroControlExt.GridFormats.Format2);
 
-
-
                 //this.metroPanel_CAR_header.Controls.Add(currentRecordGrid);
 
                 #endregion
@@ -786,6 +784,10 @@ namespace easiplan.app.Forms
                 top += cbhInvestmentHorizon.Height;
 
                 //3. Access to Capital
+                foreach (var o in ClientAdviceRecord.AccessToCapitalOptions)
+                {
+                    cbhAccessToCapital.Options.Add(new CheckBoxHOption() { Label =o.Value, Value =o.Key, Width = 150 });
+                }
                 cbhAccessToCapital.Top = top;
                 cbhAccessToCapital.AddDataBinding(bsClientAdviceRecord, "AccessToCapital");
                 this.metroPanel_CAR.Controls.Add(cbhAccessToCapital);

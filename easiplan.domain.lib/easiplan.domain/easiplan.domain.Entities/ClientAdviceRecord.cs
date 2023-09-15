@@ -35,9 +35,15 @@ namespace easiplan.domain.Entities
 
         private bool _IsCompleted;
 
+        public static IDictionary<string,string> AccessToCapitalOptions = new Dictionary<string,string>();
         public ClientAdviceRecord()
-        { 
-            //_IsCompleted= false;
+        {
+            if (AccessToCapitalOptions.Count == 0)
+            {
+                AccessToCapitalOptions.Add("1", "Need to draw an income");
+                AccessToCapitalOptions.Add("2", "Always require access to capital");
+                AccessToCapitalOptions.Add("3", "Do not require access to capital for at least 5 years");               
+            }
         }
         
         public ClientAdviceRecord(ClientAdviceRecord copy)
@@ -387,7 +393,20 @@ namespace easiplan.domain.Entities
                 InvokePropertyChanged("AccessToCapital");
             }
         }
-
+        [IgnoreAutoMap]
+        public virtual string AccessToCapitalDesc
+        {
+            get
+            {
+                try
+                {
+                    return AccessToCapitalOptions[_accessToCapital];
+                }catch(Exception ex) {
+                    return _accessToCapital;
+                }
+            }set { }
+           
+        }
 
         //Additional information given by the adviser
         public virtual string AdditionalInfo
