@@ -39,7 +39,7 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
       PathtoPublish: '$(build.ArtifactStagingDirectory)'
-      ArtifactName: "ReleaseP2"
+      ArtifactName: "Release"
       publishLocation: Container
   enabled: true
 
