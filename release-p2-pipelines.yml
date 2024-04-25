@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- staging
+- release
 
 pool:
   vmImage: 'windows-latest'
@@ -12,7 +12,7 @@ pool:
 variables:
   solution: 'easiplan.app.sln'
   buildPlatform: 'Any CPU'
-  buildConfiguration: 'staging'
+  buildConfiguration: 'release'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -39,7 +39,7 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
       PathtoPublish: '$(build.ArtifactStagingDirectory)'
-      ArtifactName: "Staging"
+      ArtifactName: "ReleaseP2"
       publishLocation: Container
   enabled: true
 
