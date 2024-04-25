@@ -27,7 +27,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/target:publish /p:ApplicationVersion=$(ApplicationVersion) /p:UpdateEnabled=true /p:PublishDir="$(build.ArtifactStagingDirectory)\Publish\\"'
+    msbuildArgs: '/target:publish  /p:UpdateEnabled=true /p:PublishDir="$(build.ArtifactStagingDirectory)\Publish\\"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
