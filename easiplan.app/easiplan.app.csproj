@@ -9,14 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>easiplan.app</RootNamespace>
     <AssemblyName>easiworx-preview.app</AssemblyName>
-    <AssemblyVersion>1.0.90</AssemblyVersion>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <PublishUrl>Publish\Preview\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
