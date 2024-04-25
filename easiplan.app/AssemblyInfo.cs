@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 #if PRODUCTION
     [assembly: AssemblyTitle("EasiWorx")]
     [assembly: AssemblyProduct("EasiWorx")]
-    [assembly: AssemblyVersion("1.0.90.1")]
-    [assembly: AssemblyFileVersion("1.0.90.1")]
+    [assembly: AssemblyVersion("1.0.90")]
+    [assembly: AssemblyFileVersion("1.0.90")]
 #elif PREVIEW
     [assembly: AssemblyTitle("EasiWorx Preview")]  
     [assembly: AssemblyProduct("EasiWorx Preview")]
