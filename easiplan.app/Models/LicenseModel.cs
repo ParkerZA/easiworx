@@ -187,15 +187,17 @@ namespace Finx.App.Models
         {
             try { 
             
-                if(licenseKeyModel!=null)
-                {
-                    var feature = licenseKeyModel.ProductFeatures.FeatureModels.Where(x => x.name == featureName).FirstOrDefault();
+                //if(licenseKeyModel!=null)
+                //{
+                //    //var feature = licenseKeyModel.ProductFeatures.FeatureModels.Where(x => x.name == featureName).FirstOrDefault();
 
-                    if (feature != null) {
-                        if (feature.Status == "yes")
-                            return true;
-                    }
-                }
+                    //if (feature != null) {
+                    //    if (feature.Status == "yes")
+                    //        return true;
+                    //}
+                //}
+
+                return true;
             }
             catch(Exception x) 
             {

@@ -141,10 +141,7 @@ namespace Finx.App
 
 
                     //Check Repository initiation successful
-                    /*if (Program.Repository == null)
-                    { 
-                        //Application.Exit(); 
-                    }*/
+                   
                     if (Program.Repository.IsInError)
                         Application.Exit();
                     else
@@ -498,11 +495,11 @@ namespace Finx.App
                 callback.SetText(string.Format("Checking Licensing model ..."));
 
                 //Set licensing model
-                Program.Licensing = new LicenseModel(typeof(LicenseModel)) { Status = string.Empty };
+                Program.Licensing = new LicenseModel(typeof(LicenseModel)) { Status = "Active" };
 
-                Program.Licensing.Validate().Wait();
+               // Program.Licensing.Validate().Wait();
 
-                Program.Logger.Info($"MachineKey: {Program.Licensing.MachineKey}");
+               //  Program.Logger.Info($"MachineKey: {Program.Licensing.MachineKey}");
 
                 callback.SetText(string.Format("Done checking Licensing model ..."));
 

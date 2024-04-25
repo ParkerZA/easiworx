@@ -47,19 +47,15 @@ namespace Finx.App.Forms
 
             this.metroTabControl_Main.SelectedIndex = 0;
 
-#if !DEV && !MOJAFF
-            metroTabControl_Main.TabPages.RemoveAt(2);//Remove confguration tab
-#endif
+          //  metroTabControl_Main.TabPages.RemoveAt(2);//Remove confguration tab
 
             HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.ForgotPassword.html");
             HtmlUtils.LoadHtmlPanel(this.htmlPanel2, "easiplan.app.Html.Registration.html");
             HtmlUtils.LoadHtmlPanel(this.htmlPanel3, "easiplan.app.Html.Configuration.html");
             HtmlUtils.LoadHtmlPanel(this.htmlPanel4, "easiplan.app.Html.TermsOfUse.html");
             HtmlUtils.LoadHtmlPanel(this.htmlPanel5, "easiplan.app.Html.Welcome.html");
-
             
             pwdEditor.EnterKeyClicked += PwdEditor_EnterKeyClicked; 
-
 
             this.metroPanel_Username.Initialise<User>(Program.User, cntr =>
             {
@@ -134,26 +130,26 @@ namespace Finx.App.Forms
             HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.ForgotPassword.html");
 
 #if !DEV && !MOJAFF
-            if (string.IsNullOrEmpty(Program.Licensing.LicenseKey))
-            {
-                HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.LicenseKeyRequired.html");
-                this.metroTabControl_Main.SelectedIndex = 1;
-                return;
-            };
+            //if (string.IsNullOrEmpty(Program.Licensing.LicenseKey))
+            //{
+            //    HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.LicenseKeyRequired.html");
+            //    this.metroTabControl_Main.SelectedIndex = 1;
+            //    return;
+            //};
 
-            if (!Program.Licensing.Status.Equals("Active"))
-            {
-                HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.LicenseKeyRequired.html");
-                this.metroTabControl_Main.SelectedIndex = 1;
-                return;
-            };
+            //if (!Program.Licensing.Status.Equals("Active"))
+            //{
+            //    HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.LicenseKeyRequired.html");
+            //    this.metroTabControl_Main.SelectedIndex = 1;
+            //    return;
+            //};
 #endif
-            if (string.IsNullOrEmpty(Program.Licensing.LicenseKey))
-            {
-                HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.LicenseKeyRequired.html");
-                this.metroTabControl_Main.SelectedIndex = 1;
-                return;
-            };
+            //if (string.IsNullOrEmpty(Program.Licensing.LicenseKey))
+            //{
+            //    HtmlUtils.LoadHtmlPanel(this.htmlPanel1, "easiplan.app.Html.LicenseKeyRequired.html");
+            //    this.metroTabControl_Main.SelectedIndex = 1;
+            //    return;
+            //};
 
             if (!Program.Repository.IsConfigured)
             {
@@ -273,14 +269,14 @@ namespace Finx.App.Forms
                     if (Program.UserServices == null)
                         Program.UserServices = new UserService(Program.Repository);
 
-#if MOJAFF || DEV
+//#if MOJAFF || DEV
                 Program.UserServices.ValidateUserPassword(ref Program.User);               
 
-#else
-                    //YJ 2021-09-29 Replace UserPassword Validation with call to easiworx api               
-                    Program.UserAuthenticationService.Authenticate(ref Program.User);
-                    Program.UserServices.VerifyUser(ref Program.User);
-#endif
+//#else
+                    ////YJ 2021-09-29 Replace UserPassword Validation with call to easiworx api               
+                    //Program.UserAuthenticationService.Authenticate(ref Program.User);
+                    //Program.UserServices.VerifyUser(ref Program.User);
+//#endif
                     //Set Repository Context UserName
                     Program.Repository.UserName = Program.User.Username;
 
@@ -288,10 +284,10 @@ namespace Finx.App.Forms
                     Program.ClientDetailsService = new ClientDetailsService(Program.Repository, Program.User);
 
                     //Remember Username on next Logon
-                    if (this.metroCheckBox_RememberMe.Checked)
+                    //if (this.metroCheckBox_RememberMe.Checked)
                         RegistryWrapper.WriteRegistry(Global.RegistryKey, "Username", Program.User.Username);
-                    else
-                        RegistryWrapper.WriteRegistry(Global.RegistryKey, "Username", string.Empty);
+                   // else
+                      //  RegistryWrapper.WriteRegistry(Global.RegistryKey, "Username", string.Empty);
 
                     _closeForm = true;
 
