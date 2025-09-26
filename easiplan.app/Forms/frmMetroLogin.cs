@@ -12,13 +12,23 @@ using System;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using za.co.easiworx.office365.net;
+using za.co.easiworx.office365.net.Exceptions;
+using za.co.easiworx.office365.net.models;
+using System.Threading;
+using easiplan.app.Services;
 
 namespace Finx.App.Forms
 {
     public partial class frmMetroLogin : MetroFramework.Forms.MetroForm
     {
         MetroPasswordEditor pwdEditor = new MetroPasswordEditor(220);
+
+        //private OutlookProxy outlookProxy;
+        //private bool isOutlookAuthenticated = false;
         public frmMetroLogin()
         {
             InitializeComponent();
@@ -255,7 +265,81 @@ namespace Finx.App.Forms
 
         }
 
-        private void MetroButton_Logon_Click(object sender, EventArgs e)
+        //private async Task AuthenticateWithOutlook()
+        //{
+        //    try
+        //    {
+        //        Program.Logger.Info("Starting Outlook authentication...");
+
+        //        // Show progress to user
+        //        this.Cursor = Cursors.WaitCursor;
+
+        //        // Add a timeout to prevent infinite loops
+        //        using (var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2)))
+        //        {
+        //            // Create OutlookProxy with error handling
+        //            outlookProxy = new OutlookProxy(new AuthenticationModel());
+
+        //            Program.Logger.Info("OutlookProxy created, testing connection...");
+
+        //            // Test the connection by getting user profile with timeout
+        //            var userProfile = await outlookProxy.GetMyProfile();
+
+        //            if (userProfile != null)
+        //            {
+        //                isOutlookAuthenticated = true;
+        //                Program.Logger.Info($"Outlook authentication successful for user: {userProfile.DisplayName}");
+        //                MessageBoxExt.ShowInformation($"Successfully connected to Outlook as: {userProfile.DisplayName}");
+        //            }
+        //            else
+        //            {
+        //                isOutlookAuthenticated = false;
+        //                Program.Logger.Warn("GetMyProfile returned null");
+        //            }
+        //        }
+        //    }
+        //    catch (Office365AuthenticationFailedException ex)
+        //    {
+        //        isOutlookAuthenticated = false;
+        //        Program.Logger.Error("Outlook authentication failed", ex);
+
+        //        // Ask user if they want to continue without Outlook
+        //        if (MessageBoxExt.ShowQuestion("Failed to authenticate with Outlook. Would you like to continue without Outlook integration?"))
+        //        {
+        //            isOutlookAuthenticated = true; // Allow login to continue
+        //        }
+        //    }
+        //    catch (System.StackOverflowException ex)
+        //    {
+        //        isOutlookAuthenticated = false;
+        //        Program.Logger.Error("Stack overflow during Outlook authentication", ex);
+        //        MessageBoxExt.ShowWarning("There was a technical issue with Outlook authentication. Continuing without Outlook integration.");
+        //        isOutlookAuthenticated = true; // Allow login to continue
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        isOutlookAuthenticated = false;
+        //        Program.Logger.Error("Unexpected error during Outlook authentication", ex);
+
+        //        // Ask user if they want to continue without Outlook
+        //        if (MessageBoxExt.ShowQuestion($"Outlook authentication error: {ex.Message}\n\nWould you like to continue without Outlook integration?"))
+        //        {
+        //            isOutlookAuthenticated = true; // Allow login to continue
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        this.Cursor = Cursors.Default;
+        //    }
+        //}
+
+
+        // REPLACE your MetroButton_Logon_Click method with this version (NO Outlook calls):
+
+        // Updated MetroButton_Logon_Click method for frmMetroLogin.cs
+        // Replace your existing method with this version:
+
+        private async void MetroButton_Logon_Click(object sender, EventArgs e)
         {
             bool _closeForm = false;
 
@@ -269,14 +353,10 @@ namespace Finx.App.Forms
                     if (Program.UserServices == null)
                         Program.UserServices = new UserService(Program.Repository);
 
-//#if MOJAFF || DEV
-                Program.UserServices.ValidateUserPassword(ref Program.User);               
+                    #region EasiWorx Authentication
+                    // Your existing user validation
+                    Program.UserServices.ValidateUserPassword(ref Program.User);
 
-//#else
-                    ////YJ 2021-09-29 Replace UserPassword Validation with call to easiworx api               
-                    //Program.UserAuthenticationService.Authenticate(ref Program.User);
-                    //Program.UserServices.VerifyUser(ref Program.User);
-//#endif
                     //Set Repository Context UserName
                     Program.Repository.UserName = Program.User.Username;
 
@@ -284,16 +364,68 @@ namespace Finx.App.Forms
                     Program.ClientDetailsService = new ClientDetailsService(Program.Repository, Program.User);
 
                     //Remember Username on next Logon
-                    //if (this.metroCheckBox_RememberMe.Checked)
-                        RegistryWrapper.WriteRegistry(Global.RegistryKey, "Username", Program.User.Username);
-                   // else
-                      //  RegistryWrapper.WriteRegistry(Global.RegistryKey, "Username", string.Empty);
+                    RegistryWrapper.WriteRegistry(Global.RegistryKey, "Username", Program.User.Username);
+
+                    Program.Logger.Info($"EasiWorx login successful for user: {Program.User.Username}");
+                    #endregion
+
+                    #region Outlook Authentication Integration
+                    // NOW authenticate with Outlook immediately after successful EasiWorx login
+                    try
+                    {
+                        Program.Logger.Info("Starting integrated Outlook authentication...");
+
+                        // Show a progress message to the user
+                        this.Text = "Connecting to Outlook...";
+
+                        // Use the new OutlookAuthenticationService
+                        bool outlookSuccess = await easiplan.app.Services.OutlookAuthenticationService.AuthenticateAsync(showPrompts: true);
+
+                        if (outlookSuccess)
+                        {
+                            if (easiplan.app.Services.OutlookAuthenticationService.IsAuthenticated)
+                            {
+                                Program.Logger.Info($"Outlook integration ready for user: {easiplan.app.Services.OutlookAuthenticationService.UserName}");
+                            }
+                            else
+                            {
+                                Program.Logger.Info("User chose to skip Outlook integration");
+                            }
+                        }
+                        else
+                        {
+                            Program.Logger.Warn("Outlook authentication failed, but user chose to continue");
+                        }
+                    }
+                    catch (Exception outlookEx)
+                    {
+                        Program.Logger.Error("Error during Outlook authentication", outlookEx);
+
+                        // Don't block login if Outlook fails
+                        var continueResult = MessageBoxExt.ShowQuestion(
+                            $"There was an issue connecting to Outlook:\n{outlookEx.Message}\n\n" +
+                            "Would you like to continue without Outlook integration?\n" +
+                            "(You can connect to Outlook later from the Client Dashboard)");
+
+                        if (!continueResult)
+                        {
+                            return; // User chose not to continue
+                        }
+                    }
+                    finally
+                    {
+                        this.Text = string.Format("		{0}", Program.ApplicationVersion()); // Reset title
+                    }
+                    #endregion
 
                     _closeForm = true;
 
                     //load the main form
                     var m = new metroMdiMain();
                     m.Show();
+
+                    // CRITICAL: Set DialogResult to OK so the main application knows login succeeded
+                    this.DialogResult = DialogResult.OK;
                 }
                 catch (AggregateException wx)
                 {
@@ -312,8 +444,9 @@ namespace Finx.App.Forms
                     if (_closeForm)
                         this.Hide();
                 }
-            };
+            }
         }
+
 
         private void baseForm_Load(object sender, EventArgs e)
         {

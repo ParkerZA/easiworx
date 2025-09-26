@@ -124,6 +124,7 @@ namespace easiplan.app.ContextMenus
                     break;
                 case ContextMenuType.ClientTask:
                     _menu.AddMenuItem("Open Client", new EventHandler(OpenClientForm_Click)).Enabled = !ReadOnly;
+                    _menu.AddMenuItem("Client Dashboard", new EventHandler(ClientDashboard_Click)).Enabled = true;
                     _menu.AddMenuItem("-");
                     _menu.AddMenuItem("Client Rating", new EventHandler(OpenClientRating_Click)).Enabled = !ReadOnly;
                     _menu.AddMenuItem("-");
@@ -824,6 +825,7 @@ namespace easiplan.app.ContextMenus
 
         private void OpenClientForm_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Dashboard click handler called");
             try
             {
                 _selectedItem = GetSourceGridSelectedItem(_menu.SourceControl, e);
@@ -1073,6 +1075,78 @@ namespace easiplan.app.ContextMenus
             catch (Exception x)
             {
                 MessageBoxExt.ShowException(x);
+            }
+            finally
+            {
+                _OnCompleted?.Invoke(_selectedItem, e);
+            }
+        }
+
+        private void ClientDashboard_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedItem = GetSourceGridSelectedItem(_menu.SourceControl, e);
+
+                if (_selectedItem == null)
+                {
+                    MessageBox.Show("Please select a client first.");
+                    return;
+                }
+
+                using (new AppWaitCursor(sender))
+                {
+                    switch (_contextMenuType)
+                    {
+                        case ContextMenuType.ClientTask:
+                            ClientDetailsView clientDetailsView = _selectedItem as ClientDetailsView;
+
+                            try
+                            {
+                                if (clientDetailsView != null && clientDetailsView.ClientId > 0)
+                                {
+                                    // Open the client dashboard form with the client ID
+                                    Form mdiForm = Application.OpenForms["metroMdiMain"];
+                                    if (mdiForm != null)
+                                    {
+                                        if (clientDetailsView != null)
+                                        {
+                                            frmClientDashboard dashboard = new frmClientDashboard(clientDetailsView.ClientId);
+                                            dashboard.MdiParent = mdiForm;
+                                            dashboard.Text = $"Client Dashboard - {clientDetailsView.Fullname}";
+                                            dashboard.Show();
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please select a valid client first.", "No Client Selected",
+                                                           MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // Fallback if no MDI parent
+                                        frmClientDashboard dashboard = new frmClientDashboard(clientDetailsView.ClientId);
+                                        dashboard.Show();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid client selection.");
+                                }
+                            }
+                            catch (Exception x)
+                            {
+                                MessageBoxExt.ShowException(x, "Error opening client dashboard");
+                            }
+                            break;
+                        default:
+                            return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExt.ShowException(ex, "Error opening client dashboard");
             }
             finally
             {
@@ -2135,4 +2209,6 @@ namespace easiplan.app.ContextMenus
             return item;
         }
     }
+
+
 }

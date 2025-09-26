@@ -15,7 +15,12 @@ namespace Finx.App.Extensions
 {
     public static class MessageBoxExt
     {
-        public static void ShowWarning (string Message)
+        public static void ShowWarning(string Message)
+        {
+            Program.Logger.Info(Message);
+            MessageBox.Show(Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        public static void ShowWarning (string Message, string v)
         {
             Program.Logger.Info(Message);
 

@@ -1,4 +1,4 @@
-using easiplan.app.Repository;
+﻿using easiplan.app.Repository;
 using easiplan.app.Services;
 using easiplan.domain;
 using easiplan.domain.Entities;
@@ -29,9 +29,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using za.co.easiworx.office365.net;
+using za.co.easiworx.office365.net.models;
 
 namespace Finx.App
 {
@@ -44,7 +46,6 @@ namespace Finx.App
         /// </summary>
         internal static User User;
         internal static UserService UserServices;
-        // YJ 2021-09-29 api user authentication services
         internal static UserAuthenticationService UserAuthenticationService = new UserAuthenticationService();
 
         internal static Provider ServiceProviders;
@@ -88,17 +89,92 @@ namespace Finx.App
         /// SMS Configuraton
         /// </summary>
         internal static SmsConfiguration smsConfiguration;
-        
-        /// <summary>
-        /// Proxy for Office365 Integration
-        /// </summary>
-        internal static OutlookProxy OutlookProxy = new OutlookProxy(new za.co.easiworx.office365.net.models.AuthenticationModel() { });
 
         /// <summary>
-        /// Estate and Risk Planning
-        /// Domain Aggregate Services        
+        /// Proxy for Office365 Integration - ENHANCED
+        /// Now managed by OutlookAuthenticationService but kept for backward compatibility
+        /// </summary> 
+        internal static OutlookProxy OutlookProxy
+        {
+            get { return easiplan.app.Services.OutlookAuthenticationService.OutlookProxy; }
+            set { /* Managed by OutlookAuthenticationService */ }
+        }
+
+        /// <summary>
+        /// Track Outlook authentication status - ENHANCED
+        /// </summary>
+        internal static bool IsOutlookAuthenticated
+        {
+            get { return easiplan.app.Services.OutlookAuthenticationService.IsAuthenticated; }
+            set { /* Managed by OutlookAuthenticationService */ }
+        }
+
+        /// <summary>
+        /// Current Outlook user email - ENHANCED
+        /// </summary>
+        internal static string OutlookUserEmail
+        {
+            get { return easiplan.app.Services.OutlookAuthenticationService.UserEmail; }
+            set { /* Managed by OutlookAuthenticationService */ }
+        }
+
+        /// <summary>
+        /// Estate and Risk Planning Domain Aggregate Services        
         /// </summary>       
         internal static EstateAnalysisService EstateAnalysisService;
+
+        /// <summary>
+        /// Initialize Outlook integration after user login
+        /// </summary>
+        public static async Task<bool> InitializeOutlookIntegration()
+        {
+            try
+            {
+                if (OutlookProxy == null)
+                {
+                    Program.Logger.Info("Initializing Outlook integration...");
+
+                    // Create the proxy with authentication
+                    OutlookProxy = new OutlookProxy(new AuthenticationModel());
+
+                    // Test the connection
+                    var profile = await OutlookProxy.GetMyProfile();
+
+                    if (profile != null)
+                    {
+                        Program.Logger.Info($"Outlook integration successful for: {profile.DisplayName}");
+                        return true;
+                    }
+                }
+                return OutlookProxy != null;
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Error("Failed to initialize Outlook integration", ex);
+                OutlookProxy = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Clean up Outlook resources on application exit
+        /// </summary>
+        public static void CleanupOutlookIntegration()
+        {
+            try
+            {
+                if (OutlookProxy != null)
+                {
+                    OutlookProxy.Dispose();
+                    OutlookProxy = null;
+                    Program.Logger.Info("Outlook integration cleaned up");
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Error("Error cleaning up Outlook integration", ex);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -167,10 +243,25 @@ namespace Finx.App
 
                             Program.EstateAnalysisService = new EstateAnalysisService(Program.Repository);
                         }
-                        Program.Logger.Info("Initialisation completed. Opening Logon form.");
-                        //Show Logon Form
-                        Application.Run(new frmMetroLogin());
-                       
+                        Program.Logger.Info("Initialisation completed. Opening Logon form with Outlook integration.");
+
+                        // Show login form with integrated Outlook authentication  
+                        if (ShowLoginWithOutlookIntegration())
+                        {
+                            // Login successful, continue with application
+                            Program.Logger.Info("Login completed successfully");
+
+                            // THIS IS CRITICAL - Start the main application message loop
+                            // The main form is created and shown inside the login form
+                            Application.Run();
+                        }
+                        else
+                        {
+                            // Login failed or cancelled
+                            Program.Logger.Info("Login cancelled or failed");
+                            Application.Exit();
+                        }
+
                     }
 
                 }
@@ -178,7 +269,7 @@ namespace Finx.App
             }
             catch (System.TimeoutException)
             {
-                MessageBoxExt.ShowWarning("This Application has already been started.");
+                //MessageBoxExt.ShowWarning("This Application has already been started.");
 
             }
             catch (Exception ex)
@@ -210,6 +301,8 @@ namespace Finx.App
             Thread.CurrentThread.CurrentCulture = CInfo;
             Thread.CurrentThread.CurrentUICulture = CInfo;
         }
+
+
 
         /// <summary>
         /// Set Services providers
@@ -444,6 +537,38 @@ namespace Finx.App
         }
 
         /// <summary>
+        /// Get Outlook connection status for display
+        /// </summary>
+        public static string GetOutlookStatus()
+        {
+            if (easiplan.app.Services.OutlookAuthenticationService.IsAuthenticated)
+            {
+                return $"Connected: {easiplan.app.Services.OutlookAuthenticationService.UserName} ({easiplan.app.Services.OutlookAuthenticationService.UserEmail})";
+            }
+            return "Not connected";
+        }
+
+        /// <summary>
+        /// Quick method to check if Outlook integration is available
+        /// </summary>
+        public static bool IsOutlookIntegrationAvailable()
+        {
+            return easiplan.app.Services.OutlookAuthenticationService.IsAuthenticated;
+        }
+
+        /// <summary>
+        /// Get a user-friendly status message for Outlook integration
+        /// </summary>
+        public static string GetOutlookIntegrationStatus()
+        {
+            if (easiplan.app.Services.OutlookAuthenticationService.IsAuthenticated)
+            {
+                return $"✅ Outlook connected as {easiplan.app.Services.OutlookAuthenticationService.UserName}";
+            }
+            return "❌ Outlook not connected";
+        }
+
+        /// <summary>
         /// Initialising the application
         /// </summary>
         /// <param name="status"></param>
@@ -527,6 +652,31 @@ namespace Finx.App
                 {
                     callback.End();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Show login form with integrated Outlook authentication
+        /// </summary>
+        /// <returns>True if login successful (both EasiWorx and Outlook handled)</returns>
+        private static bool ShowLoginWithOutlookIntegration()
+        {
+            try
+            {
+                // Show the login form
+                var loginForm = new frmMetroLogin();
+                var result = loginForm.ShowDialog();
+
+                loginForm.Dispose();
+
+                // Return true if login was successful (DialogResult.OK)
+                return result == DialogResult.OK;
+            }
+            catch (Exception ex)
+            {
+                Logger?.Error("Error during login process", ex);
+                MessageBoxExt.ShowException(ex, "Error during login");
+                return false;
             }
         }
 

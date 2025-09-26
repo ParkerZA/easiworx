@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using za.co.easiworx.office365.net.models;
+using za.co.easiworx.office365.net;
 
 namespace Finx.App.Forms
 {
@@ -25,7 +27,20 @@ namespace Finx.App.Forms
         frmMetroClientSearch frmclientSearch;
         frmMetroAdminTasks frmAdminTasks;       
         frmClientManagement frmMetroClientManagement;
-       
+
+        //private void outlookTestToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        var outlookTestForm = new frmOutlookTest();
+        //        outlookTestForm.ShowDialog(this);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBoxExt.ShowException(ex, "Error opening Outlook test");
+        //    }
+        //}
+
 
         #region Constructor
         public metroMdiMain()
@@ -568,8 +583,41 @@ namespace Finx.App.Forms
 
         }
 
+
         #endregion
 
-        
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Text = "Testing Outlook...";
+
+                var proxy = new OutlookProxy(new AuthenticationModel());
+                var profile = await proxy.GetMyProfile();
+
+                if (profile != null)
+                {
+                    MessageBox.Show($"Outlook Success: {profile.DisplayName}");
+                }
+                else
+                {
+                    MessageBox.Show("Profile was null");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Outlook Error: {ex.Message}");
+                Program.Logger?.Error("Outlook test failed", ex);
+            }
+            finally
+            {
+                this.Text = "EasiWorx"; // or whatever your normal title is
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

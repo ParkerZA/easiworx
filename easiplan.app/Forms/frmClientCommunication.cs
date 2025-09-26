@@ -17,7 +17,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using easiplan.domain.Views;
-using System.Threading;
+//using System.Threading;
 using za.co.easiworx.office365.net.models;
 
 namespace Finx.App.Forms
@@ -765,23 +765,23 @@ namespace Finx.App.Forms
                         IList<EmailAttachment> _emailAttachments = new List<EmailAttachment>();
                         //_emailAttachments.Add(new EmailAttachment() { AttachmentData };
 
-                        var msg = new EmailMessage()
-                        {
-                            SendDate = sendDate,
-                            Subject = _emailTemplate.TemplateSubject.ReplacePlaceholders<ClientDetailsView>(client),
-                            HtmlBody = _emailTemplate.TemplateBody.ReplacePlaceholders<ClientDetailsView>(client),
-                            RTFBody = null,
-                            ReferenceId = string.Format("{0}", string.IsNullOrEmpty(client.IdentificationNo) ? client.IdentificationNo : client.IdentificationNo),
-                            EmailAddresses = _emailAddresses,
-                            EmailAttachments = _emailAttachments,
+                        //var msg = new EmailMessage()
+                        //{
+                        //    SendDate = sendDate,
+                        //    Subject = _emailTemplate.TemplateSubject.ReplacePlaceholders<ClientDetailsView>(client),
+                        //    HtmlBody = _emailTemplate.TemplateBody.ReplacePlaceholders<ClientDetailsView>(client),
+                        //    RTFBody = null,
+                        //    ReferenceId = string.Format("{0}", string.IsNullOrEmpty(client.IdentificationNo) ? client.IdentificationNo : client.IdentificationNo),
+                        //    EmailAddresses = _emailAddresses,
+                        //    EmailAttachments = _emailAttachments,
 
-                        };
+                        //};
 
-                        //Add Message
-                        messages.Add(msg);
+                        ////Add Message
+                        //messages.Add(msg);
 
-                        //Add Instruction
-                        AddInstruction(client, "Send Email", EmailEditor.getPlainText<ClientDetailsView>(client), InstructionStatus.Completed.ToText(), msg.Subject);
+                        ////Add Instruction
+                        //AddInstruction(client, "Send Email", EmailEditor.getPlainText<ClientDetailsView>(client), InstructionStatus.Completed.ToText(), msg.Subject);
                     }
 
                 }
@@ -810,20 +810,20 @@ namespace Finx.App.Forms
         {
            
             IProgressDataObjectCallback callback = status as IProgressDataObjectCallback;
-            IList<EmailMessage> messages = callback.DataObject as List<EmailMessage>;
+            //IList<EmailMessage> messages = callback.DataObject as List<EmailMessage>;
 
-            callback.Begin(0, messages.Count);
+            //callback.Begin(0, messages.Count);
 
-            foreach (EmailMessage msg in messages)
-            {
-                callback.SetText(string.Format("sending to ..." + msg.EmailAddresses[0].RecipientAddress));
+            //foreach (EmailMessage msg in messages)
+            //{
+            //    callback.SetText(string.Format("sending to ..." + msg.EmailAddresses[0].RecipientAddress));
 
-                Program.OutlookProxy.SendMailAsync(msg, msg.SendDate);
+            //    Program.OutlookProxy.SendMailAsync(msg, msg.SendDate);
 
-                Thread.Sleep(1000);
+            //    Thread.Sleep(1000);
 
-                callback.Increment(1);
-            }
+            //    callback.Increment(1);
+            //}
 
             if (callback != null)
                 callback.End();
