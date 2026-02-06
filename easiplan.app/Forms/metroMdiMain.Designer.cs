@@ -1,4 +1,6 @@
-﻿namespace Finx.App.Forms
+﻿using System.Drawing;
+
+namespace Finx.App.Forms
 {
     partial class metroMdiMain
     {
@@ -169,11 +171,11 @@
             this.toolStripButton1.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.toolStripButton1.ForeColor = System.Drawing.Color.Navy;
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(65, 40);
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // Ensure the following line in the InitializeComponent method is correct:
             // 
             // toolStripButton_ClientSearch
             // 

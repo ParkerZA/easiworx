@@ -79,7 +79,9 @@ namespace Finx.App.Forms
 
             this.toolStripSplitButton_Clients.Click += new System.EventHandler(this.toolStripButton_Clients_Click);
 
-            this.toolStrip1.SetDefaultStyle(true);           
+            this.toolStrip1.SetDefaultStyle(true);
+            this.toolStripButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolStripButton1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             //Load long running data queries here
             MetroProgressWindow progress = new MetroProgressWindow();

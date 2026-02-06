@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +20,7 @@ using easiplan.app.Extensions;
 using easiplan.app.Services;
 using System.Diagnostics;
 using System.IO;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace easiplan.app.Forms
 {
@@ -28,19 +29,23 @@ namespace easiplan.app.Forms
         private int _clientId;
         private ClientDetailsView _clientDetails;
         private bool _isLoadingEmails = false;
-        private Timer _emailRefreshTimer;
         private bool _autoRefreshEnabled = true;
         private int _refreshIntervalMinutes = 3;
         private int currentEmailCount = 0;
         private string _currentEasiWorxUser => Program.User?.Username ?? "DefaultUser";
 
         private Timer emailRefreshTimer;
+        private DateTime lastRefreshTime = DateTime.MinValue;
         private bool autoRefreshEnabled = true;
         private int refreshIntervalMinutes = 1;
         private int lastEmailCount = 0;
-        private DateTime lastRefreshTime = DateTime.MinValue;
         private DataGridView inboxGrid;
         private DataGridView outboxGrid;
+        private int inboxCurrentPage = 1;
+        private int outboxCurrentPage = 1;
+        private int pageSize = 20;
+        private List<ClientEmailMessage> allInboxEmails = new List<ClientEmailMessage>();
+        private List<ClientEmailMessage> allOutboxEmails = new List<ClientEmailMessage>();
 
         // Modern UI Colors
         public static class ModernColors
@@ -70,6 +75,10 @@ namespace easiplan.app.Forms
             public DateTime ReceivedDate { get; set; }
             public bool IsRead { get; set; }
             public string Direction { get; set; }
+            public string EntryID { get; set; }
+            public string StoreID { get; set; }
+            public string WebLink { get; set; }
+            public string OutlookId { get; set; }
         }
 
         // Modern UI components
@@ -181,14 +190,14 @@ namespace easiplan.app.Forms
             refreshButton.Click += async (s, e) => await RefreshEmailsManually();
             headerPanel.Controls.Add(refreshButton);
 
-            // Settings button - positioned from right edge  
-            var settingsButton = new ModernButton("⚙️ Settings", false)
+            var closeButton = new ModernButton("✕ Close", false)
             {
                 Size = new Size(80, 32),
                 Location = new Point(headerPanel.Width - 90, 14),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
-            headerPanel.Controls.Add(settingsButton);
+            closeButton.Click += (s, e) => this.Close();
+            headerPanel.Controls.Add(closeButton);
 
             mainContent.Controls.Add(headerPanel);
 
@@ -630,27 +639,28 @@ namespace easiplan.app.Forms
             var buttonContainer = new Panel
             {
                 Height = 32,
-                Width = 180,
-                Location = new Point(header.Width - 196, 14),
+                Width = 170,  // Width for Refresh (85) + Close (75) + gap (10)
+                Location = new Point(header.Width - 186, 14),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right,
                 BackColor = Color.Transparent
             };
 
             var refreshBtn = new ModernButton("🔄 Refresh", false)
             {
-                Size = new Size(85, 32),
+                Size = new Size(80, 32),
                 Location = new Point(0, 0)
             };
             refreshBtn.Click += async (s, e) => await RefreshEmailsManually();
-
-            var settingsBtn = new ModernButton("⚙️ Settings", false)
-            {
-                Size = new Size(85, 32),
-                Location = new Point(95, 0)
-            };
-
             buttonContainer.Controls.Add(refreshBtn);
-            buttonContainer.Controls.Add(settingsBtn);
+
+            var closeBtn = new ModernButton("✕ Close", false)
+            {
+                Size = new Size(80, 32),
+                Location = new Point(90, 0)  // 80 (refresh width) + 10 (gap)
+            };
+            closeBtn.Click += (s, e) => this.Close();
+            buttonContainer.Controls.Add(closeBtn);
+
             header.Controls.Add(buttonContainer);
 
             return header;
@@ -833,17 +843,26 @@ namespace easiplan.app.Forms
 
             foreach (var email in serviceEmails)
             {
-                displayEmails.Add(new ClientEmailMessage
+                var clientEmail = new ClientEmailMessage
                 {
                     Id = email.Id,
                     Subject = email.Subject,
                     FromName = email.FromName,
-                    FromAddress = email.ToAddresses, // Using ToAddresses as a proxy
+                    FromAddress = email.ToAddresses,
                     BodyPreview = email.BodyPreview,
                     ReceivedDate = email.ReceivedDate,
                     IsRead = email.IsRead,
-                    Direction = email.Direction
-                });
+                    Direction = email.Direction,
+                    WebLink = email.WebLink  // Make sure this is not null
+                };
+
+                // Debug each email
+                if (string.IsNullOrEmpty(clientEmail.WebLink))
+                {
+                    Program.Logger?.Warn($"Email '{email.Subject}' has no WebLink");
+                }
+
+                displayEmails.Add(clientEmail);
             }
 
             return displayEmails;
@@ -855,6 +874,10 @@ namespace easiplan.app.Forms
 
             try
             {
+                Program.Logger?.Info($"UpdateStatsPanel called with currentEmailCount: {currentEmailCount}");
+
+                // Clear and rebuild the entire stats panel
+                statsPanel.SuspendLayout();
                 statsPanel.Controls.Clear();
 
                 int openTasks = GetOpenTasksCount();
@@ -874,6 +897,12 @@ namespace easiplan.app.Forms
                     card.Size = new Size(cardWidth, 100);
                     statsPanel.Controls.Add(card);
                 }
+
+                statsPanel.ResumeLayout(true);
+                statsPanel.Invalidate();
+                statsPanel.Refresh();
+
+                Program.Logger?.Info($"Stats panel updated - showing {currentEmailCount} emails");
             }
             catch (Exception ex)
             {
@@ -1055,32 +1084,74 @@ namespace easiplan.app.Forms
         {
             tab.BackColor = ModernColors.Background;
 
-            // Toolbar buttons - fixed positions
-            var refreshBtn = new ModernButton("🔄 Refresh", false)
+            // Toolbar with refresh, settings AND pagination - all in one row
+            //var refreshBtn = new ModernButton("🔄 Refresh", false)
+            //{
+            //    Size = new Size(80, 30),
+            //    Location = new Point(10, 10)
+            //};
+            //refreshBtn.Click += async (s, e) => await LoadInboxEmails();
+            //tab.Controls.Add(refreshBtn);
+
+            //var settingsBtn = new ModernButton("⚙️ Settings", false)
+            //{
+            //    Size = new Size(80, 30),
+            //    Location = new Point(100, 10)
+            //};
+            //tab.Controls.Add(settingsBtn);
+
+            // Pagination controls in the same toolbar row
+            var prevButton = new ModernButton("◄ Prev", false)
             {
-                Size = new Size(80, 30),
+                Size = new Size(70, 30),
                 Location = new Point(10, 10)
             };
-            refreshBtn.Click += async (s, e) => await LoadInboxEmails();
-            tab.Controls.Add(refreshBtn);
-
-            var settingsBtn = new ModernButton("⚙️ Settings", false)
+            prevButton.Click += (s, e) =>
             {
-                Size = new Size(80, 30),
-                Location = new Point(100, 10)
+                if (inboxCurrentPage > 1)
+                {
+                    inboxCurrentPage--;
+                    DisplayInboxPage();
+                }
             };
-            tab.Controls.Add(settingsBtn);
+            tab.Controls.Add(prevButton);
 
-            // Email grid - make sure it's positioned correctly and sized properly
+            var pageLabel = new Label
+            {
+                Name = "inboxPaginationLabel",
+                Text = "Page 1 of 1 (0 emails)",
+                Location = new Point(90, 15),
+                Size = new Size(250, 20),
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                ForeColor = ModernColors.TextPrimary
+            };
+            tab.Controls.Add(pageLabel);
+
+            var nextButton = new ModernButton("Next ►", false)
+            {
+                Size = new Size(70, 30),
+                Location = new Point(350, 10)
+            };
+            nextButton.Click += (s, e) =>
+            {
+                var totalPages = (int)Math.Ceiling(allInboxEmails.Count / (double)pageSize);
+                if (inboxCurrentPage < totalPages)
+                {
+                    inboxCurrentPage++;
+                    DisplayInboxPage();
+                }
+            };
+            tab.Controls.Add(nextButton);
+
+            // Email grid - starts below toolbar
             inboxGrid = new DataGridView
             {
                 Location = new Point(10, 50),
-                Size = new Size(Math.Min(850, tab.Width - 20), Math.Min(400, tab.Height - 70)),
+                Size = new Size(tab.Width - 20, tab.Height - 60),
                 BackColor = ModernColors.Surface,
                 ForeColor = ModernColors.TextPrimary,
                 Font = new Font("Segoe UI", 9F),
                 GridColor = ModernColors.Border,
-                //BorderStyle = BorderStyle.Fixed3D,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 AllowUserToResizeRows = false,
@@ -1093,7 +1164,7 @@ namespace easiplan.app.Forms
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
             };
 
-            // Columns with exact widths
+            // Columns
             inboxGrid.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 Name = "Status",
@@ -1130,9 +1201,7 @@ namespace easiplan.app.Forms
                 Width = 120
             });
 
-            // Total width: 40+150+200+200+120 = 710px (fits in 850px grid)
-
-            // Add cell formatting event handler
+            // Cell formatting
             inboxGrid.CellFormatting += (s, e) =>
             {
                 try
@@ -1143,7 +1212,6 @@ namespace easiplan.app.Forms
 
                     if (gridView.Rows[e.RowIndex].Tag is ClientEmailMessage email)
                     {
-                        // Format unread emails
                         if (!email.IsRead)
                         {
                             e.CellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -1151,8 +1219,7 @@ namespace easiplan.app.Forms
                             e.CellStyle.SelectionBackColor = ModernColors.Primary;
                         }
 
-                        // Format status column
-                        if (e.ColumnIndex == 0) // Status column
+                        if (e.ColumnIndex == 0)
                         {
                             e.Value = email.IsRead ? "●" : "○";
                             e.FormattingApplied = true;
@@ -1161,19 +1228,11 @@ namespace easiplan.app.Forms
                 }
                 catch (Exception ex)
                 {
-                    // Log error if logger is available
                     Program.Logger?.Error("Error formatting email cell", ex);
                 }
             };
 
-            // Add double-click handler
-            inboxGrid.CellDoubleClick += async (s, e) =>
-            {
-                if (e.RowIndex >= 0)
-                {
-                    await OpenEmailInOutlook(inboxGrid, e.RowIndex);
-                }
-            };
+            inboxGrid.CellDoubleClick += EmailGrid_CellDoubleClick;
 
             tab.Controls.Add(inboxGrid);
         }
@@ -1182,32 +1241,74 @@ namespace easiplan.app.Forms
         {
             tab.BackColor = ModernColors.Background;
 
-            // Toolbar buttons - fixed positions
-            var refreshBtn = new ModernButton("🔄 Refresh", false)
+            // Toolbar with refresh, settings AND pagination - all in one row
+            //var refreshBtn = new ModernButton("🔄 Refresh", false)
+            //{
+            //    Size = new Size(80, 30),
+            //    Location = new Point(10, 10)
+            //};
+            //refreshBtn.Click += async (s, e) => await LoadOutboxEmails();
+            //tab.Controls.Add(refreshBtn);
+
+            //var settingsBtn = new ModernButton("⚙️ Settings", false)
+            //{
+            //    Size = new Size(80, 30),
+            //    Location = new Point(100, 10)
+            //};
+            //tab.Controls.Add(settingsBtn);
+
+            // Pagination controls in the same toolbar row
+            var prevButton = new ModernButton("◄ Prev", false)
             {
-                Size = new Size(80, 30),
+                Size = new Size(70, 30),
                 Location = new Point(10, 10)
             };
-            refreshBtn.Click += async (s, e) => await LoadOutboxEmails();
-            tab.Controls.Add(refreshBtn);
-
-            var settingsBtn = new ModernButton("⚙️ Settings", false)
+            prevButton.Click += (s, e) =>
             {
-                Size = new Size(80, 30),
-                Location = new Point(100, 10)
+                if (outboxCurrentPage > 1)
+                {
+                    outboxCurrentPage--;
+                    DisplayOutboxPage();
+                }
             };
-            tab.Controls.Add(settingsBtn);
+            tab.Controls.Add(prevButton);
 
-            // Email grid - same as inbox but properly sized
+            var pageLabel = new Label
+            {
+                Name = "outboxPaginationLabel",
+                Text = "Page 1 of 1 (0 emails)",
+                Location = new Point(90, 15),
+                Size = new Size(250, 20),
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                ForeColor = ModernColors.TextPrimary
+            };
+            tab.Controls.Add(pageLabel);
+
+            var nextButton = new ModernButton("Next ►", false)
+            {
+                Size = new Size(70, 30),
+                Location = new Point(350, 10)
+            };
+            nextButton.Click += (s, e) =>
+            {
+                var totalPages = (int)Math.Ceiling(allOutboxEmails.Count / (double)pageSize);
+                if (outboxCurrentPage < totalPages)
+                {
+                    outboxCurrentPage++;
+                    DisplayOutboxPage();
+                }
+            };
+            tab.Controls.Add(nextButton);
+
+            // Email grid - starts below toolbar
             outboxGrid = new DataGridView
             {
                 Location = new Point(10, 50),
-                Size = new Size(Math.Min(850, tab.Width - 20), Math.Min(400, tab.Height - 70)),
+                Size = new Size(tab.Width - 20, tab.Height - 60),
                 BackColor = ModernColors.Surface,
                 ForeColor = ModernColors.TextPrimary,
                 Font = new Font("Segoe UI", 9F),
                 GridColor = ModernColors.Border,
-                //BorderStyle = BorderStyle.Fixed3D,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 AllowUserToResizeRows = false,
@@ -1220,14 +1321,44 @@ namespace easiplan.app.Forms
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
             };
 
-            // Same columns as inbox
-            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Status", HeaderText = "●", Width = 40 });
-            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn() { Name = "From", HeaderText = "From", Width = 150 });
-            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Subject", HeaderText = "Subject", Width = 200 });
-            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Preview", HeaderText = "Preview", Width = 200 });
-            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Date", HeaderText = "Date", Width = 120 });
+            // Columns (same as inbox)
+            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Status",
+                HeaderText = "●",
+                Width = 40,
+                Resizable = DataGridViewTriState.False
+            });
 
-            // Add cell formatting event handler
+            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "From",
+                HeaderText = "From",
+                Width = 150
+            });
+
+            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Subject",
+                HeaderText = "Subject",
+                Width = 200
+            });
+
+            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Preview",
+                HeaderText = "Preview",
+                Width = 200
+            });
+
+            outboxGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Date",
+                HeaderText = "Date",
+                Width = 120
+            });
+
+            // Cell formatting
             outboxGrid.CellFormatting += (s, e) =>
             {
                 try
@@ -1238,7 +1369,6 @@ namespace easiplan.app.Forms
 
                     if (gridView.Rows[e.RowIndex].Tag is ClientEmailMessage email)
                     {
-                        // Format unread emails
                         if (!email.IsRead)
                         {
                             e.CellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -1246,8 +1376,7 @@ namespace easiplan.app.Forms
                             e.CellStyle.SelectionBackColor = ModernColors.Primary;
                         }
 
-                        // Format status column
-                        if (e.ColumnIndex == 0) // Status column
+                        if (e.ColumnIndex == 0)
                         {
                             e.Value = email.IsRead ? "●" : "○";
                             e.FormattingApplied = true;
@@ -1260,14 +1389,7 @@ namespace easiplan.app.Forms
                 }
             };
 
-            // Add double-click handler
-            outboxGrid.CellDoubleClick += async (s, e) =>
-            {
-                if (e.RowIndex >= 0)
-                {
-                    await OpenEmailInOutlook(outboxGrid, e.RowIndex);
-                }
-            };
+            outboxGrid.CellDoubleClick += EmailGrid_CellDoubleClick;
 
             tab.Controls.Add(outboxGrid);
         }
@@ -1369,26 +1491,76 @@ namespace easiplan.app.Forms
                 string clientEmail = _clientDetails.RecipientAddress;
                 if (string.IsNullOrEmpty(clientEmail))
                 {
-                    ShowEmailMessage("Client has no email address configured.", inboxGrid);
+                    allInboxEmails = new List<ClientEmailMessage>();
+                    inboxCurrentPage = 1;
+                    DisplayInboxPage();
                     return;
                 }
 
                 if (!EmailService.IsAvailable())
                 {
-                    ShowEmailMessage("Outlook not connected. Click 'Connect Outlook' to authenticate.", inboxGrid);
+                    allInboxEmails = new List<ClientEmailMessage>();
+                    inboxCurrentPage = 1;
+                    DisplayInboxPage();
                     return;
                 }
 
                 var emailService = new EmailService();
-                var allEmails = await emailService.GetEmailsForClient(clientEmail, 50);
-                var inboxEmails = allEmails.Where(e => e.Direction == "Received").ToList();
-                var displayEmails = ConvertToDisplayEmails(inboxEmails);
+                var allEmails = await emailService.GetEmailsForClient(clientEmail, 100);
 
-                DisplayEmailsInGrid(displayEmails, inboxGrid);
+                if (allEmails.Any())
+                {
+                    var firstEmail = allEmails.First();
+                }
+
+                var inboxEmails = allEmails.Where(e => e.Direction == "Received").ToList();
+                allInboxEmails = ConvertToDisplayEmails(inboxEmails);
+                await EnrichEmailsWithOutlookIDs(allInboxEmails, clientEmail);
+
+                inboxCurrentPage = 1;
+                DisplayInboxPage();
             }
             catch (Exception ex)
             {
-                ShowEmailMessage($"Error loading inbox: {ex.Message}", inboxGrid);
+                Program.Logger?.Error("Error loading inbox emails", ex);
+                allInboxEmails = new List<ClientEmailMessage>();
+                inboxCurrentPage = 1;
+                DisplayInboxPage();
+            }
+        }
+
+        private void DisplayInboxPage()
+        {
+            var totalPages = (int)Math.Ceiling(allInboxEmails.Count / (double)pageSize);
+            var pageEmails = allInboxEmails
+                .Skip((inboxCurrentPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            inboxGrid.Rows.Clear();
+            foreach (var email in pageEmails)
+            {
+                var row = new DataGridViewRow();
+                row.CreateCells(inboxGrid);
+                row.Cells[0].Value = email.IsRead ? "●" : "○";
+                row.Cells[1].Value = email.FromName;
+                row.Cells[2].Value = email.Subject;
+                row.Cells[3].Value = email.BodyPreview;
+                row.Cells[4].Value = email.ReceivedDate.ToString("MMM dd, yyyy hh:mm tt");
+                row.Tag = email;
+                inboxGrid.Rows.Add(row);
+            }
+
+            // Update pagination label if it exists
+            UpdateInboxPaginationLabel(totalPages);
+        }
+
+        private void UpdateInboxPaginationLabel(int totalPages)
+        {
+            var paginationLabel = inboxGrid.Parent?.Controls.Find("inboxPaginationLabel", false).FirstOrDefault() as Label;
+            if (paginationLabel != null)
+            {
+                paginationLabel.Text = $"Page {inboxCurrentPage} of {totalPages} ({allInboxEmails.Count} total emails)";
             }
         }
 
@@ -1401,26 +1573,69 @@ namespace easiplan.app.Forms
                 string clientEmail = _clientDetails.RecipientAddress;
                 if (string.IsNullOrEmpty(clientEmail))
                 {
-                    ShowEmailMessage("Client has no email address configured.", outboxGrid);
+                    allOutboxEmails = new List<ClientEmailMessage>();
+                    outboxCurrentPage = 1;
+                    DisplayOutboxPage();
                     return;
                 }
 
                 if (!EmailService.IsAvailable())
                 {
-                    ShowEmailMessage("Outlook not connected. Click 'Connect Outlook' to authenticate.", outboxGrid);
+                    allOutboxEmails = new List<ClientEmailMessage>();
+                    outboxCurrentPage = 1;
+                    DisplayOutboxPage();
                     return;
                 }
 
                 var emailService = new EmailService();
-                var allEmails = await emailService.GetEmailsForClient(clientEmail, 50);
+                var allEmails = await emailService.GetEmailsForClient(clientEmail, 100);
                 var outboxEmails = allEmails.Where(e => e.Direction == "Sent").ToList();
-                var displayEmails = ConvertToDisplayEmails(outboxEmails);
+                allOutboxEmails = ConvertToDisplayEmails(outboxEmails);
+                await EnrichEmailsWithOutlookIDs(allOutboxEmails, clientEmail);
 
-                DisplayEmailsInGrid(displayEmails, outboxGrid);
+                outboxCurrentPage = 1;
+                DisplayOutboxPage();
             }
             catch (Exception ex)
             {
-                ShowEmailMessage($"Error loading outbox: {ex.Message}", outboxGrid);
+                Program.Logger?.Error("Error loading outbox emails", ex);
+                allOutboxEmails = new List<ClientEmailMessage>();
+                outboxCurrentPage = 1;
+                DisplayOutboxPage();
+            }
+        }
+
+        private void DisplayOutboxPage()
+        {
+            var totalPages = (int)Math.Ceiling(allOutboxEmails.Count / (double)pageSize);
+            var pageEmails = allOutboxEmails
+                .Skip((outboxCurrentPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            outboxGrid.Rows.Clear();
+            foreach (var email in pageEmails)
+            {
+                var row = new DataGridViewRow();
+                row.CreateCells(outboxGrid);
+                row.Cells[0].Value = "●";
+                row.Cells[1].Value = email.FromName;
+                row.Cells[2].Value = email.Subject;
+                row.Cells[3].Value = email.BodyPreview;
+                row.Cells[4].Value = email.ReceivedDate.ToString("MMM dd, yyyy hh:mm tt");
+                row.Tag = email;
+                outboxGrid.Rows.Add(row);
+            }
+
+            UpdateOutboxPaginationLabel(totalPages);
+        }
+
+        private void UpdateOutboxPaginationLabel(int totalPages)
+        {
+            var paginationLabel = outboxGrid.Parent?.Controls.Find("outboxPaginationLabel", false).FirstOrDefault() as Label;
+            if (paginationLabel != null)
+            {
+                paginationLabel.Text = $"Page {outboxCurrentPage} of {totalPages} ({allOutboxEmails.Count} total emails)";
             }
         }
 
@@ -1454,6 +1669,66 @@ namespace easiplan.app.Forms
             catch (Exception ex)
             {
                 Program.Logger?.Error("Error displaying emails in grid", ex);
+            }
+        }
+
+        private async Task EnrichEmailsWithOutlookIDs(List<ClientEmailMessage> emails, string clientEmail)
+        {
+            try
+            {
+                var outlookApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Outlook.Application");
+                var nameSpace = outlookApp.GetType().InvokeMember("GetNamespace",
+                    System.Reflection.BindingFlags.InvokeMethod, null, outlookApp, new object[] { "MAPI" });
+
+                // Check both Inbox and Sent Items
+                int[] folderIds = { 6, 5 }; // Inbox, Sent Items
+
+                foreach (int folderId in folderIds)
+                {
+                    var folder = nameSpace.GetType().InvokeMember("GetDefaultFolder",
+                        System.Reflection.BindingFlags.InvokeMethod, null, nameSpace, new object[] { folderId });
+
+                    var items = folder.GetType().GetProperty("Items").GetValue(folder);
+                    if (items == null) continue;
+
+                    int count = (int)items.GetType().GetProperty("Count").GetValue(items);
+
+                    // Check recent emails in this folder
+                    for (int i = 1; i <= Math.Min(count, 50); i++)
+                    {
+                        try
+                        {
+                            var outlookItem = items.GetType().InvokeMember("Item",
+                                System.Reflection.BindingFlags.InvokeMethod, null, items, new object[] { i });
+
+                            string subject = outlookItem.GetType().GetProperty("Subject")?.GetValue(outlookItem)?.ToString() ?? "";
+                            var receivedTime = (DateTime)outlookItem.GetType().GetProperty("ReceivedTime").GetValue(outlookItem);
+
+                            // Find matching email from Graph
+                            var matchingEmail = emails.FirstOrDefault(e =>
+                                string.IsNullOrEmpty(e.OutlookId) && // Not already matched
+                                e.Subject == subject &&
+                                Math.Abs((e.ReceivedDate - receivedTime).TotalMinutes) < 5);
+
+                            if (matchingEmail != null)
+                            {
+                                matchingEmail.OutlookId = outlookItem.GetType().GetProperty("EntryID").GetValue(outlookItem).ToString();
+                                Program.Logger?.Info($"Matched email for desktop opening: {subject}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Program.Logger?.Error($"Error processing Outlook item {i}", ex);
+                            continue;
+                        }
+                    }
+                    int enrichedCount = emails.Count(e => !string.IsNullOrEmpty(e.OutlookId));
+                    MessageBox.Show($"Enrichment result: {enrichedCount} out of {emails.Count} emails got OutlookId", "Debug Enrichment");
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Logger?.Error("Error enriching emails with Outlook IDs - will use browser fallback", ex);
             }
         }
 
@@ -1649,24 +1924,103 @@ namespace easiplan.app.Forms
         {
             try
             {
-                if (rowIndex < 0 || rowIndex >= dataGridView.Rows.Count)
-                    return;
-
                 var row = dataGridView.Rows[rowIndex];
                 var email = row.Tag as ClientEmailMessage;
 
-                if (email == null)
+                if (email != null && !string.IsNullOrEmpty(email.EntryID) && !string.IsNullOrEmpty(email.StoreID))
                 {
-                    Program.Logger?.Warn("Email data is null");
-                    return;
+                    OpenEmailById(email.EntryID, email.StoreID);
                 }
-
-                await OpenEmailSafely(email);
+                else
+                {
+                    Program.Logger?.Warn("Email does not have Outlook EntryID/StoreID");
+                }
             }
             catch (Exception ex)
             {
-                Program.Logger?.Error("Error in OpenEmailInOutlook", ex);
-                // Don't show error to user - just log it for debugging
+                Program.Logger?.Error("Error opening email", ex);
+            }
+        }
+
+        private void EmailGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var grid = sender as DataGridView;
+            var email = grid.Rows[e.RowIndex].Tag as ClientEmailMessage;
+
+            OpenEmailUsingAvailableMethod(email);
+        }
+
+        private void OpenEmailUsingAvailableMethod(ClientEmailMessage email)
+        {
+            if (email == null) return;
+
+            try
+            {
+                // Just use WebLink - it's reliable and always works
+                if (!string.IsNullOrEmpty(email.WebLink))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = email.WebLink,
+                        UseShellExecute = true
+                    });
+                    return;
+                }
+
+                MessageBox.Show("This email cannot be opened because no link was found.", "Cannot Open Email");
+            }
+            catch (Exception ex)
+            {
+                Program.Logger?.Error("Error opening email", ex);
+                MessageBox.Show($"Could not open email: {ex.Message}", "Error");
+            }
+        }
+
+        private bool TryOpenInOutlookDesktop(string outlookId)
+        {
+            try
+            {
+                var outlookApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Outlook.Application");
+                var nameSpace = outlookApp.GetType().InvokeMember("GetNamespace",
+                    System.Reflection.BindingFlags.InvokeMethod, null, outlookApp, new object[] { "MAPI" });
+
+                var mailItem = nameSpace.GetType().InvokeMember("GetItemFromID",
+                    System.Reflection.BindingFlags.InvokeMethod, null, nameSpace, new object[] { outlookId });
+
+                mailItem.GetType().InvokeMember("Display",
+                    System.Reflection.BindingFlags.InvokeMethod, null, mailItem, new object[] { true });
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Program.Logger?.Error("Failed to open in Outlook desktop", ex);
+                return false;
+            }
+        }
+
+        private bool OpenEmailById(string entryId, string storeId)
+        {
+            try
+            {
+                var outlookApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Outlook.Application");
+                var nameSpace = outlookApp.GetType().InvokeMember("GetNamespace",
+                    System.Reflection.BindingFlags.InvokeMethod, null, outlookApp, new object[] { "MAPI" });
+
+                var mailItem = nameSpace.GetType().InvokeMember("GetItemFromID",
+                    System.Reflection.BindingFlags.InvokeMethod, null, nameSpace, new object[] { entryId, storeId });
+
+                mailItem.GetType().InvokeMember("Display",
+                    System.Reflection.BindingFlags.InvokeMethod, null, mailItem, new object[] { true });
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Program.Logger?.Error("Failed to open email by EntryID", ex);
+                return false;
             }
         }
 
@@ -1741,7 +2095,8 @@ namespace easiplan.app.Forms
                 }
 
                 // Step 3: Search for and open the email
-                return await SearchForEmailAndOpen(nameSpace, email);
+                bool result = await SearchForEmailAndOpen(nameSpace, email);
+                return result;
             }
             catch (Exception ex)
             {
@@ -1776,7 +2131,6 @@ namespace easiplan.app.Forms
 
             // Escape single quotes for Outlook search
             string searchSubject = cleanSubject.Replace("'", "''");
-
             Program.Logger?.Info($"Searching for email: '{cleanSubject}'");
 
             // Try exact subject match first in Inbox
@@ -1794,22 +2148,21 @@ namespace easiplan.app.Forms
             }
 
             // If exact match fails and subject is long enough, try partial match
-            if (cleanSubject.Length >= 10)
+
+            string partialSubject = cleanSubject.Substring(0, Math.Min(20, cleanSubject.Length)).Replace("'", "''");
+
+            if (await SearchFolderSafely(nameSpace, 6, $"[Subject] LIKE '{partialSubject}*'", "Inbox (partial)"))
             {
-                string partialSubject = cleanSubject.Substring(0, Math.Min(20, cleanSubject.Length)).Replace("'", "''");
-
-                if (await SearchFolderSafely(nameSpace, 6, $"[Subject] LIKE '{partialSubject}*'", "Inbox (partial)"))
-                {
-                    Program.Logger?.Info("Found email in Inbox with partial subject match");
-                    return true;
-                }
-
-                if (await SearchFolderSafely(nameSpace, 5, $"[Subject] LIKE '{partialSubject}*'", "Sent Items (partial)"))
-                {
-                    Program.Logger?.Info("Found email in Sent Items with partial subject match");
-                    return true;
-                }
+                Program.Logger?.Info("Found email in Inbox with partial subject match");
+                return true;
             }
+
+            if (await SearchFolderSafely(nameSpace, 5, $"[Subject] LIKE '{partialSubject}*'", "Sent Items (partial)"))
+            {
+                Program.Logger?.Info("Found email in Sent Items with partial subject match");
+                return true;
+            }
+            
 
             Program.Logger?.Info("Email not found in any folder");
             return false;
@@ -1852,14 +2205,28 @@ namespace easiplan.app.Forms
                 }
 
                 // Apply search restriction
-                results = items.GetType().InvokeMember("Restrict",
-                    System.Reflection.BindingFlags.InvokeMethod, null, items, new object[] { searchCriteria });
+                int totalCount = (int)items.GetType().GetProperty("Count").GetValue(items);
 
-                if (results == null)
+                // Check first 20 emails manually
+                int maxCheck = Math.Min(totalCount, 20);
+                for (int i = 1; i <= maxCheck; i++)
                 {
-                    Program.Logger?.Info($"Search in {folderName} returned null");
-                    return false;
+                    object item = items.GetType().InvokeMember("Item",
+                        System.Reflection.BindingFlags.InvokeMethod, null, items, new object[] { i });
+
+                    object subjectObj = item.GetType().GetProperty("Subject")?.GetValue(item);
+                    string itemSubject = subjectObj?.ToString() ?? "";
+
+                    if (itemSubject.Contains("Test 6"))
+                    {
+                        MessageBox.Show($"Found matching email: '{itemSubject}'", "Found It!");
+                        item.GetType().InvokeMember("Display",
+                            System.Reflection.BindingFlags.InvokeMethod, null, item, new object[] { true });
+                        return true;
+                    }
                 }
+
+                return false;
 
                 // Check count
                 var countProperty = results.GetType().GetProperty("Count");
@@ -1877,6 +2244,7 @@ namespace easiplan.app.Forms
                 }
 
                 int count = (int)countObj;
+                MessageBox.Show($"Searching {folderName}: Found {count} emails with criteria: {searchCriteria}", "Folder Debug");
                 Program.Logger?.Info($"Found {count} matching emails in {folderName}");
 
                 if (count == 0)
@@ -3699,31 +4067,29 @@ namespace easiplan.app.Forms
             }
         }
 
-        private async void RefreshOverviewEmails()
+        private void RefreshOverviewEmails()
         {
             try
             {
-                var overviewTab = tabControl.TabPages[0];
+                // Find the overview tab
+                var overviewTab = tabControl.TabPages.Cast<TabPage>()
+                    .FirstOrDefault(t => t.Text.Contains("Overview"));
 
-                // Find the email ListView (first one with 3 columns)
-                var emailList = overviewTab.Controls.OfType<ListView>()
-                                           .FirstOrDefault(lv => lv.Columns.Count == 3 && lv.Columns[0].Text == "Subject");
-                if (emailList != null)
+                if (overviewTab != null)
                 {
-                    LoadEmailsIntoOverview(emailList);
-                }
+                    // Find the email list in the overview tab
+                    var emailList = overviewTab.Controls.OfType<ListView>()
+                        .FirstOrDefault(lv => lv.Location.Y < 200); // The emails list is at the top
 
-                // Find the tasks ListView (second one with 3 columns)
-                var tasksList = overviewTab.Controls.OfType<ListView>()
-                                           .FirstOrDefault(lv => lv.Columns.Count == 3 && lv.Columns[0].Text == "Task");
-                if (tasksList != null)
-                {
-                    LoadTasksIntoOverview(tasksList);
+                    if (emailList != null)
+                    {
+                        LoadEmailsIntoOverview(emailList);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Program.Logger?.Error("Error refreshing overview", ex);
+                Program.Logger?.Error("Error refreshing overview emails", ex);
             }
         }
 
@@ -3810,7 +4176,11 @@ namespace easiplan.app.Forms
                 // Update stats with the actual count
                 UpdateStatsPanel();
 
-                InitializeEmailAutoRefresh();
+                // Only initialize timer if it doesn't exist
+                if (emailRefreshTimer == null)
+                {
+                    InitializeEmailAutoRefresh();
+                }
             }
             catch (Exception ex)
             {
@@ -3861,21 +4231,39 @@ namespace easiplan.app.Forms
         {
             try
             {
+                Program.Logger?.Info("=== InitializeEmailAutoRefresh START ===");
+                Program.Logger?.Info($"Current emailRefreshTimer state: {(emailRefreshTimer == null ? "NULL" : "EXISTS")}");
+                Program.Logger?.Info($"autoRefreshEnabled: {autoRefreshEnabled}");
+
                 if (emailRefreshTimer != null)
                 {
+                    Program.Logger?.Info("Stopping and disposing existing timer");
+                    emailRefreshTimer.Tick -= EmailRefreshTimer_Tick; // Remove old handler
                     emailRefreshTimer.Stop();
                     emailRefreshTimer.Dispose();
+                    emailRefreshTimer = null;
                 }
 
+                Program.Logger?.Info("Creating new Timer instance");
                 emailRefreshTimer = new Timer();
-                emailRefreshTimer.Interval = 2 * 60 * 1000; // 2 minutes
+                emailRefreshTimer.Interval = 2 * 60 * 1000; // 2 minutes = 120000 ms
+
+                Program.Logger?.Info("Attaching Tick event handler");
                 emailRefreshTimer.Tick += EmailRefreshTimer_Tick;
 
                 if (autoRefreshEnabled)
                 {
+                    Program.Logger?.Info($"Starting timer with interval: {emailRefreshTimer.Interval}ms");
                     emailRefreshTimer.Start();
+                    Program.Logger?.Info($"Timer.Enabled = {emailRefreshTimer.Enabled}");
                     Program.Logger?.Info("Email auto-refresh started - checking every 2 minutes");
                 }
+                else
+                {
+                    Program.Logger?.Info("Auto-refresh is disabled - timer NOT started");
+                }
+
+                Program.Logger?.Info("=== InitializeEmailAutoRefresh COMPLETE ===");
             }
             catch (Exception ex)
             {
@@ -4110,20 +4498,30 @@ namespace easiplan.app.Forms
         {
             try
             {
+                Program.Logger?.Info("========================================");
+                Program.Logger?.Info("=== TIMER TICK EVENT FIRED!!! ===");
+                Program.Logger?.Info("========================================");
+
                 if (!ShouldAutoRefresh())
+                {
+                    Program.Logger?.Info("ShouldAutoRefresh returned FALSE - not refreshing");
                     return;
+                }
 
-                Program.Logger?.Info("Auto-refreshing emails...");
-
+                Program.Logger?.Info("ShouldAutoRefresh returned TRUE - proceeding with refresh");
                 emailRefreshTimer.Stop();
+
                 await RefreshEmailsQuietly();
 
-                if (autoRefreshEnabled)
+                if (autoRefreshEnabled && emailRefreshTimer != null)
+                {
+                    Program.Logger?.Info("Restarting timer");
                     emailRefreshTimer.Start();
+                }
             }
             catch (Exception ex)
             {
-                Program.Logger?.Error("Error during email auto-refresh", ex);
+                Program.Logger?.Error("Error during email auto-refresh timer tick", ex);
 
                 if (autoRefreshEnabled && emailRefreshTimer != null)
                     emailRefreshTimer.Start();
@@ -4134,24 +4532,42 @@ namespace easiplan.app.Forms
         {
             try
             {
+                Program.Logger?.Info("=== Checking if should auto-refresh ===");
+
                 if (!autoRefreshEnabled)
+                {
+                    Program.Logger?.Info("Auto-refresh is disabled");
                     return false;
+                }
 
                 if (_clientId <= 0 || _clientDetails == null)
+                {
+                    Program.Logger?.Info($"Invalid client: ID={_clientId}");
                     return false;
+                }
 
                 if (string.IsNullOrEmpty(_clientDetails.RecipientAddress))
+                {
+                    Program.Logger?.Info("Client has no email address");
                     return false;
+                }
 
                 if (!OutlookAuthenticationService.IsAuthenticated)
+                {
+                    Program.Logger?.Info("Outlook not authenticated");
                     return false;
+                }
 
-                if (tabControl.SelectedTab?.Text.Contains("Email") != true)
+                // REMOVED THE TAB CHECK - now refreshes on ANY tab
+
+                var secondsSinceLastRefresh = DateTime.Now.Subtract(lastRefreshTime).TotalSeconds;
+                if (secondsSinceLastRefresh < 30)
+                {
+                    Program.Logger?.Info($"Too soon: {secondsSinceLastRefresh}s since last refresh");
                     return false;
+                }
 
-                if (DateTime.Now.Subtract(lastRefreshTime).TotalSeconds < 30)
-                    return false;
-
+                Program.Logger?.Info("Auto-refresh ALLOWED");
                 return true;
             }
             catch (Exception ex)
@@ -4165,29 +4581,162 @@ namespace easiplan.app.Forms
         {
             try
             {
+                Program.Logger?.Info("=== RefreshEmailsQuietly START ===");
+
                 string clientEmail = _clientDetails?.RecipientAddress;
 
                 if (string.IsNullOrEmpty(clientEmail) || !EmailService.IsAvailable())
                     return;
 
+                // Get FRESH email count from API
+                var emailService = new EmailService();
+                var allEmails = await emailService.GetEmailsForClient(clientEmail, 50);
+
+                Program.Logger?.Info($"API returned {allEmails.Count} total emails");
+                Program.Logger?.Info($"Old currentEmailCount: {currentEmailCount}");
+
+                // Update the count
+                currentEmailCount = allEmails.Count;
+
+                Program.Logger?.Info($"New currentEmailCount: {currentEmailCount}");
+
+                // Reload inbox and outbox grids
                 await LoadInboxEmails();
                 await LoadOutboxEmails();
 
                 lastRefreshTime = DateTime.Now;
 
-                // Update title with refresh time
-                var emailService = new EmailService();
-                var allEmails = await emailService.GetEmailsForClient(clientEmail, 50);
-                var totalCount = allEmails.Count;
+                // Update stats panel
+                Program.Logger?.Info("Updating stats panel...");
+                UpdateStatsPanel();
 
-                this.Text = $"Client Dashboard - {_clientDetails.Fullname} ({totalCount} emails) - Last refresh: {DateTime.Now:HH:mm}";
+                // FORCE the stats panel to repaint
+                statsPanel?.Invalidate();
+                statsPanel?.Update();
+                statsPanel?.Refresh();
 
-                Program.Logger?.Info($"Email auto-refresh completed. Found {totalCount} emails.");
+                // Update title
+                this.Text = $"Client Dashboard - {_clientDetails.Fullname} ({currentEmailCount} emails) - Last refresh: {DateTime.Now:HH:mm}";
 
+                Program.Logger?.Info($"=== RefreshEmailsQuietly COMPLETE === Total: {currentEmailCount} emails");
             }
             catch (Exception ex)
             {
                 Program.Logger?.Error("Error during quiet email refresh", ex);
+            }
+        }
+
+
+        private void RefreshOverviewEmailsList()
+        {
+            try
+            {
+                Program.Logger?.Info("=== RefreshOverviewEmailsList START ===");
+
+                // Find the overview tab
+                var overviewTab = tabControl.TabPages.Cast<TabPage>()
+                    .FirstOrDefault(t => t.Text.Contains("Overview"));
+
+                if (overviewTab == null)
+                {
+                    Program.Logger?.Info("Overview tab not found");
+                    return;
+                }
+
+                // Find the email ListView (has 3 columns)
+                var emailList = overviewTab.Controls.OfType<ListView>()
+                    .FirstOrDefault(lv => lv.Columns.Count == 3);
+
+                if (emailList == null)
+                {
+                    Program.Logger?.Info("Email ListView not found in Overview tab");
+                    return;
+                }
+
+                Program.Logger?.Info($"Found email ListView with {emailList.Items.Count} items");
+
+                // Reload it
+                LoadEmailsIntoOverview(emailList);
+
+                Program.Logger?.Info("=== RefreshOverviewEmailsList COMPLETE ===");
+            }
+            catch (Exception ex)
+            {
+                Program.Logger?.Error("Error refreshing overview emails list", ex);
+            }
+        }
+
+        private async Task RefreshOverviewEmailsAsync()
+        {
+            try
+            {
+                Program.Logger?.Info("=== RefreshOverviewEmailsAsync START ===");
+
+                string clientEmail = _clientDetails?.RecipientAddress;
+
+                if (string.IsNullOrEmpty(clientEmail) || !EmailService.IsAvailable())
+                {
+                    Program.Logger?.Info("Cannot refresh overview - no email or service unavailable");
+                    return;
+                }
+
+                // Find the overview tab
+                var overviewTab = tabControl.TabPages.Cast<TabPage>()
+                    .FirstOrDefault(t => t.Text.Contains("Overview"));
+
+                if (overviewTab == null)
+                {
+                    Program.Logger?.Info("Overview tab not found");
+                    return;
+                }
+
+                Program.Logger?.Info("Found Overview tab");
+
+                // Find the Recent Emails ListView
+                var emailList = overviewTab.Controls.OfType<ListView>()
+                    .FirstOrDefault(lv => lv.Columns.Count == 3);
+
+                if (emailList == null)
+                {
+                    Program.Logger?.Info($"Email ListView not found. ListViews in tab: {overviewTab.Controls.OfType<ListView>().Count()}");
+                    foreach (var lv in overviewTab.Controls.OfType<ListView>())
+                    {
+                        Program.Logger?.Info($"  ListView: Columns={lv.Columns.Count}, Location={lv.Location}");
+                    }
+                    return;
+                }
+
+                Program.Logger?.Info($"Found email ListView with {emailList.Items.Count} items");
+
+                // Reload the emails
+                var emailService = new EmailService();
+                var allEmails = await emailService.GetEmailsForClient(clientEmail, 5);
+
+                Program.Logger?.Info($"Fetched {allEmails.Count} emails for overview");
+
+                emailList.Items.Clear();
+                foreach (var email in allEmails)
+                {
+                    var item = new ListViewItem(email.Subject ?? "No Subject");
+                    item.SubItems.Add(email.FromName ?? "Unknown");
+                    item.SubItems.Add(email.ReceivedDate.ToString("dd-MMM"));
+                    item.Tag = email;
+
+                    if (!email.IsRead)
+                    {
+                        item.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+                        item.BackColor = ColorTranslator.FromHtml("#eff6ff");
+                    }
+
+                    emailList.Items.Add(item);
+                }
+
+                Program.Logger?.Info($"Updated overview with {emailList.Items.Count} emails");
+                Program.Logger?.Info("=== RefreshOverviewEmailsAsync COMPLETE ===");
+            }
+            catch (Exception ex)
+            {
+                Program.Logger?.Error("Error refreshing overview emails", ex);
             }
         }
 
@@ -4220,8 +4769,8 @@ namespace easiplan.app.Forms
         {
             if (disposing)
             {
-                _emailRefreshTimer?.Stop();
-                _emailRefreshTimer?.Dispose();
+                //_emailRefreshTimer?.Stop();
+                //_emailRefreshTimer?.Dispose();
                 emailRefreshTimer?.Stop();
                 emailRefreshTimer?.Dispose();
             }

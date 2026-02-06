@@ -104,24 +104,29 @@ namespace easiplan.app.Services
         /// <summary>
         /// Get inbox messages related to the client
         /// </summary>
-        private async Task<List<EmailMessage>> GetInboxMessages(string clientEmailAddress, int maxEmails)
+        private async Task<List<EmailMessage>> GetInboxMessages(string clientEmailAddress, int maxEmails = 0)
         {
             var emails = new List<EmailMessage>();
-
             try
             {
-                var inboxMessages = await graphClient.Me.Messages
-                    .Request()
-                    .OrderBy("receivedDateTime desc")
-                    .Top(Math.Min(maxEmails * 2, 100)) // Get more emails to search through
-                    .GetAsync();
+                var searchQuery = $"\"{clientEmailAddress}\"";
+                Program.Logger?.Info($"Fetching inbox emails using server-side search: {searchQuery}");
 
-                Program.Logger?.Info($"Retrieved {inboxMessages.Count} inbox messages to search");
+                var request = graphClient.Me.MailFolders.Inbox.Messages
+                    .Request(new List<QueryOption>
+                    {
+                new QueryOption("$search", searchQuery)
+                    })
+                    .Header("ConsistencyLevel", "eventual")
+                    .Select("id,subject,from,receivedDateTime,isRead,bodyPreview,webLink,hasAttachments,toRecipients")
+                    .Top(50);  // Page size (50 per request)
 
-                // Filter locally for emails from the client
-                foreach (var message in inboxMessages)
+                do
                 {
-                    if (IsFromClient(message, clientEmailAddress))
+                    var page = await request.GetAsync();
+                    Program.Logger?.Info($"Retrieved {page.Count} inbox messages (page)");
+
+                    foreach (var message in page.CurrentPage)
                     {
                         var emailMsg = ConvertToEmailMessage(message);
                         if (emailMsg != null)
@@ -130,40 +135,49 @@ namespace easiplan.app.Services
                             emails.Add(emailMsg);
                         }
                     }
-                }
 
-                Program.Logger?.Info($"Found {emails.Count} inbox emails from client");
+                    request = page.NextPageRequest;
+
+                    // Optional: Stop if we hit a specific limit
+                    if (maxEmails > 0 && emails.Count >= maxEmails)
+                        break;
+                }
+                while (request != null);  // Keep going until no more pages
+
+                Program.Logger?.Info($"Total inbox emails found: {emails.Count}");
             }
             catch (Exception ex)
             {
                 Program.Logger?.Error($"Error searching inbox messages: {ex.Message}");
-                // Don't throw, just return empty list for this part
             }
 
             return emails;
         }
 
-        /// <summary>
-        /// Get sent messages to the client
-        /// </summary>
         private async Task<List<EmailMessage>> GetSentMessages(string clientEmailAddress, int maxEmails)
         {
             var emails = new List<EmailMessage>();
 
             try
             {
-                var sentMessages = await graphClient.Me.MailFolders.SentItems.Messages
-                    .Request()
-                    .OrderBy("sentDateTime desc")
-                    .Top(Math.Min(maxEmails, 50))
-                    .GetAsync();
+                var searchQuery = $"\"{clientEmailAddress}\"";
+                Program.Logger?.Info($"Fetching sent emails using server-side search: {searchQuery}");
 
-                Program.Logger?.Info($"Retrieved {sentMessages.Count} sent messages to search");
+                var request = graphClient.Me.MailFolders.SentItems.Messages
+                    .Request(new List<QueryOption>
+                    {
+                new QueryOption("$search", searchQuery)
+                    })
+                    .Header("ConsistencyLevel", "eventual")
+                    .Select("id,subject,from,toRecipients,sentDateTime,isRead,bodyPreview,webLink,hasAttachments")
+                    .Top(Math.Min(maxEmails, 50));
 
-                // Filter locally for emails to the client
-                foreach (var message in sentMessages)
+                do
                 {
-                    if (IsToClient(message, clientEmailAddress))
+                    var page = await request.GetAsync();
+                    Program.Logger?.Info($"Retrieved {page.Count} sent messages (page)");
+
+                    foreach (var message in page.CurrentPage)
                     {
                         var emailMsg = ConvertToEmailMessage(message);
                         if (emailMsg != null)
@@ -172,18 +186,23 @@ namespace easiplan.app.Services
                             emails.Add(emailMsg);
                         }
                     }
-                }
 
-                Program.Logger?.Info($"Found {emails.Count} sent emails to client");
+                    request = page.NextPageRequest;
+                }
+                while (request != null && emails.Count < maxEmails);
+
+                Program.Logger?.Info($"Total sent emails found: {emails.Count}");
             }
             catch (Exception ex)
             {
                 Program.Logger?.Error($"Error searching sent messages: {ex.Message}");
-                // Don't throw, just return empty list for this part
             }
 
             return emails;
         }
+
+
+
 
         /// <summary>
         /// Check if a message is from the specified client
@@ -255,12 +274,27 @@ namespace easiplan.app.Services
                     BodyPreview = message.BodyPreview ?? "",
                     IsRead = message.IsRead ?? false,
                     HasAttachments = message.HasAttachments ?? false,
-                    Direction = "Unknown" // Will be set by caller
+                    Direction = "Unknown", // Will be set by caller,
+                    WebLink = message.WebLink ?? ConstructOutlookWebLink(message.Id) // Add this line
+
                 };
             }
             catch (Exception ex)
             {
                 Program.Logger?.Error($"Error converting message {message.Id}: {ex.Message}");
+                return null;
+            }
+        }
+
+        private string ConstructOutlookWebLink(string messageId)
+        {
+            try
+            {
+                return $"https://outlook.office365.com/owa/?ItemID={Uri.EscapeDataString(messageId)}&exvsurl=1&viewmodel=ReadMessageItem";
+            }
+            catch (Exception ex)
+            {
+                Program.Logger?.Error("Error constructing Outlook web link", ex);
                 return null;
             }
         }
@@ -354,6 +388,9 @@ namespace easiplan.app.Services
         public bool IsRead { get; set; }
         public bool HasAttachments { get; set; }
         public string Direction { get; set; }
+        public object EntryID { get; internal set; }
+        public object StoreID { get; internal set; }
+        public string WebLink { get; internal set; }
     }
 
     /// <summary>
